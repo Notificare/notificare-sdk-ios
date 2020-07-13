@@ -9,10 +9,9 @@
 import Foundation
 
 struct NotificareModuleFactory {
-    
-    
+
     func createPushManager() -> NotificarePushManager? {
-        guard let cls = NSClassFromString("Push.NotificarePushManagerImpl") as? NotificarePushManager.Type else {
+        guard let cls = NSClassFromString("NotificarePush.NotificarePushManagerImpl") as? NotificarePushManager.Type else {
             Notificare.shared.logger.debug("Could not load NotificarePushManager.")
             return nil
         }
@@ -22,7 +21,7 @@ struct NotificareModuleFactory {
     }
     
     func createLocationManager() -> NotificareLocationManager? {
-        guard let cls = NSClassFromString("Location.NotificareLocationManagerImpl") as? NotificareLocationManager.Type else {
+        guard let cls = NSClassFromString("NotificareLocation.NotificareLocationManagerImpl") as? NotificareLocationManager.Type else {
             Notificare.shared.logger.debug("Could not load NotificareLocationManager.")
             return nil
         }
