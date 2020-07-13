@@ -10,6 +10,8 @@
 		F258DDE624BC4F32006F9ABD /* NotificareLoyalty.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F258DDDC24BC4F31006F9ABD /* NotificareLoyalty.framework */; };
 		F258DDEB24BC4F32006F9ABD /* LoyaltyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DDEA24BC4F32006F9ABD /* LoyaltyTests.swift */; };
 		F258DDED24BC4F32006F9ABD /* NotificareLoyalty.h in Headers */ = {isa = PBXBuildFile; fileRef = F258DDDF24BC4F31006F9ABD /* NotificareLoyalty.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F258DEA724BC96DA006F9ABD /* Notificare.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F258DEA624BC96DA006F9ABD /* Notificare.framework */; };
+		F258DEA824BC96DA006F9ABD /* Notificare.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F258DEA624BC96DA006F9ABD /* Notificare.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -22,6 +24,20 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		F258DEA924BC96DB006F9ABD /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				F258DEA824BC96DA006F9ABD /* Notificare.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		F258DDDC24BC4F31006F9ABD /* NotificareLoyalty.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NotificareLoyalty.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F258DDDF24BC4F31006F9ABD /* NotificareLoyalty.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificareLoyalty.h; sourceTree = "<group>"; };
@@ -29,6 +45,7 @@
 		F258DDE524BC4F32006F9ABD /* NotificareLoyaltyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NotificareLoyaltyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F258DDEA24BC4F32006F9ABD /* LoyaltyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoyaltyTests.swift; sourceTree = "<group>"; };
 		F258DDEC24BC4F32006F9ABD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F258DEA624BC96DA006F9ABD /* Notificare.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Notificare.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,6 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F258DEA724BC96DA006F9ABD /* Notificare.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,6 +74,7 @@
 				F258DDDE24BC4F31006F9ABD /* Sources */,
 				F258DDE924BC4F32006F9ABD /* Tests */,
 				F258DDDD24BC4F31006F9ABD /* Products */,
+				F258DEA524BC96DA006F9ABD /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -86,6 +105,14 @@
 			path = Tests;
 			sourceTree = "<group>";
 		};
+		F258DEA524BC96DA006F9ABD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F258DEA624BC96DA006F9ABD /* Notificare.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -108,6 +135,7 @@
 				F258DDD824BC4F31006F9ABD /* Sources */,
 				F258DDD924BC4F31006F9ABD /* Frameworks */,
 				F258DDDA24BC4F31006F9ABD /* Resources */,
+				F258DEA924BC96DB006F9ABD /* Embed Frameworks */,
 			);
 			buildRules = (
 			);

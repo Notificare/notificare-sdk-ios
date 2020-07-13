@@ -10,6 +10,8 @@
 		F258DE2E24BC4FAD006F9ABD /* NotificareScannable.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F258DE2424BC4FAD006F9ABD /* NotificareScannable.framework */; };
 		F258DE3324BC4FAD006F9ABD /* ScannableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DE3224BC4FAD006F9ABD /* ScannableTests.swift */; };
 		F258DE3524BC4FAD006F9ABD /* NotificareScannable.h in Headers */ = {isa = PBXBuildFile; fileRef = F258DE2724BC4FAD006F9ABD /* NotificareScannable.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F258DE9D24BC96D0006F9ABD /* Notificare.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F258DE9C24BC96D0006F9ABD /* Notificare.framework */; };
+		F258DE9E24BC96D0006F9ABD /* Notificare.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F258DE9C24BC96D0006F9ABD /* Notificare.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -22,6 +24,20 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		F258DE9F24BC96D0006F9ABD /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				F258DE9E24BC96D0006F9ABD /* Notificare.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		F258DE2424BC4FAD006F9ABD /* NotificareScannable.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NotificareScannable.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F258DE2724BC4FAD006F9ABD /* NotificareScannable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificareScannable.h; sourceTree = "<group>"; };
@@ -29,6 +45,7 @@
 		F258DE2D24BC4FAD006F9ABD /* NotificareScannableTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NotificareScannableTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F258DE3224BC4FAD006F9ABD /* ScannableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannableTests.swift; sourceTree = "<group>"; };
 		F258DE3424BC4FAD006F9ABD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F258DE9C24BC96D0006F9ABD /* Notificare.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Notificare.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,6 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F258DE9D24BC96D0006F9ABD /* Notificare.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,6 +74,7 @@
 				F258DE2624BC4FAD006F9ABD /* Sources */,
 				F258DE3124BC4FAD006F9ABD /* Tests */,
 				F258DE2524BC4FAD006F9ABD /* Products */,
+				F258DE9B24BC96D0006F9ABD /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -86,6 +105,14 @@
 			path = Tests;
 			sourceTree = "<group>";
 		};
+		F258DE9B24BC96D0006F9ABD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F258DE9C24BC96D0006F9ABD /* Notificare.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -108,6 +135,7 @@
 				F258DE2024BC4FAD006F9ABD /* Sources */,
 				F258DE2124BC4FAD006F9ABD /* Frameworks */,
 				F258DE2224BC4FAD006F9ABD /* Resources */,
+				F258DE9F24BC96D0006F9ABD /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
