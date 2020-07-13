@@ -10,6 +10,9 @@
 		F258DD7A24BC4E95006F9ABD /* Location.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F258DD7024BC4E95006F9ABD /* Location.framework */; };
 		F258DD7F24BC4E95006F9ABD /* LocationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DD7E24BC4E95006F9ABD /* LocationTests.swift */; };
 		F258DD8124BC4E95006F9ABD /* Location.h in Headers */ = {isa = PBXBuildFile; fileRef = F258DD7324BC4E95006F9ABD /* Location.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F258DE8024BC8400006F9ABD /* NotificareLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DE7F24BC8400006F9ABD /* NotificareLocationManager.swift */; };
+		F258DE8324BC8419006F9ABD /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F258DE8224BC8419006F9ABD /* Core.framework */; };
+		F258DE8424BC8419006F9ABD /* Core.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F258DE8224BC8419006F9ABD /* Core.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -22,6 +25,20 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		F258DE8524BC8419006F9ABD /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				F258DE8424BC8419006F9ABD /* Core.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		F258DD7024BC4E95006F9ABD /* Location.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Location.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F258DD7324BC4E95006F9ABD /* Location.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
@@ -29,6 +46,8 @@
 		F258DD7924BC4E95006F9ABD /* LocationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LocationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F258DD7E24BC4E95006F9ABD /* LocationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTests.swift; sourceTree = "<group>"; };
 		F258DD8024BC4E95006F9ABD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F258DE7F24BC8400006F9ABD /* NotificareLocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareLocationManager.swift; sourceTree = "<group>"; };
+		F258DE8224BC8419006F9ABD /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,6 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F258DE8324BC8419006F9ABD /* Core.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,6 +76,7 @@
 				F258DD7224BC4E95006F9ABD /* Sources */,
 				F258DD7D24BC4E95006F9ABD /* Tests */,
 				F258DD7124BC4E95006F9ABD /* Products */,
+				F258DE8124BC8419006F9ABD /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -73,6 +94,7 @@
 			children = (
 				F258DD7324BC4E95006F9ABD /* Location.h */,
 				F258DD7424BC4E95006F9ABD /* Info.plist */,
+				F258DE7F24BC8400006F9ABD /* NotificareLocationManager.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -84,6 +106,14 @@
 				F258DD8024BC4E95006F9ABD /* Info.plist */,
 			);
 			path = Tests;
+			sourceTree = "<group>";
+		};
+		F258DE8124BC8419006F9ABD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F258DE8224BC8419006F9ABD /* Core.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -108,6 +138,7 @@
 				F258DD6C24BC4E95006F9ABD /* Sources */,
 				F258DD6D24BC4E95006F9ABD /* Frameworks */,
 				F258DD6E24BC4E95006F9ABD /* Resources */,
+				F258DE8524BC8419006F9ABD /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -148,6 +179,7 @@
 				TargetAttributes = {
 					F258DD6F24BC4E95006F9ABD = {
 						CreatedOnToolsVersion = 11.5;
+						LastSwiftMigration = 1150;
 					};
 					F258DD7824BC4E95006F9ABD = {
 						CreatedOnToolsVersion = 11.5;
@@ -195,6 +227,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F258DE8024BC8400006F9ABD /* NotificareLocationManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -340,6 +373,7 @@
 		F258DD8524BC4E95006F9ABD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = Y47BY73NFN;
@@ -358,6 +392,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -366,6 +401,7 @@
 		F258DD8624BC4E95006F9ABD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = Y47BY73NFN;
@@ -392,6 +428,7 @@
 		F258DD8824BC4E95006F9ABD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y47BY73NFN;
 				INFOPLIST_FILE = Tests/Info.plist;
@@ -410,6 +447,7 @@
 		F258DD8924BC4E95006F9ABD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y47BY73NFN;
 				INFOPLIST_FILE = Tests/Info.plist;

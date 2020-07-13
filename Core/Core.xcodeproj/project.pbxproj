@@ -11,6 +11,9 @@
 		F258DD5B24BC4DBC006F9ABD /* CoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DD5A24BC4DBC006F9ABD /* CoreTests.swift */; };
 		F258DD5D24BC4DBC006F9ABD /* Core.h in Headers */ = {isa = PBXBuildFile; fileRef = F258DD4F24BC4DBB006F9ABD /* Core.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F258DE4424BC68CB006F9ABD /* Notificare.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DE4324BC68CB006F9ABD /* Notificare.swift */; };
+		F258DE4724BC69A9006F9ABD /* NotificarePushManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DE4624BC69A9006F9ABD /* NotificarePushManager.swift */; };
+		F258DE4924BC69C1006F9ABD /* NotificareLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DE4824BC69C1006F9ABD /* NotificareLocationManager.swift */; };
+		F258DE4B24BC6B0F006F9ABD /* NotificareModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DE4A24BC6B0F006F9ABD /* NotificareModuleFactory.swift */; };
 		F258DE4D24BC6C8B006F9ABD /* NotificareLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DE4C24BC6C8B006F9ABD /* NotificareLogger.swift */; };
 /* End PBXBuildFile section */
 
@@ -32,6 +35,9 @@
 		F258DD5A24BC4DBC006F9ABD /* CoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreTests.swift; sourceTree = "<group>"; };
 		F258DD5C24BC4DBC006F9ABD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F258DE4324BC68CB006F9ABD /* Notificare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notificare.swift; sourceTree = "<group>"; };
+		F258DE4624BC69A9006F9ABD /* NotificarePushManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificarePushManager.swift; sourceTree = "<group>"; };
+		F258DE4824BC69C1006F9ABD /* NotificareLocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareLocationManager.swift; sourceTree = "<group>"; };
+		F258DE4A24BC6B0F006F9ABD /* NotificareModuleFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareModuleFactory.swift; sourceTree = "<group>"; };
 		F258DE4C24BC6C8B006F9ABD /* NotificareLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareLogger.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -75,9 +81,11 @@
 		F258DD4E24BC4DBB006F9ABD /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				F258DE4524BC699A006F9ABD /* Modules */,
 				F258DD4F24BC4DBB006F9ABD /* Core.h */,
 				F258DD5024BC4DBB006F9ABD /* Info.plist */,
 				F258DE4324BC68CB006F9ABD /* Notificare.swift */,
+				F258DE4A24BC6B0F006F9ABD /* NotificareModuleFactory.swift */,
 				F258DE4C24BC6C8B006F9ABD /* NotificareLogger.swift */,
 			);
 			path = Sources;
@@ -90,6 +98,15 @@
 				F258DD5C24BC4DBC006F9ABD /* Info.plist */,
 			);
 			path = Tests;
+			sourceTree = "<group>";
+		};
+		F258DE4524BC699A006F9ABD /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				F258DE4624BC69A9006F9ABD /* NotificarePushManager.swift */,
+				F258DE4824BC69C1006F9ABD /* NotificareLocationManager.swift */,
+			);
+			path = Modules;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -202,8 +219,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F258DE4924BC69C1006F9ABD /* NotificareLocationManager.swift in Sources */,
 				F258DE4424BC68CB006F9ABD /* Notificare.swift in Sources */,
 				F258DE4D24BC6C8B006F9ABD /* NotificareLogger.swift in Sources */,
+				F258DE4B24BC6B0F006F9ABD /* NotificareModuleFactory.swift in Sources */,
+				F258DE4724BC69A9006F9ABD /* NotificarePushManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

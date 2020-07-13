@@ -10,6 +10,9 @@
 		F258DD9E24BC4EE2006F9ABD /* Push.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F258DD9424BC4EE2006F9ABD /* Push.framework */; };
 		F258DDA324BC4EE2006F9ABD /* PushTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DDA224BC4EE2006F9ABD /* PushTests.swift */; };
 		F258DDA524BC4EE2006F9ABD /* Push.h in Headers */ = {isa = PBXBuildFile; fileRef = F258DD9724BC4EE2006F9ABD /* Push.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F258DE7424BC7FEF006F9ABD /* NotificarePushManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DE7324BC7FEF006F9ABD /* NotificarePushManager.swift */; };
+		F258DE7724BC7FFA006F9ABD /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F258DE7624BC7FFA006F9ABD /* Core.framework */; };
+		F258DE7824BC7FFA006F9ABD /* Core.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F258DE7624BC7FFA006F9ABD /* Core.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -22,6 +25,20 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		F258DE7924BC7FFA006F9ABD /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				F258DE7824BC7FFA006F9ABD /* Core.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		F258DD9424BC4EE2006F9ABD /* Push.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Push.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F258DD9724BC4EE2006F9ABD /* Push.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Push.h; sourceTree = "<group>"; };
@@ -29,6 +46,8 @@
 		F258DD9D24BC4EE2006F9ABD /* PushTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PushTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F258DDA224BC4EE2006F9ABD /* PushTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushTests.swift; sourceTree = "<group>"; };
 		F258DDA424BC4EE2006F9ABD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F258DE7324BC7FEF006F9ABD /* NotificarePushManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificarePushManager.swift; sourceTree = "<group>"; };
+		F258DE7624BC7FFA006F9ABD /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,6 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F258DE7724BC7FFA006F9ABD /* Core.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,6 +76,7 @@
 				F258DD9624BC4EE2006F9ABD /* Sources */,
 				F258DDA124BC4EE2006F9ABD /* Tests */,
 				F258DD9524BC4EE2006F9ABD /* Products */,
+				F258DE7524BC7FFA006F9ABD /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -73,6 +94,7 @@
 			children = (
 				F258DD9724BC4EE2006F9ABD /* Push.h */,
 				F258DD9824BC4EE2006F9ABD /* Info.plist */,
+				F258DE7324BC7FEF006F9ABD /* NotificarePushManager.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -84,6 +106,14 @@
 				F258DDA424BC4EE2006F9ABD /* Info.plist */,
 			);
 			path = Tests;
+			sourceTree = "<group>";
+		};
+		F258DE7524BC7FFA006F9ABD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F258DE7624BC7FFA006F9ABD /* Core.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -108,6 +138,7 @@
 				F258DD9024BC4EE2006F9ABD /* Sources */,
 				F258DD9124BC4EE2006F9ABD /* Frameworks */,
 				F258DD9224BC4EE2006F9ABD /* Resources */,
+				F258DE7924BC7FFA006F9ABD /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -148,6 +179,7 @@
 				TargetAttributes = {
 					F258DD9324BC4EE2006F9ABD = {
 						CreatedOnToolsVersion = 11.5;
+						LastSwiftMigration = 1150;
 					};
 					F258DD9C24BC4EE2006F9ABD = {
 						CreatedOnToolsVersion = 11.5;
@@ -195,6 +227,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F258DE7424BC7FEF006F9ABD /* NotificarePushManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -340,6 +373,7 @@
 		F258DDA924BC4EE2006F9ABD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = Y47BY73NFN;
@@ -358,6 +392,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -366,6 +401,7 @@
 		F258DDAA24BC4EE2006F9ABD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = Y47BY73NFN;
@@ -392,6 +428,7 @@
 		F258DDAC24BC4EE2006F9ABD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y47BY73NFN;
 				INFOPLIST_FILE = Tests/Info.plist;
@@ -410,6 +447,7 @@
 		F258DDAD24BC4EE2006F9ABD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y47BY73NFN;
 				INFOPLIST_FILE = Tests/Info.plist;
