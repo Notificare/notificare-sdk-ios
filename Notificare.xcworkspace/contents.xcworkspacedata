@@ -22,4 +22,7 @@
    <FileRef
       location = "group:Scannable/Scannable.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:Sample/Sample.xcodeproj">
+   </FileRef>
 </Workspace>
