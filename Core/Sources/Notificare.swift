@@ -8,11 +8,22 @@
 
 import Foundation
 
-public struct Notificare {
+public class Notificare {
     
     public static let shared = Notificare()
     
     
+    public var logger = NotificareLogger()
+    
+    internal let applicationKey = ""
+    internal let applicationSecret = ""
     
     
+    public func launch() {
+        Notificare.shared.logger.info("Launching Notificare.")
+    }
+    
+    public func unlaunch() {
+        Notificare.shared.logger.info("Un-launching Notificare.")
+    }
 }

@@ -10,6 +10,8 @@
 		F258DD5624BC4DBC006F9ABD /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F258DD4C24BC4DBB006F9ABD /* Core.framework */; };
 		F258DD5B24BC4DBC006F9ABD /* CoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DD5A24BC4DBC006F9ABD /* CoreTests.swift */; };
 		F258DD5D24BC4DBC006F9ABD /* Core.h in Headers */ = {isa = PBXBuildFile; fileRef = F258DD4F24BC4DBB006F9ABD /* Core.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F258DE4424BC68CB006F9ABD /* Notificare.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DE4324BC68CB006F9ABD /* Notificare.swift */; };
+		F258DE4D24BC6C8B006F9ABD /* NotificareLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DE4C24BC6C8B006F9ABD /* NotificareLogger.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +31,8 @@
 		F258DD5524BC4DBC006F9ABD /* CoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F258DD5A24BC4DBC006F9ABD /* CoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreTests.swift; sourceTree = "<group>"; };
 		F258DD5C24BC4DBC006F9ABD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F258DE4324BC68CB006F9ABD /* Notificare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notificare.swift; sourceTree = "<group>"; };
+		F258DE4C24BC6C8B006F9ABD /* NotificareLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareLogger.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +77,8 @@
 			children = (
 				F258DD4F24BC4DBB006F9ABD /* Core.h */,
 				F258DD5024BC4DBB006F9ABD /* Info.plist */,
+				F258DE4324BC68CB006F9ABD /* Notificare.swift */,
+				F258DE4C24BC6C8B006F9ABD /* NotificareLogger.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -196,6 +202,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F258DE4424BC68CB006F9ABD /* Notificare.swift in Sources */,
+				F258DE4D24BC6C8B006F9ABD /* NotificareLogger.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -398,6 +406,7 @@
 		F258DD6424BC4DBC006F9ABD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y47BY73NFN;
 				INFOPLIST_FILE = Tests/Info.plist;
@@ -416,6 +425,7 @@
 		F258DD6524BC4DBC006F9ABD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y47BY73NFN;
 				INFOPLIST_FILE = Tests/Info.plist;
