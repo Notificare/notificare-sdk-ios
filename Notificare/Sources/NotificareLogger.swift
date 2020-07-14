@@ -9,46 +9,46 @@
 import Foundation
 
 public struct NotificareLogger {
-    
+
     init() {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-        
+
         self.dateFormatter = formatter
     }
-    
+
     private let dateFormatter: DateFormatter
-    
+
     public var level: Level = .info
-    
-    
+
+
     public func debug(_ message: String) {
         self.log(message, level: .debug)
     }
-    
+
     public func info(_ message: String) {
         self.log(message, level: .info)
     }
-    
+
     public func warning(_ message: String) {
         self.log(message, level: .warning)
     }
-    
+
     public func error(_ message: String) {
         self.log(message, level: .error)
     }
-    
-    
+
+
     private func log(_ message: String, level: Level) {
         guard level >= self.level else {
             return
         }
-        
+
         let date = self.dateFormatter.string(from: Date())
-        
+
         print("\(date) Notificare/\(level): \(message)")
     }
-    
+
     public enum Level: String {
         case verbose
         case debug
@@ -76,7 +76,7 @@ extension NotificareLogger.Level {
 }
 
 extension NotificareLogger.Level: Comparable {
-    public static func < (lhs: NotificareLogger.Level, rhs: NotificareLogger.Level) -> Bool {
+    public static func <(lhs: NotificareLogger.Level, rhs: NotificareLogger.Level) -> Bool {
         return lhs.severity < rhs.severity
     }
 }

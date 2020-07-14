@@ -17,9 +17,9 @@ struct NotificareModuleFactory {
         }
 
         return cls.init(applicationKey: Notificare.shared.applicationKey,
-                        applicationSecret: Notificare.shared.applicationSecret)
+                applicationSecret: Notificare.shared.applicationSecret)
     }
-    
+
     func createLocationManager() -> NotificareLocationManager? {
         guard let cls = NSClassFromString("NotificareLocation.NotificareLocationManagerImpl") as? NotificareLocationManager.Type else {
             Notificare.shared.logger.debug("Could not load NotificareLocationManager.")
@@ -27,6 +27,6 @@ struct NotificareModuleFactory {
         }
 
         return cls.init(applicationKey: Notificare.shared.applicationKey,
-                        applicationSecret: Notificare.shared.applicationSecret)
+                applicationSecret: Notificare.shared.applicationSecret)
     }
 }
