@@ -17,6 +17,7 @@ public class Notificare {
     public private(set) var pushManager: NotificarePushManager? = nil
     public private(set) var locationManager: NotificareLocationManager? = nil
     
+    
     internal let applicationKey = ""
     internal let applicationSecret = ""
     
@@ -37,6 +38,7 @@ public class Notificare {
         self.locationManager = factory.createLocationManager()
         
         self.verifyLoadedModules()
+        self.loadPropertyList()
     }
     
     private func verifyLoadedModules() {
@@ -49,5 +51,22 @@ public class Notificare {
         } else {
             Notificare.shared.logger.info("Loaded modules: [\(modules.joined(separator: ", "))]")
         }
+    }
+    
+    private func loadPropertyList() {
+        guard let path = Bundle.main.path(forResource: "Notificare", ofType: "plist") else {
+            fatalError("Notificare.plist is missing.")
+        }
+        
+        guard let data = try? Data(contentsOf: URL(fileURLWithPath: path)) else {
+            fatalError("Notificare.plist data appears to be corrupted.")
+        }
+        
+        let decoder = PropertyListDecoder()
+        guard let config = try? decoder.decode(NotificareConfig.self, from: data) else {
+            fatalError("Failed to parse Notificare.plist. Please check the contents are valid.")
+        }
+        
+        print(config)
     }
 }

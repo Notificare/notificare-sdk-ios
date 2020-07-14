@@ -15,6 +15,7 @@
 		F258DE4924BC69C1006F9ABD /* NotificareLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DE4824BC69C1006F9ABD /* NotificareLocationManager.swift */; };
 		F258DE4B24BC6B0F006F9ABD /* NotificareModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DE4A24BC6B0F006F9ABD /* NotificareModuleFactory.swift */; };
 		F258DE4D24BC6C8B006F9ABD /* NotificareLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DE4C24BC6C8B006F9ABD /* NotificareLogger.swift */; };
+		F258DEC024BC9BB1006F9ABD /* NotificareConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DEBF24BC9BB1006F9ABD /* NotificareConfig.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,6 +40,7 @@
 		F258DE4824BC69C1006F9ABD /* NotificareLocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareLocationManager.swift; sourceTree = "<group>"; };
 		F258DE4A24BC6B0F006F9ABD /* NotificareModuleFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareModuleFactory.swift; sourceTree = "<group>"; };
 		F258DE4C24BC6C8B006F9ABD /* NotificareLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareLogger.swift; sourceTree = "<group>"; };
+		F258DEBF24BC9BB1006F9ABD /* NotificareConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareConfig.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +87,7 @@
 				F258DD5024BC4DBB006F9ABD /* Info.plist */,
 				F258DD4F24BC4DBB006F9ABD /* Notificare.h */,
 				F258DE4324BC68CB006F9ABD /* Notificare.swift */,
+				F258DEBF24BC9BB1006F9ABD /* NotificareConfig.swift */,
 				F258DE4A24BC6B0F006F9ABD /* NotificareModuleFactory.swift */,
 				F258DE4C24BC6C8B006F9ABD /* NotificareLogger.swift */,
 			);
@@ -220,6 +223,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F258DE4924BC69C1006F9ABD /* NotificareLocationManager.swift in Sources */,
+				F258DEC024BC9BB1006F9ABD /* NotificareConfig.swift in Sources */,
 				F258DE4424BC68CB006F9ABD /* Notificare.swift in Sources */,
 				F258DE4D24BC6C8B006F9ABD /* NotificareLogger.swift in Sources */,
 				F258DE4B24BC6B0F006F9ABD /* NotificareModuleFactory.swift in Sources */,
