@@ -18,6 +18,7 @@ public class Notificare {
 
     internal private(set) var applicationKey: String? = nil
     internal private(set) var applicationSecret: String? = nil
+    internal private(set) var pushApi: NotificarePushApi? = nil
 
     public var isInitialized: Bool {
         applicationKey != nil && applicationSecret != nil
@@ -53,8 +54,22 @@ public class Notificare {
 
         Notificare.shared.logger.info("Launching Notificare.")
         isLaunched = true
+        isReady = false
 
+        self.setupNetworking()
         self.loadAvailableModules()
+
+        self.pushApi!.getApplicationInfo { result in
+            switch result {
+            case .success(let applicationInfo):
+                Notificare.shared.logger.info("Notificare is ready.")
+                Notificare.shared.logger.debug("\(applicationInfo)")
+                self.isReady = true
+            case .failure(let error):
+                Notificare.shared.logger.error("Failed to load the application info: \(error)")
+                self.isLaunched = false
+            }
+        }
     }
 
     public func unLaunch() {
@@ -76,6 +91,17 @@ public class Notificare {
 
         Notificare.shared.initialize(applicationKey: applicationKey!, applicationSecret: applicationSecret!)
         Notificare.shared.launch()
+    }
+
+    private func setupNetworking() {
+        let sessionConfiguration = URLSessionConfiguration.default
+        sessionConfiguration.urlCredentialStorage = nil
+
+        self.pushApi = NotificarePushApi(
+                applicationKey: self.applicationKey!,
+                applicationSecret: self.applicationSecret!,
+                session: URLSession(configuration: sessionConfiguration)
+        )
     }
 
     private func loadAvailableModules() {
