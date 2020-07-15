@@ -16,8 +16,8 @@ struct NotificareModuleFactory {
             return nil
         }
 
-        return cls.init(applicationKey: Notificare.shared.applicationKey,
-                applicationSecret: Notificare.shared.applicationSecret)
+        return cls.init(applicationKey: Notificare.shared.applicationKey!,
+                applicationSecret: Notificare.shared.applicationSecret!)
     }
 
     func createLocationManager() -> NotificareLocationManager? {
@@ -26,7 +26,7 @@ struct NotificareModuleFactory {
             return nil
         }
 
-        return cls.init(applicationKey: Notificare.shared.applicationKey,
-                applicationSecret: Notificare.shared.applicationSecret)
+        return cls.init(applicationKey: Notificare.shared.applicationKey!,
+                applicationSecret: Notificare.shared.applicationSecret!)
     }
 }

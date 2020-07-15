@@ -12,24 +12,70 @@ public class Notificare {
 
     public static let shared = Notificare()
 
-
     public var logger = NotificareLogger()
     public private(set) var pushManager: NotificarePushManager? = nil
     public private(set) var locationManager: NotificareLocationManager? = nil
 
+    internal private(set) var applicationKey: String? = nil
+    internal private(set) var applicationSecret: String? = nil
 
-    internal let applicationKey = ""
-    internal let applicationSecret = ""
+    public var isInitialized: Bool {
+        applicationKey != nil && applicationSecret != nil
+    }
+    public private(set) var isLaunched: Bool = false
+    public private(set) var isReady: Bool = false
 
+
+    private init() {
+    }
+
+
+    public func initialize(applicationKey: String, applicationSecret: String) {
+        guard !isInitialized else {
+            Notificare.shared.logger.warning("Notificare has already been initialized. Skipping...")
+            return
+        }
+
+        self.applicationKey = applicationKey
+        self.applicationSecret = applicationSecret
+    }
 
     public func launch() {
+        guard isInitialized else {
+            Notificare.shared.logger.warning("Notificare.initialize() has never been called. Cannot launch.")
+            return
+        }
+
+        guard !isLaunched else {
+            Notificare.shared.logger.warning("Notificare has already been launched. Skipping...")
+            return
+        }
+
         Notificare.shared.logger.info("Launching Notificare.")
+        isLaunched = true
 
         self.loadAvailableModules()
     }
 
-    public func unlaunch() {
+    public func unLaunch() {
         Notificare.shared.logger.info("Un-launching Notificare.")
+        clearLoadedModules()
+    }
+
+
+    internal func autoLaunch() {
+        let configuration = NotificareUtils.getConfiguration()
+
+        guard configuration.autoLaunch else {
+            Notificare.shared.logger.info("Auto launch is not enabled. Skipping...")
+            return
+        }
+
+        let applicationKey = configuration.production ? configuration.productionApplicationKey : configuration.developmentApplicationKey
+        let applicationSecret = configuration.production ? configuration.productionApplicationSecret : configuration.developmentApplicationSecret
+
+        Notificare.shared.initialize(applicationKey: applicationKey!, applicationSecret: applicationSecret!)
+        Notificare.shared.launch()
     }
 
     private func loadAvailableModules() {
@@ -37,40 +83,11 @@ public class Notificare {
         self.pushManager = factory.createPushManager()
         self.locationManager = factory.createLocationManager()
 
-        self.verifyLoadedModules()
-        self.loadPropertyList()
+        NotificareUtils.logLoadedModules()
     }
 
-    private func verifyLoadedModules() {
-        var modules: [String] = []
-        if self.pushManager != nil {
-            modules.append("push")
-        }
-        if self.locationManager != nil {
-            modules.append("location")
-        }
-
-        if modules.isEmpty {
-            Notificare.shared.logger.warning("No modules have been loaded.")
-        } else {
-            Notificare.shared.logger.info("Loaded modules: [\(modules.joined(separator: ", "))]")
-        }
-    }
-
-    private func loadPropertyList() {
-        guard let path = Bundle.main.path(forResource: "Notificare", ofType: "plist") else {
-            fatalError("Notificare.plist is missing.")
-        }
-
-        guard let data = try? Data(contentsOf: URL(fileURLWithPath: path)) else {
-            fatalError("Notificare.plist data appears to be corrupted.")
-        }
-
-        let decoder = PropertyListDecoder()
-        guard let config = try? decoder.decode(NotificareConfig.self, from: data) else {
-            fatalError("Failed to parse Notificare.plist. Please check the contents are valid.")
-        }
-
-        print(config)
+    private func clearLoadedModules() {
+        self.pushManager = nil
+        self.locationManager = nil
     }
 }

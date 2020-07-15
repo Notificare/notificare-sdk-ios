@@ -7,15 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		42A200BD7785C894011591B1 /* NotificareUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A201B8D612EF312C18627B /* NotificareUtils.swift */; };
+		42A2011DB7750225B7C9D3E2 /* NotificareBootstrap.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A205DF5970468FB18808F5 /* NotificareBootstrap.m */; };
+		42A201A3F80D5668FF5D6759 /* NotificareBootstrap.h in Headers */ = {isa = PBXBuildFile; fileRef = 42A20450A15AAC914DBC800F /* NotificareBootstrap.h */; };
+		42A209C4A8C4D6819B57EE4F /* NotificareModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A203F2CC4F71324DC1E758 /* NotificareModuleFactory.swift */; };
 		F258DD5624BC4DBC006F9ABD /* Notificare.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F258DD4C24BC4DBB006F9ABD /* Notificare.framework */; };
 		F258DD5B24BC4DBC006F9ABD /* CoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DD5A24BC4DBC006F9ABD /* CoreTests.swift */; };
 		F258DD5D24BC4DBC006F9ABD /* Notificare.h in Headers */ = {isa = PBXBuildFile; fileRef = F258DD4F24BC4DBB006F9ABD /* Notificare.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F258DE4424BC68CB006F9ABD /* Notificare.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DE4324BC68CB006F9ABD /* Notificare.swift */; };
 		F258DE4724BC69A9006F9ABD /* NotificarePushManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DE4624BC69A9006F9ABD /* NotificarePushManager.swift */; };
 		F258DE4924BC69C1006F9ABD /* NotificareLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DE4824BC69C1006F9ABD /* NotificareLocationManager.swift */; };
-		F258DE4B24BC6B0F006F9ABD /* NotificareModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DE4A24BC6B0F006F9ABD /* NotificareModuleFactory.swift */; };
 		F258DE4D24BC6C8B006F9ABD /* NotificareLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DE4C24BC6C8B006F9ABD /* NotificareLogger.swift */; };
-		F258DEC024BC9BB1006F9ABD /* NotificareConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DEBF24BC9BB1006F9ABD /* NotificareConfig.swift */; };
+		F258DEC024BC9BB1006F9ABD /* NotificareConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DEBF24BC9BB1006F9ABD /* NotificareConfiguration.swift */; };
+		F2BC15A624BE000000EC7EBF /* NotificareSwizzler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2BC15A524BE000000EC7EBF /* NotificareSwizzler.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +33,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		42A201B8D612EF312C18627B /* NotificareUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareUtils.swift; sourceTree = "<group>"; };
+		42A203F2CC4F71324DC1E758 /* NotificareModuleFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareModuleFactory.swift; sourceTree = "<group>"; };
+		42A20450A15AAC914DBC800F /* NotificareBootstrap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificareBootstrap.h; sourceTree = "<group>"; };
+		42A205DF5970468FB18808F5 /* NotificareBootstrap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificareBootstrap.m; sourceTree = "<group>"; };
 		F258DD4C24BC4DBB006F9ABD /* Notificare.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Notificare.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F258DD4F24BC4DBB006F9ABD /* Notificare.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Notificare.h; sourceTree = "<group>"; };
 		F258DD5024BC4DBB006F9ABD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -38,9 +46,9 @@
 		F258DE4324BC68CB006F9ABD /* Notificare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notificare.swift; sourceTree = "<group>"; };
 		F258DE4624BC69A9006F9ABD /* NotificarePushManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificarePushManager.swift; sourceTree = "<group>"; };
 		F258DE4824BC69C1006F9ABD /* NotificareLocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareLocationManager.swift; sourceTree = "<group>"; };
-		F258DE4A24BC6B0F006F9ABD /* NotificareModuleFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareModuleFactory.swift; sourceTree = "<group>"; };
 		F258DE4C24BC6C8B006F9ABD /* NotificareLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareLogger.swift; sourceTree = "<group>"; };
-		F258DEBF24BC9BB1006F9ABD /* NotificareConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareConfig.swift; sourceTree = "<group>"; };
+		F258DEBF24BC9BB1006F9ABD /* NotificareConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareConfiguration.swift; sourceTree = "<group>"; };
+		F2BC15A524BE000000EC7EBF /* NotificareSwizzler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareSwizzler.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +70,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		42A20C0CDE4537B02C3B0D33 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				42A201B8D612EF312C18627B /* NotificareUtils.swift */,
+				42A203F2CC4F71324DC1E758 /* NotificareModuleFactory.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		42A20D17A4EF88ED36EA223F /* Bootstrap */ = {
+			isa = PBXGroup;
+			children = (
+				42A20450A15AAC914DBC800F /* NotificareBootstrap.h */,
+				42A205DF5970468FB18808F5 /* NotificareBootstrap.m */,
+				F2BC15A524BE000000EC7EBF /* NotificareSwizzler.swift */,
+			);
+			path = Bootstrap;
+			sourceTree = "<group>";
+		};
 		F258DD4224BC4DBB006F9ABD = {
 			isa = PBXGroup;
 			children = (
@@ -83,13 +110,14 @@
 		F258DD4E24BC4DBB006F9ABD /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				42A20D17A4EF88ED36EA223F /* Bootstrap */,
 				F258DE4524BC699A006F9ABD /* Modules */,
 				F258DD5024BC4DBB006F9ABD /* Info.plist */,
 				F258DD4F24BC4DBB006F9ABD /* Notificare.h */,
 				F258DE4324BC68CB006F9ABD /* Notificare.swift */,
-				F258DEBF24BC9BB1006F9ABD /* NotificareConfig.swift */,
-				F258DE4A24BC6B0F006F9ABD /* NotificareModuleFactory.swift */,
+				F258DEBF24BC9BB1006F9ABD /* NotificareConfiguration.swift */,
 				F258DE4C24BC6C8B006F9ABD /* NotificareLogger.swift */,
+				42A20C0CDE4537B02C3B0D33 /* Utilities */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -120,6 +148,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F258DD5D24BC4DBC006F9ABD /* Notificare.h in Headers */,
+				42A201A3F80D5668FF5D6759 /* NotificareBootstrap.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -223,11 +252,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				F258DE4924BC69C1006F9ABD /* NotificareLocationManager.swift in Sources */,
-				F258DEC024BC9BB1006F9ABD /* NotificareConfig.swift in Sources */,
+				F2BC15A624BE000000EC7EBF /* NotificareSwizzler.swift in Sources */,
+				F258DEC024BC9BB1006F9ABD /* NotificareConfiguration.swift in Sources */,
 				F258DE4424BC68CB006F9ABD /* Notificare.swift in Sources */,
 				F258DE4D24BC6C8B006F9ABD /* NotificareLogger.swift in Sources */,
-				F258DE4B24BC6B0F006F9ABD /* NotificareModuleFactory.swift in Sources */,
 				F258DE4724BC69A9006F9ABD /* NotificarePushManager.swift in Sources */,
+				42A2011DB7750225B7C9D3E2 /* NotificareBootstrap.m in Sources */,
+				42A200BD7785C894011591B1 /* NotificareUtils.swift in Sources */,
+				42A209C4A8C4D6819B57EE4F /* NotificareModuleFactory.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
