@@ -22,6 +22,10 @@ public struct NotificareLogger {
     public var level: Level = .info
 
 
+    public func verbose(_ message: String) {
+        self.log(message, level: .verbose)
+    }
+
     public func debug(_ message: String) {
         self.log(message, level: .debug)
     }
