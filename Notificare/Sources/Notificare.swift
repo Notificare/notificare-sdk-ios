@@ -16,58 +16,57 @@ public class Notificare {
     public private(set) var pushManager: NotificarePushManager? = nil
     public private(set) var locationManager: NotificareLocationManager? = nil
 
+    internal private(set) var environment: NotificareEnvironment = .production
     internal private(set) var applicationKey: String? = nil
     internal private(set) var applicationSecret: String? = nil
     internal private(set) var pushApi: NotificarePushApi? = nil
 
-    public var isInitialized: Bool {
-        applicationKey != nil && applicationSecret != nil
-    }
-    public private(set) var isLaunched: Bool = false
-    public private(set) var isReady: Bool = false
+    private var state: State = .none
 
 
     private init() {
     }
 
 
-    public func initialize(applicationKey: String, applicationSecret: String) {
-        guard !isInitialized else {
+    public func initialize(applicationKey: String, applicationSecret: String, withEnvironment environment: NotificareEnvironment = .production) {
+        guard state == .none else {
             Notificare.shared.logger.warning("Notificare has already been initialized. Skipping...")
             return
         }
 
         self.applicationKey = applicationKey
         self.applicationSecret = applicationSecret
+        self.environment = environment
     }
 
     public func launch() {
-        guard isInitialized else {
+        if state == .none {
             Notificare.shared.logger.warning("Notificare.initialize() has never been called. Cannot launch.")
             return
         }
 
-        guard !isLaunched else {
+        if state == .launching {
             Notificare.shared.logger.warning("Notificare has already been launched. Skipping...")
             return
         }
 
         Notificare.shared.logger.info("Launching Notificare.")
-        isLaunched = true
-        isReady = false
-
-        self.setupNetworking()
-        self.loadAvailableModules()
+        state = .launching
 
         self.pushApi!.getApplicationInfo { result in
             switch result {
             case .success(let applicationInfo):
                 Notificare.shared.logger.info("Notificare is ready.")
                 Notificare.shared.logger.debug("\(applicationInfo)")
-                self.isReady = true
+
+                // All good. Notify delegate.
+                self.state = .ready
+                // self.delegate?.ready()
             case .failure(let error):
                 Notificare.shared.logger.error("Failed to load the application info: \(error)")
-                self.isLaunched = false
+
+                // Revert back to previous state.
+                self.state = .configured
             }
         }
     }
@@ -115,5 +114,14 @@ public class Notificare {
     private func clearLoadedModules() {
         self.pushManager = nil
         self.locationManager = nil
+    }
+
+
+    private enum State {
+        case none
+        case configured
+        case launching
+        case launched
+        case ready
     }
 }

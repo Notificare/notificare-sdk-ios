@@ -9,7 +9,7 @@ struct NotificarePushApi {
 
     typealias Completion<T> = (Result<T, NotificareError>) -> Void
 
-    private let baseUrl: URL = URL(string: "https://push.notifica.re")!
+    private let baseUrl: URL
     private let applicationKey: String
     private let applicationSecret: String
     private let session: URLSession
@@ -20,7 +20,8 @@ struct NotificarePushApi {
         return decoder
     }()
 
-    init(applicationKey: String, applicationSecret: String, session: URLSession = URLSession.shared) {
+    init(applicationKey: String, applicationSecret: String, session: URLSession = URLSession.shared, environment: NotificareEnvironment = .production) {
+        self.baseUrl = environment.getConfiguration().pushHost
         self.applicationKey = applicationKey
         self.applicationSecret = applicationSecret
         self.session = session

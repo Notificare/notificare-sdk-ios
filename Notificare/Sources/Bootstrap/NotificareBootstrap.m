@@ -3,14 +3,13 @@
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
-#import <Notificare/Notificare-Swift.h>
 #import "NotificareBootstrap.h"
 
 @implementation NotificareBootstrap {
 
 }
 + (void)load {
-    [NotificareSwizzler setup];
+    // [Notificare autoLaunch];
 }
 
 @end

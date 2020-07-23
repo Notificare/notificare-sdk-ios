@@ -29,7 +29,7 @@
 		F258DE4924BC69C1006F9ABD /* NotificareLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DE4824BC69C1006F9ABD /* NotificareLocationManager.swift */; };
 		F258DE4D24BC6C8B006F9ABD /* NotificareLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DE4C24BC6C8B006F9ABD /* NotificareLogger.swift */; };
 		F258DEC024BC9BB1006F9ABD /* NotificareConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DEBF24BC9BB1006F9ABD /* NotificareConfiguration.swift */; };
-		F2BC15A624BE000000EC7EBF /* NotificareSwizzler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2BC15A524BE000000EC7EBF /* NotificareSwizzler.swift */; };
+		F2EF110624C9CFA3001A81CE /* NotificareEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2EF110524C9CFA3001A81CE /* NotificareEnvironment.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,7 +68,7 @@
 		F258DE4824BC69C1006F9ABD /* NotificareLocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareLocationManager.swift; sourceTree = "<group>"; };
 		F258DE4C24BC6C8B006F9ABD /* NotificareLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareLogger.swift; sourceTree = "<group>"; };
 		F258DEBF24BC9BB1006F9ABD /* NotificareConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareConfiguration.swift; sourceTree = "<group>"; };
-		F2BC15A524BE000000EC7EBF /* NotificareSwizzler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareSwizzler.swift; sourceTree = "<group>"; };
+		F2EF110524C9CFA3001A81CE /* NotificareEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareEnvironment.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,7 +140,6 @@
 			children = (
 				42A20450A15AAC914DBC800F /* NotificareBootstrap.h */,
 				42A205DF5970468FB18808F5 /* NotificareBootstrap.m */,
-				F2BC15A524BE000000EC7EBF /* NotificareSwizzler.swift */,
 			);
 			path = Bootstrap;
 			sourceTree = "<group>";
@@ -188,6 +187,7 @@
 				42A20E1B11DBCE03A4402205 /* Network */,
 				42A20228EB70EA83D835BF01 /* NotificareError.swift */,
 				42A20B74D9C5CA3A0AC0A9A7 /* Extensions */,
+				F2EF110524C9CFA3001A81CE /* NotificareEnvironment.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -322,7 +322,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F258DE4924BC69C1006F9ABD /* NotificareLocationManager.swift in Sources */,
-				F2BC15A624BE000000EC7EBF /* NotificareSwizzler.swift in Sources */,
 				F258DEC024BC9BB1006F9ABD /* NotificareConfiguration.swift in Sources */,
 				F258DE4424BC68CB006F9ABD /* Notificare.swift in Sources */,
 				F258DE4D24BC6C8B006F9ABD /* NotificareLogger.swift in Sources */,
@@ -330,6 +329,7 @@
 				42A2011DB7750225B7C9D3E2 /* NotificareBootstrap.m in Sources */,
 				42A200BD7785C894011591B1 /* NotificareUtils.swift in Sources */,
 				42A209C4A8C4D6819B57EE4F /* NotificareModuleFactory.swift in Sources */,
+				F2EF110624C9CFA3001A81CE /* NotificareEnvironment.swift in Sources */,
 				42A20AADCFB1A2AF5D9703F7 /* NotificarePushApi.swift in Sources */,
 				42A20FD7791BD275D8A3A0E5 /* NotificareError.swift in Sources */,
 				42A206B0B1787BBC3D1A757C /* NotificareApplicationInfo.swift in Sources */,
