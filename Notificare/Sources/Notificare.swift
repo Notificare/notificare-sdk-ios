@@ -12,7 +12,7 @@ public class Notificare {
 
     public static let shared = Notificare()
 
-    public var logger = NotificareLogger()
+    public private(set) var logger = NotificareLogger()
     public private(set) var pushManager: NotificarePushManager? = nil
     public private(set) var locationManager: NotificareLocationManager? = nil
 

@@ -7,17 +7,15 @@
 //
 
 import Foundation
+import os
 
-public struct NotificareLogger {
+public class NotificareLogger {
 
-    init() {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+    @available(iOS 14.0, *)
+    private lazy var logger = Logger(subsystem: "re.notifica", category: "Notificare")
 
-        self.dateFormatter = formatter
-    }
+    private let osLog = OSLog(subsystem: "re.notifica", category: "Notificare")
 
-    private let dateFormatter: DateFormatter
 
     public var level: Level = .info
 
@@ -48,9 +46,11 @@ public struct NotificareLogger {
             return
         }
 
-        let date = self.dateFormatter.string(from: Date())
-
-        print("\(date) Notificare/\(level): \(message)")
+        if #available(iOS 14, *) {
+            self.logger.log(level: level.toOSLogType(), "\(message, privacy: .public)")
+        } else {
+            os_log(level.toOSLogType(), log: self.osLog, "%{public}s", message)
+        }
     }
 
     public enum Level: String {
@@ -62,8 +62,8 @@ public struct NotificareLogger {
     }
 }
 
-extension NotificareLogger.Level {
-    var severity: Int {
+extension NotificareLogger.Level: Comparable {
+    private var severity: Int {
         switch self {
         case .verbose:
             return 0
@@ -77,10 +77,21 @@ extension NotificareLogger.Level {
             return 4
         }
     }
-}
 
-extension NotificareLogger.Level: Comparable {
     public static func <(lhs: NotificareLogger.Level, rhs: NotificareLogger.Level) -> Bool {
         return lhs.severity < rhs.severity
+    }
+}
+
+extension NotificareLogger.Level {
+    func toOSLogType() -> OSLogType {
+        switch self {
+        case .verbose, .debug:
+            return .debug
+        case .info:
+            return .info
+        case .warning, .error:
+            return .error
+        }
     }
 }
