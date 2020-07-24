@@ -40,7 +40,7 @@ public class Notificare {
 
         let configuration = NotificareUtils.getConfiguration()
         if configuration.swizzlingEnabled {
-            // TODO implement swizzle mechanism
+            NotificareSwizzler.setup(withRemoteNotifications: NotificareModuleFactory.hasPushModule())
         }
 
         Notificare.shared.logger.debug("Notificare configured for '\(environment)' services.")

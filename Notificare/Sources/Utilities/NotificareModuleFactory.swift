@@ -10,6 +10,11 @@ import Foundation
 
 struct NotificareModuleFactory {
 
+    static func hasPushModule() -> Bool {
+        let cls = NSClassFromString("NotificarePush.NotificarePushManagerImpl") as? NotificarePushManager.Type
+        return cls != nil
+    }
+
     func createPushManager() -> NotificarePushManager? {
         guard let cls = NSClassFromString("NotificarePush.NotificarePushManagerImpl") as? NotificarePushManager.Type else {
             Notificare.shared.logger.debug("Could not load NotificarePushManager.")
