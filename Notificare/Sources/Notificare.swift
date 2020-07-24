@@ -56,6 +56,9 @@ public class Notificare {
         Notificare.shared.logger.info("Launching Notificare.")
         state = .launching
 
+        self.setupNetworking()
+        self.loadAvailableModules()
+
         self.pushApi!.getApplicationInfo { result in
             switch result {
             case .success(let applicationInfo):
@@ -76,6 +79,7 @@ public class Notificare {
 
     public func unLaunch() {
         Notificare.shared.logger.info("Un-launching Notificare.")
+        clearNetworking()
         clearLoadedModules()
     }
 
@@ -118,6 +122,10 @@ public class Notificare {
         self.locationManager = factory.createLocationManager()
 
         NotificareUtils.logLoadedModules()
+    }
+
+    private func clearNetworking() {
+        self.pushApi = nil
     }
 
     private func clearLoadedModules() {
