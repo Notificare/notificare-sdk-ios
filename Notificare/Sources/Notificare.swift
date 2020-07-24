@@ -41,6 +41,8 @@ public class Notificare {
         let configuration = NotificareUtils.getConfiguration()
         if configuration.swizzlingEnabled {
             NotificareSwizzler.setup(withRemoteNotifications: NotificareModuleFactory.hasPushModule())
+        } else {
+            Notificare.shared.logger.warning("Automatic App Delegate Proxy is not enabled. You will need to forward UIAppDelegate events to Notificare manually. Please check the documentation for which events to forward.")
         }
 
         Notificare.shared.logger.debug("Notificare configured for '\(environment)' services.")
