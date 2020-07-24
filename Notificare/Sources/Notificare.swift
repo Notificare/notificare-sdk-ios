@@ -28,15 +28,18 @@ public class Notificare {
     }
 
 
-    public func initialize(applicationKey: String, applicationSecret: String, withEnvironment environment: NotificareEnvironment = .production) {
+    public func configure(applicationKey: String, applicationSecret: String, withEnvironment environment: NotificareEnvironment = .production) {
         guard state == .none else {
-            Notificare.shared.logger.warning("Notificare has already been initialized. Skipping...")
+            Notificare.shared.logger.warning("Notificare has already been configured. Skipping...")
             return
         }
 
         self.applicationKey = applicationKey
         self.applicationSecret = applicationSecret
         self.environment = environment
+
+        Notificare.shared.logger.debug("Notificare configured for '\(environment)' services.")
+        self.state = .configured
     }
 
     public func launch() {
@@ -88,7 +91,13 @@ public class Notificare {
         let applicationKey = configuration.production ? configuration.productionApplicationKey : configuration.developmentApplicationKey
         let applicationSecret = configuration.production ? configuration.productionApplicationSecret : configuration.developmentApplicationSecret
 
-        Notificare.shared.initialize(applicationKey: applicationKey!, applicationSecret: applicationSecret!)
+        var environment: NotificareEnvironment = .production
+        if let environmentStr = configuration.environment?.lowercased().trimmingCharacters(in: .whitespacesAndNewlines),
+           let parsedEnvironment = NotificareEnvironment(rawValue: environmentStr) {
+            environment = parsedEnvironment
+        }
+
+        Notificare.shared.configure(applicationKey: applicationKey!, applicationSecret: applicationSecret!, withEnvironment: environment)
         Notificare.shared.launch()
     }
 

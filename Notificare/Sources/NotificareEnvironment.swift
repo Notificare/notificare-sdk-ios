@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum NotificareEnvironment {
+public enum NotificareEnvironment: String {
     case test
     case production
 
