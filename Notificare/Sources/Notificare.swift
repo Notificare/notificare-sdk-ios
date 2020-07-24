@@ -81,6 +81,7 @@ public class Notificare {
         Notificare.shared.logger.info("Un-launching Notificare.")
         clearNetworking()
         clearLoadedModules()
+        state = .none
     }
 
 
