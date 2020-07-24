@@ -21,7 +21,7 @@ public class Notificare {
     internal private(set) var applicationSecret: String? = nil
     internal private(set) var pushApi: NotificarePushApi? = nil
 
-    private var state: State = .none
+    internal private(set) var state: State = .none
 
 
     private init() {
@@ -37,6 +37,11 @@ public class Notificare {
         self.applicationKey = applicationKey
         self.applicationSecret = applicationSecret
         self.environment = environment
+
+        let configuration = NotificareUtils.getConfiguration()
+        if configuration.swizzlingEnabled {
+            // TODO implement swizzle mechanism
+        }
 
         Notificare.shared.logger.debug("Notificare configured for '\(environment)' services.")
         self.state = .configured
@@ -84,28 +89,6 @@ public class Notificare {
         state = .none
     }
 
-
-    internal func autoLaunch() {
-        let configuration = NotificareUtils.getConfiguration()
-
-        guard configuration.autoLaunch else {
-            Notificare.shared.logger.info("Auto launch is not enabled. Skipping...")
-            return
-        }
-
-        let applicationKey = configuration.production ? configuration.productionApplicationKey : configuration.developmentApplicationKey
-        let applicationSecret = configuration.production ? configuration.productionApplicationSecret : configuration.developmentApplicationSecret
-
-        var environment: NotificareEnvironment = .production
-        if let environmentStr = configuration.environment?.lowercased().trimmingCharacters(in: .whitespacesAndNewlines),
-           let parsedEnvironment = NotificareEnvironment(rawValue: environmentStr) {
-            environment = parsedEnvironment
-        }
-
-        Notificare.shared.configure(applicationKey: applicationKey!, applicationSecret: applicationSecret!, withEnvironment: environment)
-        Notificare.shared.launch()
-    }
-
     private func setupNetworking() {
         let sessionConfiguration = URLSessionConfiguration.default
         sessionConfiguration.urlCredentialStorage = nil
@@ -135,7 +118,7 @@ public class Notificare {
     }
 
 
-    private enum State {
+    internal enum State {
         case none
         case configured
         case launching

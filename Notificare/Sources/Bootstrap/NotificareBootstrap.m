@@ -9,7 +9,7 @@
 
 }
 + (void)load {
-    // [Notificare autoLaunch];
+     [NotificareAutoLauncher setup];
 }
 
 @end
