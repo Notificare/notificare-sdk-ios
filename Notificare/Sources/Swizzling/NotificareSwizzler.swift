@@ -36,7 +36,7 @@ public class NotificareSwizzler: NSProxy {
     }()
 
     private static let runOnceRemoteNotifications: () = {
-        // TODO implement APNS methods
+        createAPNSMethodImplementations()
     }()
 
     private static func proxyAppDelegate(_ appDelegate: UIApplicationDelegate?) {
@@ -132,6 +132,50 @@ public class NotificareSwizzler: NSProxy {
 
         // Store original implementations
         objc_setAssociatedObject(originalDelegate, &AssociatedObjectKeys.originalImplementations, originalImplementationsStore, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+    }
+
+    private static func createAPNSMethodImplementations() {
+        guard let originalDelegate = gOriginalAppDelegate else {
+            Notificare.shared.logger.error("Could not proxy APNS methods. The orignal App Delegate was nil.")
+            return
+        }
+
+        guard let subClass = gAppDelegateSubClass else {
+            Notificare.shared.logger.error("Could not proxy APNS methods. The subclass was nil.")
+            return
+        }
+
+        guard var originalImplementationsStore = objc_getAssociatedObject(originalDelegate, &AssociatedObjectKeys.originalImplementations) as? [String: NSValue] else {
+            Notificare.shared.logger.error("Could not proxy APNS methods. The original implementations store was nil.")
+            return
+        }
+
+        // For application:didRegisterForRemoteNotificationsWithDeviceToken:
+        self.proxyInstanceMethod(
+                toClass: subClass,
+                withSelector: #selector(application(_:didRegisterForRemoteNotificationsWithDeviceToken:)),
+                fromClass: NotificareSwizzler.self,
+                fromSelector: #selector(application(_:didRegisterForRemoteNotificationsWithDeviceToken:)),
+                withOriginalClass: type(of: originalDelegate),
+                storeOriginalImplementationInto: &originalImplementationsStore)
+
+        // For application:didFailToRegisterForRemoteNotificationsWithError:
+        self.proxyInstanceMethod(
+                toClass: subClass,
+                withSelector: #selector(application(_:didFailToRegisterForRemoteNotificationsWithError:)),
+                fromClass: NotificareSwizzler.self,
+                fromSelector: #selector(application(_:didFailToRegisterForRemoteNotificationsWithError:)),
+                withOriginalClass: type(of: originalDelegate),
+                storeOriginalImplementationInto: &originalImplementationsStore)
+
+        // For application:didReceiveRemoteNotification:
+        self.proxyInstanceMethod(
+                toClass: subClass,
+                withSelector: #selector(application(_:didReceiveRemoteNotification:)),
+                fromClass: NotificareSwizzler.self,
+                fromSelector: #selector(application(_:didReceiveRemoteNotification:)),
+                withOriginalClass: type(of: originalDelegate),
+                storeOriginalImplementationInto: &originalImplementationsStore)
     }
 
     private static func overrideDescription(in subClass: AnyClass) {
@@ -232,5 +276,20 @@ public class NotificareSwizzler: NSProxy {
 
         let originalImplementation = unsafeBitCast(pointerValue, to: ApplicationWillResignActive.self)
         originalImplementation(self, selector, application)
+    }
+
+    @objc
+    private func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        Notificare.shared.logger.info("didRegisterForRemoteNotificationsWithDeviceToken")
+    }
+
+    @objc
+    private func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        Notificare.shared.logger.info("didFailToRegisterForRemoteNotificationsWithError: \(error)")
+    }
+
+    @objc
+    private func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
+        Notificare.shared.logger.info("didReceiveRemoteNotification")
     }
 }
