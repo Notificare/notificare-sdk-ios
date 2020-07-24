@@ -49,7 +49,7 @@ public class NotificareLogger {
         if #available(iOS 14, *) {
             self.logger.log(level: level.toOSLogType(), "\(message, privacy: .public)")
         } else {
-            os_log(level.toOSLogType(), log: self.osLog, "%{public}s", message)
+            os_log("%{public}s", log: self.osLog, type: level.toOSLogType(), message)
         }
     }
 
