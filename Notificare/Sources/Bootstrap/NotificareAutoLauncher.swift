@@ -34,10 +34,12 @@ public class NotificareAutoLauncher: NSObject {
             return
         }
 
-        let configuration = NotificareUtils.getConfiguration()
+        guard let configuration = NotificareUtils.getConfiguration(),
+              let applicationKey = configuration.production ? configuration.productionApplicationKey : configuration.developmentApplicationKey,
+              let applicationSecret = configuration.production ? configuration.productionApplicationSecret : configuration.developmentApplicationSecret else {
 
-        let applicationKey = configuration.production ? configuration.productionApplicationKey : configuration.developmentApplicationKey
-        let applicationSecret = configuration.production ? configuration.productionApplicationSecret : configuration.developmentApplicationSecret
+            return
+        }
 
         var environment: NotificareEnvironment = .production
         if let environmentStr = configuration.environment?.lowercased().trimmingCharacters(in: .whitespacesAndNewlines),
@@ -46,12 +48,12 @@ public class NotificareAutoLauncher: NSObject {
         }
 
         Notificare.shared.configure(
-                applicationKey: applicationKey!,
-                applicationSecret: applicationSecret!,
+                applicationKey: applicationKey,
+                applicationSecret: applicationSecret,
                 withEnvironment: environment)
 
         guard configuration.autoLaunch else {
-            Notificare.shared.logger.info("Auto launch is not enabled. Skipping...")
+            Notificare.shared.logger.debug("Auto launch is not enabled. Skipping...")
             return
         }
 

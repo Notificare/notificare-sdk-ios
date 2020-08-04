@@ -11,7 +11,7 @@ struct NotificareUtils {
     }
 
 
-    static func getConfiguration() -> NotificareConfiguration {
+    static func getConfiguration() -> NotificareConfiguration? {
         guard let path = Bundle.main.path(forResource: "Notificare", ofType: "plist") else {
             fatalError("Notificare.plist is missing.")
         }
@@ -23,14 +23,6 @@ struct NotificareUtils {
         let decoder = PropertyListDecoder()
         guard let configuration = try? decoder.decode(NotificareConfiguration.self, from: data) else {
             fatalError("Failed to parse Notificare.plist. Please check the contents are valid.")
-        }
-
-        guard let _ = configuration.production ? configuration.productionApplicationKey : configuration.developmentApplicationKey else {
-            fatalError("Failed to parse Notificare.plist. The application key is required.")
-        }
-
-        guard let _ = configuration.production ? configuration.productionApplicationSecret : configuration.developmentApplicationSecret else {
-            fatalError("Failed to parse Notificare.plist. The application secret is required.")
         }
 
         return configuration
