@@ -13,8 +13,8 @@ public class Notificare {
     public static let shared = Notificare()
 
     public private(set) var logger = NotificareLogger()
-    public private(set) var pushManager: NotificarePushManager? = nil
-    public private(set) var locationManager: NotificareLocationManager? = nil
+    public private(set) var pushManager: NotificarePushManager?
+    public private(set) var locationManager: NotificareLocationManager?
 
     internal private(set) var environment: NotificareEnvironment = .production
     internal private(set) var applicationKey: String? = nil
@@ -24,9 +24,10 @@ public class Notificare {
     internal private(set) var state: State = .none
     internal private(set) var applicationInfo: NotificareApplicationInfo?
 
+    public var delegate: NotificareDelegate?
 
-    private init() {
-    }
+
+    private init() {}
 
 
     public func configure(applicationKey: String, applicationSecret: String, withEnvironment environment: NotificareEnvironment = .production) {
@@ -83,7 +84,7 @@ public class Notificare {
 
                 // All good. Notify delegate.
                 self.state = .ready
-                // self.delegate?.ready()
+                self.delegate?.onReady()
             case .failure(let error):
                 Notificare.shared.logger.error("Failed to load the application info: \(error)")
 
