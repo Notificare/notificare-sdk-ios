@@ -18,6 +18,7 @@
 		42A206B0B1787BBC3D1A757C /* NotificareApplicationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A2016C07B2F366DDB30A85 /* NotificareApplicationInfo.swift */; };
 		42A2079D2C53AC4E350DCF4E /* NotificareUserDataFieldType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A206AA99D4FE31CB2BF0A0 /* NotificareUserDataFieldType.swift */; };
 		42A209C4A8C4D6819B57EE4F /* NotificareModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A203F2CC4F71324DC1E758 /* NotificareModuleFactory.swift */; };
+		42A20A8202602F357473A0EC /* DeviceTagsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20B3065832FD6345EDD14 /* DeviceTagsResponse.swift */; };
 		42A20AADCFB1A2AF5D9703F7 /* NotificarePushApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A209A71E0E97443A11A01F /* NotificarePushApi.swift */; };
 		42A20B6537AFE9B92385C5CF /* ApplicationInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20ED52E1877D2A6478530 /* ApplicationInfoResponse.swift */; };
 		42A20D3C5FEB5D3146FE5523 /* NotificareNotificationAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20011E65906840A3D6F8F /* NotificareNotificationAction.swift */; };
@@ -59,6 +60,7 @@
 		42A209A71E0E97443A11A01F /* NotificarePushApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificarePushApi.swift; sourceTree = "<group>"; };
 		42A20A542B5A23849B81C344 /* NotificareAutoLauncher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareAutoLauncher.swift; sourceTree = "<group>"; };
 		42A20ACD9317A7EB72200EA4 /* NotificareNetworkError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareNetworkError.swift; sourceTree = "<group>"; };
+		42A20B3065832FD6345EDD14 /* DeviceTagsResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceTagsResponse.swift; sourceTree = "<group>"; };
 		42A20D5667524C87652257B5 /* URLSession+Retry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URLSession+Retry.swift"; sourceTree = "<group>"; };
 		42A20ED52E1877D2A6478530 /* ApplicationInfoResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplicationInfoResponse.swift; sourceTree = "<group>"; };
 		F258DD4C24BC4DBB006F9ABD /* Notificare.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Notificare.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -115,6 +117,7 @@
 			isa = PBXGroup;
 			children = (
 				42A20ED52E1877D2A6478530 /* ApplicationInfoResponse.swift */,
+				42A20B3065832FD6345EDD14 /* DeviceTagsResponse.swift */,
 			);
 			path = Responses;
 			sourceTree = "<group>";
@@ -356,6 +359,7 @@
 				42A205F5C611FAF8746A4ADA /* URLRequest+Authentication.swift in Sources */,
 				42A20F5A817E461AD741CEF0 /* NotificareAutoLauncher.swift in Sources */,
 				42A20389A56033CA45A7973B /* NotificareSwizzler.swift in Sources */,
+				42A20A8202602F357473A0EC /* DeviceTagsResponse.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

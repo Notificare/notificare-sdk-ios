@@ -50,4 +50,28 @@ struct NotificarePushApi {
             }
         }
     }
+
+    func getDeviceTags(with id: String, _ completion: @escaping Completion<[String]>) {
+        let url = baseUrl
+                .appendingPathComponent("device")
+                .appendingPathComponent(id)
+                .appendingPathComponent("tags")
+
+        var request = URLRequest(url: url)
+        request.setBasicAuthentication(username: applicationKey, password: applicationSecret)
+
+        self.session.perform(request) { result in
+            switch result {
+            case .failure(let error):
+                completion(.failure(.networkFailure(cause: error)))
+            case .success(let data):
+                guard let decoded = try? self.decoder.decode(DeviceTagsResponse.self, from: data) else {
+                    completion(.failure(NotificareError.parsingFailure))
+                    return
+                }
+
+                completion(.success(decoded.tags))
+            }
+        }
+    }
 }
