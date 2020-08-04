@@ -22,6 +22,7 @@ public class Notificare {
     internal private(set) var pushApi: NotificarePushApi? = nil
 
     internal private(set) var state: State = .none
+    internal private(set) var applicationInfo: NotificareApplicationInfo?
 
 
     private init() {
@@ -69,8 +70,16 @@ public class Notificare {
         self.pushApi!.getApplicationInfo { result in
             switch result {
             case .success(let applicationInfo):
-                Notificare.shared.logger.info("Notificare is ready.")
-                Notificare.shared.logger.debug("\(applicationInfo)")
+                self.applicationInfo = applicationInfo
+
+                Notificare.shared.logger.debug("/==================================================================================/")
+                Notificare.shared.logger.debug("Notificare SDK is ready to use for application")
+                Notificare.shared.logger.debug("App name: \(applicationInfo.name)")
+                Notificare.shared.logger.debug("App ID: \(applicationInfo.id)")
+
+                let enabledServices = applicationInfo.services.filter { $0.value }.map { $0.key }
+                Notificare.shared.logger.debug("App services: \(enabledServices.joined(separator: ", "))")
+                Notificare.shared.logger.debug("/==================================================================================/")
 
                 // All good. Notify delegate.
                 self.state = .ready

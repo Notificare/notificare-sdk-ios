@@ -5,6 +5,6 @@
 
 import Foundation
 
-struct ApplicationInfoResponse: Codable {
+struct ApplicationInfoResponse: Decodable {
     let application: NotificareApplicationInfo
 }

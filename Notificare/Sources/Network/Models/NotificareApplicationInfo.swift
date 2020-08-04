@@ -11,7 +11,7 @@ public struct NotificareApplicationInfo: Codable {
     public let category: String
     public let appStoreId: String?
     public let androidPackageName: String?
-    public let services: Services
+    public let services: [String: Bool]
     public let inboxConfig: InboxConfig?
     public let passbookConfig: PassbookConfig?
     public let regionConfig: RegionConfig?
@@ -38,29 +38,6 @@ public struct NotificareApplicationInfo: Codable {
     }
 
     // MARK: Nested models
-
-    public struct Services: Codable {
-        let richPush: Bool
-        let locationServices: Bool
-        let apns: Bool
-        let gcm: Bool
-        let hms: Bool
-        let websockets: Bool
-        let triggers: Bool
-        let passbook: Bool
-        let inAppPurchase: Bool
-        let oauth2: Bool
-        let screens: Bool
-        let reports: Bool
-        let appsOnDemand: Bool
-        let liveApi: Bool
-        let automation: Bool
-        let websitePush: Bool
-        let inbox: Bool
-        let storage: Bool
-        let email: Bool
-        let sms: Bool
-    }
 
     public struct InboxConfig: Codable {
         let useInbox: Bool
