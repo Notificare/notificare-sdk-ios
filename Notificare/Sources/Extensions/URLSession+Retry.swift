@@ -52,7 +52,9 @@ private extension URLSession {
 
         if currentRetries >= maxRetries {
             // Too many unsuccessful attempts
-            callback(.failure(.inaccessible))
+            DispatchQueue.main.async {
+                callback(.failure(.inaccessible))
+            }
             return
         }
 
@@ -136,6 +138,8 @@ private extension URLSession {
             }
         }
 
-        callback(result)
+        DispatchQueue.main.async {
+            callback(result)
+        }
     }
 }
