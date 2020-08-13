@@ -47,6 +47,9 @@ public class Notificare {
             Notificare.shared.logger.warning("Automatic App Delegate Proxy is not enabled. You will need to forward UIAppDelegate events to Notificare manually. Please check the documentation for which events to forward.")
         }
 
+        // TODO configure all the modules / managers
+        NotificareDeviceManager.shared.configure()
+
         Notificare.shared.logger.debug("Notificare configured for '\(environment)' services.")
         self.state = .configured
     }
@@ -68,7 +71,7 @@ public class Notificare {
         self.setupNetworking()
         self.loadAvailableModules()
 
-        self.pushApi!.getApplicationInfo { result in
+        NotificareLaunchManager.shared.launch { result in
             switch result {
             case .success(let applicationInfo):
                 self.applicationInfo = applicationInfo
@@ -84,7 +87,7 @@ public class Notificare {
 
                 // All good. Notify delegate.
                 self.state = .ready
-                self.delegate?.onReady()
+                self.delegate?.notificare(self, onReady: applicationInfo)
             case .failure(let error):
                 Notificare.shared.logger.error("Failed to load the application info: \(error)")
 

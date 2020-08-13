@@ -10,5 +10,12 @@ import Foundation
 
 public protocol NotificareDelegate {
 
-    func onReady()
+    func notificare(_ notificare: Notificare, onReady application: NotificareApplicationInfo)
+
+    func notificare(_ notificare: Notificare, didRegisterDevice device: NotificareDevice)
+}
+
+extension NotificareDelegate {
+    
+    func notificare(_ notificare: Notificare, didRegisterDevice device: NotificareDevice) {}
 }

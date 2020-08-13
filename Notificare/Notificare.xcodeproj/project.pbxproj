@@ -11,17 +11,32 @@
 		42A200E1AA00A24253665C63 /* URLSession+Retry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20D5667524C87652257B5 /* URLSession+Retry.swift */; };
 		42A2011DB7750225B7C9D3E2 /* NotificareBootstrap.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A205DF5970468FB18808F5 /* NotificareBootstrap.m */; };
 		42A201A3F80D5668FF5D6759 /* NotificareBootstrap.h in Headers */ = {isa = PBXBuildFile; fileRef = 42A20450A15AAC914DBC800F /* NotificareBootstrap.h */; };
+		42A201D0C1EC33CE1EF188A4 /* NotificareDeviceUpdateBluetoothState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20CD405465790DE15002F /* NotificareDeviceUpdateBluetoothState.swift */; };
 		42A20389A56033CA45A7973B /* NotificareSwizzler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A2059D74331E97E84F7649 /* NotificareSwizzler.swift */; };
 		42A204DF76302D72690E9F7A /* NotificareNetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20ACD9317A7EB72200EA4 /* NotificareNetworkError.swift */; };
 		42A2050889DA97185320D45B /* NotificareNotificationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A203C5C843683189F7F147 /* NotificareNotificationType.swift */; };
+		42A20521F6E8138CF5F92453 /* NotificareDeviceUpdateLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20EE82E4D1A110128B96D /* NotificareDeviceUpdateLanguage.swift */; };
 		42A205F5C611FAF8746A4ADA /* URLRequest+Authentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A208EE14E3A449DAB125FA /* URLRequest+Authentication.swift */; };
 		42A206B0B1787BBC3D1A757C /* NotificareApplicationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A2016C07B2F366DDB30A85 /* NotificareApplicationInfo.swift */; };
+		42A20777ACAC0550ED64C541 /* NotificareDeviceUpdateNotificationSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A202573ADF0EC5B2444115 /* NotificareDeviceUpdateNotificationSettings.swift */; };
 		42A2079D2C53AC4E350DCF4E /* NotificareUserDataFieldType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A206AA99D4FE31CB2BF0A0 /* NotificareUserDataFieldType.swift */; };
+		42A207D529B7F7770917822D /* NotificareDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20DE51F956B3A8FBAB402 /* NotificareDevice.swift */; };
+		42A2081F8D099BF50C87B29E /* NotificareLocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20BF674CDFC918EC172AF /* NotificareLocalStorage.swift */; };
+		42A20854525B27A0B50E4239 /* NotificareDeviceUpdateBackgroundAppRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A209A1566809594BA82594 /* NotificareDeviceUpdateBackgroundAppRefresh.swift */; };
 		42A209C4A8C4D6819B57EE4F /* NotificareModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A203F2CC4F71324DC1E758 /* NotificareModuleFactory.swift */; };
+		42A209FC9756E9EE16BF5B22 /* NotificareLaunchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A205CDE4BE2BC47AC79362 /* NotificareLaunchManager.swift */; };
+		42A20A18C4B0AD218F0B7E70 /* NotificareTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A2094F1471668D9F7C7043 /* NotificareTransport.swift */; };
+		42A20A7693D14ADAE3CE5FAF /* Data+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20992756A431245A3D5F7 /* Data+Hex.swift */; };
+		42A20A80F9760507F22AFC69 /* NotificareDeviceDnD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A2057D4FF378546BA78FA3 /* NotificareDeviceDnD.swift */; };
 		42A20A8202602F357473A0EC /* DeviceTagsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20B3065832FD6345EDD14 /* DeviceTagsResponse.swift */; };
+		42A20AADA1819A301F7A6FFF /* NotificareConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20A9FA4D4D339568EBD79 /* NotificareConstants.swift */; };
 		42A20AADCFB1A2AF5D9703F7 /* NotificarePushApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A209A71E0E97443A11A01F /* NotificarePushApi.swift */; };
 		42A20B6537AFE9B92385C5CF /* ApplicationInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20ED52E1877D2A6478530 /* ApplicationInfoResponse.swift */; };
+		42A20CAE308280FC80D81C29 /* NotificareDeviceRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20CD7A648C01887C59D70 /* NotificareDeviceRegistration.swift */; };
+		42A20CCB8A76FCFAD9A70759 /* NotificareDeviceUpdateLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20E5BB237248C3A4FF492 /* NotificareDeviceUpdateLocation.swift */; };
 		42A20D3C5FEB5D3146FE5523 /* NotificareNotificationAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20011E65906840A3D6F8F /* NotificareNotificationAction.swift */; };
+		42A20DA506BCDC4A7B8ACEAA /* NotificareDeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20C13B79FEEC5DD556468 /* NotificareDeviceManager.swift */; };
+		42A20DF7449245801169DBFC /* NotificareDeviceUpdateTimezone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20E1D1A9D36BEAC8C3C27 /* NotificareDeviceUpdateTimezone.swift */; };
 		42A20F5A817E461AD741CEF0 /* NotificareAutoLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20A542B5A23849B81C344 /* NotificareAutoLauncher.swift */; };
 		42A20FD7791BD275D8A3A0E5 /* NotificareError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20228EB70EA83D835BF01 /* NotificareError.swift */; };
 		F23E3C3324D8267000044574 /* NotificareDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F23E3C3224D8267000044574 /* NotificareDelegate.swift */; };
@@ -51,19 +66,34 @@
 		42A2016C07B2F366DDB30A85 /* NotificareApplicationInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareApplicationInfo.swift; sourceTree = "<group>"; };
 		42A201B8D612EF312C18627B /* NotificareUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareUtils.swift; sourceTree = "<group>"; };
 		42A20228EB70EA83D835BF01 /* NotificareError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareError.swift; sourceTree = "<group>"; };
+		42A202573ADF0EC5B2444115 /* NotificareDeviceUpdateNotificationSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareDeviceUpdateNotificationSettings.swift; sourceTree = "<group>"; };
 		42A203C5C843683189F7F147 /* NotificareNotificationType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareNotificationType.swift; sourceTree = "<group>"; };
 		42A203F2CC4F71324DC1E758 /* NotificareModuleFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareModuleFactory.swift; sourceTree = "<group>"; };
 		42A20450A15AAC914DBC800F /* NotificareBootstrap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificareBootstrap.h; sourceTree = "<group>"; };
+		42A2057D4FF378546BA78FA3 /* NotificareDeviceDnD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareDeviceDnD.swift; sourceTree = "<group>"; };
 		42A2059D74331E97E84F7649 /* NotificareSwizzler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareSwizzler.swift; sourceTree = "<group>"; };
+		42A205CDE4BE2BC47AC79362 /* NotificareLaunchManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareLaunchManager.swift; sourceTree = "<group>"; };
 		42A205DF5970468FB18808F5 /* NotificareBootstrap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificareBootstrap.m; sourceTree = "<group>"; };
 		42A206AA99D4FE31CB2BF0A0 /* NotificareUserDataFieldType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareUserDataFieldType.swift; sourceTree = "<group>"; };
 		42A208EE14E3A449DAB125FA /* URLRequest+Authentication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URLRequest+Authentication.swift"; sourceTree = "<group>"; };
+		42A2094F1471668D9F7C7043 /* NotificareTransport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareTransport.swift; sourceTree = "<group>"; };
+		42A20992756A431245A3D5F7 /* Data+Hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Data+Hex.swift"; sourceTree = "<group>"; };
+		42A209A1566809594BA82594 /* NotificareDeviceUpdateBackgroundAppRefresh.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareDeviceUpdateBackgroundAppRefresh.swift; sourceTree = "<group>"; };
 		42A209A71E0E97443A11A01F /* NotificarePushApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificarePushApi.swift; sourceTree = "<group>"; };
 		42A20A542B5A23849B81C344 /* NotificareAutoLauncher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareAutoLauncher.swift; sourceTree = "<group>"; };
+		42A20A9FA4D4D339568EBD79 /* NotificareConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareConstants.swift; sourceTree = "<group>"; };
 		42A20ACD9317A7EB72200EA4 /* NotificareNetworkError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareNetworkError.swift; sourceTree = "<group>"; };
 		42A20B3065832FD6345EDD14 /* DeviceTagsResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceTagsResponse.swift; sourceTree = "<group>"; };
+		42A20BF674CDFC918EC172AF /* NotificareLocalStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareLocalStorage.swift; sourceTree = "<group>"; };
+		42A20C13B79FEEC5DD556468 /* NotificareDeviceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareDeviceManager.swift; sourceTree = "<group>"; };
+		42A20CD405465790DE15002F /* NotificareDeviceUpdateBluetoothState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareDeviceUpdateBluetoothState.swift; sourceTree = "<group>"; };
+		42A20CD7A648C01887C59D70 /* NotificareDeviceRegistration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareDeviceRegistration.swift; sourceTree = "<group>"; };
 		42A20D5667524C87652257B5 /* URLSession+Retry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URLSession+Retry.swift"; sourceTree = "<group>"; };
+		42A20DE51F956B3A8FBAB402 /* NotificareDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareDevice.swift; sourceTree = "<group>"; };
+		42A20E1D1A9D36BEAC8C3C27 /* NotificareDeviceUpdateTimezone.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareDeviceUpdateTimezone.swift; sourceTree = "<group>"; };
+		42A20E5BB237248C3A4FF492 /* NotificareDeviceUpdateLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareDeviceUpdateLocation.swift; sourceTree = "<group>"; };
 		42A20ED52E1877D2A6478530 /* ApplicationInfoResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplicationInfoResponse.swift; sourceTree = "<group>"; };
+		42A20EE82E4D1A110128B96D /* NotificareDeviceUpdateLanguage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareDeviceUpdateLanguage.swift; sourceTree = "<group>"; };
 		F23E3C3224D8267000044574 /* NotificareDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareDelegate.swift; sourceTree = "<group>"; };
 		F258DD4C24BC4DBB006F9ABD /* Notificare.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Notificare.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F258DD4F24BC4DBB006F9ABD /* Notificare.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Notificare.h; sourceTree = "<group>"; };
@@ -111,6 +141,15 @@
 			children = (
 				42A2016C07B2F366DDB30A85 /* NotificareApplicationInfo.swift */,
 				42A20B008673C5EDCD7D3484 /* Enums */,
+				42A20DE51F956B3A8FBAB402 /* NotificareDevice.swift */,
+				42A20CD7A648C01887C59D70 /* NotificareDeviceRegistration.swift */,
+				42A202573ADF0EC5B2444115 /* NotificareDeviceUpdateNotificationSettings.swift */,
+				42A20E5BB237248C3A4FF492 /* NotificareDeviceUpdateLocation.swift */,
+				42A20E1D1A9D36BEAC8C3C27 /* NotificareDeviceUpdateTimezone.swift */,
+				42A20EE82E4D1A110128B96D /* NotificareDeviceUpdateLanguage.swift */,
+				42A209A1566809594BA82594 /* NotificareDeviceUpdateBackgroundAppRefresh.swift */,
+				42A20CD405465790DE15002F /* NotificareDeviceUpdateBluetoothState.swift */,
+				42A2057D4FF378546BA78FA3 /* NotificareDeviceDnD.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -130,6 +169,7 @@
 				42A203C5C843683189F7F147 /* NotificareNotificationType.swift */,
 				42A206AA99D4FE31CB2BF0A0 /* NotificareUserDataFieldType.swift */,
 				42A20011E65906840A3D6F8F /* NotificareNotificationAction.swift */,
+				42A2094F1471668D9F7C7043 /* NotificareTransport.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -139,6 +179,7 @@
 			children = (
 				42A20D5667524C87652257B5 /* URLSession+Retry.swift */,
 				42A208EE14E3A449DAB125FA /* URLRequest+Authentication.swift */,
+				42A20992756A431245A3D5F7 /* Data+Hex.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -208,6 +249,10 @@
 				42A20B74D9C5CA3A0AC0A9A7 /* Extensions */,
 				F2EF110524C9CFA3001A81CE /* NotificareEnvironment.swift */,
 				42A2004E11A1CF2B5C38B5B0 /* Swizzling */,
+				42A20C13B79FEEC5DD556468 /* NotificareDeviceManager.swift */,
+				42A205CDE4BE2BC47AC79362 /* NotificareLaunchManager.swift */,
+				42A20BF674CDFC918EC172AF /* NotificareLocalStorage.swift */,
+				42A20A9FA4D4D339568EBD79 /* NotificareConstants.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -364,6 +409,21 @@
 				42A20F5A817E461AD741CEF0 /* NotificareAutoLauncher.swift in Sources */,
 				42A20389A56033CA45A7973B /* NotificareSwizzler.swift in Sources */,
 				42A20A8202602F357473A0EC /* DeviceTagsResponse.swift in Sources */,
+				42A20DA506BCDC4A7B8ACEAA /* NotificareDeviceManager.swift in Sources */,
+				42A209FC9756E9EE16BF5B22 /* NotificareLaunchManager.swift in Sources */,
+				42A20A7693D14ADAE3CE5FAF /* Data+Hex.swift in Sources */,
+				42A207D529B7F7770917822D /* NotificareDevice.swift in Sources */,
+				42A20CAE308280FC80D81C29 /* NotificareDeviceRegistration.swift in Sources */,
+				42A20777ACAC0550ED64C541 /* NotificareDeviceUpdateNotificationSettings.swift in Sources */,
+				42A20CCB8A76FCFAD9A70759 /* NotificareDeviceUpdateLocation.swift in Sources */,
+				42A20DF7449245801169DBFC /* NotificareDeviceUpdateTimezone.swift in Sources */,
+				42A20521F6E8138CF5F92453 /* NotificareDeviceUpdateLanguage.swift in Sources */,
+				42A20854525B27A0B50E4239 /* NotificareDeviceUpdateBackgroundAppRefresh.swift in Sources */,
+				42A201D0C1EC33CE1EF188A4 /* NotificareDeviceUpdateBluetoothState.swift in Sources */,
+				42A20A80F9760507F22AFC69 /* NotificareDeviceDnD.swift in Sources */,
+				42A2081F8D099BF50C87B29E /* NotificareLocalStorage.swift in Sources */,
+				42A20AADA1819A301F7A6FFF /* NotificareConstants.swift in Sources */,
+				42A20A18C4B0AD218F0B7E70 /* NotificareTransport.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

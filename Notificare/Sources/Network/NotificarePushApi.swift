@@ -13,12 +13,9 @@ struct NotificarePushApi {
     private let applicationKey: String
     private let applicationSecret: String
     private let session: URLSession
-    private let decoder: JSONDecoder = {
-        let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .iso8601
+    private let decoder = NotificareUtils.createJsonDecoder()
+    private let encoder = NotificareUtils.createJsonEncoder()
 
-        return decoder
-    }()
 
     init(applicationKey: String, applicationSecret: String, session: URLSession = URLSession.shared, environment: NotificareEnvironment = .production) {
         self.baseUrl = environment.getConfiguration().pushHost
@@ -47,6 +44,127 @@ struct NotificarePushApi {
                 }
 
                 completion(.success(decoded.application))
+            }
+        }
+    }
+
+    func createDevice(with deviceRegistration: NotificareDeviceRegistration, _ completion: @escaping Completion<Void>) {
+        let url = baseUrl.appendingPathComponent("device")
+
+        var request = URLRequest(url: url)
+        request.setBasicAuthentication(username: applicationKey, password: applicationSecret)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        guard let encoded = try? encoder.encode(deviceRegistration) else {
+            completion(.failure(.parsingFailure))
+            return
+        }
+
+        request.httpMethod = "POST"
+        request.httpBody = encoded
+
+        self.session.perform(request) { result in
+            switch result {
+            case .success(_):
+                completion(.success(()))
+            case .failure(let error):
+                completion(.failure(.networkFailure(cause: error)))
+            }
+        }
+    }
+
+    func updateDevice(_ id: String, with payload: NotificareDeviceUpdateBackgroundAppRefresh, _ completion: @escaping Completion<Void>) {
+        guard let encoded = try? self.encoder.encode(payload) else {
+            completion(.failure(.parsingFailure))
+            return
+        }
+
+        updateDevice(id, with: encoded, completion)
+    }
+
+    func updateDevice(_ id: String, with payload: NotificareDeviceUpdateBluetoothState, _ completion: @escaping Completion<Void>) {
+        guard let encoded = try? self.encoder.encode(payload) else {
+            completion(.failure(.parsingFailure))
+            return
+        }
+
+        updateDevice(id, with: encoded, completion)
+    }
+
+    func updateDevice(_ id: String, with payload: NotificareDeviceUpdateLanguage, _ completion: @escaping Completion<Void>) {
+        guard let encoded = try? self.encoder.encode(payload) else {
+            completion(.failure(.parsingFailure))
+            return
+        }
+
+        updateDevice(id, with: encoded, completion)
+    }
+
+    func updateDevice(_ id: String, with payload: NotificareDeviceUpdateLocation, _ completion: @escaping Completion<Void>) {
+        guard let encoded = try? self.encoder.encode(payload) else {
+            completion(.failure(.parsingFailure))
+            return
+        }
+
+        updateDevice(id, with: encoded, completion)
+    }
+
+    func updateDevice(_ id: String, with payload: NotificareDeviceUpdateNotificationSettings, _ completion: @escaping Completion<Void>) {
+        guard let encoded = try? self.encoder.encode(payload) else {
+            completion(.failure(.parsingFailure))
+            return
+        }
+
+        updateDevice(id, with: encoded, completion)
+    }
+
+    func updateDevice(_ id: String, with payload: NotificareDeviceUpdateTimezone, _ completion: @escaping Completion<Void>) {
+        guard let encoded = try? self.encoder.encode(payload) else {
+            completion(.failure(.parsingFailure))
+            return
+        }
+
+        updateDevice(id, with: encoded, completion)
+    }
+
+    private func updateDevice(_ id: String, with payload: Data, _ completion: @escaping Completion<Void>) {
+        let url = baseUrl
+                .appendingPathComponent("device")
+                .appendingPathComponent(id)
+
+        var request = URLRequest(url: url)
+        request.setBasicAuthentication(username: applicationKey, password: applicationSecret)
+
+        request.httpMethod = "PUT"
+        request.httpBody = payload
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        self.session.perform(request) { result in
+            switch result {
+            case .failure(let error):
+                completion(.failure(.networkFailure(cause: error)))
+            case .success:
+                completion(.success(()))
+            }
+        }
+    }
+
+    func deleteDevice(_ id: String, _ completion: @escaping Completion<Void>) {
+        let url = baseUrl
+                .appendingPathComponent("device")
+                .appendingPathComponent(id)
+
+        var request = URLRequest(url: url)
+        request.setBasicAuthentication(username: applicationKey, password: applicationSecret)
+
+        request.httpMethod = "DELETE"
+
+        self.session.perform(request) { result in
+            switch result {
+            case .failure(let error):
+                completion(.failure(.networkFailure(cause: error)))
+            case .success:
+                completion(.success(()))
             }
         }
     }
