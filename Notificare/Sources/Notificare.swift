@@ -40,15 +40,19 @@ public class Notificare {
         self.applicationSecret = applicationSecret
         self.environment = environment
 
+        self.setupNetworking()
+        self.loadAvailableModules()
+
         let configuration = NotificareUtils.getConfiguration()
         if configuration?.swizzlingEnabled ?? true {
-            NotificareSwizzler.setup(withRemoteNotifications: NotificareModuleFactory.hasPushModule())
+            NotificareSwizzler.setup(withRemoteNotifications: self.pushManager != nil)
         } else {
             Notificare.shared.logger.warning("Automatic App Delegate Proxy is not enabled. You will need to forward UIAppDelegate events to Notificare manually. Please check the documentation for which events to forward.")
         }
 
         // TODO configure all the modules / managers
         NotificareDeviceManager.shared.configure()
+        self.pushManager?.configure()
 
         Notificare.shared.logger.debug("Notificare configured for '\(environment)' services.")
         self.state = .configured
@@ -67,9 +71,6 @@ public class Notificare {
 
         Notificare.shared.logger.info("Launching Notificare.")
         state = .launching
-
-        self.setupNetworking()
-        self.loadAvailableModules()
 
         NotificareLaunchManager.shared.launch { result in
             switch result {
@@ -99,9 +100,7 @@ public class Notificare {
 
     public func unLaunch() {
         Notificare.shared.logger.info("Un-launching Notificare.")
-        clearNetworking()
-        clearLoadedModules()
-        state = .none
+        state = .configured
     }
 
     private func setupNetworking() {
