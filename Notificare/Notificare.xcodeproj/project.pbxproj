@@ -17,6 +17,7 @@
 		42A2050889DA97185320D45B /* NotificareNotificationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A203C5C843683189F7F147 /* NotificareNotificationType.swift */; };
 		42A20521F6E8138CF5F92453 /* NotificareDeviceUpdateLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20EE82E4D1A110128B96D /* NotificareDeviceUpdateLanguage.swift */; };
 		42A205F5C611FAF8746A4ADA /* URLRequest+Authentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A208EE14E3A449DAB125FA /* URLRequest+Authentication.swift */; };
+		42A2062417BCBBA871B9934D /* NotificareAppDelegateInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20FB65AE760E9D711415C /* NotificareAppDelegateInterceptor.swift */; };
 		42A206B0B1787BBC3D1A757C /* NotificareApplicationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A2016C07B2F366DDB30A85 /* NotificareApplicationInfo.swift */; };
 		42A20777ACAC0550ED64C541 /* NotificareDeviceUpdateNotificationSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A202573ADF0EC5B2444115 /* NotificareDeviceUpdateNotificationSettings.swift */; };
 		42A2079D2C53AC4E350DCF4E /* NotificareUserDataFieldType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A206AA99D4FE31CB2BF0A0 /* NotificareUserDataFieldType.swift */; };
@@ -94,6 +95,7 @@
 		42A20E5BB237248C3A4FF492 /* NotificareDeviceUpdateLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareDeviceUpdateLocation.swift; sourceTree = "<group>"; };
 		42A20ED52E1877D2A6478530 /* ApplicationInfoResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplicationInfoResponse.swift; sourceTree = "<group>"; };
 		42A20EE82E4D1A110128B96D /* NotificareDeviceUpdateLanguage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareDeviceUpdateLanguage.swift; sourceTree = "<group>"; };
+		42A20FB65AE760E9D711415C /* NotificareAppDelegateInterceptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareAppDelegateInterceptor.swift; sourceTree = "<group>"; };
 		F23E3C3224D8267000044574 /* NotificareDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareDelegate.swift; sourceTree = "<group>"; };
 		F258DD4C24BC4DBB006F9ABD /* Notificare.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Notificare.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F258DD4F24BC4DBB006F9ABD /* Notificare.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Notificare.h; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				42A2059D74331E97E84F7649 /* NotificareSwizzler.swift */,
+				42A20FB65AE760E9D711415C /* NotificareAppDelegateInterceptor.swift */,
 			);
 			path = Swizzling;
 			sourceTree = "<group>";
@@ -424,6 +427,7 @@
 				42A2081F8D099BF50C87B29E /* NotificareLocalStorage.swift in Sources */,
 				42A20AADA1819A301F7A6FFF /* NotificareConstants.swift in Sources */,
 				42A20A18C4B0AD218F0B7E70 /* NotificareTransport.swift in Sources */,
+				42A2062417BCBBA871B9934D /* NotificareAppDelegateInterceptor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,16 +8,22 @@ import UIKit
 
 private typealias ApplicationDidBecomeActive = @convention(c) (Any, Selector, UIApplication) -> Void
 private typealias ApplicationWillResignActive = @convention(c) (Any, Selector, UIApplication) -> Void
+private typealias ApplicationDidRegisterForRemoteNotificationsWithDeviceToken = @convention(c) (Any, Selector, UIApplication, Data) -> Void
+private typealias ApplicationDidFailToRegisterForRemoteNotificationsWithError = @convention(c) (Any, Selector, UIApplication, Error) -> Void
+private typealias ApplicationDidReceiveRemoteNotification = @convention(c) (Any, Selector, UIApplication, [AnyHashable: Any]) -> Void
 
 private struct AssociatedObjectKeys {
     static var originalClass = "Notificare_OriginalClass"
     static var originalImplementations = "Notificare_OriginalImplementations"
+    static var interceptors = "Notificare_Interceptors"
 }
 
 private var gOriginalAppDelegate: UIApplicationDelegate?
 private var gAppDelegateSubClass: AnyClass?
 
 public class NotificareSwizzler: NSProxy {
+
+    private static var interceptors: [String: NotificareAppDelegateInterceptor] = [:];
 
     public static func setup(withRemoteNotifications: Bool = false) {
         // Let the property be initialized and run its block.
@@ -27,6 +33,34 @@ public class NotificareSwizzler: NSProxy {
             _ = runOnceRemoteNotifications
         }
     }
+
+    public static func addInterceptor(_ interceptor: NotificareAppDelegateInterceptor) -> String? {
+        let id = String(describing: type(of: interceptor))
+
+        if NotificareSwizzler.interceptors[id] != nil {
+            Notificare.shared.logger.verbose("Interceptor '\(id)' is already registered. Replacing...")
+        }
+
+        // Save the interceptor.
+        NotificareSwizzler.interceptors[id] = interceptor
+
+        Notificare.shared.logger.verbose("Interceptor saved with ID: '\(id)'")
+
+        return id
+    }
+
+    public static func removeInterceptor(_ interceptor: NotificareAppDelegateInterceptor) {
+        let id = String(describing: type(of: interceptor))
+
+        if NotificareSwizzler.interceptors[id] == nil {
+            Notificare.shared.logger.verbose("Interceptor '\(id)' not registered. Skipping removal...")
+            return
+        }
+
+        // Remove the interceptor.
+        NotificareSwizzler.interceptors.removeValue(forKey: id)
+    }
+
 
     /// Using Swift's lazy evaluation of a static property we get the same
     /// thread-safety and called-once guarantees as dispatch_once provided.
@@ -231,9 +265,16 @@ public class NotificareSwizzler: NSProxy {
         return method_getImplementation(method)
     }
 
-    private static func originalMethodImplementation(for selector: Selector, object: Any) -> NSValue? {
+    private static func originalMethodImplementation<T>(for selector: Selector, object: Any) -> T? {
         let originalImplementationsStore = objc_getAssociatedObject(object, &AssociatedObjectKeys.originalImplementations) as? [String: NSValue]
-        return originalImplementationsStore?[NSStringFromSelector(selector)]
+
+        guard let pointer = originalImplementationsStore?[NSStringFromSelector(selector)],
+              let pointerValue = pointer.pointerValue else {
+
+            return nil
+        }
+
+        return unsafeBitCast(pointerValue, to: T.self)
     }
 
     @objc
@@ -246,50 +287,90 @@ public class NotificareSwizzler: NSProxy {
         return "<\(originalClassName): \(pointerHex)>"
     }
 
+    // MARK: - UIApplicationDelegate methods
+
     @objc
     private func applicationDidBecomeActive(_ application: UIApplication) {
-        Notificare.shared.logger.verbose("Notificare: application did become active")
+        Notificare.shared.logger.verbose("Swizzle event: applicationDidBecomeActive")
 
-        let selector = #selector(applicationDidBecomeActive)
-        guard let pointer = NotificareSwizzler.originalMethodImplementation(for: selector, object: self),
-              let pointerValue = pointer.pointerValue else {
-
-            Notificare.shared.logger.verbose("Could not find an original implementation for selector '\(selector)'.")
-            return
+        NotificareSwizzler.interceptors.forEach { _, interceptor in
+            interceptor.applicationDidBecomeActive?(application)
         }
 
-        let originalImplementation = unsafeBitCast(pointerValue, to: ApplicationDidBecomeActive.self)
-        originalImplementation(self, selector, application)
+        let selector = #selector(applicationDidBecomeActive)
+        let originalImplementation: ApplicationDidBecomeActive? = NotificareSwizzler.originalMethodImplementation(
+                for: selector,
+                object: self
+        )
+
+        originalImplementation?(self, selector, application)
     }
 
     @objc
     private func applicationWillResignActive(_ application: UIApplication) {
-        Notificare.shared.logger.verbose("Notificare: application will resign active")
+        Notificare.shared.logger.verbose("Swizzle event: applicationWillResignActive")
 
-        let selector = #selector(applicationWillResignActive)
-        guard let pointer = NotificareSwizzler.originalMethodImplementation(for: selector, object: self),
-              let pointerValue = pointer.pointerValue else {
-
-            Notificare.shared.logger.verbose("Could not find an original implementation for selector '\(selector)'.")
-            return
+        NotificareSwizzler.interceptors.forEach { _, interceptor in
+            interceptor.applicationWillResignActive?(application)
         }
 
-        let originalImplementation = unsafeBitCast(pointerValue, to: ApplicationWillResignActive.self)
-        originalImplementation(self, selector, application)
+        let selector = #selector(applicationWillResignActive)
+        let originalImplementation: ApplicationWillResignActive? = NotificareSwizzler.originalMethodImplementation(
+                for: selector,
+                object: self
+        )
+
+        originalImplementation?(self, selector, application)
     }
 
     @objc
     private func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        Notificare.shared.logger.info("didRegisterForRemoteNotificationsWithDeviceToken")
+        Notificare.shared.logger.verbose("Swizzle event: didRegisterForRemoteNotificationsWithDeviceToken")
+
+        NotificareSwizzler.interceptors.forEach { _, interceptor in
+            interceptor.application?(application, didRegisterForRemoteNotificationsWithDeviceToken: deviceToken)
+        }
+
+        let selector = #selector(application(_:didRegisterForRemoteNotificationsWithDeviceToken:))
+        let originalImplementation: ApplicationDidRegisterForRemoteNotificationsWithDeviceToken? = NotificareSwizzler.originalMethodImplementation(
+                for: selector,
+                object: self
+        )
+
+        originalImplementation?(self, selector, application, deviceToken)
     }
 
     @objc
     private func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        Notificare.shared.logger.info("didFailToRegisterForRemoteNotificationsWithError: \(error)")
+        Notificare.shared.logger.verbose("Swizzle event: didFailToRegisterForRemoteNotificationsWithError")
+
+        NotificareSwizzler.interceptors.forEach { _, interceptor in
+            interceptor.application?(application, didFailToRegisterForRemoteNotificationsWithError: error)
+        }
+
+        let selector = #selector(application(_:didFailToRegisterForRemoteNotificationsWithError:))
+        let originalImplementation: ApplicationDidFailToRegisterForRemoteNotificationsWithError? = NotificareSwizzler.originalMethodImplementation(
+                for: selector,
+                object: self
+        )
+
+        originalImplementation?(self, selector, application, error)
     }
 
     @objc
     private func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
-        Notificare.shared.logger.info("didReceiveRemoteNotification")
+        Notificare.shared.logger.info("Swizzle event: didReceiveRemoteNotification")
+
+        NotificareSwizzler.interceptors.forEach { _, interceptor in
+            interceptor.application?(application, didReceiveRemoteNotification: userInfo)
+        }
+
+        let selector = #selector(application(_:didReceiveRemoteNotification:))
+        let originalImplementation: ApplicationDidReceiveRemoteNotification? = NotificareSwizzler.originalMethodImplementation(
+                for: selector,
+                object: self
+        )
+
+        originalImplementation?(self, selector, application, userInfo)
     }
 }

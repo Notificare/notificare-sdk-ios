@@ -10,4 +10,6 @@ import Foundation
 
 public protocol NotificarePushManager {
     init(applicationKey: String, applicationSecret: String)
+
+    func configure()
 }
