@@ -18,7 +18,6 @@ public class NotificareDeviceManager {
 
 
     func configure() {
-        Notificare.shared.logger.debug("Notificare SDK \(NotificareConstants.sdkVersion)")
         self.sessionId = UUID().uuidString
 
         // TODO handle migration

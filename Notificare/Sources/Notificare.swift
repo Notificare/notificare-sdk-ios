@@ -85,6 +85,8 @@ public class Notificare {
                 let enabledServices = applicationInfo.services.filter { $0.value }.map { $0.key }
                 Notificare.shared.logger.debug("App services: \(enabledServices.joined(separator: ", "))")
                 Notificare.shared.logger.debug("/==================================================================================/")
+                Notificare.shared.logger.debug("SDK version: \(NotificareConstants.sdkVersion)")
+                Notificare.shared.logger.debug("/==================================================================================/")
 
                 // All good. Notify delegate.
                 self.state = .ready
