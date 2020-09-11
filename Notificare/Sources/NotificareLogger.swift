@@ -20,36 +20,73 @@ public class NotificareLogger {
     public var level: Level = .info
 
 
-    public func verbose(_ message: String) {
-        self.log(message, level: .verbose)
+    public func verbose(_ message: String, file: String = #file) {
+        self.log(message, level: .verbose, file: file)
     }
 
-    public func debug(_ message: String) {
-        self.log(message, level: .debug)
+    public func verbose(_ message: String, tag: String?) {
+        self.log(message, level: .verbose, tag: tag)
     }
 
-    public func info(_ message: String) {
-        self.log(message, level: .info)
+    public func debug(_ message: String, file: String = #file) {
+        self.log(message, level: .debug, file: file)
     }
 
-    public func warning(_ message: String) {
-        self.log(message, level: .warning)
+    public func debug(_ message: String, tag: String?) {
+        self.log(message, level: .debug, tag: tag)
     }
 
-    public func error(_ message: String) {
-        self.log(message, level: .error)
+    public func info(_ message: String, file: String = #file) {
+        self.log(message, level: .info, file: file)
+    }
+
+    public func info(_ message: String, tag: String?) {
+        self.log(message, level: .info, tag: tag)
+    }
+
+    public func warning(_ message: String, file: String = #file) {
+        self.log(message, level: .warning, file: file)
+    }
+
+    public func warning(_ message: String, tag: String?) {
+        self.log(message, level: .warning, tag: tag)
+    }
+
+    public func error(_ message: String, file: String = #file) {
+        self.log(message, level: .error, file: file)
+    }
+
+    public func error(_ message: String, tag: String?) {
+        self.log(message, level: .error, tag: tag)
     }
 
 
-    private func log(_ message: String, level: Level) {
+    private func log(_ message: String, level: Level, file: String = #file) {
+        if let fileName = URL(fileURLWithPath: file).pathComponents.last,
+           let tag = fileName.split(separator: ".").first {
+
+            self.log(message, level: level, tag: String(tag))
+        } else {
+            self.log(message, level: level, tag: file)
+        }
+    }
+
+    private func log(_ message: String, level: Level, tag: String?) {
         guard level >= self.level else {
             return
         }
 
-        if #available(iOS 14, *) {
-            self.logger.log(level: level.toOSLogType(), "\(message, privacy: .public)")
+        let combined: String
+        if let tag = tag {
+            combined = "[\(tag)] \(message)"
         } else {
-            os_log("%{public}s", log: self.osLog, type: level.toOSLogType(), message)
+            combined = message
+        }
+
+        if #available(iOS 14, *) {
+            self.logger.log(level: level.toOSLogType(), "\(combined, privacy: .public)")
+        } else {
+            os_log("%{public}s", log: self.osLog, type: level.toOSLogType(), combined)
         }
     }
 
@@ -79,7 +116,7 @@ extension NotificareLogger.Level: Comparable {
     }
 
     public static func <(lhs: NotificareLogger.Level, rhs: NotificareLogger.Level) -> Bool {
-        return lhs.severity < rhs.severity
+        lhs.severity < rhs.severity
     }
 }
 
