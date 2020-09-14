@@ -139,11 +139,31 @@ public class Notificare {
     }
 
 
-    internal enum State {
+    internal enum State: Int {
         case none
         case configured
         case launching
         case launched
         case ready
+    }
+}
+
+// MARK: - Notificare.State Comparable
+
+extension Notificare.State: Comparable {
+    public static func <(lhs: Notificare.State, rhs: Notificare.State) -> Bool {
+        lhs.rawValue < rhs.rawValue
+    }
+
+    public static func <=(lhs: Notificare.State, rhs: Notificare.State) -> Bool {
+        lhs.rawValue <= rhs.rawValue
+    }
+
+    public static func >=(lhs: Notificare.State, rhs: Notificare.State) -> Bool {
+        lhs.rawValue >= rhs.rawValue
+    }
+
+    public static func >(lhs: Notificare.State, rhs: Notificare.State) -> Bool {
+        lhs.rawValue > rhs.rawValue
     }
 }
