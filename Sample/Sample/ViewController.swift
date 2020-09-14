@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Notificare
 
 class ViewController: UIViewController {
 
@@ -15,6 +16,17 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
 
+    @IBAction func onEnableRemoteNotificationsClick(_ sender: Any) {
+        Notificare.shared.pushManager!.enableRemoteNotifications()
+    }
 
+    @IBAction func onSendCustomEventClick(_ sender: Any) {
+        let data: NotificareEventData = [
+            "color": "blue",
+            "lovesNotificare": true,
+            "loc": 123456
+        ]
+
+        Notificare.shared.eventLogger.logCustom("test", data: data)
+    }
 }
-

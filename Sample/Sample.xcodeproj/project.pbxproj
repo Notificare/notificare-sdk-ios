@@ -7,43 +7,42 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F258DE5B24BC7BA3006F9ABD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DE5A24BC7BA3006F9ABD /* AppDelegate.swift */; };
-		F258DE5D24BC7BA3006F9ABD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DE5C24BC7BA3006F9ABD /* SceneDelegate.swift */; };
-		F258DE5F24BC7BA3006F9ABD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DE5E24BC7BA3006F9ABD /* ViewController.swift */; };
-		F258DE6224BC7BA3006F9ABD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F258DE6024BC7BA3006F9ABD /* Main.storyboard */; };
-		F258DE6424BC7BA5006F9ABD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F258DE6324BC7BA5006F9ABD /* Assets.xcassets */; };
-		F258DE6724BC7BA5006F9ABD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F258DE6524BC7BA5006F9ABD /* LaunchScreen.storyboard */; };
-		F258DE9424BC8ABD006F9ABD /* Notificare.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F258DE9124BC8ABD006F9ABD /* Notificare.framework */; };
-		F258DE9524BC8ABD006F9ABD /* Notificare.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F258DE9124BC8ABD006F9ABD /* Notificare.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F258DE9624BC8ABD006F9ABD /* NotificareLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F258DE9224BC8ABD006F9ABD /* NotificareLocation.framework */; };
-		F258DE9724BC8ABD006F9ABD /* NotificareLocation.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F258DE9224BC8ABD006F9ABD /* NotificareLocation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F258DE9824BC8ABD006F9ABD /* NotificarePush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F258DE9324BC8ABD006F9ABD /* NotificarePush.framework */; };
-		F258DE9924BC8ABD006F9ABD /* NotificarePush.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F258DE9324BC8ABD006F9ABD /* NotificarePush.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F258DEB324BC970B006F9ABD /* NotificareAssets.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F258DEAF24BC970B006F9ABD /* NotificareAssets.framework */; };
-		F258DEB424BC970B006F9ABD /* NotificareAssets.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F258DEAF24BC970B006F9ABD /* NotificareAssets.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F258DEB524BC970B006F9ABD /* NotificareLoyalty.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F258DEB024BC970B006F9ABD /* NotificareLoyalty.framework */; };
-		F258DEB624BC970B006F9ABD /* NotificareLoyalty.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F258DEB024BC970B006F9ABD /* NotificareLoyalty.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F258DEB724BC970B006F9ABD /* NotificareMonetize.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F258DEB124BC970B006F9ABD /* NotificareMonetize.framework */; };
-		F258DEB824BC970B006F9ABD /* NotificareMonetize.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F258DEB124BC970B006F9ABD /* NotificareMonetize.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F258DEB924BC970B006F9ABD /* NotificareScannable.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F258DEB224BC970B006F9ABD /* NotificareScannable.framework */; };
-		F258DEBA24BC970B006F9ABD /* NotificareScannable.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F258DEB224BC970B006F9ABD /* NotificareScannable.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F258DEBE24BC98EC006F9ABD /* Notificare.plist in Resources */ = {isa = PBXBuildFile; fileRef = F258DEBD24BC98EC006F9ABD /* Notificare.plist */; };
+		F251694B24D4077D0025B51F /* Notificare.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F251694424D4077D0025B51F /* Notificare.framework */; };
+		F251694C24D4077D0025B51F /* Notificare.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F251694424D4077D0025B51F /* Notificare.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F251694D24D4077D0025B51F /* NotificareAssets.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F251694524D4077D0025B51F /* NotificareAssets.framework */; };
+		F251694E24D4077D0025B51F /* NotificareAssets.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F251694524D4077D0025B51F /* NotificareAssets.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F251694F24D4077D0025B51F /* NotificareLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F251694624D4077D0025B51F /* NotificareLocation.framework */; };
+		F251695024D4077D0025B51F /* NotificareLocation.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F251694624D4077D0025B51F /* NotificareLocation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F251695124D4077D0025B51F /* NotificareLoyalty.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F251694724D4077D0025B51F /* NotificareLoyalty.framework */; };
+		F251695224D4077D0025B51F /* NotificareLoyalty.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F251694724D4077D0025B51F /* NotificareLoyalty.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F251695324D4077D0025B51F /* NotificareMonetize.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F251694824D4077D0025B51F /* NotificareMonetize.framework */; };
+		F251695424D4077D0025B51F /* NotificareMonetize.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F251694824D4077D0025B51F /* NotificareMonetize.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F251695524D4077D0025B51F /* NotificarePush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F251694924D4077D0025B51F /* NotificarePush.framework */; };
+		F251695624D4077D0025B51F /* NotificarePush.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F251694924D4077D0025B51F /* NotificarePush.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F251695724D4077D0025B51F /* NotificareScannable.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F251694A24D4077D0025B51F /* NotificareScannable.framework */; };
+		F251695824D4077D0025B51F /* NotificareScannable.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F251694A24D4077D0025B51F /* NotificareScannable.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F251695B24D4130D0025B51F /* Notificare.plist in Resources */ = {isa = PBXBuildFile; fileRef = F251695A24D4130D0025B51F /* Notificare.plist */; };
+		F29FD1F824CB1FE1004B166D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29FD1F724CB1FE1004B166D /* AppDelegate.swift */; };
+		F29FD1FC24CB1FE1004B166D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29FD1FB24CB1FE1004B166D /* ViewController.swift */; };
+		F29FD1FF24CB1FE1004B166D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F29FD1FD24CB1FE1004B166D /* Main.storyboard */; };
+		F29FD20124CB1FE3004B166D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F29FD20024CB1FE3004B166D /* Assets.xcassets */; };
+		F29FD20424CB1FE3004B166D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F29FD20224CB1FE3004B166D /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		F258DE9A24BC8ABD006F9ABD /* Embed Frameworks */ = {
+		F251695924D4077D0025B51F /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				F258DEB624BC970B006F9ABD /* NotificareLoyalty.framework in Embed Frameworks */,
-				F258DEB824BC970B006F9ABD /* NotificareMonetize.framework in Embed Frameworks */,
-				F258DE9524BC8ABD006F9ABD /* Notificare.framework in Embed Frameworks */,
-				F258DEB424BC970B006F9ABD /* NotificareAssets.framework in Embed Frameworks */,
-				F258DE9924BC8ABD006F9ABD /* NotificarePush.framework in Embed Frameworks */,
-				F258DEBA24BC970B006F9ABD /* NotificareScannable.framework in Embed Frameworks */,
-				F258DE9724BC8ABD006F9ABD /* NotificareLocation.framework in Embed Frameworks */,
+				F251694C24D4077D0025B51F /* Notificare.framework in Embed Frameworks */,
+				F251695224D4077D0025B51F /* NotificareLoyalty.framework in Embed Frameworks */,
+				F251694E24D4077D0025B51F /* NotificareAssets.framework in Embed Frameworks */,
+				F251695424D4077D0025B51F /* NotificareMonetize.framework in Embed Frameworks */,
+				F251695624D4077D0025B51F /* NotificarePush.framework in Embed Frameworks */,
+				F251695824D4077D0025B51F /* NotificareScannable.framework in Embed Frameworks */,
+				F251695024D4077D0025B51F /* NotificareLocation.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -51,105 +50,97 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		F258DE5724BC7BA3006F9ABD /* Sample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sample.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		F258DE5A24BC7BA3006F9ABD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		F258DE5C24BC7BA3006F9ABD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		F258DE5E24BC7BA3006F9ABD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		F258DE6124BC7BA3006F9ABD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		F258DE6324BC7BA5006F9ABD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		F258DE6624BC7BA5006F9ABD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		F258DE6824BC7BA5006F9ABD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F258DE6F24BC7BB9006F9ABD /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F258DE7A24BC8017006F9ABD /* Push.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Push.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F258DE8624BC84BF006F9ABD /* Location.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Location.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F258DE9124BC8ABD006F9ABD /* Notificare.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Notificare.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F258DE9224BC8ABD006F9ABD /* NotificareLocation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareLocation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F258DE9324BC8ABD006F9ABD /* NotificarePush.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificarePush.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F258DEAF24BC970B006F9ABD /* NotificareAssets.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareAssets.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F258DEB024BC970B006F9ABD /* NotificareLoyalty.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareLoyalty.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F258DEB124BC970B006F9ABD /* NotificareMonetize.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareMonetize.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F258DEB224BC970B006F9ABD /* NotificareScannable.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareScannable.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F258DEBD24BC98EC006F9ABD /* Notificare.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Notificare.plist; sourceTree = "<group>"; };
+		F251694424D4077D0025B51F /* Notificare.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Notificare.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F251694524D4077D0025B51F /* NotificareAssets.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareAssets.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F251694624D4077D0025B51F /* NotificareLocation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareLocation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F251694724D4077D0025B51F /* NotificareLoyalty.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareLoyalty.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F251694824D4077D0025B51F /* NotificareMonetize.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareMonetize.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F251694924D4077D0025B51F /* NotificarePush.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificarePush.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F251694A24D4077D0025B51F /* NotificareScannable.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareScannable.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F251695A24D4130D0025B51F /* Notificare.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Notificare.plist; sourceTree = "<group>"; };
+		F29FD1F424CB1FE1004B166D /* Sample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F29FD1F724CB1FE1004B166D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		F29FD1FB24CB1FE1004B166D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		F29FD1FE24CB1FE1004B166D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		F29FD20024CB1FE3004B166D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F29FD20324CB1FE3004B166D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		F29FD20524CB1FE3004B166D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		F258DE5424BC7BA3006F9ABD /* Frameworks */ = {
+		F29FD1F124CB1FE1004B166D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F258DEB524BC970B006F9ABD /* NotificareLoyalty.framework in Frameworks */,
-				F258DEB724BC970B006F9ABD /* NotificareMonetize.framework in Frameworks */,
-				F258DE9424BC8ABD006F9ABD /* Notificare.framework in Frameworks */,
-				F258DEB324BC970B006F9ABD /* NotificareAssets.framework in Frameworks */,
-				F258DE9824BC8ABD006F9ABD /* NotificarePush.framework in Frameworks */,
-				F258DEB924BC970B006F9ABD /* NotificareScannable.framework in Frameworks */,
-				F258DE9624BC8ABD006F9ABD /* NotificareLocation.framework in Frameworks */,
+				F251694B24D4077D0025B51F /* Notificare.framework in Frameworks */,
+				F251695124D4077D0025B51F /* NotificareLoyalty.framework in Frameworks */,
+				F251694D24D4077D0025B51F /* NotificareAssets.framework in Frameworks */,
+				F251695324D4077D0025B51F /* NotificareMonetize.framework in Frameworks */,
+				F251695524D4077D0025B51F /* NotificarePush.framework in Frameworks */,
+				F251695724D4077D0025B51F /* NotificareScannable.framework in Frameworks */,
+				F251694F24D4077D0025B51F /* NotificareLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		F258DE4E24BC7BA3006F9ABD = {
+		F251694324D4077D0025B51F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F258DE5924BC7BA3006F9ABD /* Sample */,
-				F258DE5824BC7BA3006F9ABD /* Products */,
-				F258DE6E24BC7BB9006F9ABD /* Frameworks */,
+				F251694424D4077D0025B51F /* Notificare.framework */,
+				F251694524D4077D0025B51F /* NotificareAssets.framework */,
+				F251694624D4077D0025B51F /* NotificareLocation.framework */,
+				F251694724D4077D0025B51F /* NotificareLoyalty.framework */,
+				F251694824D4077D0025B51F /* NotificareMonetize.framework */,
+				F251694924D4077D0025B51F /* NotificarePush.framework */,
+				F251694A24D4077D0025B51F /* NotificareScannable.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F29FD1EB24CB1FE1004B166D = {
+			isa = PBXGroup;
+			children = (
+				F29FD1F624CB1FE1004B166D /* Sample */,
+				F29FD1F524CB1FE1004B166D /* Products */,
+				F251694324D4077D0025B51F /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
-		F258DE5824BC7BA3006F9ABD /* Products */ = {
+		F29FD1F524CB1FE1004B166D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F258DE5724BC7BA3006F9ABD /* Sample.app */,
+				F29FD1F424CB1FE1004B166D /* Sample.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		F258DE5924BC7BA3006F9ABD /* Sample */ = {
+		F29FD1F624CB1FE1004B166D /* Sample */ = {
 			isa = PBXGroup;
 			children = (
-				F258DE5A24BC7BA3006F9ABD /* AppDelegate.swift */,
-				F258DE5C24BC7BA3006F9ABD /* SceneDelegate.swift */,
-				F258DE5E24BC7BA3006F9ABD /* ViewController.swift */,
-				F258DE6024BC7BA3006F9ABD /* Main.storyboard */,
-				F258DE6324BC7BA5006F9ABD /* Assets.xcassets */,
-				F258DE6524BC7BA5006F9ABD /* LaunchScreen.storyboard */,
-				F258DE6824BC7BA5006F9ABD /* Info.plist */,
-				F258DEBD24BC98EC006F9ABD /* Notificare.plist */,
+				F29FD1F724CB1FE1004B166D /* AppDelegate.swift */,
+				F29FD1FB24CB1FE1004B166D /* ViewController.swift */,
+				F29FD1FD24CB1FE1004B166D /* Main.storyboard */,
+				F29FD20024CB1FE3004B166D /* Assets.xcassets */,
+				F29FD20224CB1FE3004B166D /* LaunchScreen.storyboard */,
+				F29FD20524CB1FE3004B166D /* Info.plist */,
+				F251695A24D4130D0025B51F /* Notificare.plist */,
 			);
 			path = Sample;
-			sourceTree = "<group>";
-		};
-		F258DE6E24BC7BB9006F9ABD /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				F258DEAF24BC970B006F9ABD /* NotificareAssets.framework */,
-				F258DEB024BC970B006F9ABD /* NotificareLoyalty.framework */,
-				F258DEB124BC970B006F9ABD /* NotificareMonetize.framework */,
-				F258DEB224BC970B006F9ABD /* NotificareScannable.framework */,
-				F258DE9124BC8ABD006F9ABD /* Notificare.framework */,
-				F258DE9224BC8ABD006F9ABD /* NotificareLocation.framework */,
-				F258DE9324BC8ABD006F9ABD /* NotificarePush.framework */,
-				F258DE8624BC84BF006F9ABD /* Location.framework */,
-				F258DE7A24BC8017006F9ABD /* Push.framework */,
-				F258DE6F24BC7BB9006F9ABD /* Core.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		F258DE5624BC7BA3006F9ABD /* Sample */ = {
+		F29FD1F324CB1FE1004B166D /* Sample */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F258DE6B24BC7BA5006F9ABD /* Build configuration list for PBXNativeTarget "Sample" */;
+			buildConfigurationList = F29FD20824CB1FE3004B166D /* Build configuration list for PBXNativeTarget "Sample" */;
 			buildPhases = (
-				F258DE5324BC7BA3006F9ABD /* Sources */,
-				F258DE5424BC7BA3006F9ABD /* Frameworks */,
-				F258DE5524BC7BA3006F9ABD /* Resources */,
-				F258DE9A24BC8ABD006F9ABD /* Embed Frameworks */,
+				F29FD1F024CB1FE1004B166D /* Sources */,
+				F29FD1F124CB1FE1004B166D /* Frameworks */,
+				F29FD1F224CB1FE1004B166D /* Resources */,
+				F251695924D4077D0025B51F /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -157,25 +148,24 @@
 			);
 			name = Sample;
 			productName = Sample;
-			productReference = F258DE5724BC7BA3006F9ABD /* Sample.app */;
+			productReference = F29FD1F424CB1FE1004B166D /* Sample.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		F258DE4F24BC7BA3006F9ABD /* Project object */ = {
+		F29FD1EC24CB1FE1004B166D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1150;
+				LastSwiftUpdateCheck = 1200;
 				LastUpgradeCheck = 1200;
-				ORGANIZATIONNAME = Notificare;
 				TargetAttributes = {
-					F258DE5624BC7BA3006F9ABD = {
-						CreatedOnToolsVersion = 11.5;
+					F29FD1F324CB1FE1004B166D = {
+						CreatedOnToolsVersion = 12.0;
 					};
 				};
 			};
-			buildConfigurationList = F258DE5224BC7BA3006F9ABD /* Build configuration list for PBXProject "Sample" */;
+			buildConfigurationList = F29FD1EF24CB1FE1004B166D /* Build configuration list for PBXProject "Sample" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -183,56 +173,55 @@
 				en,
 				Base,
 			);
-			mainGroup = F258DE4E24BC7BA3006F9ABD;
-			productRefGroup = F258DE5824BC7BA3006F9ABD /* Products */;
+			mainGroup = F29FD1EB24CB1FE1004B166D;
+			productRefGroup = F29FD1F524CB1FE1004B166D /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				F258DE5624BC7BA3006F9ABD /* Sample */,
+				F29FD1F324CB1FE1004B166D /* Sample */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		F258DE5524BC7BA3006F9ABD /* Resources */ = {
+		F29FD1F224CB1FE1004B166D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F258DE6724BC7BA5006F9ABD /* LaunchScreen.storyboard in Resources */,
-				F258DE6424BC7BA5006F9ABD /* Assets.xcassets in Resources */,
-				F258DEBE24BC98EC006F9ABD /* Notificare.plist in Resources */,
-				F258DE6224BC7BA3006F9ABD /* Main.storyboard in Resources */,
+				F29FD20424CB1FE3004B166D /* LaunchScreen.storyboard in Resources */,
+				F29FD20124CB1FE3004B166D /* Assets.xcassets in Resources */,
+				F251695B24D4130D0025B51F /* Notificare.plist in Resources */,
+				F29FD1FF24CB1FE1004B166D /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		F258DE5324BC7BA3006F9ABD /* Sources */ = {
+		F29FD1F024CB1FE1004B166D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F258DE5F24BC7BA3006F9ABD /* ViewController.swift in Sources */,
-				F258DE5B24BC7BA3006F9ABD /* AppDelegate.swift in Sources */,
-				F258DE5D24BC7BA3006F9ABD /* SceneDelegate.swift in Sources */,
+				F29FD1FC24CB1FE1004B166D /* ViewController.swift in Sources */,
+				F29FD1F824CB1FE1004B166D /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		F258DE6024BC7BA3006F9ABD /* Main.storyboard */ = {
+		F29FD1FD24CB1FE1004B166D /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				F258DE6124BC7BA3006F9ABD /* Base */,
+				F29FD1FE24CB1FE1004B166D /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
-		F258DE6524BC7BA5006F9ABD /* LaunchScreen.storyboard */ = {
+		F29FD20224CB1FE3004B166D /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				F258DE6624BC7BA5006F9ABD /* Base */,
+				F29FD20324CB1FE3004B166D /* Base */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -240,7 +229,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		F258DE6924BC7BA5006F9ABD /* Debug */ = {
+		F29FD20624CB1FE3004B166D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -291,7 +280,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -301,7 +290,7 @@
 			};
 			name = Debug;
 		};
-		F258DE6A24BC7BA5006F9ABD /* Release */ = {
+		F29FD20724CB1FE3004B166D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -346,7 +335,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -356,10 +345,11 @@
 			};
 			name = Release;
 		};
-		F258DE6C24BC7BA5006F9ABD /* Debug */ = {
+		F29FD20924CB1FE3004B166D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y47BY73NFN;
 				INFOPLIST_FILE = Sample/Info.plist;
@@ -374,10 +364,11 @@
 			};
 			name = Debug;
 		};
-		F258DE6D24BC7BA5006F9ABD /* Release */ = {
+		F29FD20A24CB1FE3004B166D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y47BY73NFN;
 				INFOPLIST_FILE = Sample/Info.plist;
@@ -395,25 +386,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		F258DE5224BC7BA3006F9ABD /* Build configuration list for PBXProject "Sample" */ = {
+		F29FD1EF24CB1FE1004B166D /* Build configuration list for PBXProject "Sample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				F258DE6924BC7BA5006F9ABD /* Debug */,
-				F258DE6A24BC7BA5006F9ABD /* Release */,
+				F29FD20624CB1FE3004B166D /* Debug */,
+				F29FD20724CB1FE3004B166D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F258DE6B24BC7BA5006F9ABD /* Build configuration list for PBXNativeTarget "Sample" */ = {
+		F29FD20824CB1FE3004B166D /* Build configuration list for PBXNativeTarget "Sample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				F258DE6C24BC7BA5006F9ABD /* Debug */,
-				F258DE6D24BC7BA5006F9ABD /* Release */,
+				F29FD20924CB1FE3004B166D /* Debug */,
+				F29FD20A24CB1FE3004B166D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = F258DE4F24BC7BA3006F9ABD /* Project object */;
+	rootObject = F29FD1EC24CB1FE1004B166D /* Project object */;
 }
