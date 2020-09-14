@@ -13,8 +13,11 @@ public class Notificare {
     public static let shared = Notificare()
 
     public private(set) var logger = NotificareLogger()
+    public private(set) var eventLogger = NotificareEventLogger()
     public private(set) var pushManager: NotificarePushManager?
     public private(set) var locationManager: NotificareLocationManager?
+
+    internal let coreDataManager = NotificareCoreDataManager()
 
     internal private(set) var environment: NotificareEnvironment = .production
     internal private(set) var applicationKey: String? = nil
@@ -51,6 +54,8 @@ public class Notificare {
         }
 
         // TODO configure all the modules / managers
+        self.coreDataManager.configure()
+        self.eventLogger.configure()
         NotificareDeviceManager.shared.configure()
         self.pushManager?.configure()
 
@@ -110,9 +115,9 @@ public class Notificare {
         sessionConfiguration.urlCredentialStorage = nil
 
         self.pushApi = NotificarePushApi(
-                applicationKey: self.applicationKey!,
-                applicationSecret: self.applicationSecret!,
-                session: URLSession(configuration: sessionConfiguration)
+            applicationKey: self.applicationKey!,
+            applicationSecret: self.applicationSecret!,
+            session: URLSession(configuration: sessionConfiguration)
         )
     }
 

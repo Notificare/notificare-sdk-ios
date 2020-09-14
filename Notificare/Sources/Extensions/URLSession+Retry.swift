@@ -83,7 +83,6 @@ private extension URLSession {
 
         if let urlError = error as? URLError {
             return .failure(NotificareNetworkError.urlError(urlError))
-
         } else if let otherError = error {
             return .failure(NotificareNetworkError.genericError(otherError))
         }

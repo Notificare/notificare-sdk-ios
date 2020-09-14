@@ -192,4 +192,29 @@ struct NotificarePushApi {
             }
         }
     }
+
+    func logEvent(_ event: NotificareEvent, _ completion: @escaping Completion<Void>) {
+        let url = baseUrl.appendingPathComponent("event")
+
+        var request = URLRequest(url: url)
+        request.setBasicAuthentication(username: applicationKey, password: applicationSecret)
+
+        guard let encoded = try? self.encoder.encode(event) else {
+            completion(.failure(.parsingFailure))
+            return
+        }
+
+        request.httpMethod = "POST"
+        request.httpBody = encoded
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        self.session.perform(request) { result in
+            switch result {
+            case .failure(let error):
+                completion(.failure(.networkFailure(cause: error)))
+            case .success:
+                completion(.success(()))
+            }
+        }
+    }
 }
