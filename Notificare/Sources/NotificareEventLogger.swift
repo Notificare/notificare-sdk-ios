@@ -43,21 +43,21 @@ public class NotificareEventLogger {
     }
 
     private func log(_ event: NotificareEvent) {
-//        Notificare.shared.pushApi?.logEvent(event) { result in
-//            switch result {
-//            case .success:
-//                Notificare.shared.logger.info("Event sent successfully.")
-//            case .failure(let error):
-//                Notificare.shared.logger.warning("Failed to send the event: \(event.type).")
-//                Notificare.shared.logger.debug("\(error)")
-//
-//                if !self.discardableEvents.contains(event.type) {
-//                    Notificare.shared.logger.info("Queuing to be sent whenever possible.")
+        Notificare.shared.pushApi?.logEvent(event) { result in
+            switch result {
+            case .success:
+                Notificare.shared.logger.info("Event sent successfully.")
+            case .failure(let error):
+                Notificare.shared.logger.warning("Failed to send the event: \(event.type).")
+                Notificare.shared.logger.debug("\(error)")
 
-        Notificare.shared.coreDataManager.add(event)
-//                }
-//            }
-//        }
+                if !self.discardableEvents.contains(event.type) && error.recoverable {
+                    Notificare.shared.logger.info("Queuing to be sent whenever possible.")
+
+                    Notificare.shared.coreDataManager.add(event)
+                }
+            }
+        }
     }
 }
 
@@ -163,7 +163,6 @@ extension NotificareEventLogger: NotificareAppDelegateInterceptor {
 
                     // Increase the attempts counter.
                     managedEvent.retries += 1
-                    // TODO check a better way to update managed events, and models in general
 
                     if managedEvent.retries < MAX_RETRIES {
                         // Persist the attempts counter.
