@@ -18,6 +18,10 @@ public class NotificareEventLogger {
         _ = NotificareSwizzler.addInterceptor(self)
     }
 
+    func launch() {
+        self.processStoredEvents()
+    }
+
     public func logCustom(_ event: String, data: NotificareEventData? = nil) {
         self.log("re.notifica.event.custom.\(event)", data: data)
     }
@@ -71,7 +75,7 @@ extension NotificareEventLogger: NotificareAppDelegateInterceptor {
 
     private func processStoredEvents() {
         // Check that Notificare is ready to process the events.
-        guard Notificare.shared.state >= .ready else {
+        guard Notificare.shared.state >= .launched else {
             Notificare.shared.logger.verbose("Notificare is not ready yet. Skipping...")
             return
         }

@@ -81,6 +81,7 @@ public class Notificare {
             switch result {
             case .success(let applicationInfo):
                 self.applicationInfo = applicationInfo
+                self.state = .launched
 
                 Notificare.shared.logger.debug("/==================================================================================/")
                 Notificare.shared.logger.debug("Notificare SDK is ready to use for application")
@@ -92,6 +93,8 @@ public class Notificare {
                 Notificare.shared.logger.debug("/==================================================================================/")
                 Notificare.shared.logger.debug("SDK version: \(NotificareConstants.sdkVersion)")
                 Notificare.shared.logger.debug("/==================================================================================/")
+
+                self.eventLogger.launch()
 
                 // All good. Notify delegate.
                 self.state = .ready
