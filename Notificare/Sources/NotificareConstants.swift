@@ -21,4 +21,8 @@ struct NotificareConstants {
 
         private init() {}
     }
+
+    struct BackgroundTasks {
+        static let processEvents = "re.notifica.tasks.process.events"
+    }
 }

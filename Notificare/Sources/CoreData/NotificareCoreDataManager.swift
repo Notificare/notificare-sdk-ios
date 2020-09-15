@@ -65,7 +65,7 @@ class NotificareCoreDataManager {
     }
 
 
-    private func save() {
+    func save() {
         if self.context.hasChanges {
             do {
                 try self.context.save()

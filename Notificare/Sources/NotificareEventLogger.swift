@@ -11,7 +11,7 @@ fileprivate let MAX_RETRIES = 5
 public class NotificareEventLogger {
 
     private let discardableEvents = [String]()
-    private var uploadTaskId: UIBackgroundTaskIdentifier?
+    private var processEventsTaskIdentifier: UIBackgroundTaskIdentifier?
 
 
     func configure() {
@@ -66,55 +66,120 @@ public class NotificareEventLogger {
 extension NotificareEventLogger: NotificareAppDelegateInterceptor {
 
     public func applicationDidBecomeActive(_ application: UIApplication) {
-        guard Notificare.shared.state == .ready else {
+        self.processStoredEvents()
+    }
+
+    private func processStoredEvents() {
+        // Check that Notificare is ready to process the events.
+        guard Notificare.shared.state >= .ready else {
             Notificare.shared.logger.verbose("Notificare is not ready yet. Skipping...")
             return
         }
 
-        guard self.uploadTaskId == nil else {
+        // Ensure there is no running task.
+        guard self.processEventsTaskIdentifier == nil else {
             Notificare.shared.logger.verbose("There's an upload task running. Skipping...")
             return
         }
 
-        do {
-            Notificare.shared.logger.debug("Uploading cached events.")
-            let dbEvents = try Notificare.shared.coreDataManager.fetchEvents()
+        // Run the task on a background queue.
+        DispatchQueue.global(qos: .background).async {
+            // Notify the system about a long running task.
+            self.processEventsTaskIdentifier = UIApplication.shared.beginBackgroundTask(withName: NotificareConstants.BackgroundTasks.processEvents) {
+                // Check the task is still running.
+                guard let taskId = self.processEventsTaskIdentifier else { return }
 
-            dbEvents.forEach { managedEvent in
-                let createdAt = Date(timeIntervalSince1970: Double(managedEvent.timestamp / 1000))
-                let expiresAt = createdAt.addingTimeInterval(Double(managedEvent.ttl))
-                let now = Date()
-
-                if now > expiresAt {
-                    Notificare.shared.logger.verbose("Event expired. Removing...")
-                    Notificare.shared.coreDataManager.remove(managedEvent)
-                    return
-                }
-
-                if managedEvent.retries > MAX_RETRIES {
-                    Notificare.shared.logger.verbose("Event was retried too many times. Removing...")
-                    Notificare.shared.coreDataManager.remove(managedEvent)
-                    return
-                }
-
-                let event = NotificareEvent(from: managedEvent)
-                Notificare.shared.pushApi?.logEvent(event, { result in
-                    switch result {
-                    case .success:
-                        Notificare.shared.logger.debug("Event upload processed. Removing from cache...")
-                        Notificare.shared.coreDataManager.remove(managedEvent)
-                    case .failure(let error):
-                        if error.recoverable {
-                            // TODO increment retries variable
-                        } else {
-                            Notificare.shared.coreDataManager.remove(managedEvent)
-                        }
-                    }
-                })
+                // Stop the task if the given time expires.
+                Notificare.shared.logger.debug("Completing background task after its expiration.")
+                UIApplication.shared.endBackgroundTask(taskId)
+                self.processEventsTaskIdentifier = nil
             }
-        } catch {
-            Notificare.shared.logger.error("Failed to upload cached events: \(error)")
+
+            // Load and process the stored events.
+            if let events = try? Notificare.shared.coreDataManager.fetchEvents() {
+                self.process(events)
+            }
+
+            // Check the task is still running.
+            guard let taskId = self.processEventsTaskIdentifier else { return }
+
+            // Stop the task if the given time expires.
+            Notificare.shared.logger.debug("Completing background task after processing all the events.")
+            UIApplication.shared.endBackgroundTask(taskId)
+            self.processEventsTaskIdentifier = nil
         }
+    }
+
+    private func process(_ managedEvents: [NotificareCoreDataEvent]) {
+        guard self.processEventsTaskIdentifier != nil else {
+            Notificare.shared.logger.debug("The background task was terminated before all the events could be processed.")
+            return
+        }
+
+        var events = managedEvents
+        guard !events.isEmpty else {
+            Notificare.shared.logger.debug("Nothing to process.")
+            return
+        }
+
+        let event = events.removeFirst()
+        self.process(event)
+
+        if events.isEmpty {
+            Notificare.shared.logger.debug("Finished processing all the events.")
+            return
+        }
+
+        Notificare.shared.logger.verbose("\(events.count) events remaining. Processing next...")
+        process(events)
+    }
+
+    private func process(_ managedEvent: NotificareCoreDataEvent) {
+        let createdAt = Date(timeIntervalSince1970: Double(managedEvent.timestamp / 1000))
+        let expiresAt = createdAt.addingTimeInterval(Double(managedEvent.ttl))
+        let now = Date()
+
+        if now > expiresAt {
+            Notificare.shared.logger.verbose("Event expired. Removing...")
+            Notificare.shared.coreDataManager.remove(managedEvent)
+            return
+        }
+
+        if managedEvent.retries > MAX_RETRIES {
+            Notificare.shared.logger.verbose("Event was retried too many times. Removing...")
+            Notificare.shared.coreDataManager.remove(managedEvent)
+            return
+        }
+
+        let event = NotificareEvent(from: managedEvent)
+        
+        // Leverage a DispatchGroup to wait for the request.
+        let group = DispatchGroup()
+        group.enter()
+        
+        // Perform the network request, which can retry internally.
+        Notificare.shared.pushApi!.logEvent(event, { result in
+            switch result {
+            case .success:
+                Notificare.shared.logger.verbose("Event processed. Removing from storage...")
+                Notificare.shared.coreDataManager.remove(managedEvent)
+            case .failure(let error):
+                if error.recoverable {
+                    Notificare.shared.logger.verbose("Failed to process event.")
+                    // TODO check a better way to update managed events, and models in general
+                    managedEvent.retries += 1
+                    Notificare.shared.coreDataManager.save()
+                } else {
+                    Notificare.shared.logger.verbose("Failed to process event due to an unrecoverable error. Discarding it...")
+                    Notificare.shared.coreDataManager.remove(managedEvent)
+                }
+            }
+            
+            group.leave()
+        })
+
+        // Wait until the request finishes.
+        group.wait()
     }
 }
 
