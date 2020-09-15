@@ -145,18 +145,12 @@ extension NotificareEventLogger: NotificareAppDelegateInterceptor {
             return
         }
 
-        if managedEvent.retries > MAX_RETRIES {
-            Notificare.shared.logger.verbose("Event was retried too many times. Removing...")
-            Notificare.shared.coreDataManager.remove(managedEvent)
-            return
-        }
-
         let event = NotificareEvent(from: managedEvent)
-        
+
         // Leverage a DispatchGroup to wait for the request.
         let group = DispatchGroup()
         group.enter()
-        
+
         // Perform the network request, which can retry internally.
         Notificare.shared.pushApi!.logEvent(event, { result in
             switch result {
@@ -166,15 +160,24 @@ extension NotificareEventLogger: NotificareAppDelegateInterceptor {
             case .failure(let error):
                 if error.recoverable {
                     Notificare.shared.logger.verbose("Failed to process event.")
-                    // TODO check a better way to update managed events, and models in general
+
+                    // Increase the attempts counter.
                     managedEvent.retries += 1
-                    Notificare.shared.coreDataManager.save()
+                    // TODO check a better way to update managed events, and models in general
+
+                    if managedEvent.retries < MAX_RETRIES {
+                        // Persist the attempts counter.
+                        Notificare.shared.coreDataManager.save()
+                    } else {
+                        Notificare.shared.logger.verbose("Event was retried too many times. Removing...")
+                        Notificare.shared.coreDataManager.remove(managedEvent)
+                    }
                 } else {
                     Notificare.shared.logger.verbose("Failed to process event due to an unrecoverable error. Discarding it...")
                     Notificare.shared.coreDataManager.remove(managedEvent)
                 }
             }
-            
+
             group.leave()
         })
 
