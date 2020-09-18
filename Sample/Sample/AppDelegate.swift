@@ -29,6 +29,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, NotificareDelegate {
 
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {}
 
+    // MARK: - NotificareDelegate
+
     func notificare(_ notificare: Notificare, onReady application: NotificareApplicationInfo) {
         print("-----> Notificare is ready.")
     }

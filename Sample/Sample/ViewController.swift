@@ -17,14 +17,12 @@ class ViewController: UIViewController {
     }
 
     @IBAction func onEnableRemoteNotificationsClick(_ sender: Any) {
-        Notificare.shared.pushManager!.enableRemoteNotifications()
+        // Notificare.shared.pushManager!.enableRemoteNotifications()
     }
 
     @IBAction func onSendCustomEventClick(_ sender: Any) {
         let data: NotificareEventData = [
-            "color": "blue",
-            "lovesNotificare": true,
-            "loc": 123456
+            "color": "blue"
         ]
 
         Notificare.shared.eventLogger.logCustom("test", data: data)
