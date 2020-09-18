@@ -13,8 +13,11 @@ public class Notificare {
     public static let shared = Notificare()
 
     public private(set) var logger = NotificareLogger()
+    public private(set) var eventLogger = NotificareEventLogger()
     public private(set) var pushManager: NotificarePushManager?
     public private(set) var locationManager: NotificareLocationManager?
+
+    internal let coreDataManager = NotificareCoreDataManager()
 
     internal private(set) var environment: NotificareEnvironment = .production
     internal private(set) var applicationKey: String? = nil
@@ -51,6 +54,8 @@ public class Notificare {
         }
 
         // TODO configure all the modules / managers
+        self.coreDataManager.configure()
+        self.eventLogger.configure()
         NotificareDeviceManager.shared.configure()
         self.pushManager?.configure()
 
@@ -76,6 +81,7 @@ public class Notificare {
             switch result {
             case .success(let applicationInfo):
                 self.applicationInfo = applicationInfo
+                self.state = .launched
 
                 Notificare.shared.logger.debug("/==================================================================================/")
                 Notificare.shared.logger.debug("Notificare SDK is ready to use for application")
@@ -87,6 +93,8 @@ public class Notificare {
                 Notificare.shared.logger.debug("/==================================================================================/")
                 Notificare.shared.logger.debug("SDK version: \(NotificareConstants.sdkVersion)")
                 Notificare.shared.logger.debug("/==================================================================================/")
+
+                self.eventLogger.launch()
 
                 // All good. Notify delegate.
                 self.state = .ready
@@ -110,9 +118,9 @@ public class Notificare {
         sessionConfiguration.urlCredentialStorage = nil
 
         self.pushApi = NotificarePushApi(
-                applicationKey: self.applicationKey!,
-                applicationSecret: self.applicationSecret!,
-                session: URLSession(configuration: sessionConfiguration)
+            applicationKey: self.applicationKey!,
+            applicationSecret: self.applicationSecret!,
+            session: URLSession(configuration: sessionConfiguration)
         )
     }
 
@@ -134,11 +142,31 @@ public class Notificare {
     }
 
 
-    internal enum State {
+    internal enum State: Int {
         case none
         case configured
         case launching
         case launched
         case ready
+    }
+}
+
+// MARK: - Notificare.State Comparable
+
+extension Notificare.State: Comparable {
+    public static func <(lhs: Notificare.State, rhs: Notificare.State) -> Bool {
+        lhs.rawValue < rhs.rawValue
+    }
+
+    public static func <=(lhs: Notificare.State, rhs: Notificare.State) -> Bool {
+        lhs.rawValue <= rhs.rawValue
+    }
+
+    public static func >=(lhs: Notificare.State, rhs: Notificare.State) -> Bool {
+        lhs.rawValue >= rhs.rawValue
+    }
+
+    public static func >(lhs: Notificare.State, rhs: Notificare.State) -> Bool {
+        lhs.rawValue > rhs.rawValue
     }
 }
