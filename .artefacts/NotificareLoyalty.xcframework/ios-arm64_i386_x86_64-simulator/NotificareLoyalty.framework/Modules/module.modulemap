@@ -1,0 +1,6 @@
+framework module NotificareLoyalty {
+  umbrella header "NotificareLoyalty.h"
+
+  export *
+  module * { export * }
+}
