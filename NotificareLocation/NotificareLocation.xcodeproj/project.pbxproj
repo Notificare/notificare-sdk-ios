@@ -11,8 +11,8 @@
 		F258DD7F24BC4E95006F9ABD /* LocationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DD7E24BC4E95006F9ABD /* LocationTests.swift */; };
 		F258DD8124BC4E95006F9ABD /* NotificareLocation.h in Headers */ = {isa = PBXBuildFile; fileRef = F258DD7324BC4E95006F9ABD /* NotificareLocation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F258DE8024BC8400006F9ABD /* NotificareLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DE7F24BC8400006F9ABD /* NotificareLocationManager.swift */; };
-		F258DE8E24BC8AA1006F9ABD /* Notificare.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F258DE8D24BC8AA1006F9ABD /* Notificare.framework */; };
-		F258DE8F24BC8AA1006F9ABD /* Notificare.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F258DE8D24BC8AA1006F9ABD /* Notificare.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F2AAAF7D251D01A000465EC5 /* NotificareSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2AAAF7C251D01A000465EC5 /* NotificareSDK.framework */; };
+		F2AAAF7E251D01A000465EC5 /* NotificareSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F2AAAF7C251D01A000465EC5 /* NotificareSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -26,13 +26,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		F258DE9024BC8AA1006F9ABD /* Embed Frameworks */ = {
+		F2AAAF7F251D01A000465EC5 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				F258DE8F24BC8AA1006F9ABD /* Notificare.framework in Embed Frameworks */,
+				F2AAAF7E251D01A000465EC5 /* NotificareSDK.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -49,6 +49,7 @@
 		F258DE7F24BC8400006F9ABD /* NotificareLocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareLocationManager.swift; sourceTree = "<group>"; };
 		F258DE8224BC8419006F9ABD /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F258DE8D24BC8AA1006F9ABD /* Notificare.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Notificare.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F2AAAF7C251D01A000465EC5 /* NotificareSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,7 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F258DE8E24BC8AA1006F9ABD /* Notificare.framework in Frameworks */,
+				F2AAAF7D251D01A000465EC5 /* NotificareSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +113,7 @@
 		F258DE8124BC8419006F9ABD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F2AAAF7C251D01A000465EC5 /* NotificareSDK.framework */,
 				F258DE8D24BC8AA1006F9ABD /* Notificare.framework */,
 				F258DE8224BC8419006F9ABD /* Core.framework */,
 			);
@@ -140,7 +142,7 @@
 				F258DD6C24BC4E95006F9ABD /* Sources */,
 				F258DD6D24BC4E95006F9ABD /* Frameworks */,
 				F258DD6E24BC4E95006F9ABD /* Resources */,
-				F258DE9024BC8AA1006F9ABD /* Embed Frameworks */,
+				F2AAAF7F251D01A000465EC5 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);

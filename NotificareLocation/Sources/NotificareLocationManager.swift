@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Notificare
+import NotificareSDK
 
 public class NotificareLocationManagerImpl: NSObject, NotificareLocationManager {
 

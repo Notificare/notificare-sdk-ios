@@ -43,7 +43,7 @@
 		42A20FD7791BD275D8A3A0E5 /* NotificareError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20228EB70EA83D835BF01 /* NotificareError.swift */; };
 		F225B9FB24E58F0D00768999 /* NotificareEventLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = F225B9FA24E58F0D00768999 /* NotificareEventLogger.swift */; };
 		F23E3C3324D8267000044574 /* NotificareDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F23E3C3224D8267000044574 /* NotificareDelegate.swift */; };
-		F258DD5624BC4DBC006F9ABD /* Notificare.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F258DD4C24BC4DBB006F9ABD /* Notificare.framework */; };
+		F258DD5624BC4DBC006F9ABD /* NotificareSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F258DD4C24BC4DBB006F9ABD /* NotificareSDK.framework */; };
 		F258DD5B24BC4DBC006F9ABD /* CoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DD5A24BC4DBC006F9ABD /* CoreTests.swift */; };
 		F258DD5D24BC4DBC006F9ABD /* Notificare.h in Headers */ = {isa = PBXBuildFile; fileRef = F258DD4F24BC4DBB006F9ABD /* Notificare.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F258DE4424BC68CB006F9ABD /* Notificare.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DE4324BC68CB006F9ABD /* Notificare.swift */; };
@@ -105,10 +105,10 @@
 		42A20FB65AE760E9D711415C /* NotificareAppDelegateInterceptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareAppDelegateInterceptor.swift; sourceTree = "<group>"; };
 		F225B9FA24E58F0D00768999 /* NotificareEventLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareEventLogger.swift; sourceTree = "<group>"; };
 		F23E3C3224D8267000044574 /* NotificareDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareDelegate.swift; sourceTree = "<group>"; };
-		F258DD4C24BC4DBB006F9ABD /* Notificare.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Notificare.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F258DD4C24BC4DBB006F9ABD /* NotificareSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NotificareSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F258DD4F24BC4DBB006F9ABD /* Notificare.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Notificare.h; sourceTree = "<group>"; };
 		F258DD5024BC4DBB006F9ABD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F258DD5524BC4DBC006F9ABD /* NotificareTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NotificareTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F258DD5524BC4DBC006F9ABD /* NotificareSDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NotificareSDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F258DD5A24BC4DBC006F9ABD /* CoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreTests.swift; sourceTree = "<group>"; };
 		F258DD5C24BC4DBC006F9ABD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F258DE4324BC68CB006F9ABD /* Notificare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notificare.swift; sourceTree = "<group>"; };
@@ -135,7 +135,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F258DD5624BC4DBC006F9ABD /* Notificare.framework in Frameworks */,
+				F258DD5624BC4DBC006F9ABD /* NotificareSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -243,8 +243,8 @@
 		F258DD4D24BC4DBB006F9ABD /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F258DD4C24BC4DBB006F9ABD /* Notificare.framework */,
-				F258DD5524BC4DBC006F9ABD /* NotificareTests.xctest */,
+				F258DD4C24BC4DBB006F9ABD /* NotificareSDK.framework */,
+				F258DD5524BC4DBC006F9ABD /* NotificareSDKTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -319,9 +319,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		F258DD4B24BC4DBB006F9ABD /* Notificare */ = {
+		F258DD4B24BC4DBB006F9ABD /* NotificareSDK */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F258DD6024BC4DBC006F9ABD /* Build configuration list for PBXNativeTarget "Notificare" */;
+			buildConfigurationList = F258DD6024BC4DBC006F9ABD /* Build configuration list for PBXNativeTarget "NotificareSDK" */;
 			buildPhases = (
 				F258DD4724BC4DBB006F9ABD /* Headers */,
 				F258DD4824BC4DBB006F9ABD /* Sources */,
@@ -332,14 +332,14 @@
 			);
 			dependencies = (
 			);
-			name = Notificare;
+			name = NotificareSDK;
 			productName = Core;
-			productReference = F258DD4C24BC4DBB006F9ABD /* Notificare.framework */;
+			productReference = F258DD4C24BC4DBB006F9ABD /* NotificareSDK.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		F258DD5424BC4DBC006F9ABD /* NotificareTests */ = {
+		F258DD5424BC4DBC006F9ABD /* NotificareSDKTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F258DD6324BC4DBC006F9ABD /* Build configuration list for PBXNativeTarget "NotificareTests" */;
+			buildConfigurationList = F258DD6324BC4DBC006F9ABD /* Build configuration list for PBXNativeTarget "NotificareSDKTests" */;
 			buildPhases = (
 				F258DD5124BC4DBC006F9ABD /* Sources */,
 				F258DD5224BC4DBC006F9ABD /* Frameworks */,
@@ -350,9 +350,9 @@
 			dependencies = (
 				F258DD5824BC4DBC006F9ABD /* PBXTargetDependency */,
 			);
-			name = NotificareTests;
+			name = NotificareSDKTests;
 			productName = CoreTests;
-			productReference = F258DD5524BC4DBC006F9ABD /* NotificareTests.xctest */;
+			productReference = F258DD5524BC4DBC006F9ABD /* NotificareSDKTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -374,7 +374,7 @@
 					};
 				};
 			};
-			buildConfigurationList = F258DD4624BC4DBB006F9ABD /* Build configuration list for PBXProject "Notificare" */;
+			buildConfigurationList = F258DD4624BC4DBB006F9ABD /* Build configuration list for PBXProject "NotificareSDK" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -387,8 +387,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				F258DD4B24BC4DBB006F9ABD /* Notificare */,
-				F258DD5424BC4DBC006F9ABD /* NotificareTests */,
+				F258DD4B24BC4DBB006F9ABD /* NotificareSDK */,
+				F258DD5424BC4DBC006F9ABD /* NotificareSDKTests */,
 			);
 		};
 /* End PBXProject section */
@@ -476,7 +476,7 @@
 /* Begin PBXTargetDependency section */
 		F258DD5824BC4DBC006F9ABD /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = F258DD4B24BC4DBB006F9ABD /* Notificare */;
+			target = F258DD4B24BC4DBB006F9ABD /* NotificareSDK */;
 			targetProxy = F258DD5724BC4DBC006F9ABD /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -704,7 +704,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		F258DD4624BC4DBB006F9ABD /* Build configuration list for PBXProject "Notificare" */ = {
+		F258DD4624BC4DBB006F9ABD /* Build configuration list for PBXProject "NotificareSDK" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F258DD5E24BC4DBC006F9ABD /* Debug */,
@@ -713,7 +713,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F258DD6024BC4DBC006F9ABD /* Build configuration list for PBXNativeTarget "Notificare" */ = {
+		F258DD6024BC4DBC006F9ABD /* Build configuration list for PBXNativeTarget "NotificareSDK" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F258DD6124BC4DBC006F9ABD /* Debug */,
@@ -722,7 +722,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F258DD6324BC4DBC006F9ABD /* Build configuration list for PBXNativeTarget "NotificareTests" */ = {
+		F258DD6324BC4DBC006F9ABD /* Build configuration list for PBXNativeTarget "NotificareSDKTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F258DD6424BC4DBC006F9ABD /* Debug */,

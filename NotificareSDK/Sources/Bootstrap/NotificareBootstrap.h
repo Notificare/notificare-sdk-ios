@@ -6,7 +6,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-#import <Notificare/Notificare-Swift.h>
+#import <NotificareSDK/NotificareSDK-Swift.h>
 
 @interface NotificareBootstrap : NSObject
 @end

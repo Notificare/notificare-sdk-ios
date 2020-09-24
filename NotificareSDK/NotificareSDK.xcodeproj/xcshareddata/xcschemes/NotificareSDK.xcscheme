@@ -14,9 +14,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "F258DD4B24BC4DBB006F9ABD"
-               BuildableName = "Notificare.framework"
-               BlueprintName = "Notificare"
-               ReferencedContainer = "container:Notificare.xcodeproj">
+               BuildableName = "NotificareSDK.framework"
+               BlueprintName = "NotificareSDK"
+               ReferencedContainer = "container:NotificareSDK.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

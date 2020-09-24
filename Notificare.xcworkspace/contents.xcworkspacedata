@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:Notificare/Notificare.xcodeproj">
+      location = "group:NotificareSDK/NotificareSDK.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:NotificareAssets/NotificareAssets.xcodeproj">

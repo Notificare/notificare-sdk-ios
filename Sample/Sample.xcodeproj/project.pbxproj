@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F251694B24D4077D0025B51F /* Notificare.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F251694424D4077D0025B51F /* Notificare.framework */; };
-		F251694C24D4077D0025B51F /* Notificare.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F251694424D4077D0025B51F /* Notificare.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F251694D24D4077D0025B51F /* NotificareAssets.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F251694524D4077D0025B51F /* NotificareAssets.framework */; };
 		F251694E24D4077D0025B51F /* NotificareAssets.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F251694524D4077D0025B51F /* NotificareAssets.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F251694F24D4077D0025B51F /* NotificareLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F251694624D4077D0025B51F /* NotificareLocation.framework */; };
@@ -27,6 +25,8 @@
 		F29FD1FF24CB1FE1004B166D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F29FD1FD24CB1FE1004B166D /* Main.storyboard */; };
 		F29FD20124CB1FE3004B166D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F29FD20024CB1FE3004B166D /* Assets.xcassets */; };
 		F29FD20424CB1FE3004B166D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F29FD20224CB1FE3004B166D /* LaunchScreen.storyboard */; };
+		F2AAAF99251D01E700465EC5 /* NotificareSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2AAAF98251D01E700465EC5 /* NotificareSDK.framework */; };
+		F2AAAF9A251D01E700465EC5 /* NotificareSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F2AAAF98251D01E700465EC5 /* NotificareSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -36,9 +36,9 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				F251694C24D4077D0025B51F /* Notificare.framework in Embed Frameworks */,
 				F251695224D4077D0025B51F /* NotificareLoyalty.framework in Embed Frameworks */,
 				F251694E24D4077D0025B51F /* NotificareAssets.framework in Embed Frameworks */,
+				F2AAAF9A251D01E700465EC5 /* NotificareSDK.framework in Embed Frameworks */,
 				F251695424D4077D0025B51F /* NotificareMonetize.framework in Embed Frameworks */,
 				F251695624D4077D0025B51F /* NotificarePush.framework in Embed Frameworks */,
 				F251695824D4077D0025B51F /* NotificareScannable.framework in Embed Frameworks */,
@@ -65,6 +65,7 @@
 		F29FD20024CB1FE3004B166D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F29FD20324CB1FE3004B166D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F29FD20524CB1FE3004B166D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F2AAAF98251D01E700465EC5 /* NotificareSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,9 +73,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F251694B24D4077D0025B51F /* Notificare.framework in Frameworks */,
 				F251695124D4077D0025B51F /* NotificareLoyalty.framework in Frameworks */,
 				F251694D24D4077D0025B51F /* NotificareAssets.framework in Frameworks */,
+				F2AAAF99251D01E700465EC5 /* NotificareSDK.framework in Frameworks */,
 				F251695324D4077D0025B51F /* NotificareMonetize.framework in Frameworks */,
 				F251695524D4077D0025B51F /* NotificarePush.framework in Frameworks */,
 				F251695724D4077D0025B51F /* NotificareScannable.framework in Frameworks */,
@@ -88,6 +89,7 @@
 		F251694324D4077D0025B51F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F2AAAF98251D01E700465EC5 /* NotificareSDK.framework */,
 				F251694424D4077D0025B51F /* Notificare.framework */,
 				F251694524D4077D0025B51F /* NotificareAssets.framework */,
 				F251694624D4077D0025B51F /* NotificareLocation.framework */,

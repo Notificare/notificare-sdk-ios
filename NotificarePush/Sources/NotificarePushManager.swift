@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-import Notificare
+import NotificareSDK
 
 public class NotificarePushManagerImpl: NSObject, NotificarePushManager, NotificareAppDelegateInterceptor {
 

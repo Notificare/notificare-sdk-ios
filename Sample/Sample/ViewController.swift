@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Notificare
+import NotificareSDK
 
 class ViewController: UIViewController {
 

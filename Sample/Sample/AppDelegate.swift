@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Notificare
+import NotificareSDK
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, NotificareDelegate {
