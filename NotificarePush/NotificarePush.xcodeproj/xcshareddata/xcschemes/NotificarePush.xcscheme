@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "F258DD4B24BC4DBB006F9ABD"
-               BuildableName = "NotificareSDK.framework"
-               BlueprintName = "NotificareSDK"
-               ReferencedContainer = "container:NotificareSDK.xcodeproj">
+               BlueprintIdentifier = "F258DD9324BC4EE2006F9ABD"
+               BuildableName = "NotificarePush.framework"
+               BlueprintName = "NotificarePush"
+               ReferencedContainer = "container:NotificarePush.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -32,10 +32,10 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "F258DD5424BC4DBC006F9ABD"
-               BuildableName = "NotificareSDKTests.xctest"
-               BlueprintName = "NotificareSDKTests"
-               ReferencedContainer = "container:NotificareSDK.xcodeproj">
+               BlueprintIdentifier = "F258DD9C24BC4EE2006F9ABD"
+               BuildableName = "NotificarePushTests.xctest"
+               BlueprintName = "NotificarePushTests"
+               ReferencedContainer = "container:NotificarePush.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -60,10 +60,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "F258DD4B24BC4DBB006F9ABD"
-            BuildableName = "NotificareSDK.framework"
-            BlueprintName = "NotificareSDK"
-            ReferencedContainer = "container:NotificareSDK.xcodeproj">
+            BlueprintIdentifier = "F258DD9324BC4EE2006F9ABD"
+            BuildableName = "NotificarePush.framework"
+            BlueprintName = "NotificarePush"
+            ReferencedContainer = "container:NotificarePush.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "F258DD4B24BC4DBB006F9ABD"
-               BuildableName = "NotificareSDK.framework"
-               BlueprintName = "NotificareSDK"
-               ReferencedContainer = "container:NotificareSDK.xcodeproj">
+               BlueprintIdentifier = "F258DDFF24BC4F89006F9ABD"
+               BuildableName = "NotificareMonetize.framework"
+               BlueprintName = "NotificareMonetize"
+               ReferencedContainer = "container:NotificareMonetize.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -32,10 +32,10 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "F258DD5424BC4DBC006F9ABD"
-               BuildableName = "NotificareSDKTests.xctest"
-               BlueprintName = "NotificareSDKTests"
-               ReferencedContainer = "container:NotificareSDK.xcodeproj">
+               BlueprintIdentifier = "F258DE0824BC4F89006F9ABD"
+               BuildableName = "NotificareMonetizeTests.xctest"
+               BlueprintName = "NotificareMonetizeTests"
+               ReferencedContainer = "container:NotificareMonetize.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -60,10 +60,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "F258DD4B24BC4DBB006F9ABD"
-            BuildableName = "NotificareSDK.framework"
-            BlueprintName = "NotificareSDK"
-            ReferencedContainer = "container:NotificareSDK.xcodeproj">
+            BlueprintIdentifier = "F258DDFF24BC4F89006F9ABD"
+            BuildableName = "NotificareMonetize.framework"
+            BlueprintName = "NotificareMonetize"
+            ReferencedContainer = "container:NotificareMonetize.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

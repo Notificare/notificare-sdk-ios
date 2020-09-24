@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "F258DD4B24BC4DBB006F9ABD"
-               BuildableName = "NotificareSDK.framework"
-               BlueprintName = "NotificareSDK"
-               ReferencedContainer = "container:NotificareSDK.xcodeproj">
+               BlueprintIdentifier = "F258DE2324BC4FAD006F9ABD"
+               BuildableName = "NotificareScannable.framework"
+               BlueprintName = "NotificareScannable"
+               ReferencedContainer = "container:NotificareScannable.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -32,10 +32,10 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "F258DD5424BC4DBC006F9ABD"
-               BuildableName = "NotificareSDKTests.xctest"
-               BlueprintName = "NotificareSDKTests"
-               ReferencedContainer = "container:NotificareSDK.xcodeproj">
+               BlueprintIdentifier = "F258DE2C24BC4FAD006F9ABD"
+               BuildableName = "NotificareScannableTests.xctest"
+               BlueprintName = "NotificareScannableTests"
+               ReferencedContainer = "container:NotificareScannable.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -60,10 +60,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "F258DD4B24BC4DBB006F9ABD"
-            BuildableName = "NotificareSDK.framework"
-            BlueprintName = "NotificareSDK"
-            ReferencedContainer = "container:NotificareSDK.xcodeproj">
+            BlueprintIdentifier = "F258DE2324BC4FAD006F9ABD"
+            BuildableName = "NotificareScannable.framework"
+            BlueprintName = "NotificareScannable"
+            ReferencedContainer = "container:NotificareScannable.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>
