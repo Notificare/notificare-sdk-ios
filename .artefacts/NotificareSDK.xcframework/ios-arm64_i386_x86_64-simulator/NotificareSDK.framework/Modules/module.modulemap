@@ -1,0 +1,4 @@
+framework module NotificareSDK {
+  header "NotificareSDK-Swift.h"
+  requires objc
+}

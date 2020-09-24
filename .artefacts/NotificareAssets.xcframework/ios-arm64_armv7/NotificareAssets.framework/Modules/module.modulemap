@@ -1,0 +1,6 @@
+framework module NotificareAssets {
+  umbrella header "NotificareAssets.h"
+
+  export *
+  module * { export * }
+}

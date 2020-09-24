@@ -1,0 +1,11 @@
+framework module NotificarePush {
+  umbrella header "NotificarePush.h"
+
+  export *
+  module * { export * }
+}
+
+module NotificarePush.Swift {
+    header "NotificarePush-Swift.h"
+    requires objc
+}
