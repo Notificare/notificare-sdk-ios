@@ -34,7 +34,10 @@ struct NotificareUtils {
 
         let machineMirror = Mirror(reflecting: systemInfo.machine)
         let identifier = machineMirror.children.reduce("") { identifier, element in
-            guard let value = element.value as? Int8, value != 0 else { return identifier }
+            guard let value = element.value as? Int8, value != 0 else {
+                return identifier
+            }
+
             return identifier + String(UnicodeScalar(UInt8(value)))
         }
 
@@ -44,10 +47,10 @@ struct NotificareUtils {
     static var deviceLanguage: String {
         var language = "en"
 
-        if NSLocale.preferredLanguages.count > 0 {
+        if !NSLocale.preferredLanguages.isEmpty {
             let preferredLanguage = NSLocale.preferredLanguages[0]
             let comps = preferredLanguage.components(separatedBy: "-")
-            if comps.count > 0 {
+            if !comps.isEmpty {
                 language = comps[0]
             }
         }
@@ -58,7 +61,7 @@ struct NotificareUtils {
     static var deviceRegion: String {
         var region = "US"
 
-        if NSLocale.preferredLanguages.count > 0 {
+        if !NSLocale.preferredLanguages.isEmpty {
             let preferredLanguage = NSLocale.preferredLanguages[0]
             let comps = preferredLanguage.components(separatedBy: "-")
             if comps.count > 1 {

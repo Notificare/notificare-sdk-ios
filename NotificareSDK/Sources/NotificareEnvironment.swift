@@ -8,6 +8,12 @@ public enum NotificareEnvironment: String {
     case test
     case production
 
+    struct Configuration {
+        let pushHost: URL
+        let cloudHost: URL
+        let webPassHost: URL
+    }
+
     func getConfiguration() -> Configuration {
         switch self {
         case .production:
@@ -23,11 +29,5 @@ public enum NotificareEnvironment: String {
                 webPassHost: URL(string: "https://pass-test.notifica.re")!
             )
         }
-    }
-
-    struct Configuration {
-        let pushHost: URL
-        let cloudHost: URL
-        let webPassHost: URL
     }
 }

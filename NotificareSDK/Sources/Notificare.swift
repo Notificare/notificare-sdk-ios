@@ -22,7 +22,7 @@ public class Notificare {
     internal private(set) var state: State = .none
     internal private(set) var applicationInfo: NotificareApplicationInfo?
 
-    public var delegate: NotificareDelegate?
+    public weak var delegate: NotificareDelegate?
 
     private init() {}
 

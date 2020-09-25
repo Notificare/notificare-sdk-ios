@@ -4,7 +4,7 @@
 
 import Foundation
 
-public protocol NotificareDelegate {
+public protocol NotificareDelegate: AnyObject {
     func notificare(_ notificare: Notificare, onReady application: NotificareApplicationInfo)
 
     func notificare(_ notificare: Notificare, didRegisterDevice device: NotificareDevice)

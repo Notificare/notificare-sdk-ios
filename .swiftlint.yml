@@ -1,3 +1,24 @@
+disabled_rules: # rule identifiers to exclude from running
+  # Rationale: Arbitrary restriction
+  # https://github.com/realm/SwiftLint/blob/master/Rules.md#cyclomatic-complexity
+  - cyclomatic_complexity
+
+  # Rationale: Arbitrary restriction
+  # https://github.com/realm/SwiftLint/blob/master/Rules.md#function-body-length
+  - function_body_length
+
+  # Rationale: Arbitrary restriction
+  # https://github.com/realm/SwiftLint/blob/master/Rules.md#identifier-name
+  - identifier_name
+
+  # Rationale: Custom rule overrides to allow todos when issue links are provided.
+  # https://github.com/realm/SwiftLint/blob/master/Rules.md#todo
+  - todo
+
+  # Rationale: Provides consistency in coding style and follows modern practices of the language
+  # https://github.com/realm/SwiftLint/blob/master/Rules.md#trailing-comma
+  - trailing_comma
+
 opt_in_rules: # some rules are only opt-in
 
   # Rationale: When using map, we think of it being used to transform a current array into something else
@@ -394,7 +415,7 @@ opt_in_rules: # some rules are only opt-in
 
   # Rationale: Encourages documentation
   # https://github.com/realm/SwiftLint/blob/master/Rules.md#todo
-  - custom_todo
+  #- custom_todo
 
   # Rationale: Provides consistency in coding style.
   # https://github.com/realm/SwiftLint/blob/master/Rules.md#reduce-boolean
@@ -429,6 +450,7 @@ file_header:
                     \/\/
                     \/\/ Copyright (©|\(c\)) \d{4} .*?\. All rights reserved\.
                     \/\/
+
 attributes:
   always_on_same_line: ["@IBAction", "@IBSegueAction", "@NSManaged", "@discardableResult", "@escaping", "@objc"]
 
@@ -441,16 +463,35 @@ type_contents_order:
     - [type_property, instance_property, ib_outlet, ib_inspectable]
     - [initializer, deinitializer, type_method, view_life_cycle_method, subscript, other_method, ib_action]
 
+line_length:
+  warning: 200
+  ignores_comments: true
+  ignores_function_declarations: true
+
+# they can set both implicitly with an array
+type_body_length:
+  - 300 # warning
+  - 400 # error
+
+# or they can set both explicitly
+file_length:
+  warning: 500
+  error: 700
+
+type_name:
+  min_length: 3
+  max_length: 100
+
 custom_rules:
   force_https:
     name: "Force HTTPS over HTTP"
-    regex: "((?i)http(?!s))"
+    regex: "((?i)http(?!s)://)"
     match_kinds: string
     message: "HTTPS should be favored over HTTP"
     severity: warning
-  custom_todo:
-    name: "TODO Violation"
-    regex: "(TODO).(?!.*(https&)).(?!.*issue)"
-    match_kinds: comment
-    message: "TODOs must include a link to the issue."
-    severity: warning
+#  custom_todo:
+#    name: "TODO Violation"
+#    regex: "(TODO).(?!.*(https&)).(?!.*issue)"
+#    match_kinds: comment
+#    message: "TODOs must include a link to the issue."
+#    severity: warning

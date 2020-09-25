@@ -63,13 +63,7 @@ public class NotificareDeviceManager {
         }
     }
 
-    func register(
-        deviceToken: Data,
-        asTemporary temporary: Bool = false,
-        withUserId userId: String? = nil,
-        andUserName userName: String? = nil,
-        _ completion: @escaping (Result<NotificareDevice, NotificareError>) -> Void
-    ) {
+    func register(deviceToken: Data, asTemporary temporary: Bool = false, withUserId userId: String? = nil, andUserName userName: String? = nil, _ completion: @escaping (Result<NotificareDevice, NotificareError>) -> Void) {
         guard let pushApi = Notificare.shared.pushApi else {
             completion(.failure(.notConfigured))
             return
@@ -135,7 +129,12 @@ public class NotificareDeviceManager {
         let uuid = UUID().uuidString
         let uuidData = uuid.data(using: .utf8)!
 
-        register(deviceToken: uuidData, asTemporary: true, withUserId: device?.userID, andUserName: device?.userName) { result in
+        register(
+            deviceToken: uuidData,
+            asTemporary: true,
+            withUserId: device?.userID,
+            andUserName: device?.userName
+        ) { result in
             switch result {
             case .success:
                 self.updateNotificationSettings(allowedUI: false, completion)
@@ -347,8 +346,10 @@ public class NotificareDeviceManager {
             changed = true
         }
 
-        let language = UserDefaults.standard.string(forKey: NotificareConstants.UserDefaults.preferredLanguage) ?? NotificareUtils.deviceLanguage
-        let region = UserDefaults.standard.string(forKey: NotificareConstants.UserDefaults.preferredRegion) ?? NotificareUtils.deviceRegion
+        let language = UserDefaults.standard.string(forKey: NotificareConstants.UserDefaults.preferredLanguage)
+            ?? NotificareUtils.deviceLanguage
+        let region = UserDefaults.standard.string(forKey: NotificareConstants.UserDefaults.preferredRegion)
+            ?? NotificareUtils.deviceRegion
 
         if device.language != language {
             Notificare.shared.logger.debug("Registration check: language changed")
@@ -371,7 +372,10 @@ public class NotificareDeviceManager {
         NotificareLocalStorage.preferredRegion ?? NotificareUtils.deviceRegion
     }
 
-    private func refreshCachedDevice(_ updatedDevice: NotificareDevice, _ completion: @escaping (Result<NotificareDevice, NotificareError>) -> Void) {
+    private func refreshCachedDevice(
+        _ updatedDevice: NotificareDevice,
+        _ completion: @escaping (Result<NotificareDevice, NotificareError>) -> Void
+    ) {
         // Persist updated device to storage.
         NotificareLocalStorage.registeredDevice = updatedDevice
 

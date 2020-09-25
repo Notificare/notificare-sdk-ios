@@ -5,8 +5,6 @@
 import Foundation
 
 struct NotificareLocalStorage {
-    private init() {}
-
     static var registeredDevice: NotificareDevice? {
         get {
             let settings = UserDefaults.standard
@@ -63,4 +61,6 @@ struct NotificareLocalStorage {
             UserDefaults.standard.synchronize()
         }
     }
+
+    private init() {}
 }
