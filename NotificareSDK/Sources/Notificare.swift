@@ -85,7 +85,7 @@ public class Notificare {
                 Notificare.shared.logger.debug("App name: \(applicationInfo.name)")
                 Notificare.shared.logger.debug("App ID: \(applicationInfo.id)")
 
-                let enabledServices = applicationInfo.services.filter { $0.value }.map { $0.key }
+                let enabledServices = applicationInfo.services.filter { $0.value }.map(\.key)
                 Notificare.shared.logger.debug("App services: \(enabledServices.joined(separator: ", "))")
                 Notificare.shared.logger.debug("/==================================================================================/")
                 Notificare.shared.logger.debug("SDK version: \(NotificareConstants.sdkVersion)")
