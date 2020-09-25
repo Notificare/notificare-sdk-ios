@@ -1,5 +1,4 @@
 //
-// Created by Helder Pinhal on 15/07/2020.
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
@@ -7,9 +6,7 @@ import Foundation
 import UIKit
 
 struct NotificareUtils {
-
     private init() {}
-
 
     static var applicationName: String? {
         if let bundleDisplayName = Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String {
@@ -80,7 +77,6 @@ struct NotificareUtils {
         Float(TimeZone.current.secondsFromGMT()) / 3600.0
     }
 
-
     static func getConfiguration() -> NotificareConfiguration? {
         guard let path = Bundle.main.path(forResource: "Notificare", ofType: "plist") else {
             fatalError("Notificare.plist is missing.")
@@ -114,9 +110,7 @@ struct NotificareUtils {
         }
     }
 
-    static func logCapabilities() {
-
-    }
+    static func logCapabilities() {}
 
     static func createJsonDecoder() -> JSONDecoder {
         let decoder = JSONDecoder()

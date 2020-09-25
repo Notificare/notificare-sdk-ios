@@ -1,5 +1,4 @@
 //
-// Created by Helder Pinhal on 07/08/2020.
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
@@ -21,7 +20,6 @@ struct NotificareDeviceRegistration: Encodable {
     let deviceString: String
     let timeZoneOffset: Float
     let backgroundAppRefresh: Bool
-
 
     enum CodingKeys: String, CodingKey {
         case deviceId = "deviceID"
@@ -46,19 +44,19 @@ extension NotificareDeviceRegistration {
     func toStoredDevice(with tokenData: Data) -> NotificareDevice {
         NotificareDevice(
             deviceTokenData: tokenData,
-            deviceID: self.deviceId,
-            userID: self.userId,
-            userName: self.userName,
-            timezone: self.timeZoneOffset,
-            osVersion: self.osVersion,
-            sdkVersion: self.sdkVersion,
-            appVersion: self.appVersion,
-            deviceModel: self.deviceString,
+            deviceID: deviceId,
+            userID: userId,
+            userName: userName,
+            timezone: timeZoneOffset,
+            osVersion: osVersion,
+            sdkVersion: sdkVersion,
+            appVersion: appVersion,
+            deviceModel: deviceString,
             country: nil,
             countryCode: nil,
-            language: self.language,
-            region: self.region,
-            transport: self.transport,
+            language: language,
+            region: region,
+            transport: transport,
             dnd: nil,
             userData: nil,
             latitude: nil,
@@ -74,7 +72,7 @@ extension NotificareDeviceRegistration {
             registeredForNotifications: false,
             allowedLocationServices: false,
             allowedUI: false,
-            backgroundAppRefresh: self.backgroundAppRefresh,
+            backgroundAppRefresh: backgroundAppRefresh,
             bluetoothON: false
         )
     }

@@ -1,5 +1,4 @@
 //
-// Created by Helder Pinhal on 11/09/2020.
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
@@ -75,12 +74,12 @@ extension JSONValue: Encodable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
-        case .string(let string): try container.encode(string)
-        case .int(let int): try container.encode(int)
-        case .double(let double): try container.encode(double)
-        case .bool(let bool): try container.encode(bool)
-        case .object(let object): try container.encode(object)
-        case .array(let array): try container.encode(array)
+        case let .string(string): try container.encode(string)
+        case let .int(int): try container.encode(int)
+        case let .double(double): try container.encode(double)
+        case let .bool(bool): try container.encode(bool)
+        case let .object(object): try container.encode(object)
+        case let .array(array): try container.encode(array)
         }
     }
 }

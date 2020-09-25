@@ -1,5 +1,4 @@
 //
-// Created by Helder Pinhal on 15/07/2020.
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
@@ -18,7 +17,6 @@ public struct NotificareApplicationInfo: Codable {
     public let websitePushConfig: WebsitePushConfig?
     public let userDataFields: [UserDataField]
     public let actionCategories: [ActionCategory]
-
 
     // MARK: Coding keys
 
@@ -44,17 +42,11 @@ public struct NotificareApplicationInfo: Codable {
         let autoBadge: Bool
     }
 
-    public struct PassbookConfig: Codable {
+    public struct PassbookConfig: Codable {}
 
-    }
+    public struct RegionConfig: Codable {}
 
-    public struct RegionConfig: Codable {
-
-    }
-
-    public struct WebsitePushConfig: Codable {
-
-    }
+    public struct WebsitePushConfig: Codable {}
 
     public struct UserDataField: Codable {
         let type: NotificareUserDataFieldType

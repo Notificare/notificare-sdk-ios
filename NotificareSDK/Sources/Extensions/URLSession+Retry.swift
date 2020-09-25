@@ -1,5 +1,4 @@
 //
-// Created by Helder Pinhal on 15/07/2020.
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
@@ -23,7 +22,8 @@ extension URLSession {
     func perform(_ urlRequest: URLRequest,
                  maxRetries: Int = URLSession.maximumNumberOfRetries,
                  allowEmptyData: Bool = false,
-                 callback: @escaping Callback) {
+                 callback: @escaping Callback)
+    {
         if maxRetries <= 0 {
             fatalError("maxRetries must be 1 or larger.")
         }
@@ -37,11 +37,11 @@ private extension URLSession {
     /// Helper type which groups `URLRequest` (input), `Callback` from the caller (output)
     /// along with helpful processing properties, like number of retries.
     typealias NetworkRequest = (
-            urlRequest: URLRequest,
-            currentRetries: Int,
-            maxRetries: Int,
-            allowEmptyData: Bool,
-            callback: Callback
+        urlRequest: URLRequest,
+        currentRetries: Int,
+        maxRetries: Int,
+        allowEmptyData: Bool,
+        callback: Callback
     )
 
     /// Extra-step where `URLRequest`'s authorization should be handled, before actually performing the URLRequest in `execute()`
@@ -118,7 +118,7 @@ private extension URLSession {
         case .success:
             break
 
-        case .failure(let networkError):
+        case let .failure(networkError):
             switch networkError {
             case .inaccessible:
                 //    too many failed network calls
@@ -131,7 +131,7 @@ private extension URLSession {
                     newRequest.currentRetries += 1
                     //    try again, going through authentication again
                     //    (since it's quite possible that Auth token or whatever has expired)
-                    self.authenticate(newRequest)
+                    authenticate(newRequest)
                     return
                 }
             }

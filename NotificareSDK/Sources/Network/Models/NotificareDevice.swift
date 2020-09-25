@@ -1,5 +1,4 @@
 //
-// Created by Helder Pinhal on 31/07/2020.
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
@@ -40,39 +39,38 @@ public struct NotificareDevice {
 }
 
 extension NotificareDevice: Codable {
-    
     enum CodingKeys: CodingKey {
         case deviceTokenData,
-             deviceID,
-             userID,
-             userName,
-             timezone,
-             osVersion,
-             sdkVersion,
-             appVersion,
-             deviceModel,
-             country,
-             countryCode,
-             language,
-             region,
-             transport,
-             dnd,
-             userData,
-             latitude,
-             longitude,
-             altitude,
-             accuracy,
-             floor,
-             speed,
-             course,
-             lastRegistered,
-             locationServicesAuthStatus,
-             locationServicesAccuracyAuth,
-             registeredForNotifications,
-             allowedLocationServices,
-             allowedUI,
-             backgroundAppRefresh,
-             bluetoothON
+            deviceID,
+            userID,
+            userName,
+            timezone,
+            osVersion,
+            sdkVersion,
+            appVersion,
+            deviceModel,
+            country,
+            countryCode,
+            language,
+            region,
+            transport,
+            dnd,
+            userData,
+            latitude,
+            longitude,
+            altitude,
+            accuracy,
+            floor,
+            speed,
+            course,
+            lastRegistered,
+            locationServicesAuthStatus,
+            locationServicesAccuracyAuth,
+            registeredForNotifications,
+            allowedLocationServices,
+            allowedUI,
+            backgroundAppRefresh,
+            bluetoothON
     }
 
     public init(from decoder: Decoder) throws {
@@ -120,42 +118,42 @@ extension NotificareDevice: Codable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        try container.encode(self.deviceTokenData, forKey: .deviceTokenData)
-        try container.encode(self.deviceID, forKey: .deviceID)
-        try container.encodeIfPresent(self.userID, forKey: .userID)
-        try container.encodeIfPresent(self.userName, forKey: .userName)
-        try container.encode(self.timezone, forKey: .timezone)
-        try container.encode(self.osVersion, forKey: .osVersion)
-        try container.encode(self.sdkVersion, forKey: .sdkVersion)
-        try container.encode(self.appVersion, forKey: .appVersion)
-        try container.encode(self.deviceModel, forKey: .deviceModel)
-        try container.encodeIfPresent(self.country, forKey: .country)
-        try container.encodeIfPresent(self.countryCode, forKey: .countryCode)
-        try container.encode(self.language, forKey: .language)
-        try container.encode(self.region, forKey: .region)
-        try container.encode(self.transport, forKey: .transport)
-        try container.encodeIfPresent(self.dnd, forKey: .dnd)
+        try container.encode(deviceTokenData, forKey: .deviceTokenData)
+        try container.encode(deviceID, forKey: .deviceID)
+        try container.encodeIfPresent(userID, forKey: .userID)
+        try container.encodeIfPresent(userName, forKey: .userName)
+        try container.encode(timezone, forKey: .timezone)
+        try container.encode(osVersion, forKey: .osVersion)
+        try container.encode(sdkVersion, forKey: .sdkVersion)
+        try container.encode(appVersion, forKey: .appVersion)
+        try container.encode(deviceModel, forKey: .deviceModel)
+        try container.encodeIfPresent(country, forKey: .country)
+        try container.encodeIfPresent(countryCode, forKey: .countryCode)
+        try container.encode(language, forKey: .language)
+        try container.encode(region, forKey: .region)
+        try container.encode(transport, forKey: .transport)
+        try container.encodeIfPresent(dnd, forKey: .dnd)
 
         if let userData = self.userData,
-           let data = try? JSONSerialization.data(withJSONObject: userData, options: []) {
-
+            let data = try? JSONSerialization.data(withJSONObject: userData, options: [])
+        {
             try container.encode(data, forKey: .userData)
         }
 
-        try container.encodeIfPresent(self.latitude, forKey: .latitude)
-        try container.encodeIfPresent(self.longitude, forKey: .longitude)
-        try container.encodeIfPresent(self.altitude, forKey: .altitude)
-        try container.encodeIfPresent(self.accuracy, forKey: .accuracy)
-        try container.encodeIfPresent(self.floor, forKey: .floor)
-        try container.encodeIfPresent(self.speed, forKey: .speed)
-        try container.encodeIfPresent(self.course, forKey: .course)
-        try container.encode(self.lastRegistered, forKey: .lastRegistered)
-        try container.encodeIfPresent(self.locationServicesAuthStatus, forKey: .locationServicesAuthStatus)
-        try container.encodeIfPresent(self.locationServicesAccuracyAuth, forKey: .locationServicesAccuracyAuth)
-        try container.encode(self.registeredForNotifications, forKey: .registeredForNotifications)
-        try container.encode(self.allowedLocationServices, forKey: .allowedLocationServices)
-        try container.encode(self.allowedUI, forKey: .allowedUI)
-        try container.encode(self.backgroundAppRefresh, forKey: .backgroundAppRefresh)
-        try container.encode(self.bluetoothON, forKey: .bluetoothON)
+        try container.encodeIfPresent(latitude, forKey: .latitude)
+        try container.encodeIfPresent(longitude, forKey: .longitude)
+        try container.encodeIfPresent(altitude, forKey: .altitude)
+        try container.encodeIfPresent(accuracy, forKey: .accuracy)
+        try container.encodeIfPresent(floor, forKey: .floor)
+        try container.encodeIfPresent(speed, forKey: .speed)
+        try container.encodeIfPresent(course, forKey: .course)
+        try container.encode(lastRegistered, forKey: .lastRegistered)
+        try container.encodeIfPresent(locationServicesAuthStatus, forKey: .locationServicesAuthStatus)
+        try container.encodeIfPresent(locationServicesAccuracyAuth, forKey: .locationServicesAccuracyAuth)
+        try container.encode(registeredForNotifications, forKey: .registeredForNotifications)
+        try container.encode(allowedLocationServices, forKey: .allowedLocationServices)
+        try container.encode(allowedUI, forKey: .allowedUI)
+        try container.encode(backgroundAppRefresh, forKey: .backgroundAppRefresh)
+        try container.encode(bluetoothON, forKey: .bluetoothON)
     }
 }

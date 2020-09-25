@@ -6,23 +6,22 @@
 //  Copyright © 2020 Notificare. All rights reserved.
 //
 
-import UIKit
 import NotificareSDK
+import UIKit
 
 class ViewController: UIViewController {
-
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
 
-    @IBAction func onEnableRemoteNotificationsClick(_ sender: Any) {
+    @IBAction func onEnableRemoteNotificationsClick(_: Any) {
         // Notificare.shared.pushManager!.enableRemoteNotifications()
     }
 
-    @IBAction func onSendCustomEventClick(_ sender: Any) {
+    @IBAction func onSendCustomEventClick(_: Any) {
         let data: NotificareEventData = [
-            "color": "blue"
+            "color": "blue",
         ]
 
         Notificare.shared.eventLogger.logCustom("test", data: data)

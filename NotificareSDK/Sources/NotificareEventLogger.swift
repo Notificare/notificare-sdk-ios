@@ -1,31 +1,27 @@
 //
-// Created by Helder Pinhal on 04/08/2020.
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
 import Foundation
 import UIKit
 
-fileprivate let MAX_RETRIES = 5
+private let maxRetries = 5
 
 public class NotificareEventLogger {
-
     private let discardableEvents = [String]()
     private var processEventsTaskIdentifier: UIBackgroundTaskIdentifier?
-
 
     func configure() {
         _ = NotificareSwizzler.addInterceptor(self)
     }
 
     func launch() {
-        self.processStoredEvents()
+        processStoredEvents()
     }
 
     public func logCustom(_ event: String, data: NotificareEventData? = nil) {
-        self.log("re.notifica.event.custom.\(event)", data: data)
+        log("re.notifica.event.custom.\(event)", data: data)
     }
-
 
     private func log(_ event: String, data: NotificareEventData? = nil) {
         guard let device = NotificareDeviceManager.shared.device else {
@@ -43,7 +39,7 @@ public class NotificareEventLogger {
             data: data
         )
 
-        self.log(event)
+        log(event)
     }
 
     private func log(_ event: NotificareEvent) {
@@ -51,7 +47,7 @@ public class NotificareEventLogger {
             switch result {
             case .success:
                 Notificare.shared.logger.info("Event sent successfully.")
-            case .failure(let error):
+            case let .failure(error):
                 Notificare.shared.logger.warning("Failed to send the event: \(event.type).")
                 Notificare.shared.logger.debug("\(error)")
 
@@ -68,9 +64,8 @@ public class NotificareEventLogger {
 // MARK: - NotificareAppDelegateInterceptor
 
 extension NotificareEventLogger: NotificareAppDelegateInterceptor {
-
-    public func applicationDidBecomeActive(_ application: UIApplication) {
-        self.processStoredEvents()
+    public func applicationDidBecomeActive(_: UIApplication) {
+        processStoredEvents()
     }
 
     private func processStoredEvents() {
@@ -81,7 +76,7 @@ extension NotificareEventLogger: NotificareAppDelegateInterceptor {
         }
 
         // Ensure there is no running task.
-        guard self.processEventsTaskIdentifier == nil else {
+        guard processEventsTaskIdentifier == nil else {
             Notificare.shared.logger.verbose("There's an upload task running. Skipping...")
             return
         }
@@ -115,7 +110,7 @@ extension NotificareEventLogger: NotificareAppDelegateInterceptor {
     }
 
     private func process(_ managedEvents: [NotificareCoreDataEvent]) {
-        guard self.processEventsTaskIdentifier != nil else {
+        guard processEventsTaskIdentifier != nil else {
             Notificare.shared.logger.debug("The background task was terminated before all the events could be processed.")
             return
         }
@@ -127,7 +122,7 @@ extension NotificareEventLogger: NotificareAppDelegateInterceptor {
         }
 
         let event = events.removeFirst()
-        self.process(event)
+        process(event)
 
         if events.isEmpty {
             Notificare.shared.logger.debug("Finished processing all the events.")
@@ -156,19 +151,19 @@ extension NotificareEventLogger: NotificareAppDelegateInterceptor {
         group.enter()
 
         // Perform the network request, which can retry internally.
-        Notificare.shared.pushApi!.logEvent(event, { result in
+        Notificare.shared.pushApi!.logEvent(event) { result in
             switch result {
             case .success:
                 Notificare.shared.logger.verbose("Event processed. Removing from storage...")
                 Notificare.shared.coreDataManager.remove(managedEvent)
-            case .failure(let error):
+            case let .failure(error):
                 if error.recoverable {
                     Notificare.shared.logger.verbose("Failed to process event.")
 
                     // Increase the attempts counter.
                     managedEvent.retries += 1
 
-                    if managedEvent.retries < MAX_RETRIES {
+                    if managedEvent.retries < maxRetries {
                         // Persist the attempts counter.
                         Notificare.shared.coreDataManager.save()
                     } else {
@@ -182,14 +177,14 @@ extension NotificareEventLogger: NotificareAppDelegateInterceptor {
             }
 
             group.leave()
-        })
+        }
 
         // Wait until the request finishes.
         group.wait()
     }
 }
 
-fileprivate extension NotificareError {
+private extension NotificareError {
     var recoverable: Bool {
         if case let .networkFailure(cause) = self {
             switch cause {

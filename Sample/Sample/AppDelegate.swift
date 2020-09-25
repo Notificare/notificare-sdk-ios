@@ -6,15 +6,14 @@
 //  Copyright © 2020 Notificare. All rights reserved.
 //
 
-import UIKit
 import NotificareSDK
+import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, NotificareDelegate {
-
     var window: UIWindow?
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    func application(_: UIApplication, didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
 
         Notificare.shared.logger.level = .verbose
@@ -23,19 +22,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, NotificareDelegate {
         return true
     }
 
-    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {}
+    func application(_: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken _: Data) {}
 
-    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {}
+    func application(_: UIApplication, didFailToRegisterForRemoteNotificationsWithError _: Error) {}
 
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {}
+    func application(_: UIApplication, didReceiveRemoteNotification _: [AnyHashable: Any]) {}
 
     // MARK: - NotificareDelegate
 
-    func notificare(_ notificare: Notificare, onReady application: NotificareApplicationInfo) {
+    func notificare(_: Notificare, onReady _: NotificareApplicationInfo) {
         print("-----> Notificare is ready.")
     }
 
-    func notificare(_ notificare: Notificare, didRegisterDevice device: NotificareDevice) {
+    func notificare(_: Notificare, didRegisterDevice device: NotificareDevice) {
         print("-----> Notificare: device registered: \(device)")
     }
 }

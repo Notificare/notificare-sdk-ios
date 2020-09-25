@@ -1,15 +1,10 @@
 //
-//  NotificareModuleFactory.swift
-//  Core
-//
-//  Created by Helder Pinhal on 13/07/2020.
-//  Copyright © 2020 Notificare. All rights reserved.
+// Copyright (c) 2020 Notificare. All rights reserved.
 //
 
 import Foundation
 
 struct NotificareModuleFactory {
-
     static func hasPushModule() -> Bool {
         let cls = NSClassFromString("NotificarePush.NotificarePushManagerImpl") as? NotificarePushManager.Type
         return cls != nil
@@ -22,7 +17,7 @@ struct NotificareModuleFactory {
         }
 
         return cls.init(applicationKey: Notificare.shared.applicationKey!,
-                applicationSecret: Notificare.shared.applicationSecret!)
+                        applicationSecret: Notificare.shared.applicationSecret!)
     }
 
     func createLocationManager() -> NotificareLocationManager? {
@@ -32,6 +27,6 @@ struct NotificareModuleFactory {
         }
 
         return cls.init(applicationKey: Notificare.shared.applicationKey!,
-                applicationSecret: Notificare.shared.applicationSecret!)
+                        applicationSecret: Notificare.shared.applicationSecret!)
     }
 }
