@@ -6,8 +6,7 @@ import Foundation
 import UIKit
 
 public class NotificareAutoLauncher: NSObject {
-    @objc
-    public static func setup() {
+    @objc public static func setup() {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(didFinishLaunching(_:)),
@@ -16,8 +15,7 @@ public class NotificareAutoLauncher: NSObject {
         )
     }
 
-    @objc
-    public static func didFinishLaunching(_: Notification) {
+    @objc public static func didFinishLaunching(_: Notification) {
         NotificationCenter.default.removeObserver(
             self,
             name: UIApplication.didFinishLaunchingNotification,

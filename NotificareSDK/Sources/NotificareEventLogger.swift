@@ -86,7 +86,9 @@ extension NotificareEventLogger: NotificareAppDelegateInterceptor {
             // Notify the system about a long running task.
             self.processEventsTaskIdentifier = UIApplication.shared.beginBackgroundTask(withName: NotificareConstants.BackgroundTasks.processEvents) {
                 // Check the task is still running.
-                guard let taskId = self.processEventsTaskIdentifier else { return }
+                guard let taskId = self.processEventsTaskIdentifier else {
+                    return
+                }
 
                 // Stop the task if the given time expires.
                 Notificare.shared.logger.debug("Completing background task after its expiration.")
@@ -100,7 +102,9 @@ extension NotificareEventLogger: NotificareAppDelegateInterceptor {
             }
 
             // Check the task is still running.
-            guard let taskId = self.processEventsTaskIdentifier else { return }
+            guard let taskId = self.processEventsTaskIdentifier else {
+                return
+            }
 
             // Stop the task if the given time expires.
             Notificare.shared.logger.debug("Completing background task after processing all the events.")
