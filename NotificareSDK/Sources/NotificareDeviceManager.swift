@@ -1,5 +1,4 @@
 //
-// Created by Helder Pinhal on 04/08/2020.
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
@@ -7,24 +6,20 @@ import Foundation
 import UIKit
 
 public class NotificareDeviceManager {
-
     public static let shared = NotificareDeviceManager()
 
     private(set) var sessionId: String?
     private(set) var device: NotificareDevice?
 
-
     private init() {}
 
-
     func configure() {
-        self.sessionId = UUID().uuidString
+        sessionId = UUID().uuidString
 
-        // TODO handle migration
-
+        // TODO: handle migration
 
         // Load the registered device.
-        self.device = NotificareLocalStorage.registeredDevice
+        device = NotificareLocalStorage.registeredDevice
     }
 
     func launch(_ completion: @escaping (Result<Void, NotificareError>) -> Void) {
@@ -33,7 +28,7 @@ public class NotificareDeviceManager {
                 // It's not the same version, let's log it as an upgrade.
                 Notificare.shared.logger.debug("New version detected")
 
-                // TODO log app upgrade event
+                // TODO: log app upgrade event
                 // Log an application upgrade event.
 
                 completion(.success(()))
@@ -44,23 +39,23 @@ public class NotificareDeviceManager {
         } else {
             Notificare.shared.logger.debug("New install detected")
 
-            //Let's avoid the new registration event for a temporary device
+            // Let's avoid the new registration event for a temporary device
             NotificareLocalStorage.newRegistration = false
 
-            //Let's logout the user in case there's an account in the keychain
-            // TODO [[NotificareAuth shared] logoutAccount]
+            // Let's logout the user in case there's an account in the keychain
+            // TODO: [[NotificareAuth shared] logoutAccount]
 
             NotificareDeviceManager.shared.registerTemporary { result in
                 switch result {
-                case .success(_):
-                    // TODO log app install event
+                case .success:
+                    // TODO: log app install event
                     // We will log the Install here since this will execute only one time at the start.
 
-                    // TODO log app open event
+                    // TODO: log app open event
                     // We will log the App Open this first time here.
 
                     completion(.success(()))
-                case .failure(let error):
+                case let .failure(error):
                     Notificare.shared.logger.warning("Failed to register temporary device: \(error)")
                     completion(.failure(error))
                 }
@@ -77,24 +72,24 @@ public class NotificareDeviceManager {
         let token = deviceToken.toHexString()
 
         if registrationChanged(token: token, userId: userId, userName: userName) {
-            let oldDeviceId = self.device?.deviceID != nil && self.device?.deviceID != token ? self.device?.deviceID : nil
+            let oldDeviceId = device?.deviceID != nil && device?.deviceID != token ? device?.deviceID : nil
 
             let deviceRegistration = NotificareDeviceRegistration(
-                    deviceId: token,
-                    oldDeviceId: oldDeviceId,
-                    userId: userId,
-                    userName: userName,
-                    country: self.device?.countryCode,
-                    language: NotificareUtils.deviceLanguage,
-                    region: NotificareUtils.deviceRegion,
-                    platform: "iOS",
-                    transport: temporary ? .notificare : .apns,
-                    osVersion: NotificareUtils.osVersion,
-                    sdkVersion: NotificareConstants.sdkVersion,
-                    appVersion: NotificareUtils.applicationVersion,
-                    deviceString: NotificareUtils.deviceString,
-                    timeZoneOffset: NotificareUtils.timeZoneOffset,
-                    backgroundAppRefresh: UIApplication.shared.backgroundRefreshStatus == .available
+                deviceId: token,
+                oldDeviceId: oldDeviceId,
+                userId: userId,
+                userName: userName,
+                country: device?.countryCode,
+                language: NotificareUtils.deviceLanguage,
+                region: NotificareUtils.deviceRegion,
+                platform: "iOS",
+                transport: temporary ? .notificare : .apns,
+                osVersion: NotificareUtils.osVersion,
+                sdkVersion: NotificareConstants.sdkVersion,
+                appVersion: NotificareUtils.applicationVersion,
+                deviceString: NotificareUtils.deviceString,
+                timeZoneOffset: NotificareUtils.timeZoneOffset,
+                backgroundAppRefresh: UIApplication.shared.backgroundRefreshStatus == .available
             )
 
             pushApi.createDevice(with: deviceRegistration) { result in
@@ -102,18 +97,18 @@ public class NotificareDeviceManager {
                 case .success:
                     self.refreshCachedDevice(deviceRegistration.toStoredDevice(with: deviceToken)) { result in
                         switch result {
-                        case .success(let device):
+                        case let .success(device):
                             // Notify delegate.
                             Notificare.shared.delegate?.notificare(Notificare.shared, didRegisterDevice: device)
 
-                            // TODO handle new registration & event logging
+                            // TODO: handle new registration & event logging
 
                             completion(.success(device))
-                        case .failure(let error):
+                        case let .failure(error):
                             completion(.failure(error))
                         }
                     }
-                case .failure(let error):
+                case let .failure(error):
                     Notificare.shared.logger.error("Failed to register device: \(error)")
                     completion(.failure(error))
                 }
@@ -134,19 +129,22 @@ public class NotificareDeviceManager {
         let uuid = UUID().uuidString
         let uuidData = uuid.data(using: .utf8)!
 
-        self.register(deviceToken: uuidData, asTemporary: true, withUserId: self.device?.userID, andUserName: self.device?.userName) { result in
+        register(
+            deviceToken: uuidData,
+            asTemporary: true,
+            withUserId: device?.userID,
+            andUserName: device?.userName
+        ) { result in
             switch result {
             case .success:
                 self.updateNotificationSettings(allowedUI: false, completion)
-            case .failure(let error):
+            case let .failure(error):
                 completion(.failure(error))
             }
         }
     }
 
-    func delete(_ completion: @escaping (Result<Void, NotificareError>) -> Void) {
-
-    }
+    func delete(_: @escaping (Result<Void, NotificareError>) -> Void) {}
 
     func updateNotificationSettings(allowedUI: Bool, _ completion: @escaping (Result<NotificareDevice, NotificareError>) -> Void) {
         guard var device = self.device else {
@@ -155,9 +153,9 @@ public class NotificareDeviceManager {
         }
 
         let payload = NotificareDeviceUpdateNotificationSettings(
-                language: self.getLanguage(),
-                region: self.getRegion(),
-                allowedUI: allowedUI
+            language: getLanguage(),
+            region: getRegion(),
+            allowedUI: allowedUI
         )
 
         guard let pushApi = Notificare.shared.pushApi else {
@@ -172,7 +170,7 @@ public class NotificareDeviceManager {
                 device.allowedUI = allowedUI
 
                 self.refreshCachedDevice(device, completion)
-            case .failure(let error):
+            case let .failure(error):
                 completion(.failure(error))
             }
         }
@@ -214,18 +212,18 @@ public class NotificareDeviceManager {
         }
 
         let payload = NotificareDeviceUpdateLocation(
-                language: self.getLanguage(),
-                region: self.getRegion(),
-                latitude: nil,
-                longitude: nil,
-                altitude: nil,
-                locationAccuracy: nil,
-                speed: nil,
-                course: nil,
-                country: nil,
-                floor: nil,
-                locationServicesAuthStatus: nil,
-                locationServicesAccuracyAuth: nil
+            language: getLanguage(),
+            region: getRegion(),
+            latitude: nil,
+            longitude: nil,
+            altitude: nil,
+            locationAccuracy: nil,
+            speed: nil,
+            course: nil,
+            country: nil,
+            floor: nil,
+            locationServicesAuthStatus: nil,
+            locationServicesAccuracyAuth: nil
         )
 
         guard let pushApi = Notificare.shared.pushApi else {
@@ -249,7 +247,7 @@ public class NotificareDeviceManager {
                 device.allowedLocationServices = false
 
                 self.refreshCachedDevice(device, completion)
-            case .failure(let error):
+            case let .failure(error):
                 completion(.failure(error))
             }
         }
@@ -264,9 +262,9 @@ public class NotificareDeviceManager {
         let timeZoneOffset = NotificareUtils.timeZoneOffset
 
         let payload = NotificareDeviceUpdateTimezone(
-                language: self.getLanguage(),
-                region: self.getRegion(),
-                timeZoneOffset: timeZoneOffset
+            language: getLanguage(),
+            region: getRegion(),
+            timeZoneOffset: timeZoneOffset
         )
 
         guard let pushApi = Notificare.shared.pushApi else {
@@ -281,24 +279,17 @@ public class NotificareDeviceManager {
                 device.timezone = timeZoneOffset
 
                 self.refreshCachedDevice(device, completion)
-            case .failure(let error):
+            case let .failure(error):
                 completion(.failure(error))
             }
         }
     }
 
-    func updateLanguage(_ completion: @escaping (Result<Void, NotificareError>) -> Void) {
+    func updateLanguage(_: @escaping (Result<Void, NotificareError>) -> Void) {}
 
-    }
+    func updateBackgroundAppRefresh(_: @escaping (Result<Void, NotificareError>) -> Void) {}
 
-    func updateBackgroundAppRefresh(_ completion: @escaping (Result<Void, NotificareError>) -> Void) {
-
-    }
-
-    func updateBluetoothState(bluetoothEnabled: Bool, _ completion: @escaping (Result<Void, NotificareError>) -> Void) {
-
-    }
-
+    func updateBluetoothState(bluetoothEnabled _: Bool, _: @escaping (Result<Void, NotificareError>) -> Void) {}
 
     private func registrationChanged(token: String, userId: String?, userName: String?) -> Bool {
         guard let device = self.device else {
@@ -355,8 +346,10 @@ public class NotificareDeviceManager {
             changed = true
         }
 
-        let language = UserDefaults.standard.string(forKey: NotificareConstants.UserDefaults.preferredLanguage) ?? NotificareUtils.deviceLanguage
-        let region = UserDefaults.standard.string(forKey: NotificareConstants.UserDefaults.preferredRegion) ?? NotificareUtils.deviceRegion
+        let language = UserDefaults.standard.string(forKey: NotificareConstants.UserDefaults.preferredLanguage)
+            ?? NotificareUtils.deviceLanguage
+        let region = UserDefaults.standard.string(forKey: NotificareConstants.UserDefaults.preferredRegion)
+            ?? NotificareUtils.deviceRegion
 
         if device.language != language {
             Notificare.shared.logger.debug("Registration check: language changed")
@@ -379,7 +372,10 @@ public class NotificareDeviceManager {
         NotificareLocalStorage.preferredRegion ?? NotificareUtils.deviceRegion
     }
 
-    private func refreshCachedDevice(_ updatedDevice: NotificareDevice, _ completion: @escaping (Result<NotificareDevice, NotificareError>) -> Void) {
+    private func refreshCachedDevice(
+        _ updatedDevice: NotificareDevice,
+        _ completion: @escaping (Result<NotificareDevice, NotificareError>) -> Void
+    ) {
         // Persist updated device to storage.
         NotificareLocalStorage.registeredDevice = updatedDevice
 

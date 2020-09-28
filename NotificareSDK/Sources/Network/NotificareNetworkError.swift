@@ -1,12 +1,10 @@
 //
-// Created by Helder Pinhal on 15/07/2020.
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
 import Foundation
 
 public enum NotificareNetworkError: Error {
-
     /// When network conditions are so bad that after `maxRetries` the request did not succeed.
     case inaccessible
 
@@ -30,7 +28,6 @@ public enum NotificareNetworkError: Error {
 }
 
 extension NotificareNetworkError {
-
     /// Returns `true` if URLRequest should be retried for the given `NetworkError` instance.
     ///
     /// At the lowest network levels, it makes sense to retry for cases of (possible) temporary outage. Things like timeouts, can't connect to host, network connection lost.
@@ -38,9 +35,8 @@ extension NotificareNetworkError {
     ///
     /// Upper layers of the app architecture may build on this to add more specific cases when the request should be retried.
     var shouldRetry: Bool {
-
         switch self {
-        case .urlError(let urlError):
+        case let .urlError(urlError):
             // if temporary network issues, retry
             switch urlError.code {
             case URLError.timedOut,
@@ -62,13 +58,12 @@ extension NotificareNetworkError {
 }
 
 extension NotificareNetworkError: LocalizedError {
-
     public var errorDescription: String? {
         switch self {
-        case .genericError(let error):
+        case let .genericError(error):
             return error.localizedDescription
 
-        case .urlError(let urlError):
+        case let .urlError(urlError):
             return urlError.localizedDescription
 
         case .invalidResponseType, .noResponse:
@@ -77,9 +72,9 @@ extension NotificareNetworkError: LocalizedError {
         case .noResponseData:
             return nil
 
-        case .endpointError(let httpURLResponse, _):
-            let s = "\(httpURLResponse.statusCode) \(HTTPURLResponse.localizedString(forStatusCode: httpURLResponse.statusCode))"
-            return s
+        case let .endpointError(httpURLResponse, _):
+            let str = "\(httpURLResponse.statusCode) \(HTTPURLResponse.localizedString(forStatusCode: httpURLResponse.statusCode))"
+            return str
 
         case .inaccessible:
             return NSLocalizedString("Service is not accessible", comment: "")
@@ -88,16 +83,16 @@ extension NotificareNetworkError: LocalizedError {
 
     public var failureReason: String? {
         switch self {
-        case .genericError(let error):
+        case let .genericError(error):
             return (error as NSError).localizedFailureReason
 
-        case .urlError(let urlError):
+        case let .urlError(urlError):
             return (urlError as NSError).localizedFailureReason
 
         case .noResponse:
             return NSLocalizedString("Request apparently succeeded (no errors) but URLResponse was not received.", comment: "")
 
-        case .invalidResponseType(let response):
+        case let .invalidResponseType(response):
             return String(format: NSLocalizedString("Response is not HTTP response.\n\n%@", comment: ""), response)
 
         case .inaccessible:
@@ -106,13 +101,12 @@ extension NotificareNetworkError: LocalizedError {
         case .noResponseData:
             return NSLocalizedString("Request succeeded, no response body received", comment: "")
 
-        case .endpointError(let httpURLResponse, let data):
-            let s = "\(httpURLResponse.formattedHeaders)\n\n\(data?.utf8StringRepresentation ?? "")"
-            return s
+        case let .endpointError(httpURLResponse, data):
+            let str = "\(httpURLResponse.formattedHeaders)\n\n\(data?.utf8StringRepresentation ?? "")"
+            return str
         }
     }
 }
-
 
 private extension HTTPURLResponse {
     var formattedHeaders: String {

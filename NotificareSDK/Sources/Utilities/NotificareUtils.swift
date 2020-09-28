@@ -1,5 +1,4 @@
 //
-// Created by Helder Pinhal on 15/07/2020.
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
@@ -7,9 +6,7 @@ import Foundation
 import UIKit
 
 struct NotificareUtils {
-
     private init() {}
-
 
     static var applicationName: String? {
         if let bundleDisplayName = Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String {
@@ -37,7 +34,10 @@ struct NotificareUtils {
 
         let machineMirror = Mirror(reflecting: systemInfo.machine)
         let identifier = machineMirror.children.reduce("") { identifier, element in
-            guard let value = element.value as? Int8, value != 0 else { return identifier }
+            guard let value = element.value as? Int8, value != 0 else {
+                return identifier
+            }
+
             return identifier + String(UnicodeScalar(UInt8(value)))
         }
 
@@ -47,10 +47,10 @@ struct NotificareUtils {
     static var deviceLanguage: String {
         var language = "en"
 
-        if NSLocale.preferredLanguages.count > 0 {
+        if !NSLocale.preferredLanguages.isEmpty {
             let preferredLanguage = NSLocale.preferredLanguages[0]
             let comps = preferredLanguage.components(separatedBy: "-")
-            if comps.count > 0 {
+            if !comps.isEmpty {
                 language = comps[0]
             }
         }
@@ -61,7 +61,7 @@ struct NotificareUtils {
     static var deviceRegion: String {
         var region = "US"
 
-        if NSLocale.preferredLanguages.count > 0 {
+        if !NSLocale.preferredLanguages.isEmpty {
             let preferredLanguage = NSLocale.preferredLanguages[0]
             let comps = preferredLanguage.components(separatedBy: "-")
             if comps.count > 1 {
@@ -79,7 +79,6 @@ struct NotificareUtils {
     static var timeZoneOffset: Float {
         Float(TimeZone.current.secondsFromGMT()) / 3600.0
     }
-
 
     static func getConfiguration() -> NotificareConfiguration? {
         guard let path = Bundle.main.path(forResource: "Notificare", ofType: "plist") else {
@@ -114,9 +113,7 @@ struct NotificareUtils {
         }
     }
 
-    static func logCapabilities() {
-
-    }
+    static func logCapabilities() {}
 
     static func createJsonDecoder() -> JSONDecoder {
         let decoder = JSONDecoder()

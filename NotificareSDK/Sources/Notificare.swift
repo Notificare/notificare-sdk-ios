@@ -1,15 +1,10 @@
 //
-//  Notificare.swift
-//  Core
-//
-//  Created by Helder Pinhal on 13/07/2020.
-//  Copyright © 2020 Notificare. All rights reserved.
+// Copyright (c) 2020 Notificare. All rights reserved.
 //
 
 import Foundation
 
 public class Notificare {
-
     public static let shared = Notificare()
 
     public private(set) var logger = NotificareLogger()
@@ -20,18 +15,16 @@ public class Notificare {
     internal let coreDataManager = NotificareCoreDataManager()
 
     internal private(set) var environment: NotificareEnvironment = .production
-    internal private(set) var applicationKey: String? = nil
-    internal private(set) var applicationSecret: String? = nil
-    internal private(set) var pushApi: NotificarePushApi? = nil
+    internal private(set) var applicationKey: String?
+    internal private(set) var applicationSecret: String?
+    internal private(set) var pushApi: NotificarePushApi?
 
     internal private(set) var state: State = .none
     internal private(set) var applicationInfo: NotificareApplicationInfo?
 
-    public var delegate: NotificareDelegate?
-
+    public weak var delegate: NotificareDelegate?
 
     private init() {}
-
 
     public func configure(applicationKey: String, applicationSecret: String, withEnvironment environment: NotificareEnvironment = .production) {
         guard state == .none else {
@@ -43,24 +36,28 @@ public class Notificare {
         self.applicationSecret = applicationSecret
         self.environment = environment
 
-        self.setupNetworking()
-        self.loadAvailableModules()
+        setupNetworking()
+        loadAvailableModules()
 
         let configuration = NotificareUtils.getConfiguration()
         if configuration?.swizzlingEnabled ?? true {
-            NotificareSwizzler.setup(withRemoteNotifications: self.pushManager != nil)
+            NotificareSwizzler.setup(withRemoteNotifications: pushManager != nil)
         } else {
-            Notificare.shared.logger.warning("Automatic App Delegate Proxy is not enabled. You will need to forward UIAppDelegate events to Notificare manually. Please check the documentation for which events to forward.")
+            Notificare.shared.logger.warning("""
+            Automatic App Delegate Proxy is not enabled. \
+            You will need to forward UIAppDelegate events to Notificare manually. \
+            Please check the documentation for which events to forward.
+            """)
         }
 
-        // TODO configure all the modules / managers
-        self.coreDataManager.configure()
-        self.eventLogger.configure()
+        // TODO: configure all the modules / managers
+        coreDataManager.configure()
+        eventLogger.configure()
         NotificareDeviceManager.shared.configure()
-        self.pushManager?.configure()
+        pushManager?.configure()
 
         Notificare.shared.logger.debug("Notificare configured for '\(environment)' services.")
-        self.state = .configured
+        state = .configured
     }
 
     public func launch() {
@@ -79,7 +76,7 @@ public class Notificare {
 
         NotificareLaunchManager.shared.launch { result in
             switch result {
-            case .success(let applicationInfo):
+            case let .success(applicationInfo):
                 self.applicationInfo = applicationInfo
                 self.state = .launched
 
@@ -88,7 +85,7 @@ public class Notificare {
                 Notificare.shared.logger.debug("App name: \(applicationInfo.name)")
                 Notificare.shared.logger.debug("App ID: \(applicationInfo.id)")
 
-                let enabledServices = applicationInfo.services.filter { $0.value }.map { $0.key }
+                let enabledServices = applicationInfo.services.filter { $0.value }.map(\.key)
                 Notificare.shared.logger.debug("App services: \(enabledServices.joined(separator: ", "))")
                 Notificare.shared.logger.debug("/==================================================================================/")
                 Notificare.shared.logger.debug("SDK version: \(NotificareConstants.sdkVersion)")
@@ -99,7 +96,7 @@ public class Notificare {
                 // All good. Notify delegate.
                 self.state = .ready
                 self.delegate?.notificare(self, onReady: applicationInfo)
-            case .failure(let error):
+            case let .failure(error):
                 Notificare.shared.logger.error("Failed to load the application info: \(error)")
 
                 // Revert back to previous state.
@@ -117,30 +114,29 @@ public class Notificare {
         let sessionConfiguration = URLSessionConfiguration.default
         sessionConfiguration.urlCredentialStorage = nil
 
-        self.pushApi = NotificarePushApi(
-            applicationKey: self.applicationKey!,
-            applicationSecret: self.applicationSecret!,
+        pushApi = NotificarePushApi(
+            applicationKey: applicationKey!,
+            applicationSecret: applicationSecret!,
             session: URLSession(configuration: sessionConfiguration)
         )
     }
 
     private func loadAvailableModules() {
         let factory = NotificareModuleFactory()
-        self.pushManager = factory.createPushManager()
-        self.locationManager = factory.createLocationManager()
+        pushManager = factory.createPushManager()
+        locationManager = factory.createLocationManager()
 
         NotificareUtils.logLoadedModules()
     }
 
     private func clearNetworking() {
-        self.pushApi = nil
+        pushApi = nil
     }
 
     private func clearLoadedModules() {
-        self.pushManager = nil
-        self.locationManager = nil
+        pushManager = nil
+        locationManager = nil
     }
-
 
     internal enum State: Int {
         case none
@@ -154,19 +150,19 @@ public class Notificare {
 // MARK: - Notificare.State Comparable
 
 extension Notificare.State: Comparable {
-    public static func <(lhs: Notificare.State, rhs: Notificare.State) -> Bool {
+    public static func < (lhs: Notificare.State, rhs: Notificare.State) -> Bool {
         lhs.rawValue < rhs.rawValue
     }
 
-    public static func <=(lhs: Notificare.State, rhs: Notificare.State) -> Bool {
+    public static func <= (lhs: Notificare.State, rhs: Notificare.State) -> Bool {
         lhs.rawValue <= rhs.rawValue
     }
 
-    public static func >=(lhs: Notificare.State, rhs: Notificare.State) -> Bool {
+    public static func >= (lhs: Notificare.State, rhs: Notificare.State) -> Bool {
         lhs.rawValue >= rhs.rawValue
     }
 
-    public static func >(lhs: Notificare.State, rhs: Notificare.State) -> Bool {
+    public static func > (lhs: Notificare.State, rhs: Notificare.State) -> Bool {
         lhs.rawValue > rhs.rawValue
     }
 }

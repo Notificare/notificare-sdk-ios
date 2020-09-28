@@ -1,73 +1,65 @@
 //
-//  NotificareLogger.swift
-//  Core
-//
-//  Created by Helder Pinhal on 13/07/2020.
-//  Copyright © 2020 Notificare. All rights reserved.
+// Copyright (c) 2020 Notificare. All rights reserved.
 //
 
 import Foundation
 import os
 
 public class NotificareLogger {
-
     @available(iOS 14.0, *)
     private lazy var logger = Logger(subsystem: "re.notifica", category: "Notificare")
 
     private let osLog = OSLog(subsystem: "re.notifica", category: "Notificare")
 
-
     public var level: Level = .info
 
-
     public func verbose(_ message: String, file: String = #file) {
-        self.log(message, level: .verbose, file: file)
+        log(message, level: .verbose, file: file)
     }
 
     public func verbose(_ message: String, tag: String?) {
-        self.log(message, level: .verbose, tag: tag)
+        log(message, level: .verbose, tag: tag)
     }
 
     public func debug(_ message: String, file: String = #file) {
-        self.log(message, level: .debug, file: file)
+        log(message, level: .debug, file: file)
     }
 
     public func debug(_ message: String, tag: String?) {
-        self.log(message, level: .debug, tag: tag)
+        log(message, level: .debug, tag: tag)
     }
 
     public func info(_ message: String, file: String = #file) {
-        self.log(message, level: .info, file: file)
+        log(message, level: .info, file: file)
     }
 
     public func info(_ message: String, tag: String?) {
-        self.log(message, level: .info, tag: tag)
+        log(message, level: .info, tag: tag)
     }
 
     public func warning(_ message: String, file: String = #file) {
-        self.log(message, level: .warning, file: file)
+        log(message, level: .warning, file: file)
     }
 
     public func warning(_ message: String, tag: String?) {
-        self.log(message, level: .warning, tag: tag)
+        log(message, level: .warning, tag: tag)
     }
 
     public func error(_ message: String, file: String = #file) {
-        self.log(message, level: .error, file: file)
+        log(message, level: .error, file: file)
     }
 
     public func error(_ message: String, tag: String?) {
-        self.log(message, level: .error, tag: tag)
+        log(message, level: .error, tag: tag)
     }
-
 
     private func log(_ message: String, level: Level, file: String = #file) {
         if let fileName = URL(fileURLWithPath: file).pathComponents.last,
-           let tag = fileName.split(separator: ".").first {
-
-            self.log(message, level: level, tag: String(tag))
+            let tag = fileName.split(separator: ".").first
+        {
+            log(message, level: level, tag: String(tag))
         } else {
-            self.log(message, level: level, tag: file)
+            log(message, level: level, tag: file)
         }
     }
 
@@ -86,7 +78,7 @@ public class NotificareLogger {
         if #available(iOS 14, *) {
             self.logger.log(level: level.toOSLogType(), "\(combined, privacy: .public)")
         } else {
-            os_log("%{public}s", log: self.osLog, type: level.toOSLogType(), combined)
+            os_log("%{public}s", log: osLog, type: level.toOSLogType(), combined)
         }
     }
 
@@ -115,7 +107,7 @@ extension NotificareLogger.Level: Comparable {
         }
     }
 
-    public static func <(lhs: NotificareLogger.Level, rhs: NotificareLogger.Level) -> Bool {
+    public static func < (lhs: NotificareLogger.Level, rhs: NotificareLogger.Level) -> Bool {
         lhs.severity < rhs.severity
     }
 }
