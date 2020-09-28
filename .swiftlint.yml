@@ -167,7 +167,7 @@ opt_in_rules: # some rules are only opt-in
 
   # Rationale: Prevents coder error, doesn't crash, makes coder be explicit about their assumptions
   # https://github.com/realm/SwiftLint/blob/master/Rules.md#force-unwrapping
-  - force_unwrapping
+  # - force_unwrapping
 
   # Rationale: Provides consistency in coding style and brevity.
   # https://github.com/realm/SwiftLint/blob/master/Rules.md#implicit-getter
@@ -427,7 +427,7 @@ opt_in_rules: # some rules are only opt-in
 
   # Rationale: Provides consistency of ordering within a type.
   # https://github.com/realm/SwiftLint/blob/master/Rules.md#type-contents-order
-  - type_contents_order
+  # - type_contents_order
 
   # Rationale: Provides consistency in coding style.
   # https://github.com/realm/SwiftLint/blob/master/Rules.md#unused-capture-list
@@ -453,15 +453,6 @@ file_header:
 
 attributes:
   always_on_same_line: ["@IBAction", "@IBSegueAction", "@NSManaged", "@discardableResult", "@escaping", "@objc"]
-
-type_contents_order:
-  order:
-    - case
-    - associated_type
-    - type_alias
-    - subtype
-    - [type_property, instance_property, ib_outlet, ib_inspectable]
-    - [initializer, deinitializer, type_method, view_life_cycle_method, subscript, other_method, ib_action]
 
 line_length:
   warning: 200
