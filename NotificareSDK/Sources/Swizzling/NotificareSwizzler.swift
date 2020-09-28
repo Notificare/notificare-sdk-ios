@@ -245,6 +245,7 @@ public class NotificareSwizzler: NSProxy {
         )
     }
 
+    // swiftlint:disable:next function_parameter_count
     private static func proxyInstanceMethod(
         toClass destinationClass: AnyClass,
         withSelector destinationSelector: Selector,

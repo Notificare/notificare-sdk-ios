@@ -53,13 +53,6 @@ public struct NotificareApplicationInfo: Codable {
         let key: String
         let label: String
         let defaultValue: String?
-
-        enum CodingKeys: String, CodingKey {
-            case type
-            case key
-            case label
-            case defaultValue
-        }
     }
 
     public struct ActionCategory: Codable {
