@@ -131,8 +131,8 @@ public class NotificareSwizzler: NSProxy {
         // that can lead to overwriting the isa of an object in the next frame.
         guard class_getInstanceSize(originalClass) == class_getInstanceSize(subClass) else {
             Notificare.shared.logger.warning("""
-                Could not create the App Delegate Proxy. \
-                The original class' and subclass' sizes do not match.
+            Could not create the App Delegate Proxy. \
+            The original class' and subclass' sizes do not match.
             """)
             return nil
         }
@@ -141,8 +141,8 @@ public class NotificareSwizzler: NSProxy {
         objc_registerClassPair(subClass)
         if object_setClass(originalDelegate, subClass) != nil {
             Notificare.shared.logger.info("""
-                Successfully created the App Delegate Proxy. \
-                To disable automatic proxy, set the flag 'swizzlingEnabled' to NO on the Notificare.plist.
+            Successfully created the App Delegate Proxy. \
+            To disable automatic proxy, set the flag 'swizzlingEnabled' to NO on the Notificare.plist.
             """)
         }
 
@@ -280,8 +280,8 @@ public class NotificareSwizzler: NSProxy {
 
         if !class_addMethod(destinationClass, destinationSelector, methodImplementation, methodTypeEncoding) {
             Notificare.shared.logger.warning("""
-                Could not add instance method with selector '\(destinationSelector)' as it already exists in the \
-                destination class.
+            Could not add instance method with selector '\(destinationSelector)' as it already exists in the \
+            destination class.
             """)
         }
     }
