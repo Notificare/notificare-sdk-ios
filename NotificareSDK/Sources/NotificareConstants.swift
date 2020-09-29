@@ -6,10 +6,12 @@ import Foundation
 
 struct NotificareConstants {
     static let sdkVersion = "3.0.0"
+    static let databaseVersion = "3.0.0"
 
     private init() {}
 
     struct UserDefaults {
+        static let currentDatabaseVersion = "re.notifica.local.currentDatabaseVersion"
         static let newRegistration = "re.notifica.local.newRegistration"
         static let preferredLanguage = "re.notifica.local.preferredLanguage"
         static let preferredRegion = "re.notifica.local.preferredRegion"

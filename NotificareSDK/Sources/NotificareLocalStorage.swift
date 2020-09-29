@@ -5,6 +5,16 @@
 import Foundation
 
 struct NotificareLocalStorage {
+    static var currentDatabaseVersion: String? {
+        get {
+            UserDefaults.standard.string(forKey: NotificareConstants.UserDefaults.currentDatabaseVersion)
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: NotificareConstants.UserDefaults.currentDatabaseVersion)
+            UserDefaults.standard.synchronize()
+        }
+    }
+
     static var registeredDevice: NotificareDevice? {
         get {
             let settings = UserDefaults.standard
