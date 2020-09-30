@@ -97,20 +97,18 @@ struct NotificareUtils {
         return configuration
     }
 
-    static func logLoadedModules() {
-        var modules: [String] = []
+    static func getLoadedModules() -> [String] {
+        var modules = [String]()
+
         if Notificare.shared.pushManager != nil {
             modules.append("push")
         }
+
         if Notificare.shared.locationManager != nil {
             modules.append("location")
         }
 
-        if modules.isEmpty {
-            Notificare.shared.logger.warning("No modules have been loaded.")
-        } else {
-            Notificare.shared.logger.info("Loaded modules: [\(modules.joined(separator: ", "))]")
-        }
+        return modules
     }
 
     static func logCapabilities() {}

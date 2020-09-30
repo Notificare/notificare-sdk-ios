@@ -109,15 +109,17 @@ public class Notificare {
             self.applicationInfo = applicationInfo
             state = .ready
 
+            let enabledServices = applicationInfo.services.filter { $0.value }.map(\.key)
+            let enabledModules = NotificareUtils.getLoadedModules()
+
             Notificare.shared.logger.debug("/==================================================================================/")
             Notificare.shared.logger.debug("Notificare SDK is ready to use for application")
             Notificare.shared.logger.debug("App name: \(applicationInfo.name)")
             Notificare.shared.logger.debug("App ID: \(applicationInfo.id)")
-
-            let enabledServices = applicationInfo.services.filter { $0.value }.map(\.key)
             Notificare.shared.logger.debug("App services: \(enabledServices.joined(separator: ", "))")
             Notificare.shared.logger.debug("/==================================================================================/")
             Notificare.shared.logger.debug("SDK version: \(NotificareConstants.sdkVersion)")
+            Notificare.shared.logger.debug("SDK modules: \(enabledModules.joined(separator: ", "))")
             Notificare.shared.logger.debug("/==================================================================================/")
 
             // We're done launching. Notify the delegate.
@@ -148,8 +150,6 @@ public class Notificare {
         let factory = NotificareModuleFactory()
         pushManager = factory.createPushManager()
         locationManager = factory.createLocationManager()
-
-        NotificareUtils.logLoadedModules()
     }
 
     private func clearNetworking() {
