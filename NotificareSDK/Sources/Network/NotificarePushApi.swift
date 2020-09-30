@@ -10,15 +10,20 @@ struct NotificarePushApi {
     private let baseUrl: URL
     private let applicationKey: String
     private let applicationSecret: String
-    private let session: URLSession
+    private let session: URLSession = {
+        let configuration = URLSessionConfiguration.default
+        configuration.urlCredentialStorage = nil
+
+        return URLSession(configuration: configuration)
+    }()
+
     private let decoder = NotificareUtils.createJsonDecoder()
     private let encoder = NotificareUtils.createJsonEncoder()
 
-    init(applicationKey: String, applicationSecret: String, session: URLSession = URLSession.shared, environment: NotificareEnvironment = .production) {
+    init(applicationKey: String, applicationSecret: String, environment: NotificareEnvironment = .production) {
         baseUrl = environment.getConfiguration().pushHost
         self.applicationKey = applicationKey
         self.applicationSecret = applicationSecret
-        self.session = session
     }
 
     func getApplicationInfo(_ completion: @escaping Completion<NotificareApplicationInfo>) {

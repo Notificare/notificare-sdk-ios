@@ -36,8 +36,11 @@ public class Notificare {
         self.applicationSecret = applicationSecret
         self.environment = environment
 
-        setupNetworking()
-        loadAvailableModules()
+        Notificare.shared.logger.debug("Configuring network services.")
+        configureNetworking(applicationKey: applicationKey, applicationSecret: applicationSecret, environment: environment)
+
+        Notificare.shared.logger.debug("Loading available modules.")
+        createAvailableModules()
 
         let configuration = NotificareUtils.getConfiguration()
         if configuration?.swizzlingEnabled ?? true {
@@ -50,7 +53,7 @@ public class Notificare {
             """)
         }
 
-        // TODO: configure all the modules / managers
+        Notificare.shared.logger.debug("Configuring available modules.")
         coreDataManager.configure()
         eventLogger.configure()
         NotificareDeviceManager.shared.configure()
@@ -103,6 +106,25 @@ public class Notificare {
         }
     }
 
+    public func unlaunch() {
+        Notificare.shared.logger.info("Un-launching Notificare.")
+        state = .configured
+    }
+
+    private func configureNetworking(applicationKey: String, applicationSecret: String, environment: NotificareEnvironment) {
+        pushApi = NotificarePushApi(
+            applicationKey: applicationKey,
+            applicationSecret: applicationSecret,
+            environment: environment
+        )
+    }
+
+    private func createAvailableModules() {
+        let factory = NotificareModuleFactory()
+        pushManager = factory.createPushManager()
+        locationManager = factory.createLocationManager()
+    }
+
     private func launchResult(_ result: Result<NotificareApplicationInfo, Error>) {
         switch result {
         case let .success(applicationInfo):
@@ -128,37 +150,6 @@ public class Notificare {
             Notificare.shared.logger.error("Failed to launch Notificare.")
             state = .configured
         }
-    }
-
-    public func unLaunch() {
-        Notificare.shared.logger.info("Un-launching Notificare.")
-        state = .configured
-    }
-
-    private func setupNetworking() {
-        let sessionConfiguration = URLSessionConfiguration.default
-        sessionConfiguration.urlCredentialStorage = nil
-
-        pushApi = NotificarePushApi(
-            applicationKey: applicationKey!,
-            applicationSecret: applicationSecret!,
-            session: URLSession(configuration: sessionConfiguration)
-        )
-    }
-
-    private func loadAvailableModules() {
-        let factory = NotificareModuleFactory()
-        pushManager = factory.createPushManager()
-        locationManager = factory.createLocationManager()
-    }
-
-    private func clearNetworking() {
-        pushApi = nil
-    }
-
-    private func clearLoadedModules() {
-        pushManager = nil
-        locationManager = nil
     }
 
     internal enum State: Int {
