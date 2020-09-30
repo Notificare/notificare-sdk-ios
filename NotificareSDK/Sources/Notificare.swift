@@ -74,45 +74,57 @@ public class Notificare {
         Notificare.shared.logger.info("Launching Notificare.")
         state = .launching
 
+        // Setup local database stores.
         coreDataManager.launch { result in
             switch result {
             case .success:
-                NotificareLaunchManager.shared.launch { result in
+                // Fetch the application info.
+                self.pushApi!.getApplicationInfo { result in
                     switch result {
                     case let .success(applicationInfo):
-                        self.applicationInfo = applicationInfo
-                        self.state = .launched
+                        // Launch the device manager: registration.
+                        NotificareDeviceManager.shared.launch { _ in
+                            // Ignore the error if device registration fails.
 
-                        Notificare.shared.logger.debug("/==================================================================================/")
-                        Notificare.shared.logger.debug("Notificare SDK is ready to use for application")
-                        Notificare.shared.logger.debug("App name: \(applicationInfo.name)")
-                        Notificare.shared.logger.debug("App ID: \(applicationInfo.id)")
+                            // Launch the event logger
+                            self.eventLogger.launch()
 
-                        let enabledServices = applicationInfo.services.filter { $0.value }.map(\.key)
-                        Notificare.shared.logger.debug("App services: \(enabledServices.joined(separator: ", "))")
-                        Notificare.shared.logger.debug("/==================================================================================/")
-                        Notificare.shared.logger.debug("SDK version: \(NotificareConstants.sdkVersion)")
-                        Notificare.shared.logger.debug("/==================================================================================/")
-
-                        self.eventLogger.launch()
-
-                        // All good. Notify delegate.
-                        self.state = .ready
-                        self.delegate?.notificare(self, onReady: applicationInfo)
+                            self.launchResult(.success(applicationInfo))
+                        }
                     case let .failure(error):
                         Notificare.shared.logger.error("Failed to load the application info: \(error)")
-
-                        // Revert back to previous state.
-                        self.state = .configured
+                        self.launchResult(.failure(error))
                     }
                 }
             case let .failure(error):
-                Notificare.shared.logger.error("Failed to load local database.")
-                Notificare.shared.logger.debug("\(error)")
-
-                // Revert back to previous state.
-                self.state = .configured
+                Notificare.shared.logger.error("Failed to load local database: \(error.localizedDescription)")
+                fatalError("Failed to load local database: \(error.localizedDescription)")
             }
+        }
+    }
+
+    private func launchResult(_ result: Result<NotificareApplicationInfo, Error>) {
+        switch result {
+        case let .success(applicationInfo):
+            self.applicationInfo = applicationInfo
+            state = .ready
+
+            Notificare.shared.logger.debug("/==================================================================================/")
+            Notificare.shared.logger.debug("Notificare SDK is ready to use for application")
+            Notificare.shared.logger.debug("App name: \(applicationInfo.name)")
+            Notificare.shared.logger.debug("App ID: \(applicationInfo.id)")
+
+            let enabledServices = applicationInfo.services.filter { $0.value }.map(\.key)
+            Notificare.shared.logger.debug("App services: \(enabledServices.joined(separator: ", "))")
+            Notificare.shared.logger.debug("/==================================================================================/")
+            Notificare.shared.logger.debug("SDK version: \(NotificareConstants.sdkVersion)")
+            Notificare.shared.logger.debug("/==================================================================================/")
+
+            // We're done launching. Notify the delegate.
+            delegate?.notificare(self, onReady: applicationInfo)
+        case .failure:
+            Notificare.shared.logger.error("Failed to launch Notificare.")
+            state = .configured
         }
     }
 
