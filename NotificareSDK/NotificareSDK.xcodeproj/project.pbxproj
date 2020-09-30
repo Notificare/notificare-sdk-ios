@@ -25,7 +25,6 @@
 		42A2081F8D099BF50C87B29E /* NotificareLocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20BF674CDFC918EC172AF /* NotificareLocalStorage.swift */; };
 		42A20854525B27A0B50E4239 /* NotificareDeviceUpdateBackgroundAppRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A209A1566809594BA82594 /* NotificareDeviceUpdateBackgroundAppRefresh.swift */; };
 		42A209C4A8C4D6819B57EE4F /* NotificareModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A203F2CC4F71324DC1E758 /* NotificareModuleFactory.swift */; };
-		42A209FC9756E9EE16BF5B22 /* NotificareLaunchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A205CDE4BE2BC47AC79362 /* NotificareLaunchManager.swift */; };
 		42A20A18C4B0AD218F0B7E70 /* NotificareTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A2094F1471668D9F7C7043 /* NotificareTransport.swift */; };
 		42A20A7693D14ADAE3CE5FAF /* Data+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20992756A431245A3D5F7 /* Data+Hex.swift */; };
 		42A20A80F9760507F22AFC69 /* NotificareDeviceDnD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A2057D4FF378546BA78FA3 /* NotificareDeviceDnD.swift */; };
@@ -79,7 +78,6 @@
 		42A20450A15AAC914DBC800F /* NotificareBootstrap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificareBootstrap.h; sourceTree = "<group>"; };
 		42A2057D4FF378546BA78FA3 /* NotificareDeviceDnD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareDeviceDnD.swift; sourceTree = "<group>"; };
 		42A2059D74331E97E84F7649 /* NotificareSwizzler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareSwizzler.swift; sourceTree = "<group>"; };
-		42A205CDE4BE2BC47AC79362 /* NotificareLaunchManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareLaunchManager.swift; sourceTree = "<group>"; };
 		42A205DF5970468FB18808F5 /* NotificareBootstrap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificareBootstrap.m; sourceTree = "<group>"; };
 		42A206AA99D4FE31CB2BF0A0 /* NotificareUserDataFieldType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareUserDataFieldType.swift; sourceTree = "<group>"; };
 		42A20848D25903BF957A419E /* JSONValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONValue.swift; sourceTree = "<group>"; };
@@ -268,7 +266,6 @@
 				F258DE4C24BC6C8B006F9ABD /* NotificareLogger.swift */,
 				F2EF110524C9CFA3001A81CE /* NotificareEnvironment.swift */,
 				42A20C13B79FEEC5DD556468 /* NotificareDeviceManager.swift */,
-				42A205CDE4BE2BC47AC79362 /* NotificareLaunchManager.swift */,
 				42A20BF674CDFC918EC172AF /* NotificareLocalStorage.swift */,
 				42A20A9FA4D4D339568EBD79 /* NotificareConstants.swift */,
 				F225B9FA24E58F0D00768999 /* NotificareEventLogger.swift */,
@@ -482,7 +479,6 @@
 				F29DA38325024753004CCB8F /* NotificareEvent+CoreData.swift in Sources */,
 				42A20A8202602F357473A0EC /* DeviceTagsResponse.swift in Sources */,
 				42A20DA506BCDC4A7B8ACEAA /* NotificareDeviceManager.swift in Sources */,
-				42A209FC9756E9EE16BF5B22 /* NotificareLaunchManager.swift in Sources */,
 				42A20A7693D14ADAE3CE5FAF /* Data+Hex.swift in Sources */,
 				42A207D529B7F7770917822D /* NotificareDevice.swift in Sources */,
 				42A20CAE308280FC80D81C29 /* NotificareDeviceRegistration.swift in Sources */,
