@@ -212,9 +212,9 @@
 		42A20D17A4EF88ED36EA223F /* AutoLaunch */ = {
 			isa = PBXGroup;
 			children = (
+				42A20A542B5A23849B81C344 /* NotificareAutoLauncher.swift */,
 				42A20450A15AAC914DBC800F /* NotificareBootstrap.h */,
 				42A205DF5970468FB18808F5 /* NotificareBootstrap.m */,
-				42A20A542B5A23849B81C344 /* NotificareAutoLauncher.swift */,
 			);
 			path = AutoLaunch;
 			sourceTree = "<group>";
@@ -276,11 +276,11 @@
 		F258DE4524BC699A006F9ABD /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				42A2078A22586D4FE54A4FF6 /* Factory */,
 				42A20765E01C8FAF35D1A02F /* NotificareDeviceModule.swift */,
 				42A20EA7B3E0709119050294 /* NotificareEventsModule.swift */,
 				42A2070ADAB7FB32D436A738 /* NotificareLocationModule.swift */,
 				42A205766F6AA4ADAD8D8B9D /* NotificarePushModule.swift */,
-				42A2078A22586D4FE54A4FF6 /* Factory */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -298,16 +298,16 @@
 			isa = PBXGroup;
 			children = (
 				42A20D17A4EF88ED36EA223F /* AutoLaunch */,
+				42A2027DBC5B305198382A6D /* Common */,
 				42A20E1B11DBCE03A4402205 /* Network */,
 				F2E4DBC82525EC6F003FE29B /* Storage */,
 				42A2004E11A1CF2B5C38B5B0 /* Swizzling */,
 				42A20EC285FA20D34B54A035 /* NotificareConfiguration.swift */,
 				42A2034FAAE7EBBB2DDD7AAD /* NotificareDefinitions.swift */,
 				42A20C54DCF5011314943FAD /* NotificareLaunchState.swift */,
+				42A20CC93F9329C3AAA576BE /* NotificareLogger.swift */,
 				42A2067A01284684F1A3F60C /* NotificareServices.swift */,
 				42A20794DEF57D4198D25061 /* NotificareUtils.swift */,
-				42A2027DBC5B305198382A6D /* Common */,
-				42A20CC93F9329C3AAA576BE /* NotificareLogger.swift */,
 			);
 			path = Internals;
 			sourceTree = "<group>";
