@@ -6,7 +6,7 @@ import Foundation
 import NotificareSDK
 import UIKit
 
-public class NotificarePushManagerImpl: NSObject, NotificarePushManager, NotificareAppDelegateInterceptor {
+public class NotificarePushManagerImpl: NSObject, NotificarePushModule, NotificareAppDelegateInterceptor {
     private let applicationKey: String
     private let applicationSecret: String
     private var interceptorId: String?

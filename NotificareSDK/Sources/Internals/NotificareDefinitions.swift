@@ -4,11 +4,14 @@
 
 import Foundation
 
-struct NotificareConstants {
+struct NotificareDefinitions {
     static let sdkVersion = "3.0.0"
     static let databaseVersion = "3.0.0"
 
-    private init() {}
+    struct Modules {
+        static let push = "NotificarePush.NotificarePushManagerImpl"
+        static let location = "NotificareLocation.NotificareLocationManagerImpl"
+    }
 
     struct UserDefaults {
         static let currentDatabaseVersion = "re.notifica.local.currentDatabaseVersion"
@@ -16,11 +19,9 @@ struct NotificareConstants {
         static let preferredLanguage = "re.notifica.local.preferredLanguage"
         static let preferredRegion = "re.notifica.local.preferredRegion"
         static let registeredDevice = "re.notifica.local.registeredDevice"
-
-        private init() {}
     }
 
-    struct BackgroundTasks {
+    struct Tasks {
         static let processEvents = "re.notifica.tasks.process.events"
     }
 }

@@ -5,7 +5,7 @@
 import Foundation
 import NotificareSDK
 
-public class NotificareLocationManagerImpl: NSObject, NotificareLocationManager {
+public class NotificareLocationManagerImpl: NSObject, NotificareLocationModule {
     private let applicationKey: String
     private let applicationSecret: String
 

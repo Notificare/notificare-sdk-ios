@@ -9,30 +9,34 @@ public class Notificare {
 
     // Internal modules
     public private(set) var logger = NotificareLogger()
-    internal let coreDataManager = NotificareCoreDataManager()
+    internal let database = NotificareDatabase()
     internal private(set) var reachability: NotificareReachability?
     internal private(set) var pushApi: NotificarePushApi?
 
     // Consumer modules
-    public let eventLogger = NotificareEventLogger()
-    public let deviceManager = NotificareDeviceManager()
-    public private(set) var pushManager: NotificarePushManager?
-    public private(set) var locationManager: NotificareLocationManager?
+    public let events = NotificareEventsModule()
+    public let device = NotificareDeviceModule()
+    public private(set) var push: NotificarePushModule?
+    public private(set) var location: NotificareLocationModule?
 
     // Configuration variables
-    internal private(set) var environment: NotificareEnvironment = .production
     internal private(set) var applicationKey: String?
     internal private(set) var applicationSecret: String?
+    internal private(set) var services: NotificareServices = .production
 
     // Launch / application state
-    internal private(set) var state: State = .none
+    internal private(set) var state: NotificareLaunchState = .none
     internal private(set) var applicationInfo: NotificareApplicationInfo?
 
     public weak var delegate: NotificareDelegate?
 
     private init() {}
 
-    public func configure(applicationKey: String, applicationSecret: String, withEnvironment environment: NotificareEnvironment = .production) {
+    public func configure(applicationKey _: String, applicationSecret: String) {
+        configure(applicationKey: applicationSecret, applicationSecret: applicationSecret, services: .production)
+    }
+
+    internal func configure(applicationKey: String, applicationSecret: String, services: NotificareServices) {
         guard state == .none else {
             Notificare.shared.logger.warning("Notificare has already been configured. Skipping...")
             return
@@ -40,17 +44,17 @@ public class Notificare {
 
         self.applicationKey = applicationKey
         self.applicationSecret = applicationSecret
-        self.environment = environment
+        self.services = services
 
         Notificare.shared.logger.debug("Configuring network services.")
-        configureNetworking(applicationKey: applicationKey, applicationSecret: applicationSecret, environment: environment)
+        configureNetworking(applicationKey: applicationKey, applicationSecret: applicationSecret, services: services)
 
         Notificare.shared.logger.debug("Loading available modules.")
-        createAvailableModules()
+        createAvailableModules(applicationKey: applicationKey, applicationSecret: applicationSecret)
 
         let configuration = NotificareUtils.getConfiguration()
         if configuration?.swizzlingEnabled ?? true {
-            NotificareSwizzler.setup(withRemoteNotifications: pushManager != nil)
+            NotificareSwizzler.setup(withRemoteNotifications: push != nil)
         } else {
             Notificare.shared.logger.warning("""
             Automatic App Delegate Proxy is not enabled. \
@@ -60,12 +64,12 @@ public class Notificare {
         }
 
         Notificare.shared.logger.debug("Configuring available modules.")
-        coreDataManager.configure()
-        eventLogger.configure()
-        deviceManager.configure()
-        pushManager?.configure()
+        database.configure()
+        events.configure()
+        device.configure()
+        push?.configure()
 
-        Notificare.shared.logger.debug("Notificare configured for '\(environment)' services.")
+        Notificare.shared.logger.debug("Notificare configured for '\(services)' services.")
         state = .configured
     }
 
@@ -84,7 +88,7 @@ public class Notificare {
         state = .launching
 
         // Setup local database stores.
-        coreDataManager.launch { result in
+        database.launch { result in
             switch result {
             case .success:
                 do {
@@ -101,11 +105,11 @@ public class Notificare {
                     switch result {
                     case let .success(applicationInfo):
                         // Launch the device manager: registration.
-                        self.deviceManager.launch { _ in
+                        self.device.launch { _ in
                             // Ignore the error if device registration fails.
 
                             // Launch the event logger
-                            self.eventLogger.launch()
+                            self.events.launch()
 
                             self.launchResult(.success(applicationInfo))
                         }
@@ -126,9 +130,9 @@ public class Notificare {
         state = .configured
     }
 
-    private func configureNetworking(applicationKey: String, applicationSecret: String, environment: NotificareEnvironment) {
+    private func configureNetworking(applicationKey: String, applicationSecret: String, services: NotificareServices) {
         do {
-            reachability = try NotificareReachability(hostname: environment.getConfiguration().pushHost.host!)
+            reachability = try NotificareReachability(hostname: services.pushHost.host!)
 
             reachability?.whenReachable = { _ in
                 Notificare.shared.logger.debug("Notificare is reachable.")
@@ -144,14 +148,14 @@ public class Notificare {
         pushApi = NotificarePushApi(
             applicationKey: applicationKey,
             applicationSecret: applicationSecret,
-            environment: environment
+            services: services
         )
     }
 
-    private func createAvailableModules() {
-        let factory = NotificareModuleFactory()
-        pushManager = factory.createPushManager()
-        locationManager = factory.createLocationManager()
+    private func createAvailableModules(applicationKey: String, applicationSecret: String) {
+        let factory = NotificareModuleFactory(applicationKey: applicationKey, applicationSecret: applicationSecret)
+        push = factory.createPushManager()
+        location = factory.createLocationManager()
     }
 
     private func launchResult(_ result: Result<NotificareApplicationInfo, Error>) {
@@ -169,7 +173,7 @@ public class Notificare {
             Notificare.shared.logger.debug("App ID: \(applicationInfo.id)")
             Notificare.shared.logger.debug("App services: \(enabledServices.joined(separator: ", "))")
             Notificare.shared.logger.debug("/==================================================================================/")
-            Notificare.shared.logger.debug("SDK version: \(NotificareConstants.sdkVersion)")
+            Notificare.shared.logger.debug("SDK version: \(NotificareDefinitions.sdkVersion)")
             Notificare.shared.logger.debug("SDK modules: \(enabledModules.joined(separator: ", "))")
             Notificare.shared.logger.debug("/==================================================================================/")
 
@@ -179,32 +183,5 @@ public class Notificare {
             Notificare.shared.logger.error("Failed to launch Notificare.")
             state = .configured
         }
-    }
-
-    internal enum State: Int {
-        case none
-        case configured
-        case launching
-        case ready
-    }
-}
-
-// MARK: - Notificare.State Comparable
-
-extension Notificare.State: Comparable {
-    public static func < (lhs: Notificare.State, rhs: Notificare.State) -> Bool {
-        lhs.rawValue < rhs.rawValue
-    }
-
-    public static func <= (lhs: Notificare.State, rhs: Notificare.State) -> Bool {
-        lhs.rawValue <= rhs.rawValue
-    }
-
-    public static func >= (lhs: Notificare.State, rhs: Notificare.State) -> Bool {
-        lhs.rawValue >= rhs.rawValue
-    }
-
-    public static func > (lhs: Notificare.State, rhs: Notificare.State) -> Bool {
-        lhs.rawValue > rhs.rawValue
     }
 }

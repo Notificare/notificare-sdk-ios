@@ -4,13 +4,13 @@
 
 import Foundation
 
-struct NotificareLocalStorage {
+struct NotificareUserDefaults {
     static var currentDatabaseVersion: String? {
         get {
-            UserDefaults.standard.string(forKey: NotificareConstants.UserDefaults.currentDatabaseVersion)
+            UserDefaults.standard.string(forKey: NotificareDefinitions.UserDefaults.currentDatabaseVersion)
         }
         set {
-            UserDefaults.standard.set(newValue, forKey: NotificareConstants.UserDefaults.currentDatabaseVersion)
+            UserDefaults.standard.set(newValue, forKey: NotificareDefinitions.UserDefaults.currentDatabaseVersion)
             UserDefaults.standard.synchronize()
         }
     }
@@ -18,7 +18,7 @@ struct NotificareLocalStorage {
     static var registeredDevice: NotificareDevice? {
         get {
             let settings = UserDefaults.standard
-            guard let data = settings.object(forKey: NotificareConstants.UserDefaults.registeredDevice) as? Data else {
+            guard let data = settings.object(forKey: NotificareDefinitions.UserDefaults.registeredDevice) as? Data else {
                 return nil
             }
 
@@ -28,7 +28,7 @@ struct NotificareLocalStorage {
         set {
             let settings = UserDefaults.standard
             guard let newValue = newValue else {
-                settings.removeObject(forKey: NotificareConstants.UserDefaults.registeredDevice)
+                settings.removeObject(forKey: NotificareDefinitions.UserDefaults.registeredDevice)
                 return
             }
 
@@ -37,40 +37,38 @@ struct NotificareLocalStorage {
                 return
             }
 
-            settings.set(data, forKey: NotificareConstants.UserDefaults.registeredDevice)
+            settings.set(data, forKey: NotificareDefinitions.UserDefaults.registeredDevice)
             settings.synchronize()
         }
     }
 
     static var preferredLanguage: String? {
         get {
-            UserDefaults.standard.string(forKey: NotificareConstants.UserDefaults.preferredLanguage)
+            UserDefaults.standard.string(forKey: NotificareDefinitions.UserDefaults.preferredLanguage)
         }
         set {
-            UserDefaults.standard.set(newValue, forKey: NotificareConstants.UserDefaults.preferredLanguage)
+            UserDefaults.standard.set(newValue, forKey: NotificareDefinitions.UserDefaults.preferredLanguage)
             UserDefaults.standard.synchronize()
         }
     }
 
     static var preferredRegion: String? {
         get {
-            UserDefaults.standard.string(forKey: NotificareConstants.UserDefaults.preferredRegion)
+            UserDefaults.standard.string(forKey: NotificareDefinitions.UserDefaults.preferredRegion)
         }
         set {
-            UserDefaults.standard.set(newValue, forKey: NotificareConstants.UserDefaults.preferredRegion)
+            UserDefaults.standard.set(newValue, forKey: NotificareDefinitions.UserDefaults.preferredRegion)
             UserDefaults.standard.synchronize()
         }
     }
 
     static var newRegistration: Bool {
         get {
-            UserDefaults.standard.bool(forKey: NotificareConstants.UserDefaults.newRegistration)
+            UserDefaults.standard.bool(forKey: NotificareDefinitions.UserDefaults.newRegistration)
         }
         set {
-            UserDefaults.standard.set(newValue, forKey: NotificareConstants.UserDefaults.newRegistration)
+            UserDefaults.standard.set(newValue, forKey: NotificareDefinitions.UserDefaults.newRegistration)
             UserDefaults.standard.synchronize()
         }
     }
-
-    private init() {}
 }

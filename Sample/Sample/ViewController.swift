@@ -20,6 +20,6 @@ class ViewController: UIViewController {
             "color": "blue",
         ]
 
-        Notificare.shared.eventLogger.logCustom("test", data: data)
+        Notificare.shared.events.logCustom("test", data: data)
     }
 }

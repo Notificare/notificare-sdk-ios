@@ -5,21 +5,21 @@
 import CoreData
 import Foundation
 
-class NotificareCoreDataManager {
-    private static let databaseName = "NotificareCoreData"
-    private static let databaseType = "sqlite"
+private let databaseName = "NotificareDatabase"
+private let databaseType = "sqlite"
 
+class NotificareDatabase {
     private lazy var persistentContainer: NSPersistentContainer = {
         let bundle = Bundle(for: type(of: self))
 
-        guard let path = bundle.url(forResource: NotificareCoreDataManager.databaseName, withExtension: ".momd"),
+        guard let path = bundle.url(forResource: databaseName, withExtension: ".momd"),
             let model = NSManagedObjectModel(contentsOf: path)
         else {
             Notificare.shared.logger.error("Failed to load CoreData's models.")
             fatalError("Failed to load CoreData's models")
         }
 
-        return NSPersistentContainer(name: NotificareCoreDataManager.databaseName, managedObjectModel: model)
+        return NSPersistentContainer(name: databaseName, managedObjectModel: model)
     }()
 
     private var context: NSManagedObjectContext {
@@ -32,8 +32,8 @@ class NotificareCoreDataManager {
     }
 
     func launch(_ completion: @escaping (Result<Void, Error>) -> Void) {
-        if let currentVersion = NotificareLocalStorage.currentDatabaseVersion,
-            currentVersion != NotificareConstants.databaseVersion
+        if let currentVersion = NotificareUserDefaults.currentDatabaseVersion,
+            currentVersion != NotificareDefinitions.databaseVersion
         {
             Notificare.shared.logger.debug("Local database version mismatch. Migration required.")
             rebuildStore(completion)
@@ -80,14 +80,14 @@ class NotificareCoreDataManager {
                 return
             }
 
-            NotificareLocalStorage.currentDatabaseVersion = NotificareConstants.databaseVersion
+            NotificareUserDefaults.currentDatabaseVersion = NotificareDefinitions.databaseVersion
             completion(.success(()))
         }
     }
 
     private func rebuildStore(_ completion: @escaping (Result<Void, Error>) -> Void) {
         if let url = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)
-            .first?.appendingPathComponent("\(NotificareCoreDataManager.databaseName).\(NotificareCoreDataManager.databaseType)"),
+            .first?.appendingPathComponent("\(databaseName).\(databaseType)"),
             FileManager.default.fileExists(atPath: url.path)
         {
             Notificare.shared.logger.debug("Removing local database.")

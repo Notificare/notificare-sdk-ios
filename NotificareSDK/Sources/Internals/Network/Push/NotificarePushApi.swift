@@ -20,8 +20,8 @@ struct NotificarePushApi {
     private let decoder = NotificareUtils.createJsonDecoder()
     private let encoder = NotificareUtils.createJsonEncoder()
 
-    init(applicationKey: String, applicationSecret: String, environment: NotificareEnvironment = .production) {
-        baseUrl = environment.getConfiguration().pushHost
+    init(applicationKey: String, applicationSecret: String, services: NotificareServices = .production) {
+        baseUrl = services.pushHost
         self.applicationKey = applicationKey
         self.applicationSecret = applicationSecret
     }

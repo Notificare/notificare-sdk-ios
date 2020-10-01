@@ -4,8 +4,6 @@
 
 import Foundation
 
-public protocol NotificarePushManager {
+public protocol NotificareLocationModule {
     init(applicationKey: String, applicationSecret: String)
-
-    func configure()
 }

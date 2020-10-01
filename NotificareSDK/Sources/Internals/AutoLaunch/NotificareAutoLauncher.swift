@@ -39,17 +39,17 @@ public class NotificareAutoLauncher: NSObject {
             return
         }
 
-        var environment: NotificareEnvironment = .production
-        if let environmentStr = configuration.environment?.lowercased().trimmingCharacters(in: .whitespacesAndNewlines),
-            let parsedEnvironment = NotificareEnvironment(rawValue: environmentStr)
+        var services: NotificareServices = .production
+        if let str = configuration.services?.lowercased().trimmingCharacters(in: .whitespacesAndNewlines),
+            let parsed = NotificareServices(rawValue: str)
         {
-            environment = parsedEnvironment
+            services = parsed
         }
 
         Notificare.shared.configure(
             applicationKey: applicationKey,
             applicationSecret: applicationSecret,
-            withEnvironment: environment
+            services: services
         )
 
         guard configuration.autoLaunch else {

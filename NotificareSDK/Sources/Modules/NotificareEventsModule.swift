@@ -7,7 +7,7 @@ import UIKit
 
 private let maxRetries = 5
 
-public class NotificareEventLogger {
+public class NotificareEventsModule {
     private let discardableEvents = [String]()
     private var processEventsTaskIdentifier: UIBackgroundTaskIdentifier?
 
@@ -24,7 +24,7 @@ public class NotificareEventLogger {
     }
 
     private func log(_ event: String, data: NotificareEventData? = nil) {
-        guard let device = Notificare.shared.deviceManager.device else {
+        guard let device = Notificare.shared.device.device else {
             Notificare.shared.logger.warning("Cannot send an event before a device is registered.")
             return
         }
@@ -33,7 +33,7 @@ public class NotificareEventLogger {
             type: event,
             timestamp: Int64(Date().timeIntervalSince1970 * 1000),
             deviceId: device.deviceID,
-            sessionId: Notificare.shared.deviceManager.sessionId,
+            sessionId: Notificare.shared.device.sessionId,
             notificationId: nil,
             userId: device.userID,
             data: data
@@ -54,7 +54,7 @@ public class NotificareEventLogger {
                 if !self.discardableEvents.contains(event.type) && error.recoverable {
                     Notificare.shared.logger.info("Queuing to be sent whenever possible.")
 
-                    Notificare.shared.coreDataManager.add(event)
+                    Notificare.shared.database.add(event)
                 }
             }
         }
@@ -63,7 +63,7 @@ public class NotificareEventLogger {
 
 // MARK: - NotificareAppDelegateInterceptor
 
-extension NotificareEventLogger: NotificareAppDelegateInterceptor {
+extension NotificareEventsModule: NotificareAppDelegateInterceptor {
     public func applicationDidBecomeActive(_: UIApplication) {
         processStoredEvents()
     }
@@ -84,7 +84,7 @@ extension NotificareEventLogger: NotificareAppDelegateInterceptor {
         // Run the task on a background queue.
         DispatchQueue.global(qos: .background).async {
             // Notify the system about a long running task.
-            self.processEventsTaskIdentifier = UIApplication.shared.beginBackgroundTask(withName: NotificareConstants.BackgroundTasks.processEvents) {
+            self.processEventsTaskIdentifier = UIApplication.shared.beginBackgroundTask(withName: NotificareDefinitions.Tasks.processEvents) {
                 // Check the task is still running.
                 guard let taskId = self.processEventsTaskIdentifier else {
                     return
@@ -97,7 +97,7 @@ extension NotificareEventLogger: NotificareAppDelegateInterceptor {
             }
 
             // Load and process the stored events.
-            if let events = try? Notificare.shared.coreDataManager.fetchEvents() {
+            if let events = try? Notificare.shared.database.fetchEvents() {
                 self.process(events)
             }
 
@@ -144,7 +144,7 @@ extension NotificareEventLogger: NotificareAppDelegateInterceptor {
 
         if now > expiresAt {
             Notificare.shared.logger.verbose("Event expired. Removing...")
-            Notificare.shared.coreDataManager.remove(managedEvent)
+            Notificare.shared.database.remove(managedEvent)
             return
         }
 
@@ -159,7 +159,7 @@ extension NotificareEventLogger: NotificareAppDelegateInterceptor {
             switch result {
             case .success:
                 Notificare.shared.logger.verbose("Event processed. Removing from storage...")
-                Notificare.shared.coreDataManager.remove(managedEvent)
+                Notificare.shared.database.remove(managedEvent)
             case let .failure(error):
                 if error.recoverable {
                     Notificare.shared.logger.verbose("Failed to process event.")
@@ -169,14 +169,14 @@ extension NotificareEventLogger: NotificareAppDelegateInterceptor {
 
                     if managedEvent.retries < maxRetries {
                         // Persist the attempts counter.
-                        Notificare.shared.coreDataManager.save()
+                        Notificare.shared.database.save()
                     } else {
                         Notificare.shared.logger.verbose("Event was retried too many times. Removing...")
-                        Notificare.shared.coreDataManager.remove(managedEvent)
+                        Notificare.shared.database.remove(managedEvent)
                     }
                 } else {
                     Notificare.shared.logger.verbose("Failed to process event due to an unrecoverable error. Discarding it...")
-                    Notificare.shared.coreDataManager.remove(managedEvent)
+                    Notificare.shared.database.remove(managedEvent)
                 }
             }
 

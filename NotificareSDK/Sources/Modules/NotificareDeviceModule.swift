@@ -5,7 +5,7 @@
 import Foundation
 import UIKit
 
-public class NotificareDeviceManager {
+public class NotificareDeviceModule {
     private(set) var sessionId: String?
     private(set) var device: NotificareDevice?
 
@@ -15,7 +15,7 @@ public class NotificareDeviceManager {
         // TODO: handle migration
 
         // Load the registered device.
-        device = NotificareLocalStorage.registeredDevice
+        device = NotificareUserDefaults.registeredDevice
     }
 
     func launch(_ completion: @escaping (Result<Void, NotificareError>) -> Void) {
@@ -36,7 +36,7 @@ public class NotificareDeviceManager {
             Notificare.shared.logger.debug("New install detected")
 
             // Let's avoid the new registration event for a temporary device
-            NotificareLocalStorage.newRegistration = false
+            NotificareUserDefaults.newRegistration = false
 
             // Let's logout the user in case there's an account in the keychain
             // TODO: [[NotificareAuth shared] logoutAccount]
@@ -81,7 +81,7 @@ public class NotificareDeviceManager {
                 platform: "iOS",
                 transport: temporary ? .notificare : .apns,
                 osVersion: NotificareUtils.osVersion,
-                sdkVersion: NotificareConstants.sdkVersion,
+                sdkVersion: NotificareDefinitions.sdkVersion,
                 appVersion: NotificareUtils.applicationVersion,
                 deviceString: NotificareUtils.deviceString,
                 timeZoneOffset: NotificareUtils.timeZoneOffset,
@@ -332,7 +332,7 @@ public class NotificareDeviceManager {
             changed = true
         }
 
-        if device.sdkVersion != NotificareConstants.sdkVersion {
+        if device.sdkVersion != NotificareDefinitions.sdkVersion {
             Notificare.shared.logger.debug("Registration check: sdk version changed")
             changed = true
         }
@@ -342,9 +342,9 @@ public class NotificareDeviceManager {
             changed = true
         }
 
-        let language = UserDefaults.standard.string(forKey: NotificareConstants.UserDefaults.preferredLanguage)
+        let language = UserDefaults.standard.string(forKey: NotificareDefinitions.UserDefaults.preferredLanguage)
             ?? NotificareUtils.deviceLanguage
-        let region = UserDefaults.standard.string(forKey: NotificareConstants.UserDefaults.preferredRegion)
+        let region = UserDefaults.standard.string(forKey: NotificareDefinitions.UserDefaults.preferredRegion)
             ?? NotificareUtils.deviceRegion
 
         if device.language != language {
@@ -361,11 +361,11 @@ public class NotificareDeviceManager {
     }
 
     private func getLanguage() -> String {
-        NotificareLocalStorage.preferredLanguage ?? NotificareUtils.deviceLanguage
+        NotificareUserDefaults.preferredLanguage ?? NotificareUtils.deviceLanguage
     }
 
     private func getRegion() -> String {
-        NotificareLocalStorage.preferredRegion ?? NotificareUtils.deviceRegion
+        NotificareUserDefaults.preferredRegion ?? NotificareUtils.deviceRegion
     }
 
     private func refreshCachedDevice(
@@ -373,9 +373,9 @@ public class NotificareDeviceManager {
         _ completion: @escaping (Result<NotificareDevice, NotificareError>) -> Void
     ) {
         // Persist updated device to storage.
-        NotificareLocalStorage.registeredDevice = updatedDevice
+        NotificareUserDefaults.registeredDevice = updatedDevice
 
-        if let device = NotificareLocalStorage.registeredDevice {
+        if let device = NotificareUserDefaults.registeredDevice {
             // Update the cached device.
             self.device = device
 

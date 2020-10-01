@@ -7,7 +7,7 @@ import Foundation
 struct NotificareConfiguration: Codable {
     let autoLaunch: Bool
     let swizzlingEnabled: Bool
-    let environment: String?
+    let services: String?
     let production: Bool
     let developmentApplicationKey: String?
     let developmentApplicationSecret: String?
