@@ -6,12 +6,8 @@ import Foundation
 import UIKit
 
 public class NotificareDeviceManager {
-    public static let shared = NotificareDeviceManager()
-
     private(set) var sessionId: String?
     private(set) var device: NotificareDevice?
-
-    private init() {}
 
     func configure() {
         sessionId = UUID().uuidString
@@ -23,7 +19,7 @@ public class NotificareDeviceManager {
     }
 
     func launch(_ completion: @escaping (Result<Void, NotificareError>) -> Void) {
-        if let device = NotificareDeviceManager.shared.device {
+        if let device = self.device {
             if device.appVersion != NotificareUtils.applicationVersion {
                 // It's not the same version, let's log it as an upgrade.
                 Notificare.shared.logger.debug("New version detected")
@@ -45,7 +41,7 @@ public class NotificareDeviceManager {
             // Let's logout the user in case there's an account in the keychain
             // TODO: [[NotificareAuth shared] logoutAccount]
 
-            NotificareDeviceManager.shared.registerTemporary { result in
+            registerTemporary { result in
                 switch result {
                 case .success:
                     // TODO: log app install event

@@ -14,7 +14,8 @@ public class Notificare {
     internal private(set) var pushApi: NotificarePushApi?
 
     // Consumer modules
-    public private(set) var eventLogger = NotificareEventLogger()
+    public let eventLogger = NotificareEventLogger()
+    public let deviceManager = NotificareDeviceManager()
     public private(set) var pushManager: NotificarePushManager?
     public private(set) var locationManager: NotificareLocationManager?
 
@@ -61,7 +62,7 @@ public class Notificare {
         Notificare.shared.logger.debug("Configuring available modules.")
         coreDataManager.configure()
         eventLogger.configure()
-        NotificareDeviceManager.shared.configure()
+        deviceManager.configure()
         pushManager?.configure()
 
         Notificare.shared.logger.debug("Notificare configured for '\(environment)' services.")
@@ -100,7 +101,7 @@ public class Notificare {
                     switch result {
                     case let .success(applicationInfo):
                         // Launch the device manager: registration.
-                        NotificareDeviceManager.shared.launch { _ in
+                        self.deviceManager.launch { _ in
                             // Ignore the error if device registration fails.
 
                             // Launch the event logger
