@@ -70,7 +70,7 @@ extension NotificareEventLogger: NotificareAppDelegateInterceptor {
 
     private func processStoredEvents() {
         // Check that Notificare is ready to process the events.
-        guard Notificare.shared.state >= .launched else {
+        guard Notificare.shared.state >= .ready else {
             Notificare.shared.logger.verbose("Notificare is not ready yet. Skipping...")
             return
         }

@@ -70,11 +70,11 @@ public class Notificare {
 
     public func launch() {
         if state == .none {
-            Notificare.shared.logger.warning("Notificare.initialize() has never been called. Cannot launch.")
+            Notificare.shared.logger.warning("Notificare.configure() has never been called. Cannot launch.")
             return
         }
 
-        if state == .launching {
+        if state > .configured {
             Notificare.shared.logger.warning("Notificare has already been launched. Skipping...")
             return
         }
@@ -184,7 +184,6 @@ public class Notificare {
         case none
         case configured
         case launching
-        case launched
         case ready
     }
 }
