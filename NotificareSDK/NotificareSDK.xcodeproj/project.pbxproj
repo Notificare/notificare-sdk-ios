@@ -39,6 +39,7 @@
 		42A20DA506BCDC4A7B8ACEAA /* NotificareDeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20C13B79FEEC5DD556468 /* NotificareDeviceManager.swift */; };
 		42A20DF7449245801169DBFC /* NotificareDeviceUpdateTimezone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20E1D1A9D36BEAC8C3C27 /* NotificareDeviceUpdateTimezone.swift */; };
 		42A20F5A817E461AD741CEF0 /* NotificareAutoLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20A542B5A23849B81C344 /* NotificareAutoLauncher.swift */; };
+		42A20F732AE3E8130EA533BF /* NotificareReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20819BD36234AAE88DC4D /* NotificareReachability.swift */; };
 		42A20FD7791BD275D8A3A0E5 /* NotificareError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20228EB70EA83D835BF01 /* NotificareError.swift */; };
 		F225B9FB24E58F0D00768999 /* NotificareEventLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = F225B9FA24E58F0D00768999 /* NotificareEventLogger.swift */; };
 		F23E3C3324D8267000044574 /* NotificareDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F23E3C3224D8267000044574 /* NotificareDelegate.swift */; };
@@ -80,6 +81,7 @@
 		42A2059D74331E97E84F7649 /* NotificareSwizzler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareSwizzler.swift; sourceTree = "<group>"; };
 		42A205DF5970468FB18808F5 /* NotificareBootstrap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificareBootstrap.m; sourceTree = "<group>"; };
 		42A206AA99D4FE31CB2BF0A0 /* NotificareUserDataFieldType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareUserDataFieldType.swift; sourceTree = "<group>"; };
+		42A20819BD36234AAE88DC4D /* NotificareReachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareReachability.swift; sourceTree = "<group>"; };
 		42A20848D25903BF957A419E /* JSONValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONValue.swift; sourceTree = "<group>"; };
 		42A208EE14E3A449DAB125FA /* URLRequest+Authentication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URLRequest+Authentication.swift"; sourceTree = "<group>"; };
 		42A2094F1471668D9F7C7043 /* NotificareTransport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareTransport.swift; sourceTree = "<group>"; };
@@ -225,6 +227,7 @@
 				42A204B20E30B198AA5B0B6D /* Models */,
 				42A2084EFD16DD8C08F8B711 /* Responses */,
 				42A20ACD9317A7EB72200EA4 /* NotificareNetworkError.swift */,
+				42A20819BD36234AAE88DC4D /* NotificareReachability.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -495,6 +498,7 @@
 				42A20A18C4B0AD218F0B7E70 /* NotificareTransport.swift in Sources */,
 				42A2062417BCBBA871B9934D /* NotificareAppDelegateInterceptor.swift in Sources */,
 				42A20C4420B6F4CD82C845D0 /* JSONValue.swift in Sources */,
+				42A20F732AE3E8130EA533BF /* NotificareReachability.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

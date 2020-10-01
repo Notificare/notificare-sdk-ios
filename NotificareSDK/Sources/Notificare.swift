@@ -7,18 +7,23 @@ import Foundation
 public class Notificare {
     public static let shared = Notificare()
 
+    // Internal modules
     public private(set) var logger = NotificareLogger()
+    internal let coreDataManager = NotificareCoreDataManager()
+    internal private(set) var reachability: NotificareReachability?
+    internal private(set) var pushApi: NotificarePushApi?
+
+    // Consumer modules
     public private(set) var eventLogger = NotificareEventLogger()
     public private(set) var pushManager: NotificarePushManager?
     public private(set) var locationManager: NotificareLocationManager?
 
-    internal let coreDataManager = NotificareCoreDataManager()
-
+    // Configuration variables
     internal private(set) var environment: NotificareEnvironment = .production
     internal private(set) var applicationKey: String?
     internal private(set) var applicationSecret: String?
-    internal private(set) var pushApi: NotificarePushApi?
 
+    // Launch / application state
     internal private(set) var state: State = .none
     internal private(set) var applicationInfo: NotificareApplicationInfo?
 
@@ -81,6 +86,15 @@ public class Notificare {
         coreDataManager.launch { result in
             switch result {
             case .success:
+                do {
+                    // Start listening for reachability events.
+                    Notificare.shared.logger.debug("Start listening to reachability events.")
+                    try self.reachability!.startNotifier()
+                } catch {
+                    Notificare.shared.logger.error("Failed to start listening to reachability events: \(error)")
+                    fatalError("Failed to start listening to reachability events: \(error)")
+                }
+
                 // Fetch the application info.
                 self.pushApi!.getApplicationInfo { result in
                     switch result {
@@ -112,6 +126,20 @@ public class Notificare {
     }
 
     private func configureNetworking(applicationKey: String, applicationSecret: String, environment: NotificareEnvironment) {
+        do {
+            reachability = try NotificareReachability(hostname: environment.getConfiguration().pushHost.host!)
+
+            reachability?.whenReachable = { _ in
+                Notificare.shared.logger.debug("Notificare is reachable.")
+            }
+
+            reachability?.whenUnreachable = { _ in
+                Notificare.shared.logger.debug("Notificare is unreachable.")
+            }
+        } catch {
+            fatalError("Failed to configure the reachability module: \(error.localizedDescription)")
+        }
+
         pushApi = NotificarePushApi(
             applicationKey: applicationKey,
             applicationSecret: applicationSecret,
