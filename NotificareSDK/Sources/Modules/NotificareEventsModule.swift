@@ -13,6 +13,11 @@ public class NotificareEventsModule {
 
     func configure() {
         _ = NotificareSwizzler.addInterceptor(self)
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(reachabilityChanged(notification:)),
+                                               name: .reachabilityChanged,
+                                               object: nil)
     }
 
     func launch() {
@@ -187,6 +192,34 @@ extension NotificareEventsModule: NotificareAppDelegateInterceptor {
         group.wait()
     }
 }
+
+// MARK: - Reachability
+
+extension NotificareEventsModule {
+    @objc private func reachabilityChanged(notification _: Notification) {
+        guard let reachability = Notificare.shared.reachability else {
+            Notificare.shared.logger.debug("Reachbility module not configure.")
+            return
+        }
+
+        switch reachability.connection {
+        case .unavailable:
+            guard let taskId = processEventsTaskIdentifier else {
+                return
+            }
+
+            // Stop the task if there is no connectivity.
+            Notificare.shared.logger.debug("Stopping background task due to lack of connectivity.")
+            UIApplication.shared.endBackgroundTask(taskId)
+            processEventsTaskIdentifier = nil
+        case .cellular, .wifi:
+            Notificare.shared.logger.debug("Starting background task to upload stored events.")
+            processStoredEvents()
+        }
+    }
+}
+
+// MARK: - Recoverable NotificareError
 
 private extension NotificareError {
     var recoverable: Bool {
