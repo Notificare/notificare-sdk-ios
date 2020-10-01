@@ -11,6 +11,10 @@ disabled_rules: # rule identifiers to exclude from running
   # https://github.com/realm/SwiftLint/blob/master/Rules.md#identifier-name
   - identifier_name
 
+  # Rationale: Let SwiftFormat handle this rule
+  # https://github.com/realm/SwiftLint/blob/master/Rules.md#opening-brace-spacing
+  - opening_brace
+
   # Rationale: Custom rule overrides to allow todos when issue links are provided.
   # https://github.com/realm/SwiftLint/blob/master/Rules.md#todo
   - todo
@@ -236,10 +240,6 @@ opt_in_rules: # some rules are only opt-in
   # Rationale: Encourages coder best practices though language feature likely makes this obsolete
   # https://github.com/realm/SwiftLint/blob/master/Rules.md#multiple-closures-with-trailing-closure
   - notification_center_detachment
-
-  # Rationale: Provides consistency in coding style
-  # https://github.com/realm/SwiftLint/blob/master/Rules.md#opening-brace-spacing
-  - opening_brace
 
   # Rationale: Provides consistency in coding style
   # https://github.com/realm/SwiftLint/blob/master/Rules.md#operator-usage-whitespace
