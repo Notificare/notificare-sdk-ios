@@ -122,11 +122,12 @@ public class NotificareDeviceModule {
     }
 
     func registerTemporary(_ completion: @escaping (Result<NotificareDevice, NotificareError>) -> Void) {
-        let uuid = UUID().uuidString
-        let uuidData = uuid.data(using: .utf8)!
+        let deviceToken = withUnsafePointer(to: UUID().uuid) {
+            Data(bytes: $0, count: 16)
+        }
 
         register(
-            deviceToken: uuidData,
+            deviceToken: deviceToken,
             asTemporary: true,
             withUserId: device?.userID,
             andUserName: device?.userName
