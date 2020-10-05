@@ -28,14 +28,16 @@ public class NotificareAutoLauncher: NSObject {
 
     private static func autoLaunch() {
         guard Notificare.shared.state == .none else {
-            Notificare.shared.logger.warning("Cannot auto launch. Notificare has already been configured.")
+            Notificare.shared.logger.debug("Notificare has already been configured. Skipping automatic configuration...")
             return
         }
 
         guard let configuration = NotificareUtils.getConfiguration(),
             let applicationKey = configuration.production ? configuration.productionApplicationKey : configuration.developmentApplicationKey,
-            let applicationSecret = configuration.production ? configuration.productionApplicationSecret : configuration.developmentApplicationSecret
+            let applicationSecret = configuration.production ? configuration.productionApplicationSecret : configuration.developmentApplicationSecret,
+            !applicationKey.isEmpty, !applicationSecret.isEmpty
         else {
+            Notificare.shared.logger.debug("Notificare.plist doesn't contain a valid key set. Skipping...")
             return
         }
 
