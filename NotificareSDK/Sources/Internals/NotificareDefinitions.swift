@@ -19,9 +19,14 @@ struct NotificareDefinitions {
         static let preferredLanguage = "re.notifica.local.preferredLanguage"
         static let preferredRegion = "re.notifica.local.preferredRegion"
         static let registeredDevice = "re.notifica.local.registeredDevice"
+        static let crashReport = "re.notifica.local.crashReport"
     }
 
     struct Tasks {
         static let processEvents = "re.notifica.tasks.process.events"
+    }
+
+    struct Events {
+        static let exception = "re.notifica.event.application.Exception"
     }
 }

@@ -71,4 +71,28 @@ struct NotificareUserDefaults {
             UserDefaults.standard.synchronize()
         }
     }
+
+    static var crashReport: NotificareEvent? {
+        get {
+            guard let data = UserDefaults.standard.data(forKey: NotificareDefinitions.UserDefaults.crashReport) else {
+                return nil
+            }
+
+            let decoder = NotificareUtils.createJsonDecoder()
+            return try? decoder.decode(NotificareEvent.self, from: data)
+        }
+        set {
+            guard let event = newValue else {
+                UserDefaults.standard.removeObject(forKey: NotificareDefinitions.UserDefaults.crashReport)
+                return
+            }
+
+            let encoder = NotificareUtils.createJsonEncoder()
+            guard let data = try? encoder.encode(event) else {
+                return
+            }
+
+            UserDefaults.standard.set(data, forKey: NotificareDefinitions.UserDefaults.crashReport)
+        }
+    }
 }

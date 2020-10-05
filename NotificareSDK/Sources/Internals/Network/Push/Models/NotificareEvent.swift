@@ -4,12 +4,12 @@
 
 import Foundation
 
-public typealias NotificareEventData = [String: JSONValue]
+public typealias NotificareEventData = JSON
 
 public struct NotificareEvent {
     public let type: String
     public let timestamp: Int64
-    public let deviceId: String
+    public let deviceId: String?
     public let sessionId: String?
     public let notificationId: String?
     public let userId: String?

@@ -9,6 +9,7 @@ public class Notificare {
 
     // Internal modules
     public private(set) var logger = NotificareLogger()
+    private let crashReporter = NotificareCrashReporter()
     internal let database = NotificareDatabase()
     internal private(set) var reachability: NotificareReachability?
     internal private(set) var pushApi: NotificarePushApi?
@@ -64,6 +65,7 @@ public class Notificare {
         }
 
         Notificare.shared.logger.debug("Configuring available modules.")
+        crashReporter.configure()
         database.configure()
         events.configure()
         device.configure()
@@ -110,6 +112,7 @@ public class Notificare {
 
                             // Launch the event logger
                             self.events.launch()
+                            self.crashReporter.launch()
 
                             self.launchResult(.success(applicationInfo))
                         }
