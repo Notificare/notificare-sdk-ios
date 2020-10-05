@@ -51,7 +51,7 @@
 		F23E3C3324D8267000044574 /* NotificareDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F23E3C3224D8267000044574 /* NotificareDelegate.swift */; };
 		F258DD5624BC4DBC006F9ABD /* NotificareSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F258DD4C24BC4DBB006F9ABD /* NotificareSDK.framework */; };
 		F258DD5B24BC4DBC006F9ABD /* CoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DD5A24BC4DBC006F9ABD /* CoreTests.swift */; };
-		F258DD5D24BC4DBC006F9ABD /* Notificare.h in Headers */ = {isa = PBXBuildFile; fileRef = F258DD4F24BC4DBB006F9ABD /* Notificare.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F258DD5D24BC4DBC006F9ABD /* NotificareSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = F258DD4F24BC4DBB006F9ABD /* NotificareSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F258DE4424BC68CB006F9ABD /* Notificare.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DE4324BC68CB006F9ABD /* Notificare.swift */; };
 		F26718F0250157C200B70A40 /* NotificareEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26718EF250157C200B70A40 /* NotificareEvent.swift */; };
 		F26718FA25017DD600B70A40 /* NotificareDatabase.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F26718F825017DD600B70A40 /* NotificareDatabase.xcdatamodeld */; };
@@ -113,7 +113,7 @@
 		42A20FB65AE760E9D711415C /* NotificareAppDelegateInterceptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareAppDelegateInterceptor.swift; sourceTree = "<group>"; };
 		F23E3C3224D8267000044574 /* NotificareDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareDelegate.swift; sourceTree = "<group>"; };
 		F258DD4C24BC4DBB006F9ABD /* NotificareSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NotificareSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F258DD4F24BC4DBB006F9ABD /* Notificare.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Notificare.h; sourceTree = "<group>"; };
+		F258DD4F24BC4DBB006F9ABD /* NotificareSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificareSDK.h; sourceTree = "<group>"; };
 		F258DD5024BC4DBB006F9ABD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F258DD5524BC4DBC006F9ABD /* NotificareSDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NotificareSDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F258DD5A24BC4DBC006F9ABD /* CoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreTests.swift; sourceTree = "<group>"; };
@@ -255,7 +255,7 @@
 				F2E4DBBD2525EC3C003FE29B /* Internals */,
 				F258DE4524BC699A006F9ABD /* Modules */,
 				F258DD5024BC4DBB006F9ABD /* Info.plist */,
-				F258DD4F24BC4DBB006F9ABD /* Notificare.h */,
+				F258DD4F24BC4DBB006F9ABD /* NotificareSDK.h */,
 				F258DE4324BC68CB006F9ABD /* Notificare.swift */,
 				F23E3C3224D8267000044574 /* NotificareDelegate.swift */,
 				42A20228EB70EA83D835BF01 /* NotificareError.swift */,
@@ -354,7 +354,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F258DD5D24BC4DBC006F9ABD /* Notificare.h in Headers */,
+				F258DD5D24BC4DBC006F9ABD /* NotificareSDK.h in Headers */,
 				42A201A3F80D5668FF5D6759 /* NotificareBootstrap.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
