@@ -15,6 +15,7 @@ struct NotificareDefinitions {
 
     struct UserDefaults {
         static let currentDatabaseVersion = "re.notifica.local.currentDatabaseVersion"
+        static let sessionDate = "re.notifica.local.sessionDate"
         static let newRegistration = "re.notifica.local.newRegistration"
         static let preferredLanguage = "re.notifica.local.preferredLanguage"
         static let preferredRegion = "re.notifica.local.preferredRegion"
@@ -27,6 +28,11 @@ struct NotificareDefinitions {
     }
 
     struct Events {
-        static let exception = "re.notifica.event.application.Exception"
+        static let applicationInstall = "re.notifica.event.application.Install"
+        static let applicationRegistration = "re.notifica.event.application.Registration"
+        static let applicationUpgrade = "re.notifica.event.application.Upgrade"
+        static let applicationOpen = "re.notifica.event.application.Open"
+        static let applicationClose = "re.notifica.event.application.Close"
+        static let applicationException = "re.notifica.event.application.Exception"
     }
 }

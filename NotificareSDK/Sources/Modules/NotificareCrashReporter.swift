@@ -56,7 +56,7 @@ struct NotificareCrashReporter {
         let timestamp = Int64(Date().timeIntervalSince1970 * 1000)
 
         NotificareUserDefaults.crashReport = NotificareEvent(
-            type: NotificareDefinitions.Events.exception,
+            type: NotificareDefinitions.Events.applicationException,
             timestamp: timestamp,
             deviceId: Notificare.shared.device.device?.deviceID,
             sessionId: Notificare.shared.device.sessionId,
@@ -99,7 +99,7 @@ struct NotificareCrashReporter {
         }
 
         NotificareUserDefaults.crashReport = NotificareEvent(
-            type: NotificareDefinitions.Events.exception,
+            type: NotificareDefinitions.Events.applicationException,
             timestamp: timestamp,
             deviceId: Notificare.shared.device.device?.deviceID,
             sessionId: Notificare.shared.device.sessionId,

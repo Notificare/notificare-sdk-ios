@@ -24,6 +24,26 @@ public class NotificareEventsModule {
         processStoredEvents()
     }
 
+    public func logApplicationInstall() {
+        log(NotificareDefinitions.Events.applicationInstall)
+    }
+
+    public func logApplicationRegistration() {
+        log(NotificareDefinitions.Events.applicationRegistration)
+    }
+
+    public func logApplicationUpgrade() {
+        log(NotificareDefinitions.Events.applicationUpgrade)
+    }
+
+    public func logApplicationOpen() {
+        log(NotificareDefinitions.Events.applicationOpen)
+    }
+
+    public func logApplicationClose(length _: TimeInterval) {
+        log(NotificareDefinitions.Events.applicationClose)
+    }
+
     public func logCustom(_ event: String, data: NotificareEventData? = nil) {
         log("re.notifica.event.custom.\(event)", data: data)
     }

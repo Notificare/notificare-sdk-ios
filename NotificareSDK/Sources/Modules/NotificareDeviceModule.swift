@@ -24,8 +24,8 @@ public class NotificareDeviceModule {
                 // It's not the same version, let's log it as an upgrade.
                 Notificare.shared.logger.debug("New version detected")
 
-                // TODO: log app upgrade event
                 // Log an application upgrade event.
+                Notificare.shared.events.logApplicationUpgrade()
 
                 completion(.success(()))
             } else {
@@ -44,11 +44,11 @@ public class NotificareDeviceModule {
             registerTemporary { result in
                 switch result {
                 case .success:
-                    // TODO: log app install event
                     // We will log the Install here since this will execute only one time at the start.
+                    Notificare.shared.events.logApplicationInstall()
 
-                    // TODO: log app open event
                     // We will log the App Open this first time here.
+                    Notificare.shared.events.logApplicationOpen()
 
                     completion(.success(()))
                 case let .failure(error):
@@ -97,7 +97,11 @@ public class NotificareDeviceModule {
                             // Notify delegate.
                             Notificare.shared.delegate?.notificare(Notificare.shared, didRegisterDevice: device)
 
-                            // TODO: handle new registration & event logging
+                            // If it's set to false let's log the first registration
+                            if !NotificareUserDefaults.newRegistration {
+                                Notificare.shared.events.logApplicationRegistration()
+                                NotificareUserDefaults.newRegistration = true
+                            }
 
                             completion(.success(device))
                         case let .failure(error):
