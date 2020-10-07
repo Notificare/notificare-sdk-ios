@@ -10,6 +10,7 @@ public class Notificare {
     // Internal modules
     public private(set) var logger = NotificareLogger()
     private let crashReporter = NotificareCrashReporter()
+    internal let session = NotificareSessionModule()
     internal let database = NotificareDatabase()
     internal private(set) var reachability: NotificareReachability?
     internal private(set) var pushApi: NotificarePushApi?
@@ -65,6 +66,7 @@ public class Notificare {
         }
 
         Notificare.shared.logger.debug("Configuring available modules.")
+        session.configure()
         crashReporter.configure()
         database.configure()
         events.configure()
@@ -93,6 +95,8 @@ public class Notificare {
         database.launch { result in
             switch result {
             case .success:
+                self.session.launch()
+
                 do {
                     // Start listening for reachability events.
                     Notificare.shared.logger.debug("Start listening to reachability events.")

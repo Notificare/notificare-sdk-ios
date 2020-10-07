@@ -6,12 +6,9 @@ import Foundation
 import UIKit
 
 public class NotificareDeviceModule {
-    private(set) var sessionId: String?
     private(set) var device: NotificareDevice?
 
     func configure() {
-        sessionId = UUID().uuidString
-
         // TODO: handle migration
 
         // Load the registered device.

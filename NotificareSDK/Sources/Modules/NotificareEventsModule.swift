@@ -58,7 +58,7 @@ public class NotificareEventsModule {
             type: event,
             timestamp: Int64(Date().timeIntervalSince1970 * 1000),
             deviceId: device.deviceID,
-            sessionId: Notificare.shared.device.sessionId,
+            sessionId: Notificare.shared.session.currentSession,
             notificationId: nil,
             userId: device.userID,
             data: data

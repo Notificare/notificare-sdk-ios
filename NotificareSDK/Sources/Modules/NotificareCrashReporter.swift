@@ -59,7 +59,7 @@ struct NotificareCrashReporter {
             type: NotificareDefinitions.Events.applicationException,
             timestamp: timestamp,
             deviceId: Notificare.shared.device.device?.deviceID,
-            sessionId: Notificare.shared.device.sessionId,
+            sessionId: Notificare.shared.session.currentSession,
             notificationId: nil,
             userId: Notificare.shared.device.device?.userID,
             data: [
@@ -102,7 +102,7 @@ struct NotificareCrashReporter {
             type: NotificareDefinitions.Events.applicationException,
             timestamp: timestamp,
             deviceId: Notificare.shared.device.device?.deviceID,
-            sessionId: Notificare.shared.device.sessionId,
+            sessionId: Notificare.shared.session.currentSession,
             notificationId: nil,
             userId: Notificare.shared.device.device?.userID,
             data: [
