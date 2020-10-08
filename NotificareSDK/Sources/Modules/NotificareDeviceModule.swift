@@ -13,6 +13,24 @@ public class NotificareDeviceModule {
 
         // Load the registered device.
         device = NotificareUserDefaults.registeredDevice
+
+        // Listen to timezone changes
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(updateDeviceTimezone),
+                                               name: UIApplication.significantTimeChangeNotification,
+                                               object: nil)
+
+        // Listen to language changes
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(updateDeviceLanguage),
+                                               name: NSLocale.currentLocaleDidChangeNotification,
+                                               object: nil)
+
+        // Listen to 'backgrounnd refresh status' changes
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(updateDeviceBackgroundAppRefresh),
+                                               name: UIApplication.backgroundRefreshStatusDidChangeNotification,
+                                               object: nil)
     }
 
     func launch(_ completion: @escaping (Result<Void, NotificareError>) -> Void) {
@@ -283,9 +301,67 @@ public class NotificareDeviceModule {
         }
     }
 
-    func updateLanguage(_: @escaping (Result<Void, NotificareError>) -> Void) {}
+    func updateLanguage(_ completion: @escaping (Result<NotificareDevice, NotificareError>) -> Void) {
+        guard var device = self.device else {
+            completion(.failure(.noDevice))
+            return
+        }
 
-    func updateBackgroundAppRefresh(_: @escaping (Result<Void, NotificareError>) -> Void) {}
+        let payload = NotificareDeviceUpdateLanguage(
+            language: getLanguage(),
+            region: getRegion()
+        )
+
+        guard let pushApi = Notificare.shared.pushApi else {
+            completion(.failure(.notConfigured))
+            return
+        }
+
+        pushApi.updateDevice(device.deviceID, with: payload) { result in
+            switch result {
+            case .success:
+                // Update current device properties.
+                device.language = self.getLanguage()
+                device.region = self.getRegion()
+
+                self.refreshCachedDevice(device, completion)
+            case let .failure(error):
+                completion(.failure(error))
+            }
+        }
+    }
+
+    func updateBackgroundAppRefresh(_ completion: @escaping (Result<NotificareDevice, NotificareError>) -> Void) {
+        guard var device = self.device else {
+            completion(.failure(.noDevice))
+            return
+        }
+
+        let backgroundAppRefresh = UIApplication.shared.backgroundRefreshStatus == .available
+
+        let payload = NotificareDeviceUpdateBackgroundAppRefresh(
+            language: getLanguage(),
+            region: getRegion(),
+            backgroundAppRefresh: backgroundAppRefresh
+        )
+
+        guard let pushApi = Notificare.shared.pushApi else {
+            completion(.failure(.notConfigured))
+            return
+        }
+
+        pushApi.updateDevice(device.deviceID, with: payload) { result in
+            switch result {
+            case .success:
+                // Update current device properties.
+                device.backgroundAppRefresh = backgroundAppRefresh
+
+                self.refreshCachedDevice(device, completion)
+            case let .failure(error):
+                completion(.failure(error))
+            }
+        }
+    }
 
     func updateBluetoothState(bluetoothEnabled _: Bool, _: @escaping (Result<Void, NotificareError>) -> Void) {}
 
@@ -386,6 +462,36 @@ public class NotificareDeviceModule {
         } else {
             // Should not happen, unless we concurrently remove the device from storage.
             completion(.failure(.noDevice))
+        }
+    }
+
+    @objc private func updateDeviceTimezone() {
+        Notificare.shared.logger.info("Device timezone changed.")
+
+        updateTimezone { result in
+            if case .success = result {
+                Notificare.shared.logger.info("Device timezone updated.")
+            }
+        }
+    }
+
+    @objc private func updateDeviceLanguage() {
+        Notificare.shared.logger.info("Device language changed.")
+
+        updateLanguage { result in
+            if case .success = result {
+                Notificare.shared.logger.info("Device language updated.")
+            }
+        }
+    }
+
+    @objc private func updateDeviceBackgroundAppRefresh() {
+        Notificare.shared.logger.info("Device background app refresh status changed.")
+
+        updateBackgroundAppRefresh { result in
+            if case .success = result {
+                Notificare.shared.logger.info("Device background app refresh status updated.")
+            }
         }
     }
 }
