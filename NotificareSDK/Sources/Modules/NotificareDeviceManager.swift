@@ -5,7 +5,7 @@
 import Foundation
 import UIKit
 
-public class NotificareDeviceModule {
+public class NotificareDeviceManager {
     private(set) var device: NotificareDevice?
 
     func configure() {
@@ -40,7 +40,7 @@ public class NotificareDeviceModule {
                 Notificare.shared.logger.debug("New version detected")
 
                 // Log an application upgrade event.
-                Notificare.shared.events.logApplicationUpgrade()
+                Notificare.shared.eventsManager.logApplicationUpgrade()
 
                 completion(.success(()))
             } else {
@@ -60,10 +60,10 @@ public class NotificareDeviceModule {
                 switch result {
                 case .success:
                     // We will log the Install here since this will execute only one time at the start.
-                    Notificare.shared.events.logApplicationInstall()
+                    Notificare.shared.eventsManager.logApplicationInstall()
 
                     // We will log the App Open this first time here.
-                    Notificare.shared.events.logApplicationOpen()
+                    Notificare.shared.eventsManager.logApplicationOpen()
 
                     completion(.success(()))
                 case let .failure(error):
@@ -114,7 +114,7 @@ public class NotificareDeviceModule {
 
                             // If it's set to false let's log the first registration
                             if !NotificareUserDefaults.newRegistration {
-                                Notificare.shared.events.logApplicationRegistration()
+                                Notificare.shared.eventsManager.logApplicationRegistration()
                                 NotificareUserDefaults.newRegistration = true
                             }
 
@@ -365,6 +365,8 @@ public class NotificareDeviceModule {
 
     func updateBluetoothState(bluetoothEnabled _: Bool, _: @escaping (Result<Void, NotificareError>) -> Void) {}
 
+    // MARK: - Private API
+
     private func registrationChanged(token: String, userId: String?, userName: String?) -> Bool {
         guard let device = self.device else {
             Notificare.shared.logger.debug("Registration check: fresh installation")
@@ -464,6 +466,8 @@ public class NotificareDeviceModule {
             completion(.failure(.noDevice))
         }
     }
+
+    // MARK: - Notification Center listeners
 
     @objc private func updateDeviceTimezone() {
         Notificare.shared.logger.info("Device timezone changed.")

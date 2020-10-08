@@ -5,7 +5,7 @@
 import Foundation
 import UIKit
 
-class NotificareSessionModule {
+class NotificareSessionManager {
     internal private(set) var currentSession: String?
 
     func configure() {
@@ -47,7 +47,7 @@ class NotificareSessionModule {
         }
 
         Notificare.shared.logger.info("Session started with ID: \(session)")
-        Notificare.shared.events.logApplicationOpen()
+        Notificare.shared.eventsManager.logApplicationOpen()
     }
 
     @objc private func applicationWillResignActive() {
@@ -83,7 +83,7 @@ class NotificareSessionModule {
         }
 
         Notificare.shared.logger.info("Application closed event registered for session '\(session)' with a length of \(diff) seconds.")
-        Notificare.shared.events.logApplicationClose(length: diff)
+        Notificare.shared.eventsManager.logApplicationClose(length: diff)
 
         // Reset the session.
         NotificareUserDefaults.sessionDate = nil

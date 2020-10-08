@@ -9,17 +9,17 @@ public class Notificare {
 
     // Internal modules
     public private(set) var logger = NotificareLogger()
-    private let crashReporter = NotificareCrashReporter()
-    internal let session = NotificareSessionModule()
+    internal let crashReporter = NotificareCrashReporter()
+    internal let sessionManager = NotificareSessionManager()
     internal let database = NotificareDatabase()
     internal private(set) var reachability: NotificareReachability?
     internal private(set) var pushApi: NotificarePushApi?
 
     // Consumer modules
-    public let events = NotificareEventsModule()
-    public let device = NotificareDeviceModule()
-    public private(set) var push: NotificarePushModule?
-    public private(set) var location: NotificareLocationModule?
+    public let eventsManager = NotificareEventsModule()
+    public let deviceManager = NotificareDeviceManager()
+    public private(set) var pushManager: NotificarePushModule?
+    public private(set) var locationManager: NotificareLocationModule?
 
     // Configuration variables
     internal private(set) var applicationKey: String?
@@ -56,7 +56,7 @@ public class Notificare {
 
         let configuration = NotificareUtils.getConfiguration()
         if configuration?.swizzlingEnabled ?? true {
-            NotificareSwizzler.setup(withRemoteNotifications: push != nil)
+            NotificareSwizzler.setup(withRemoteNotifications: pushManager != nil)
         } else {
             Notificare.shared.logger.warning("""
             Automatic App Delegate Proxy is not enabled. \
@@ -66,12 +66,12 @@ public class Notificare {
         }
 
         Notificare.shared.logger.debug("Configuring available modules.")
-        session.configure()
+        sessionManager.configure()
         crashReporter.configure()
         database.configure()
-        events.configure()
-        device.configure()
-        push?.configure()
+        eventsManager.configure()
+        deviceManager.configure()
+        pushManager?.configure()
 
         Notificare.shared.logger.debug("Notificare configured for '\(services)' services.")
         state = .configured
@@ -95,7 +95,7 @@ public class Notificare {
         database.launch { result in
             switch result {
             case .success:
-                self.session.launch()
+                self.sessionManager.launch()
 
                 do {
                     // Start listening for reachability events.
@@ -111,11 +111,11 @@ public class Notificare {
                     switch result {
                     case let .success(applicationInfo):
                         // Launch the device manager: registration.
-                        self.device.launch { _ in
+                        self.deviceManager.launch { _ in
                             // Ignore the error if device registration fails.
 
                             // Launch the event logger
-                            self.events.launch()
+                            self.eventsManager.launch()
                             self.crashReporter.launch()
 
                             self.launchResult(.success(applicationInfo))
@@ -161,8 +161,8 @@ public class Notificare {
 
     private func createAvailableModules(applicationKey: String, applicationSecret: String) {
         let factory = NotificareModuleFactory(applicationKey: applicationKey, applicationSecret: applicationSecret)
-        push = factory.createPushManager()
-        location = factory.createLocationManager()
+        pushManager = factory.createPushManager()
+        locationManager = factory.createLocationManager()
     }
 
     private func launchResult(_ result: Result<NotificareApplicationInfo, Error>) {
