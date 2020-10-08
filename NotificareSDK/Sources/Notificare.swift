@@ -34,47 +34,10 @@ public class Notificare {
 
     private init() {}
 
+    // MARK: - Public API
+
     public func configure(applicationKey _: String, applicationSecret: String) {
         configure(applicationKey: applicationSecret, applicationSecret: applicationSecret, services: .production)
-    }
-
-    internal func configure(applicationKey: String, applicationSecret: String, services: NotificareServices) {
-        guard state == .none else {
-            Notificare.shared.logger.warning("Notificare has already been configured. Skipping...")
-            return
-        }
-
-        self.applicationKey = applicationKey
-        self.applicationSecret = applicationSecret
-        self.services = services
-
-        Notificare.shared.logger.debug("Configuring network services.")
-        configureNetworking(applicationKey: applicationKey, applicationSecret: applicationSecret, services: services)
-
-        Notificare.shared.logger.debug("Loading available modules.")
-        createAvailableModules(applicationKey: applicationKey, applicationSecret: applicationSecret)
-
-        let configuration = NotificareUtils.getConfiguration()
-        if configuration?.swizzlingEnabled ?? true {
-            NotificareSwizzler.setup(withRemoteNotifications: pushManager != nil)
-        } else {
-            Notificare.shared.logger.warning("""
-            Automatic App Delegate Proxy is not enabled. \
-            You will need to forward UIAppDelegate events to Notificare manually. \
-            Please check the documentation for which events to forward.
-            """)
-        }
-
-        Notificare.shared.logger.debug("Configuring available modules.")
-        sessionManager.configure()
-        crashReporter.configure()
-        database.configure()
-        eventsManager.configure()
-        deviceManager.configure()
-        pushManager?.configure()
-
-        Notificare.shared.logger.debug("Notificare configured for '\(services)' services.")
-        state = .configured
     }
 
     public func launch() {
@@ -134,6 +97,47 @@ public class Notificare {
 
     public func unlaunch() {
         Notificare.shared.logger.info("Un-launching Notificare.")
+        state = .configured
+    }
+
+    // MARK: - Private API
+
+    internal func configure(applicationKey: String, applicationSecret: String, services: NotificareServices) {
+        guard state == .none else {
+            Notificare.shared.logger.warning("Notificare has already been configured. Skipping...")
+            return
+        }
+
+        self.applicationKey = applicationKey
+        self.applicationSecret = applicationSecret
+        self.services = services
+
+        Notificare.shared.logger.debug("Configuring network services.")
+        configureNetworking(applicationKey: applicationKey, applicationSecret: applicationSecret, services: services)
+
+        Notificare.shared.logger.debug("Loading available modules.")
+        createAvailableModules(applicationKey: applicationKey, applicationSecret: applicationSecret)
+
+        let configuration = NotificareUtils.getConfiguration()
+        if configuration?.swizzlingEnabled ?? true {
+            NotificareSwizzler.setup(withRemoteNotifications: pushManager != nil)
+        } else {
+            Notificare.shared.logger.warning("""
+            Automatic App Delegate Proxy is not enabled. \
+            You will need to forward UIAppDelegate events to Notificare manually. \
+            Please check the documentation for which events to forward.
+            """)
+        }
+
+        Notificare.shared.logger.debug("Configuring available modules.")
+        sessionManager.configure()
+        crashReporter.configure()
+        database.configure()
+        eventsManager.configure()
+        deviceManager.configure()
+        pushManager?.configure()
+
+        Notificare.shared.logger.debug("Notificare configured for '\(services)' services.")
         state = .configured
     }
 
