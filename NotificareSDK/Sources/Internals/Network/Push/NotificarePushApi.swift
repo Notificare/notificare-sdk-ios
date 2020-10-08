@@ -26,7 +26,7 @@ struct NotificarePushApi {
         self.applicationSecret = applicationSecret
     }
 
-    func getApplicationInfo(_ completion: @escaping Completion<NotificareApplicationInfo>) {
+    func getApplicationInfo(_ completion: @escaping Completion<NotificareApplication>) {
         let url = baseUrl
             .appendingPathComponent("application")
             .appendingPathComponent("info")

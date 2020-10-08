@@ -26,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, NotificareDelegate {
 
     // MARK: - NotificareDelegate
 
-    func notificare(_: Notificare, onReady _: NotificareApplicationInfo) {
+    func notificare(_: Notificare, onReady _: NotificareApplication) {
         print("-----> Notificare is ready.")
     }
 

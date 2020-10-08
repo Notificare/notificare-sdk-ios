@@ -28,7 +28,7 @@ public class Notificare {
 
     // Launch / application state
     internal private(set) var state: NotificareLaunchState = .none
-    internal private(set) var applicationInfo: NotificareApplicationInfo?
+    internal private(set) var application: NotificareApplication?
 
     public weak var delegate: NotificareDelegate?
 
@@ -72,7 +72,7 @@ public class Notificare {
                 // Fetch the application info.
                 self.pushApi!.getApplicationInfo { result in
                     switch result {
-                    case let .success(applicationInfo):
+                    case let .success(application):
                         // Launch the device manager: registration.
                         self.deviceManager.launch { _ in
                             // Ignore the error if device registration fails.
@@ -81,7 +81,7 @@ public class Notificare {
                             self.eventsManager.launch()
                             self.crashReporter.launch()
 
-                            self.launchResult(.success(applicationInfo))
+                            self.launchResult(.success(application))
                         }
                     case let .failure(error):
                         Notificare.shared.logger.error("Failed to load the application info: \(error)")
@@ -169,19 +169,19 @@ public class Notificare {
         locationManager = factory.createLocationManager()
     }
 
-    private func launchResult(_ result: Result<NotificareApplicationInfo, Error>) {
+    private func launchResult(_ result: Result<NotificareApplication, Error>) {
         switch result {
-        case let .success(applicationInfo):
-            self.applicationInfo = applicationInfo
+        case let .success(application):
+            self.application = application
             state = .ready
 
-            let enabledServices = applicationInfo.services.filter { $0.value }.map(\.key)
+            let enabledServices = application.services.filter { $0.value }.map(\.key)
             let enabledModules = NotificareUtils.getLoadedModules()
 
             Notificare.shared.logger.debug("/==================================================================================/")
             Notificare.shared.logger.debug("Notificare SDK is ready to use for application")
-            Notificare.shared.logger.debug("App name: \(applicationInfo.name)")
-            Notificare.shared.logger.debug("App ID: \(applicationInfo.id)")
+            Notificare.shared.logger.debug("App name: \(application.name)")
+            Notificare.shared.logger.debug("App ID: \(application.id)")
             Notificare.shared.logger.debug("App services: \(enabledServices.joined(separator: ", "))")
             Notificare.shared.logger.debug("/==================================================================================/")
             Notificare.shared.logger.debug("SDK version: \(NotificareDefinitions.sdkVersion)")
@@ -189,7 +189,7 @@ public class Notificare {
             Notificare.shared.logger.debug("/==================================================================================/")
 
             // We're done launching. Notify the delegate.
-            delegate?.notificare(self, onReady: applicationInfo)
+            delegate?.notificare(self, onReady: application)
         case .failure:
             Notificare.shared.logger.error("Failed to launch Notificare.")
             state = .configured

@@ -5,5 +5,5 @@
 import Foundation
 
 struct ApplicationInfoResponse: Decodable {
-    let application: NotificareApplicationInfo
+    let application: NotificareApplication
 }
