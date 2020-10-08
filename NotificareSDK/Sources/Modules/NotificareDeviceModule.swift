@@ -388,10 +388,10 @@ public class NotificareDeviceModule {
             changed = true
         }
 
-//        if device.model != NotificareUtils.deviceString {
-//            Notificare.shared.logger.debug("Registration check: device model changed")
-//            changed = true
-//        }
+        if device.deviceModel != NotificareUtils.deviceString {
+            Notificare.shared.logger.debug("Registration check: device model changed")
+            changed = true
+        }
 
         if device.appVersion != NotificareUtils.applicationVersion {
             Notificare.shared.logger.debug("Registration check: application version changed")
