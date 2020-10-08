@@ -179,7 +179,6 @@
 			isa = PBXGroup;
 			children = (
 				42A20B008673C5EDCD7D3484 /* Enums */,
-				42A20DE51F956B3A8FBAB402 /* NotificareDevice.swift */,
 				42A20CD7A648C01887C59D70 /* NotificareDeviceRegistration.swift */,
 				42A202573ADF0EC5B2444115 /* NotificareDeviceUpdateNotificationSettings.swift */,
 				42A20E5BB237248C3A4FF492 /* NotificareDeviceUpdateLocation.swift */,
@@ -258,6 +257,7 @@
 			isa = PBXGroup;
 			children = (
 				F2323001252F3886007778AA /* NotificareApplication.swift */,
+				42A20DE51F956B3A8FBAB402 /* NotificareDevice.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
