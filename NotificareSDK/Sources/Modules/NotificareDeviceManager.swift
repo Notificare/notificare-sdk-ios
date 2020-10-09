@@ -6,6 +6,7 @@ import Foundation
 import UIKit
 
 public typealias DeviceCallback = (Result<NotificareDevice, NotificareError>) -> Void
+public typealias PreferredLanguageCallback = (Result<String?, NotificareError>) -> Void
 
 public class NotificareDeviceManager {
     public private(set) var device: NotificareDevice? {
@@ -15,6 +16,16 @@ public class NotificareDeviceManager {
         set {
             NotificareUserDefaults.registeredDevice = newValue
         }
+    }
+
+    public var preferredLanguage: String? {
+        guard let preferredLanguage = NotificareUserDefaults.preferredLanguage,
+            let preferredRegion = NotificareUserDefaults.preferredRegion
+        else {
+            return nil
+        }
+
+        return "\(preferredLanguage)-\(preferredRegion)"
     }
 
     func configure() {
@@ -93,6 +104,63 @@ public class NotificareDeviceManager {
         let temporary = device.transport != .apns
 
         register(tokenData: tokenData, temporary: temporary, userId: userId, userName: userName, completion)
+    }
+
+    public func updatePreferredLanguage(_ preferredLanguage: String?, _ completion: @escaping (Result<String?, NotificareError>) -> Void) {
+        // TODO: improve readiness check to prevent the issue below
+
+        guard let _ = device else {
+            completion(.failure(.noDevice))
+            return
+        }
+
+        guard let _ = Notificare.shared.pushApi else {
+            completion(.failure(.notConfigured))
+            return
+        }
+
+        if let preferredLanguage = preferredLanguage {
+            let parts = preferredLanguage.components(separatedBy: "-")
+
+            guard parts.count == 2 else {
+                Notificare.shared.logger.error("Not a valid preferred language. Use a ISO 639-1 language code and a ISO 3166-2 region code (e.g. en-US).")
+                completion(.failure(.invalidLanguageCode))
+                return
+            }
+
+            let language = parts[0]
+            let region = parts[1]
+
+            // Only update if the value is not the same.
+            guard language != NotificareUserDefaults.preferredLanguage, region != NotificareUserDefaults.preferredRegion else {
+                completion(.success("\(language)-\(region)"))
+                return
+            }
+
+            NotificareUserDefaults.preferredLanguage = language
+            NotificareUserDefaults.preferredRegion = region
+
+            updateLanguage { result in
+                switch result {
+                case .success:
+                    completion(.success("\(language)-\(region)"))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        } else {
+            NotificareUserDefaults.preferredLanguage = nil
+            NotificareUserDefaults.preferredRegion = nil
+
+            updateLanguage { result in
+                switch result {
+                case .success:
+                    completion(.success(nil))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
     }
 
     // MARK: - Internal API
