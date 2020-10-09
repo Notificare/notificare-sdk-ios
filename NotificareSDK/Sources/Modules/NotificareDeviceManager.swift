@@ -5,8 +5,10 @@
 import Foundation
 import UIKit
 
+public typealias DeviceCallback = (Result<NotificareDevice, NotificareError>) -> Void
+
 public class NotificareDeviceManager {
-    private(set) var device: NotificareDevice? {
+    public private(set) var device: NotificareDevice? {
         get {
             NotificareUserDefaults.registeredDevice
         }
@@ -78,93 +80,26 @@ public class NotificareDeviceManager {
         }
     }
 
-    func register(deviceToken: Data, asTemporary temporary: Bool = false, withUserId userId: String? = nil, andUserName userName: String? = nil, _ completion: @escaping (Result<NotificareDevice, NotificareError>) -> Void) {
-        guard let pushApi = Notificare.shared.pushApi else {
-            completion(.failure(.notConfigured))
+    // MARK: - Public API
+
+    public func register(userId: String?, userName: String?, _ completion: @escaping DeviceCallback) {
+        guard let device = self.device else {
+            Notificare.shared.logger.warning("No device has been registered. Cannot update user information.")
+            completion(.failure(.noDevice))
             return
         }
 
-        let token = deviceToken.toHexString()
+        let tokenData = device.deviceTokenData
+        let temporary = device.transport != .apns
 
-        if registrationChanged(token: token, userId: userId, userName: userName) {
-            let oldDeviceId = device?.deviceID != nil && device?.deviceID != token ? device?.deviceID : nil
-
-            let deviceRegistration = NotificareDeviceRegistration(
-                deviceId: token,
-                oldDeviceId: oldDeviceId,
-                userId: userId,
-                userName: userName,
-                country: device?.countryCode,
-                language: getLanguage(),
-                region: getRegion(),
-                platform: "iOS",
-                transport: temporary ? .notificare : .apns,
-                osVersion: NotificareUtils.osVersion,
-                sdkVersion: NotificareDefinitions.sdkVersion,
-                appVersion: NotificareUtils.applicationVersion,
-                deviceString: NotificareUtils.deviceString,
-                timeZoneOffset: NotificareUtils.timeZoneOffset,
-                backgroundAppRefresh: UIApplication.shared.backgroundRefreshStatus == .available
-            )
-
-            pushApi.createDevice(with: deviceRegistration) { result in
-                switch result {
-                case .success:
-                    let device = NotificareDevice(from: deviceRegistration, with: deviceToken)
-
-                    // Update and store the cached device.
-                    self.device = device
-
-                    // Notify delegate.
-                    Notificare.shared.delegate?.notificare(Notificare.shared, didRegisterDevice: device)
-
-                    // If it's set to false let's log the first registration
-                    if !NotificareUserDefaults.newRegistration {
-                        Notificare.shared.eventsManager.logApplicationRegistration()
-                        NotificareUserDefaults.newRegistration = true
-                    }
-
-                    completion(.success(device))
-                case let .failure(error):
-                    Notificare.shared.logger.error("Failed to register device: \(error)")
-                    completion(.failure(error))
-                }
-            }
-        } else {
-            guard let device = self.device else {
-                completion(.failure(.noDevice))
-                return
-            }
-
-            Notificare.shared.logger.info("Skipping device registration, nothing changed.")
-            Notificare.shared.delegate?.notificare(Notificare.shared, didRegisterDevice: device)
-            completion(.success(device))
-        }
+        register(tokenData: tokenData, temporary: temporary, userId: userId, userName: userName, completion)
     }
 
-    func registerTemporary(_ completion: @escaping (Result<NotificareDevice, NotificareError>) -> Void) {
-        let deviceToken = withUnsafePointer(to: UUID().uuid) {
-            Data(bytes: $0, count: 16)
-        }
+    // MARK: - Internal API
 
-        register(
-            deviceToken: deviceToken,
-            asTemporary: true,
-            withUserId: device?.userID,
-            andUserName: device?.userName
-        ) { result in
-            switch result {
-            case .success:
-                self.updateNotificationSettings(allowedUI: false, completion)
-            case let .failure(error):
-                completion(.failure(error))
-            }
-        }
-    }
+    // func delete(_: @escaping (Result<Void, NotificareError>) -> Void) {}
 
-    func delete(_: @escaping (Result<Void, NotificareError>) -> Void) {}
-
-    func updateNotificationSettings(allowedUI: Bool, _ completion: @escaping (Result<NotificareDevice, NotificareError>) -> Void) {
+    func updateNotificationSettings(allowedUI: Bool, _ completion: @escaping DeviceCallback) {
         guard let device = self.device else {
             completion(.failure(.noDevice))
             return
@@ -194,36 +129,9 @@ public class NotificareDeviceManager {
         }
     }
 
-//    // TODO update location type
-//    func updateLocation(location: Any, _ completion: @escaping (Result<Void, NotificareError>) -> Void) {
-//        guard var device = self.device else {
-//            completion(.failure(.noDevice))
-//            return
-//        }
-//
-//        let payload = NotificareDeviceUpdateNotificationSettings(
-//                language: self.getLanguage(),
-//                region: self.getRegion(),
-//                allowedUI: allowedUI
-//        )
-//
-//        guard let pushApi = Notificare.shared.pushApi else {
-//            completion(.failure(.notConfigured))
-//            return
-//        }
-//
-//        pushApi.updateDevice(device.deviceID, with: payload) { result in
-//            switch result {
-//            case .success:
-//                // update stored device
-//                completion(.success(()))
-//            case .failure(let error):
-//                completion(.failure(error))
-//            }
-//        }
-//    }
+    // func updateLocation(location: NotificareLocation, _ completion: @escaping DeviceCallback) {}
 
-    func clearLocation(_ completion: @escaping (Result<NotificareDevice, NotificareError>) -> Void) {
+    func clearLocation(_ completion: @escaping DeviceCallback) {
         guard let device = self.device else {
             completion(.failure(.noDevice))
             return
@@ -271,7 +179,7 @@ public class NotificareDeviceManager {
         }
     }
 
-    func updateTimezone(_ completion: @escaping (Result<NotificareDevice, NotificareError>) -> Void) {
+    func updateTimezone(_ completion: @escaping DeviceCallback) {
         guard let device = self.device else {
             completion(.failure(.noDevice))
             return
@@ -303,7 +211,7 @@ public class NotificareDeviceManager {
         }
     }
 
-    func updateLanguage(_ completion: @escaping (Result<NotificareDevice, NotificareError>) -> Void) {
+    func updateLanguage(_ completion: @escaping DeviceCallback) {
         guard let device = self.device else {
             completion(.failure(.noDevice))
             return
@@ -333,7 +241,7 @@ public class NotificareDeviceManager {
         }
     }
 
-    func updateBackgroundAppRefresh(_ completion: @escaping (Result<NotificareDevice, NotificareError>) -> Void) {
+    func updateBackgroundAppRefresh(_ completion: @escaping DeviceCallback) {
         guard let device = self.device else {
             completion(.failure(.noDevice))
             return
@@ -365,9 +273,93 @@ public class NotificareDeviceManager {
         }
     }
 
-    // func updateBluetoothState(bluetoothEnabled _: Bool, _: @escaping (Result<Void, NotificareError>) -> Void) {}
+    // func updateBluetoothState(bluetoothEnabled _: Bool, _: @escaping DeviceCallback) {}
 
     // MARK: - Private API
+
+    private func register(tokenData: Data, temporary: Bool, userId: String?, userName: String?, _ completion: @escaping DeviceCallback) {
+        guard let pushApi = Notificare.shared.pushApi else {
+            completion(.failure(.notConfigured))
+            return
+        }
+
+        let token = tokenData.toHexString()
+
+        if registrationChanged(token: token, userId: userId, userName: userName) {
+            let oldDeviceId = device?.deviceID != nil && device?.deviceID != token ? device?.deviceID : nil
+
+            let deviceRegistration = NotificareDeviceRegistration(
+                deviceId: token,
+                oldDeviceId: oldDeviceId,
+                userId: userId,
+                userName: userName,
+                country: device?.countryCode,
+                language: getLanguage(),
+                region: getRegion(),
+                platform: "iOS",
+                transport: temporary ? .notificare : .apns,
+                osVersion: NotificareUtils.osVersion,
+                sdkVersion: NotificareDefinitions.sdkVersion,
+                appVersion: NotificareUtils.applicationVersion,
+                deviceString: NotificareUtils.deviceString,
+                timeZoneOffset: NotificareUtils.timeZoneOffset,
+                backgroundAppRefresh: UIApplication.shared.backgroundRefreshStatus == .available
+            )
+
+            pushApi.createDevice(with: deviceRegistration) { result in
+                switch result {
+                case .success:
+                    let device = NotificareDevice(from: deviceRegistration, with: tokenData)
+
+                    // Update and store the cached device.
+                    self.device = device
+
+                    // Notify delegate.
+                    Notificare.shared.delegate?.notificare(Notificare.shared, didRegisterDevice: device)
+
+                    // If it's set to false let's log the first registration
+                    if !NotificareUserDefaults.newRegistration {
+                        Notificare.shared.eventsManager.logApplicationRegistration()
+                        NotificareUserDefaults.newRegistration = true
+                    }
+
+                    completion(.success(device))
+                case let .failure(error):
+                    Notificare.shared.logger.error("Failed to register device: \(error)")
+                    completion(.failure(error))
+                }
+            }
+        } else {
+            guard let device = self.device else {
+                completion(.failure(.noDevice))
+                return
+            }
+
+            Notificare.shared.logger.info("Skipping device registration, nothing changed.")
+            Notificare.shared.delegate?.notificare(Notificare.shared, didRegisterDevice: device)
+            completion(.success(device))
+        }
+    }
+
+    private func registerTemporary(_ completion: @escaping DeviceCallback) {
+        let tokenData = withUnsafePointer(to: UUID().uuid) {
+            Data(bytes: $0, count: 16)
+        }
+
+        register(
+            tokenData: tokenData,
+            temporary: true,
+            userId: device?.userID,
+            userName: device?.userName
+        ) { result in
+            switch result {
+            case .success:
+                self.updateNotificationSettings(allowedUI: false, completion)
+            case let .failure(error):
+                completion(.failure(error))
+            }
+        }
+    }
 
     private func registrationChanged(token: String, userId: String?, userName: String?) -> Bool {
         guard let device = self.device else {
