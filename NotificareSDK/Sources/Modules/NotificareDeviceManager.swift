@@ -377,14 +377,9 @@ public class NotificareDeviceManager {
                 }
             }
         } else {
-            guard let device = self.device else {
-                completion(.failure(.noDevice))
-                return
-            }
-
             Notificare.shared.logger.info("Skipping device registration, nothing changed.")
-            Notificare.shared.delegate?.notificare(Notificare.shared, didRegisterDevice: device)
-            completion(.success(device))
+            Notificare.shared.delegate?.notificare(Notificare.shared, didRegisterDevice: self.device!)
+            completion(.success(self.device!))
         }
     }
 
