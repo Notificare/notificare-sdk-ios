@@ -94,9 +94,10 @@ public class NotificareDeviceManager {
     // MARK: - Public API
 
     public func register(userId: String?, userName: String?, _ completion: @escaping DeviceCallback) {
-        guard let device = self.device else {
-            Notificare.shared.logger.warning("No device has been registered. Cannot update user information.")
-            completion(.failure(.noDevice))
+        guard Notificare.shared.isReady,
+            let device = self.device
+        else {
+            completion(.failure(.notReady))
             return
         }
 
@@ -107,15 +108,8 @@ public class NotificareDeviceManager {
     }
 
     public func updatePreferredLanguage(_ preferredLanguage: String?, _ completion: @escaping (Result<String?, NotificareError>) -> Void) {
-        // TODO: improve readiness check to prevent the issue below
-
-        guard let _ = device else {
-            completion(.failure(.noDevice))
-            return
-        }
-
-        guard let _ = Notificare.shared.pushApi else {
-            completion(.failure(.notConfigured))
+        guard Notificare.shared.isReady else {
+            completion(.failure(.notReady))
             return
         }
 
@@ -168,8 +162,11 @@ public class NotificareDeviceManager {
     // func delete(_: @escaping (Result<Void, NotificareError>) -> Void) {}
 
     func updateNotificationSettings(allowedUI: Bool, _ completion: @escaping DeviceCallback) {
-        guard let device = self.device else {
-            completion(.failure(.noDevice))
+        guard Notificare.shared.isReady,
+            let device = self.device,
+            let pushApi = Notificare.shared.pushApi
+        else {
+            completion(.failure(.notReady))
             return
         }
 
@@ -178,11 +175,6 @@ public class NotificareDeviceManager {
             region: getRegion(),
             allowedUI: allowedUI
         )
-
-        guard let pushApi = Notificare.shared.pushApi else {
-            completion(.failure(.notConfigured))
-            return
-        }
 
         pushApi.updateDevice(device.deviceID, with: payload) { result in
             switch result {
@@ -200,8 +192,11 @@ public class NotificareDeviceManager {
     // func updateLocation(location: NotificareLocation, _ completion: @escaping DeviceCallback) {}
 
     func clearLocation(_ completion: @escaping DeviceCallback) {
-        guard let device = self.device else {
-            completion(.failure(.noDevice))
+        guard Notificare.shared.isReady,
+            let device = self.device,
+            let pushApi = Notificare.shared.pushApi
+        else {
+            completion(.failure(.notReady))
             return
         }
 
@@ -219,11 +214,6 @@ public class NotificareDeviceManager {
             locationServicesAuthStatus: nil,
             locationServicesAccuracyAuth: nil
         )
-
-        guard let pushApi = Notificare.shared.pushApi else {
-            completion(.failure(.notConfigured))
-            return
-        }
 
         pushApi.updateDevice(device.deviceID, with: payload) { result in
             switch result {
@@ -248,8 +238,11 @@ public class NotificareDeviceManager {
     }
 
     func updateTimezone(_ completion: @escaping DeviceCallback) {
-        guard let device = self.device else {
-            completion(.failure(.noDevice))
+        guard Notificare.shared.isReady,
+            let device = self.device,
+            let pushApi = Notificare.shared.pushApi
+        else {
+            completion(.failure(.notReady))
             return
         }
 
@@ -260,11 +253,6 @@ public class NotificareDeviceManager {
             region: getRegion(),
             timeZoneOffset: timeZoneOffset
         )
-
-        guard let pushApi = Notificare.shared.pushApi else {
-            completion(.failure(.notConfigured))
-            return
-        }
 
         pushApi.updateDevice(device.deviceID, with: payload) { result in
             switch result {
@@ -280,8 +268,11 @@ public class NotificareDeviceManager {
     }
 
     func updateLanguage(_ completion: @escaping DeviceCallback) {
-        guard let device = self.device else {
-            completion(.failure(.noDevice))
+        guard Notificare.shared.isReady,
+            let device = self.device,
+            let pushApi = Notificare.shared.pushApi
+        else {
+            completion(.failure(.notReady))
             return
         }
 
@@ -289,11 +280,6 @@ public class NotificareDeviceManager {
             language: getLanguage(),
             region: getRegion()
         )
-
-        guard let pushApi = Notificare.shared.pushApi else {
-            completion(.failure(.notConfigured))
-            return
-        }
 
         pushApi.updateDevice(device.deviceID, with: payload) { result in
             switch result {
@@ -310,8 +296,11 @@ public class NotificareDeviceManager {
     }
 
     func updateBackgroundAppRefresh(_ completion: @escaping DeviceCallback) {
-        guard let device = self.device else {
-            completion(.failure(.noDevice))
+        guard Notificare.shared.isReady,
+            let device = self.device,
+            let pushApi = Notificare.shared.pushApi
+        else {
+            completion(.failure(.notReady))
             return
         }
 
@@ -322,11 +311,6 @@ public class NotificareDeviceManager {
             region: getRegion(),
             backgroundAppRefresh: backgroundAppRefresh
         )
-
-        guard let pushApi = Notificare.shared.pushApi else {
-            completion(.failure(.notConfigured))
-            return
-        }
 
         pushApi.updateDevice(device.deviceID, with: payload) { result in
             switch result {
@@ -346,11 +330,6 @@ public class NotificareDeviceManager {
     // MARK: - Private API
 
     private func register(tokenData: Data, temporary: Bool, userId: String?, userName: String?, _ completion: @escaping DeviceCallback) {
-        guard let pushApi = Notificare.shared.pushApi else {
-            completion(.failure(.notConfigured))
-            return
-        }
-
         let token = tokenData.toHexString()
 
         if registrationChanged(token: token, userId: userId, userName: userName) {
@@ -374,7 +353,7 @@ public class NotificareDeviceManager {
                 backgroundAppRefresh: UIApplication.shared.backgroundRefreshStatus == .available
             )
 
-            pushApi.createDevice(with: deviceRegistration) { result in
+            Notificare.shared.pushApi!.createDevice(with: deviceRegistration) { result in
                 switch result {
                 case .success:
                     let device = NotificareDevice(from: deviceRegistration, with: tokenData)
