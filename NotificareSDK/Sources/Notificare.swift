@@ -36,6 +36,10 @@ public class Notificare {
 
     // MARK: - Public API
 
+    public var isReady: Bool {
+        state == .ready
+    }
+
     public func configure(applicationKey _: String, applicationSecret: String) {
         configure(applicationKey: applicationSecret, applicationSecret: applicationSecret, services: .production)
     }
