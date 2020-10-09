@@ -194,6 +194,85 @@ struct NotificarePushApi {
         }
     }
 
+    func addDeviceTags(with id: String, payload: TagsPayload, _ completion: @escaping Completion<Void>) {
+        let url = baseUrl
+            .appendingPathComponent("device")
+            .appendingPathComponent(id)
+            .appendingPathComponent("addtags")
+
+        var request = URLRequest(url: url)
+        request.setBasicAuthentication(username: applicationKey, password: applicationSecret)
+
+        guard let encoded = try? encoder.encode(payload) else {
+            completion(.failure(.parsingFailure))
+            return
+        }
+
+        request.httpMethod = "PUT"
+        request.httpBody = encoded
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        session.perform(request) { result in
+            switch result {
+            case let .failure(error):
+                completion(.failure(.networkFailure(cause: error)))
+            case .success:
+                completion(.success(()))
+            }
+        }
+    }
+
+    func removeDeviceTags(with id: String, payload: TagsPayload, _ completion: @escaping Completion<Void>) {
+        let url = baseUrl
+            .appendingPathComponent("device")
+            .appendingPathComponent(id)
+            .appendingPathComponent("removetags")
+
+        var request = URLRequest(url: url)
+        request.setBasicAuthentication(username: applicationKey, password: applicationSecret)
+
+        guard let encoded = try? encoder.encode(payload) else {
+            completion(.failure(.parsingFailure))
+            return
+        }
+
+        request.httpMethod = "PUT"
+        request.httpBody = encoded
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        session.perform(request) { result in
+            switch result {
+            case let .failure(error):
+                completion(.failure(.networkFailure(cause: error)))
+            case .success:
+                completion(.success(()))
+            }
+        }
+    }
+
+    func clearDeviceTags(with id: String, _ completion: @escaping Completion<Void>) {
+        let url = baseUrl
+            .appendingPathComponent("device")
+            .appendingPathComponent(id)
+            .appendingPathComponent("cleartags")
+
+        var request = URLRequest(url: url)
+        request.setBasicAuthentication(username: applicationKey, password: applicationSecret)
+
+        request.httpMethod = "PUT"
+        request.httpBody = nil
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        session.perform(request) { result in
+            switch result {
+            case let .failure(error):
+                completion(.failure(.networkFailure(cause: error)))
+            case .success:
+                completion(.success(()))
+            }
+        }
+    }
+
     func logEvent(_ event: NotificareEvent, _ completion: @escaping Completion<Void>) {
         let url = baseUrl.appendingPathComponent("event")
 

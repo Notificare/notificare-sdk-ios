@@ -5,8 +5,10 @@
 import Foundation
 import UIKit
 
+public typealias VoidCallback = (Result<Void, NotificareError>) -> Void
 public typealias DeviceCallback = (Result<NotificareDevice, NotificareError>) -> Void
 public typealias PreferredLanguageCallback = (Result<String?, NotificareError>) -> Void
+public typealias TagsCallback = (Result<[String], NotificareError>) -> Void
 
 public class NotificareDeviceManager {
     public private(set) var device: NotificareDevice? {
@@ -107,7 +109,7 @@ public class NotificareDeviceManager {
         register(tokenData: tokenData, temporary: temporary, userId: userId, userName: userName, completion)
     }
 
-    public func updatePreferredLanguage(_ preferredLanguage: String?, _ completion: @escaping (Result<String?, NotificareError>) -> Void) {
+    public func updatePreferredLanguage(_ preferredLanguage: String?, _ completion: @escaping PreferredLanguageCallback) {
         guard Notificare.shared.isReady else {
             completion(.failure(.notReady))
             return
@@ -155,6 +157,66 @@ public class NotificareDeviceManager {
                 }
             }
         }
+    }
+
+    public func fetchTags(_ completion: @escaping TagsCallback) {
+        guard Notificare.shared.isReady,
+            let device = device,
+            let pushApi = Notificare.shared.pushApi
+        else {
+            completion(.failure(.notReady))
+            return
+        }
+
+        pushApi.getDeviceTags(with: device.deviceID, completion)
+    }
+
+    public func addTag(_ tag: String, _ completion: @escaping VoidCallback) {
+        addTags([tag], completion)
+    }
+
+    public func addTags(_ tags: [String], _ completion: @escaping VoidCallback) {
+        guard Notificare.shared.isReady,
+            let device = device,
+            let pushApi = Notificare.shared.pushApi
+        else {
+            completion(.failure(.notReady))
+            return
+        }
+
+        let payload = TagsPayload(tags: tags)
+
+        pushApi.addDeviceTags(with: device.deviceID, payload: payload, completion)
+    }
+
+    public func removeTag(_ tag: String, _ completion: @escaping VoidCallback) {
+        removeTags([tag], completion)
+    }
+
+    public func removeTags(_ tags: [String], _ completion: @escaping VoidCallback) {
+        guard Notificare.shared.isReady,
+            let device = device,
+            let pushApi = Notificare.shared.pushApi
+        else {
+            completion(.failure(.notReady))
+            return
+        }
+
+        let payload = TagsPayload(tags: tags)
+
+        pushApi.removeDeviceTags(with: device.deviceID, payload: payload, completion)
+    }
+
+    public func clearTags(_ completion: @escaping VoidCallback) {
+        guard Notificare.shared.isReady,
+            let device = device,
+            let pushApi = Notificare.shared.pushApi
+        else {
+            completion(.failure(.notReady))
+            return
+        }
+
+        pushApi.clearDeviceTags(with: device.deviceID, completion)
     }
 
     // MARK: - Internal API

@@ -63,6 +63,7 @@
 		F26718FA25017DD600B70A40 /* NotificareDatabase.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F26718F825017DD600B70A40 /* NotificareDatabase.xcdatamodeld */; };
 		F29DA38125022170004CCB8F /* NotificareDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29DA38025022170004CCB8F /* NotificareDatabase.swift */; };
 		F29DA38325024753004CCB8F /* NotificareEvent+CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29DA38225024753004CCB8F /* NotificareEvent+CoreData.swift */; };
+		F2E246E42530B79C00AAA8F4 /* TagsPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E246E32530B79C00AAA8F4 /* TagsPayload.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -135,6 +136,7 @@
 		F26718F925017DD600B70A40 /* NotificareCoreData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = NotificareCoreData.xcdatamodel; sourceTree = "<group>"; };
 		F29DA38025022170004CCB8F /* NotificareDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareDatabase.swift; sourceTree = "<group>"; };
 		F29DA38225024753004CCB8F /* NotificareEvent+CoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificareEvent+CoreData.swift"; sourceTree = "<group>"; };
+		F2E246E32530B79C00AAA8F4 /* TagsPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsPayload.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,6 +190,7 @@
 				42A20CD405465790DE15002F /* NotificareDeviceUpdateBluetoothState.swift */,
 				42A2057D4FF378546BA78FA3 /* NotificareDeviceDnD.swift */,
 				F26718EF250157C200B70A40 /* NotificareEvent.swift */,
+				F2E246E32530B79C00AAA8F4 /* TagsPayload.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -544,6 +547,7 @@
 				42A20D3C5FEB5D3146FE5523 /* NotificareNotificationAction.swift in Sources */,
 				42A20B6537AFE9B92385C5CF /* ApplicationInfoResponse.swift in Sources */,
 				42A204DF76302D72690E9F7A /* NotificareNetworkError.swift in Sources */,
+				F2E246E42530B79C00AAA8F4 /* TagsPayload.swift in Sources */,
 				42A20F5A817E461AD741CEF0 /* NotificareAutoLauncher.swift in Sources */,
 				42A20389A56033CA45A7973B /* NotificareSwizzler.swift in Sources */,
 				F29DA38325024753004CCB8F /* NotificareEvent+CoreData.swift in Sources */,
