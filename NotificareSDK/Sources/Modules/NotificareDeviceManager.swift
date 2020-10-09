@@ -91,8 +91,8 @@ public class NotificareDeviceManager {
                 userId: userId,
                 userName: userName,
                 country: device?.countryCode,
-                language: NotificareUtils.deviceLanguage,
-                region: NotificareUtils.deviceRegion,
+                language: getLanguage(),
+                region: getRegion(),
                 platform: "iOS",
                 transport: temporary ? .notificare : .apns,
                 osVersion: NotificareUtils.osVersion,
@@ -422,17 +422,12 @@ public class NotificareDeviceManager {
             changed = true
         }
 
-        let language = UserDefaults.standard.string(forKey: NotificareDefinitions.UserDefaults.preferredLanguage)
-            ?? NotificareUtils.deviceLanguage
-        let region = UserDefaults.standard.string(forKey: NotificareDefinitions.UserDefaults.preferredRegion)
-            ?? NotificareUtils.deviceRegion
-
-        if device.language != language {
+        if device.language != getLanguage() {
             Notificare.shared.logger.debug("Registration check: language changed")
             changed = true
         }
 
-        if device.region != region {
+        if device.region != getRegion() {
             Notificare.shared.logger.debug("Registration check: region changed")
             changed = true
         }
