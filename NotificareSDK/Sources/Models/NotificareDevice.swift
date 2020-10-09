@@ -157,3 +157,39 @@ extension NotificareDevice: Codable {
         try container.encode(bluetoothON, forKey: .bluetoothON)
     }
 }
+
+extension NotificareDevice {
+    init(from registration: NotificareDeviceRegistration, with tokenData: Data) {
+        deviceTokenData = tokenData
+        deviceID = registration.deviceId
+        userID = registration.userId
+        userName = registration.userName
+        timezone = registration.timeZoneOffset
+        osVersion = registration.osVersion
+        sdkVersion = registration.sdkVersion
+        appVersion = registration.appVersion
+        deviceModel = registration.deviceString
+        country = nil
+        countryCode = nil
+        language = registration.language
+        region = registration.region
+        transport = registration.transport
+        dnd = nil
+        userData = nil
+        latitude = nil
+        longitude = nil
+        altitude = nil
+        accuracy = nil
+        floor = nil
+        speed = nil
+        course = nil
+        lastRegistered = Date()
+        locationServicesAuthStatus = nil
+        locationServicesAccuracyAuth = nil
+        registeredForNotifications = false
+        allowedLocationServices = false
+        allowedUI = false
+        backgroundAppRefresh = registration.backgroundAppRefresh
+        bluetoothON = false
+    }
+}
