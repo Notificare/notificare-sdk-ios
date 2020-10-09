@@ -8,11 +8,9 @@ import UIKit
 public class NotificareDeviceManager {
     private(set) var device: NotificareDevice? {
         get {
-            Notificare.shared.logger.debug("Getting the device from storage.")
-            return NotificareUserDefaults.registeredDevice
+            NotificareUserDefaults.registeredDevice
         }
         set {
-            Notificare.shared.logger.debug("Persisting the device into storage.")
             NotificareUserDefaults.registeredDevice = newValue
         }
     }
