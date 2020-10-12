@@ -16,4 +16,18 @@ extension URLRequest {
     mutating func setBearerAuthentication(token: String) {
         addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
     }
+
+    mutating func setNotificareHeaders() {
+        setValue(NotificareDefinitions.sdkVersion, forHTTPHeaderField: "X-Notificare-SDK-Version")
+        setValue(NotificareUtils.applicationVersion, forHTTPHeaderField: "X-Notificare-App-Version")
+    }
+
+    mutating func setMethod(_ method: String, payload: Data? = nil) {
+        httpMethod = method
+        httpBody = payload
+
+        if payload != nil {
+            setValue("application/json", forHTTPHeaderField: "Content-Type")
+        }
+    }
 }

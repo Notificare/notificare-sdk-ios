@@ -32,7 +32,9 @@ struct NotificarePushApi {
             .appendingPathComponent("info")
 
         var request = URLRequest(url: url)
+        request.setNotificareHeaders()
         request.setBasicAuthentication(username: applicationKey, password: applicationSecret)
+        request.setMethod("GET")
 
         session.perform(request) { result in
             switch result {
@@ -52,17 +54,15 @@ struct NotificarePushApi {
     func createDevice(with deviceRegistration: NotificareDeviceRegistration, _ completion: @escaping Completion<Void>) {
         let url = baseUrl.appendingPathComponent("device")
 
-        var request = URLRequest(url: url)
-        request.setBasicAuthentication(username: applicationKey, password: applicationSecret)
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
         guard let encoded = try? encoder.encode(deviceRegistration) else {
             completion(.failure(.parsingFailure))
             return
         }
 
-        request.httpMethod = "POST"
-        request.httpBody = encoded
+        var request = URLRequest(url: url)
+        request.setNotificareHeaders()
+        request.setBasicAuthentication(username: applicationKey, password: applicationSecret)
+        request.setMethod("POST", payload: encoded)
 
         session.perform(request) { result in
             switch result {
@@ -134,11 +134,9 @@ struct NotificarePushApi {
             .appendingPathComponent(id)
 
         var request = URLRequest(url: url)
+        request.setNotificareHeaders()
         request.setBasicAuthentication(username: applicationKey, password: applicationSecret)
-
-        request.httpMethod = "PUT"
-        request.httpBody = payload
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setMethod("PUT", payload: payload)
 
         session.perform(request) { result in
             switch result {
@@ -156,9 +154,9 @@ struct NotificarePushApi {
             .appendingPathComponent(id)
 
         var request = URLRequest(url: url)
+        request.setNotificareHeaders()
         request.setBasicAuthentication(username: applicationKey, password: applicationSecret)
-
-        request.httpMethod = "DELETE"
+        request.setMethod("DELETE")
 
         session.perform(request) { result in
             switch result {
@@ -177,7 +175,9 @@ struct NotificarePushApi {
             .appendingPathComponent("tags")
 
         var request = URLRequest(url: url)
+        request.setNotificareHeaders()
         request.setBasicAuthentication(username: applicationKey, password: applicationSecret)
+        request.setMethod("GET")
 
         session.perform(request) { result in
             switch result {
@@ -200,17 +200,15 @@ struct NotificarePushApi {
             .appendingPathComponent(id)
             .appendingPathComponent("addtags")
 
-        var request = URLRequest(url: url)
-        request.setBasicAuthentication(username: applicationKey, password: applicationSecret)
-
         guard let encoded = try? encoder.encode(payload) else {
             completion(.failure(.parsingFailure))
             return
         }
 
-        request.httpMethod = "PUT"
-        request.httpBody = encoded
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        var request = URLRequest(url: url)
+        request.setNotificareHeaders()
+        request.setBasicAuthentication(username: applicationKey, password: applicationSecret)
+        request.setMethod("PUT", payload: encoded)
 
         session.perform(request) { result in
             switch result {
@@ -228,17 +226,14 @@ struct NotificarePushApi {
             .appendingPathComponent(id)
             .appendingPathComponent("removetags")
 
-        var request = URLRequest(url: url)
-        request.setBasicAuthentication(username: applicationKey, password: applicationSecret)
-
         guard let encoded = try? encoder.encode(payload) else {
             completion(.failure(.parsingFailure))
             return
         }
-
-        request.httpMethod = "PUT"
-        request.httpBody = encoded
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        var request = URLRequest(url: url)
+        request.setNotificareHeaders()
+        request.setBasicAuthentication(username: applicationKey, password: applicationSecret)
+        request.setMethod("PUT", payload: encoded)
 
         session.perform(request) { result in
             switch result {
@@ -257,11 +252,9 @@ struct NotificarePushApi {
             .appendingPathComponent("cleartags")
 
         var request = URLRequest(url: url)
+        request.setNotificareHeaders()
         request.setBasicAuthentication(username: applicationKey, password: applicationSecret)
-
-        request.httpMethod = "PUT"
-        request.httpBody = nil
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setMethod("PUT")
 
         session.perform(request) { result in
             switch result {
@@ -276,17 +269,15 @@ struct NotificarePushApi {
     func logEvent(_ event: NotificareEvent, _ completion: @escaping Completion<Void>) {
         let url = baseUrl.appendingPathComponent("event")
 
-        var request = URLRequest(url: url)
-        request.setBasicAuthentication(username: applicationKey, password: applicationSecret)
-
         guard let encoded = try? encoder.encode(event) else {
             completion(.failure(.parsingFailure))
             return
         }
 
-        request.httpMethod = "POST"
-        request.httpBody = encoded
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        var request = URLRequest(url: url)
+        request.setNotificareHeaders()
+        request.setBasicAuthentication(username: applicationKey, password: applicationSecret)
+        request.setMethod("POST", payload: encoded)
 
         session.perform(request) { result in
             switch result {

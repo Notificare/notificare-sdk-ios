@@ -36,7 +36,7 @@
 		42A20B6537AFE9B92385C5CF /* ApplicationInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20ED52E1877D2A6478530 /* ApplicationInfoResponse.swift */; };
 		42A20BBE4E276C8BA79EDF44 /* NotificareServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A2067A01284684F1A3F60C /* NotificareServices.swift */; };
 		42A20BCB911114B0BCBEF371 /* NotificareCrashReporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A208E69A6C0B2C639FBFB4 /* NotificareCrashReporter.swift */; };
-		42A20BCDB5A9B47688D37655 /* URLRequest+Authentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20B124FB2C08F1A880DB2 /* URLRequest+Authentication.swift */; };
+		42A20BCDB5A9B47688D37655 /* URLRequest+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20B124FB2C08F1A880DB2 /* URLRequest+Extensions.swift */; };
 		42A20BF1A314A1F88EDC568F /* JSONRawRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20CB1809855F90C723D7C /* JSONRawRepresentable.swift */; };
 		42A20CAE308280FC80D81C29 /* NotificareDeviceRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20CD7A648C01887C59D70 /* NotificareDeviceRegistration.swift */; };
 		42A20CCB8A76FCFAD9A70759 /* NotificareDeviceUpdateLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20E5BB237248C3A4FF492 /* NotificareDeviceUpdateLocation.swift */; };
@@ -102,7 +102,7 @@
 		42A209A71E0E97443A11A01F /* NotificarePushApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificarePushApi.swift; sourceTree = "<group>"; };
 		42A20A542B5A23849B81C344 /* NotificareAutoLauncher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareAutoLauncher.swift; sourceTree = "<group>"; };
 		42A20ACD9317A7EB72200EA4 /* NotificareNetworkError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareNetworkError.swift; sourceTree = "<group>"; };
-		42A20B124FB2C08F1A880DB2 /* URLRequest+Authentication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URLRequest+Authentication.swift"; sourceTree = "<group>"; };
+		42A20B124FB2C08F1A880DB2 /* URLRequest+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URLRequest+Extensions.swift"; sourceTree = "<group>"; };
 		42A20B3065832FD6345EDD14 /* DeviceTagsResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceTagsResponse.swift; sourceTree = "<group>"; };
 		42A20B4FCC8F316C9CA0B951 /* JSONCodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONCodable.swift; sourceTree = "<group>"; };
 		42A20BF674CDFC918EC172AF /* NotificareUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareUserDefaults.swift; sourceTree = "<group>"; };
@@ -250,7 +250,7 @@
 				F2E4DBCD2525ECD9003FE29B /* Reachability */,
 				F2E4DBCC2525ECD4003FE29B /* Push */,
 				42A20ACD9317A7EB72200EA4 /* NotificareNetworkError.swift */,
-				42A20B124FB2C08F1A880DB2 /* URLRequest+Authentication.swift */,
+				42A20B124FB2C08F1A880DB2 /* URLRequest+Extensions.swift */,
 				42A20F817E5D783B690400CF /* URLSession+Retry.swift */,
 			);
 			path = Network;
@@ -570,7 +570,7 @@
 				42A2068C1883043D66EEB792 /* NotificareDefinitions.swift in Sources */,
 				42A20D60B9A98D22C2655FC5 /* NotificareConfiguration.swift in Sources */,
 				42A20AD28857EBCB0A86A104 /* NotificareLaunchState.swift in Sources */,
-				42A20BCDB5A9B47688D37655 /* URLRequest+Authentication.swift in Sources */,
+				42A20BCDB5A9B47688D37655 /* URLRequest+Extensions.swift in Sources */,
 				42A20330821EAB78A0A5EB13 /* URLSession+Retry.swift in Sources */,
 				42A20E5F64CEAA08A8919CEC /* NotificareUtils.swift in Sources */,
 				F219FADD252DEB3900464B4E /* NotificareSessionManager.swift in Sources */,
