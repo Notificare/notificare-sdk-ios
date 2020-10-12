@@ -230,6 +230,7 @@ struct NotificarePushApi {
             completion(.failure(.parsingFailure))
             return
         }
+
         var request = URLRequest(url: url)
         request.setNotificareHeaders()
         request.setBasicAuthentication(username: applicationKey, password: applicationSecret)
@@ -250,6 +251,79 @@ struct NotificarePushApi {
             .appendingPathComponent("device")
             .appendingPathComponent(id)
             .appendingPathComponent("cleartags")
+
+        var request = URLRequest(url: url)
+        request.setNotificareHeaders()
+        request.setBasicAuthentication(username: applicationKey, password: applicationSecret)
+        request.setMethod("PUT")
+
+        session.perform(request) { result in
+            switch result {
+            case let .failure(error):
+                completion(.failure(.networkFailure(cause: error)))
+            case .success:
+                completion(.success(()))
+            }
+        }
+    }
+
+    func fetchDeviceDoNotDisturb(_ id: String, _ completion: @escaping Completion<NotificareDoNotDisturb?>) {
+        let url = baseUrl
+            .appendingPathComponent("device")
+            .appendingPathComponent(id)
+            .appendingPathComponent("dnd")
+
+        var request = URLRequest(url: url)
+        request.setNotificareHeaders()
+        request.setBasicAuthentication(username: applicationKey, password: applicationSecret)
+        request.setMethod("GET")
+
+        session.perform(request) { result in
+            switch result {
+            case let .failure(error):
+                completion(.failure(.networkFailure(cause: error)))
+            case let .success(data):
+                guard let decoded = try? self.decoder.decode(DoNotDisturbResponse.self, from: data) else {
+                    completion(.failure(NotificareError.parsingFailure))
+                    return
+                }
+
+                completion(.success(decoded.dnd))
+            }
+        }
+    }
+
+    func updateDeviceDoNotDisturb(_ id: String, dnd: NotificareDoNotDisturb, _ completion: @escaping Completion<Void>) {
+        let url = baseUrl
+            .appendingPathComponent("device")
+            .appendingPathComponent(id)
+            .appendingPathComponent("dnd")
+
+        guard let encoded = try? encoder.encode(dnd) else {
+            completion(.failure(.parsingFailure))
+            return
+        }
+
+        var request = URLRequest(url: url)
+        request.setNotificareHeaders()
+        request.setBasicAuthentication(username: applicationKey, password: applicationSecret)
+        request.setMethod("PUT", payload: encoded)
+
+        session.perform(request) { result in
+            switch result {
+            case let .failure(error):
+                completion(.failure(.networkFailure(cause: error)))
+            case .success:
+                completion(.success(()))
+            }
+        }
+    }
+
+    func clearDeviceDoNotDisturb(_ id: String, _ completion: @escaping Completion<Void>) {
+        let url = baseUrl
+            .appendingPathComponent("device")
+            .appendingPathComponent(id)
+            .appendingPathComponent("cleardnd")
 
         var request = URLRequest(url: url)
         request.setNotificareHeaders()

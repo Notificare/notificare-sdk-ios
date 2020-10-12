@@ -5,11 +5,6 @@
 import Foundation
 import UIKit
 
-public typealias VoidCallback = (Result<Void, NotificareError>) -> Void
-public typealias DeviceCallback = (Result<NotificareDevice, NotificareError>) -> Void
-public typealias PreferredLanguageCallback = (Result<String?, NotificareError>) -> Void
-public typealias TagsCallback = (Result<[String], NotificareError>) -> Void
-
 public class NotificareDeviceManager {
     public private(set) var device: NotificareDevice? {
         get {
@@ -95,7 +90,7 @@ public class NotificareDeviceManager {
 
     // MARK: - Public API
 
-    public func register(userId: String?, userName: String?, _ completion: @escaping DeviceCallback) {
+    public func register(userId: String?, userName: String?, _ completion: @escaping NotificareCallback<NotificareDevice>) {
         guard Notificare.shared.isReady,
             let device = self.device
         else {
@@ -109,7 +104,7 @@ public class NotificareDeviceManager {
         register(tokenData: tokenData, temporary: temporary, userId: userId, userName: userName, completion)
     }
 
-    public func updatePreferredLanguage(_ preferredLanguage: String?, _ completion: @escaping PreferredLanguageCallback) {
+    public func updatePreferredLanguage(_ preferredLanguage: String?, _ completion: @escaping NotificareCallback<String?>) {
         guard Notificare.shared.isReady else {
             completion(.failure(.notReady))
             return
@@ -159,7 +154,7 @@ public class NotificareDeviceManager {
         }
     }
 
-    public func fetchTags(_ completion: @escaping TagsCallback) {
+    public func fetchTags(_ completion: @escaping NotificareCallback<[String]>) {
         guard Notificare.shared.isReady,
             let device = device,
             let pushApi = Notificare.shared.pushApi
@@ -171,11 +166,11 @@ public class NotificareDeviceManager {
         pushApi.getDeviceTags(with: device.deviceID, completion)
     }
 
-    public func addTag(_ tag: String, _ completion: @escaping VoidCallback) {
+    public func addTag(_ tag: String, _ completion: @escaping NotificareCallback<Void>) {
         addTags([tag], completion)
     }
 
-    public func addTags(_ tags: [String], _ completion: @escaping VoidCallback) {
+    public func addTags(_ tags: [String], _ completion: @escaping NotificareCallback<Void>) {
         guard Notificare.shared.isReady,
             let device = device,
             let pushApi = Notificare.shared.pushApi
@@ -189,11 +184,11 @@ public class NotificareDeviceManager {
         pushApi.addDeviceTags(with: device.deviceID, payload: payload, completion)
     }
 
-    public func removeTag(_ tag: String, _ completion: @escaping VoidCallback) {
+    public func removeTag(_ tag: String, _ completion: @escaping NotificareCallback<Void>) {
         removeTags([tag], completion)
     }
 
-    public func removeTags(_ tags: [String], _ completion: @escaping VoidCallback) {
+    public func removeTags(_ tags: [String], _ completion: @escaping NotificareCallback<Void>) {
         guard Notificare.shared.isReady,
             let device = device,
             let pushApi = Notificare.shared.pushApi
@@ -207,7 +202,7 @@ public class NotificareDeviceManager {
         pushApi.removeDeviceTags(with: device.deviceID, payload: payload, completion)
     }
 
-    public func clearTags(_ completion: @escaping VoidCallback) {
+    public func clearTags(_ completion: @escaping NotificareCallback<Void>) {
         guard Notificare.shared.isReady,
             let device = device,
             let pushApi = Notificare.shared.pushApi
@@ -219,11 +214,47 @@ public class NotificareDeviceManager {
         pushApi.clearDeviceTags(with: device.deviceID, completion)
     }
 
+    public func fetchDoNotDisturb(_ completion: @escaping NotificareCallback<NotificareDoNotDisturb?>) {
+        guard Notificare.shared.isReady,
+            let device = device,
+            let pushApi = Notificare.shared.pushApi
+        else {
+            completion(.failure(.notReady))
+            return
+        }
+
+        pushApi.fetchDeviceDoNotDisturb(device.deviceID, completion)
+    }
+
+    public func updateDoNotDisturb(_ dnd: NotificareDoNotDisturb, _ completion: @escaping NotificareCallback<Void>) {
+        guard Notificare.shared.isReady,
+            let device = device,
+            let pushApi = Notificare.shared.pushApi
+        else {
+            completion(.failure(.notReady))
+            return
+        }
+
+        pushApi.updateDeviceDoNotDisturb(device.deviceID, dnd: dnd, completion)
+    }
+
+    public func clearDoNotDisturb(_ completion: @escaping NotificareCallback<Void>) {
+        guard Notificare.shared.isReady,
+            let device = device,
+            let pushApi = Notificare.shared.pushApi
+        else {
+            completion(.failure(.notReady))
+            return
+        }
+
+        pushApi.clearDeviceDoNotDisturb(device.deviceID, completion)
+    }
+
     // MARK: - Internal API
 
     // func delete(_: @escaping (Result<Void, NotificareError>) -> Void) {}
 
-    func updateNotificationSettings(allowedUI: Bool, _ completion: @escaping DeviceCallback) {
+    func updateNotificationSettings(allowedUI: Bool, _ completion: @escaping NotificareCallback<NotificareDevice>) {
         guard Notificare.shared.isReady,
             let device = self.device,
             let pushApi = Notificare.shared.pushApi
@@ -253,7 +284,7 @@ public class NotificareDeviceManager {
 
     // func updateLocation(location: NotificareLocation, _ completion: @escaping DeviceCallback) {}
 
-    func clearLocation(_ completion: @escaping DeviceCallback) {
+    func clearLocation(_ completion: @escaping NotificareCallback<NotificareDevice>) {
         guard Notificare.shared.isReady,
             let device = self.device,
             let pushApi = Notificare.shared.pushApi
@@ -299,7 +330,7 @@ public class NotificareDeviceManager {
         }
     }
 
-    func updateTimezone(_ completion: @escaping DeviceCallback) {
+    func updateTimezone(_ completion: @escaping NotificareCallback<NotificareDevice>) {
         guard Notificare.shared.isReady,
             let device = self.device,
             let pushApi = Notificare.shared.pushApi
@@ -329,7 +360,7 @@ public class NotificareDeviceManager {
         }
     }
 
-    func updateLanguage(_ completion: @escaping DeviceCallback) {
+    func updateLanguage(_ completion: @escaping NotificareCallback<NotificareDevice>) {
         guard Notificare.shared.isReady,
             let device = self.device,
             let pushApi = Notificare.shared.pushApi
@@ -357,7 +388,7 @@ public class NotificareDeviceManager {
         }
     }
 
-    func updateBackgroundAppRefresh(_ completion: @escaping DeviceCallback) {
+    func updateBackgroundAppRefresh(_ completion: @escaping NotificareCallback<NotificareDevice>) {
         guard Notificare.shared.isReady,
             let device = self.device,
             let pushApi = Notificare.shared.pushApi
@@ -391,7 +422,7 @@ public class NotificareDeviceManager {
 
     // MARK: - Private API
 
-    private func register(tokenData: Data, temporary: Bool, userId: String?, userName: String?, _ completion: @escaping DeviceCallback) {
+    private func register(tokenData: Data, temporary: Bool, userId: String?, userName: String?, _ completion: @escaping NotificareCallback<NotificareDevice>) {
         let token = tokenData.toHexString()
 
         if registrationChanged(token: token, userId: userId, userName: userName) {
@@ -445,7 +476,7 @@ public class NotificareDeviceManager {
         }
     }
 
-    private func registerTemporary(_ completion: @escaping DeviceCallback) {
+    private func registerTemporary(_ completion: @escaping NotificareCallback<NotificareDevice>) {
         let tokenData = withUnsafePointer(to: UUID().uuid) {
             Data(bytes: $0, count: 16)
         }

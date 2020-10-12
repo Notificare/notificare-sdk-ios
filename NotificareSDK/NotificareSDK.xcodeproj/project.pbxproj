@@ -63,6 +63,9 @@
 		F26718FA25017DD600B70A40 /* NotificareDatabase.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F26718F825017DD600B70A40 /* NotificareDatabase.xcdatamodeld */; };
 		F29DA38125022170004CCB8F /* NotificareDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29DA38025022170004CCB8F /* NotificareDatabase.swift */; };
 		F29DA38325024753004CCB8F /* NotificareEvent+CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29DA38225024753004CCB8F /* NotificareEvent+CoreData.swift */; };
+		F2E07E5F25344D0700AF0C14 /* NotificareDoNotDisturb.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E07E5E25344D0700AF0C14 /* NotificareDoNotDisturb.swift */; };
+		F2E07E7625348ED300AF0C14 /* DoNotDisturbResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E07E7525348ED300AF0C14 /* DoNotDisturbResponse.swift */; };
+		F2E07E7A2534B5DD00AF0C14 /* NotificareTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E07E792534B5DD00AF0C14 /* NotificareTime.swift */; };
 		F2E246E42530B79C00AAA8F4 /* TagsPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E246E32530B79C00AAA8F4 /* TagsPayload.swift */; };
 /* End PBXBuildFile section */
 
@@ -136,6 +139,9 @@
 		F26718F925017DD600B70A40 /* NotificareCoreData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = NotificareCoreData.xcdatamodel; sourceTree = "<group>"; };
 		F29DA38025022170004CCB8F /* NotificareDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareDatabase.swift; sourceTree = "<group>"; };
 		F29DA38225024753004CCB8F /* NotificareEvent+CoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificareEvent+CoreData.swift"; sourceTree = "<group>"; };
+		F2E07E5E25344D0700AF0C14 /* NotificareDoNotDisturb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareDoNotDisturb.swift; sourceTree = "<group>"; };
+		F2E07E7525348ED300AF0C14 /* DoNotDisturbResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoNotDisturbResponse.swift; sourceTree = "<group>"; };
+		F2E07E792534B5DD00AF0C14 /* NotificareTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareTime.swift; sourceTree = "<group>"; };
 		F2E246E32530B79C00AAA8F4 /* TagsPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsPayload.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -208,6 +214,7 @@
 			children = (
 				42A20ED52E1877D2A6478530 /* ApplicationInfoResponse.swift */,
 				42A20B3065832FD6345EDD14 /* DeviceTagsResponse.swift */,
+				F2E07E7525348ED300AF0C14 /* DoNotDisturbResponse.swift */,
 			);
 			path = Responses;
 			sourceTree = "<group>";
@@ -261,6 +268,8 @@
 			children = (
 				F2323001252F3886007778AA /* NotificareApplication.swift */,
 				42A20DE51F956B3A8FBAB402 /* NotificareDevice.swift */,
+				F2E07E5E25344D0700AF0C14 /* NotificareDoNotDisturb.swift */,
+				F2E07E792534B5DD00AF0C14 /* NotificareTime.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -552,6 +561,7 @@
 				42A20389A56033CA45A7973B /* NotificareSwizzler.swift in Sources */,
 				F29DA38325024753004CCB8F /* NotificareEvent+CoreData.swift in Sources */,
 				42A20A8202602F357473A0EC /* DeviceTagsResponse.swift in Sources */,
+				F2E07E7A2534B5DD00AF0C14 /* NotificareTime.swift in Sources */,
 				42A207D529B7F7770917822D /* NotificareDevice.swift in Sources */,
 				42A20CAE308280FC80D81C29 /* NotificareDeviceRegistration.swift in Sources */,
 				42A20777ACAC0550ED64C541 /* NotificareDeviceUpdateNotificationSettings.swift in Sources */,
@@ -568,6 +578,7 @@
 				42A20F732AE3E8130EA533BF /* NotificareReachability.swift in Sources */,
 				42A20BBE4E276C8BA79EDF44 /* NotificareServices.swift in Sources */,
 				42A2068C1883043D66EEB792 /* NotificareDefinitions.swift in Sources */,
+				F2E07E5F25344D0700AF0C14 /* NotificareDoNotDisturb.swift in Sources */,
 				42A20D60B9A98D22C2655FC5 /* NotificareConfiguration.swift in Sources */,
 				42A20AD28857EBCB0A86A104 /* NotificareLaunchState.swift in Sources */,
 				42A20BCDB5A9B47688D37655 /* URLRequest+Extensions.swift in Sources */,
@@ -576,6 +587,7 @@
 				F219FADD252DEB3900464B4E /* NotificareSessionManager.swift in Sources */,
 				42A206D6D089D4BA32A8A697 /* Data+Hex.swift in Sources */,
 				42A20EB023AD8591D0EDEA7C /* JSONValue.swift in Sources */,
+				F2E07E7625348ED300AF0C14 /* DoNotDisturbResponse.swift in Sources */,
 				42A20700D3FDBA4E87FB973B /* NotificareLogger.swift in Sources */,
 				42A20845E1262C362CD05DB2 /* NotificareDeviceManager.swift in Sources */,
 				42A204EEDC52B164B27D6563 /* NotificareEventsManager.swift in Sources */,

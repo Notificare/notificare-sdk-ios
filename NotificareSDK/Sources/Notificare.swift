@@ -4,6 +4,8 @@
 
 import Foundation
 
+public typealias NotificareCallback<T> = (Result<T, NotificareError>) -> Void
+
 public class Notificare {
     public static let shared = Notificare()
 

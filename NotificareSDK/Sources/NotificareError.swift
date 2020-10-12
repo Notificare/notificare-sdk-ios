@@ -10,4 +10,5 @@ public enum NotificareError: Error {
     case encodingFailure
     case parsingFailure
     case invalidLanguageCode
+    case invalidArgument
 }
