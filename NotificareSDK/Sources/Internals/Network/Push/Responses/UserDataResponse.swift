@@ -4,6 +4,6 @@
 
 import Foundation
 
-struct UserDataResponse: Codable {
+struct NotificareUserDataResponse: Codable {
     let userData: NotificareUserData?
 }

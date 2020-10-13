@@ -4,6 +4,6 @@
 
 import Foundation
 
-struct DoNotDisturbResponse: Codable {
+struct NotificareDoNotDisturbResponse: Codable {
     let dnd: NotificareDoNotDisturb?
 }

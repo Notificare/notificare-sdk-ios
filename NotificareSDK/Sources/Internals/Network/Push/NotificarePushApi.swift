@@ -41,7 +41,7 @@ struct NotificarePushApi {
             case let .failure(error):
                 completion(.failure(.networkFailure(cause: error)))
             case let .success(data):
-                guard let decoded = try? self.decoder.decode(ApplicationInfoResponse.self, from: data) else {
+                guard let decoded = try? self.decoder.decode(NotificareApplicationInfoResponse.self, from: data) else {
                     completion(.failure(NotificareError.parsingFailure))
                     return
                 }
@@ -184,7 +184,7 @@ struct NotificarePushApi {
             case let .failure(error):
                 completion(.failure(.networkFailure(cause: error)))
             case let .success(data):
-                guard let decoded = try? self.decoder.decode(DeviceTagsResponse.self, from: data) else {
+                guard let decoded = try? self.decoder.decode(NotificareDeviceTagsResponse.self, from: data) else {
                     completion(.failure(NotificareError.parsingFailure))
                     return
                 }
@@ -194,7 +194,7 @@ struct NotificarePushApi {
         }
     }
 
-    func addDeviceTags(with id: String, payload: TagsPayload, _ completion: @escaping Completion<Void>) {
+    func addDeviceTags(with id: String, payload: NotificareTagsPayload, _ completion: @escaping Completion<Void>) {
         let url = baseUrl
             .appendingPathComponent("device")
             .appendingPathComponent(id)
@@ -220,7 +220,7 @@ struct NotificarePushApi {
         }
     }
 
-    func removeDeviceTags(with id: String, payload: TagsPayload, _ completion: @escaping Completion<Void>) {
+    func removeDeviceTags(with id: String, payload: NotificareTagsPayload, _ completion: @escaping Completion<Void>) {
         let url = baseUrl
             .appendingPathComponent("device")
             .appendingPathComponent(id)
@@ -283,7 +283,7 @@ struct NotificarePushApi {
             case let .failure(error):
                 completion(.failure(.networkFailure(cause: error)))
             case let .success(data):
-                guard let decoded = try? self.decoder.decode(DoNotDisturbResponse.self, from: data) else {
+                guard let decoded = try? self.decoder.decode(NotificareDoNotDisturbResponse.self, from: data) else {
                     completion(.failure(NotificareError.parsingFailure))
                     return
                 }
@@ -356,7 +356,7 @@ struct NotificarePushApi {
             case let .failure(error):
                 completion(.failure(.networkFailure(cause: error)))
             case let .success(data):
-                guard let decoded = try? self.decoder.decode(UserDataResponse.self, from: data) else {
+                guard let decoded = try? self.decoder.decode(NotificareUserDataResponse.self, from: data) else {
                     completion(.failure(NotificareError.parsingFailure))
                     return
                 }

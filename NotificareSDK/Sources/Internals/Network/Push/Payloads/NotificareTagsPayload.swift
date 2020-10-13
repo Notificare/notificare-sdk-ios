@@ -4,6 +4,6 @@
 
 import Foundation
 
-struct TagsPayload: Codable {
+struct NotificareTagsPayload: Codable {
     let tags: [String]
 }

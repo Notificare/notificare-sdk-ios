@@ -4,6 +4,6 @@
 
 import Foundation
 
-struct DeviceTagsResponse: Decodable {
+struct NotificareDeviceTagsResponse: Decodable {
     let tags: [String]
 }

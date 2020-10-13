@@ -179,7 +179,7 @@ public class NotificareDeviceManager {
             return
         }
 
-        let payload = TagsPayload(tags: tags)
+        let payload = NotificareTagsPayload(tags: tags)
 
         pushApi.addDeviceTags(with: device.deviceID, payload: payload, completion)
     }
@@ -197,7 +197,7 @@ public class NotificareDeviceManager {
             return
         }
 
-        let payload = TagsPayload(tags: tags)
+        let payload = NotificareTagsPayload(tags: tags)
 
         pushApi.removeDeviceTags(with: device.deviceID, payload: payload, completion)
     }

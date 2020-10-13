@@ -4,6 +4,6 @@
 
 import Foundation
 
-public enum NotificareUserDataFieldType: String, Codable {
-    case text
+struct NotificareUserDataResponse: Codable {
+    let userData: NotificareUserData?
 }
