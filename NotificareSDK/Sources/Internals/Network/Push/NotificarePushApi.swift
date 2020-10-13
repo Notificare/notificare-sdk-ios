@@ -340,6 +340,58 @@ struct NotificarePushApi {
         }
     }
 
+    func fetchDeviceUserData(_ id: String, _ completion: @escaping Completion<NotificareUserData?>) {
+        let url = baseUrl
+            .appendingPathComponent("device")
+            .appendingPathComponent(id)
+            .appendingPathComponent("userdata")
+
+        var request = URLRequest(url: url)
+        request.setNotificareHeaders()
+        request.setBasicAuthentication(username: applicationKey, password: applicationSecret)
+        request.setMethod("GET")
+
+        session.perform(request) { result in
+            switch result {
+            case let .failure(error):
+                completion(.failure(.networkFailure(cause: error)))
+            case let .success(data):
+                guard let decoded = try? self.decoder.decode(UserDataResponse.self, from: data) else {
+                    completion(.failure(NotificareError.parsingFailure))
+                    return
+                }
+
+                completion(.success(decoded.userData))
+            }
+        }
+    }
+
+    func updateDeviceUserData(_ id: String, userData: NotificareUserData, _ completion: @escaping Completion<Void>) {
+        let url = baseUrl
+            .appendingPathComponent("device")
+            .appendingPathComponent(id)
+            .appendingPathComponent("userdata")
+
+        guard let encoded = try? encoder.encode(userData) else {
+            completion(.failure(.parsingFailure))
+            return
+        }
+
+        var request = URLRequest(url: url)
+        request.setNotificareHeaders()
+        request.setBasicAuthentication(username: applicationKey, password: applicationSecret)
+        request.setMethod("PUT", payload: encoded)
+
+        session.perform(request) { result in
+            switch result {
+            case let .failure(error):
+                completion(.failure(.networkFailure(cause: error)))
+            case .success:
+                completion(.success(()))
+            }
+        }
+    }
+
     func logEvent(_ event: NotificareEvent, _ completion: @escaping Completion<Void>) {
         let url = baseUrl.appendingPathComponent("event")
 

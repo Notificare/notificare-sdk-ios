@@ -280,6 +280,50 @@ public class NotificareDeviceManager {
         }
     }
 
+    public func fetchUserData(_ completion: @escaping NotificareCallback<NotificareUserData?>) {
+        guard Notificare.shared.isReady,
+            let device = device,
+            let pushApi = Notificare.shared.pushApi
+        else {
+            completion(.failure(.notReady))
+            return
+        }
+
+        pushApi.fetchDeviceUserData(device.deviceID) { result in
+            switch result {
+            case let .success(userData):
+                // Update current device properties.
+                self.device!.userData = userData
+
+                completion(.success(userData))
+            case let .failure(error):
+                completion(.failure(error))
+            }
+        }
+    }
+
+    public func updateUserData(_ userData: NotificareUserData, _ completion: @escaping NotificareCallback<Void>) {
+        guard Notificare.shared.isReady,
+            let device = device,
+            let pushApi = Notificare.shared.pushApi
+        else {
+            completion(.failure(.notReady))
+            return
+        }
+
+        pushApi.updateDeviceUserData(device.deviceID, userData: userData) { result in
+            switch result {
+            case .success:
+                // Update current device properties.
+                self.device!.userData = userData
+
+                completion(.success(()))
+            case let .failure(error):
+                completion(.failure(error))
+            }
+        }
+    }
+
     // MARK: - Internal API
 
     // func delete(_: @escaping (Result<Void, NotificareError>) -> Void) {}
