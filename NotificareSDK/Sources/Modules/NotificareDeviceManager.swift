@@ -223,7 +223,17 @@ public class NotificareDeviceManager {
             return
         }
 
-        pushApi.fetchDeviceDoNotDisturb(device.deviceID, completion)
+        pushApi.fetchDeviceDoNotDisturb(device.deviceID) { result in
+            switch result {
+            case let .success(dnd):
+                // Update current device properties.
+                self.device!.dnd = dnd
+
+                completion(.success(dnd))
+            case let .failure(error):
+                completion(.failure(error))
+            }
+        }
     }
 
     public func updateDoNotDisturb(_ dnd: NotificareDoNotDisturb, _ completion: @escaping NotificareCallback<Void>) {
@@ -235,7 +245,17 @@ public class NotificareDeviceManager {
             return
         }
 
-        pushApi.updateDeviceDoNotDisturb(device.deviceID, dnd: dnd, completion)
+        pushApi.updateDeviceDoNotDisturb(device.deviceID, dnd: dnd) { result in
+            switch result {
+            case .success:
+                // Update current device properties.
+                self.device!.dnd = dnd
+
+                completion(.success(()))
+            case let .failure(error):
+                completion(.failure(error))
+            }
+        }
     }
 
     public func clearDoNotDisturb(_ completion: @escaping NotificareCallback<Void>) {
@@ -247,7 +267,17 @@ public class NotificareDeviceManager {
             return
         }
 
-        pushApi.clearDeviceDoNotDisturb(device.deviceID, completion)
+        pushApi.clearDeviceDoNotDisturb(device.deviceID) { result in
+            switch result {
+            case .success:
+                // Update current device properties.
+                self.device!.dnd = nil
+
+                completion(.success(()))
+            case let .failure(error):
+                completion(.failure(error))
+            }
+        }
     }
 
     // MARK: - Internal API

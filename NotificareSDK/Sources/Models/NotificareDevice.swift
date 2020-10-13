@@ -19,7 +19,7 @@ public struct NotificareDevice {
     public var language: String
     public var region: String
     public var transport: NotificareTransport
-    public var dnd: NotificareDeviceDnD?
+    public var dnd: NotificareDoNotDisturb?
     public var userData: [String: Any]?
     public var latitude: Float?
     public var longitude: Float?
@@ -90,7 +90,7 @@ extension NotificareDevice: Codable {
         language = try container.decode(String.self, forKey: .language)
         region = try container.decode(String.self, forKey: .region)
         transport = try container.decode(NotificareTransport.self, forKey: .transport)
-        dnd = try container.decodeIfPresent(NotificareDeviceDnD.self, forKey: .dnd)
+        dnd = try container.decodeIfPresent(NotificareDoNotDisturb.self, forKey: .dnd)
 
         if let data = try container.decodeIfPresent(Data.self, forKey: .userData) {
             userData = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
