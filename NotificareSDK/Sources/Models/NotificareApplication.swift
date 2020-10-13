@@ -13,11 +13,11 @@ public struct NotificareApplication: Codable {
     public let inboxConfig: InboxConfig?
     public let regionConfig: RegionConfig?
     public let userDataFields: [UserDataField]
-//    public let actionCategories: [ActionCategory]
+    public let actionCategories: [ActionCategory]
 
     public struct InboxConfig: Codable {
-        let useInbox: Bool
-        let autoBadge: Bool
+        public let useInbox: Bool
+        public let autoBadge: Bool
     }
 
     public struct RegionConfig: Codable {
@@ -25,26 +25,26 @@ public struct NotificareApplication: Codable {
     }
 
     public struct UserDataField: Codable {
-        let type: String
-        let key: String
-        let label: String
+        public let type: String
+        public let key: String
+        public let label: String
     }
 
-//    public struct ActionCategory: Codable {
-//        let name: String
-//        let description: String?
-//        let type: NotificareNotificationType
-//        let actions: [Action]
-//
-//        struct Action: Codable {
-//            let type: NotificationAction
-//            let label: String?
-//            let target: String?
-//            let camera: Bool
-//            let keyboard: Bool
-//            let destructive: Bool
-//        }
-//    }
+    public struct ActionCategory: Codable {
+        public let name: String
+        public let description: String?
+        public let type: String
+        public let actions: [Action]
+
+        public struct Action: Codable {
+            public let type: String
+            public let label: String?
+            public let target: String?
+            public let camera: Bool
+            public let keyboard: Bool
+            public let destructive: Bool
+        }
+    }
 }
 
 // Coding keys
@@ -58,6 +58,6 @@ extension NotificareApplication {
         case inboxConfig
         case regionConfig
         case userDataFields
-//        case actionCategories
+        case actionCategories
     }
 }
