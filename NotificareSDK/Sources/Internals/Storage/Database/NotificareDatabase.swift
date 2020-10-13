@@ -91,9 +91,10 @@ class NotificareDatabase {
             FileManager.default.fileExists(atPath: url.path)
         {
             Notificare.shared.logger.debug("Removing local database.")
-            if let _ = try? persistentContainer.persistentStoreCoordinator.destroyPersistentStore(at: url, ofType: "sqlite") {
+            do {
+                try persistentContainer.persistentStoreCoordinator.destroyPersistentStore(at: url, ofType: "sqlite")
                 Notificare.shared.logger.debug("Local database removed.")
-            } else {
+            } catch {
                 Notificare.shared.logger.debug("Failed to remove local database.")
             }
         } else {
