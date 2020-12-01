@@ -23,6 +23,7 @@ struct NotificareDefinitions {
 
     struct Tasks {
         static let processEvents = "re.notifica.tasks.process.events"
+        static let applicationClose = "re.notifica.tasks.applicationClose"
     }
 
     struct Events {

@@ -9,6 +9,7 @@ class NotificareSessionManager {
     internal private(set) var sessionId: String?
     private var sessionStart: Date?
     private var sessionEnd: Date?
+    private var backgroundTask: UIBackgroundTaskIdentifier = .invalid
     private var workItem: DispatchWorkItem?
 
     private let dateFormatter: DateFormatter = {
@@ -47,7 +48,7 @@ class NotificareSessionManager {
             return
         }
 
-        let sessionId = UUID().uuidString
+        let sessionId = UUID().uuidString.lowercased()
         let sessionStart = Date()
 
         self.sessionId = sessionId
@@ -76,9 +77,20 @@ class NotificareSessionManager {
 
         // Wait a few seconds before sending a close event.
         // This prevents quick app swaps, navigation pulls, etc.
+        backgroundTask = UIApplication.shared.beginBackgroundTask(withName: NotificareDefinitions.Tasks.applicationClose) { [weak self] in
+            Notificare.shared.logger.debug("Background task expiration handler triggered.")
+            guard let self = self else {
+                return
+            }
+
+            UIApplication.shared.endBackgroundTask(self.backgroundTask)
+            self.backgroundTask = .invalid
+            self.workItem = nil
+        }
+
         let workItem = createWorkItem()
         self.workItem = workItem
-        DispatchQueue.main.asyncAfter(deadline: .now() + 10, execute: workItem)
+        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 10, execute: workItem)
     }
 
     private func createWorkItem() -> DispatchWorkItem {
@@ -99,6 +111,10 @@ class NotificareSessionManager {
             self.sessionId = nil
             self.sessionStart = nil
             self.sessionEnd = nil
+
+            // Clear the background task.
+            UIApplication.shared.endBackgroundTask(self.backgroundTask)
+            self.workItem = nil
         }
     }
 }
