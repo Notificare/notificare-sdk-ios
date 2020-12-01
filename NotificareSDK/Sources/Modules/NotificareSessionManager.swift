@@ -42,6 +42,7 @@ class NotificareSessionManager {
 
         // Cancel any session timeout.
         workItem?.cancel()
+        UIApplication.shared.endBackgroundTask(backgroundTask)
 
         guard sessionStart == nil else {
             Notificare.shared.logger.debug("Resuming previous session.")
