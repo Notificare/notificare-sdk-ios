@@ -118,7 +118,7 @@ extension NotificareLogger.Level {
         case .verbose, .debug:
             return .debug
         case .info:
-            return .info
+            return .default
         case .warning, .error:
             return .error
         }
