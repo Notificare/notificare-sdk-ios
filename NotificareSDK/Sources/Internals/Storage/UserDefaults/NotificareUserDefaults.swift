@@ -15,24 +15,6 @@ struct NotificareUserDefaults {
         }
     }
 
-    static var sessionDate: Date? {
-        get {
-            guard let value = UserDefaults.standard.object(forKey: NotificareDefinitions.UserDefaults.sessionDate) as? Double else {
-                return nil
-            }
-
-            return Date(timeIntervalSince1970: value)
-        }
-        set {
-            guard let value = newValue else {
-                UserDefaults.standard.removeObject(forKey: NotificareDefinitions.UserDefaults.sessionDate)
-                return
-            }
-
-            UserDefaults.standard.set(value.timeIntervalSince1970, forKey: NotificareDefinitions.UserDefaults.sessionDate)
-        }
-    }
-
     static var registeredDevice: NotificareDevice? {
         get {
             let settings = UserDefaults.standard
@@ -76,16 +58,6 @@ struct NotificareUserDefaults {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: NotificareDefinitions.UserDefaults.preferredRegion)
-            UserDefaults.standard.synchronize()
-        }
-    }
-
-    static var newRegistration: Bool {
-        get {
-            UserDefaults.standard.bool(forKey: NotificareDefinitions.UserDefaults.newRegistration)
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: NotificareDefinitions.UserDefaults.newRegistration)
             UserDefaults.standard.synchronize()
         }
     }

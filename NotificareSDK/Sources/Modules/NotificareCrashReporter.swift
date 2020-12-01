@@ -58,10 +58,10 @@ struct NotificareCrashReporter {
         NotificareUserDefaults.crashReport = NotificareEvent(
             type: NotificareDefinitions.Events.applicationException,
             timestamp: timestamp,
-            deviceId: Notificare.shared.deviceManager.device?.deviceID,
-            sessionId: Notificare.shared.sessionManager.currentSession,
+            deviceId: Notificare.shared.deviceManager.currentDevice?.id,
+            sessionId: Notificare.shared.sessionManager.sessionId,
             notificationId: nil,
-            userId: Notificare.shared.deviceManager.device?.userID,
+            userId: Notificare.shared.deviceManager.currentDevice?.userId,
             data: [
                 "platform": "iOS",
                 "osVersion": NotificareUtils.osVersion,
@@ -101,10 +101,10 @@ struct NotificareCrashReporter {
         NotificareUserDefaults.crashReport = NotificareEvent(
             type: NotificareDefinitions.Events.applicationException,
             timestamp: timestamp,
-            deviceId: Notificare.shared.deviceManager.device?.deviceID,
-            sessionId: Notificare.shared.sessionManager.currentSession,
+            deviceId: Notificare.shared.deviceManager.currentDevice?.id,
+            sessionId: Notificare.shared.sessionManager.sessionId,
             notificationId: nil,
-            userId: Notificare.shared.deviceManager.device?.userID,
+            userId: Notificare.shared.deviceManager.currentDevice?.userId,
             data: [
                 "platform": "iOS",
                 "osVersion": NotificareUtils.osVersion,

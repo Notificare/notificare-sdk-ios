@@ -9,7 +9,6 @@ struct NotificareDeviceRegistration: Encodable {
     let oldDeviceId: String?
     let userId: String?
     let userName: String?
-    let country: String?
     let language: String
     let region: String
     let platform: String
@@ -26,7 +25,6 @@ struct NotificareDeviceRegistration: Encodable {
         case oldDeviceId
         case userId = "userID"
         case userName
-        case country
         case language
         case region
         case platform

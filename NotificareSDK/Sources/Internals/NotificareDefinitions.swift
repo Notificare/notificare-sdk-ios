@@ -15,8 +15,6 @@ struct NotificareDefinitions {
 
     struct UserDefaults {
         static let currentDatabaseVersion = "re.notifica.local.currentDatabaseVersion"
-        static let sessionDate = "re.notifica.local.sessionDate"
-        static let newRegistration = "re.notifica.local.newRegistration"
         static let preferredLanguage = "re.notifica.local.preferredLanguage"
         static let preferredRegion = "re.notifica.local.preferredRegion"
         static let registeredDevice = "re.notifica.local.registeredDevice"

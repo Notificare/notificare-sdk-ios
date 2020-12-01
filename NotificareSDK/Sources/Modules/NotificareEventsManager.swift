@@ -40,8 +40,8 @@ public class NotificareEventsModule {
         log(NotificareDefinitions.Events.applicationOpen)
     }
 
-    public func logApplicationClose(length _: TimeInterval) {
-        log(NotificareDefinitions.Events.applicationClose)
+    public func logApplicationClose(length: TimeInterval) {
+        log(NotificareDefinitions.Events.applicationClose, data: ["length": String(length)])
     }
 
     public func logCustom(_ event: String, data: NotificareEventData? = nil) {
@@ -49,7 +49,7 @@ public class NotificareEventsModule {
     }
 
     private func log(_ event: String, data: NotificareEventData? = nil) {
-        guard let device = Notificare.shared.deviceManager.device else {
+        guard let device = Notificare.shared.deviceManager.currentDevice else {
             Notificare.shared.logger.warning("Cannot send an event before a device is registered.")
             return
         }
@@ -57,10 +57,10 @@ public class NotificareEventsModule {
         let event = NotificareEvent(
             type: event,
             timestamp: Int64(Date().timeIntervalSince1970 * 1000),
-            deviceId: device.deviceID,
-            sessionId: Notificare.shared.sessionManager.currentSession,
+            deviceId: device.id,
+            sessionId: Notificare.shared.sessionManager.sessionId,
             notificationId: nil,
-            userId: device.userID,
+            userId: device.userId,
             data: data
         )
 
@@ -77,7 +77,7 @@ public class NotificareEventsModule {
                 Notificare.shared.logger.debug("\(error)")
 
                 if !self.discardableEvents.contains(event.type) && error.recoverable {
-                    Notificare.shared.logger.info("Queuing to be sent whenever possible.")
+                    Notificare.shared.logger.info("Queuing event to be sent whenever possible.")
 
                     Notificare.shared.database.add(event)
                 }
