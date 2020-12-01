@@ -22,11 +22,7 @@ public class NotificarePushManagerImpl: NSObject, NotificarePushModule, Notifica
 
     // MARK: - NotificareInterceptor
 
-    public func applicationDidBecomeActive(_: UIApplication) {
-        Notificare.shared.logger.info("PushManager: applicationDidBecomeActive")
-    }
+    public func applicationDidBecomeActive(_: UIApplication) {}
 
-    public func applicationWillResignActive(_: UIApplication) {
-        Notificare.shared.logger.info("PushManager: applicationWillResignActive")
-    }
+    public func applicationWillResignActive(_: UIApplication) {}
 }

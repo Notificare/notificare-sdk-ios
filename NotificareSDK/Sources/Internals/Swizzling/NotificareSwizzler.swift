@@ -325,8 +325,6 @@ public class NotificareSwizzler: NSProxy {
 
 extension NotificareSwizzler {
     @objc private func applicationDidBecomeActive(_ application: UIApplication) {
-        Notificare.shared.logger.verbose("Swizzle event: applicationDidBecomeActive")
-
         NotificareSwizzler.interceptors.forEach { _, interceptor in
             interceptor.applicationDidBecomeActive?(application)
         }
@@ -341,8 +339,6 @@ extension NotificareSwizzler {
     }
 
     @objc private func applicationWillResignActive(_ application: UIApplication) {
-        Notificare.shared.logger.verbose("Swizzle event: applicationWillResignActive")
-
         NotificareSwizzler.interceptors.forEach { _, interceptor in
             interceptor.applicationWillResignActive?(application)
         }
@@ -357,8 +353,6 @@ extension NotificareSwizzler {
     }
 
     @objc private func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        Notificare.shared.logger.verbose("Swizzle event: didRegisterForRemoteNotificationsWithDeviceToken")
-
         NotificareSwizzler.interceptors.forEach { _, interceptor in
             interceptor.application?(application, didRegisterForRemoteNotificationsWithDeviceToken: deviceToken)
         }
@@ -371,8 +365,6 @@ extension NotificareSwizzler {
     }
 
     @objc private func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        Notificare.shared.logger.verbose("Swizzle event: didFailToRegisterForRemoteNotificationsWithError")
-
         NotificareSwizzler.interceptors.forEach { _, interceptor in
             interceptor.application?(application, didFailToRegisterForRemoteNotificationsWithError: error)
         }
@@ -385,8 +377,6 @@ extension NotificareSwizzler {
     }
 
     @objc private func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
-        Notificare.shared.logger.info("Swizzle event: didReceiveRemoteNotification")
-
         NotificareSwizzler.interceptors.forEach { _, interceptor in
             interceptor.application?(application, didReceiveRemoteNotification: userInfo)
         }
