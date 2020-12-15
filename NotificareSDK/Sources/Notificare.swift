@@ -38,6 +38,10 @@ public class Notificare {
 
     // MARK: - Public API
 
+    public var isConfigured: Bool {
+        state >= .configured
+    }
+
     public var isReady: Bool {
         state == .ready
     }
