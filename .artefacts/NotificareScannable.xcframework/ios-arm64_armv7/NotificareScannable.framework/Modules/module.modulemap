@@ -1,6 +1,0 @@
-framework module NotificareScannable {
-  umbrella header "NotificareScannable.h"
-
-  export *
-  module * { export * }
-}

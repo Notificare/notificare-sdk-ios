@@ -1,6 +1,0 @@
-framework module NotificareMonetize {
-  umbrella header "NotificareMonetize.h"
-
-  export *
-  module * { export * }
-}
