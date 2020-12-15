@@ -30,7 +30,7 @@ public struct NotificareTime {
         try self.init(hours: hours, minutes: minutes)
     }
 
-    func format() -> String {
+    public func format() -> String {
         String(format: "%02d:%02d", hours, minutes)
     }
 }
