@@ -3,10 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F2423D3825764B4100FCCFB7 /* Atlantis in Frameworks */ = {isa = PBXBuildFile; productRef = F2423D3725764B4100FCCFB7 /* Atlantis */; };
 		F251694D24D4077D0025B51F /* NotificareAssets.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F251694524D4077D0025B51F /* NotificareAssets.framework */; };
 		F251694E24D4077D0025B51F /* NotificareAssets.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F251694524D4077D0025B51F /* NotificareAssets.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F251694F24D4077D0025B51F /* NotificareLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F251694624D4077D0025B51F /* NotificareLocation.framework */; };
@@ -73,6 +74,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F2423D3825764B4100FCCFB7 /* Atlantis in Frameworks */,
 				F251695124D4077D0025B51F /* NotificareLoyalty.framework in Frameworks */,
 				F251694D24D4077D0025B51F /* NotificareAssets.framework in Frameworks */,
 				F2AAAF99251D01E700465EC5 /* NotificareSDK.framework in Frameworks */,
@@ -149,6 +151,9 @@
 			dependencies = (
 			);
 			name = Sample;
+			packageProductDependencies = (
+				F2423D3725764B4100FCCFB7 /* Atlantis */,
+			);
 			productName = Sample;
 			productReference = F29FD1F424CB1FE1004B166D /* Sample.app */;
 			productType = "com.apple.product-type.application";
@@ -176,6 +181,9 @@
 				Base,
 			);
 			mainGroup = F29FD1EB24CB1FE1004B166D;
+			packageReferences = (
+				F2423D3625764B4000FCCFB7 /* XCRemoteSwiftPackageReference "atlantis" */,
+			);
 			productRefGroup = F29FD1F524CB1FE1004B166D /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -282,7 +290,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -337,7 +345,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -407,6 +415,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F2423D3625764B4000FCCFB7 /* XCRemoteSwiftPackageReference "atlantis" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ProxymanApp/atlantis";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.4.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F2423D3725764B4100FCCFB7 /* Atlantis */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F2423D3625764B4000FCCFB7 /* XCRemoteSwiftPackageReference "atlantis" */;
+			productName = Atlantis;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F29FD1EC24CB1FE1004B166D /* Project object */;
 }

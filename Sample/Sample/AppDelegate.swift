@@ -2,6 +2,7 @@
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
+import Atlantis
 import NotificareSDK
 import UIKit
 
@@ -14,6 +15,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, NotificareDelegate {
 
         Notificare.shared.logger.level = .verbose
         Notificare.shared.delegate = self
+
+        // Enable Proxyman debugging.
+        Atlantis.start()
 
         return true
     }
