@@ -3,7 +3,7 @@
 //
 
 import Atlantis
-import NotificareSDK
+import NotificareKit
 import UIKit
 
 @UIApplicationMain

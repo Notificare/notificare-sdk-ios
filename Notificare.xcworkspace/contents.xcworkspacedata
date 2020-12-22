@@ -2,25 +2,25 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:NotificareSDK/NotificareSDK.xcodeproj">
+      location = "group:NotificareKit/NotificareKit.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:NotificareAssets/NotificareAssets.xcodeproj">
+      location = "group:NotificareAssetsKit/NotificareAssetsKit.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:NotificareLocation/NotificareLocation.xcodeproj">
+      location = "group:NotificareGeoKit/NotificareGeoKit.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:NotificareLoyalty/NotificareLoyalty.xcodeproj">
+      location = "group:NotificareLoyaltyKit/NotificareLoyaltyKit.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:NotificareMonetize/NotificareMonetize.xcodeproj">
+      location = "group:NotificareMonetizeKit/NotificareMonetizeKit.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:NotificarePush/NotificarePush.xcodeproj">
+      location = "group:NotificarePushKit/NotificarePushKit.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:NotificareScannable/NotificareScannable.xcodeproj">
+      location = "group:NotificareScannablesKit/NotificareScannablesKit.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Sample/Sample.xcodeproj">

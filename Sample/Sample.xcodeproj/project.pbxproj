@@ -7,43 +7,28 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F22650C6258B6E890004F833 /* NotificareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F22650C5258B6E890004F833 /* NotificareKit.framework */; };
+		F22650C7258B6E890004F833 /* NotificareKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F22650C5258B6E890004F833 /* NotificareKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F22650CA258B6E900004F833 /* NotificarePushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F22650C9258B6E900004F833 /* NotificarePushKit.framework */; };
+		F22650CB258B6E900004F833 /* NotificarePushKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F22650C9258B6E900004F833 /* NotificarePushKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F2423D3825764B4100FCCFB7 /* Atlantis in Frameworks */ = {isa = PBXBuildFile; productRef = F2423D3725764B4100FCCFB7 /* Atlantis */; };
-		F251694D24D4077D0025B51F /* NotificareAssets.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F251694524D4077D0025B51F /* NotificareAssets.framework */; };
-		F251694E24D4077D0025B51F /* NotificareAssets.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F251694524D4077D0025B51F /* NotificareAssets.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F251694F24D4077D0025B51F /* NotificareLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F251694624D4077D0025B51F /* NotificareLocation.framework */; };
-		F251695024D4077D0025B51F /* NotificareLocation.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F251694624D4077D0025B51F /* NotificareLocation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F251695124D4077D0025B51F /* NotificareLoyalty.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F251694724D4077D0025B51F /* NotificareLoyalty.framework */; };
-		F251695224D4077D0025B51F /* NotificareLoyalty.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F251694724D4077D0025B51F /* NotificareLoyalty.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F251695324D4077D0025B51F /* NotificareMonetize.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F251694824D4077D0025B51F /* NotificareMonetize.framework */; };
-		F251695424D4077D0025B51F /* NotificareMonetize.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F251694824D4077D0025B51F /* NotificareMonetize.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F251695524D4077D0025B51F /* NotificarePush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F251694924D4077D0025B51F /* NotificarePush.framework */; };
-		F251695624D4077D0025B51F /* NotificarePush.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F251694924D4077D0025B51F /* NotificarePush.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F251695724D4077D0025B51F /* NotificareScannable.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F251694A24D4077D0025B51F /* NotificareScannable.framework */; };
-		F251695824D4077D0025B51F /* NotificareScannable.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F251694A24D4077D0025B51F /* NotificareScannable.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F28622DA250FA37500E7D800 /* Notificare.plist in Resources */ = {isa = PBXBuildFile; fileRef = F28622D9250FA37500E7D800 /* Notificare.plist */; };
 		F29FD1F824CB1FE1004B166D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29FD1F724CB1FE1004B166D /* AppDelegate.swift */; };
 		F29FD1FC24CB1FE1004B166D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29FD1FB24CB1FE1004B166D /* ViewController.swift */; };
 		F29FD1FF24CB1FE1004B166D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F29FD1FD24CB1FE1004B166D /* Main.storyboard */; };
 		F29FD20124CB1FE3004B166D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F29FD20024CB1FE3004B166D /* Assets.xcassets */; };
 		F29FD20424CB1FE3004B166D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F29FD20224CB1FE3004B166D /* LaunchScreen.storyboard */; };
-		F2AAAF99251D01E700465EC5 /* NotificareSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2AAAF98251D01E700465EC5 /* NotificareSDK.framework */; };
-		F2AAAF9A251D01E700465EC5 /* NotificareSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F2AAAF98251D01E700465EC5 /* NotificareSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		F251695924D4077D0025B51F /* Embed Frameworks */ = {
+		F22650C8258B6E890004F833 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				F251695224D4077D0025B51F /* NotificareLoyalty.framework in Embed Frameworks */,
-				F251694E24D4077D0025B51F /* NotificareAssets.framework in Embed Frameworks */,
-				F2AAAF9A251D01E700465EC5 /* NotificareSDK.framework in Embed Frameworks */,
-				F251695424D4077D0025B51F /* NotificareMonetize.framework in Embed Frameworks */,
-				F251695624D4077D0025B51F /* NotificarePush.framework in Embed Frameworks */,
-				F251695824D4077D0025B51F /* NotificareScannable.framework in Embed Frameworks */,
-				F251695024D4077D0025B51F /* NotificareLocation.framework in Embed Frameworks */,
+				F22650C7258B6E890004F833 /* NotificareKit.framework in Embed Frameworks */,
+				F22650CB258B6E900004F833 /* NotificarePushKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -51,6 +36,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		F22650C5258B6E890004F833 /* NotificareKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F22650C9258B6E900004F833 /* NotificarePushKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificarePushKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F251694424D4077D0025B51F /* Notificare.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Notificare.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F251694524D4077D0025B51F /* NotificareAssets.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareAssets.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F251694624D4077D0025B51F /* NotificareLocation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareLocation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -58,6 +45,7 @@
 		F251694824D4077D0025B51F /* NotificareMonetize.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareMonetize.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F251694924D4077D0025B51F /* NotificarePush.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificarePush.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F251694A24D4077D0025B51F /* NotificareScannable.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareScannable.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F28553C7258BA18C006674C1 /* Sample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Sample.entitlements; sourceTree = "<group>"; };
 		F28622D9250FA37500E7D800 /* Notificare.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Notificare.plist; sourceTree = "<group>"; };
 		F29FD1F424CB1FE1004B166D /* Sample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F29FD1F724CB1FE1004B166D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -75,13 +63,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				F2423D3825764B4100FCCFB7 /* Atlantis in Frameworks */,
-				F251695124D4077D0025B51F /* NotificareLoyalty.framework in Frameworks */,
-				F251694D24D4077D0025B51F /* NotificareAssets.framework in Frameworks */,
-				F2AAAF99251D01E700465EC5 /* NotificareSDK.framework in Frameworks */,
-				F251695324D4077D0025B51F /* NotificareMonetize.framework in Frameworks */,
-				F251695524D4077D0025B51F /* NotificarePush.framework in Frameworks */,
-				F251695724D4077D0025B51F /* NotificareScannable.framework in Frameworks */,
-				F251694F24D4077D0025B51F /* NotificareLocation.framework in Frameworks */,
+				F22650CA258B6E900004F833 /* NotificarePushKit.framework in Frameworks */,
+				F22650C6258B6E890004F833 /* NotificareKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -91,6 +74,8 @@
 		F251694324D4077D0025B51F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F22650C9258B6E900004F833 /* NotificarePushKit.framework */,
+				F22650C5258B6E890004F833 /* NotificareKit.framework */,
 				F2AAAF98251D01E700465EC5 /* NotificareSDK.framework */,
 				F251694424D4077D0025B51F /* Notificare.framework */,
 				F251694524D4077D0025B51F /* NotificareAssets.framework */,
@@ -123,6 +108,7 @@
 		F29FD1F624CB1FE1004B166D /* Sample */ = {
 			isa = PBXGroup;
 			children = (
+				F28553C7258BA18C006674C1 /* Sample.entitlements */,
 				F29FD1F724CB1FE1004B166D /* AppDelegate.swift */,
 				F29FD1FB24CB1FE1004B166D /* ViewController.swift */,
 				F29FD1FD24CB1FE1004B166D /* Main.storyboard */,
@@ -144,7 +130,7 @@
 				F29FD1F024CB1FE1004B166D /* Sources */,
 				F29FD1F124CB1FE1004B166D /* Frameworks */,
 				F29FD1F224CB1FE1004B166D /* Resources */,
-				F251695924D4077D0025B51F /* Embed Frameworks */,
+				F22650C8258B6E890004F833 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -360,6 +346,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Sample/Sample.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y47BY73NFN;
 				INFOPLIST_FILE = Sample/Info.plist;
@@ -367,7 +354,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.Sample;
+				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -379,6 +366,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Sample/Sample.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y47BY73NFN;
 				INFOPLIST_FILE = Sample/Info.plist;
@@ -386,7 +374,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.Sample;
+				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

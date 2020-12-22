@@ -2,7 +2,7 @@
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
-import NotificareSDK
+import NotificareKit
 import UIKit
 
 class ViewController: UIViewController {
