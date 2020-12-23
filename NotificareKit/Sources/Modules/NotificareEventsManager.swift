@@ -71,7 +71,7 @@ public class NotificareEventsModule {
         Notificare.shared.pushApi?.logEvent(event) { result in
             switch result {
             case .success:
-                Notificare.shared.logger.info("Event sent successfully.")
+                Notificare.shared.logger.info("Event '\(event.type)' sent successfully.")
             case let .failure(error):
                 Notificare.shared.logger.warning("Failed to send the event: \(event.type).")
                 Notificare.shared.logger.debug("\(error)")
