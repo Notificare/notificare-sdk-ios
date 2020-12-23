@@ -20,8 +20,6 @@ public class Notificare {
     // Consumer modules
     public let eventsManager = NotificareEventsModule()
     public let deviceManager = NotificareDeviceManager()
-    public private(set) var pushManager: NotificarePushModule?
-    public private(set) var locationManager: NotificareLocationModule?
 
     // Configuration variables
     internal private(set) var applicationKey: String?
@@ -130,7 +128,8 @@ public class Notificare {
 
         let configuration = NotificareUtils.getConfiguration()
         if configuration?.swizzlingEnabled ?? true {
-            NotificareSwizzler.setup(withRemoteNotifications: pushManager != nil)
+            // NotificareSwizzler.setup(withRemoteNotifications: pushManager != nil)
+            NotificareSwizzler.setup(withRemoteNotifications: false)
         } else {
             Notificare.shared.logger.warning("""
             Automatic App Delegate Proxy is not enabled. \
@@ -145,7 +144,7 @@ public class Notificare {
         database.configure()
         eventsManager.configure()
         deviceManager.configure()
-        pushManager?.configure()
+        // pushManager?.configure()
 
         Notificare.shared.logger.debug("Notificare configured for '\(services)' services.")
         state = .configured
@@ -173,10 +172,10 @@ public class Notificare {
         )
     }
 
-    private func createAvailableModules(applicationKey: String, applicationSecret: String) {
-        let factory = NotificareModuleFactory(applicationKey: applicationKey, applicationSecret: applicationSecret)
-        pushManager = factory.createPushManager()
-        locationManager = factory.createLocationManager()
+    private func createAvailableModules(applicationKey _: String, applicationSecret _: String) {
+//        let factory = NotificareModuleFactory(applicationKey: applicationKey, applicationSecret: applicationSecret)
+//        pushManager = factory.createPushManager()
+//        locationManager = factory.createLocationManager()
     }
 
     private func launchResult(_ result: Result<NotificareApplication, Error>) {

@@ -98,15 +98,15 @@ struct NotificareUtils {
     }
 
     static func getLoadedModules() -> [String] {
-        var modules = [String]()
+        let modules = [String]()
 
-        if Notificare.shared.pushManager != nil {
-            modules.append("push")
-        }
-
-        if Notificare.shared.locationManager != nil {
-            modules.append("location")
-        }
+//        if Notificare.shared.pushManager != nil {
+//            modules.append("push")
+//        }
+//
+//        if Notificare.shared.locationManager != nil {
+//            modules.append("location")
+//        }
 
         return modules
     }
