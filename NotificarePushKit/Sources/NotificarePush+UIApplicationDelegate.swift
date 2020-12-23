@@ -27,5 +27,26 @@ public extension NotificarePush {
         delegate?.notificare(self, didFailToRegisterForRemoteNotificationsWithError: error)
     }
 
-    func application(_: UIApplication, didReceiveRemoteNotification _: [AnyHashable: Any], fetchCompletionHandler _: @escaping (UIBackgroundFetchResult) -> Void) {}
+    func application(_: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        if NotificarePush.shared.isNotificareNotification(userInfo) {
+            let isSystemNotification = userInfo["system"] as? Bool ?? false
+
+            if isSystemNotification {
+                Notificare.shared.logger.info("Received a system notification from APNS.")
+                handleSystemNotification(userInfo) { _ in
+                    completionHandler(.newData)
+                }
+            } else {
+                Notificare.shared.logger.info("Received a notification from APNS.")
+                handleNotification(userInfo) { _ in
+                    // TODO: add to inbox
+                    completionHandler(.newData)
+                }
+            }
+        } else {
+            Notificare.shared.logger.info("Received an unknown notification from APNS.")
+            delegate?.notificare(self, didReceiveUnknownNotification: userInfo)
+            completionHandler(.newData)
+        }
+    }
 }

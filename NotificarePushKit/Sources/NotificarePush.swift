@@ -213,6 +213,34 @@ public class NotificarePush: NSObject, NotificareModule {
             completion?(.success(()))
         }
     }
+
+    func handleSystemNotification(_ userInfo: [AnyHashable: Any], _ completion: @escaping NotificareCallback<Void>) {
+        if let type = userInfo["systemType"] as? String, type.hasPrefix("re.notifica.") {
+            Notificare.shared.logger.info("Processing system notification: \(type)")
+
+            switch type {
+            case "re.notifica.notification.system.Application":
+                break
+            case "re.notifica.notification.system.Wallet":
+                break
+            case "re.notifica.notification.system.Products":
+                break
+            case "re.notifica.notification.system.Inbox":
+                break
+            default:
+                Notificare.shared.logger.warning("Unhandled system notification: \(type)")
+            }
+        } else {
+            Notificare.shared.logger.info("Processing custom system notification.")
+            // TODO: parse the model and call the delegate method.
+
+            completion(.success(()))
+        }
+    }
+
+    func handleNotification(_: [AnyHashable: Any], _ completion: @escaping NotificareCallback<Void>) {
+        completion(.success(()))
+    }
 }
 
 extension NotificarePush: UNUserNotificationCenterDelegate {}
