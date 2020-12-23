@@ -77,6 +77,10 @@ public class NotificarePush: NSObject, NotificareModule {
 
     public func disableRemoteNotifications() {}
 
+    public func isNotificareNotification(_ userInfo: [AnyHashable: Any]) -> Bool {
+        userInfo["x-sender"] as? String == "notificare"
+    }
+
     private func loadAvailableCategories() -> Set<UNNotificationCategory> {
         var categories = Set<UNNotificationCategory>()
 
