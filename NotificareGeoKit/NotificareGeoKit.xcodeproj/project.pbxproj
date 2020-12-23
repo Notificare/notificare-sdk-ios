@@ -10,7 +10,6 @@
 		F258DD7A24BC4E95006F9ABD /* NotificareGeoKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F258DD7024BC4E95006F9ABD /* NotificareGeoKit.framework */; };
 		F258DD7F24BC4E95006F9ABD /* LocationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DD7E24BC4E95006F9ABD /* LocationTests.swift */; };
 		F258DD8124BC4E95006F9ABD /* NotificareGeoKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F258DD7324BC4E95006F9ABD /* NotificareGeoKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F258DE8024BC8400006F9ABD /* NotificareLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DE7F24BC8400006F9ABD /* NotificareLocationManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,7 +29,6 @@
 		F258DD7924BC4E95006F9ABD /* NotificareGeoKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NotificareGeoKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F258DD7E24BC4E95006F9ABD /* LocationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTests.swift; sourceTree = "<group>"; };
 		F258DD8024BC4E95006F9ABD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F258DE7F24BC8400006F9ABD /* NotificareLocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareLocationManager.swift; sourceTree = "<group>"; };
 		F258DE8224BC8419006F9ABD /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F258DE8D24BC8AA1006F9ABD /* Notificare.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Notificare.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2AAAF7C251D01A000465EC5 /* NotificareSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -79,7 +77,6 @@
 			children = (
 				F258DD7424BC4E95006F9ABD /* Info.plist */,
 				F258DD7324BC4E95006F9ABD /* NotificareGeoKit.h */,
-				F258DE7F24BC8400006F9ABD /* NotificareLocationManager.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -213,7 +210,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F258DE8024BC8400006F9ABD /* NotificareLocationManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -416,7 +412,6 @@
 		F258DD8824BC4E95006F9ABD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y47BY73NFN;
 				INFOPLIST_FILE = Tests/Info.plist;
@@ -435,7 +430,6 @@
 		F258DD8924BC4E95006F9ABD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y47BY73NFN;
 				INFOPLIST_FILE = Tests/Info.plist;

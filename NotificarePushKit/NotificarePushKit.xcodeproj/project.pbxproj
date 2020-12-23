@@ -13,7 +13,6 @@
 		F258DD9E24BC4EE2006F9ABD /* NotificarePushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F258DD9424BC4EE2006F9ABD /* NotificarePushKit.framework */; };
 		F258DDA324BC4EE2006F9ABD /* PushTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DDA224BC4EE2006F9ABD /* PushTests.swift */; };
 		F258DDA524BC4EE2006F9ABD /* NotificarePushKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F258DD9724BC4EE2006F9ABD /* NotificarePushKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F258DE7424BC7FEF006F9ABD /* NotificarePushManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DE7324BC7FEF006F9ABD /* NotificarePushManager.swift */; };
 		F28553C5258B8848006674C1 /* NotificarePushDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28553C4258B8848006674C1 /* NotificarePushDelegate.swift */; };
 /* End PBXBuildFile section */
 
@@ -50,7 +49,6 @@
 		F258DD9D24BC4EE2006F9ABD /* NotificarePushKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NotificarePushKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F258DDA224BC4EE2006F9ABD /* PushTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushTests.swift; sourceTree = "<group>"; };
 		F258DDA424BC4EE2006F9ABD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F258DE7324BC7FEF006F9ABD /* NotificarePushManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificarePushManager.swift; sourceTree = "<group>"; };
 		F258DE7624BC7FFA006F9ABD /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F258DE8924BC8A76006F9ABD /* Notificare.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Notificare.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F28553C4258B8848006674C1 /* NotificarePushDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificarePushDelegate.swift; sourceTree = "<group>"; };
@@ -102,7 +100,7 @@
 				F258DD9824BC4EE2006F9ABD /* Info.plist */,
 				F258DD9724BC4EE2006F9ABD /* NotificarePushKit.h */,
 				F226509A258B6B900004F833 /* NotificarePush.swift */,
-				F258DE7324BC7FEF006F9ABD /* NotificarePushManager.swift */,
+				F240E09125927DCC00DBC25F /* NotificarePush+UIApplicationDelegate.swift */,
 				F28553C4258B8848006674C1 /* NotificarePushDelegate.swift */,
 			);
 			path = Sources;
@@ -239,7 +237,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F258DE7424BC7FEF006F9ABD /* NotificarePushManager.swift in Sources */,
 				F226509B258B6B900004F833 /* NotificarePush.swift in Sources */,
 				F28553C5258B8848006674C1 /* NotificarePushDelegate.swift in Sources */,
 			);
