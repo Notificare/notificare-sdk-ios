@@ -55,12 +55,12 @@ public class NotificareDeviceManager {
                 Notificare.shared.eventsManager.logApplicationUpgrade()
             }
 
-            registerTemporary { result in
+            register(transport: device.transport, token: device.id, userId: device.userId, userName: device.userName) { result in
                 switch result {
                 case .success:
                     completion(.success(()))
                 case let .failure(error):
-                    Notificare.shared.logger.warning("Failed to register temporary device: \(error)")
+                    Notificare.shared.logger.warning("Failed to register device: \(error)")
                     completion(.failure(error))
                 }
             }
