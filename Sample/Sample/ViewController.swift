@@ -3,6 +3,7 @@
 //
 
 import NotificareKit
+import NotificarePushKit
 import UIKit
 
 class ViewController: UIViewController {
@@ -12,7 +13,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction private func onEnableRemoteNotificationsClick(_: Any) {
-        // Notificare.shared.pushManager!.enableRemoteNotifications()
+        NotificarePush.shared.enableRemoteNotifications()
     }
 
     @IBAction func onSendCustomEventClick(_: Any) {

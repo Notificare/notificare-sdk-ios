@@ -4,6 +4,7 @@
 
 import Atlantis
 import NotificareKit
+import NotificarePushKit
 import UIKit
 
 @UIApplicationMain
@@ -22,11 +23,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, NotificareDelegate {
         return true
     }
 
-    func application(_: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken _: Data) {}
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken token: Data) {
+        print("-----> didRegisterForRemoteNotificationsWithDeviceToken: \(token.toHexString())")
+        NotificarePush.shared.application(application, didRegisterForRemoteNotificationsWithDeviceToken: token)
+    }
 
-    func application(_: UIApplication, didFailToRegisterForRemoteNotificationsWithError _: Error) {}
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print("-----> didFailToRegisterForRemoteNotificationsWithError: \(error)")
+        NotificarePush.shared.application(application, didFailToRegisterForRemoteNotificationsWithError: error)
+    }
 
-    func application(_: UIApplication, didReceiveRemoteNotification _: [AnyHashable: Any]) {}
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        print("-----> didReceiveRemoteNotification: \(userInfo)")
+        NotificarePush.shared.application(application, didReceiveRemoteNotification: userInfo, fetchCompletionHandler: completionHandler)
+    }
 
     // MARK: - NotificareDelegate
 
