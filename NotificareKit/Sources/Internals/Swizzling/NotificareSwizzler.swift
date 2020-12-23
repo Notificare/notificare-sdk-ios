@@ -11,7 +11,7 @@ private typealias ApplicationDidRegisterForRemoteNotificationsWithDeviceToken = 
 private typealias ApplicationDidFailToRegisterForRemoteNotificationsWithError = @convention(c) (Any, Selector, UIApplication, Error) -> Void
 private typealias ApplicationDidReceiveRemoteNotification = @convention(c) (Any, Selector, UIApplication, [AnyHashable: Any]) -> Void
 
-private struct AssociatedObjectKeys {
+private enum AssociatedObjectKeys {
     static var originalClass = "Notificare_OriginalClass"
     static var originalImplementations = "Notificare_OriginalImplementations"
     static var interceptors = "Notificare_Interceptors"
@@ -301,7 +301,7 @@ public class NotificareSwizzler: NSProxy {
         ) as? [String: NSValue]
 
         guard let pointer = originalImplementationsStore?[NSStringFromSelector(selector)],
-            let pointerValue = pointer.pointerValue
+              let pointerValue = pointer.pointerValue
         else {
             return nil
         }

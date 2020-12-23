@@ -97,8 +97,8 @@ class NotificareSessionManager {
     private func createWorkItem() -> DispatchWorkItem {
         DispatchWorkItem {
             guard let sessionId = self.sessionId,
-                let sessionStart = self.sessionStart,
-                let sessionEnd = self.sessionEnd
+                  let sessionStart = self.sessionStart,
+                  let sessionEnd = self.sessionEnd
             else {
                 // Skip when no session has started. Should never happen.
                 return

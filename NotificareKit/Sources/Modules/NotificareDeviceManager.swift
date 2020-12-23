@@ -17,7 +17,7 @@ public class NotificareDeviceManager {
 
     public var preferredLanguage: String? {
         guard let preferredLanguage = NotificareUserDefaults.preferredLanguage,
-            let preferredRegion = NotificareUserDefaults.preferredRegion
+              let preferredRegion = NotificareUserDefaults.preferredRegion
         else {
             return nil
         }
@@ -90,7 +90,7 @@ public class NotificareDeviceManager {
 
     public func register(userId: String?, userName: String?, _ completion: @escaping NotificareCallback<Void>) {
         guard Notificare.shared.isReady,
-            let device = currentDevice
+              let device = currentDevice
         else {
             completion(.failure(.notReady))
             return
@@ -152,8 +152,8 @@ public class NotificareDeviceManager {
 
     public func fetchTags(_ completion: @escaping NotificareCallback<[String]>) {
         guard Notificare.shared.isReady,
-            let device = currentDevice,
-            let pushApi = Notificare.shared.pushApi
+              let device = currentDevice,
+              let pushApi = Notificare.shared.pushApi
         else {
             completion(.failure(.notReady))
             return
@@ -168,8 +168,8 @@ public class NotificareDeviceManager {
 
     public func addTags(_ tags: [String], _ completion: @escaping NotificareCallback<Void>) {
         guard Notificare.shared.isReady,
-            let device = currentDevice,
-            let pushApi = Notificare.shared.pushApi
+              let device = currentDevice,
+              let pushApi = Notificare.shared.pushApi
         else {
             completion(.failure(.notReady))
             return
@@ -186,8 +186,8 @@ public class NotificareDeviceManager {
 
     public func removeTags(_ tags: [String], _ completion: @escaping NotificareCallback<Void>) {
         guard Notificare.shared.isReady,
-            let device = currentDevice,
-            let pushApi = Notificare.shared.pushApi
+              let device = currentDevice,
+              let pushApi = Notificare.shared.pushApi
         else {
             completion(.failure(.notReady))
             return
@@ -200,8 +200,8 @@ public class NotificareDeviceManager {
 
     public func clearTags(_ completion: @escaping NotificareCallback<Void>) {
         guard Notificare.shared.isReady,
-            let device = currentDevice,
-            let pushApi = Notificare.shared.pushApi
+              let device = currentDevice,
+              let pushApi = Notificare.shared.pushApi
         else {
             completion(.failure(.notReady))
             return
@@ -212,8 +212,8 @@ public class NotificareDeviceManager {
 
     public func fetchDoNotDisturb(_ completion: @escaping NotificareCallback<NotificareDoNotDisturb?>) {
         guard Notificare.shared.isReady,
-            let device = currentDevice,
-            let pushApi = Notificare.shared.pushApi
+              let device = currentDevice,
+              let pushApi = Notificare.shared.pushApi
         else {
             completion(.failure(.notReady))
             return
@@ -234,8 +234,8 @@ public class NotificareDeviceManager {
 
     public func updateDoNotDisturb(_ dnd: NotificareDoNotDisturb, _ completion: @escaping NotificareCallback<Void>) {
         guard Notificare.shared.isReady,
-            let device = currentDevice,
-            let pushApi = Notificare.shared.pushApi
+              let device = currentDevice,
+              let pushApi = Notificare.shared.pushApi
         else {
             completion(.failure(.notReady))
             return
@@ -256,8 +256,8 @@ public class NotificareDeviceManager {
 
     public func clearDoNotDisturb(_ completion: @escaping NotificareCallback<Void>) {
         guard Notificare.shared.isReady,
-            let device = currentDevice,
-            let pushApi = Notificare.shared.pushApi
+              let device = currentDevice,
+              let pushApi = Notificare.shared.pushApi
         else {
             completion(.failure(.notReady))
             return
@@ -278,8 +278,8 @@ public class NotificareDeviceManager {
 
     public func fetchUserData(_ completion: @escaping NotificareCallback<NotificareUserData?>) {
         guard Notificare.shared.isReady,
-            let device = currentDevice,
-            let pushApi = Notificare.shared.pushApi
+              let device = currentDevice,
+              let pushApi = Notificare.shared.pushApi
         else {
             completion(.failure(.notReady))
             return
@@ -300,8 +300,8 @@ public class NotificareDeviceManager {
 
     public func updateUserData(_ userData: NotificareUserData, _ completion: @escaping NotificareCallback<Void>) {
         guard Notificare.shared.isReady,
-            let device = currentDevice,
-            let pushApi = Notificare.shared.pushApi
+              let device = currentDevice,
+              let pushApi = Notificare.shared.pushApi
         else {
             completion(.failure(.notReady))
             return
@@ -324,8 +324,8 @@ public class NotificareDeviceManager {
 
     func updateNotificationSettings(allowedUI: Bool, _ completion: @escaping NotificareCallback<Void>) {
         guard Notificare.shared.isReady,
-            let device = currentDevice,
-            let pushApi = Notificare.shared.pushApi
+              let device = currentDevice,
+              let pushApi = Notificare.shared.pushApi
         else {
             completion(.failure(.notReady))
             return
@@ -352,8 +352,8 @@ public class NotificareDeviceManager {
 
     func updateTimezone(_ completion: @escaping NotificareCallback<Void>) {
         guard Notificare.shared.isReady,
-            let device = currentDevice,
-            let pushApi = Notificare.shared.pushApi
+              let device = currentDevice,
+              let pushApi = Notificare.shared.pushApi
         else {
             completion(.failure(.notReady))
             return
@@ -382,8 +382,8 @@ public class NotificareDeviceManager {
 
     func updateLanguage(_ completion: @escaping NotificareCallback<Void>) {
         guard Notificare.shared.isReady,
-            let device = currentDevice,
-            let pushApi = Notificare.shared.pushApi
+              let device = currentDevice,
+              let pushApi = Notificare.shared.pushApi
         else {
             completion(.failure(.notReady))
             return
@@ -410,8 +410,8 @@ public class NotificareDeviceManager {
 
     func updateBackgroundAppRefresh(_ completion: @escaping NotificareCallback<Void>) {
         guard Notificare.shared.isReady,
-            let device = currentDevice,
-            let pushApi = Notificare.shared.pushApi
+              let device = currentDevice,
+              let pushApi = Notificare.shared.pushApi
         else {
             completion(.failure(.notReady))
             return

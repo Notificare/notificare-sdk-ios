@@ -20,17 +20,17 @@ struct NotificareDeviceUpdateLocation: Encodable {
 
     enum CodingKeys: String, CodingKey {
         case language,
-            region,
-            latitude,
-            longitude,
-            altitude,
-            locationAccuracy,
-            speed,
-            course,
-            country,
-            floor,
-            locationServicesAuthStatus,
-            locationServicesAccuracyAuth
+             region,
+             latitude,
+             longitude,
+             altitude,
+             locationAccuracy,
+             speed,
+             course,
+             country,
+             floor,
+             locationServicesAuthStatus,
+             locationServicesAccuracyAuth
     }
 
     func encode(to encoder: Encoder) throws {

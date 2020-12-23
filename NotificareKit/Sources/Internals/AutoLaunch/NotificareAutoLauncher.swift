@@ -33,9 +33,9 @@ public class NotificareAutoLauncher: NSObject {
         }
 
         guard let configuration = NotificareUtils.getConfiguration(),
-            let applicationKey = configuration.production ? configuration.productionApplicationKey : configuration.developmentApplicationKey,
-            let applicationSecret = configuration.production ? configuration.productionApplicationSecret : configuration.developmentApplicationSecret,
-            !applicationKey.isEmpty, !applicationSecret.isEmpty
+              let applicationKey = configuration.production ? configuration.productionApplicationKey : configuration.developmentApplicationKey,
+              let applicationSecret = configuration.production ? configuration.productionApplicationSecret : configuration.developmentApplicationSecret,
+              !applicationKey.isEmpty, !applicationSecret.isEmpty
         else {
             Notificare.shared.logger.debug("Notificare.plist doesn't contain a valid key set. Skipping...")
             return
@@ -43,7 +43,7 @@ public class NotificareAutoLauncher: NSObject {
 
         var services: NotificareServices = .production
         if let str = configuration.services?.lowercased().trimmingCharacters(in: .whitespacesAndNewlines),
-            let parsed = NotificareServices(rawValue: str)
+           let parsed = NotificareServices(rawValue: str)
         {
             services = parsed
         }

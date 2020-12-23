@@ -85,7 +85,7 @@ public class NotificareReachability {
     private let reachabilityRef: SCNetworkReachability
     private let reachabilitySerialQueue: DispatchQueue
     private let notificationQueue: DispatchQueue?
-    fileprivate(set) var flags: SCNetworkReachabilityFlags? {
+    private(set) var flags: SCNetworkReachabilityFlags? {
         didSet {
             guard flags != oldValue else {
                 return

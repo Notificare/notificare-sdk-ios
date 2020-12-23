@@ -21,8 +21,8 @@ public struct NotificareTime {
         let parts = string.components(separatedBy: ":")
 
         guard parts.count == 2,
-            let hours = Int(parts[0]),
-            let minutes = Int(parts[1])
+              let hours = Int(parts[0]),
+              let minutes = Int(parts[1])
         else {
             throw NotificareError.invalidArgument
         }

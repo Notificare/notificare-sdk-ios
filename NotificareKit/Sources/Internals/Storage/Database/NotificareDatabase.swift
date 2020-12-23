@@ -13,7 +13,7 @@ class NotificareDatabase {
         let bundle = Bundle(for: type(of: self))
 
         guard let path = bundle.url(forResource: databaseName, withExtension: ".momd"),
-            let model = NSManagedObjectModel(contentsOf: path)
+              let model = NSManagedObjectModel(contentsOf: path)
         else {
             Notificare.shared.logger.error("Failed to load CoreData's models.")
             fatalError("Failed to load CoreData's models")
@@ -33,7 +33,7 @@ class NotificareDatabase {
 
     func launch(_ completion: @escaping (Result<Void, Error>) -> Void) {
         if let currentVersion = NotificareUserDefaults.currentDatabaseVersion,
-            currentVersion != NotificareDefinitions.databaseVersion
+           currentVersion != NotificareDefinitions.databaseVersion
         {
             Notificare.shared.logger.debug("Local database version mismatch. Migration required.")
             rebuildStore(completion)

@@ -55,7 +55,7 @@ public class NotificareLogger {
 
     private func log(_ message: String, level: Level, file: String = #file) {
         if let fileName = URL(fileURLWithPath: file).pathComponents.last,
-            let tag = fileName.split(separator: ".").first
+           let tag = fileName.split(separator: ".").first
         {
             log(message, level: level, tag: String(tag))
         } else {

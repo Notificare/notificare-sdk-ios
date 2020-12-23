@@ -8,12 +8,12 @@ struct NotificareDefinitions {
     static let sdkVersion = "3.0.0"
     static let databaseVersion = "3.0.0"
 
-    struct Modules {
+    enum Modules {
         static let push = "NotificarePush.NotificarePushManagerImpl"
         static let location = "NotificareLocation.NotificareLocationManagerImpl"
     }
 
-    struct UserDefaults {
+    enum UserDefaults {
         static let currentDatabaseVersion = "re.notifica.local.currentDatabaseVersion"
         static let preferredLanguage = "re.notifica.local.preferredLanguage"
         static let preferredRegion = "re.notifica.local.preferredRegion"
@@ -21,12 +21,12 @@ struct NotificareDefinitions {
         static let crashReport = "re.notifica.local.crashReport"
     }
 
-    struct Tasks {
+    enum Tasks {
         static let processEvents = "re.notifica.tasks.process.events"
         static let applicationClose = "re.notifica.tasks.applicationClose"
     }
 
-    struct Events {
+    enum Events {
         static let applicationInstall = "re.notifica.event.application.Install"
         static let applicationRegistration = "re.notifica.event.application.Registration"
         static let applicationUpgrade = "re.notifica.event.application.Upgrade"
