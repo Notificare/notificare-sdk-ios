@@ -18,6 +18,7 @@ struct NotificareDeviceRegistration: Encodable {
     let appVersion: String
     let deviceString: String
     let timeZoneOffset: Float
+    let allowedUI: Bool
     let backgroundAppRefresh: Bool
 
     enum CodingKeys: String, CodingKey {
@@ -34,6 +35,7 @@ struct NotificareDeviceRegistration: Encodable {
         case appVersion
         case deviceString
         case timeZoneOffset
+        case allowedUI
         case backgroundAppRefresh
     }
 }

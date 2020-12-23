@@ -60,7 +60,7 @@ extension NotificareDevice {
         dnd = previous?.dnd
         userData = previous?.userData
         lastRegistered = Date()
-        allowedUI = previous?.allowedUI ?? false
+        allowedUI = registration.allowedUI
         backgroundAppRefresh = registration.backgroundAppRefresh
         bluetoothEnabled = previous?.bluetoothEnabled ?? false
     }

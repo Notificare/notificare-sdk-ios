@@ -460,6 +460,7 @@ public class NotificareDeviceManager {
                 appVersion: NotificareUtils.applicationVersion,
                 deviceString: NotificareUtils.deviceString,
                 timeZoneOffset: NotificareUtils.timeZoneOffset,
+                allowedUI: transport == .notificare ? false : currentDevice?.allowedUI ?? false,
                 backgroundAppRefresh: UIApplication.shared.backgroundRefreshStatus == .available
             )
 
