@@ -38,7 +38,7 @@ public struct NotificareApplication: Codable {
 
         public struct Action: Codable {
             public let type: String
-            public let label: String?
+            public let label: String
             public let target: String?
             public let camera: Bool
             public let keyboard: Bool
