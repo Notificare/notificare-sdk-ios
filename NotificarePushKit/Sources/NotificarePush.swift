@@ -47,7 +47,7 @@ public class NotificarePush: NSObject, NotificareModule {
         completion(.success(()))
     }
 
-    public func enableRemoteNotifications() {
+    public func enableRemoteNotifications(_ completion: @escaping NotificareCallback<Bool>) {
         // Request notification authorization options.
         notificationCenter.requestAuthorization(options: authorizationOptions) { granted, _ in
             Notificare.shared.logger.info("Registered user notification settings.")
@@ -61,7 +61,14 @@ public class NotificarePush: NSObject, NotificareModule {
                 Notificare.shared.logger.info("User did not grant permission to receive alerts, badge and sounds.")
             }
 
-            self.handleNotificationSettings(granted)
+            self.handleNotificationSettings(granted) { result in
+                switch result {
+                case .success:
+                    completion(.success(granted))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
         }
 
         // Request an APNS token.
@@ -182,7 +189,7 @@ public class NotificarePush: NSObject, NotificareModule {
         }
     }
 
-    private func handleNotificationSettings(_ allowedUI: Bool) {
+    private func handleNotificationSettings(_ allowedUI: Bool, _ completion: NotificareCallback<Void>? = nil) {
         // Notify the delegate.
         delegate?.notificare(self, didChangeNotificationSettings: allowedUI)
 
@@ -191,12 +198,15 @@ public class NotificarePush: NSObject, NotificareModule {
                 switch result {
                 case .success:
                     Notificare.shared.logger.debug("User notification settings updated.")
-                case .failure:
+                    completion?(.success(()))
+                case let .failure(error):
                     Notificare.shared.logger.debug("Could not user notification settings.")
+                    completion?(.failure(error))
                 }
             }
         } else {
             Notificare.shared.logger.debug("User notification settings update skipped, nothing changed.")
+            completion?(.success(()))
         }
     }
 }
