@@ -322,7 +322,7 @@ public class NotificareDeviceManager {
 
     // MARK: - Internal API
 
-    func updateNotificationSettings(allowedUI: Bool, _ completion: @escaping NotificareCallback<Void>) {
+    public func updateNotificationSettings(_ allowedUI: Bool, _ completion: @escaping NotificareCallback<Void>) {
         guard Notificare.shared.isReady,
               let device = currentDevice,
               let pushApi = Notificare.shared.pushApi

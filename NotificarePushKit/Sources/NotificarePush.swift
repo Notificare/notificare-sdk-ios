@@ -202,9 +202,3 @@ public class NotificarePush: NSObject, NotificareModule {
 }
 
 extension NotificarePush: UNUserNotificationCenterDelegate {}
-
-extension NotificareDeviceManager {
-    func updateNotificationSettings(_: Bool, _ completion: @escaping (Result<Void, Error>) -> Void) {
-        completion(.success(()))
-    }
-}
