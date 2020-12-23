@@ -10,6 +10,6 @@ public protocol NotificareDelegate: AnyObject {
     func notificare(_ notificare: Notificare, didRegisterDevice device: NotificareDevice)
 }
 
-extension NotificareDelegate {
+public extension NotificareDelegate {
     func notificare(_: Notificare, didRegisterDevice _: NotificareDevice) {}
 }
