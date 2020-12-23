@@ -13,7 +13,14 @@ class ViewController: UIViewController {
     }
 
     @IBAction private func onEnableRemoteNotificationsClick(_: Any) {
-        NotificarePush.shared.enableRemoteNotifications()
+        NotificarePush.shared.enableRemoteNotifications { result in
+            switch result {
+            case .success(let granted):
+                print("-----> User allowed notifications: \(granted)")
+            case .failure(let error):
+                print("-----> Something went wrong: \(error)")
+            }
+        }
     }
 
     @IBAction func onSendCustomEventClick(_: Any) {
