@@ -96,7 +96,7 @@ public class NotificareDeviceManager {
             return
         }
 
-        register(token: device.id, userId: userId, userName: userName, completion)
+        register(transport: device.transport, token: device.id, userId: userId, userName: userName, completion)
     }
 
     public func updatePreferredLanguage(_ preferredLanguage: String?, _ completion: @escaping NotificareCallback<String?>) {
@@ -442,7 +442,7 @@ public class NotificareDeviceManager {
 
     // MARK: - Private API
 
-    private func register(token: String, userId: String?, userName: String?, _ completion: @escaping NotificareCallback<Void>) {
+    private func register(transport: NotificareTransport, token: String, userId: String?, userName: String?, _ completion: @escaping NotificareCallback<Void>) {
         if registrationChanged(token: token, userId: userId, userName: userName) {
             let oldDeviceId = currentDevice?.id != nil && currentDevice?.id != token ? currentDevice?.id : nil
 
@@ -454,7 +454,7 @@ public class NotificareDeviceManager {
                 language: getLanguage(),
                 region: getRegion(),
                 platform: "iOS",
-                transport: .notificare,
+                transport: transport,
                 osVersion: NotificareUtils.osVersion,
                 sdkVersion: NotificareDefinitions.sdkVersion,
                 appVersion: NotificareUtils.applicationVersion,
@@ -493,6 +493,7 @@ public class NotificareDeviceManager {
         }.toHexString()
 
         register(
+            transport: .notificare,
             token: token,
             userId: currentDevice?.userId,
             userName: currentDevice?.userName,
@@ -506,6 +507,16 @@ public class NotificareDeviceManager {
 //                completion(.failure(error))
 //            }
 //        }
+    }
+
+    public func registerAPNS(token: String, _ completion: @escaping NotificareCallback<Void>) {
+        register(
+            transport: .apns,
+            token: token,
+            userId: currentDevice?.userId,
+            userName: currentDevice?.userName,
+            completion
+        )
     }
 
     private func registrationChanged(token: String, userId: String?, userName: String?) -> Bool {
