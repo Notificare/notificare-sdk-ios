@@ -22,7 +22,10 @@ public extension NotificarePush {
         }
     }
 
-    func application(_: UIApplication, didFailToRegisterForRemoteNotificationsWithError _: Error) {}
+    func application(_: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        Notificare.shared.logger.error("Failed to register for remote notifications: \(error)")
+        delegate?.notificare(self, didFailToRegisterForRemoteNotificationsWithError: error)
+    }
 
     func application(_: UIApplication, didReceiveRemoteNotification _: [AnyHashable: Any], fetchCompletionHandler _: @escaping (UIBackgroundFetchResult) -> Void) {}
 }
