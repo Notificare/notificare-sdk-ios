@@ -12,8 +12,8 @@ public class NotificarePush: NSObject, NotificareModule {
     public static let shared = NotificarePush()
 
     public weak var delegate: NotificarePushDelegate?
-    var authorizationOptions: UNAuthorizationOptions = [.badge, .sound, .alert]
-    var categoryOptions: UNNotificationCategoryOptions
+    public var authorizationOptions: UNAuthorizationOptions = [.badge, .sound, .alert]
+    public var categoryOptions: UNNotificationCategoryOptions
 
     private var notificationCenter: UNUserNotificationCenter {
         UNUserNotificationCenter.current()
