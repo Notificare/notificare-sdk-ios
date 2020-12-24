@@ -232,7 +232,9 @@ public class NotificarePush: NSObject, NotificareModule {
             }
         } else {
             Notificare.shared.logger.info("Processing custom system notification.")
-            // TODO: parse the model and call the delegate method.
+
+            let notification = NotificareSystemNotification(userInfo: userInfo)
+            delegate?.notificare(self, didReceiveSystemNotification: notification)
 
             completion(.success(()))
         }

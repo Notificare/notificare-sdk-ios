@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F2128F022594E47700F7F68F /* NotificareSystemNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2128F012594E47700F7F68F /* NotificareSystemNotification.swift */; };
 		F226509B258B6B900004F833 /* NotificarePush.swift in Sources */ = {isa = PBXBuildFile; fileRef = F226509A258B6B900004F833 /* NotificarePush.swift */; };
 		F22650B9258B6E560004F833 /* NotificareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F22650B8258B6E560004F833 /* NotificareKit.framework */; };
 		F22650BA258B6E560004F833 /* NotificareKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F22650B8258B6E560004F833 /* NotificareKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -42,6 +43,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		F2128F012594E47700F7F68F /* NotificareSystemNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareSystemNotification.swift; sourceTree = "<group>"; };
 		F226509A258B6B900004F833 /* NotificarePush.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificarePush.swift; sourceTree = "<group>"; };
 		F22650B8258B6E560004F833 /* NotificareKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F240E09125927DCC00DBC25F /* NotificarePush+UIApplicationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificarePush+UIApplicationDelegate.swift"; sourceTree = "<group>"; };
@@ -77,6 +79,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F2128F002594E3E300F7F68F /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F2128F012594E47700F7F68F /* NotificareSystemNotification.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		F258DD8A24BC4EE2006F9ABD = {
 			isa = PBXGroup;
 			children = (
@@ -99,6 +109,7 @@
 		F258DD9624BC4EE2006F9ABD /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				F2128F002594E3E300F7F68F /* Models */,
 				F258DD9824BC4EE2006F9ABD /* Info.plist */,
 				F258DD9724BC4EE2006F9ABD /* NotificarePushKit.h */,
 				F226509A258B6B900004F833 /* NotificarePush.swift */,
@@ -261,6 +272,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F226509B258B6B900004F833 /* NotificarePush.swift in Sources */,
+				F2128F022594E47700F7F68F /* NotificareSystemNotification.swift in Sources */,
 				F28553C5258B8848006674C1 /* NotificarePushDelegate.swift in Sources */,
 				F240E09225927DCC00DBC25F /* NotificarePush+UIApplicationDelegate.swift in Sources */,
 			);
