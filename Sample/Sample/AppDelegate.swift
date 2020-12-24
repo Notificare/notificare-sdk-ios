@@ -57,4 +57,8 @@ extension AppDelegate: NotificarePushDelegate {
     func notificare(_ notificarePush: NotificarePush, didChangeNotificationSettings granted: Bool) {
         print("-----> Notificare: notification settings changed: \(granted)")
     }
+    
+    func notificare(_ notificarePush: NotificarePush, didReceiveSystemNotification notification: NotificareSystemNotification) {
+        print("-----> Notificare: received system notification: \(notification)")
+    }
 }
