@@ -44,8 +44,8 @@ public class Notificare {
         state == .ready
     }
 
-    public func configure(applicationKey _: String, applicationSecret: String) {
-        configure(applicationKey: applicationSecret, applicationSecret: applicationSecret, services: .production)
+    public func configure(applicationKey: String, applicationSecret: String) {
+        configure(applicationKey: applicationKey, applicationSecret: applicationSecret, services: .production)
     }
 
     public func launch() {
