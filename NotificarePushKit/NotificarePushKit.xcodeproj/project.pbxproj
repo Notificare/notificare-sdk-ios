@@ -19,6 +19,7 @@
 		F26EEA082599EE3900131829 /* NotificarePushApi+Push.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26EEA072599EE3900131829 /* NotificarePushApi+Push.swift */; };
 		F26EEA1A2599F0DE00131829 /* NotificareNotificationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26EEA192599F0DE00131829 /* NotificareNotificationResponse.swift */; };
 		F28553C5258B8848006674C1 /* NotificarePushDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28553C4258B8848006674C1 /* NotificarePushDelegate.swift */; };
+		F28DC242259BDC1D0040FC24 /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28DC241259BDC1D0040FC24 /* JSON.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +63,7 @@
 		F26EEA072599EE3900131829 /* NotificarePushApi+Push.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificarePushApi+Push.swift"; sourceTree = "<group>"; };
 		F26EEA192599F0DE00131829 /* NotificareNotificationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareNotificationResponse.swift; sourceTree = "<group>"; };
 		F28553C4258B8848006674C1 /* NotificarePushDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificarePushDelegate.swift; sourceTree = "<group>"; };
+		F28DC241259BDC1D0040FC24 /* JSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSON.swift; sourceTree = "<group>"; };
 		F2AAAF88251D01B400465EC5 /* NotificareSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -160,6 +162,7 @@
 			isa = PBXGroup;
 			children = (
 				F26EE99F2599E07C00131829 /* Network */,
+				F28DC241259BDC1D0040FC24 /* JSON.swift */,
 			);
 			path = Internals;
 			sourceTree = "<group>";
@@ -311,6 +314,7 @@
 				F26EEA1A2599F0DE00131829 /* NotificareNotificationResponse.swift in Sources */,
 				F26EEA082599EE3900131829 /* NotificarePushApi+Push.swift in Sources */,
 				F2128F062594EB6000F7F68F /* NotificareNotification.swift in Sources */,
+				F28DC242259BDC1D0040FC24 /* JSON.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
