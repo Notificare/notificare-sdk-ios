@@ -113,16 +113,38 @@ struct NotificareUtils {
 
     static func logCapabilities() {}
 
+    static let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        formatter.timeZone = TimeZone(identifier: "UTC")
+
+        return formatter
+    }()
+
     static func createJsonDecoder() -> JSONDecoder {
         let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .iso8601
+
+        decoder.dateDecodingStrategy = .custom { (decoder) -> Date in
+            let container = try decoder.singleValueContainer()
+            let str = try container.decode(String.self)
+
+            guard let date = dateFormatter.date(from: str) else {
+                throw DecodingError.dataCorruptedError(in: container, debugDescription: "Expected date string to be ISO8601-formatted.")
+            }
+
+            return date
+        }
 
         return decoder
     }
 
     static func createJsonEncoder() -> JSONEncoder {
         let encoder = JSONEncoder()
-        encoder.dateEncodingStrategy = .iso8601
+
+        encoder.dateEncodingStrategy = .custom { date, encoder in
+            var container = encoder.singleValueContainer()
+            try container.encode(dateFormatter.string(from: date))
+        }
 
         return encoder
     }
