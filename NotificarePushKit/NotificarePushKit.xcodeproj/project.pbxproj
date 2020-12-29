@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		F2128F022594E47700F7F68F /* NotificareSystemNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2128F012594E47700F7F68F /* NotificareSystemNotification.swift */; };
+		F2128F062594EB6000F7F68F /* NotificareNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2128F052594EB6000F7F68F /* NotificareNotification.swift */; };
 		F226509B258B6B900004F833 /* NotificarePush.swift in Sources */ = {isa = PBXBuildFile; fileRef = F226509A258B6B900004F833 /* NotificarePush.swift */; };
 		F22650B9258B6E560004F833 /* NotificareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F22650B8258B6E560004F833 /* NotificareKit.framework */; };
 		F22650BA258B6E560004F833 /* NotificareKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F22650B8258B6E560004F833 /* NotificareKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -15,6 +16,8 @@
 		F258DD9E24BC4EE2006F9ABD /* NotificarePushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F258DD9424BC4EE2006F9ABD /* NotificarePushKit.framework */; };
 		F258DDA324BC4EE2006F9ABD /* PushTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DDA224BC4EE2006F9ABD /* PushTests.swift */; };
 		F258DDA524BC4EE2006F9ABD /* NotificarePushKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F258DD9724BC4EE2006F9ABD /* NotificarePushKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F26EEA082599EE3900131829 /* NotificarePushApi+Push.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26EEA072599EE3900131829 /* NotificarePushApi+Push.swift */; };
+		F26EEA1A2599F0DE00131829 /* NotificareNotificationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26EEA192599F0DE00131829 /* NotificareNotificationResponse.swift */; };
 		F28553C5258B8848006674C1 /* NotificarePushDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28553C4258B8848006674C1 /* NotificarePushDelegate.swift */; };
 /* End PBXBuildFile section */
 
@@ -44,6 +47,7 @@
 
 /* Begin PBXFileReference section */
 		F2128F012594E47700F7F68F /* NotificareSystemNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareSystemNotification.swift; sourceTree = "<group>"; };
+		F2128F052594EB6000F7F68F /* NotificareNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareNotification.swift; sourceTree = "<group>"; };
 		F226509A258B6B900004F833 /* NotificarePush.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificarePush.swift; sourceTree = "<group>"; };
 		F22650B8258B6E560004F833 /* NotificareKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F240E09125927DCC00DBC25F /* NotificarePush+UIApplicationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificarePush+UIApplicationDelegate.swift"; sourceTree = "<group>"; };
@@ -55,6 +59,8 @@
 		F258DDA424BC4EE2006F9ABD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F258DE7624BC7FFA006F9ABD /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F258DE8924BC8A76006F9ABD /* Notificare.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Notificare.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F26EEA072599EE3900131829 /* NotificarePushApi+Push.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificarePushApi+Push.swift"; sourceTree = "<group>"; };
+		F26EEA192599F0DE00131829 /* NotificareNotificationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareNotificationResponse.swift; sourceTree = "<group>"; };
 		F28553C4258B8848006674C1 /* NotificarePushDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificarePushDelegate.swift; sourceTree = "<group>"; };
 		F2AAAF88251D01B400465EC5 /* NotificareSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -82,6 +88,7 @@
 		F2128F002594E3E300F7F68F /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				F2128F052594EB6000F7F68F /* NotificareNotification.swift */,
 				F2128F012594E47700F7F68F /* NotificareSystemNotification.swift */,
 			);
 			path = Models;
@@ -109,6 +116,7 @@
 		F258DD9624BC4EE2006F9ABD /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				F26EE9A02599E08A00131829 /* Internals */,
 				F2128F002594E3E300F7F68F /* Models */,
 				F258DD9824BC4EE2006F9ABD /* Info.plist */,
 				F258DD9724BC4EE2006F9ABD /* NotificarePushKit.h */,
@@ -137,6 +145,31 @@
 				F258DE7624BC7FFA006F9ABD /* Core.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F26EE99F2599E07C00131829 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				F26EEA182599F0C800131829 /* Responses */,
+				F26EEA072599EE3900131829 /* NotificarePushApi+Push.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		F26EE9A02599E08A00131829 /* Internals */ = {
+			isa = PBXGroup;
+			children = (
+				F26EE99F2599E07C00131829 /* Network */,
+			);
+			path = Internals;
+			sourceTree = "<group>";
+		};
+		F26EEA182599F0C800131829 /* Responses */ = {
+			isa = PBXGroup;
+			children = (
+				F26EEA192599F0DE00131829 /* NotificareNotificationResponse.swift */,
+			);
+			path = Responses;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -275,6 +308,9 @@
 				F2128F022594E47700F7F68F /* NotificareSystemNotification.swift in Sources */,
 				F28553C5258B8848006674C1 /* NotificarePushDelegate.swift in Sources */,
 				F240E09225927DCC00DBC25F /* NotificarePush+UIApplicationDelegate.swift in Sources */,
+				F26EEA1A2599F0DE00131829 /* NotificareNotificationResponse.swift in Sources */,
+				F26EEA082599EE3900131829 /* NotificarePushApi+Push.swift in Sources */,
+				F2128F062594EB6000F7F68F /* NotificareNotification.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

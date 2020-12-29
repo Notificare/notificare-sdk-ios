@@ -14,6 +14,7 @@ public class NotificarePush: NSObject, NotificareModule {
     public weak var delegate: NotificarePushDelegate?
     public var authorizationOptions: UNAuthorizationOptions = [.badge, .sound, .alert]
     public var categoryOptions: UNNotificationCategoryOptions
+    public var presentationOptions: UNNotificationPresentationOptions = []
 
     private var notificationCenter: UNUserNotificationCenter {
         UNUserNotificationCenter.current()
@@ -28,10 +29,10 @@ public class NotificarePush: NSObject, NotificareModule {
     }
 
     public func configure(applicationKey _: String, applicationSecret _: String) {
-        guard !Notificare.shared.isConfigured else {
-            Notificare.shared.logger.warning("Notificare has already been configured. Skipping...")
-            return
-        }
+//        guard !Notificare.shared.isConfigured else {
+//            Notificare.shared.logger.warning("Notificare has already been configured. Skipping...")
+//            return
+//        }
 
         // TODO: check plist setting
         notificationCenter.delegate = self
@@ -44,6 +45,10 @@ public class NotificarePush: NSObject, NotificareModule {
     }
 
     public func launch(_ completion: @escaping (Result<Void, Error>) -> Void) {
+        if Notificare.shared.deviceManager.currentDevice?.transport == .notificare {
+            updateNotificationSettings()
+        }
+
         completion(.success(()))
     }
 
@@ -240,9 +245,168 @@ public class NotificarePush: NSObject, NotificareModule {
         }
     }
 
-    func handleNotification(_: [AnyHashable: Any], _ completion: @escaping NotificareCallback<Void>) {
-        completion(.success(()))
+    func handleNotification(_ userInfo: [AnyHashable: Any], _ completion: @escaping NotificareCallback<Void>) {
+        guard let id = userInfo["id"] as? String else {
+            Notificare.shared.logger.warning("Missing 'id' property in notification payload.")
+            return
+        }
+
+        guard let api = Notificare.shared.pushApi else {
+            Notificare.shared.logger.warning("Notificare has not been configured.")
+            return
+        }
+
+        api.getNotification(id) { result in
+            switch result {
+            case let .success(notification):
+                // TODO: log notification received
+
+                completion(.success(()))
+            case let .failure(error):
+                completion(.failure(error))
+            }
+        }
+    }
+
+    func handleAction(_ action: String, for notification: [AnyHashable: Any], with data: [AnyHashable: Any], _ completion: @escaping NotificareCallback<Void>) {
+        _ = action
+        _ = notification
+        _ = data
+        _ = completion
     }
 }
 
-extension NotificarePush: UNUserNotificationCenterDelegate {}
+extension NotificarePush: UNUserNotificationCenterDelegate {
+    public func userNotificationCenter(_: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        let userInfo = response.notification.request.content.userInfo
+
+        if isNotificareNotification(userInfo) {
+            if response.actionIdentifier != UNNotificationDefaultActionIdentifier, response.actionIdentifier != UNNotificationDismissActionIdentifier {
+                var data = ["identifier": response.actionIdentifier]
+
+                if let response = response as? UNTextInputNotificationResponse {
+                    data["userText"] = response.userText
+                }
+
+                handleAction(response.actionIdentifier, for: userInfo, with: data) { result in
+                    switch result {
+                    case .success:
+                        // TODO: refresh badge
+                        // [[NotificareInboxManager shared] refreshBadge:^(id  _Nullable response, NSError * _Nullable error) {
+                        //     completionHandler();
+                        // }];
+                        completionHandler()
+                    case .failure:
+                        completionHandler()
+                    }
+                }
+            } else {
+                guard let id = userInfo["id"] as? String else {
+                    Notificare.shared.logger.warning("Missing 'id' property in notification payload.")
+                    return
+                }
+
+                guard let api = Notificare.shared.pushApi else {
+                    Notificare.shared.logger.warning("Notificare has not been configured.")
+                    return
+                }
+
+                api.getNotification(id) { result in
+                    switch result {
+                    case let .success(notification):
+                        self.delegate?.notificare(self, didReceiveNotification: notification)
+                    case .failure:
+                        Notificare.shared.logger.error("Failed to fetch notification with id '\(id)'.")
+                    }
+                }
+
+                completionHandler()
+            }
+        } else {
+            // Unrecognizable notification
+            if response.actionIdentifier != UNNotificationDefaultActionIdentifier, response.actionIdentifier != UNNotificationDismissActionIdentifier {
+                var data = ["identifier": response.actionIdentifier]
+
+                if let response = response as? UNTextInputNotificationResponse {
+                    data["userText"] = response.userText
+                }
+
+                delegate?.notificare(self, didReceiveUnknownAction: data, for: userInfo)
+            } else {
+                delegate?.notificare(self, didReceiveUnknownNotification: userInfo)
+            }
+
+            completionHandler()
+        }
+    }
+
+    public func userNotificationCenter(_: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        let userInfo = notification.request.content.userInfo
+
+        if isNotificareNotification(userInfo) {
+            guard let id = userInfo["id"] as? String else {
+                Notificare.shared.logger.warning("Missing 'id' property in notification payload.")
+                return
+            }
+
+            guard let api = Notificare.shared.pushApi else {
+                Notificare.shared.logger.warning("Notificare has not been configured.")
+                return
+            }
+
+            api.getNotification(id) { result in
+                switch result {
+                case let .success(notification):
+                    self.delegate?.notificare(self, didReceiveNotification: notification)
+
+                    // Check if we should force-set the presentation options.
+                    if let presentation = userInfo["presentation"] as? Bool, presentation {
+                        completionHandler([.alert, .badge, .sound])
+                    } else {
+                        completionHandler(self.presentationOptions)
+                    }
+                case .failure:
+                    Notificare.shared.logger.error("Failed to fetch notification with id '\(id)'.")
+                    completionHandler([])
+                }
+            }
+        } else {
+            // Unrecognizable notification
+            delegate?.notificare(self, didReceiveUnknownNotification: userInfo)
+            completionHandler([])
+        }
+    }
+
+    public func userNotificationCenter(_: UNUserNotificationCenter, openSettingsFor notification: UNNotification?) {
+        guard let notification = notification else {
+            delegate?.notificare(self, shouldOpenSettings: nil)
+            return
+        }
+
+        let userInfo = notification.request.content.userInfo
+
+        guard isNotificareNotification(userInfo) else {
+            Notificare.shared.logger.debug("Cannot handle a notification from a provider other than Notificare.")
+            return
+        }
+
+        guard let id = userInfo["id"] as? String else {
+            Notificare.shared.logger.warning("Missing 'id' property in notification payload.")
+            return
+        }
+
+        guard let api = Notificare.shared.pushApi else {
+            Notificare.shared.logger.warning("Notificare has not been configured.")
+            return
+        }
+
+        api.getNotification(id) { result in
+            switch result {
+            case let .success(notification):
+                self.delegate?.notificare(self, shouldOpenSettings: notification)
+            case .failure:
+                Notificare.shared.logger.error("Failed to fetch notification with id '\(id)' for notification settings.")
+            }
+        }
+    }
+}

@@ -4,7 +4,7 @@
 
 import Foundation
 
-extension URLRequest {
+public extension URLRequest {
     mutating func setBasicAuthentication(username: String, password: String) {
         let base64encoded = "\(username):\(password)"
             .data(using: .utf8)!

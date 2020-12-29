@@ -15,7 +15,7 @@ public class Notificare {
     internal let sessionManager = NotificareSessionManager()
     internal let database = NotificareDatabase()
     internal private(set) var reachability: NotificareReachability?
-    internal private(set) var pushApi: NotificarePushApi?
+    public private(set) var pushApi: NotificarePushApi?
 
     // Consumer modules
     public let eventsManager = NotificareEventsModule()

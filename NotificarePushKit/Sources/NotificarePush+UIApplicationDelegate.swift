@@ -28,7 +28,7 @@ public extension NotificarePush {
     }
 
     func application(_: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        if NotificarePush.shared.isNotificareNotification(userInfo) {
+        if isNotificareNotification(userInfo) {
             let isSystemNotification = userInfo["system"] as? Bool ?? false
 
             if isSystemNotification {

@@ -4,21 +4,21 @@
 
 import Foundation
 
-struct NotificarePushApi {
-    typealias Completion<T> = (Result<T, NotificareError>) -> Void
+public struct NotificarePushApi {
+    public typealias Completion<T> = (Result<T, NotificareError>) -> Void
 
-    private let baseUrl: URL
-    private let applicationKey: String
-    private let applicationSecret: String
-    private let session: URLSession = {
+    public let baseUrl: URL
+    public let applicationKey: String
+    public let applicationSecret: String
+    public let session: URLSession = {
         let configuration = URLSessionConfiguration.default
         configuration.urlCredentialStorage = nil
 
         return URLSession(configuration: configuration)
     }()
 
-    private let decoder = NotificareUtils.createJsonDecoder()
-    private let encoder = NotificareUtils.createJsonEncoder()
+    public let decoder = NotificareUtils.createJsonDecoder()
+    public let encoder = NotificareUtils.createJsonEncoder()
 
     init(applicationKey: String, applicationSecret: String, services: NotificareServices = .production) {
         baseUrl = services.pushHost
