@@ -123,28 +123,14 @@ struct NotificareUtils {
 
     static func createJsonDecoder() -> JSONDecoder {
         let decoder = JSONDecoder()
-
-        decoder.dateDecodingStrategy = .custom { (decoder) -> Date in
-            let container = try decoder.singleValueContainer()
-            let str = try container.decode(String.self)
-
-            guard let date = dateFormatter.date(from: str) else {
-                throw DecodingError.dataCorruptedError(in: container, debugDescription: "Expected date string to be ISO8601-formatted.")
-            }
-
-            return date
-        }
+        decoder.dateDecodingStrategy = .formatted(dateFormatter)
 
         return decoder
     }
 
     static func createJsonEncoder() -> JSONEncoder {
         let encoder = JSONEncoder()
-
-        encoder.dateEncodingStrategy = .custom { date, encoder in
-            var container = encoder.singleValueContainer()
-            try container.encode(dateFormatter.string(from: date))
-        }
+        encoder.dateEncodingStrategy = .formatted(dateFormatter)
 
         return encoder
     }
