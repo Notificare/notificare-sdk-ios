@@ -98,15 +98,13 @@ struct NotificareUtils {
     }
 
     static func getLoadedModules() -> [String] {
-        let modules = [String]()
+        var modules = [String]()
 
-//        if Notificare.shared.pushManager != nil {
-//            modules.append("push")
-//        }
-//
-//        if Notificare.shared.locationManager != nil {
-//            modules.append("location")
-//        }
+        NotificareDefinitions.Modules.allCases.forEach { module in
+            if NSClassFromString(module.rawValue) != nil {
+                modules.append("\(module)")
+            }
+        }
 
         return modules
     }

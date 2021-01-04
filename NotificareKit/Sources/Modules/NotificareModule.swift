@@ -5,9 +5,7 @@
 import Foundation
 
 public protocol NotificareModule {
-    associatedtype LaunchResult
+    static func configure(applicationKey: String, applicationSecret: String)
 
-    func configure(applicationKey: String, applicationSecret: String)
-
-    func launch(_ completion: @escaping (Result<LaunchResult, Error>) -> Void)
+    static func launch(_ completion: @escaping (Result<Void, Error>) -> Void)
 }

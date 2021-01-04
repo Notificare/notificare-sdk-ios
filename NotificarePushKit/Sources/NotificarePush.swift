@@ -7,8 +7,6 @@ import UIKit
 import UserNotifications
 
 public class NotificarePush: NSObject, NotificareModule {
-    public typealias LaunchResult = Void
-
     public static let shared = NotificarePush()
 
     public weak var delegate: NotificarePushDelegate?
@@ -28,25 +26,25 @@ public class NotificarePush: NSObject, NotificareModule {
         }
     }
 
-    public func configure(applicationKey _: String, applicationSecret _: String) {
-//        guard !Notificare.shared.isConfigured else {
-//            Notificare.shared.logger.warning("Notificare has already been configured. Skipping...")
-//            return
-//        }
+    public static func configure(applicationKey _: String, applicationSecret _: String) {
+        guard !Notificare.shared.isConfigured else {
+            Notificare.shared.logger.warning("Notificare has already been configured. Skipping...")
+            return
+        }
 
         // TODO: check plist setting
-        notificationCenter.delegate = self
+        NotificarePush.shared.notificationCenter.delegate = NotificarePush.shared
 
         // Listen to 'application did become active'.
-        NotificationCenter.default.addObserver(self,
+        NotificationCenter.default.addObserver(NotificarePush.shared,
                                                selector: #selector(updateNotificationSettings),
                                                name: UIApplication.didBecomeActiveNotification,
                                                object: nil)
     }
 
-    public func launch(_ completion: @escaping (Result<Void, Error>) -> Void) {
+    public static func launch(_ completion: @escaping (Result<Void, Error>) -> Void) {
         if Notificare.shared.deviceManager.currentDevice?.transport == .notificare {
-            updateNotificationSettings()
+            NotificarePush.shared.updateNotificationSettings()
         }
 
         completion(.success(()))

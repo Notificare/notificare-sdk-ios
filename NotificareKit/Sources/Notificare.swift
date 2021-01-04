@@ -123,9 +123,6 @@ public class Notificare {
         Notificare.shared.logger.debug("Configuring network services.")
         configureNetworking(applicationKey: applicationKey, applicationSecret: applicationSecret, services: services)
 
-        Notificare.shared.logger.debug("Loading available modules.")
-        createAvailableModules(applicationKey: applicationKey, applicationSecret: applicationSecret)
-
         let configuration = NotificareUtils.getConfiguration()
         if configuration?.swizzlingEnabled ?? true {
             // NotificareSwizzler.setup(withRemoteNotifications: pushManager != nil)
@@ -144,7 +141,13 @@ public class Notificare {
         database.configure()
         eventsManager.configure()
         deviceManager.configure()
-        // pushManager?.configure()
+
+        NotificareDefinitions.Modules.allCases.forEach { module in
+            if let cls = NSClassFromString(module.rawValue) as? NotificareModule.Type {
+                Notificare.shared.logger.debug("Configuring plugin: \(module.rawValue)")
+                cls.configure(applicationKey: applicationKey, applicationSecret: applicationSecret)
+            }
+        }
 
         Notificare.shared.logger.debug("Notificare configured for '\(services)' services.")
         state = .configured
@@ -170,12 +173,6 @@ public class Notificare {
             applicationSecret: applicationSecret,
             services: services
         )
-    }
-
-    private func createAvailableModules(applicationKey _: String, applicationSecret _: String) {
-//        let factory = NotificareModuleFactory(applicationKey: applicationKey, applicationSecret: applicationSecret)
-//        pushManager = factory.createPushManager()
-//        locationManager = factory.createLocationManager()
     }
 
     private func launchResult(_ result: Result<NotificareApplication, Error>) {

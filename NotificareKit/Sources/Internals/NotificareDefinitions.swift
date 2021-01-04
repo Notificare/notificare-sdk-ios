@@ -8,9 +8,9 @@ struct NotificareDefinitions {
     static let sdkVersion = "3.0.0"
     static let databaseVersion = "3.0.0"
 
-    enum Modules {
-        static let push = "NotificarePush.NotificarePushManagerImpl"
-        static let location = "NotificareLocation.NotificareLocationManagerImpl"
+    enum Modules: String, CaseIterable {
+        case push = "NotificarePushKit.NotificarePush"
+        // static let location = "NotificareLocation.NotificareLocationManagerImpl"
     }
 
     enum UserDefaults {
