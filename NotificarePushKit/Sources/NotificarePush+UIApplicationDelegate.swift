@@ -7,7 +7,7 @@ import UIKit
 
 public extension NotificarePush {
     func application(_: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken token: Data) {
-        guard Notificare.shared.isReady else {
+        guard Notificare.shared.isConfigured else {
             Notificare.shared.logger.warning("Notificare is not yet ready. Skipping...")
             return
         }
@@ -39,7 +39,6 @@ public extension NotificarePush {
             } else {
                 Notificare.shared.logger.info("Received a notification from APNS.")
                 handleNotification(userInfo) { _ in
-                    // TODO: add to inbox
                     completionHandler(.newData)
                 }
             }
@@ -47,6 +46,57 @@ public extension NotificarePush {
             Notificare.shared.logger.info("Received an unknown notification from APNS.")
             delegate?.notificare(self, didReceiveUnknownNotification: userInfo)
             completionHandler(.newData)
+        }
+    }
+
+    private func handleSystemNotification(_ userInfo: [AnyHashable: Any], _ completion: @escaping NotificareCallback<Void>) {
+        if let type = userInfo["systemType"] as? String, type.hasPrefix("re.notifica.") {
+            Notificare.shared.logger.info("Processing system notification: \(type)")
+
+            switch type {
+            case "re.notifica.notification.system.Application":
+                break
+            case "re.notifica.notification.system.Wallet":
+                break
+            case "re.notifica.notification.system.Products":
+                break
+            case "re.notifica.notification.system.Inbox":
+                break
+            default:
+                Notificare.shared.logger.warning("Unhandled system notification: \(type)")
+            }
+        } else {
+            Notificare.shared.logger.info("Processing custom system notification.")
+
+            let notification = NotificareSystemNotification(userInfo: userInfo)
+            delegate?.notificare(self, didReceiveSystemNotification: notification)
+
+            completion(.success(()))
+        }
+    }
+
+    private func handleNotification(_ userInfo: [AnyHashable: Any], _ completion: @escaping NotificareCallback<Void>) {
+        guard let id = userInfo["id"] as? String else {
+            Notificare.shared.logger.warning("Missing 'id' property in notification payload.")
+            return
+        }
+
+        guard let api = Notificare.shared.pushApi else {
+            Notificare.shared.logger.warning("Notificare has not been configured.")
+            return
+        }
+
+        api.getNotification(id) { result in
+            switch result {
+            case let .success(notification):
+                Notificare.shared.eventsManager.logNotificationReceived(notification)
+
+                // TODO: add to inbox
+
+                completion(.success(()))
+            case let .failure(error):
+                completion(.failure(error))
+            }
         }
     }
 }

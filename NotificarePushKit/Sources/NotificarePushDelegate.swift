@@ -3,6 +3,7 @@
 //
 
 import Foundation
+import UserNotifications
 
 public protocol NotificarePushDelegate: AnyObject {
     func notificare(_ notificarePush: NotificarePush, didFailToRegisterForRemoteNotificationsWithError error: Error)
@@ -17,7 +18,9 @@ public protocol NotificarePushDelegate: AnyObject {
 
     func notificare(_ notificarePush: NotificarePush, shouldOpenSettings notification: NotificareNotification?)
 
-    func notificare(_ notificarePush: NotificarePush, didReceiveUnknownAction action: [AnyHashable: Any], for notification: [AnyHashable: Any])
+    func notificare(_ notificarePush: NotificarePush, didReceiveUnknownAction action: String, for notification: [AnyHashable: Any], with data: [AnyHashable: Any])
+
+    func notificare(_ notificarePush: NotificarePush, didOpenAction action: NotificareNotification.Action, for notification: NotificareNotification, with data: NotificareNotification.ActionData)
 }
 
 public extension NotificarePushDelegate {
@@ -33,5 +36,7 @@ public extension NotificarePushDelegate {
 
     func notificare(_: NotificarePush, shouldOpenSettings _: NotificareNotification?) {}
 
-    func notificare(_: NotificarePush, didReceiveUnknownAction _: [AnyHashable: Any], for _: [AnyHashable: Any]) {}
+    func notificare(_: NotificarePush, didReceiveUnknownAction _: String, for _: [AnyHashable: Any], with _: [AnyHashable: Any]) {}
+
+    func notificare(_: NotificarePush, didOpenAction _: NotificareNotification.Action, for _: NotificareNotification, with _: NotificareNotification.ActionData) {}
 }

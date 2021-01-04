@@ -115,6 +115,14 @@ public extension NotificareNotification {
     }
 }
 
+// NotificareNotification.ActionData
+public extension NotificareNotification {
+    struct ActionData: Decodable {
+        public let identifier: String
+        public let userText: String?
+    }
+}
+
 // NotificareNotification.Attachment
 public extension NotificareNotification {
     struct Attachment: Decodable {
