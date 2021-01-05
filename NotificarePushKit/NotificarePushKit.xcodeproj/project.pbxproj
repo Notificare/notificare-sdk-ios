@@ -127,9 +127,9 @@
 				F258DD9824BC4EE2006F9ABD /* Info.plist */,
 				F258DD9724BC4EE2006F9ABD /* NotificarePushKit.h */,
 				F226509A258B6B900004F833 /* NotificarePush.swift */,
+				F28553C4258B8848006674C1 /* NotificarePushDelegate.swift */,
 				F240E09125927DCC00DBC25F /* NotificarePush+UIApplicationDelegate.swift */,
 				F2D4E26D259CE1CB00AF37A7 /* NotificarePush+UNUserNotificationCenterDelegate.swift */,
-				F28553C4258B8848006674C1 /* NotificarePushDelegate.swift */,
 				F23A5568259C7D6D00B57CF1 /* NotificarePush+EventsManager.swift */,
 			);
 			path = Sources;

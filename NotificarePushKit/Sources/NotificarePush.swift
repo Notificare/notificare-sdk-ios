@@ -47,6 +47,8 @@ public class NotificarePush: NSObject, NotificareModule {
             NotificarePush.shared.updateNotificationSettings()
         }
 
+        NotificarePush.shared.handleLaunchOptions()
+
         completion(.success(()))
     }
 
@@ -207,13 +209,50 @@ public class NotificarePush: NSObject, NotificareModule {
                     Notificare.shared.logger.debug("User notification settings updated.")
                     completion?(.success(()))
                 case let .failure(error):
-                    Notificare.shared.logger.debug("Could not user notification settings.")
+                    Notificare.shared.logger.debug("Could not update user notification settings.")
                     completion?(.failure(error))
                 }
             }
         } else {
             Notificare.shared.logger.debug("User notification settings update skipped, nothing changed.")
             completion?(.success(()))
+        }
+    }
+
+    private func handleLaunchOptions() {
+        // For safety reasons, handle the launch options on the main thread.
+        DispatchQueue.main.async {
+            // Check for the presence of a remote notification in the launch options.
+            if let userInfo = Notificare.shared.launchOptions?[.remoteNotification] as? [AnyHashable: Any] {
+                if self.isNotificareNotification(userInfo) {
+                    Notificare.shared.logger.info("Application launched via notification.")
+
+                    guard let id = userInfo["id"] as? String else {
+                        Notificare.shared.logger.warning("Missing 'id' property in notification payload.")
+                        return
+                    }
+
+                    guard let api = Notificare.shared.pushApi else {
+                        Notificare.shared.logger.warning("Notificare has not been configured.")
+                        return
+                    }
+
+                    api.getNotification(id) { result in
+                        switch result {
+                        case let .success(notification):
+                            Notificare.shared.eventsManager.logNotificationReceived(notification)
+                            Notificare.shared.eventsManager.logNotificationInfluenced(notification)
+                        case .failure:
+                            break
+                        }
+                    }
+                }
+            }
+
+//            // Handle URL Schemes at launch, this is needed when the application is force to awake and handle a click from an email message.
+//            if let url = Notificare.shared.launchOptions?[.url] {
+//                Notificare.shared.logger.info("Application launched from an URL.")
+//            }
         }
     }
 }

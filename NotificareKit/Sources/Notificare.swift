@@ -2,7 +2,7 @@
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 public typealias NotificareCallback<T> = (Result<T, NotificareError>) -> Void
 
@@ -29,6 +29,7 @@ public class Notificare {
     // Launch / application state
     internal private(set) var state: NotificareLaunchState = .none
     public private(set) var application: NotificareApplication?
+    public var launchOptions: [UIApplication.LaunchOptionsKey: Any]?
 
     public weak var delegate: NotificareDelegate?
 
