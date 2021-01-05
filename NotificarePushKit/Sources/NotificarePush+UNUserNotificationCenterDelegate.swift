@@ -10,8 +10,6 @@ extension NotificarePush: UNUserNotificationCenterDelegate {
         let userInfo = response.notification.request.content.userInfo
 
         if isNotificareNotification(userInfo) {
-            // NOTE: log influenced only during launch options + receive
-
             guard let id = userInfo["id"] as? String else {
                 Notificare.shared.logger.warning("Missing 'id' property in notification payload.")
                 completionHandler()
@@ -48,6 +46,7 @@ extension NotificarePush: UNUserNotificationCenterDelegate {
 
                         completionHandler()
                     } else {
+                        self.delegate?.notificare(self, didOpenNotification: notification)
                         completionHandler()
                     }
                 case .failure:
