@@ -48,7 +48,7 @@ public class NotificareEventsModule {
         log("re.notifica.event.custom.\(event)", data: data)
     }
 
-    public func log(_ event: String, data: NotificareEventData? = nil) {
+    public func log(_ event: String, data: NotificareEventData? = nil, for notification: String? = nil) {
         guard let device = Notificare.shared.deviceManager.currentDevice else {
             Notificare.shared.logger.warning("Cannot send an event before a device is registered.")
             return
@@ -63,7 +63,7 @@ public class NotificareEventsModule {
             timestamp: Int64(Date().timeIntervalSince1970 * 1000),
             deviceId: device.id,
             sessionId: Notificare.shared.sessionManager.sessionId,
-            notificationId: nil,
+            notificationId: notification,
             userId: device.userId,
             data: data
         )
