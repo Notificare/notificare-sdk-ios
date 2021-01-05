@@ -240,7 +240,6 @@ public class NotificarePush: NSObject, NotificareModule {
                     api.getNotification(id) { result in
                         switch result {
                         case let .success(notification):
-                            Notificare.shared.eventsManager.logNotificationReceived(notification)
                             Notificare.shared.eventsManager.logNotificationInfluenced(notification)
                         case .failure:
                             break
