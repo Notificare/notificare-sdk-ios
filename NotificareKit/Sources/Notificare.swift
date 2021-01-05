@@ -82,6 +82,8 @@ public class Notificare {
                 self.pushApi!.getApplicationInfo { result in
                     switch result {
                     case let .success(application):
+                        self.application = application
+
                         // Launch the device manager: registration.
                         self.deviceManager.launch { _ in
                             // Ignore the error if device registration fails.
@@ -90,7 +92,38 @@ public class Notificare {
                             self.eventsManager.launch()
                             self.crashReporter.launch()
 
-                            self.launchResult(.success(application))
+                            // Keep a reference to a possible failure during the launch of the plugins.
+                            var latestPluginLaunchError: Error?
+                            
+                            // Keep track of launchables and handle the outcome once they have all finished launching.
+                            let dispatchGroup = DispatchGroup()
+                            dispatchGroup.notify(queue: .main) {
+                                if let error = latestPluginLaunchError {
+                                    self.launchResult(.failure(error))
+                                } else {
+                                    self.launchResult(.success(application))
+                                }
+                            }
+
+                            // Loop all possible modules and launch the available ones.
+                            NotificareDefinitions.Modules.allCases.forEach { module in
+                                if let cls = NSClassFromString(module.rawValue) as? NotificareModule.Type {
+                                    dispatchGroup.enter()
+
+                                    Notificare.shared.logger.debug("Launching '\(module.rawValue)' plugin.")
+                                    cls.launch { result in
+                                        switch result {
+                                        case .success:
+                                            Notificare.shared.logger.debug("Launched '\(module.rawValue)' successfully.")
+                                        case let .failure(error):
+                                            Notificare.shared.logger.debug("Failed to launch '\(module.rawValue)': \(error)")
+                                            latestPluginLaunchError = error
+                                        }
+
+                                        dispatchGroup.leave()
+                                    }
+                                }
+                            }
                         }
                     case let .failure(error):
                         Notificare.shared.logger.error("Failed to load the application info: \(error)")
