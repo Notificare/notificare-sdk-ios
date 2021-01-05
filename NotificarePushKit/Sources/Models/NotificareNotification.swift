@@ -5,7 +5,7 @@
 import Foundation
 
 public struct NotificareNotification {
-    public let id: String?
+    public let id: String
     // public let application: Dictionary
     public let type: String
     public let time: Date
@@ -39,7 +39,7 @@ extension NotificareNotification: Decodable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        id = try container.decodeIfPresent(String.self, forKey: .id)
+        id = try container.decode(String.self, forKey: .id)
         type = try container.decode(String.self, forKey: .type)
         time = try container.decode(Date.self, forKey: .time)
         title = try container.decodeIfPresent(String.self, forKey: .title)
