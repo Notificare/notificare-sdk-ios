@@ -15,7 +15,7 @@ public class NotificareAutoLauncher: NSObject {
         )
     }
 
-    @objc public static func didFinishLaunching(_: Notification) {
+    @objc public static func didFinishLaunching(_ notification: Notification) {
         NotificationCenter.default.removeObserver(
             self,
             name: UIApplication.didFinishLaunchingNotification,
@@ -23,10 +23,10 @@ public class NotificareAutoLauncher: NSObject {
         )
 
         Notificare.shared.logger.debug("Auto launching Notificare.")
-        autoLaunch()
+        autoLaunch(options: notification.userInfo as? [UIApplication.LaunchOptionsKey: Any])
     }
 
-    private static func autoLaunch() {
+    private static func autoLaunch(options: [UIApplication.LaunchOptionsKey: Any]?) {
         guard Notificare.shared.state == .none else {
             Notificare.shared.logger.debug("Notificare has already been configured. Skipping automatic configuration...")
             return
@@ -53,6 +53,8 @@ public class NotificareAutoLauncher: NSObject {
             applicationSecret: applicationSecret,
             services: services
         )
+
+        Notificare.shared.launchOptions = options
 
         guard configuration.autoLaunch else {
             Notificare.shared.logger.debug("Auto launch is not enabled. Skipping...")

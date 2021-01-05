@@ -94,7 +94,7 @@ public class Notificare {
 
                             // Keep a reference to a possible failure during the launch of the plugins.
                             var latestPluginLaunchError: Error?
-                            
+
                             // Keep track of launchables and handle the outcome once they have all finished launching.
                             let dispatchGroup = DispatchGroup()
                             dispatchGroup.notify(queue: .main) {
