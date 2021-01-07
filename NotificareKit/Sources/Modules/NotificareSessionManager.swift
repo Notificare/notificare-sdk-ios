@@ -3,6 +3,7 @@
 //
 
 import Foundation
+import NotificareCore
 import UIKit
 
 class NotificareSessionManager {
@@ -45,7 +46,7 @@ class NotificareSessionManager {
         UIApplication.shared.endBackgroundTask(backgroundTask)
 
         guard sessionStart == nil else {
-            Notificare.shared.logger.debug("Resuming previous session.")
+            NotificareLogger.debug("Resuming previous session.")
             return
         }
 
@@ -56,30 +57,30 @@ class NotificareSessionManager {
         self.sessionStart = sessionStart
         sessionEnd = nil
 
-        Notificare.shared.logger.debug("Session '\(sessionId)' started at \(dateFormatter.string(from: sessionStart))")
+        NotificareLogger.debug("Session '\(sessionId)' started at \(dateFormatter.string(from: sessionStart))")
         Notificare.shared.eventsManager.logApplicationOpen()
     }
 
     @objc private func applicationWillResignActive() {
         guard UIApplication.shared.applicationState == .active else {
-            Notificare.shared.logger.debug("Application is not active. Skipping...")
+            NotificareLogger.debug("Application is not active. Skipping...")
             return
         }
 
         guard let sessionId = sessionId else {
-            Notificare.shared.logger.debug("No session found. Skipping...")
+            NotificareLogger.debug("No session found. Skipping...")
             return
         }
 
         let sessionEnd = Date()
         self.sessionEnd = sessionEnd
 
-        Notificare.shared.logger.debug("Session '\(sessionId)' stopped at \(dateFormatter.string(from: sessionEnd))")
+        NotificareLogger.debug("Session '\(sessionId)' stopped at \(dateFormatter.string(from: sessionEnd))")
 
         // Wait a few seconds before sending a close event.
         // This prevents quick app swaps, navigation pulls, etc.
         backgroundTask = UIApplication.shared.beginBackgroundTask(withName: NotificareDefinitions.Tasks.applicationClose) { [weak self] in
-            Notificare.shared.logger.debug("Background task expiration handler triggered.")
+            NotificareLogger.debug("Background task expiration handler triggered.")
             guard let self = self else {
                 return
             }
@@ -105,7 +106,7 @@ class NotificareSessionManager {
             }
 
             let length = sessionEnd.timeIntervalSince(sessionStart)
-            Notificare.shared.logger.info("Application closed event registered for session '\(sessionId)' with a length of \(length) seconds.")
+            NotificareLogger.info("Application closed event registered for session '\(sessionId)' with a length of \(length) seconds.")
             Notificare.shared.eventsManager.logApplicationClose(length: length)
 
             // Reset the session.

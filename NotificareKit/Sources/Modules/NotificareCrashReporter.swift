@@ -3,13 +3,14 @@
 //
 
 import Foundation
+import NotificareCore
 
 struct NotificareCrashReporter {
     func configure() {
         let crashReportsEnabled = NotificareUtils.getConfiguration()?.crashReportsEnabled ?? true
 
         guard crashReportsEnabled else {
-            Notificare.shared.logger.debug("Crash reports are not enabled.")
+            NotificareLogger.debug("Crash reports are not enabled.")
             return
         }
 
@@ -34,20 +35,20 @@ struct NotificareCrashReporter {
 
     func launch() {
         guard let event = NotificareUserDefaults.crashReport else {
-            Notificare.shared.logger.debug("No crash report to process.")
+            NotificareLogger.debug("No crash report to process.")
             return
         }
 
         Notificare.shared.pushApi!.logEvent(event) { result in
             switch result {
             case .success:
-                Notificare.shared.logger.info("Crash report processed.")
+                NotificareLogger.info("Crash report processed.")
 
                 // Clean up the stored crash report
                 NotificareUserDefaults.crashReport = nil
             case let .failure(error):
-                Notificare.shared.logger.error("Failed to process a crash report.")
-                Notificare.shared.logger.debug("\(error)")
+                NotificareLogger.error("Failed to process a crash report.")
+                NotificareLogger.debug("\(error)")
             }
         }
     }

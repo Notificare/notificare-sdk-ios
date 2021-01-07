@@ -3,6 +3,7 @@
 //
 
 import Foundation
+import NotificareCore
 import UIKit
 
 public class NotificareDeviceManager {
@@ -51,7 +52,7 @@ public class NotificareDeviceManager {
         if let device = currentDevice {
             if device.appVersion != NotificareUtils.applicationVersion {
                 // It's not the same version, let's log it as an upgrade.
-                Notificare.shared.logger.debug("New version detected")
+                NotificareLogger.debug("New version detected")
                 Notificare.shared.eventsManager.logApplicationUpgrade()
             }
 
@@ -60,12 +61,12 @@ public class NotificareDeviceManager {
                 case .success:
                     completion(.success(()))
                 case let .failure(error):
-                    Notificare.shared.logger.warning("Failed to register device: \(error)")
+                    NotificareLogger.warning("Failed to register device: \(error)")
                     completion(.failure(error))
                 }
             }
         } else {
-            Notificare.shared.logger.debug("New install detected")
+            NotificareLogger.debug("New install detected")
 
             // Let's logout the user in case there's an account in the keychain
             // TODO: [[NotificareAuth shared] logoutAccount]
@@ -79,7 +80,7 @@ public class NotificareDeviceManager {
 
                     completion(.success(()))
                 case let .failure(error):
-                    Notificare.shared.logger.warning("Failed to register temporary device: \(error)")
+                    NotificareLogger.warning("Failed to register temporary device: \(error)")
                     completion(.failure(error))
                 }
             }
@@ -110,7 +111,7 @@ public class NotificareDeviceManager {
 
             // TODO: improve language validator
             guard parts.count == 2 else {
-                Notificare.shared.logger.error("Not a valid preferred language. Use a ISO 639-1 language code and a ISO 3166-2 region code (e.g. en-US).")
+                NotificareLogger.error("Not a valid preferred language. Use a ISO 639-1 language code and a ISO 3166-2 region code (e.g. en-US).")
                 completion(.failure(.invalidLanguageCode))
                 return
             }
@@ -477,12 +478,12 @@ public class NotificareDeviceManager {
 
                     completion(.success(()))
                 case let .failure(error):
-                    Notificare.shared.logger.error("Failed to register device: \(error)")
+                    NotificareLogger.error("Failed to register device: \(error)")
                     completion(.failure(error))
                 }
             }
         } else {
-            Notificare.shared.logger.info("Skipping device registration, nothing changed.")
+            NotificareLogger.info("Skipping device registration, nothing changed.")
             Notificare.shared.delegate?.notificare(Notificare.shared, didRegisterDevice: currentDevice!)
             completion(.success(()))
         }
@@ -522,66 +523,66 @@ public class NotificareDeviceManager {
 
     private func registrationChanged(token: String, userId: String?, userName: String?) -> Bool {
         guard let device = currentDevice else {
-            Notificare.shared.logger.debug("Registration check: fresh installation")
+            NotificareLogger.debug("Registration check: fresh installation")
             return true
         }
 
         var changed = false
 
         if userId != device.userId {
-            Notificare.shared.logger.debug("Registration check: user id changed")
+            NotificareLogger.debug("Registration check: user id changed")
             changed = true
         }
 
         if userName != device.userName {
-            Notificare.shared.logger.debug("Registration check: user name changed")
+            NotificareLogger.debug("Registration check: user name changed")
             changed = true
         }
 
         if device.id != token {
-            Notificare.shared.logger.debug("Registration check: device token changed")
+            NotificareLogger.debug("Registration check: device token changed")
             changed = true
         }
 
         if device.deviceString != NotificareUtils.deviceString {
-            Notificare.shared.logger.debug("Registration check: device string changed")
+            NotificareLogger.debug("Registration check: device string changed")
             changed = true
         }
 
         if device.appVersion != NotificareUtils.applicationVersion {
-            Notificare.shared.logger.debug("Registration check: application version changed")
+            NotificareLogger.debug("Registration check: application version changed")
             changed = true
         }
 
         if device.osVersion != NotificareUtils.osVersion {
-            Notificare.shared.logger.debug("Registration check: OS version changed")
+            NotificareLogger.debug("Registration check: OS version changed")
             changed = true
         }
 
         let oneDayAgo = Calendar(identifier: .gregorian).date(byAdding: .day, value: -1, to: Date())!
 
         if device.lastRegistered.compare(oneDayAgo) == .orderedAscending {
-            Notificare.shared.logger.debug("Registration check: device registered more than a day ago")
+            NotificareLogger.debug("Registration check: device registered more than a day ago")
             changed = true
         }
 
         if device.sdkVersion != NotificareDefinitions.sdkVersion {
-            Notificare.shared.logger.debug("Registration check: sdk version changed")
+            NotificareLogger.debug("Registration check: sdk version changed")
             changed = true
         }
 
         if device.timeZoneOffset != NotificareUtils.timeZoneOffset {
-            Notificare.shared.logger.debug("Registration check: timezone offset changed")
+            NotificareLogger.debug("Registration check: timezone offset changed")
             changed = true
         }
 
         if device.language != getLanguage() {
-            Notificare.shared.logger.debug("Registration check: language changed")
+            NotificareLogger.debug("Registration check: language changed")
             changed = true
         }
 
         if device.region != getRegion() {
-            Notificare.shared.logger.debug("Registration check: region changed")
+            NotificareLogger.debug("Registration check: region changed")
             changed = true
         }
 
@@ -599,31 +600,31 @@ public class NotificareDeviceManager {
     // MARK: - Notification Center listeners
 
     @objc private func updateDeviceTimezone() {
-        Notificare.shared.logger.info("Device timezone changed.")
+        NotificareLogger.info("Device timezone changed.")
 
         updateTimezone { result in
             if case .success = result {
-                Notificare.shared.logger.info("Device timezone updated.")
+                NotificareLogger.info("Device timezone updated.")
             }
         }
     }
 
     @objc private func updateDeviceLanguage() {
-        Notificare.shared.logger.info("Device language changed.")
+        NotificareLogger.info("Device language changed.")
 
         updateLanguage { result in
             if case .success = result {
-                Notificare.shared.logger.info("Device language updated.")
+                NotificareLogger.info("Device language updated.")
             }
         }
     }
 
     @objc private func updateDeviceBackgroundAppRefresh() {
-        Notificare.shared.logger.info("Device background app refresh status changed.")
+        NotificareLogger.info("Device background app refresh status changed.")
 
         updateBackgroundAppRefresh { result in
             if case .success = result {
-                Notificare.shared.logger.info("Device background app refresh status updated.")
+                NotificareLogger.info("Device background app refresh status updated.")
             }
         }
     }

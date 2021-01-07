@@ -3,6 +3,7 @@
 //
 
 import Foundation
+import NotificareCore
 import UIKit
 
 private let maxRetries = 5
@@ -50,7 +51,7 @@ public class NotificareEventsModule {
 
     public func log(_ event: String, data: NotificareEventData? = nil, for notification: String? = nil) {
         guard let device = Notificare.shared.deviceManager.currentDevice else {
-            Notificare.shared.logger.warning("Cannot send an event before a device is registered.")
+            NotificareLogger.warning("Cannot send an event before a device is registered.")
             return
         }
 
@@ -75,13 +76,13 @@ public class NotificareEventsModule {
         Notificare.shared.pushApi?.logEvent(event) { result in
             switch result {
             case .success:
-                Notificare.shared.logger.info("Event '\(event.type)' sent successfully.")
+                NotificareLogger.info("Event '\(event.type)' sent successfully.")
             case let .failure(error):
-                Notificare.shared.logger.warning("Failed to send the event: \(event.type).")
-                Notificare.shared.logger.debug("\(error)")
+                NotificareLogger.warning("Failed to send the event: \(event.type).")
+                NotificareLogger.debug("\(error)")
 
                 if !self.discardableEvents.contains(event.type) && error.recoverable {
-                    Notificare.shared.logger.info("Queuing event to be sent whenever possible.")
+                    NotificareLogger.info("Queuing event to be sent whenever possible.")
 
                     Notificare.shared.database.add(event)
                 }
@@ -100,13 +101,13 @@ extension NotificareEventsModule: NotificareAppDelegateInterceptor {
     private func processStoredEvents() {
         // Check that Notificare is ready to process the events.
         guard Notificare.shared.state >= .ready else {
-            Notificare.shared.logger.verbose("Notificare is not ready yet. Skipping...")
+            NotificareLogger.debug("Notificare is not ready yet. Skipping...")
             return
         }
 
         // Ensure there is no running task.
         guard processEventsTaskIdentifier == nil else {
-            Notificare.shared.logger.verbose("There's an upload task running. Skipping...")
+            NotificareLogger.debug("There's an upload task running. Skipping...")
             return
         }
 
@@ -120,7 +121,7 @@ extension NotificareEventsModule: NotificareAppDelegateInterceptor {
                 }
 
                 // Stop the task if the given time expires.
-                Notificare.shared.logger.debug("Completing background task after its expiration.")
+                NotificareLogger.debug("Completing background task after its expiration.")
                 UIApplication.shared.endBackgroundTask(taskId)
                 self.processEventsTaskIdentifier = nil
             }
@@ -136,7 +137,7 @@ extension NotificareEventsModule: NotificareAppDelegateInterceptor {
             }
 
             // Stop the task if the given time expires.
-            Notificare.shared.logger.debug("Completing background task after processing all the events.")
+            NotificareLogger.debug("Completing background task after processing all the events.")
             UIApplication.shared.endBackgroundTask(taskId)
             self.processEventsTaskIdentifier = nil
         }
@@ -144,13 +145,13 @@ extension NotificareEventsModule: NotificareAppDelegateInterceptor {
 
     private func process(_ managedEvents: [NotificareCoreDataEvent]) {
         guard processEventsTaskIdentifier != nil else {
-            Notificare.shared.logger.debug("The background task was terminated before all the events could be processed.")
+            NotificareLogger.debug("The background task was terminated before all the events could be processed.")
             return
         }
 
         var events = managedEvents
         guard !events.isEmpty else {
-            Notificare.shared.logger.debug("Nothing to process.")
+            NotificareLogger.debug("Nothing to process.")
             return
         }
 
@@ -158,11 +159,11 @@ extension NotificareEventsModule: NotificareAppDelegateInterceptor {
         process(event)
 
         if events.isEmpty {
-            Notificare.shared.logger.debug("Finished processing all the events.")
+            NotificareLogger.debug("Finished processing all the events.")
             return
         }
 
-        Notificare.shared.logger.verbose("\(events.count) events remaining. Processing next...")
+        NotificareLogger.debug("\(events.count) events remaining. Processing next...")
         process(events)
     }
 
@@ -172,7 +173,7 @@ extension NotificareEventsModule: NotificareAppDelegateInterceptor {
         let now = Date()
 
         if now > expiresAt {
-            Notificare.shared.logger.verbose("Event expired. Removing...")
+            NotificareLogger.debug("Event expired. Removing...")
             Notificare.shared.database.remove(managedEvent)
             return
         }
@@ -187,11 +188,11 @@ extension NotificareEventsModule: NotificareAppDelegateInterceptor {
         Notificare.shared.pushApi!.logEvent(event) { result in
             switch result {
             case .success:
-                Notificare.shared.logger.verbose("Event processed. Removing from storage...")
+                NotificareLogger.debug("Event processed. Removing from storage...")
                 Notificare.shared.database.remove(managedEvent)
             case let .failure(error):
                 if error.recoverable {
-                    Notificare.shared.logger.verbose("Failed to process event.")
+                    NotificareLogger.debug("Failed to process event.")
 
                     // Increase the attempts counter.
                     managedEvent.retries += 1
@@ -200,11 +201,11 @@ extension NotificareEventsModule: NotificareAppDelegateInterceptor {
                         // Persist the attempts counter.
                         Notificare.shared.database.save()
                     } else {
-                        Notificare.shared.logger.verbose("Event was retried too many times. Removing...")
+                        NotificareLogger.debug("Event was retried too many times. Removing...")
                         Notificare.shared.database.remove(managedEvent)
                     }
                 } else {
-                    Notificare.shared.logger.verbose("Failed to process event due to an unrecoverable error. Discarding it...")
+                    NotificareLogger.debug("Failed to process event due to an unrecoverable error. Discarding it...")
                     Notificare.shared.database.remove(managedEvent)
                 }
             }
@@ -222,7 +223,7 @@ extension NotificareEventsModule: NotificareAppDelegateInterceptor {
 extension NotificareEventsModule {
     @objc private func reachabilityChanged(notification _: Notification) {
         guard let reachability = Notificare.shared.reachability else {
-            Notificare.shared.logger.debug("Reachbility module not configure.")
+            NotificareLogger.debug("Reachbility module not configure.")
             return
         }
 
@@ -233,11 +234,11 @@ extension NotificareEventsModule {
             }
 
             // Stop the task if there is no connectivity.
-            Notificare.shared.logger.debug("Stopping background task due to lack of connectivity.")
+            NotificareLogger.debug("Stopping background task due to lack of connectivity.")
             UIApplication.shared.endBackgroundTask(taskId)
             processEventsTaskIdentifier = nil
         case .cellular, .wifi:
-            Notificare.shared.logger.debug("Starting background task to upload stored events.")
+            NotificareLogger.debug("Starting background task to upload stored events.")
             processStoredEvents()
         }
     }

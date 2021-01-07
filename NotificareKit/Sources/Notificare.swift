@@ -2,6 +2,7 @@
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
+import NotificareCore
 import UIKit
 
 public typealias NotificareCallback<T> = (Result<T, NotificareError>) -> Void
@@ -10,7 +11,6 @@ public class Notificare {
     public static let shared = Notificare()
 
     // Internal modules
-    public private(set) var logger = NotificareLogger()
     internal let crashReporter = NotificareCrashReporter()
     internal let sessionManager = NotificareSessionManager()
     internal let database = NotificareDatabase()
@@ -51,16 +51,16 @@ public class Notificare {
 
     public func launch() {
         if state == .none {
-            Notificare.shared.logger.warning("Notificare.configure() has never been called. Cannot launch.")
+            NotificareLogger.warning("Notificare.configure() has never been called. Cannot launch.")
             return
         }
 
         if state > .configured {
-            Notificare.shared.logger.warning("Notificare has already been launched. Skipping...")
+            NotificareLogger.warning("Notificare has already been launched. Skipping...")
             return
         }
 
-        Notificare.shared.logger.info("Launching Notificare.")
+        NotificareLogger.info("Launching Notificare.")
         state = .launching
 
         // Setup local database stores.
@@ -71,10 +71,10 @@ public class Notificare {
 
                 do {
                     // Start listening for reachability events.
-                    Notificare.shared.logger.debug("Start listening to reachability events.")
+                    NotificareLogger.debug("Start listening to reachability events.")
                     try self.reachability!.startNotifier()
                 } catch {
-                    Notificare.shared.logger.error("Failed to start listening to reachability events: \(error)")
+                    NotificareLogger.error("Failed to start listening to reachability events: \(error)")
                     fatalError("Failed to start listening to reachability events: \(error)")
                 }
 
@@ -110,13 +110,13 @@ public class Notificare {
                                 if let cls = NSClassFromString(module.rawValue) as? NotificareModule.Type {
                                     dispatchGroup.enter()
 
-                                    Notificare.shared.logger.debug("Launching '\(module.rawValue)' plugin.")
+                                    NotificareLogger.debug("Launching '\(module.rawValue)' plugin.")
                                     cls.launch { result in
                                         switch result {
                                         case .success:
-                                            Notificare.shared.logger.debug("Launched '\(module.rawValue)' successfully.")
+                                            NotificareLogger.debug("Launched '\(module.rawValue)' successfully.")
                                         case let .failure(error):
-                                            Notificare.shared.logger.debug("Failed to launch '\(module.rawValue)': \(error)")
+                                            NotificareLogger.debug("Failed to launch '\(module.rawValue)': \(error)")
                                             latestPluginLaunchError = error
                                         }
 
@@ -126,27 +126,36 @@ public class Notificare {
                             }
                         }
                     case let .failure(error):
-                        Notificare.shared.logger.error("Failed to load the application info: \(error)")
+                        NotificareLogger.error("Failed to load the application info: \(error)")
                         self.launchResult(.failure(error))
                     }
                 }
             case let .failure(error):
-                Notificare.shared.logger.error("Failed to load local database: \(error.localizedDescription)")
+                NotificareLogger.error("Failed to load local database: \(error.localizedDescription)")
                 fatalError("Failed to load local database: \(error.localizedDescription)")
             }
         }
     }
 
     public func unlaunch() {
-        Notificare.shared.logger.info("Un-launching Notificare.")
+        NotificareLogger.info("Un-launching Notificare.")
         state = .configured
+    }
+
+    public func fetchDynamicLink(_ link: String, _ completion: @escaping NotificareCallback<NotificareDynamicLink>) {
+        guard isConfigured, let api = pushApi else {
+            completion(.failure(.notReady))
+            return
+        }
+
+        api.getDynamicLink(link, completion)
     }
 
     // MARK: - Private API
 
     internal func configure(applicationKey: String, applicationSecret: String, services: NotificareServices) {
         guard state == .none else {
-            Notificare.shared.logger.warning("Notificare has already been configured. Skipping...")
+            NotificareLogger.warning("Notificare has already been configured. Skipping...")
             return
         }
 
@@ -154,7 +163,7 @@ public class Notificare {
         self.applicationSecret = applicationSecret
         self.services = services
 
-        Notificare.shared.logger.debug("Configuring network services.")
+        NotificareLogger.debug("Configuring network services.")
         configureNetworking(applicationKey: applicationKey, applicationSecret: applicationSecret, services: services)
 
         let configuration = NotificareUtils.getConfiguration()
@@ -162,14 +171,14 @@ public class Notificare {
             // NotificareSwizzler.setup(withRemoteNotifications: pushManager != nil)
             NotificareSwizzler.setup(withRemoteNotifications: false)
         } else {
-            Notificare.shared.logger.warning("""
+            NotificareLogger.warning("""
             Automatic App Delegate Proxy is not enabled. \
             You will need to forward UIAppDelegate events to Notificare manually. \
             Please check the documentation for which events to forward.
             """)
         }
 
-        Notificare.shared.logger.debug("Configuring available modules.")
+        NotificareLogger.debug("Configuring available modules.")
         sessionManager.configure()
         crashReporter.configure()
         database.configure()
@@ -178,12 +187,12 @@ public class Notificare {
 
         NotificareDefinitions.Modules.allCases.forEach { module in
             if let cls = NSClassFromString(module.rawValue) as? NotificareModule.Type {
-                Notificare.shared.logger.debug("Configuring plugin: \(module.rawValue)")
+                NotificareLogger.debug("Configuring plugin: \(module.rawValue)")
                 cls.configure(applicationKey: applicationKey, applicationSecret: applicationSecret)
             }
         }
 
-        Notificare.shared.logger.debug("Notificare configured for '\(services)' services.")
+        NotificareLogger.debug("Notificare configured for '\(services)' services.")
         state = .configured
     }
 
@@ -192,11 +201,11 @@ public class Notificare {
             reachability = try NotificareReachability(hostname: services.pushHost.host!)
 
             reachability?.whenReachable = { _ in
-                Notificare.shared.logger.debug("Notificare is reachable.")
+                NotificareLogger.debug("Notificare is reachable.")
             }
 
             reachability?.whenUnreachable = { _ in
-                Notificare.shared.logger.debug("Notificare is unreachable.")
+                NotificareLogger.debug("Notificare is unreachable.")
             }
         } catch {
             fatalError("Failed to configure the reachability module: \(error.localizedDescription)")
@@ -218,20 +227,20 @@ public class Notificare {
             let enabledServices = application.services.filter { $0.value }.map(\.key)
             let enabledModules = NotificareUtils.getLoadedModules()
 
-            Notificare.shared.logger.debug("/==================================================================================/")
-            Notificare.shared.logger.debug("Notificare SDK is ready to use for application")
-            Notificare.shared.logger.debug("App name: \(application.name)")
-            Notificare.shared.logger.debug("App ID: \(application.id)")
-            Notificare.shared.logger.debug("App services: \(enabledServices.joined(separator: ", "))")
-            Notificare.shared.logger.debug("/==================================================================================/")
-            Notificare.shared.logger.debug("SDK version: \(NotificareDefinitions.sdkVersion)")
-            Notificare.shared.logger.debug("SDK modules: \(enabledModules.joined(separator: ", "))")
-            Notificare.shared.logger.debug("/==================================================================================/")
+            NotificareLogger.debug("/==================================================================================/")
+            NotificareLogger.debug("Notificare SDK is ready to use for application")
+            NotificareLogger.debug("App name: \(application.name)")
+            NotificareLogger.debug("App ID: \(application.id)")
+            NotificareLogger.debug("App services: \(enabledServices.joined(separator: ", "))")
+            NotificareLogger.debug("/==================================================================================/")
+            NotificareLogger.debug("SDK version: \(NotificareDefinitions.sdkVersion)")
+            NotificareLogger.debug("SDK modules: \(enabledModules.joined(separator: ", "))")
+            NotificareLogger.debug("/==================================================================================/")
 
             // We're done launching. Notify the delegate.
             delegate?.notificare(self, onReady: application)
         case .failure:
-            Notificare.shared.logger.error("Failed to launch Notificare.")
+            NotificareLogger.error("Failed to launch Notificare.")
             state = .configured
         }
     }
