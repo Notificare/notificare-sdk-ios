@@ -3,6 +3,7 @@
 //
 
 import Foundation
+import NotificareCore
 import UIKit
 
 public class NotificareAutoLauncher: NSObject {
@@ -22,13 +23,13 @@ public class NotificareAutoLauncher: NSObject {
             object: nil
         )
 
-        Notificare.shared.logger.debug("Auto launching Notificare.")
+        NotificareLogger.debug("Auto launching Notificare.")
         autoLaunch(options: notification.userInfo as? [UIApplication.LaunchOptionsKey: Any])
     }
 
     private static func autoLaunch(options: [UIApplication.LaunchOptionsKey: Any]?) {
         guard Notificare.shared.state == .none else {
-            Notificare.shared.logger.debug("Notificare has already been configured. Skipping automatic configuration...")
+            NotificareLogger.debug("Notificare has already been configured. Skipping automatic configuration...")
             return
         }
 
@@ -37,7 +38,7 @@ public class NotificareAutoLauncher: NSObject {
               let applicationSecret = configuration.production ? configuration.productionApplicationSecret : configuration.developmentApplicationSecret,
               !applicationKey.isEmpty, !applicationSecret.isEmpty
         else {
-            Notificare.shared.logger.debug("Notificare.plist doesn't contain a valid key set. Skipping...")
+            NotificareLogger.debug("Notificare.plist doesn't contain a valid key set. Skipping...")
             return
         }
 
@@ -57,7 +58,7 @@ public class NotificareAutoLauncher: NSObject {
         Notificare.shared.launchOptions = options
 
         guard configuration.autoLaunch else {
-            Notificare.shared.logger.debug("Auto launch is not enabled. Skipping...")
+            NotificareLogger.debug("Auto launch is not enabled. Skipping...")
             return
         }
 

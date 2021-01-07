@@ -4,6 +4,7 @@
 
 import CoreData
 import Foundation
+import NotificareCore
 
 private let databaseName = "NotificareDatabase"
 private let databaseType = "sqlite"
@@ -15,7 +16,7 @@ class NotificareDatabase {
         guard let path = bundle.url(forResource: databaseName, withExtension: ".momd"),
               let model = NSManagedObjectModel(contentsOf: path)
         else {
-            Notificare.shared.logger.error("Failed to load CoreData's models.")
+            NotificareLogger.error("Failed to load CoreData's models.")
             fatalError("Failed to load CoreData's models")
         }
 
@@ -35,10 +36,10 @@ class NotificareDatabase {
         if let currentVersion = NotificareUserDefaults.currentDatabaseVersion,
            currentVersion != NotificareDefinitions.databaseVersion
         {
-            Notificare.shared.logger.debug("Local database version mismatch. Migration required.")
+            NotificareLogger.debug("Local database version mismatch. Migration required.")
             rebuildStore(completion)
         } else {
-            Notificare.shared.logger.debug("Loading local database.")
+            NotificareLogger.debug("Loading local database.")
             loadStore(completion)
         }
     }
@@ -65,11 +66,11 @@ class NotificareDatabase {
             do {
                 try context.save()
             } catch {
-                Notificare.shared.logger.error("Failed to save CoreData changes.")
-                Notificare.shared.logger.debug("\(error)")
+                NotificareLogger.error("Failed to save CoreData changes.")
+                NotificareLogger.debug("\(error)")
             }
         } else {
-            Notificare.shared.logger.verbose("Nothing to save.")
+            NotificareLogger.debug("Nothing to save.")
         }
     }
 
@@ -90,15 +91,15 @@ class NotificareDatabase {
             .first?.appendingPathComponent("\(databaseName).\(databaseType)"),
             FileManager.default.fileExists(atPath: url.path)
         {
-            Notificare.shared.logger.debug("Removing local database.")
+            NotificareLogger.debug("Removing local database.")
             do {
                 try persistentContainer.persistentStoreCoordinator.destroyPersistentStore(at: url, ofType: "sqlite")
-                Notificare.shared.logger.debug("Local database removed.")
+                NotificareLogger.debug("Local database removed.")
             } catch {
-                Notificare.shared.logger.debug("Failed to remove local database.")
+                NotificareLogger.debug("Failed to remove local database.")
             }
         } else {
-            Notificare.shared.logger.debug("Local database file not found.")
+            NotificareLogger.debug("Local database file not found.")
         }
 
         loadStore(completion)

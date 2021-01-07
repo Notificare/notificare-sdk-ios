@@ -3,6 +3,7 @@
 //
 
 import Atlantis
+import NotificareCore
 import NotificareKit
 import NotificarePushKit
 import UIKit
@@ -17,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Enable Proxyman debugging.
         Atlantis.start()
 
-        Notificare.shared.logger.level = .verbose
+        NotificareLogger.useAdvancedLogging = true
         Notificare.shared.delegate = self
 
         if #available(iOS 14.0, *) {
@@ -31,17 +32,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken token: Data) {
-        Notificare.shared.logger.info("-----> didRegisterForRemoteNotificationsWithDeviceToken")
+        NotificareLogger.info("-----> didRegisterForRemoteNotificationsWithDeviceToken")
         NotificarePush.shared.application(application, didRegisterForRemoteNotificationsWithDeviceToken: token)
     }
 
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        Notificare.shared.logger.info("-----> didFailToRegisterForRemoteNotificationsWithError")
+        NotificareLogger.info("-----> didFailToRegisterForRemoteNotificationsWithError")
         NotificarePush.shared.application(application, didFailToRegisterForRemoteNotificationsWithError: error)
     }
 
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        Notificare.shared.logger.info("-----> didReceiveRemoteNotification")
+        NotificareLogger.info("-----> didReceiveRemoteNotification")
         NotificarePush.shared.application(application, didReceiveRemoteNotification: userInfo, fetchCompletionHandler: completionHandler)
     }
 }
@@ -49,41 +50,49 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 extension AppDelegate: NotificareDelegate {
 
     func notificare(_: Notificare, onReady _: NotificareApplication) {
-        Notificare.shared.logger.info("-----> Notificare is ready.")
+        NotificareLogger.info("-----> Notificare is ready.")
     }
 
     func notificare(_: Notificare, didRegisterDevice device: NotificareDevice) {
-        Notificare.shared.logger.info("-----> Notificare: device registered: \(device)")
+        NotificareLogger.info("-----> Notificare: device registered: \(device)")
     }
 }
 
 extension AppDelegate: NotificarePushDelegate {
 
     func notificare(_ notificarePush: NotificarePush, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        Notificare.shared.logger.info("-----> Notificare: failed to register for remote notifications: \(error)")
+        NotificareLogger.info("-----> Notificare: failed to register for remote notifications: \(error)")
     }
 
     func notificare(_ notificarePush: NotificarePush, didChangeNotificationSettings granted: Bool) {
-        Notificare.shared.logger.info("-----> Notificare: notification settings changed: \(granted)")
+        NotificareLogger.info("-----> Notificare: notification settings changed: \(granted)")
     }
 
     func notificare(_ notificarePush: NotificarePush, didReceiveSystemNotification notification: NotificareSystemNotification) {
-        Notificare.shared.logger.info("-----> Notificare: received a system notification: \(notification)")
+        NotificareLogger.info("-----> Notificare: received a system notification: \(notification)")
     }
 
     func notificare(_ notificarePush: NotificarePush, didReceiveNotification notification: NotificareNotification) {
-        Notificare.shared.logger.info("-----> Notificare: received a notification: \(notification)")
+        NotificareLogger.info("-----> Notificare: received a notification: \(notification)")
     }
 
     func notificare(_ notificarePush: NotificarePush, didReceiveUnknownNotification userInfo: [AnyHashable : Any]) {
-        Notificare.shared.logger.info("-----> Notificare: received an unknown notification: \(userInfo)")
+        NotificareLogger.info("-----> Notificare: received an unknown notification: \(userInfo)")
     }
 
     func notificare(_ notificarePush: NotificarePush, shouldOpenSettings notification: NotificareNotification?) {
-        Notificare.shared.logger.info("-----> Notificare: should open notification settings")
+        NotificareLogger.info("-----> Notificare: should open notification settings")
     }
 
     func notificare(_ notificarePush: NotificarePush, didReceiveUnknownAction action: [AnyHashable : Any], for notification: [AnyHashable : Any]) {
-        Notificare.shared.logger.info("-----> Notificare: received an unknown action: \(action)")
+        NotificareLogger.info("-----> Notificare: received an unknown action: \(action)")
+    }
+    
+    func notificare(_ notificarePush: NotificarePush, didOpenNotification notification: NotificareNotification) {
+        guard let controller = window?.rootViewController else {
+            return
+        }
+
+        // NotificarePushUI.presentNotification(notification, in: controller)
     }
 }

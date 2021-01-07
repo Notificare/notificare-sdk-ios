@@ -2,6 +2,7 @@
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
+import NotificareCore
 import NotificareKit
 import UIKit
 import UserNotifications
@@ -28,7 +29,7 @@ public class NotificarePush: NSObject, NotificareModule {
 
     public static func configure(applicationKey _: String, applicationSecret _: String) {
         guard !Notificare.shared.isConfigured else {
-            Notificare.shared.logger.warning("Notificare has already been configured. Skipping...")
+            NotificareLogger.warning("Notificare has already been configured. Skipping...")
             return
         }
 
@@ -55,15 +56,15 @@ public class NotificarePush: NSObject, NotificareModule {
     public func enableRemoteNotifications(_ completion: @escaping NotificareCallback<Bool>) {
         // Request notification authorization options.
         notificationCenter.requestAuthorization(options: authorizationOptions) { granted, _ in
-            Notificare.shared.logger.info("Registered user notification settings.")
+            NotificareLogger.info("Registered user notification settings.")
 
             if granted {
-                Notificare.shared.logger.info("User granted permission to receive alerts, badge and sounds")
+                NotificareLogger.info("User granted permission to receive alerts, badge and sounds")
 
                 let categories = self.loadAvailableCategories()
                 self.notificationCenter.setNotificationCategories(categories)
             } else {
-                Notificare.shared.logger.info("User did not grant permission to receive alerts, badge and sounds.")
+                NotificareLogger.info("User did not grant permission to receive alerts, badge and sounds.")
             }
 
             self.handleNotificationSettings(granted) { result in
@@ -95,7 +96,7 @@ public class NotificarePush: NSObject, NotificareModule {
                     identifier: "NotificareDefaultCategory",
                     actions: [],
                     intentIdentifiers: [],
-                    hiddenPreviewsBodyPlaceholder: NSLocalizedString("NotificareDefaultCategory", comment: "notification"),
+                    hiddenPreviewsBodyPlaceholder: NotificareLocalizable.string(resource: .pushDefaultCategory),
                     options: categoryOptions
                 )
             )
@@ -116,7 +117,7 @@ public class NotificarePush: NSObject, NotificareModule {
                 if action.destructive {
                     return UNNotificationAction(
                         identifier: action.label,
-                        title: stringFromBundle(action.label) ?? action.label,
+                        title: NotificareLocalizable.string(resource: action.label, fallback: action.label),
                         options: .destructive
                     )
                 } else if action.type == "re.notifica.action.Callback" {
@@ -125,30 +126,30 @@ public class NotificarePush: NSObject, NotificareModule {
                         // Yeah let's set it to open the app.
                         return UNNotificationAction(
                             identifier: action.label,
-                            title: stringFromBundle(action.label) ?? action.label,
+                            title: NotificareLocalizable.string(resource: action.label, fallback: action.label),
                             options: [.foreground, .authenticationRequired]
                         )
                     } else if action.keyboard {
                         return UNTextInputNotificationAction(
                             identifier: action.label,
-                            title: stringFromBundle(action.label) ?? action.label,
+                            title: NotificareLocalizable.string(resource: action.label, fallback: action.label),
                             options: [],
-                            textInputButtonTitle: stringFromBundle("send") ?? "send",
-                            textInputPlaceholder: stringFromBundle("type_some_text") ?? "type_some_text"
+                            textInputButtonTitle: NotificareLocalizable.string(resource: .actionsSend),
+                            textInputPlaceholder: NotificareLocalizable.string(resource: .actionsInputPlaceholder)
                         )
                     } else {
                         // No need to open the app. Let's set it to be executed in the background and with no authentication required.
                         // This is mostly a Response or a Webhook request.
                         return UNNotificationAction(
                             identifier: action.label,
-                            title: stringFromBundle(action.label) ?? action.label,
+                            title: NotificareLocalizable.string(resource: action.label, fallback: action.label),
                             options: []
                         )
                     }
                 } else {
                     return UNNotificationAction(
                         identifier: action.label,
-                        title: stringFromBundle(action.label) ?? action.label,
+                        title: NotificareLocalizable.string(resource: action.label, fallback: action.label),
                         options: [.foreground, .authenticationRequired]
                     )
                 }
@@ -160,7 +161,7 @@ public class NotificarePush: NSObject, NotificareModule {
                         identifier: category.name,
                         actions: actions,
                         intentIdentifiers: [],
-                        hiddenPreviewsBodyPlaceholder: NSLocalizedString(category.name, comment: ""),
+                        hiddenPreviewsBodyPlaceholder: NotificareLocalizable.string(resource: category.name, fallback: category.name),
                         options: categoryOptions
                     )
                 )
@@ -177,11 +178,6 @@ public class NotificarePush: NSObject, NotificareModule {
         }
 
         return categories
-    }
-
-    private func stringFromBundle(_: String) -> String? {
-        // TODO:
-        nil
     }
 
     @objc private func updateNotificationSettings() {
@@ -206,15 +202,15 @@ public class NotificarePush: NSObject, NotificareModule {
             Notificare.shared.deviceManager.updateNotificationSettings(allowedUI) { result in
                 switch result {
                 case .success:
-                    Notificare.shared.logger.debug("User notification settings updated.")
+                    NotificareLogger.debug("User notification settings updated.")
                     completion?(.success(()))
                 case let .failure(error):
-                    Notificare.shared.logger.debug("Could not update user notification settings.")
+                    NotificareLogger.debug("Could not update user notification settings.")
                     completion?(.failure(error))
                 }
             }
         } else {
-            Notificare.shared.logger.debug("User notification settings update skipped, nothing changed.")
+            NotificareLogger.debug("User notification settings update skipped, nothing changed.")
             completion?(.success(()))
         }
     }
@@ -225,15 +221,15 @@ public class NotificarePush: NSObject, NotificareModule {
             // Check for the presence of a remote notification in the launch options.
             if let userInfo = Notificare.shared.launchOptions?[.remoteNotification] as? [AnyHashable: Any] {
                 if self.isNotificareNotification(userInfo) {
-                    Notificare.shared.logger.info("Application launched via notification.")
+                    NotificareLogger.info("Application launched via notification.")
 
                     guard let id = userInfo["id"] as? String else {
-                        Notificare.shared.logger.warning("Missing 'id' property in notification payload.")
+                        NotificareLogger.warning("Missing 'id' property in notification payload.")
                         return
                     }
 
                     guard let api = Notificare.shared.pushApi else {
-                        Notificare.shared.logger.warning("Notificare has not been configured.")
+                        NotificareLogger.warning("Notificare has not been configured.")
                         return
                     }
 
@@ -250,7 +246,7 @@ public class NotificarePush: NSObject, NotificareModule {
 
 //            // Handle URL Schemes at launch, this is needed when the application is force to awake and handle a click from an email message.
 //            if let url = Notificare.shared.launchOptions?[.url] {
-//                Notificare.shared.logger.info("Application launched from an URL.")
+//                NotificareLogger.info("Application launched from an URL.")
 //            }
         }
     }

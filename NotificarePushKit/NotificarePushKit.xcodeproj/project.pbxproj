@@ -21,6 +21,8 @@
 		F26EEA1A2599F0DE00131829 /* NotificareNotificationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26EEA192599F0DE00131829 /* NotificareNotificationResponse.swift */; };
 		F28553C5258B8848006674C1 /* NotificarePushDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28553C4258B8848006674C1 /* NotificarePushDelegate.swift */; };
 		F28DC242259BDC1D0040FC24 /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28DC241259BDC1D0040FC24 /* JSON.swift */; };
+		F2B8C55D25A6173700FFBE0C /* NotificareCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2B8C55C25A6173700FFBE0C /* NotificareCore.framework */; };
+		F2B8C55E25A6173700FFBE0C /* NotificareCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F2B8C55C25A6173700FFBE0C /* NotificareCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F2D4E26E259CE1CB00AF37A7 /* NotificarePush+UNUserNotificationCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D4E26D259CE1CB00AF37A7 /* NotificarePush+UNUserNotificationCenterDelegate.swift */; };
 /* End PBXBuildFile section */
 
@@ -42,6 +44,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				F22650BA258B6E560004F833 /* NotificareKit.framework in Embed Frameworks */,
+				F2B8C55E25A6173700FFBE0C /* NotificareCore.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -68,6 +71,7 @@
 		F28553C4258B8848006674C1 /* NotificarePushDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificarePushDelegate.swift; sourceTree = "<group>"; };
 		F28DC241259BDC1D0040FC24 /* JSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSON.swift; sourceTree = "<group>"; };
 		F2AAAF88251D01B400465EC5 /* NotificareSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F2B8C55C25A6173700FFBE0C /* NotificareCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2D4E26D259CE1CB00AF37A7 /* NotificarePush+UNUserNotificationCenterDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificarePush+UNUserNotificationCenterDelegate.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -77,6 +81,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F22650B9258B6E560004F833 /* NotificareKit.framework in Frameworks */,
+				F2B8C55D25A6173700FFBE0C /* NotificareCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -147,6 +152,7 @@
 		F258DE7524BC7FFA006F9ABD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F2B8C55C25A6173700FFBE0C /* NotificareCore.framework */,
 				F22650B8258B6E560004F833 /* NotificareKit.framework */,
 				F2AAAF88251D01B400465EC5 /* NotificareSDK.framework */,
 				F258DE8924BC8A76006F9ABD /* Notificare.framework */,

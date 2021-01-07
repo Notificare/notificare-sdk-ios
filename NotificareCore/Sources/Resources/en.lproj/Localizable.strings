@@ -1,0 +1,16 @@
+/* 
+  Localizable.strings
+  NotificareCore
+
+  Created by Helder Pinhal on 07/01/2021.
+  Copyright © 2021 Notificare. All rights reserved.
+*/
+
+"notificare_ok" = "OK";
+"notificare_cancel" = "Cancel";
+"notificare_actions" = "Actions";
+
+"notificare_push_default_category" = "Default category"
+
+"notificare_actions_send" = "Send";
+"notificare_actions_input_placeholder" = "Type here";

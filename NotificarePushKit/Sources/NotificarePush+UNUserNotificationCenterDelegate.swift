@@ -2,6 +2,7 @@
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
+import NotificareCore
 import NotificareKit
 import UserNotifications
 
@@ -11,13 +12,13 @@ extension NotificarePush: UNUserNotificationCenterDelegate {
 
         if isNotificareNotification(userInfo) {
             guard let id = userInfo["id"] as? String else {
-                Notificare.shared.logger.warning("Missing 'id' property in notification payload.")
+                NotificareLogger.warning("Missing 'id' property in notification payload.")
                 completionHandler()
                 return
             }
 
             guard let api = Notificare.shared.pushApi else {
-                Notificare.shared.logger.warning("Notificare has not been configured.")
+                NotificareLogger.warning("Notificare has not been configured.")
                 completionHandler()
                 return
             }
@@ -50,7 +51,7 @@ extension NotificarePush: UNUserNotificationCenterDelegate {
                         completionHandler()
                     }
                 case .failure:
-                    Notificare.shared.logger.error("Failed to fetch notification with id '\(id)'.")
+                    NotificareLogger.error("Failed to fetch notification with id '\(id)'.")
                     completionHandler()
                 }
             }
@@ -76,12 +77,12 @@ extension NotificarePush: UNUserNotificationCenterDelegate {
 
         if isNotificareNotification(userInfo) {
             guard let id = userInfo["id"] as? String else {
-                Notificare.shared.logger.warning("Missing 'id' property in notification payload.")
+                NotificareLogger.warning("Missing 'id' property in notification payload.")
                 return
             }
 
             guard let api = Notificare.shared.pushApi else {
-                Notificare.shared.logger.warning("Notificare has not been configured.")
+                NotificareLogger.warning("Notificare has not been configured.")
                 return
             }
 
@@ -97,7 +98,7 @@ extension NotificarePush: UNUserNotificationCenterDelegate {
                         completionHandler(self.presentationOptions)
                     }
                 case .failure:
-                    Notificare.shared.logger.error("Failed to fetch notification with id '\(id)'.")
+                    NotificareLogger.error("Failed to fetch notification with id '\(id)'.")
                     completionHandler([])
                 }
             }
@@ -117,17 +118,17 @@ extension NotificarePush: UNUserNotificationCenterDelegate {
         let userInfo = notification.request.content.userInfo
 
         guard isNotificareNotification(userInfo) else {
-            Notificare.shared.logger.debug("Cannot handle a notification from a provider other than Notificare.")
+            NotificareLogger.debug("Cannot handle a notification from a provider other than Notificare.")
             return
         }
 
         guard let id = userInfo["id"] as? String else {
-            Notificare.shared.logger.warning("Missing 'id' property in notification payload.")
+            NotificareLogger.warning("Missing 'id' property in notification payload.")
             return
         }
 
         guard let api = Notificare.shared.pushApi else {
-            Notificare.shared.logger.warning("Notificare has not been configured.")
+            NotificareLogger.warning("Notificare has not been configured.")
             return
         }
 
@@ -136,7 +137,7 @@ extension NotificarePush: UNUserNotificationCenterDelegate {
             case let .success(notification):
                 self.delegate?.notificare(self, shouldOpenSettings: notification)
             case .failure:
-                Notificare.shared.logger.error("Failed to fetch notification with id '\(id)' for notification settings.")
+                NotificareLogger.error("Failed to fetch notification with id '\(id)' for notification settings.")
             }
         }
     }
