@@ -64,22 +64,17 @@ public class NotificareWebViewController: UIViewController {
 
         // Check if we should show any possible actions
         if !html.contains("notificareOpenAction"), !html.contains("notificareOpenActions"), !notification.actions.isEmpty {
-            //         TODO: check if there's a custom icon
-            //            if([UIImage imageFromBundle:@"actionsIcon"]){
-            //                [self setActionsButton:[[UIBarButtonItem alloc]
-            //                                        initWithImage:[UIImage imageFromBundle:@"actionsIcon"]
-            //                                        style:UIBarButtonItemStylePlain
-            //                                        target:self
-            //                                        action:@selector(openActions)]];
-            //
-            //                if ([[self theme] objectForKey:@"ACTION_BUTTON_TEXT_COLOR"]) {
-            //                    [[self actionsButton] setTintColor:[UIColor colorWithHexString:[[self theme] objectForKey:@"ACTION_BUTTON_TEXT_COLOR"]]];
-            //                }
-
-            actionsButton = UIBarButtonItem(title: NotificareLocalizable.string(resource: .actions),
-                                            style: .plain,
-                                            target: self,
-                                            action: #selector(showActions))
+            if let image = NotificareLocalizable.image(resource: .actions) {
+                actionsButton = UIBarButtonItem(image: image,
+                                                style: .plain,
+                                                target: self,
+                                                action: #selector(showActions))
+            } else {
+                actionsButton = UIBarButtonItem(title: NotificareLocalizable.string(resource: .actions),
+                                                style: .plain,
+                                                target: self,
+                                                action: #selector(showActions))
+            }
 
             navigationItem.rightBarButtonItem = actionsButton
         }
