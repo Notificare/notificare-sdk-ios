@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="s1l-x7-hJj">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Sample-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Sample" customModuleProvider="target" sceneMemberID="viewController">
@@ -18,28 +18,28 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y32-dL-mz9">
-                                <rect key="frame" x="113.5" y="64" width="187" height="30"/>
+                                <rect key="frame" x="113.5" y="108" width="187" height="30"/>
                                 <state key="normal" title="Enable remote notifications"/>
                                 <connections>
                                     <action selector="onEnableRemoteNotificationsClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="9sD-LJ-tcr"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ShK-q5-6uN">
-                                <rect key="frame" x="141" y="102" width="132" height="30"/>
+                                <rect key="frame" x="141" y="146" width="132" height="30"/>
                                 <state key="normal" title="Send custom event"/>
                                 <connections>
                                     <action selector="onSendCustomEventClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="aNM-uQ-Gw2"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p0R-FR-967">
-                                <rect key="frame" x="145" y="140" width="124" height="30"/>
+                                <rect key="frame" x="145" y="184" width="124" height="30"/>
                                 <state key="normal" title="Register with user"/>
                                 <connections>
                                     <action selector="onRegisterWithUserClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="4WW-50-eXE"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vfN-nL-dSt">
-                                <rect key="frame" x="137" y="178" width="140" height="30"/>
+                                <rect key="frame" x="137" y="222" width="140" height="30"/>
                                 <state key="normal" title="Register anonymous"/>
                                 <connections>
                                     <action selector="onRegisterAnonymousClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="CJa-eE-sZu"/>
@@ -59,10 +59,29 @@
                             <constraint firstItem="y32-dL-mz9" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="fCs-TK-gCi"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Sample" id="Wfn-sm-8re"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="139" y="138"/>
+            <point key="canvasLocation" x="1047.8260869565217" y="137.94642857142856"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="RJJ-aQ-zbv">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="s1l-x7-hJj" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="f3P-zm-0wQ">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="eHn-Zg-Vee"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Rko-21-F27" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="137.68115942028987" y="137.94642857142856"/>
         </scene>
     </scenes>
     <resources>

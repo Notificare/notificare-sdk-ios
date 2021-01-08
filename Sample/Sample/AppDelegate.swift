@@ -94,6 +94,6 @@ extension AppDelegate: NotificarePushDelegate {
             return
         }
 
-        // NotificarePushUI.presentNotification(notification, in: controller)
+        NotificarePushUI.presentNotification(notification, in: controller)
     }
 }

@@ -19,6 +19,7 @@ public class NotificareLocalizable {
     public enum StringResource: String {
         case ok = "notificare_ok"
         case cancel = "notificare_cancel"
+        case actions = "notificare_actions"
 
         case pushDefaultCategory = "notificare_push_default_category"
 

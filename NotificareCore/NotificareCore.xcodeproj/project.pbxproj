@@ -94,9 +94,9 @@
 				F27D0E1F25A70F920077612E /* Resources */,
 				F2B8C52825A6115D00FFBE0C /* NotificareCore.h */,
 				F2B8C52925A6115D00FFBE0C /* Info.plist */,
+				F2DB0C0C25A8647200AD93C7 /* NotificareDefinitions.swift */,
 				F27D0E0F25A70F0F0077612E /* NotificareLocalizable.swift */,
 				F2B8C54725A611BA00FFBE0C /* NotificareLogger.swift */,
-				F2DB0C0C25A8647200AD93C7 /* NotificareDefinitions.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";

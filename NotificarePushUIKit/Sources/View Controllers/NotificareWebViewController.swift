@@ -2,6 +2,7 @@
 // Copyright (c) 2021 Notificare. All rights reserved.
 //
 
+import NotificareCore
 import NotificarePushKit
 import UIKit
 import WebKit
@@ -10,6 +11,7 @@ public class NotificareWebViewController: UIViewController {
     var notification: NotificareNotification!
 
     private var webView: WKWebView!
+    private var actionsButton: UIBarButtonItem?
 
     override public func viewDidLoad() {
         super.viewDidLoad()
@@ -74,12 +76,12 @@ public class NotificareWebViewController: UIViewController {
             //                    [[self actionsButton] setTintColor:[UIColor colorWithHexString:[[self theme] objectForKey:@"ACTION_BUTTON_TEXT_COLOR"]]];
             //                }
 
-            let actionButton = UIBarButtonItem(title: "Actions",
-                                               style: .plain,
-                                               target: self,
-                                               action: #selector(showActions))
+            actionsButton = UIBarButtonItem(title: NotificareLocalizable.string(resource: .actions),
+                                            style: .plain,
+                                            target: self,
+                                            action: #selector(showActions))
 
-            navigationItem.rightBarButtonItem = actionButton
+            navigationItem.rightBarButtonItem = actionsButton
         }
     }
 
@@ -87,68 +89,32 @@ public class NotificareWebViewController: UIViewController {
         let alert = UIAlertController(title: nil, message: notification.message, preferredStyle: .actionSheet)
 
         notification.actions.forEach { action in
-            let button = UIAlertAction(title: action.label, style: .default) { _ in
-                // TODO: handle action
-            }
-
-            alert.addAction(button)
+            alert.addAction(
+                UIAlertAction(title: NotificareLocalizable.string(resource: action.label, fallback: action.label),
+                              style: .default,
+                              handler: { _ in
+//                                NotificarePush.shared.delegate?.notificare(NotificarePush.shared,
+//                                                                           didOpenAction: action,
+//                                                                           for: notification,
+//                                                                           with: NotificareNotification.ActionData)
+                              })
+            )
         }
 
-        // alert.addAction(UIAlertAction(title: <#T##String?#>, style: <#T##UIAlertAction.Style#>, handler: <#T##((UIAlertAction) -> Void)?##((UIAlertAction) -> Void)?##(UIAlertAction) -> Void#>))
+        alert.addAction(
+            UIAlertAction(title: NotificareLocalizable.string(resource: .cancel),
+                          style: .cancel,
+                          handler: nil)
+        )
+
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            alert.modalPresentationStyle = .popover
+            alert.popoverPresentationController?.barButtonItem = actionsButton
+        } else {
+            alert.modalPresentationStyle = .currentContext
+        }
 
         present(alert, animated: true, completion: nil)
-
-        //        UIAlertController * alert = [UIAlertController
-        //                                      alertControllerWithTitle:[NSString appName]
-        //                                      message:[[self notification] notificationMessage]
-        //                                      preferredStyle:UIAlertControllerStyleActionSheet];
-        //
-        //
-        //        for (NotificareAction * action in [[self notification] notificationActions]) {
-        //
-        //            UIAlertAction* button = [UIAlertAction
-        //                                     actionWithTitle:([NSString stringFromBundle:[action actionLabel]])? [NSString stringFromBundle:[action actionLabel]] :[action actionLabel]
-        //                                     style:UIAlertActionStyleDefault
-        //                                     handler:^(UIAlertAction * actionAlert)
-        //                                     {
-        //                                         [[self notificareActions] setRootViewController:self];
-        //                                         [[self notificareActions] setNotification:[self notification]];
-        //                                         [[self notificareActions] handleAction:action];
-        //
-        //                                     }];
-        //
-        //            [alert addAction:button];
-        //
-        //
-        //        }
-        //
-        //
-        //        UIAlertAction* cancel = [UIAlertAction
-        //                                 actionWithTitle:([NSString stringFromBundle:@"cancel"])?[NSString stringFromBundle:@"cancel"]:@"cancel"
-        //                                 style:UIAlertActionStyleCancel
-        //                                 handler:^(UIAlertAction * action)
-        //                                 {
-        //
-        //
-        //                                 }];
-        //        [alert addAction:cancel];
-        //
-        //
-        //        if ( IS_IPAD ) {
-        //            [alert setModalPresentationStyle:UIModalPresentationPopover];
-        //            UIPopoverPresentationController *popPresenter = [alert
-        //                                                             popoverPresentationController];
-        //
-        //            [popPresenter setBarButtonItem:[self actionsButton]];
-        //
-        //        } else {
-        //
-        //            [alert setModalPresentationStyle:UIModalPresentationOverCurrentContext];
-        //        }
-        //
-        //        [[self navigationController] presentViewController:alert animated:YES completion:^{
-        //
-        //        }];
     }
 }
 
