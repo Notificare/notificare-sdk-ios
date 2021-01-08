@@ -2,7 +2,7 @@
 // Copyright (c) 2021 Notificare. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 public class NotificareLocalizable {
     public static func string(resource: StringResource) -> String {
@@ -16,6 +16,15 @@ public class NotificareLocalizable {
         return NSLocalizedString(resource, tableName: nil, bundle: Bundle.main, value: notificareStr, comment: "")
     }
 
+    public static func image(resource: ImageResource) -> UIImage? {
+        if let overwrittenImage = UIImage(named: resource.rawValue, in: Bundle.main, compatibleWith: nil) {
+            return overwrittenImage
+        }
+
+        let bundle = Bundle(for: Self.self) // The bundle for the framework.
+        return UIImage(named: resource.rawValue, in: bundle, compatibleWith: nil)
+    }
+
     public enum StringResource: String {
         case ok = "notificare_ok"
         case cancel = "notificare_cancel"
@@ -25,5 +34,9 @@ public class NotificareLocalizable {
 
         case actionsSend = "notificare_actions_send"
         case actionsInputPlaceholder = "notificare_actions_input_placeholder"
+    }
+
+    public enum ImageResource: String {
+        case actions = "notificare_actions"
     }
 }

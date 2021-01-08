@@ -15,6 +15,7 @@
 		F2B8C54825A611BA00FFBE0C /* NotificareLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B8C54725A611BA00FFBE0C /* NotificareLogger.swift */; };
 		F2DB0C0D25A8647200AD93C7 /* NotificareDefinitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2DB0C0C25A8647200AD93C7 /* NotificareDefinitions.swift */; };
 		F2DB0C1D25A86B6700AD93C7 /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2DB0C1C25A86B6700AD93C7 /* URL.swift */; };
+		F2DB0C3725A884A200AD93C7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F2DB0C3625A884A200AD93C7 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,7 @@
 		F2B8C54725A611BA00FFBE0C /* NotificareLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareLogger.swift; sourceTree = "<group>"; };
 		F2DB0C0C25A8647200AD93C7 /* NotificareDefinitions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareDefinitions.swift; sourceTree = "<group>"; };
 		F2DB0C1C25A86B6700AD93C7 /* URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
+		F2DB0C3625A884A200AD93C7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +67,7 @@
 			isa = PBXGroup;
 			children = (
 				F27D0E1925A70F730077612E /* Localizable.strings */,
+				F2DB0C3625A884A200AD93C7 /* Assets.xcassets */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -213,6 +216,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F2DB0C3725A884A200AD93C7 /* Assets.xcassets in Resources */,
 				F27D0E1725A70F730077612E /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
