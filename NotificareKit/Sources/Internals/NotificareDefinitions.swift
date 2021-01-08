@@ -2,24 +2,11 @@
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
-import Foundation
+import NotificareCore
 
-struct NotificareDefinitions {
+extension NotificareDefinitions {
     static let sdkVersion = "3.0.0"
     static let databaseVersion = "3.0.0"
-
-    enum Modules: String, CaseIterable {
-        case push = "NotificarePushKit.NotificarePush"
-        // static let location = "NotificareLocation.NotificareLocationManagerImpl"
-    }
-
-    enum UserDefaults {
-        static let currentDatabaseVersion = "re.notifica.local.currentDatabaseVersion"
-        static let preferredLanguage = "re.notifica.local.preferredLanguage"
-        static let preferredRegion = "re.notifica.local.preferredRegion"
-        static let registeredDevice = "re.notifica.local.registeredDevice"
-        static let crashReport = "re.notifica.local.crashReport"
-    }
 
     enum Tasks {
         static let processEvents = "re.notifica.tasks.process.events"

@@ -10,7 +10,7 @@
 "notificare_cancel" = "Cancel";
 "notificare_actions" = "Actions";
 
-"notificare_push_default_category" = "Default category"
+"notificare_push_default_category" = "Default category";
 
 "notificare_actions_send" = "Send";
 "notificare_actions_input_placeholder" = "Type here";

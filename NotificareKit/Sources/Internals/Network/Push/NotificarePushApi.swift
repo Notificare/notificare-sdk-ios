@@ -414,4 +414,39 @@ public struct NotificarePushApi {
             }
         }
     }
+
+    func getDynamicLink(_ link: String, _ completion: @escaping Completion<NotificareDynamicLink>) {
+        var url = baseUrl
+            .appendingPathComponent("link")
+            .appendingPathComponent("dynamic")
+            .appendingPathComponent(link.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!)
+            .appendingQueryComponent(name: "platform", value: "iOS")
+
+        if let device = Notificare.shared.deviceManager.currentDevice {
+            url.appendQueryComponent(name: "deviceID", value: device.id)
+        }
+
+        if let userId = Notificare.shared.deviceManager.currentDevice?.userId {
+            url.appendQueryComponent(name: "userID", value: userId)
+        }
+
+        var request = URLRequest(url: url)
+        request.setNotificareHeaders()
+        request.setBasicAuthentication(username: applicationKey, password: applicationSecret)
+        request.setMethod("GET")
+
+        session.perform(request) { result in
+            switch result {
+            case let .failure(error):
+                completion(.failure(.networkFailure(cause: error)))
+            case let .success(data):
+                guard let decoded = try? self.decoder.decode(NotificareDynamicLinkResponse.self, from: data) else {
+                    completion(.failure(NotificareError.parsingFailure))
+                    return
+                }
+
+                completion(.success(decoded.link))
+            }
+        }
+    }
 }

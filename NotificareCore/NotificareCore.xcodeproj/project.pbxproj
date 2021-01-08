@@ -13,6 +13,8 @@
 		F2B8C53425A6115D00FFBE0C /* NotificareCoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B8C53325A6115D00FFBE0C /* NotificareCoreTests.swift */; };
 		F2B8C53625A6115D00FFBE0C /* NotificareCore.h in Headers */ = {isa = PBXBuildFile; fileRef = F2B8C52825A6115D00FFBE0C /* NotificareCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F2B8C54825A611BA00FFBE0C /* NotificareLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B8C54725A611BA00FFBE0C /* NotificareLogger.swift */; };
+		F2DB0C0D25A8647200AD93C7 /* NotificareDefinitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2DB0C0C25A8647200AD93C7 /* NotificareDefinitions.swift */; };
+		F2DB0C1D25A86B6700AD93C7 /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2DB0C1C25A86B6700AD93C7 /* URL.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +38,8 @@
 		F2B8C53325A6115D00FFBE0C /* NotificareCoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareCoreTests.swift; sourceTree = "<group>"; };
 		F2B8C53525A6115D00FFBE0C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F2B8C54725A611BA00FFBE0C /* NotificareLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareLogger.swift; sourceTree = "<group>"; };
+		F2DB0C0C25A8647200AD93C7 /* NotificareDefinitions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareDefinitions.swift; sourceTree = "<group>"; };
+		F2DB0C1C25A86B6700AD93C7 /* URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,11 +90,13 @@
 		F2B8C52725A6115D00FFBE0C /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				F2DB0C1B25A86B5000AD93C7 /* Extensions */,
 				F27D0E1F25A70F920077612E /* Resources */,
 				F2B8C52825A6115D00FFBE0C /* NotificareCore.h */,
 				F2B8C52925A6115D00FFBE0C /* Info.plist */,
 				F27D0E0F25A70F0F0077612E /* NotificareLocalizable.swift */,
 				F2B8C54725A611BA00FFBE0C /* NotificareLogger.swift */,
+				F2DB0C0C25A8647200AD93C7 /* NotificareDefinitions.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -102,6 +108,14 @@
 				F2B8C53525A6115D00FFBE0C /* Info.plist */,
 			);
 			path = Tests;
+			sourceTree = "<group>";
+		};
+		F2DB0C1B25A86B5000AD93C7 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				F2DB0C1C25A86B6700AD93C7 /* URL.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -240,6 +254,8 @@
 			files = (
 				F27D0E1025A70F0F0077612E /* NotificareLocalizable.swift in Sources */,
 				F2B8C54825A611BA00FFBE0C /* NotificareLogger.swift in Sources */,
+				F2DB0C0D25A8647200AD93C7 /* NotificareDefinitions.swift in Sources */,
+				F2DB0C1D25A86B6700AD93C7 /* URL.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
