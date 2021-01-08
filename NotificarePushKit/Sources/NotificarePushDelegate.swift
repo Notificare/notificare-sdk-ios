@@ -22,7 +22,11 @@ public protocol NotificarePushDelegate: AnyObject {
 
     func notificare(_ notificarePush: NotificarePush, didOpenNotification notification: NotificareNotification)
 
+    func notificare(_ notificarePush: NotificarePush, didFailToOpenNotification notification: NotificareNotification)
+
     func notificare(_ notificarePush: NotificarePush, didOpenAction action: NotificareNotification.Action, for notification: NotificareNotification, with data: NotificareNotification.ActionData)
+
+    func notificare(_ notificarePush: NotificarePush, didClickURL url: URL, in notification: NotificareNotification)
 }
 
 public extension NotificarePushDelegate {
@@ -42,5 +46,9 @@ public extension NotificarePushDelegate {
 
     func notificare(_: NotificarePush, didOpenNotification _: NotificareNotification) {}
 
+    func notificare(_: NotificarePush, didFailToOpenNotification _: NotificareNotification) {}
+
     func notificare(_: NotificarePush, didOpenAction _: NotificareNotification.Action, for _: NotificareNotification, with _: NotificareNotification.ActionData) {}
+
+    func notificare(_: NotificarePush, didClickURL _: URL, in _: NotificareNotification) {}
 }
