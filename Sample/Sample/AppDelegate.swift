@@ -6,6 +6,7 @@ import Atlantis
 import NotificareCore
 import NotificareKit
 import NotificarePushKit
+import NotificarePushUIKit
 import UIKit
 
 @UIApplicationMain
