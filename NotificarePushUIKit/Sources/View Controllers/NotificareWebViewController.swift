@@ -87,12 +87,7 @@ public class NotificareWebViewController: UIViewController {
             alert.addAction(
                 UIAlertAction(title: NotificareLocalizable.string(resource: action.label, fallback: action.label),
                               style: .default,
-                              handler: { _ in
-//                                NotificarePush.shared.delegate?.notificare(NotificarePush.shared,
-//                                                                           didOpenAction: action,
-//                                                                           for: notification,
-//                                                                           with: NotificareNotification.ActionData)
-                              })
+                              handler: { _ in self.handleAction(action) })
             )
         }
 
@@ -122,6 +117,7 @@ public class NotificareWebViewController: UIViewController {
         }
 
         return queryItems.contains { (item) -> Bool in
+            // TODO: Handle custom close_window_query_parameter.
             if item.name == "notificareCloseWindow" { // || ([[[NotificareAppConfig shared] options] objectForKey:@"CLOSE_WINDOW_QUERY_PARAMETER"] && [[item name] isEqualToString:[[[NotificareAppConfig shared] options] objectForKey:@"CLOSE_WINDOW_QUERY_PARAMETER"]])
                 return true
             } else if item.name == "notificareOpenActions", item.value == "1" || item.value == "true" {
@@ -144,6 +140,7 @@ public class NotificareWebViewController: UIViewController {
         }
 
         queryItems.forEach { item in
+            // TODO: Handle custom close_window_query_parameter.
             if item.name == "notificareCloseWindow" { // || ([[[NotificareAppConfig shared] options] objectForKey:@"CLOSE_WINDOW_QUERY_PARAMETER"] && [[item name] isEqualToString:[[[NotificareAppConfig shared] options] objectForKey:@"CLOSE_WINDOW_QUERY_PARAMETER"]])
                 if item.value == "1" || item.value == "true" {
                     if let rootViewController = UIApplication.shared.keyWindow?.rootViewController, rootViewController.presentedViewController != nil {
@@ -158,14 +155,20 @@ public class NotificareWebViewController: UIViewController {
                 // A query param to open a single action is present, let's loop over the actins and match the label.
                 notification.actions.forEach { action in
                     if action.label == item.value {
-                        // Label found, handle single action.
-//                        [[self notificareActions] setRootViewController:self];
-//                        [[self notificareActions] setNotification:[self notification]];
-//                        [[self notificareActions] handleAction:action];
+                        handleAction(action)
                     }
                 }
             }
         }
+    }
+
+    private func handleAction(_: NotificareNotification.Action) {
+        // TODO: Handle action clicked / wants to execute. Should present the according UI.
+
+        // Label found, handle single action.
+//                        [[self notificareActions] setRootViewController:self];
+//                        [[self notificareActions] setNotification:[self notification]];
+//                        [[self notificareActions] handleAction:action];
     }
 }
 
