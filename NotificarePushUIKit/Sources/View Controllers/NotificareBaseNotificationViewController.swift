@@ -82,4 +82,59 @@ public class NotificareBaseNotificationViewController: UIViewController {
 //                        [[self notificareActions] setNotification:[self notification]];
 //                        [[self notificareActions] handleAction:action];
     }
+
+    func hasNotificareQueryParameters(in url: URL) -> Bool {
+        guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
+            return false
+        }
+
+        guard let queryItems = components.queryItems else {
+            return false
+        }
+
+        return queryItems.contains { (item) -> Bool in
+            // TODO: Handle custom close_window_query_parameter.
+            if item.name == "notificareCloseWindow" { // || ([[[NotificareAppConfig shared] options] objectForKey:@"CLOSE_WINDOW_QUERY_PARAMETER"] && [[item name] isEqualToString:[[[NotificareAppConfig shared] options] objectForKey:@"CLOSE_WINDOW_QUERY_PARAMETER"]])
+                return true
+            } else if item.name == "notificareOpenActions", item.value == "1" || item.value == "true" {
+                return true
+            } else if item.name == "notificareOpenAction" {
+                return true
+            }
+
+            return false
+        }
+    }
+
+    func handleNotificareQueryParameters(for url: URL) {
+        guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
+            return
+        }
+
+        guard let queryItems = components.queryItems else {
+            return
+        }
+
+        queryItems.forEach { item in
+            // TODO: Handle custom close_window_query_parameter.
+            if item.name == "notificareCloseWindow" { // || ([[[NotificareAppConfig shared] options] objectForKey:@"CLOSE_WINDOW_QUERY_PARAMETER"] && [[item name] isEqualToString:[[[NotificareAppConfig shared] options] objectForKey:@"CLOSE_WINDOW_QUERY_PARAMETER"]])
+                if item.value == "1" || item.value == "true" {
+                    if let rootViewController = UIApplication.shared.keyWindow?.rootViewController, rootViewController.presentedViewController != nil {
+                        rootViewController.dismiss(animated: true, completion: nil)
+                    } else {
+                        navigationController?.popViewController(animated: true)
+                    }
+                }
+            } else if item.name == "notificareOpenActions", item.value == "1" || item.value == "true" {
+                showActions()
+            } else if item.name == "notificareOpenAction" {
+                // A query param to open a single action is present, let's loop over the actins and match the label.
+                notification.actions.forEach { action in
+                    if action.label == item.value {
+                        handleAction(action)
+                    }
+                }
+            }
+        }
+    }
 }

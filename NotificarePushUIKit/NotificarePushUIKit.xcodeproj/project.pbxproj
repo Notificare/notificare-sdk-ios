@@ -21,6 +21,7 @@
 		F2B8C56125A6173F00FFBE0C /* NotificareCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2B8C56025A6173F00FFBE0C /* NotificareCore.framework */; };
 		F2B8C56225A6173F00FFBE0C /* NotificareCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F2B8C56025A6173F00FFBE0C /* NotificareCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F2E9D41E25ADE98D00FF7827 /* NotificareVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E9D41D25ADE98D00FF7827 /* NotificareVideoViewController.swift */; };
+		F2E9D45825AE1D4500FF7827 /* NotificareUrlViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E9D45725AE1D4500FF7827 /* NotificareUrlViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,7 @@
 		F2B8C51625A5DD9400FFBE0C /* NotificareWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareWebViewController.swift; sourceTree = "<group>"; };
 		F2B8C56025A6173F00FFBE0C /* NotificareCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2E9D41D25ADE98D00FF7827 /* NotificareVideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareVideoViewController.swift; sourceTree = "<group>"; };
+		F2E9D45725AE1D4500FF7827 /* NotificareUrlViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareUrlViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +146,7 @@
 				F2B8C51625A5DD9400FFBE0C /* NotificareWebViewController.swift */,
 				F29C96E625ACBE2500620E9B /* NotificareImageGalleryViewController.swift */,
 				F2E9D41D25ADE98D00FF7827 /* NotificareVideoViewController.swift */,
+				F2E9D45725AE1D4500FF7827 /* NotificareUrlViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -287,6 +290,7 @@
 				F29B180225A4B81A007ED6F9 /* NotificarePushUI+UserDefaults.swift in Sources */,
 				F29B17F325A48CAF007ED6F9 /* NotificarePushUI.swift in Sources */,
 				F2E9D41E25ADE98D00FF7827 /* NotificareVideoViewController.swift in Sources */,
+				F2E9D45825AE1D4500FF7827 /* NotificareUrlViewController.swift in Sources */,
 				F2B8C51725A5DD9400FFBE0C /* NotificareWebViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

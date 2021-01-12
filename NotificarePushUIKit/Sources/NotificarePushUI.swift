@@ -43,7 +43,10 @@ public class NotificarePushUI {
             presentController(notificationController, in: controller)
 
         case .url:
-            break
+            let notificationController = NotificareUrlViewController()
+            notificationController.notification = notification
+
+            presentController(notificationController, in: controller)
 
         case .urlScheme:
             presentUrlSchemeNotification(notification, in: controller)
