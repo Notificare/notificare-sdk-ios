@@ -14,3 +14,5 @@
 
 "notificare_actions_send" = "Send";
 "notificare_actions_input_placeholder" = "Type here";
+
+"notification_actions_share_image_text_placeholder" = "Write something here";

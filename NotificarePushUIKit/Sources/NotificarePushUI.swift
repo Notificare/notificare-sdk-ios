@@ -24,8 +24,13 @@ public class NotificarePushUI {
     public static func presentNotification(_ notification: NotificareNotification, in controller: UIViewController) {
         NotificareLogger.debug("Presenting notification '\(notification.id)'.")
 
-        switch Notificare.NotificationType(rawValue: notification.type) {
-        case .none?:
+        guard let type = Notificare.NotificationType(rawValue: notification.type) else {
+            NotificareLogger.warning("Unhandled notification type '\(notification.type)'.")
+            return
+        }
+
+        switch type {
+        case .none:
             NotificareLogger.debug("Attempting to present a notification of type 'none'. These should be handled by the application instead.")
 
         case .alert:
@@ -35,11 +40,10 @@ public class NotificarePushUI {
             let notificationController = NotificareWebViewController()
             notificationController.notification = notification
 
-            if let navigationController = controller as? UINavigationController {
-                navigationController.pushViewController(notificationController, animated: true)
-            } else {
-                controller.present(notificationController, animated: true, completion: nil)
-            }
+            presentController(notificationController, in: controller)
+
+        case .url:
+            break
 
         case .urlScheme:
             presentUrlSchemeNotification(notification, in: controller)
@@ -48,8 +52,23 @@ public class NotificarePushUI {
 //            presentRateNotification(notification, in: controller)
             break
 
-        default:
-            NotificareLogger.warning("Unhandled notification type '\(notification.type)'.")
+        case .image:
+            let notificationController = NotificareImageGalleryViewController()
+            notificationController.notification = notification
+
+            presentController(notificationController, in: controller)
+
+        case .map:
+            break
+
+        case .passbook:
+            break
+
+        case .store:
+            break
+
+        case .video:
+            break
         }
     }
 
@@ -128,4 +147,12 @@ public class NotificarePushUI {
 //
 //        controller.present(alert, animated: true, completion: nil)
 //    }
+
+    private static func presentController(_ controller: UIViewController, in originController: UIViewController) {
+        if let navigationController = originController as? UINavigationController {
+            navigationController.pushViewController(controller, animated: true)
+        } else {
+            originController.present(controller, animated: true, completion: nil)
+        }
+    }
 }

@@ -7,20 +7,11 @@ import NotificarePushKit
 import UIKit
 import WebKit
 
-public class NotificareWebViewController: UIViewController {
-    var notification: NotificareNotification!
-
+public class NotificareWebViewController: NotificareBaseNotificationViewController {
     private var webView: WKWebView!
-    private var actionsButton: UIBarButtonItem?
 
     override public func viewDidLoad() {
         super.viewDidLoad()
-
-        // Update the view controller's title.
-        title = notification.title
-
-        // Set the theme options.
-        // TODO:
 
         configureWebView()
         clearCache()
@@ -63,48 +54,9 @@ public class NotificareWebViewController: UIViewController {
         webView.loadHTMLString(html, baseURL: URL(string: ""))
 
         // Check if we should show any possible actions
-        if !html.contains("notificareOpenAction"), !html.contains("notificareOpenActions"), !notification.actions.isEmpty {
-            if let image = NotificareLocalizable.image(resource: .actions) {
-                actionsButton = UIBarButtonItem(image: image,
-                                                style: .plain,
-                                                target: self,
-                                                action: #selector(showActions))
-            } else {
-                actionsButton = UIBarButtonItem(title: NotificareLocalizable.string(resource: .actions),
-                                                style: .plain,
-                                                target: self,
-                                                action: #selector(showActions))
-            }
-
-            navigationItem.rightBarButtonItem = actionsButton
+        if html.contains("notificareOpenAction") || html.contains("notificareOpenActions") {
+            isActionsButtonEnabled = false
         }
-    }
-
-    @objc private func showActions() {
-        let alert = UIAlertController(title: nil, message: notification.message, preferredStyle: .actionSheet)
-
-        notification.actions.forEach { action in
-            alert.addAction(
-                UIAlertAction(title: NotificareLocalizable.string(resource: action.label, fallback: action.label),
-                              style: .default,
-                              handler: { _ in self.handleAction(action) })
-            )
-        }
-
-        alert.addAction(
-            UIAlertAction(title: NotificareLocalizable.string(resource: .cancel),
-                          style: .cancel,
-                          handler: nil)
-        )
-
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            alert.modalPresentationStyle = .popover
-            alert.popoverPresentationController?.barButtonItem = actionsButton
-        } else {
-            alert.modalPresentationStyle = .currentContext
-        }
-
-        present(alert, animated: true, completion: nil)
     }
 
     private func hasNotificareQueryParameters(in url: URL) -> Bool {
@@ -160,15 +112,6 @@ public class NotificareWebViewController: UIViewController {
                 }
             }
         }
-    }
-
-    private func handleAction(_: NotificareNotification.Action) {
-        // TODO: Handle action clicked / wants to execute. Should present the according UI.
-
-        // Label found, handle single action.
-//                        [[self notificareActions] setRootViewController:self];
-//                        [[self notificareActions] setNotification:[self notification]];
-//                        [[self notificareActions] handleAction:action];
     }
 }
 
