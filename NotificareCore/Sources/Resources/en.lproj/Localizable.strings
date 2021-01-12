@@ -16,3 +16,6 @@
 "notificare_actions_input_placeholder" = "Type here";
 
 "notification_actions_share_image_text_placeholder" = "Write something here";
+
+"notificare_rate_alert_yes_button" = "Yes, I'll rate now";
+"notificare_rate_alert_no_button" = "No, thanks";

@@ -2,17 +2,17 @@
 // Copyright (c) 2021 Notificare. All rights reserved.
 //
 
-import NotificareKit
+import NotificareCore
 
 extension NotificareUserDefaults {
-    static var hasReviewedVersion: Bool {
+    static var hasReviewedCurrentVersion: Bool {
         get {
             let version = NotificareUtils.applicationVersion
-            return UserDefaults.standard.bool(forKey: "re.notifica.local.reviewed_\(version)")
+            return UserDefaults.standard.bool(forKey: "\(Key.reviewedVersion.rawValue)_\(version)")
         }
         set {
             let version = NotificareUtils.applicationVersion
-            UserDefaults.standard.setValue(newValue, forKey: "re.notifica.local.reviewed_\(version)")
+            UserDefaults.standard.setValue(newValue, forKey: "\(Key.reviewedVersion.rawValue)_\(version)")
         }
     }
 }

@@ -49,8 +49,7 @@ public class NotificarePushUI {
             presentUrlSchemeNotification(notification, in: controller)
 
         case .rate:
-//            presentRateNotification(notification, in: controller)
-            break
+            presentRateNotification(notification, in: controller)
 
         case .image:
             let notificationController = NotificareImageGalleryViewController()
@@ -118,38 +117,38 @@ public class NotificarePushUI {
         }
     }
 
-//    private static func presentRateNotification(_ notification: NotificareNotification, in controller: UIViewController, with scene: UIWindowScene? = nil) {
-//        let alert = UIAlertController(title: notification.title, message: notification.message, preferredStyle: .alert)
-//
-//        // Rate action
-//        alert.addAction(UIAlertAction(title: "Yes, I'll rate now", style: .default, handler: { _ in
-//            if !NotificareUserDefaults.hasReviewedVersion {
+    private static func presentRateNotification(_ notification: NotificareNotification, in controller: UIViewController) {
+        let alert = UIAlertController(title: notification.title, message: notification.message, preferredStyle: .alert)
+
+        // Rate action
+        alert.addAction(UIAlertAction(title: NotificareLocalizable.string(resource: .rateAlertYesButton), style: .default, handler: { _ in
+            if #available(iOS 10.3, *), !NotificareUserDefaults.hasReviewedCurrentVersion {
 //                if #available(iOS 14.0, *), let scene = scene {
 //                    SKStoreReviewController.requestReview(in: scene)
 //                } else {
-//                    SKStoreReviewController.requestReview()
+                SKStoreReviewController.requestReview()
 //                }
-//
-//                NotificareUserDefaults.hasReviewedVersion = true
-//            } else {
-//                // Go to the Store instead
-//                if let appStoreId = Notificare.shared.application?.appStoreId,
-//                   let url = URL(string: "https://itunes.apple.com/app/id\(appStoreId)?action=write-review")
-//                {
-//                    DispatchQueue.main.async {
-//                        UIApplication.shared.open(url, options: [:], completionHandler: nil)
-//                    }
-//                } else {
-//                    NotificareLogger.warning("Cannot open the App Store.")
-//                }
-//            }
-//        }))
-//
-//        // Cancel action
-//        alert.addAction(UIAlertAction(title: "No, thanks", style: .default, handler: nil))
-//
-//        controller.present(alert, animated: true, completion: nil)
-//    }
+
+                NotificareUserDefaults.hasReviewedCurrentVersion = true
+            } else {
+                // Go to the Store instead
+                if let appStoreId = Notificare.shared.application?.appStoreId,
+                   let url = URL(string: "https://itunes.apple.com/app/id\(appStoreId)?action=write-review")
+                {
+                    DispatchQueue.main.async {
+                        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                    }
+                } else {
+                    NotificareLogger.warning("Cannot open the App Store.")
+                }
+            }
+        }))
+
+        // Cancel action
+        alert.addAction(UIAlertAction(title: NotificareLocalizable.string(resource: .rateAlertNoButton), style: .default, handler: nil))
+
+        controller.present(alert, animated: true, completion: nil)
+    }
 
     private static func presentController(_ controller: UIViewController, in originController: UIViewController) {
         if let navigationController = originController as? UINavigationController {

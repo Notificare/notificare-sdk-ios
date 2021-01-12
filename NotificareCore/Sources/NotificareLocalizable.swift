@@ -35,6 +35,9 @@ public class NotificareLocalizable {
         case actionsSend = "notificare_actions_send"
         case actionsInputPlaceholder = "notificare_actions_input_placeholder"
         case actionsShareImageTextPlaceholder = "notification_actions_share_image_text_placeholder"
+
+        case rateAlertYesButton = "notificare_rate_alert_yes_button"
+        case rateAlertNoButton = "notificare_rate_alert_no_button"
     }
 
     public enum ImageResource: String {
