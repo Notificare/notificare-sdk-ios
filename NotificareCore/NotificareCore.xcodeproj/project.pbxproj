@@ -16,6 +16,9 @@
 		F2DB0C0D25A8647200AD93C7 /* NotificareDefinitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2DB0C0C25A8647200AD93C7 /* NotificareDefinitions.swift */; };
 		F2DB0C1D25A86B6700AD93C7 /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2DB0C1C25A86B6700AD93C7 /* URL.swift */; };
 		F2DB0C3725A884A200AD93C7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F2DB0C3625A884A200AD93C7 /* Assets.xcassets */; };
+		F2E9D43325ADF8A100FF7827 /* NotificareUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E9D43225ADF8A100FF7827 /* NotificareUserDefaults.swift */; };
+		F2E9D43725AE11C800FF7827 /* NotificareUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E9D43625AE11C800FF7827 /* NotificareUtils.swift */; };
+		F2E9D43E25AE13FE00FF7827 /* NotificareConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E9D43D25AE13FE00FF7827 /* NotificareConfiguration.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +45,9 @@
 		F2DB0C0C25A8647200AD93C7 /* NotificareDefinitions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareDefinitions.swift; sourceTree = "<group>"; };
 		F2DB0C1C25A86B6700AD93C7 /* URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
 		F2DB0C3625A884A200AD93C7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F2E9D43225ADF8A100FF7827 /* NotificareUserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareUserDefaults.swift; sourceTree = "<group>"; };
+		F2E9D43625AE11C800FF7827 /* NotificareUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareUtils.swift; sourceTree = "<group>"; };
+		F2E9D43D25AE13FE00FF7827 /* NotificareConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareConfiguration.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +99,7 @@
 		F2B8C52725A6115D00FFBE0C /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				F2E9D43C25AE13EB00FF7827 /* Configuration */,
 				F2DB0C1B25A86B5000AD93C7 /* Extensions */,
 				F27D0E1F25A70F920077612E /* Resources */,
 				F2B8C52825A6115D00FFBE0C /* NotificareCore.h */,
@@ -100,6 +107,8 @@
 				F2DB0C0C25A8647200AD93C7 /* NotificareDefinitions.swift */,
 				F27D0E0F25A70F0F0077612E /* NotificareLocalizable.swift */,
 				F2B8C54725A611BA00FFBE0C /* NotificareLogger.swift */,
+				F2E9D43225ADF8A100FF7827 /* NotificareUserDefaults.swift */,
+				F2E9D43625AE11C800FF7827 /* NotificareUtils.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -119,6 +128,14 @@
 				F2DB0C1C25A86B6700AD93C7 /* URL.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		F2E9D43C25AE13EB00FF7827 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				F2E9D43D25AE13FE00FF7827 /* NotificareConfiguration.swift */,
+			);
+			path = Configuration;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -256,9 +273,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F2E9D43725AE11C800FF7827 /* NotificareUtils.swift in Sources */,
 				F27D0E1025A70F0F0077612E /* NotificareLocalizable.swift in Sources */,
+				F2E9D43E25AE13FE00FF7827 /* NotificareConfiguration.swift in Sources */,
 				F2B8C54825A611BA00FFBE0C /* NotificareLogger.swift in Sources */,
 				F2DB0C0D25A8647200AD93C7 /* NotificareDefinitions.swift in Sources */,
+				F2E9D43325ADF8A100FF7827 /* NotificareUserDefaults.swift in Sources */,
 				F2DB0C1D25A86B6700AD93C7 /* URL.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

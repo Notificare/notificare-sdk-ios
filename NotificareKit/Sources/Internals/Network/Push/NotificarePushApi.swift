@@ -3,6 +3,7 @@
 //
 
 import Foundation
+import NotificareCore
 
 public struct NotificarePushApi {
     public typealias Completion<T> = (Result<T, NotificareError>) -> Void
@@ -17,8 +18,8 @@ public struct NotificarePushApi {
         return URLSession(configuration: configuration)
     }()
 
-    public let decoder = NotificareUtils.createJsonDecoder()
-    public let encoder = NotificareUtils.createJsonEncoder()
+    public let decoder = NotificareUtils.jsonDecoder
+    public let encoder = NotificareUtils.jsonEncoder
 
     init(applicationKey: String, applicationSecret: String, services: NotificareServices = .production) {
         baseUrl = services.pushHost

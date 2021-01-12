@@ -4,13 +4,13 @@
 
 import NotificareCore
 
-struct NotificareUserDefaults {
+extension NotificareUserDefaults {
     static var currentDatabaseVersion: String? {
         get {
-            UserDefaults.standard.string(forKey: NotificareDefinitions.UserDefaults.currentDatabaseVersion)
+            UserDefaults.standard.string(forKey: Key.currentDatabaseVersion.rawValue)
         }
         set {
-            UserDefaults.standard.set(newValue, forKey: NotificareDefinitions.UserDefaults.currentDatabaseVersion)
+            UserDefaults.standard.set(newValue, forKey: Key.currentDatabaseVersion.rawValue)
             UserDefaults.standard.synchronize()
         }
     }
@@ -18,71 +18,69 @@ struct NotificareUserDefaults {
     static var registeredDevice: NotificareDevice? {
         get {
             let settings = UserDefaults.standard
-            guard let data = settings.object(forKey: NotificareDefinitions.UserDefaults.registeredDevice) as? Data else {
+            guard let data = settings.object(forKey: Key.registeredDevice.rawValue) as? Data else {
                 return nil
             }
 
-            let decoder = NotificareUtils.createJsonDecoder()
+            let decoder = NotificareUtils.jsonDecoder
             return try? decoder.decode(NotificareDevice.self, from: data)
         }
         set {
             let settings = UserDefaults.standard
             guard let newValue = newValue else {
-                settings.removeObject(forKey: NotificareDefinitions.UserDefaults.registeredDevice)
+                settings.removeObject(forKey: Key.registeredDevice.rawValue)
                 return
             }
 
-            let encoder = NotificareUtils.createJsonEncoder()
+            let encoder = NotificareUtils.jsonEncoder
             guard let data = try? encoder.encode(newValue) else {
                 return
             }
 
-            settings.set(data, forKey: NotificareDefinitions.UserDefaults.registeredDevice)
+            settings.set(data, forKey: Key.registeredDevice.rawValue)
             settings.synchronize()
         }
     }
 
     static var preferredLanguage: String? {
         get {
-            UserDefaults.standard.string(forKey: NotificareDefinitions.UserDefaults.preferredLanguage)
+            UserDefaults.standard.string(forKey: Key.preferredLanguage.rawValue)
         }
         set {
-            UserDefaults.standard.set(newValue, forKey: NotificareDefinitions.UserDefaults.preferredLanguage)
+            UserDefaults.standard.set(newValue, forKey: Key.preferredLanguage.rawValue)
             UserDefaults.standard.synchronize()
         }
     }
 
     static var preferredRegion: String? {
         get {
-            UserDefaults.standard.string(forKey: NotificareDefinitions.UserDefaults.preferredRegion)
+            UserDefaults.standard.string(forKey: Key.preferredRegion.rawValue)
         }
         set {
-            UserDefaults.standard.set(newValue, forKey: NotificareDefinitions.UserDefaults.preferredRegion)
+            UserDefaults.standard.set(newValue, forKey: Key.preferredRegion.rawValue)
             UserDefaults.standard.synchronize()
         }
     }
 
     static var crashReport: NotificareEvent? {
         get {
-            guard let data = UserDefaults.standard.data(forKey: NotificareDefinitions.UserDefaults.crashReport) else {
+            guard let data = UserDefaults.standard.data(forKey: Key.crashReport.rawValue) else {
                 return nil
             }
 
-            let decoder = NotificareUtils.createJsonDecoder()
-            return try? decoder.decode(NotificareEvent.self, from: data)
+            return try? NotificareUtils.jsonDecoder.decode(NotificareEvent.self, from: data)
         }
         set {
             guard let event = newValue else {
-                UserDefaults.standard.removeObject(forKey: NotificareDefinitions.UserDefaults.crashReport)
+                UserDefaults.standard.removeObject(forKey: Key.crashReport.rawValue)
                 return
             }
 
-            let encoder = NotificareUtils.createJsonEncoder()
-            guard let data = try? encoder.encode(event) else {
+            guard let data = try? NotificareUtils.jsonEncoder.encode(event) else {
                 return
             }
 
-            UserDefaults.standard.set(data, forKey: NotificareDefinitions.UserDefaults.crashReport)
+            UserDefaults.standard.set(data, forKey: Key.crashReport.rawValue)
         }
     }
 }
