@@ -14,7 +14,6 @@ public class NotificareWebViewController: NotificareBaseNotificationViewControll
         super.viewDidLoad()
 
         configureWebView()
-        clearCache()
         setupContent()
     }
 
@@ -36,9 +35,8 @@ public class NotificareWebViewController: NotificareBaseNotificationViewControll
         webView.uiDelegate = self
 
         view.addSubview(webView)
-    }
 
-    private func clearCache() {
+        // Clear cache.
         WKWebsiteDataStore.default().removeData(ofTypes: [WKWebsiteDataTypeDiskCache, WKWebsiteDataTypeMemoryCache],
                                                 modifiedSince: Date(timeIntervalSince1970: 0),
                                                 completionHandler: {})

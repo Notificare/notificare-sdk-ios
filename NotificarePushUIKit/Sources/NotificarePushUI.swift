@@ -68,7 +68,10 @@ public class NotificarePushUI {
             break
 
         case .video:
-            break
+            let notificationController = NotificareVideoViewController()
+            notificationController.notification = notification
+
+            presentController(notificationController, in: controller)
         }
     }
 
