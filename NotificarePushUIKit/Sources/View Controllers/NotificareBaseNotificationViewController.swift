@@ -93,8 +93,7 @@ public class NotificareBaseNotificationViewController: UIViewController {
         }
 
         return queryItems.contains { (item) -> Bool in
-            // TODO: Handle custom close_window_query_parameter.
-            if item.name == "notificareCloseWindow" { // || ([[[NotificareAppConfig shared] options] objectForKey:@"CLOSE_WINDOW_QUERY_PARAMETER"] && [[item name] isEqualToString:[[[NotificareAppConfig shared] options] objectForKey:@"CLOSE_WINDOW_QUERY_PARAMETER"]])
+            if item.name == "notificareCloseWindow" || item.name == NotificareUtils.getConfiguration()?.options?.closeWindowQueryParameter {
                 return true
             } else if item.name == "notificareOpenActions", item.value == "1" || item.value == "true" {
                 return true
@@ -116,8 +115,7 @@ public class NotificareBaseNotificationViewController: UIViewController {
         }
 
         queryItems.forEach { item in
-            // TODO: Handle custom close_window_query_parameter.
-            if item.name == "notificareCloseWindow" { // || ([[[NotificareAppConfig shared] options] objectForKey:@"CLOSE_WINDOW_QUERY_PARAMETER"] && [[item name] isEqualToString:[[[NotificareAppConfig shared] options] objectForKey:@"CLOSE_WINDOW_QUERY_PARAMETER"]])
+            if item.name == "notificareCloseWindow" || item.name == NotificareUtils.getConfiguration()?.options?.closeWindowQueryParameter {
                 if item.value == "1" || item.value == "true" {
                     if let rootViewController = UIApplication.shared.keyWindow?.rootViewController, rootViewController.presentedViewController != nil {
                         rootViewController.dismiss(animated: true, completion: nil)

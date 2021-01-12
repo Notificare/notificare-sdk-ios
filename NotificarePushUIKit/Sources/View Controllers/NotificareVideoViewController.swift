@@ -74,19 +74,17 @@ public class NotificareVideoViewController: NotificareBaseNotificationViewContro
 }
 
 extension NotificareVideoViewController: WKNavigationDelegate, WKUIDelegate {
-    public func webView(_: WKWebView, decidePolicyFor _: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        // TODO: check URL schemes
-
-//        if ( [[[NotificareAppConfig shared] options] objectForKey:@"URL_SCHEMES"] && [[[[NotificareAppConfig shared] options] objectForKey:@"URL_SCHEMES"] containsObject:[[[navigationAction request] URL] scheme]]) {
-//
-//            [[self delegate] notificationType:self didClickURL:[[navigationAction request] URL] inNotification:[self notification]];
-//
-//            decisionHandler(WKNavigationActionPolicyCancel);
-//        } else {
-//            decisionHandler(WKNavigationActionPolicyAllow);
-//        }
-
-        decisionHandler(.allow)
+    public func webView(_: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        if let urlSchemes = NotificareUtils.getConfiguration()?.options?.urlSchemes,
+           let url = navigationAction.request.url,
+           let scheme = url.scheme,
+           urlSchemes.contains(scheme)
+        {
+            NotificarePush.shared.delegate?.notificare(NotificarePush.shared, didClickURL: url, in: notification)
+            decisionHandler(.cancel)
+        } else {
+            decisionHandler(.allow)
+        }
     }
 
     public func webView(_: WKWebView, didFail _: WKNavigation!, withError _: Error) {

@@ -64,15 +64,12 @@ extension NotificareWebViewController: WKNavigationDelegate, WKUIDelegate {
     }
 
     public func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        // TODO: parse from the configuration file
-        let urlSchemes: [String]? = nil
-
         guard let url = navigationAction.request.url else {
             decisionHandler(.cancel)
             return
         }
 
-        if let urlSchemes = urlSchemes, let scheme = url.scheme, urlSchemes.contains(scheme) {
+        if let urlSchemes = NotificareUtils.getConfiguration()?.options?.urlSchemes, let scheme = url.scheme, urlSchemes.contains(scheme) {
             handleNotificareQueryParameters(for: url)
             NotificarePush.shared.delegate?.notificare(NotificarePush.shared, didClickURL: url, in: notification)
             decisionHandler(.cancel)

@@ -14,4 +14,10 @@ public struct NotificareConfiguration: Codable {
     public let developmentApplicationSecret: String?
     public let productionApplicationKey: String?
     public let productionApplicationSecret: String?
+    public let options: Options?
+
+    public struct Options: Codable {
+        public let urlSchemes: [String]?
+        public let closeWindowQueryParameter: String?
+    }
 }
