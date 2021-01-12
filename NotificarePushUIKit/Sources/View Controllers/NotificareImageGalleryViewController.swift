@@ -3,6 +3,7 @@
 //
 
 import NotificareCore
+import NotificarePushKit
 import UIKit
 
 public class NotificareImageGalleryViewController: NotificareBaseNotificationViewController {
@@ -65,7 +66,7 @@ public class NotificareImageGalleryViewController: NotificareBaseNotificationVie
 
     private func setupContent() {
         guard !notification.content.isEmpty else {
-            // TODO: [[self delegate] notificationType:self didFailToOpenNotification:[self notification]];
+            NotificarePush.shared.delegate?.notificare(NotificarePush.shared, didFailToOpenNotification: notification)
             return
         }
 
