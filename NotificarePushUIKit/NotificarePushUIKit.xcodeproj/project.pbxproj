@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F21CBCB025AF1F5000495F7A /* NotificareStoreController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21CBCAF25AF1F5000495F7A /* NotificareStoreController.swift */; };
 		F29B17D525A48BF0007ED6F9 /* NotificarePushUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F29B17CB25A48BEF007ED6F9 /* NotificarePushUIKit.framework */; };
 		F29B17DA25A48BF0007ED6F9 /* NotificarePushUIKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29B17D925A48BF0007ED6F9 /* NotificarePushUIKitTests.swift */; };
 		F29B17DC25A48BF0007ED6F9 /* NotificarePushUIKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F29B17CE25A48BEF007ED6F9 /* NotificarePushUIKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -51,6 +52,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		F21CBCAF25AF1F5000495F7A /* NotificareStoreController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareStoreController.swift; sourceTree = "<group>"; };
 		F29B17CB25A48BEF007ED6F9 /* NotificarePushUIKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NotificarePushUIKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F29B17CE25A48BEF007ED6F9 /* NotificarePushUIKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificarePushUIKit.h; sourceTree = "<group>"; };
 		F29B17CF25A48BEF007ED6F9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -150,6 +152,7 @@
 				F2E9D41D25ADE98D00FF7827 /* NotificareVideoViewController.swift */,
 				F2E9D45725AE1D4500FF7827 /* NotificareUrlViewController.swift */,
 				F2CB6F5B25AEFD0600FC994E /* NotificareMapViewController.swift */,
+				F21CBCAF25AF1F5000495F7A /* NotificareStoreController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -296,6 +299,7 @@
 				F2E9D41E25ADE98D00FF7827 /* NotificareVideoViewController.swift in Sources */,
 				F2E9D45825AE1D4500FF7827 /* NotificareUrlViewController.swift in Sources */,
 				F2B8C51725A5DD9400FFBE0C /* NotificareWebViewController.swift in Sources */,
+				F21CBCB025AF1F5000495F7A /* NotificareStoreController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

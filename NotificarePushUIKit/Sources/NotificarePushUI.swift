@@ -49,7 +49,7 @@ public class NotificarePushUI {
             presentController(notificationController, in: controller)
 
         case .urlScheme:
-            presentUrlSchemeNotification(notification, in: controller)
+            presentUrlSchemeNotification(notification)
 
         case .rate:
             presentRateNotification(notification, in: controller)
@@ -71,7 +71,9 @@ public class NotificarePushUI {
             break
 
         case .store:
-            break
+            if let presentableController = NotificareStoreController.shared.createViewController(for: notification) {
+                presentController(presentableController, in: controller)
+            }
 
         case .video:
             let notificationController = NotificareVideoViewController()
@@ -97,14 +99,14 @@ public class NotificarePushUI {
         let useCancelButton = notification.actions.isEmpty
         alert.addAction(UIAlertAction(title: NotificareLocalizable.string(resource: useCancelButton ? .cancel : .ok),
                                       style: useCancelButton ? .cancel : .default,
-                                      handler: nil))
+                                      handler: { _ in
+                                          // TODO: [[self delegate] notificationType:self didCloseNotification:[self notification]];
+                                      }))
 
-        controller.present(alert, animated: true, completion: nil)
+        presentController(alert, in: controller)
     }
 
-    private static func presentStoreNotification() {}
-
-    private static func presentUrlSchemeNotification(_ notification: NotificareNotification, in _: UIViewController) {
+    private static func presentUrlSchemeNotification(_ notification: NotificareNotification) {
         if let content = notification.content.first,
            let urlStr = content.data as? String
         {
@@ -163,10 +165,22 @@ public class NotificarePushUI {
         // Cancel action
         alert.addAction(UIAlertAction(title: NotificareLocalizable.string(resource: .rateAlertNoButton), style: .default, handler: nil))
 
-        controller.present(alert, animated: true, completion: nil)
+        presentController(alert, in: controller)
     }
 
     private static func presentController(_ controller: UIViewController, in originController: UIViewController) {
+        if controller is UIAlertController || controller is SKStoreProductViewController {
+            if originController.presentedViewController != nil {
+                originController.dismiss(animated: true) {
+                    originController.present(controller, animated: true)
+                }
+            } else {
+                originController.present(controller, animated: true)
+            }
+
+            return
+        }
+
         if let navigationController = originController as? UINavigationController {
             navigationController.pushViewController(controller, animated: true)
         } else {
