@@ -74,13 +74,8 @@ public class NotificareBaseNotificationViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
 
-    func handleAction(_: NotificareNotification.Action) {
-        // TODO: Handle action clicked / wants to execute. Should present the according UI.
-
-        // Label found, handle single action.
-//                        [[self notificareActions] setRootViewController:self];
-//                        [[self notificareActions] setNotification:[self notification]];
-//                        [[self notificareActions] handleAction:action];
+    func handleAction(_ action: NotificareNotification.Action) {
+        NotificareBaseNotificationViewController.handleAction(action, for: notification)
     }
 
     func hasNotificareQueryParameters(in url: URL) -> Bool {
@@ -134,5 +129,16 @@ public class NotificareBaseNotificationViewController: UIViewController {
                 }
             }
         }
+    }
+
+    static func handleAction(_ action: NotificareNotification.Action, for notification: NotificareNotification) {
+        // TODO: Handle action clicked / wants to execute. Should present the according UI.
+        _ = action
+        _ = notification
+
+        // Label found, handle single action.
+//                        [[self notificareActions] setRootViewController:self];
+//                        [[self notificareActions] setNotification:[self notification]];
+//                        [[self notificareActions] handleAction:action];
     }
 }

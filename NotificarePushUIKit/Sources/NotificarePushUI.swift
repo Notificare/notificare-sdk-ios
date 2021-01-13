@@ -67,6 +67,7 @@ public class NotificarePushUI {
             presentController(notificationController, in: controller)
 
         case .passbook:
+            // TODO: handle passbook notification
             break
 
         case .store:
@@ -83,14 +84,23 @@ public class NotificarePushUI {
     private static func presentAlertNotification(_ notification: NotificareNotification, in controller: UIViewController) {
         let alert = UIAlertController(title: notification.title, message: notification.message, preferredStyle: .alert)
 
-        alert.addAction(UIAlertAction(title: NotificareLocalizable.string(resource: .ok),
-                                      style: .default,
+        notification.actions.forEach { action in
+            alert.addAction(
+                UIAlertAction(title: NotificareLocalizable.string(resource: action.label, fallback: action.label),
+                              style: .default,
+                              handler: { _ in
+                                  NotificareBaseNotificationViewController.handleAction(action, for: notification)
+                              })
+            )
+        }
+
+        let useCancelButton = notification.actions.isEmpty
+        alert.addAction(UIAlertAction(title: NotificareLocalizable.string(resource: useCancelButton ? .cancel : .ok),
+                                      style: useCancelButton ? .cancel : .default,
                                       handler: nil))
 
         controller.present(alert, animated: true, completion: nil)
     }
-
-    private static func presentMapNotification() {}
 
     private static func presentStoreNotification() {}
 
