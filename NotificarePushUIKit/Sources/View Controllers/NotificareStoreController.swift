@@ -53,7 +53,6 @@ public class NotificareStoreController: NSObject, SKStoreProductViewControllerDe
     }
 
     public func productViewControllerDidFinish(_: SKStoreProductViewController) {
-        NotificareLogger.info("----> productViewControllerDidFinish <-----")
         UIApplication.shared.keyWindow?.rootViewController?.dismiss(animated: true, completion: {
             // TODO: [[self delegate] notificationType:self didCloseNotification:[self notification]];
         })
