@@ -19,3 +19,5 @@
 
 "notificare_rate_alert_yes_button" = "Yes, I'll rate now";
 "notificare_rate_alert_no_button" = "No, thanks";
+
+"notificare_map_unknown_title_marker" = "Unknown";

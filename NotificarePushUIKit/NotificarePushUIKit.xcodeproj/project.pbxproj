@@ -20,6 +20,7 @@
 		F2B8C51725A5DD9400FFBE0C /* NotificareWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B8C51625A5DD9400FFBE0C /* NotificareWebViewController.swift */; };
 		F2B8C56125A6173F00FFBE0C /* NotificareCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2B8C56025A6173F00FFBE0C /* NotificareCore.framework */; };
 		F2B8C56225A6173F00FFBE0C /* NotificareCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F2B8C56025A6173F00FFBE0C /* NotificareCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F2CB6F5C25AEFD0600FC994E /* NotificareMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2CB6F5B25AEFD0600FC994E /* NotificareMapViewController.swift */; };
 		F2E9D41E25ADE98D00FF7827 /* NotificareVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E9D41D25ADE98D00FF7827 /* NotificareVideoViewController.swift */; };
 		F2E9D45825AE1D4500FF7827 /* NotificareUrlViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E9D45725AE1D4500FF7827 /* NotificareUrlViewController.swift */; };
 /* End PBXBuildFile section */
@@ -64,6 +65,7 @@
 		F29C96E925ACBE5D00620E9B /* NotificareBaseNotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareBaseNotificationViewController.swift; sourceTree = "<group>"; };
 		F2B8C51625A5DD9400FFBE0C /* NotificareWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareWebViewController.swift; sourceTree = "<group>"; };
 		F2B8C56025A6173F00FFBE0C /* NotificareCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F2CB6F5B25AEFD0600FC994E /* NotificareMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareMapViewController.swift; sourceTree = "<group>"; };
 		F2E9D41D25ADE98D00FF7827 /* NotificareVideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareVideoViewController.swift; sourceTree = "<group>"; };
 		F2E9D45725AE1D4500FF7827 /* NotificareUrlViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareUrlViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -147,6 +149,7 @@
 				F29C96E625ACBE2500620E9B /* NotificareImageGalleryViewController.swift */,
 				F2E9D41D25ADE98D00FF7827 /* NotificareVideoViewController.swift */,
 				F2E9D45725AE1D4500FF7827 /* NotificareUrlViewController.swift */,
+				F2CB6F5B25AEFD0600FC994E /* NotificareMapViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -288,6 +291,7 @@
 				F29B180825A4E599007ED6F9 /* NotificarePushUI+NotificationType.swift in Sources */,
 				F29C96E725ACBE2500620E9B /* NotificareImageGalleryViewController.swift in Sources */,
 				F29B180225A4B81A007ED6F9 /* NotificarePushUI+UserDefaults.swift in Sources */,
+				F2CB6F5C25AEFD0600FC994E /* NotificareMapViewController.swift in Sources */,
 				F29B17F325A48CAF007ED6F9 /* NotificarePushUI.swift in Sources */,
 				F2E9D41E25ADE98D00FF7827 /* NotificareVideoViewController.swift in Sources */,
 				F2E9D45825AE1D4500FF7827 /* NotificareUrlViewController.swift in Sources */,

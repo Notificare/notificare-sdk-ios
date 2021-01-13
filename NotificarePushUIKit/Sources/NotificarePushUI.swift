@@ -61,7 +61,10 @@ public class NotificarePushUI {
             presentController(notificationController, in: controller)
 
         case .map:
-            break
+            let notificationController = NotificareMapViewController()
+            notificationController.notification = notification
+
+            presentController(notificationController, in: controller)
 
         case .passbook:
             break

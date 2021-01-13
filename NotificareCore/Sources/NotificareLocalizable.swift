@@ -38,9 +38,13 @@ public class NotificareLocalizable {
 
         case rateAlertYesButton = "notificare_rate_alert_yes_button"
         case rateAlertNoButton = "notificare_rate_alert_no_button"
+
+        case mapUnknownTitleMarker = "notificare_map_unknown_title_marker"
     }
 
     public enum ImageResource: String {
         case actions = "notificare_actions"
+        case mapMarker = "notificare_map_marker"
+        case mapMarkerUserLocation = "notificare_map_marker_user_location"
     }
 }
