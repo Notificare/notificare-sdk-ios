@@ -6,7 +6,7 @@ import NotificareCore
 import NotificarePushKit
 import StoreKit
 
-public class NotificareStoreController: NSObject, SKStoreProductViewControllerDelegate {
+class NotificareStoreController: NSObject, SKStoreProductViewControllerDelegate {
     static let shared = NotificareStoreController()
 
     override private init() {}

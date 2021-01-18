@@ -80,6 +80,23 @@ extension NotificareNotification: Decodable {
     }
 }
 
+// NotificareNotification.NotificationType
+public extension NotificareNotification {
+    enum NotificationType: String {
+        case none = "re.notifica.notification.None"
+        case alert = "re.notifica.notification.Alert"
+        case webView = "re.notifica.notification.WebView"
+        case url = "re.notifica.notification.URL"
+        case urlScheme = "re.notifica.notification.URLScheme"
+        case image = "re.notifica.notification.Image"
+        case video = "re.notifica.notification.Video"
+        case map = "re.notifica.notification.Map"
+        case rate = "re.notifica.notification.Rate"
+        case passbook = "re.notifica.notification.Passbook"
+        case store = "re.notifica.notification.Store"
+    }
+}
+
 // NotificareNotification.Content
 public extension NotificareNotification {
     struct Content: Decodable {
@@ -115,9 +132,22 @@ public extension NotificareNotification {
     }
 }
 
-// NotificareNotification.ActionData
+// NotificareNotification.Action.ActionType
+public extension NotificareNotification.Action {
+    enum ActionType: String {
+        case app = "re.notifica.action.App"
+        case browser = "re.notifica.action.Browser"
+        case callback = "re.notifica.action.Callback"
+        case custom = "re.notifica.action.Custom"
+        case mail = "re.notifica.action.Mail"
+        case sms = "re.notifica.action.SMS"
+        case telephone = "re.notifica.action.Telephone"
+    }
+}
+
+// NotificareNotification.ResponseData
 public extension NotificareNotification {
-    struct ActionData: Decodable {
+    struct ResponseData: Decodable {
         public let identifier: String
         public let userText: String?
     }

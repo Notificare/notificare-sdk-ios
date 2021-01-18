@@ -21,3 +21,9 @@
 "notificare_rate_alert_no_button" = "No, thanks";
 
 "notificare_map_unknown_title_marker" = "Unknown";
+
+"notificare_action_mail_subject" = "Your subject";
+"notificare_action_mail_body" = "Your message";
+
+"notificare_close_button" = "Close";
+"notificare_send_button" = "Send";

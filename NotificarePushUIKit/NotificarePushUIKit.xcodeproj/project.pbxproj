@@ -8,6 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		F21CBCB025AF1F5000495F7A /* NotificareStoreController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21CBCAF25AF1F5000495F7A /* NotificareStoreController.swift */; };
+		F277EAAF25B084860026225C /* NotificareBaseActionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F277EAAE25B084860026225C /* NotificareBaseActionHandler.swift */; };
+		F277EAB325B085740026225C /* NotificareMailActionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F277EAB225B085740026225C /* NotificareMailActionHandler.swift */; };
+		F277EAB625B0A04F0026225C /* NotificareAppActionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F277EAB525B0A04F0026225C /* NotificareAppActionHandler.swift */; };
+		F277EAB925B0A0FF0026225C /* NotificareSmsActionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F277EAB825B0A0FF0026225C /* NotificareSmsActionHandler.swift */; };
+		F277EABD25B0A10C0026225C /* NotificareTelephoneActionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F277EABC25B0A10C0026225C /* NotificareTelephoneActionHandler.swift */; };
+		F277EAC025B0A1150026225C /* NotificareBrowserActionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F277EABF25B0A1150026225C /* NotificareBrowserActionHandler.swift */; };
+		F277EAC325B0A1220026225C /* NotificareCustomActionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F277EAC225B0A1220026225C /* NotificareCustomActionHandler.swift */; };
+		F277EAC725B0A7680026225C /* NotificareCallbackActionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F277EAC625B0A7680026225C /* NotificareCallbackActionHandler.swift */; };
 		F29B17D525A48BF0007ED6F9 /* NotificarePushUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F29B17CB25A48BEF007ED6F9 /* NotificarePushUIKit.framework */; };
 		F29B17DA25A48BF0007ED6F9 /* NotificarePushUIKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29B17D925A48BF0007ED6F9 /* NotificarePushUIKitTests.swift */; };
 		F29B17DC25A48BF0007ED6F9 /* NotificarePushUIKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F29B17CE25A48BEF007ED6F9 /* NotificarePushUIKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -15,7 +23,6 @@
 		F29B17F025A48C9B007ED6F9 /* NotificarePushKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F29B17EE25A48C9B007ED6F9 /* NotificarePushKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F29B17F325A48CAF007ED6F9 /* NotificarePushUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29B17F225A48CAF007ED6F9 /* NotificarePushUI.swift */; };
 		F29B180225A4B81A007ED6F9 /* NotificarePushUI+UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29B180125A4B81A007ED6F9 /* NotificarePushUI+UserDefaults.swift */; };
-		F29B180825A4E599007ED6F9 /* NotificarePushUI+NotificationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29B180725A4E599007ED6F9 /* NotificarePushUI+NotificationType.swift */; };
 		F29C96E725ACBE2500620E9B /* NotificareImageGalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29C96E625ACBE2500620E9B /* NotificareImageGalleryViewController.swift */; };
 		F29C96EA25ACBE5D00620E9B /* NotificareBaseNotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29C96E925ACBE5D00620E9B /* NotificareBaseNotificationViewController.swift */; };
 		F2B8C51725A5DD9400FFBE0C /* NotificareWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B8C51625A5DD9400FFBE0C /* NotificareWebViewController.swift */; };
@@ -53,6 +60,14 @@
 
 /* Begin PBXFileReference section */
 		F21CBCAF25AF1F5000495F7A /* NotificareStoreController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareStoreController.swift; sourceTree = "<group>"; };
+		F277EAAE25B084860026225C /* NotificareBaseActionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareBaseActionHandler.swift; sourceTree = "<group>"; };
+		F277EAB225B085740026225C /* NotificareMailActionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareMailActionHandler.swift; sourceTree = "<group>"; };
+		F277EAB525B0A04F0026225C /* NotificareAppActionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareAppActionHandler.swift; sourceTree = "<group>"; };
+		F277EAB825B0A0FF0026225C /* NotificareSmsActionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareSmsActionHandler.swift; sourceTree = "<group>"; };
+		F277EABC25B0A10C0026225C /* NotificareTelephoneActionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareTelephoneActionHandler.swift; sourceTree = "<group>"; };
+		F277EABF25B0A1150026225C /* NotificareBrowserActionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareBrowserActionHandler.swift; sourceTree = "<group>"; };
+		F277EAC225B0A1220026225C /* NotificareCustomActionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareCustomActionHandler.swift; sourceTree = "<group>"; };
+		F277EAC625B0A7680026225C /* NotificareCallbackActionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareCallbackActionHandler.swift; sourceTree = "<group>"; };
 		F29B17CB25A48BEF007ED6F9 /* NotificarePushUIKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NotificarePushUIKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F29B17CE25A48BEF007ED6F9 /* NotificarePushUIKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificarePushUIKit.h; sourceTree = "<group>"; };
 		F29B17CF25A48BEF007ED6F9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -62,7 +77,6 @@
 		F29B17EE25A48C9B007ED6F9 /* NotificarePushKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificarePushKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F29B17F225A48CAF007ED6F9 /* NotificarePushUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificarePushUI.swift; sourceTree = "<group>"; };
 		F29B180125A4B81A007ED6F9 /* NotificarePushUI+UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificarePushUI+UserDefaults.swift"; sourceTree = "<group>"; };
-		F29B180725A4E599007ED6F9 /* NotificarePushUI+NotificationType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificarePushUI+NotificationType.swift"; sourceTree = "<group>"; };
 		F29C96E625ACBE2500620E9B /* NotificareImageGalleryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareImageGalleryViewController.swift; sourceTree = "<group>"; };
 		F29C96E925ACBE5D00620E9B /* NotificareBaseNotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareBaseNotificationViewController.swift; sourceTree = "<group>"; };
 		F2B8C51625A5DD9400FFBE0C /* NotificareWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareWebViewController.swift; sourceTree = "<group>"; };
@@ -93,6 +107,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F277EAAD25B084740026225C /* Action Handlers */ = {
+			isa = PBXGroup;
+			children = (
+				F277EAAE25B084860026225C /* NotificareBaseActionHandler.swift */,
+				F277EAB525B0A04F0026225C /* NotificareAppActionHandler.swift */,
+				F277EABF25B0A1150026225C /* NotificareBrowserActionHandler.swift */,
+				F277EAC625B0A7680026225C /* NotificareCallbackActionHandler.swift */,
+				F277EAC225B0A1220026225C /* NotificareCustomActionHandler.swift */,
+				F277EAB225B085740026225C /* NotificareMailActionHandler.swift */,
+				F277EAB825B0A0FF0026225C /* NotificareSmsActionHandler.swift */,
+				F277EABC25B0A10C0026225C /* NotificareTelephoneActionHandler.swift */,
+			);
+			path = "Action Handlers";
+			sourceTree = "<group>";
+		};
 		F29B17C125A48BEF007ED6F9 = {
 			isa = PBXGroup;
 			children = (
@@ -115,12 +144,12 @@
 		F29B17CD25A48BEF007ED6F9 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				F277EAAD25B084740026225C /* Action Handlers */,
 				F2B8C51525A5DD8300FFBE0C /* View Controllers */,
 				F29B17CF25A48BEF007ED6F9 /* Info.plist */,
 				F29B17CE25A48BEF007ED6F9 /* NotificarePushUIKit.h */,
 				F29B17F225A48CAF007ED6F9 /* NotificarePushUI.swift */,
 				F29B180125A4B81A007ED6F9 /* NotificarePushUI+UserDefaults.swift */,
-				F29B180725A4E599007ED6F9 /* NotificarePushUI+NotificationType.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -290,15 +319,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F277EAB625B0A04F0026225C /* NotificareAppActionHandler.swift in Sources */,
+				F277EAC325B0A1220026225C /* NotificareCustomActionHandler.swift in Sources */,
 				F29C96EA25ACBE5D00620E9B /* NotificareBaseNotificationViewController.swift in Sources */,
-				F29B180825A4E599007ED6F9 /* NotificarePushUI+NotificationType.swift in Sources */,
 				F29C96E725ACBE2500620E9B /* NotificareImageGalleryViewController.swift in Sources */,
 				F29B180225A4B81A007ED6F9 /* NotificarePushUI+UserDefaults.swift in Sources */,
 				F2CB6F5C25AEFD0600FC994E /* NotificareMapViewController.swift in Sources */,
+				F277EABD25B0A10C0026225C /* NotificareTelephoneActionHandler.swift in Sources */,
 				F29B17F325A48CAF007ED6F9 /* NotificarePushUI.swift in Sources */,
+				F277EAAF25B084860026225C /* NotificareBaseActionHandler.swift in Sources */,
 				F2E9D41E25ADE98D00FF7827 /* NotificareVideoViewController.swift in Sources */,
 				F2E9D45825AE1D4500FF7827 /* NotificareUrlViewController.swift in Sources */,
 				F2B8C51725A5DD9400FFBE0C /* NotificareWebViewController.swift in Sources */,
+				F277EAC725B0A7680026225C /* NotificareCallbackActionHandler.swift in Sources */,
+				F277EAC025B0A1150026225C /* NotificareBrowserActionHandler.swift in Sources */,
+				F277EAB925B0A0FF0026225C /* NotificareSmsActionHandler.swift in Sources */,
+				F277EAB325B085740026225C /* NotificareMailActionHandler.swift in Sources */,
 				F21CBCB025AF1F5000495F7A /* NotificareStoreController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -132,13 +132,6 @@ public class NotificareBaseNotificationViewController: UIViewController {
     }
 
     static func handleAction(_ action: NotificareNotification.Action, for notification: NotificareNotification) {
-        // TODO: Handle action clicked / wants to execute. Should present the according UI.
-        _ = action
-        _ = notification
-
-        // Label found, handle single action.
-//                        [[self notificareActions] setRootViewController:self];
-//                        [[self notificareActions] setNotification:[self notification]];
-//                        [[self notificareActions] handleAction:action];
+        NotificarePush.shared.delegate?.notificare(NotificarePush.shared, didOpenAction: action, for: notification, with: nil)
     }
 }

@@ -30,12 +30,12 @@ extension NotificarePush: UNUserNotificationCenterDelegate {
 
                     if response.actionIdentifier != UNNotificationDefaultActionIdentifier, response.actionIdentifier != UNNotificationDismissActionIdentifier {
                         if let clickedAction = notification.actions.first(where: { $0.label == response.actionIdentifier }) {
-                            let data = NotificareNotification.ActionData(
+                            let response = NotificareNotification.ResponseData(
                                 identifier: response.actionIdentifier,
                                 userText: (response as? UNTextInputNotificationResponse)?.userText
                             )
 
-                            self.delegate?.notificare(self, didOpenAction: clickedAction, for: notification, with: data)
+                            self.delegate?.notificare(self, didOpenAction: clickedAction, for: notification, with: response)
                         } else {
                             // TODO: handle scenario
                         }

@@ -19,6 +19,8 @@
 		F258DDA524BC4EE2006F9ABD /* NotificarePushKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F258DD9724BC4EE2006F9ABD /* NotificarePushKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F26EEA082599EE3900131829 /* NotificarePushApi+Push.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26EEA072599EE3900131829 /* NotificarePushApi+Push.swift */; };
 		F26EEA1A2599F0DE00131829 /* NotificareNotificationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26EEA192599F0DE00131829 /* NotificareNotificationResponse.swift */; };
+		F277EACB25B1956F0026225C /* NotificareCreateReplyPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = F277EACA25B1956F0026225C /* NotificareCreateReplyPayload.swift */; };
+		F28085A225B5A2E200D3AD50 /* NotificareUploadResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28085A125B5A2E200D3AD50 /* NotificareUploadResponse.swift */; };
 		F28553C5258B8848006674C1 /* NotificarePushDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28553C4258B8848006674C1 /* NotificarePushDelegate.swift */; };
 		F28DC242259BDC1D0040FC24 /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28DC241259BDC1D0040FC24 /* JSON.swift */; };
 		F2B8C55D25A6173700FFBE0C /* NotificareCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2B8C55C25A6173700FFBE0C /* NotificareCore.framework */; };
@@ -68,6 +70,8 @@
 		F258DE8924BC8A76006F9ABD /* Notificare.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Notificare.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F26EEA072599EE3900131829 /* NotificarePushApi+Push.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificarePushApi+Push.swift"; sourceTree = "<group>"; };
 		F26EEA192599F0DE00131829 /* NotificareNotificationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareNotificationResponse.swift; sourceTree = "<group>"; };
+		F277EACA25B1956F0026225C /* NotificareCreateReplyPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareCreateReplyPayload.swift; sourceTree = "<group>"; };
+		F28085A125B5A2E200D3AD50 /* NotificareUploadResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareUploadResponse.swift; sourceTree = "<group>"; };
 		F28553C4258B8848006674C1 /* NotificarePushDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificarePushDelegate.swift; sourceTree = "<group>"; };
 		F28DC241259BDC1D0040FC24 /* JSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSON.swift; sourceTree = "<group>"; };
 		F2AAAF88251D01B400465EC5 /* NotificareSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -166,6 +170,7 @@
 			children = (
 				F26EEA182599F0C800131829 /* Responses */,
 				F26EEA072599EE3900131829 /* NotificarePushApi+Push.swift */,
+				F277EACA25B1956F0026225C /* NotificareCreateReplyPayload.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -183,6 +188,7 @@
 			isa = PBXGroup;
 			children = (
 				F26EEA192599F0DE00131829 /* NotificareNotificationResponse.swift */,
+				F28085A125B5A2E200D3AD50 /* NotificareUploadResponse.swift */,
 			);
 			path = Responses;
 			sourceTree = "<group>";
@@ -324,11 +330,13 @@
 				F2128F022594E47700F7F68F /* NotificareSystemNotification.swift in Sources */,
 				F28553C5258B8848006674C1 /* NotificarePushDelegate.swift in Sources */,
 				F240E09225927DCC00DBC25F /* NotificarePush+UIApplicationDelegate.swift in Sources */,
+				F28085A225B5A2E200D3AD50 /* NotificareUploadResponse.swift in Sources */,
 				F23A5569259C7D6D00B57CF1 /* NotificarePush+EventsManager.swift in Sources */,
 				F26EEA1A2599F0DE00131829 /* NotificareNotificationResponse.swift in Sources */,
 				F26EEA082599EE3900131829 /* NotificarePushApi+Push.swift in Sources */,
 				F2128F062594EB6000F7F68F /* NotificareNotification.swift in Sources */,
 				F28DC242259BDC1D0040FC24 /* JSON.swift in Sources */,
+				F277EACB25B1956F0026225C /* NotificareCreateReplyPayload.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

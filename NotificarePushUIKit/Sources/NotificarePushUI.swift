@@ -2,6 +2,7 @@
 // Copyright (c) 2021 Notificare. All rights reserved.
 //
 
+import MessageUI
 import NotificareCore
 import NotificareKit
 import NotificarePushKit
@@ -24,7 +25,7 @@ public class NotificarePushUI {
     public static func presentNotification(_ notification: NotificareNotification, in controller: UIViewController) {
         NotificareLogger.debug("Presenting notification '\(notification.id)'.")
 
-        guard let type = Notificare.NotificationType(rawValue: notification.type) else {
+        guard let type = NotificareNotification.NotificationType(rawValue: notification.type) else {
             NotificareLogger.warning("Unhandled notification type '\(notification.type)'.")
             return
         }
@@ -168,8 +169,8 @@ public class NotificarePushUI {
         presentController(alert, in: controller)
     }
 
-    private static func presentController(_ controller: UIViewController, in originController: UIViewController) {
-        if controller is UIAlertController || controller is SKStoreProductViewController {
+    static func presentController(_ controller: UIViewController, in originController: UIViewController) {
+        if controller is UIAlertController || controller is SKStoreProductViewController || controller is UINavigationController {
             if originController.presentedViewController != nil {
                 originController.dismiss(animated: true) {
                     originController.present(controller, animated: true)
@@ -186,5 +187,48 @@ public class NotificarePushUI {
         } else {
             originController.present(controller, animated: true, completion: nil)
         }
+    }
+
+    static var latestPresentableActionHandler: NotificareBaseActionHandler?
+
+    public static func presentAction(_ action: NotificareNotification.Action, for notification: NotificareNotification, with response: NotificareNotification.ResponseData?, in originController: UIViewController) {
+        _ = response
+
+        NotificareLogger.debug("Presenting notification action '\(action.type)' for notification '\(notification.id)'.")
+
+        guard let type = NotificareNotification.Action.ActionType(rawValue: action.type) else {
+            NotificareLogger.warning("Unhandled notification action type '\(action.type)'.")
+            return
+        }
+
+        switch type {
+        case .app:
+            latestPresentableActionHandler = NotificareAppActionHandler(notification: notification,
+                                                                        action: action)
+        case .browser:
+            latestPresentableActionHandler = NotificareBrowserActionHandler(notification: notification,
+                                                                            action: action)
+        case .callback:
+            latestPresentableActionHandler = NotificareCallbackActionHandler(notification: notification,
+                                                                             action: action,
+                                                                             response: response,
+                                                                             sourceViewController: originController)
+        case .custom:
+            latestPresentableActionHandler = NotificareCustomActionHandler(notification: notification,
+                                                                           action: action)
+        case .mail:
+            latestPresentableActionHandler = NotificareMailActionHandler(notification: notification,
+                                                                         action: action,
+                                                                         sourceViewController: originController)
+        case .sms:
+            latestPresentableActionHandler = NotificareSmsActionHandler(notification: notification,
+                                                                        action: action,
+                                                                        sourceViewController: originController)
+        case .telephone:
+            latestPresentableActionHandler = NotificareTelephoneActionHandler(notification: notification,
+                                                                              action: action)
+        }
+
+        latestPresentableActionHandler?.execute()
     }
 }
