@@ -96,4 +96,12 @@ extension AppDelegate: NotificarePushDelegate {
 
         NotificarePushUI.presentNotification(notification, in: controller)
     }
+    
+    func notificare(_ notificarePush: NotificarePush, didOpenAction action: NotificareNotification.Action, for notification: NotificareNotification, with response: NotificareNotification.ResponseData?) {
+        guard let controller = window?.rootViewController else {
+            return
+        }
+
+        NotificarePushUI.presentAction(action, for: notification, with: response, in: controller)
+    }
 }

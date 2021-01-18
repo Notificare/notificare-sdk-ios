@@ -42,6 +42,10 @@
 	<array>
 		<string>armv7</string>
 	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>We will need access to the device&apos;s camera to reply to notifications or scan QR codes.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>We may need to access your photos to reply to notifications.</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
