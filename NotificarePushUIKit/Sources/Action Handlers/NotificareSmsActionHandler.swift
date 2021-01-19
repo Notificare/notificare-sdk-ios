@@ -6,7 +6,7 @@ import MessageUI
 import NotificareCore
 import NotificarePushKit
 
-class NotificareSmsActionHandler: NotificareBaseActionHandler {
+public class NotificareSmsActionHandler: NotificareBaseActionHandler {
     private let sourceViewController: UIViewController
 
     init(notification: NotificareNotification, action: NotificareNotification.Action, sourceViewController: UIViewController) {
@@ -17,7 +17,7 @@ class NotificareSmsActionHandler: NotificareBaseActionHandler {
 
     override func execute() {
         guard let target = action.target, MFMessageComposeViewController.canSendText() else {
-            // TODO: FAIL
+            NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFailToExecuteAction: action, for: notification, error: ActionError.notSupported)
             return
         }
 
@@ -28,7 +28,7 @@ class NotificareSmsActionHandler: NotificareBaseActionHandler {
         composer.recipients = recipients
         composer.body = ""
 
-        NotificarePushUI.presentController(composer, in: sourceViewController)
+        NotificarePushUI.shared.presentController(composer, in: sourceViewController)
     }
 
     private func dismiss() {
@@ -47,24 +47,38 @@ class NotificareSmsActionHandler: NotificareBaseActionHandler {
 }
 
 extension NotificareSmsActionHandler: MFMessageComposeViewControllerDelegate {
-    func messageComposeViewController(_: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+    public func messageComposeViewController(_: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
         switch result {
         case .sent:
-            // [[self delegate] actionType:self didExecuteAction:[self action]];
+            NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didExecuteAction: action, for: notification)
             NotificarePush.shared.submitNotificationActionReply(action, for: notification) { _ in }
 
         case .cancelled:
-            break
+            NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didNotExecuteAction: action, for: notification)
 
         case .failed:
-            // [[self delegate] actionType:self didFailToExecuteAction:[self action] withError:e];
-            break
+            NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFailToExecuteAction: action, for: notification, error: ActionError.failed)
 
         default:
-            // [[self delegate] actionType:self didFailToExecuteAction:[self action] withError:e];
-            break
+            NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFailToExecuteAction: action, for: notification, error: ActionError.failed)
         }
 
         dismiss()
+    }
+}
+
+public extension NotificareSmsActionHandler {
+    enum ActionError: LocalizedError {
+        case notSupported
+        case failed
+
+        public var errorDescription: String? {
+            switch self {
+            case .notSupported:
+                return "The device does not support sending a SMS."
+            case .failed:
+                return "The message composer failed to send the SMS."
+            }
+        }
     }
 }

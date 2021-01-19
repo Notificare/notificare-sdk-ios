@@ -6,17 +6,30 @@ import NotificareCore
 import NotificarePushKit
 import UIKit
 
-class NotificareBrowserActionHandler: NotificareBaseActionHandler {
+public class NotificareBrowserActionHandler: NotificareBaseActionHandler {
     override func execute() {
         if let target = action.target, let url = URL(string: target), url.scheme != nil, url.host != nil, UIApplication.shared.canOpenURL(url) {
             DispatchQueue.main.async {
                 UIApplication.shared.open(url, options: [:]) { _ in
-                    // [[self delegate] actionType:self didExecuteAction:[self action]];
+                    NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didExecuteAction: self.action, for: self.notification)
                     NotificarePush.shared.submitNotificationActionReply(self.action, for: self.notification) { _ in }
                 }
             }
         } else {
-            // [[self delegate] actionType:self didFailToExecuteAction:[self action] withError:e];
+            NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFailToExecuteAction: action, for: notification, error: ActionError.invalidUrl)
+        }
+    }
+}
+
+public extension NotificareBrowserActionHandler {
+    enum ActionError: LocalizedError {
+        case invalidUrl
+
+        public var errorDescription: String? {
+            switch self {
+            case .invalidUrl:
+                return "Invalid URL."
+            }
         }
     }
 }

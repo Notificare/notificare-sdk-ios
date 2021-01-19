@@ -94,7 +94,7 @@ extension AppDelegate: NotificarePushDelegate {
             return
         }
 
-        NotificarePushUI.presentNotification(notification, in: controller)
+        NotificarePushUI.shared.presentNotification(notification, in: controller)
     }
     
     func notificare(_ notificarePush: NotificarePush, didOpenAction action: NotificareNotification.Action, for notification: NotificareNotification, with response: NotificareNotification.ResponseData?) {
@@ -102,6 +102,6 @@ extension AppDelegate: NotificarePushDelegate {
             return
         }
 
-        NotificarePushUI.presentAction(action, for: notification, with: response, in: controller)
+        NotificarePushUI.shared.presentAction(action, for: notification, with: response, in: controller)
     }
 }

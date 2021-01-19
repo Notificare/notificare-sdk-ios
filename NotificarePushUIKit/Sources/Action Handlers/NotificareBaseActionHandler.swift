@@ -4,7 +4,7 @@
 
 import NotificarePushKit
 
-class NotificareBaseActionHandler: NSObject {
+public class NotificareBaseActionHandler: NSObject {
     let notification: NotificareNotification
     let action: NotificareNotification.Action
 

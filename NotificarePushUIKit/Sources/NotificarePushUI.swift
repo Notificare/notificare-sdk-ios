@@ -10,19 +10,23 @@ import StoreKit
 import UIKit
 
 public class NotificarePushUI {
-    private init() {}
+    public static let shared = NotificarePushUI()
 
-//    static func presentNotification(_ notification: NotificareNotification, in controller: UIViewController) {}
-//
-//    static func presentNotification(_ notification: NotificareNotification, in window: UIWindow) {}
-//
-//    static func presentNotification(_ notification: NotificareNotification, in scene: UIWindowScene) {}
-//
-//    static func presentNotification(_ notification: NotificareNotification, in controller: UINavigationController) {}
-//
-//    static func presentNotification(_ notification: NotificareNotification, in controller: UITabBarController, for tab: UITabBarItem) {}
+    public weak var delegate: NotificarePushUIDelegate?
 
-    public static func presentNotification(_ notification: NotificareNotification, in controller: UIViewController) {
+    private var latestPresentableActionHandler: NotificareBaseActionHandler?
+
+//    func presentNotification(_ notification: NotificareNotification, in controller: UIViewController) {}
+//
+//    func presentNotification(_ notification: NotificareNotification, in window: UIWindow) {}
+//
+//    func presentNotification(_ notification: NotificareNotification, in scene: UIWindowScene) {}
+//
+//    func presentNotification(_ notification: NotificareNotification, in controller: UINavigationController) {}
+//
+//    func presentNotification(_ notification: NotificareNotification, in controller: UITabBarController, for tab: UITabBarItem) {}
+
+    public func presentNotification(_ notification: NotificareNotification, in controller: UIViewController) {
         NotificareLogger.debug("Presenting notification '\(notification.id)'.")
 
         guard let type = NotificareNotification.NotificationType(rawValue: notification.type) else {
@@ -84,7 +88,7 @@ public class NotificarePushUI {
         }
     }
 
-    private static func presentAlertNotification(_ notification: NotificareNotification, in controller: UIViewController) {
+    private func presentAlertNotification(_ notification: NotificareNotification, in controller: UIViewController) {
         let alert = UIAlertController(title: notification.title, message: notification.message, preferredStyle: .alert)
 
         notification.actions.forEach { action in
@@ -107,7 +111,7 @@ public class NotificarePushUI {
         presentController(alert, in: controller)
     }
 
-    private static func presentUrlSchemeNotification(_ notification: NotificareNotification) {
+    private func presentUrlSchemeNotification(_ notification: NotificareNotification) {
         if let content = notification.content.first,
            let urlStr = content.data as? String
         {
@@ -136,7 +140,7 @@ public class NotificarePushUI {
         }
     }
 
-    private static func presentRateNotification(_ notification: NotificareNotification, in controller: UIViewController) {
+    private func presentRateNotification(_ notification: NotificareNotification, in controller: UIViewController) {
         let alert = UIAlertController(title: notification.title, message: notification.message, preferredStyle: .alert)
 
         // Rate action
@@ -169,7 +173,7 @@ public class NotificarePushUI {
         presentController(alert, in: controller)
     }
 
-    static func presentController(_ controller: UIViewController, in originController: UIViewController) {
+    func presentController(_ controller: UIViewController, in originController: UIViewController) {
         if controller is UIAlertController || controller is SKStoreProductViewController || controller is UINavigationController {
             if originController.presentedViewController != nil {
                 originController.dismiss(animated: true) {
@@ -189,11 +193,7 @@ public class NotificarePushUI {
         }
     }
 
-    static var latestPresentableActionHandler: NotificareBaseActionHandler?
-
-    public static func presentAction(_ action: NotificareNotification.Action, for notification: NotificareNotification, with response: NotificareNotification.ResponseData?, in originController: UIViewController) {
-        _ = response
-
+    public func presentAction(_ action: NotificareNotification.Action, for notification: NotificareNotification, with response: NotificareNotification.ResponseData?, in controller: UIViewController) {
         NotificareLogger.debug("Presenting notification action '\(action.type)' for notification '\(notification.id)'.")
 
         guard let type = NotificareNotification.Action.ActionType(rawValue: action.type) else {
@@ -212,18 +212,18 @@ public class NotificarePushUI {
             latestPresentableActionHandler = NotificareCallbackActionHandler(notification: notification,
                                                                              action: action,
                                                                              response: response,
-                                                                             sourceViewController: originController)
+                                                                             sourceViewController: controller)
         case .custom:
             latestPresentableActionHandler = NotificareCustomActionHandler(notification: notification,
                                                                            action: action)
         case .mail:
             latestPresentableActionHandler = NotificareMailActionHandler(notification: notification,
                                                                          action: action,
-                                                                         sourceViewController: originController)
+                                                                         sourceViewController: controller)
         case .sms:
             latestPresentableActionHandler = NotificareSmsActionHandler(notification: notification,
                                                                         action: action,
-                                                                        sourceViewController: originController)
+                                                                        sourceViewController: controller)
         case .telephone:
             latestPresentableActionHandler = NotificareTelephoneActionHandler(notification: notification,
                                                                               action: action)
