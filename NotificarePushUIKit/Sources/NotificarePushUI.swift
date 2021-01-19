@@ -101,7 +101,7 @@ public class NotificarePushUI {
             )
         }
 
-        let useCancelButton = notification.actions.isEmpty
+        let useCancelButton = !notification.actions.isEmpty
         alert.addAction(UIAlertAction(title: NotificareLocalizable.string(resource: useCancelButton ? .cancel : .ok),
                                       style: useCancelButton ? .cancel : .default,
                                       handler: { _ in
