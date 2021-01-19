@@ -11,7 +11,7 @@ import NotificareKit
 import NotificarePushKit
 import UIKit
 
-class NotificareCallbackActionHandler: NotificareBaseActionHandler {
+public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
     private let response: NotificareNotification.ResponseData?
     private let sourceViewController: UIViewController
 
@@ -31,10 +31,13 @@ class NotificareCallbackActionHandler: NotificareBaseActionHandler {
 
     private var imageData: Data?
     private var videoData: Data?
-    private var mediaUrl: String?
+
     private var message: String? {
         response?.userText ?? messageField?.text ?? messageView?.text
     }
+
+    private var mediaUrl: String?
+    private var mediaMimeType: String?
 
     init(notification: NotificareNotification, action: NotificareNotification.Action, response: NotificareNotification.ResponseData?, sourceViewController: UIViewController) {
         self.response = response
@@ -136,14 +139,25 @@ class NotificareCallbackActionHandler: NotificareBaseActionHandler {
                 switch result {
                 case let .success(url):
                     self.mediaUrl = url
+                    self.mediaMimeType = "image/jpeg"
                     self.send()
-                case .failure(let error):
+                case let .failure(error):
                     NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFailToExecuteAction: self.action, for: self.notification, error: error)
                     self.dismiss()
                 }
             }
         } else if let videoData = videoData {
-            //
+            NotificarePush.shared.uploadNotificationActionReplyAsset(videoData, contentType: "video/quicktime") { result in
+                switch result {
+                case let .success(url):
+                    self.mediaUrl = url
+                    self.mediaMimeType = "video/quicktime"
+                    self.send()
+                case let .failure(error):
+                    NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFailToExecuteAction: self.action, for: self.notification, error: error)
+                    self.dismiss()
+                }
+            }
         } else if message != nil {
             send()
         }
@@ -151,9 +165,10 @@ class NotificareCallbackActionHandler: NotificareBaseActionHandler {
 
     private func openCamera() {
         guard Bundle.main.object(forInfoDictionaryKey: "NSPhotoLibraryUsageDescription") != nil,
-              Bundle.main.object(forInfoDictionaryKey: "NSCameraUsageDescription") != nil
+              Bundle.main.object(forInfoDictionaryKey: "NSCameraUsageDescription") != nil,
+              Bundle.main.object(forInfoDictionaryKey: "NSMicrophoneUsageDescription") != nil
         else {
-            NotificareLogger.warning("Missing camera and photo library permissions. Skipping...")
+            NotificareLogger.warning("Missing camera, microphone or photo library permissions. Skipping...")
             return
         }
 
@@ -161,15 +176,9 @@ class NotificareCallbackActionHandler: NotificareBaseActionHandler {
 
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
             imagePickerController.sourceType = .camera
-
-            // Uncomment the following line to allow images and movies.
-            // imagePickerController.mediaTypes = [kUTTypeImage as String, kUTTypeMovie as String]
-
-            // For now only images - comment out when introducing video
-            imagePickerController.mediaTypes = [kUTTypeImage as String]
-
+            imagePickerController.mediaTypes = [kUTTypeImage as String, kUTTypeMovie as String]
             imagePickerController.allowsEditing = true
-            // imagePickerController.videoMaximumDuration = 10
+            imagePickerController.videoMaximumDuration = 10
         } else {
             imagePickerController.sourceType = .photoLibrary
         }
@@ -303,8 +312,12 @@ class NotificareCallbackActionHandler: NotificareBaseActionHandler {
             params["media"] = mediaUrl
         }
 
+        if let mimeType = mediaMimeType {
+            params["mimeType"] = mimeType
+        }
+
         let data: Data
-        
+
         do {
             data = try NotificareUtils.jsonEncoder.encode(params)
         } catch {
@@ -335,12 +348,12 @@ class NotificareCallbackActionHandler: NotificareBaseActionHandler {
     }
 
     private func logAction() {
-        NotificarePush.shared.submitNotificationActionReply(action, for: notification, message: message, media: mediaUrl) { _ in }
+        NotificarePush.shared.submitNotificationActionReply(action, for: notification, message: message, media: mediaUrl, mimeType: mediaMimeType) { _ in }
     }
 }
 
 extension NotificareCallbackActionHandler: UIImagePickerControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         if info[.mediaType] as? String == kUTTypeImage as String {
             if let image = info[.originalImage] as? UIImage {
                 imageData = image.fixedOrientation()?.jpegData(compressionQuality: 0.9)
@@ -350,7 +363,7 @@ extension NotificareCallbackActionHandler: UIImagePickerControllerDelegate {
                     self.showMedia(thumbnail)
                 }
             }
-        } else if info[.mediaType] as? String == kUTTypeVideo as String {
+        } else if info[.mediaType] as? String == kUTTypeVideo as String || info[.mediaType] as? String == kUTTypeMovie as String {
             if let url = info[.mediaURL] as? URL {
                 videoData = try? Data(contentsOf: url)
 
@@ -362,7 +375,7 @@ extension NotificareCallbackActionHandler: UIImagePickerControllerDelegate {
         }
     }
 
-    func imagePickerControllerDidCancel(_: UIImagePickerController) {
+    public func imagePickerControllerDidCancel(_: UIImagePickerController) {
         NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didNotExecuteAction: action, for: notification)
         dismiss()
     }

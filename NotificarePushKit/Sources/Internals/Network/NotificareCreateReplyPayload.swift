@@ -25,5 +25,6 @@ extension NotificareCreateReplyPayload {
         let target: String?
         let message: String?
         let media: String?
+        let mimeType: String?
     }
 }

@@ -87,7 +87,7 @@ public class NotificarePush: NSObject, NotificareModule {
         userInfo["x-sender"] as? String == "notificare"
     }
 
-    public func submitNotificationActionReply(_ action: NotificareNotification.Action, for notification: NotificareNotification, message: String? = nil, media: String? = nil, _ completion: @escaping NotificareCallback<Void>) {
+    public func submitNotificationActionReply(_ action: NotificareNotification.Action, for notification: NotificareNotification, message: String? = nil, media: String? = nil, mimeType: String? = nil, _ completion: @escaping NotificareCallback<Void>) {
         guard let device = Notificare.shared.deviceManager.currentDevice else {
             completion(.failure(.notReady))
             return
@@ -101,7 +101,8 @@ public class NotificarePush: NSObject, NotificareModule {
             data: NotificareCreateReplyPayload.Data(
                 target: action.target,
                 message: message,
-                media: media
+                media: media,
+                mimeType: mimeType
             )
         )
 
