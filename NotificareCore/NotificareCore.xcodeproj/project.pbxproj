@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F222672F25B725A400735974 /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = F222672E25B725A400735974 /* UIColor+Hex.swift */; };
 		F27D0E1025A70F0F0077612E /* NotificareLocalizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27D0E0F25A70F0F0077612E /* NotificareLocalizable.swift */; };
 		F27D0E1725A70F730077612E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F27D0E1925A70F730077612E /* Localizable.strings */; };
 		F2B8C52F25A6115D00FFBE0C /* NotificareCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2B8C52525A6115D00FFBE0C /* NotificareCore.framework */; };
@@ -32,6 +33,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F222672E25B725A400735974 /* UIColor+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
 		F27D0E0F25A70F0F0077612E /* NotificareLocalizable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareLocalizable.swift; sourceTree = "<group>"; };
 		F27D0E1825A70F730077612E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F27D0E1C25A70F8C0077612E /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 			isa = PBXGroup;
 			children = (
 				F2DB0C1C25A86B6700AD93C7 /* URL.swift */,
+				F222672E25B725A400735974 /* UIColor+Hex.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -274,6 +277,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F2E9D43725AE11C800FF7827 /* NotificareUtils.swift in Sources */,
+				F222672F25B725A400735974 /* UIColor+Hex.swift in Sources */,
 				F27D0E1025A70F0F0077612E /* NotificareLocalizable.swift in Sources */,
 				F2E9D43E25AE13FE00FF7827 /* NotificareConfiguration.swift in Sources */,
 				F2B8C54825A611BA00FFBE0C /* NotificareLogger.swift in Sources */,

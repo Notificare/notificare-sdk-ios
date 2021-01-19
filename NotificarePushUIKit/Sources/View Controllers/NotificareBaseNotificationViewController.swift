@@ -9,6 +9,8 @@ import UIKit
 public class NotificareBaseNotificationViewController: UIViewController {
     var notification: NotificareNotification!
 
+    private var theme: NotificareConfiguration.Theme?
+
     private(set) var actionsButton: UIBarButtonItem?
 
     var isActionsButtonEnabled: Bool = false {
@@ -30,12 +32,17 @@ public class NotificareBaseNotificationViewController: UIViewController {
                                                 action: #selector(showActions))
             }
 
+            if let colorStr = theme?.actionButtonTextColor {
+                actionsButton?.tintColor = UIColor(hexString: colorStr)
+            }
+
             navigationItem.rightBarButtonItem = actionsButton
         }
     }
 
     override public func viewDidLoad() {
         super.viewDidLoad()
+        theme = NotificareUtils.getConfiguration()?.theme(for: self)
 
         // Update the view controller's title.
         title = notification.title

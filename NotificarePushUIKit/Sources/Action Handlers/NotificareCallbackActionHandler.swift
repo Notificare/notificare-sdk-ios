@@ -15,6 +15,8 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
     private let response: NotificareNotification.ResponseData?
     private let sourceViewController: UIViewController
 
+    private var theme: NotificareConfiguration.Theme?
+
     private var navigationController: UINavigationController!
     private var viewController: UIViewController!
     private var placeholderView: UIView!
@@ -46,16 +48,19 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
 
         viewController = UIViewController()
         navigationController = UINavigationController(rootViewController: viewController)
-
-        // TODO: [self setTheme:[[NotificareAppConfig shared] themeForController:[self controller]]];
+        theme = NotificareUtils.getConfiguration()?.theme(for: viewController)
 
         placeholderView = UIView(frame: CGRect(x: 0, y: 0, width: viewController.view.frame.width, height: viewController.view.frame.height))
         placeholderView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        // TODO: [[self placeholderView] setBackgroundColor:[UIColor colorWithHexString:[[self theme] objectForKey:@"BACKGROUND_COLOR"]]];
+        if let colorStr = theme?.backgroundColor {
+            placeholderView.backgroundColor = UIColor(hexString: colorStr)
+        }
 
         imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: viewController.view.frame.width, height: viewController.view.frame.height))
         imageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        // TODO: [[self imageView] setTintColor:[UIColor colorWithHexString:[[self theme] objectForKey:@"BACKGROUND_COLOR"]]];
+        if let colorStr = theme?.backgroundColor {
+            imageView.tintColor = UIColor(hexString: colorStr)
+        }
 
         if let image = NotificareLocalizable.image(resource: .close) {
             closeButton = UIBarButtonItem(image: image,
@@ -63,12 +68,18 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
                                           target: self,
                                           action: #selector(onCloseClicked))
 
-            // TODO: [[self closeButton] setTintColor:[UIColor colorWithHexString:[[self theme] objectForKey:@"ACTION_BUTTON_TEXT_COLOR"]]];
+            if let colorStr = theme?.actionButtonTextColor {
+                closeButton.tintColor = UIColor(hexString: colorStr)
+            }
         } else {
             closeButton = UIBarButtonItem(title: NotificareLocalizable.string(resource: .closeButton),
                                           style: .plain,
                                           target: self,
                                           action: #selector(onCloseClicked))
+
+            if let colorStr = theme?.actionButtonTextColor {
+                closeButton.tintColor = UIColor(hexString: colorStr)
+            }
         }
 
         if let image = NotificareLocalizable.image(resource: .send) {
@@ -77,17 +88,25 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
                                          target: self,
                                          action: #selector(onSendClicked))
 
-            // TODO: [[self sendButton] setTintColor:[UIColor colorWithHexString:[[self theme] objectForKey:@"BUTTONS_TEXT_COLOR"]]];
+            if let colorStr = theme?.buttonTextColor {
+                sendButton.tintColor = UIColor(hexString: colorStr)
+            }
         } else {
             sendButton = UIBarButtonItem(title: NotificareLocalizable.string(resource: .sendButton),
                                          style: .plain,
                                          target: self,
                                          action: #selector(onSendClicked))
+
+            if let colorStr = theme?.buttonTextColor {
+                sendButton.tintColor = UIColor(hexString: colorStr)
+            }
         }
 
         activityIndicatorView = UIActivityIndicatorView(style: .white)
         activityIndicatorView.hidesWhenStopped = true
-        // TODO: [[self activityIndicator] setTintColor:[UIColor colorWithHexString:[[self theme] objectForKey:@"ACTIVITY_INDICATOR_COLOR"]]];
+        if let colorStr = theme?.activityIndicatorColor {
+            activityIndicatorView.tintColor = UIColor(hexString: colorStr)
+        }
 
         viewController.title = notification.title ?? NotificareUtils.applicationName
         viewController.navigationItem.leftBarButtonItem = closeButton
@@ -196,12 +215,17 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
         messageView.returnKeyType = .default
 
         self.messageView = messageView
-
-        // [[self messageView] setBackgroundColor:[UIColor colorWithHexString:[[self theme] objectForKey:@"TEXTFIELD_BACKGROUND_COLOR"]]];
-        // [[self messageView] setTextColor:[UIColor colorWithHexString:[[self theme] objectForKey:@"TEXTFIELD_TEXT_COLOR"]]];
+        if let colorStr = theme?.textFieldBackgroundColor {
+            messageView.backgroundColor = UIColor(hexString: colorStr)
+        }
+        if let colorStr = theme?.textFieldTextColor {
+            messageView.textColor = UIColor(hexString: colorStr)
+        }
 
         toolbar = UIToolbar(frame: CGRect(x: 0, y: viewController.view.frame.height - keyboardHeight, width: viewController.view.frame.width, height: 42))
-        // [[self toolBar] setBarTintColor:[UIColor colorWithHexString:[[self theme] objectForKey:@"TOOLBAR_COLOR"]]];
+        if let colorStr = theme?.toolbarBackgroundColor {
+            toolbar.barTintColor = UIColor(hexString: colorStr)
+        }
 
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         toolbar.setItems([flexibleSpace, sendButton], animated: false)
@@ -226,8 +250,12 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
             let messageField = UITextField(frame: CGRect(x: 10, y: 10, width: viewController.view.frame.width - 65, height: 32))
             messageField.placeholder = NotificareLocalizable.string(resource: .actionsInputPlaceholder)
             messageField.borderStyle = .none
-            // [[self messageField] setBackgroundColor:[UIColor colorWithHexString:[[self theme] objectForKey:@"TEXTFIELD_BACKGROUND_COLOR"]]];
-            // [[self messageField] setTextColor:[UIColor colorWithHexString:[[self theme] objectForKey:@"TEXTFIELD_TEXT_COLOR"]]];
+            if let colorStr = theme?.textFieldBackgroundColor {
+                messageField.backgroundColor = UIColor(hexString: colorStr)
+            }
+            if let colorStr = theme?.textFieldTextColor {
+                messageField.textColor = UIColor(hexString: colorStr)
+            }
             messageField.font = UIFont.systemFont(ofSize: 14)
             messageField.autocorrectionType = .default
             messageField.keyboardType = .default
@@ -238,8 +266,10 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
 
             self.messageField = messageField
 
-            toolbar = UIToolbar(frame: CGRect(x: 0, y: viewController.view.frame.height - keyboardHeight, width: viewController.view.frame.width, height: 42))
-            // [[self toolBar] setBarTintColor:[UIColor colorWithHexString:[[self theme] objectForKey:@"TOOLBAR_COLOR"]]];
+            toolbar = UIToolbar(frame: CGRect(x: 0, y: viewController.view.frame.height - keyboardHeight, width: viewController.view.frame.width, height: 52))
+            if let colorStr = theme?.toolbarBackgroundColor {
+                toolbar.barTintColor = UIColor(hexString: colorStr)
+            }
 
             let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
             toolbar.setItems([flexibleSpace, sendButton], animated: false)

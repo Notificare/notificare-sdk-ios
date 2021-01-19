@@ -11,10 +11,12 @@ public class NotificareImageGalleryViewController: NotificareBaseNotificationVie
     private(set) var collectionView: UICollectionView!
     private(set) var pageControl: UIPageControl!
 
+    private var theme: NotificareConfiguration.Theme?
     private var imageViews = [UIImageView]()
 
     override public func viewDidLoad() {
         super.viewDidLoad()
+        theme = NotificareUtils.getConfiguration()?.theme(for: self)
 
         setupViews()
         setupContent()
@@ -31,7 +33,9 @@ public class NotificareImageGalleryViewController: NotificareBaseNotificationVie
         collectionView.delegate = self
         collectionView.isPagingEnabled = true
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cellIdentifier")
-        // TODO: [[self collectionView] setBackgroundColor:[UIColor colorWithHexString:[[self theme] objectForKey:@"BACKGROUND_COLOR"]]];
+        if let colorStr = theme?.backgroundColor {
+            collectionView.backgroundColor = UIColor(hexString: colorStr)
+        }
         collectionView.backgroundColor = UIColor.red
 
         pageControl = UIPageControl()
@@ -115,7 +119,11 @@ extension NotificareImageGalleryViewController: UICollectionViewDelegate, UIColl
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellIdentifier", for: indexPath)
         cell.contentView.addSubview(imageViews[indexPath.row])
-        // TODO: [cell setBackgroundColor:[UIColor colorWithHexString:[[self theme] objectForKey:@"BACKGROUND_COLOR"]]];
+
+        if let colorStr = theme?.backgroundColor {
+            cell.backgroundColor = UIColor(hexString: colorStr)
+        }
+
         return cell
     }
 
@@ -132,7 +140,8 @@ extension NotificareImageGalleryViewController: UICollectionViewDelegate, UIColl
     }
 
     public func collectionView(_: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        // TODO: check options allow sharing: if([[[self theme] objectForKey:@"IMAGES_SHARING"] boolValue]){
-        openSharingActionSheet(for: imageViews[indexPath.row].image!)
+        if NotificareUtils.getConfiguration()?.options?.imageSharing == true {
+            openSharingActionSheet(for: imageViews[indexPath.row].image!)
+        }
     }
 }
