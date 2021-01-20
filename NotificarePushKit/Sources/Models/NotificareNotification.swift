@@ -6,7 +6,6 @@ import Foundation
 
 public struct NotificareNotification {
     public let id: String
-    // public let application: Dictionary
     public let type: String
     public let time: Date
     public let title: String?
@@ -16,7 +15,6 @@ public struct NotificareNotification {
     public let actions: [Action]
     public let attachments: [Attachment]
     public let extra: [String: Any]
-    public let info: [String: Any]
     public let targetContentIdentifier: String?
 }
 
@@ -32,7 +30,6 @@ extension NotificareNotification: Decodable {
         case actions
         case attachments
         case extra
-        case info
         case targetContentIdentifier
     }
 
@@ -68,12 +65,6 @@ extension NotificareNotification: Decodable {
             extra = try container.decode([String: Any].self, forKey: .extra)
         } else {
             extra = [:]
-        }
-
-        if container.contains(.info) {
-            info = try container.decode([String: Any].self, forKey: .info)
-        } else {
-            info = [:]
         }
 
         targetContentIdentifier = try container.decodeIfPresent(String.self, forKey: .targetContentIdentifier)
