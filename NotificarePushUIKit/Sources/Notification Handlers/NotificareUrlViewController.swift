@@ -7,24 +7,41 @@ import NotificarePushKit
 import UIKit
 import WebKit
 
-public class NotificareWebViewController: NotificareBaseNotificationViewController {
+public class NotificareUrlViewController: NotificareBaseNotificationViewController {
     private var webView: WKWebView!
+    private var loadingView: UIView!
+    private var progressView: UIProgressView!
 
     override public func viewDidLoad() {
         super.viewDidLoad()
 
-        configureWebView()
+        setupViews()
         setupContent()
+
+        // Start as false regardless of available actions.
+        // The final decision will be made after loading the HTML content.
+        isActionsButtonEnabled = false
     }
 
-    private func configureWebView() {
+    override public func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        webView.addObserver(self, forKeyPath: NSStringFromSelector(#selector(getter: WKWebView.estimatedProgress)), options: .new, context: nil)
+    }
+
+    override public func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        webView.removeObserver(self, forKeyPath: NSStringFromSelector(#selector(getter: WKWebView.estimatedProgress)))
+    }
+
+    private func setupViews() {
         let configuration = WKWebViewConfiguration()
         configuration.allowsInlineMediaPlayback = true
-        configuration.mediaTypesRequiringUserActionForPlayback = [.video, .audio]
+        configuration.mediaTypesRequiringUserActionForPlayback = []
 
-        let metaTag = "var meta = document.createElement('meta');meta.name = 'viewport';meta.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';var head = document.getElementsByTagName('head')[0];head.appendChild(meta);"
+        let metaTag = "webkit.messageHandlers.notificareWebViewLoading.postMessage(document.body.innerHTML);"
         let metaScript = WKUserScript(source: metaTag, injectionTime: .atDocumentEnd, forMainFrameOnly: false)
         configuration.userContentController.addUserScript(metaScript)
+        configuration.userContentController.add(self, name: "notificareWebViewLoading")
 
         // View setup.
         webView = WKWebView(frame: view.frame, configuration: configuration)
@@ -40,29 +57,51 @@ public class NotificareWebViewController: NotificareBaseNotificationViewControll
         WKWebsiteDataStore.default().removeData(ofTypes: [WKWebsiteDataTypeDiskCache, WKWebsiteDataTypeMemoryCache],
                                                 modifiedSince: Date(timeIntervalSince1970: 0),
                                                 completionHandler: {})
+
+        loadingView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height))
+        loadingView.backgroundColor = UIColor.white
+        view.addSubview(loadingView)
+
+        progressView = UIProgressView(progressViewStyle: .default)
+        progressView.center = view.center
+        view.addSubview(progressView)
     }
 
     private func setupContent() {
-        guard let content = notification.content.first else {
+        guard let content = notification.content.first,
+              let url = URL(string: content.data as! String)
+        else {
             NotificarePush.shared.delegate?.notificare(NotificarePush.shared, didFailToOpenNotification: notification)
             return
         }
 
-        let html = content.data as! String
-        webView.loadHTMLString(html, baseURL: URL(string: ""))
+        webView.load(URLRequest(url: url))
+    }
 
-        // Check if we should show any possible actions
-        if html.contains("notificareOpenAction") || html.contains("notificareOpenActions") {
-            isActionsButtonEnabled = false
+    override public func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == NSStringFromSelector(#selector(getter: WKWebView.estimatedProgress)), object as? WKWebView == webView {
+            progressView.setProgress(Float(webView.estimatedProgress), animated: true)
+        } else {
+            // Make sure to call the superclass's implementation in case it is also implementing KVO.
+            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
     }
 }
 
-extension NotificareWebViewController: WKNavigationDelegate, WKUIDelegate {
-    public func webView(_: WKWebView, didFail _: WKNavigation!, withError _: Error) {
-        NotificarePush.shared.delegate?.notificare(NotificarePush.shared, didFailToOpenNotification: notification)
-    }
+extension NotificareUrlViewController: WKScriptMessageHandler {
+    public func userContentController(_: WKUserContentController, didReceive message: WKScriptMessage) {
+        if message.name == "notificareWebViewLoading" {
+            guard let html = message.body as? String else {
+                isActionsButtonEnabled = !notification.actions.isEmpty
+                return
+            }
 
+            isActionsButtonEnabled = !html.contains("notificareOpenAction") && !html.contains("notificareOpenActions") && !notification.actions.isEmpty
+        }
+    }
+}
+
+extension NotificareUrlViewController: WKNavigationDelegate, WKUIDelegate {
     public func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         guard let url = navigationAction.request.url else {
             decisionHandler(.cancel)
@@ -98,6 +137,18 @@ extension NotificareWebViewController: WKNavigationDelegate, WKUIDelegate {
                 decisionHandler(.allow)
             }
         }
+    }
+
+    public func webView(_: WKWebView, didFail _: WKNavigation!, withError _: Error) {
+        NotificarePush.shared.delegate?.notificare(NotificarePush.shared, didFailToOpenNotification: notification)
+
+        loadingView.removeFromSuperview()
+        progressView.removeFromSuperview()
+    }
+
+    public func webView(_: WKWebView, didFinish _: WKNavigation!) {
+        loadingView.removeFromSuperview()
+        progressView.removeFromSuperview()
     }
 
     public func webView(_: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame _: WKFrameInfo, completionHandler: @escaping () -> Void) {
@@ -154,5 +205,11 @@ extension NotificareWebViewController: WKNavigationDelegate, WKUIDelegate {
         )
 
         present(alert, animated: true, completion: nil)
+    }
+}
+
+extension NotificareUrlViewController: NotificareNotificationPresenter {
+    func present(in controller: UIViewController) {
+        NotificarePushUI.shared.presentController(self, in: controller)
     }
 }

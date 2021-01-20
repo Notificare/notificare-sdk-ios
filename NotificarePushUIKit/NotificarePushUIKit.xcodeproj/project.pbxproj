@@ -17,6 +17,10 @@
 		F277EAC325B0A1220026225C /* NotificareCustomActionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F277EAC225B0A1220026225C /* NotificareCustomActionHandler.swift */; };
 		F277EAC725B0A7680026225C /* NotificareCallbackActionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F277EAC625B0A7680026225C /* NotificareCallbackActionHandler.swift */; };
 		F28085A625B5EB4A00D3AD50 /* NotificarePushUIDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28085A525B5EB4900D3AD50 /* NotificarePushUIDelegate.swift */; };
+		F289F51F25B836850091AB97 /* NotificareNotificationPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F289F51E25B836850091AB97 /* NotificareNotificationPresenter.swift */; };
+		F289F52325B838DE0091AB97 /* NotificareAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F289F52225B838DE0091AB97 /* NotificareAlertController.swift */; };
+		F289F52625B8395B0091AB97 /* NotificareUrlSchemeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F289F52525B8395B0091AB97 /* NotificareUrlSchemeController.swift */; };
+		F289F52925B839B70091AB97 /* NotificareRateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F289F52825B839B70091AB97 /* NotificareRateController.swift */; };
 		F29B17D525A48BF0007ED6F9 /* NotificarePushUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F29B17CB25A48BEF007ED6F9 /* NotificarePushUIKit.framework */; };
 		F29B17DA25A48BF0007ED6F9 /* NotificarePushUIKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29B17D925A48BF0007ED6F9 /* NotificarePushUIKitTests.swift */; };
 		F29B17DC25A48BF0007ED6F9 /* NotificarePushUIKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F29B17CE25A48BEF007ED6F9 /* NotificarePushUIKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -70,6 +74,10 @@
 		F277EAC225B0A1220026225C /* NotificareCustomActionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareCustomActionHandler.swift; sourceTree = "<group>"; };
 		F277EAC625B0A7680026225C /* NotificareCallbackActionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareCallbackActionHandler.swift; sourceTree = "<group>"; };
 		F28085A525B5EB4900D3AD50 /* NotificarePushUIDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificarePushUIDelegate.swift; sourceTree = "<group>"; };
+		F289F51E25B836850091AB97 /* NotificareNotificationPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareNotificationPresenter.swift; sourceTree = "<group>"; };
+		F289F52225B838DE0091AB97 /* NotificareAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareAlertController.swift; sourceTree = "<group>"; };
+		F289F52525B8395B0091AB97 /* NotificareUrlSchemeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareUrlSchemeController.swift; sourceTree = "<group>"; };
+		F289F52825B839B70091AB97 /* NotificareRateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareRateController.swift; sourceTree = "<group>"; };
 		F29B17CB25A48BEF007ED6F9 /* NotificarePushUIKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NotificarePushUIKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F29B17CE25A48BEF007ED6F9 /* NotificarePushUIKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificarePushUIKit.h; sourceTree = "<group>"; };
 		F29B17CF25A48BEF007ED6F9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -147,7 +155,7 @@
 			isa = PBXGroup;
 			children = (
 				F277EAAD25B084740026225C /* Action Handlers */,
-				F2B8C51525A5DD8300FFBE0C /* View Controllers */,
+				F2B8C51525A5DD8300FFBE0C /* Notification Handlers */,
 				F29B17CF25A48BEF007ED6F9 /* Info.plist */,
 				F29B17CE25A48BEF007ED6F9 /* NotificarePushUIKit.h */,
 				F29B17F225A48CAF007ED6F9 /* NotificarePushUI.swift */,
@@ -175,9 +183,10 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		F2B8C51525A5DD8300FFBE0C /* View Controllers */ = {
+		F2B8C51525A5DD8300FFBE0C /* Notification Handlers */ = {
 			isa = PBXGroup;
 			children = (
+				F289F51E25B836850091AB97 /* NotificareNotificationPresenter.swift */,
 				F29C96E925ACBE5D00620E9B /* NotificareBaseNotificationViewController.swift */,
 				F2B8C51625A5DD9400FFBE0C /* NotificareWebViewController.swift */,
 				F29C96E625ACBE2500620E9B /* NotificareImageGalleryViewController.swift */,
@@ -185,8 +194,11 @@
 				F2E9D45725AE1D4500FF7827 /* NotificareUrlViewController.swift */,
 				F2CB6F5B25AEFD0600FC994E /* NotificareMapViewController.swift */,
 				F21CBCAF25AF1F5000495F7A /* NotificareStoreController.swift */,
+				F289F52225B838DE0091AB97 /* NotificareAlertController.swift */,
+				F289F52525B8395B0091AB97 /* NotificareUrlSchemeController.swift */,
+				F289F52825B839B70091AB97 /* NotificareRateController.swift */,
 			);
-			path = "View Controllers";
+			path = "Notification Handlers";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -328,12 +340,16 @@
 				F29C96E725ACBE2500620E9B /* NotificareImageGalleryViewController.swift in Sources */,
 				F29B180225A4B81A007ED6F9 /* NotificarePushUI+UserDefaults.swift in Sources */,
 				F2CB6F5C25AEFD0600FC994E /* NotificareMapViewController.swift in Sources */,
+				F289F52325B838DE0091AB97 /* NotificareAlertController.swift in Sources */,
 				F277EABD25B0A10C0026225C /* NotificareTelephoneActionHandler.swift in Sources */,
 				F29B17F325A48CAF007ED6F9 /* NotificarePushUI.swift in Sources */,
+				F289F52625B8395B0091AB97 /* NotificareUrlSchemeController.swift in Sources */,
 				F277EAAF25B084860026225C /* NotificareBaseActionHandler.swift in Sources */,
 				F2E9D41E25ADE98D00FF7827 /* NotificareVideoViewController.swift in Sources */,
+				F289F51F25B836850091AB97 /* NotificareNotificationPresenter.swift in Sources */,
 				F28085A625B5EB4A00D3AD50 /* NotificarePushUIDelegate.swift in Sources */,
 				F2E9D45825AE1D4500FF7827 /* NotificareUrlViewController.swift in Sources */,
+				F289F52925B839B70091AB97 /* NotificareRateController.swift in Sources */,
 				F2B8C51725A5DD9400FFBE0C /* NotificareWebViewController.swift in Sources */,
 				F277EAC725B0A7680026225C /* NotificareCallbackActionHandler.swift in Sources */,
 				F277EAC025B0A1150026225C /* NotificareBrowserActionHandler.swift in Sources */,

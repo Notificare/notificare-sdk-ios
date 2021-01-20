@@ -134,3 +134,9 @@ extension NotificareMapViewController: MKMapViewDelegate {
         destination.openInMaps(launchOptions: [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving])
     }
 }
+
+extension NotificareMapViewController: NotificareNotificationPresenter {
+    func present(in controller: UIViewController) {
+        NotificarePushUI.shared.presentController(self, in: controller)
+    }
+}

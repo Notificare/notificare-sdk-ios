@@ -145,3 +145,9 @@ extension NotificareImageGalleryViewController: UICollectionViewDelegate, UIColl
         }
     }
 }
+
+extension NotificareImageGalleryViewController: NotificareNotificationPresenter {
+    func present(in controller: UIViewController) {
+        NotificarePushUI.shared.presentController(self, in: controller)
+    }
+}

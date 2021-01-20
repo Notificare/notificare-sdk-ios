@@ -6,20 +6,22 @@ import NotificareCore
 import NotificarePushKit
 import StoreKit
 
-class NotificareStoreController: NSObject, SKStoreProductViewControllerDelegate {
-    static let shared = NotificareStoreController()
+class NotificareStoreController: NSObject, SKStoreProductViewControllerDelegate, NotificareNotificationPresenter {
+    private let notification: NotificareNotification
 
-    override private init() {}
+    init(notification: NotificareNotification) {
+        self.notification = notification
+    }
 
-    func createViewController(for notification: NotificareNotification) -> SKStoreProductViewController? {
+    func present(in controller: UIViewController) {
         guard let content = notification.content.first, content.type == "re.notifica.content.AppStore" else {
             NotificarePush.shared.delegate?.notificare(NotificarePush.shared, didFailToOpenNotification: notification)
-            return nil
+            return
         }
 
         guard let data = content.data as? [String: Any], let identifier = data["identifier"] else {
             NotificarePush.shared.delegate?.notificare(NotificarePush.shared, didFailToOpenNotification: notification)
-            return nil
+            return
         }
 
         let storeController = SKStoreProductViewController()
@@ -45,11 +47,11 @@ class NotificareStoreController: NSObject, SKStoreProductViewControllerDelegate 
 
         storeController.loadProduct(withParameters: parameters) { success, error in
             if !success || error != nil {
-                NotificarePush.shared.delegate?.notificare(NotificarePush.shared, didFailToOpenNotification: notification)
+                NotificarePush.shared.delegate?.notificare(NotificarePush.shared, didFailToOpenNotification: self.notification)
             }
         }
 
-        return storeController
+        NotificarePushUI.shared.presentController(storeController, in: controller)
     }
 
     public func productViewControllerDidFinish(_: SKStoreProductViewController) {

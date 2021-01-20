@@ -91,3 +91,9 @@ extension NotificareVideoViewController: WKNavigationDelegate, WKUIDelegate {
         NotificarePush.shared.delegate?.notificare(NotificarePush.shared, didFailToOpenNotification: notification)
     }
 }
+
+extension NotificareVideoViewController: NotificareNotificationPresenter {
+    func present(in controller: UIViewController) {
+        NotificarePushUI.shared.presentController(self, in: controller)
+    }
+}
