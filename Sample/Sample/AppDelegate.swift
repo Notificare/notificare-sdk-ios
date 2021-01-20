@@ -28,22 +28,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             NotificarePush.shared.presentationOptions = [.alert, .badge, .sound]
         }
         NotificarePush.shared.delegate = self
+        
+        NotificarePushUI.shared.delegate = self
 
         return true
     }
 
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken token: Data) {
-        NotificareLogger.info("-----> didRegisterForRemoteNotificationsWithDeviceToken")
         NotificarePush.shared.application(application, didRegisterForRemoteNotificationsWithDeviceToken: token)
     }
 
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        NotificareLogger.info("-----> didFailToRegisterForRemoteNotificationsWithError")
         NotificarePush.shared.application(application, didFailToRegisterForRemoteNotificationsWithError: error)
     }
 
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        NotificareLogger.info("-----> didReceiveRemoteNotification")
         NotificarePush.shared.application(application, didReceiveRemoteNotification: userInfo, fetchCompletionHandler: completionHandler)
     }
 }
@@ -103,5 +102,47 @@ extension AppDelegate: NotificarePushDelegate {
         }
 
         NotificarePushUI.shared.presentAction(action, for: notification, with: response, in: controller)
+    }
+}
+
+extension AppDelegate: NotificarePushUIDelegate {
+    func notificare(_ notificarePushUI: NotificarePushUI, willPresentNotification notification: NotificareNotification) {
+        NotificareLogger.info("-----> Notificare: will present notification '\(notification.id)'")
+    }
+    
+    func notificare(_ notificarePushUI: NotificarePushUI, didPresentNotification notification: NotificareNotification) {
+        NotificareLogger.info("-----> Notificare: did present notification '\(notification.id)'")
+    }
+    
+    func notificare(_ notificarePushUI: NotificarePushUI, didFailToPresentNotification notification: NotificareNotification) {
+        NotificareLogger.info("-----> Notificare: did fail to present notification '\(notification.id)'")
+    }
+    
+    func notificare(_ notificarePushUI: NotificarePushUI, didFinishPresentingNotification notification: NotificareNotification) {
+        NotificareLogger.info("-----> Notificare: did finish presenting notification '\(notification.id)'")
+    }
+    
+    func notificare(_ notificarePushUI: NotificarePushUI, didClickURL url: URL, in notification: NotificareNotification) {
+        NotificareLogger.info("-----> Notificare: did click url '\(url)' in notification '\(notification.id)'")
+    }
+    
+    func notificare(_ notificarePushUI: NotificarePushUI, willExecuteAction action: NotificareNotification.Action, for notification: NotificareNotification) {
+        NotificareLogger.info("-----> Notificare: will execute action '\(action.label)' in notification '\(notification.id)'")
+    }
+    
+    func notificare(_ notificarePushUI: NotificarePushUI, didExecuteAction action: NotificareNotification.Action, for notification: NotificareNotification) {
+        NotificareLogger.info("-----> Notificare: did execute action '\(action.label)' in notification '\(notification.id)'")
+    }
+    
+    func notificare(_ notificarePushUI: NotificarePushUI, didNotExecuteAction action: NotificareNotification.Action, for notification: NotificareNotification) {
+        NotificareLogger.info("-----> Notificare: did not execute action '\(action.label)' in notification '\(notification.id)'")
+    }
+    
+    func notificare(_ notificarePushUI: NotificarePushUI, didFailToExecuteAction action: NotificareNotification.Action, for notification: NotificareNotification, error: Error?) {
+        NotificareLogger.info("-----> Notificare: did fail to execute action '\(action.label)' in notification '\(notification.id)'")
+    }
+    
+    func notificare(_ notificarePushUI: NotificarePushUI, shouldPerformSelectorWithURL url: URL, in action: NotificareNotification.Action, for notification: NotificareNotification) {
+        //
     }
 }
