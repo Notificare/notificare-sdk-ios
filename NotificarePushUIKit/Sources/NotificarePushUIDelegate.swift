@@ -47,7 +47,7 @@ public extension NotificarePushUIDelegate {
 
     func notificare(_: NotificarePushUI, didNotExecuteAction _: NotificareNotification.Action, for _: NotificareNotification) {}
 
-    func notificare(_: NotificarePushUI, didFailToExecuteAction _: NotificareNotification.Action, for _: NotificareNotification, error _: Error) {}
+    func notificare(_: NotificarePushUI, didFailToExecuteAction _: NotificareNotification.Action, for _: NotificareNotification, error _: Error?) {}
 
     func notificare(_: NotificarePushUI, shouldPerformSelectorWithURL _: URL, in _: NotificareNotification.Action, for _: NotificareNotification) {}
 }
