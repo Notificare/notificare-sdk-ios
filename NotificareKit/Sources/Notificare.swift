@@ -97,13 +97,6 @@ public class Notificare {
 
                             // Keep track of launchables and handle the outcome once they have all finished launching.
                             let dispatchGroup = DispatchGroup()
-                            dispatchGroup.notify(queue: .main) {
-                                if let error = latestPluginLaunchError {
-                                    self.launchResult(.failure(error))
-                                } else {
-                                    self.launchResult(.success(application))
-                                }
-                            }
 
                             // Loop all possible modules and launch the available ones.
                             NotificareDefinitions.Modules.allCases.forEach { module in
@@ -122,6 +115,14 @@ public class Notificare {
 
                                         dispatchGroup.leave()
                                     }
+                                }
+                            }
+
+                            dispatchGroup.notify(queue: .main) {
+                                if let error = latestPluginLaunchError {
+                                    self.launchResult(.failure(error))
+                                } else {
+                                    self.launchResult(.success(application))
                                 }
                             }
                         }
