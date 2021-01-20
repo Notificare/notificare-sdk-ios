@@ -229,6 +229,7 @@ public class NotificarePushUI {
                                                                               action: action)
         }
 
+        NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, willExecuteAction: action, for: notification)
         latestPresentableActionHandler?.execute()
     }
 }

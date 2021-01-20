@@ -47,9 +47,6 @@ public class NotificareBaseNotificationViewController: UIViewController {
         // Update the view controller's title.
         title = notification.title
 
-        // Set the theme options.
-        // TODO:
-
         // Check if we should show any possible actions
         isActionsButtonEnabled = !notification.actions.isEmpty
     }
