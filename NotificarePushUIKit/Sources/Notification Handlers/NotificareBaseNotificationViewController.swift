@@ -45,14 +45,16 @@ public class NotificareBaseNotificationViewController: UIViewController {
         theme = NotificareUtils.getConfiguration()?.theme(for: self)
 
         // Update the view controller's title.
-        title = notification.title
+        title = notification.title ?? NotificareUtils.applicationName
 
         // Check if we should show any possible actions
         isActionsButtonEnabled = !notification.actions.isEmpty
     }
 
     @objc func showActions() {
-        let alert = UIAlertController(title: nil, message: notification.message, preferredStyle: .actionSheet)
+        let alert = UIAlertController(title: NotificareUtils.applicationName,
+                                      message: notification.message,
+                                      preferredStyle: .actionSheet)
 
         notification.actions.forEach { action in
             alert.addAction(

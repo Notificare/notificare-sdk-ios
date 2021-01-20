@@ -16,7 +16,9 @@ class NotificareRateController: NotificareNotificationPresenter {
     }
 
     func present(in controller: UIViewController) {
-        let alert = UIAlertController(title: notification.title, message: notification.message, preferredStyle: .alert)
+        let alert = UIAlertController(title: notification.title ?? NotificareUtils.applicationName,
+                                      message: notification.message,
+                                      preferredStyle: .alert)
 
         // Rate action
         alert.addAction(UIAlertAction(title: NotificareLocalizable.string(resource: .rateAlertYesButton), style: .default, handler: { _ in

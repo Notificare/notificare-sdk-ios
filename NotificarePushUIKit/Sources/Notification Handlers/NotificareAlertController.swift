@@ -14,7 +14,9 @@ class NotificareAlertController: NotificareNotificationPresenter {
     }
 
     func present(in controller: UIViewController) {
-        let alert = UIAlertController(title: notification.title, message: notification.message, preferredStyle: .alert)
+        let alert = UIAlertController(title: notification.title ?? NotificareUtils.applicationName,
+                                      message: notification.message,
+                                      preferredStyle: .alert)
 
         notification.actions.forEach { action in
             alert.addAction(

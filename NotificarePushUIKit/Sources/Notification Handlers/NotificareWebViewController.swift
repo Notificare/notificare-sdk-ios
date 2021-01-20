@@ -101,7 +101,9 @@ extension NotificareWebViewController: WKNavigationDelegate, WKUIDelegate {
     }
 
     public func webView(_: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame _: WKFrameInfo, completionHandler: @escaping () -> Void) {
-        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        let alert = UIAlertController(title: NotificareUtils.applicationName,
+                                      message: message,
+                                      preferredStyle: .alert)
 
         alert.addAction(
             UIAlertAction(title: NotificareLocalizable.string(resource: .ok), style: .default, handler: { _ in
@@ -113,7 +115,9 @@ extension NotificareWebViewController: WKNavigationDelegate, WKUIDelegate {
     }
 
     public func webView(_: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame _: WKFrameInfo, completionHandler: @escaping (Bool) -> Void) {
-        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        let alert = UIAlertController(title: NotificareUtils.applicationName,
+                                      message: message,
+                                      preferredStyle: .alert)
 
         alert.addAction(
             UIAlertAction(title: NotificareLocalizable.string(resource: .ok), style: .default, handler: { _ in
@@ -131,7 +135,9 @@ extension NotificareWebViewController: WKNavigationDelegate, WKUIDelegate {
     }
 
     public func webView(_: WKWebView, runJavaScriptTextInputPanelWithPrompt prompt: String, defaultText: String?, initiatedByFrame _: WKFrameInfo, completionHandler: @escaping (String?) -> Void) {
-        let alert = UIAlertController(title: nil, message: prompt, preferredStyle: .alert)
+        let alert = UIAlertController(title: NotificareUtils.applicationName,
+                                      message: prompt,
+                                      preferredStyle: .alert)
 
         alert.addTextField { textField in
             textField.text = defaultText
