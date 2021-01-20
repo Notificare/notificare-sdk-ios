@@ -26,6 +26,9 @@
       location = "group:NotificarePushUIKit/NotificarePushUIKit.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:NotificareInboxKit/NotificareInboxKit.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:NotificareScannablesKit/NotificareScannablesKit.xcodeproj">
    </FileRef>
    <FileRef

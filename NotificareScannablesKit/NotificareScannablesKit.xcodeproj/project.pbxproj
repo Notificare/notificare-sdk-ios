@@ -10,6 +10,10 @@
 		F258DE2E24BC4FAD006F9ABD /* NotificareScannablesKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F258DE2424BC4FAD006F9ABD /* NotificareScannablesKit.framework */; };
 		F258DE3324BC4FAD006F9ABD /* ScannableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DE3224BC4FAD006F9ABD /* ScannableTests.swift */; };
 		F258DE3524BC4FAD006F9ABD /* NotificareScannablesKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F258DE2724BC4FAD006F9ABD /* NotificareScannablesKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F289F5BA25B860E10091AB97 /* NotificareCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F289F5B925B860E10091AB97 /* NotificareCore.framework */; };
+		F289F5BB25B860E10091AB97 /* NotificareCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F289F5B925B860E10091AB97 /* NotificareCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F289F5BD25B860E90091AB97 /* NotificareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F22650B0258B6E410004F833 /* NotificareKit.framework */; };
+		F289F5BE25B860E90091AB97 /* NotificareKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F22650B0258B6E410004F833 /* NotificareKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -22,6 +26,21 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		F289F5BC25B860E10091AB97 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				F289F5BB25B860E10091AB97 /* NotificareCore.framework in Embed Frameworks */,
+				F289F5BE25B860E90091AB97 /* NotificareKit.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		F22650B0258B6E410004F833 /* NotificareKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F258DE2424BC4FAD006F9ABD /* NotificareScannablesKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NotificareScannablesKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -31,6 +50,7 @@
 		F258DE3224BC4FAD006F9ABD /* ScannableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannableTests.swift; sourceTree = "<group>"; };
 		F258DE3424BC4FAD006F9ABD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F258DE9C24BC96D0006F9ABD /* Notificare.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Notificare.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F289F5B925B860E10091AB97 /* NotificareCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2AAAF8C251D01BA00465EC5 /* NotificareSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -39,6 +59,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F289F5BA25B860E10091AB97 /* NotificareCore.framework in Frameworks */,
+				F289F5BD25B860E90091AB97 /* NotificareKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -93,6 +115,7 @@
 		F258DE9B24BC96D0006F9ABD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F289F5B925B860E10091AB97 /* NotificareCore.framework */,
 				F22650B0258B6E410004F833 /* NotificareKit.framework */,
 				F2AAAF8C251D01BA00465EC5 /* NotificareSDK.framework */,
 				F258DE9C24BC96D0006F9ABD /* Notificare.framework */,
@@ -122,6 +145,8 @@
 				F258DE2024BC4FAD006F9ABD /* Sources */,
 				F258DE2124BC4FAD006F9ABD /* Frameworks */,
 				F258DE2224BC4FAD006F9ABD /* Resources */,
+				F289F5BC25B860E10091AB97 /* Embed Frameworks */,
+				F289F5BF25B860F00091AB97 /* SwiftFormat */,
 			);
 			buildRules = (
 			);
@@ -157,7 +182,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1150;
-				LastUpgradeCheck = 1200;
+				LastUpgradeCheck = 1230;
 				ORGANIZATIONNAME = Notificare;
 				TargetAttributes = {
 					F258DE2324BC4FAD006F9ABD = {
@@ -203,6 +228,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		F289F5BF25B860F00091AB97 /* SwiftFormat */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftFormat;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftformat >/dev/null; then\n  echo \"$(pwd)\"\n  swiftformat .\nelse\n  echo \"warning: SwiftFormat not installed, download from https://github.com/nicklockwood/SwiftFormat\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		F258DE2024BC4FAD006F9ABD /* Sources */ = {
@@ -358,7 +404,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = Y47BY73NFN;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -384,7 +430,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = Y47BY73NFN;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";

@@ -216,7 +216,7 @@
 				F258DD9124BC4EE2006F9ABD /* Frameworks */,
 				F258DD9224BC4EE2006F9ABD /* Resources */,
 				F22650BB258B6E560004F833 /* Embed Frameworks */,
-				F240E08F259272EE00DBC25F /* ShellScript */,
+				F240E08F259272EE00DBC25F /* SwiftFormat */,
 			);
 			buildRules = (
 			);
@@ -252,7 +252,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1150;
-				LastUpgradeCheck = 1200;
+				LastUpgradeCheck = 1230;
 				ORGANIZATIONNAME = Notificare;
 				TargetAttributes = {
 					F258DD9324BC4EE2006F9ABD = {
@@ -301,7 +301,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		F240E08F259272EE00DBC25F /* ShellScript */ = {
+		F240E08F259272EE00DBC25F /* SwiftFormat */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -310,6 +310,7 @@
 			);
 			inputPaths = (
 			);
+			name = SwiftFormat;
 			outputFileListPaths = (
 			);
 			outputPaths = (
@@ -485,9 +486,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = Y47BY73NFN;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -513,9 +515,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = Y47BY73NFN;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";

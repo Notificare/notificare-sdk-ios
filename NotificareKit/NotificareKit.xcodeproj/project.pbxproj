@@ -52,6 +52,8 @@
 		F258DE4424BC68CB006F9ABD /* Notificare.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DE4324BC68CB006F9ABD /* Notificare.swift */; };
 		F26718F0250157C200B70A40 /* NotificareEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26718EF250157C200B70A40 /* NotificareEvent.swift */; };
 		F26718FA25017DD600B70A40 /* NotificareDatabase.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F26718F825017DD600B70A40 /* NotificareDatabase.xcdatamodeld */; };
+		F289F5B525B860B60091AB97 /* NotificareCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F289F5B425B860B60091AB97 /* NotificareCore.framework */; };
+		F289F5B625B860B60091AB97 /* NotificareCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F289F5B425B860B60091AB97 /* NotificareCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F29DA38125022170004CCB8F /* NotificareDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29DA38025022170004CCB8F /* NotificareDatabase.swift */; };
 		F29DA38325024753004CCB8F /* NotificareEvent+CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29DA38225024753004CCB8F /* NotificareEvent+CoreData.swift */; };
 		F2DB0C1325A8692C00AD93C7 /* NotificareDynamicLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2DB0C1225A8692C00AD93C7 /* NotificareDynamicLink.swift */; };
@@ -71,6 +73,20 @@
 			remoteInfo = Core;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F289F5B725B860B60091AB97 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				F289F5B625B860B60091AB97 /* NotificareCore.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		42A20228EB70EA83D835BF01 /* NotificareError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareError.swift; sourceTree = "<group>"; };
@@ -121,6 +137,7 @@
 		F258DE4324BC68CB006F9ABD /* Notificare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notificare.swift; sourceTree = "<group>"; };
 		F26718EF250157C200B70A40 /* NotificareEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareEvent.swift; sourceTree = "<group>"; };
 		F26718F925017DD600B70A40 /* NotificareCoreData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = NotificareCoreData.xcdatamodel; sourceTree = "<group>"; };
+		F289F5B425B860B60091AB97 /* NotificareCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F29DA38025022170004CCB8F /* NotificareDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareDatabase.swift; sourceTree = "<group>"; };
 		F29DA38225024753004CCB8F /* NotificareEvent+CoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificareEvent+CoreData.swift"; sourceTree = "<group>"; };
 		F2DB0C1225A8692C00AD93C7 /* NotificareDynamicLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareDynamicLink.swift; sourceTree = "<group>"; };
@@ -136,6 +153,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F289F5B525B860B60091AB97 /* NotificareCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -248,6 +266,7 @@
 				F258DD4E24BC4DBB006F9ABD /* Sources */,
 				F258DD5924BC4DBC006F9ABD /* Tests */,
 				F258DD4D24BC4DBB006F9ABD /* Products */,
+				F289F5B325B860B60091AB97 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -295,6 +314,14 @@
 				F22650A4258B6D250004F833 /* NotificareModule.swift */,
 			);
 			path = Modules;
+			sourceTree = "<group>";
+		};
+		F289F5B325B860B60091AB97 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F289F5B425B860B60091AB97 /* NotificareCore.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		F29DA37F25022154004CCB8F /* Database */ = {
@@ -379,8 +406,8 @@
 				F258DD4824BC4DBB006F9ABD /* Sources */,
 				F258DD4924BC4DBB006F9ABD /* Frameworks */,
 				F258DD4A24BC4DBB006F9ABD /* Resources */,
-				F27C0453251E2F4200C7D8BA /* ShellScript */,
-				F27C043C251E03C400C7D8BA /* ShellScript */,
+				F289F5B725B860B60091AB97 /* Embed Frameworks */,
+				F27C0453251E2F4200C7D8BA /* SwiftFormat */,
 			);
 			buildRules = (
 			);
@@ -416,7 +443,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1150;
-				LastUpgradeCheck = 1200;
+				LastUpgradeCheck = 1230;
 				ORGANIZATIONNAME = Notificare;
 				TargetAttributes = {
 					F258DD4B24BC4DBB006F9ABD = {
@@ -465,7 +492,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		F27C043C251E03C400C7D8BA /* ShellScript */ = {
+		F27C0453251E2F4200C7D8BA /* SwiftFormat */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -474,23 +501,7 @@
 			);
 			inputPaths = (
 			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint --config ../.swiftlint.yml\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
-		};
-		F27C0453251E2F4200C7D8BA /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
+			name = SwiftFormat;
 			outputFileListPaths = (
 			);
 			outputPaths = (
@@ -703,10 +714,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = E3J9DDFVP4;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -721,6 +732,7 @@
 				MARKETING_VERSION = 3.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -733,10 +745,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = E3J9DDFVP4;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -751,6 +763,7 @@
 				MARKETING_VERSION = 3.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
