@@ -22,6 +22,11 @@ public class NotificareImageGalleryViewController: NotificareBaseNotificationVie
         setupContent()
     }
 
+    override public func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFinishPresentingNotification: notification)
+    }
+
     private func setupViews() {
         let collectionViewLayout = UICollectionViewFlowLayout()
         collectionViewLayout.scrollDirection = .horizontal
@@ -70,7 +75,7 @@ public class NotificareImageGalleryViewController: NotificareBaseNotificationVie
 
     private func setupContent() {
         guard !notification.content.isEmpty else {
-            NotificarePush.shared.delegate?.notificare(NotificarePush.shared, didFailToOpenNotification: notification)
+            NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFailToPresentNotification: notification)
             return
         }
 
@@ -95,6 +100,8 @@ public class NotificareImageGalleryViewController: NotificareBaseNotificationVie
                 }
             }.resume()
         }
+
+        NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didPresentNotification: notification)
     }
 
     private func openSharingActionSheet(for image: UIImage) {

@@ -71,7 +71,7 @@ public class NotificareUrlViewController: NotificareBaseNotificationViewControll
         guard let content = notification.content.first,
               let url = URL(string: content.data as! String)
         else {
-            NotificarePush.shared.delegate?.notificare(NotificarePush.shared, didFailToOpenNotification: notification)
+            NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFailToPresentNotification: notification)
             return
         }
 
@@ -110,7 +110,7 @@ extension NotificareUrlViewController: WKNavigationDelegate, WKUIDelegate {
 
         if let urlSchemes = NotificareUtils.getConfiguration()?.options?.urlSchemes, let scheme = url.scheme, urlSchemes.contains(scheme) {
             handleNotificareQueryParameters(for: url)
-            NotificarePush.shared.delegate?.notificare(NotificarePush.shared, didClickURL: url, in: notification)
+            NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didClickURL: url, in: notification)
             decisionHandler(.cancel)
         } else if navigationAction.targetFrame == nil {
             webView.load(navigationAction.request)
@@ -140,13 +140,15 @@ extension NotificareUrlViewController: WKNavigationDelegate, WKUIDelegate {
     }
 
     public func webView(_: WKWebView, didFail _: WKNavigation!, withError _: Error) {
-        NotificarePush.shared.delegate?.notificare(NotificarePush.shared, didFailToOpenNotification: notification)
+        NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFailToPresentNotification: notification)
 
         loadingView.removeFromSuperview()
         progressView.removeFromSuperview()
     }
 
     public func webView(_: WKWebView, didFinish _: WKNavigation!) {
+        NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didPresentNotification: notification)
+
         loadingView.removeFromSuperview()
         progressView.removeFromSuperview()
     }

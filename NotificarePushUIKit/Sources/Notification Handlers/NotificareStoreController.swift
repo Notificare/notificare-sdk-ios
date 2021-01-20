@@ -15,12 +15,12 @@ class NotificareStoreController: NSObject, SKStoreProductViewControllerDelegate,
 
     func present(in controller: UIViewController) {
         guard let content = notification.content.first, content.type == "re.notifica.content.AppStore" else {
-            NotificarePush.shared.delegate?.notificare(NotificarePush.shared, didFailToOpenNotification: notification)
+            NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFailToPresentNotification: notification)
             return
         }
 
         guard let data = content.data as? [String: Any], let identifier = data["identifier"] else {
-            NotificarePush.shared.delegate?.notificare(NotificarePush.shared, didFailToOpenNotification: notification)
+            NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFailToPresentNotification: notification)
             return
         }
 
@@ -47,7 +47,9 @@ class NotificareStoreController: NSObject, SKStoreProductViewControllerDelegate,
 
         storeController.loadProduct(withParameters: parameters) { success, error in
             if !success || error != nil {
-                NotificarePush.shared.delegate?.notificare(NotificarePush.shared, didFailToOpenNotification: self.notification)
+                NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFailToPresentNotification: self.notification)
+            } else {
+                NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didPresentNotification: self.notification)
             }
         }
 
@@ -56,7 +58,7 @@ class NotificareStoreController: NSObject, SKStoreProductViewControllerDelegate,
 
     public func productViewControllerDidFinish(_: SKStoreProductViewController) {
         UIApplication.shared.keyWindow?.rootViewController?.dismiss(animated: true, completion: {
-            // TODO: [[self delegate] notificationType:self didCloseNotification:[self notification]];
+            NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFinishPresentingNotification: self.notification)
         })
     }
 }

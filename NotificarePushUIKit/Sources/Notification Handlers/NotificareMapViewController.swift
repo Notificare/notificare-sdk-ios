@@ -19,6 +19,12 @@ public class NotificareMapViewController: NotificareBaseNotificationViewControll
         mapView.showAnnotations(mapView.annotations, animated: true)
     }
 
+    override public func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+
+        NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFinishPresentingNotification: notification)
+    }
+
     private func setupViews() {
         mapView = MKMapView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height))
         mapView.showsUserLocation = true
@@ -137,6 +143,8 @@ extension NotificareMapViewController: MKMapViewDelegate {
 
 extension NotificareMapViewController: NotificareNotificationPresenter {
     func present(in controller: UIViewController) {
-        NotificarePushUI.shared.presentController(self, in: controller)
+        NotificarePushUI.shared.presentController(self, in: controller) {
+            NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didPresentNotification: self.notification)
+        }
     }
 }

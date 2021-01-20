@@ -24,6 +24,8 @@ class NotificareAlertController: NotificareNotificationPresenter {
                               style: .default,
                               handler: { _ in
                                   NotificareBaseNotificationViewController.handleAction(action, for: self.notification)
+
+                                  NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFinishPresentingNotification: self.notification)
                               })
             )
         }
@@ -32,9 +34,11 @@ class NotificareAlertController: NotificareNotificationPresenter {
         alert.addAction(UIAlertAction(title: NotificareLocalizable.string(resource: useCancelButton ? .cancel : .ok),
                                       style: useCancelButton ? .cancel : .default,
                                       handler: { _ in
-                                          // TODO: [[self delegate] notificationType:self didCloseNotification:[self notification]];
+                                          NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFinishPresentingNotification: self.notification)
                                       }))
 
-        NotificarePushUI.shared.presentController(alert, in: controller)
+        NotificarePushUI.shared.presentController(alert, in: controller) {
+            NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didPresentNotification: self.notification)
+        }
     }
 }

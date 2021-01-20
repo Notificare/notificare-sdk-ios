@@ -42,11 +42,21 @@ class NotificareRateController: NotificareNotificationPresenter {
                     NotificareLogger.warning("Cannot open the App Store.")
                 }
             }
+
+            NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFinishPresentingNotification: self.notification)
         }))
 
         // Cancel action
-        alert.addAction(UIAlertAction(title: NotificareLocalizable.string(resource: .rateAlertNoButton), style: .default, handler: nil))
+        alert.addAction(
+            UIAlertAction(title: NotificareLocalizable.string(resource: .rateAlertNoButton),
+                          style: .default,
+                          handler: { _ in
+                              NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFinishPresentingNotification: self.notification)
+                          })
+        )
 
-        NotificarePushUI.shared.presentController(alert, in: controller)
+        NotificarePushUI.shared.presentController(alert, in: controller) {
+            NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didPresentNotification: self.notification)
+        }
     }
 }

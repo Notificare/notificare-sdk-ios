@@ -74,7 +74,7 @@ public class NotificarePushUI {
 
         case .passbook:
             // TODO: handle passbook notification
-            break
+            return
 
         case .store:
             latestPresentableNotificationHandler = NotificareStoreController(notification: notification)
@@ -86,7 +86,7 @@ public class NotificarePushUI {
             latestPresentableNotificationHandler = notificationController
         }
 
-        // TODO: delegate will present
+        NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, willPresentNotification: notification)
         latestPresentableNotificationHandler?.present(in: controller)
     }
 
@@ -132,14 +132,14 @@ public class NotificarePushUI {
 
     // MARK: - Internal API
 
-    func presentController(_ controller: UIViewController, in originController: UIViewController) {
+    func presentController(_ controller: UIViewController, in originController: UIViewController, completion: (() -> Void)? = nil) {
         if controller is UIAlertController || controller is SKStoreProductViewController || controller is UINavigationController {
             if originController.presentedViewController != nil {
                 originController.dismiss(animated: true) {
-                    originController.present(controller, animated: true)
+                    originController.present(controller, animated: true, completion: completion)
                 }
             } else {
-                originController.present(controller, animated: true)
+                originController.present(controller, animated: true, completion: completion)
             }
 
             return
@@ -147,8 +147,9 @@ public class NotificarePushUI {
 
         if let navigationController = originController as? UINavigationController {
             navigationController.pushViewController(controller, animated: true)
+            completion?()
         } else {
-            originController.present(controller, animated: true, completion: nil)
+            originController.present(controller, animated: true, completion: completion)
         }
     }
 }

@@ -17,6 +17,11 @@ public class NotificareVideoViewController: NotificareBaseNotificationViewContro
         setupContent()
     }
 
+    override public func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFinishPresentingNotification: notification)
+    }
+
     private func setupWebView() {
         let configuration = WKWebViewConfiguration()
         configuration.allowsInlineMediaPlayback = true
@@ -44,7 +49,7 @@ public class NotificareVideoViewController: NotificareBaseNotificationViewContro
 
     private func setupContent() {
         guard let content = notification.content.first else {
-            NotificarePush.shared.delegate?.notificare(NotificarePush.shared, didFailToOpenNotification: notification)
+            NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFailToPresentNotification: notification)
             return
         }
 
@@ -54,6 +59,7 @@ public class NotificareVideoViewController: NotificareBaseNotificationViewContro
 
             let htmlStr = String(format: htmlTemplate, view.frame.width, view.frame.height, content.data as! String)
             webView.loadHTMLString(htmlStr, baseURL: Bundle.main.resourceURL)
+            NotificareLogger.warning("done loading html")
 
         case "re.notifica.content.Vimeo":
             let htmlTemplate = "<!DOCTYPE html><html><head><style>body{margin:0px 0px 0px 0px;}</style></head><body><iframe src='https://player.vimeo.com/video/%@?autoplay=1' width='%0.0f' height='%0.0f' frameborder='0' webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></body> </html>"
@@ -68,8 +74,11 @@ public class NotificareVideoViewController: NotificareBaseNotificationViewContro
             webView.loadHTMLString(htmlStr, baseURL: Bundle.main.resourceURL)
 
         default:
-            NotificarePush.shared.delegate?.notificare(NotificarePush.shared, didFailToOpenNotification: notification)
+            NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFailToPresentNotification: notification)
+            return
         }
+
+        NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didPresentNotification: notification)
     }
 }
 
@@ -80,7 +89,7 @@ extension NotificareVideoViewController: WKNavigationDelegate, WKUIDelegate {
            let scheme = url.scheme,
            urlSchemes.contains(scheme)
         {
-            NotificarePush.shared.delegate?.notificare(NotificarePush.shared, didClickURL: url, in: notification)
+            NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didClickURL: url, in: notification)
             decisionHandler(.cancel)
         } else {
             decisionHandler(.allow)
@@ -88,7 +97,7 @@ extension NotificareVideoViewController: WKNavigationDelegate, WKUIDelegate {
     }
 
     public func webView(_: WKWebView, didFail _: WKNavigation!, withError _: Error) {
-        NotificarePush.shared.delegate?.notificare(NotificarePush.shared, didFailToOpenNotification: notification)
+        NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFailToPresentNotification: notification)
     }
 }
 
