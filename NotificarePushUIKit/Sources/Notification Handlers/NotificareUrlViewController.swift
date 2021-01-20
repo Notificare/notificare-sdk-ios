@@ -31,6 +31,8 @@ public class NotificareUrlViewController: NotificareBaseNotificationViewControll
     override public func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         webView.removeObserver(self, forKeyPath: NSStringFromSelector(#selector(getter: WKWebView.estimatedProgress)))
+
+        NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFinishPresentingNotification: notification)
     }
 
     private func setupViews() {
