@@ -41,7 +41,6 @@ public class NotificareImageGalleryViewController: NotificareBaseNotificationVie
         if let colorStr = theme?.backgroundColor {
             collectionView.backgroundColor = UIColor(hexString: colorStr)
         }
-        collectionView.backgroundColor = UIColor.red
 
         pageControl = UIPageControl()
         pageControl.translatesAutoresizingMaskIntoConstraints = false
