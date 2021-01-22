@@ -22,6 +22,7 @@ public extension NotificareConfiguration {
         public let urlSchemes: [String]?
         public let closeWindowQueryParameter: String?
         public let imageSharing: Bool?
+        public let safariDismissButtonStyle: Int?
         public let themes: Themes?
     }
 }
@@ -42,6 +43,8 @@ public extension NotificareConfiguration {
         public let buttonTextColor: String?
         public let textFieldTextColor: String?
         public let textFieldBackgroundColor: String?
+        public let safariBarTintColor: String?
+        public let safariControlsTintColor: String?
     }
 }
 

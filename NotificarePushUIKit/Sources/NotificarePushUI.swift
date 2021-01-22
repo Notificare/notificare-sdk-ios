@@ -5,6 +5,7 @@
 import NotificareCore
 import NotificareKit
 import NotificarePushKit
+import SafariServices
 import StoreKit
 import UIKit
 
@@ -124,6 +125,10 @@ public class NotificarePushUI {
         case .telephone:
             latestPresentableActionHandler = NotificareTelephoneActionHandler(notification: notification,
                                                                               action: action)
+        case .webView:
+            latestPresentableActionHandler = NotificareWebViewActionHandler(notification: notification,
+                                                                            action: action,
+                                                                            sourceViewController: controller)
         }
 
         NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, willExecuteAction: action, for: notification)
@@ -133,7 +138,7 @@ public class NotificarePushUI {
     // MARK: - Internal API
 
     func presentController(_ controller: UIViewController, in originController: UIViewController, completion: (() -> Void)? = nil) {
-        if controller is UIAlertController || controller is SKStoreProductViewController || controller is UINavigationController {
+        if controller is UIAlertController || controller is SKStoreProductViewController || controller is UINavigationController || controller is SFSafariViewController {
             if originController.presentedViewController != nil {
                 originController.dismiss(animated: true) {
                     originController.present(controller, animated: true, completion: completion)

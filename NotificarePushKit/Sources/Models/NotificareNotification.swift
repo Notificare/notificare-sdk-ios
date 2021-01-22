@@ -133,6 +133,7 @@ public extension NotificareNotification.Action {
         case mail = "re.notifica.action.Mail"
         case sms = "re.notifica.action.SMS"
         case telephone = "re.notifica.action.Telephone"
+        case webView = "re.notifica.action.WebView"
     }
 }
 

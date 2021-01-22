@@ -30,6 +30,7 @@
 		F29B180225A4B81A007ED6F9 /* NotificarePushUI+UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29B180125A4B81A007ED6F9 /* NotificarePushUI+UserDefaults.swift */; };
 		F29C96E725ACBE2500620E9B /* NotificareImageGalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29C96E625ACBE2500620E9B /* NotificareImageGalleryViewController.swift */; };
 		F29C96EA25ACBE5D00620E9B /* NotificareBaseNotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29C96E925ACBE5D00620E9B /* NotificareBaseNotificationViewController.swift */; };
+		F2B1817925BAF4F800384991 /* NotificareWebViewActionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B1817825BAF4F800384991 /* NotificareWebViewActionHandler.swift */; };
 		F2B8C51725A5DD9400FFBE0C /* NotificareWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B8C51625A5DD9400FFBE0C /* NotificareWebViewController.swift */; };
 		F2B8C56125A6173F00FFBE0C /* NotificareCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2B8C56025A6173F00FFBE0C /* NotificareCore.framework */; };
 		F2B8C56225A6173F00FFBE0C /* NotificareCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F2B8C56025A6173F00FFBE0C /* NotificareCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -89,6 +90,7 @@
 		F29B180125A4B81A007ED6F9 /* NotificarePushUI+UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificarePushUI+UserDefaults.swift"; sourceTree = "<group>"; };
 		F29C96E625ACBE2500620E9B /* NotificareImageGalleryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareImageGalleryViewController.swift; sourceTree = "<group>"; };
 		F29C96E925ACBE5D00620E9B /* NotificareBaseNotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareBaseNotificationViewController.swift; sourceTree = "<group>"; };
+		F2B1817825BAF4F800384991 /* NotificareWebViewActionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareWebViewActionHandler.swift; sourceTree = "<group>"; };
 		F2B8C51625A5DD9400FFBE0C /* NotificareWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareWebViewController.swift; sourceTree = "<group>"; };
 		F2B8C56025A6173F00FFBE0C /* NotificareCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2CB6F5B25AEFD0600FC994E /* NotificareMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareMapViewController.swift; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 				F277EAB225B085740026225C /* NotificareMailActionHandler.swift */,
 				F277EAB825B0A0FF0026225C /* NotificareSmsActionHandler.swift */,
 				F277EABC25B0A10C0026225C /* NotificareTelephoneActionHandler.swift */,
+				F2B1817825BAF4F800384991 /* NotificareWebViewActionHandler.swift */,
 			);
 			path = "Action Handlers";
 			sourceTree = "<group>";
@@ -351,6 +354,7 @@
 				F2E9D45825AE1D4500FF7827 /* NotificareUrlViewController.swift in Sources */,
 				F289F52925B839B70091AB97 /* NotificareRateController.swift in Sources */,
 				F2B8C51725A5DD9400FFBE0C /* NotificareWebViewController.swift in Sources */,
+				F2B1817925BAF4F800384991 /* NotificareWebViewActionHandler.swift in Sources */,
 				F277EAC725B0A7680026225C /* NotificareCallbackActionHandler.swift in Sources */,
 				F277EAC025B0A1150026225C /* NotificareBrowserActionHandler.swift in Sources */,
 				F277EAB925B0A0FF0026225C /* NotificareSmsActionHandler.swift in Sources */,
