@@ -36,14 +36,10 @@ extension NotificarePush: UNUserNotificationCenterDelegate {
                             )
 
                             self.delegate?.notificare(self, didOpenAction: clickedAction, for: notification, with: response)
-                        } else {
-                            // TODO: handle scenario
                         }
 
-                        // TODO: refresh badge
-                        // [[NotificareInboxManager shared] refreshBadge:^(id  _Nullable response, NSError * _Nullable error) {
-                        //     completion(.success(()))
-                        // }];
+                        // Notify the inbox to update the badge.
+                        NotificationCenter.default.post(name: NotificareDefinitions.InternalNotification.refreshBadge, object: nil, userInfo: nil)
 
                         completionHandler()
                     } else {

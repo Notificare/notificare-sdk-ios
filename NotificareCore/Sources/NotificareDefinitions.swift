@@ -10,4 +10,9 @@ public enum NotificareDefinitions {
         case pushUI = "NotificarePushUIKit.NotificarePushUI"
         case inbox = "NotificareInboxKit.NotificareInbox"
     }
+
+    public enum InternalNotification {
+        public static let addInboxItem = NSNotification.Name(rawValue: "NotificareInboxKit.AddInboxItem")
+        public static let refreshBadge = NSNotification.Name(rawValue: "NotificareInboxKit.RefreshBadge")
+    }
 }

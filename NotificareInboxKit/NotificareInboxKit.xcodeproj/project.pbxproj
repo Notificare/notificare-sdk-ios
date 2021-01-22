@@ -15,6 +15,7 @@
 		F289F56225B85EAF0091AB97 /* NotificareKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F289F56025B85EAF0091AB97 /* NotificareKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F289F5E825B8643A0091AB97 /* NotificareInbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = F289F5E725B8643A0091AB97 /* NotificareInbox.swift */; };
 		F289F5ED25B8651F0091AB97 /* NotificareInboxDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F289F5EC25B8651F0091AB97 /* NotificareInboxDelegate.swift */; };
+		F289F5F125B884EC0091AB97 /* NotificareInboxItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F289F5F025B884EC0091AB97 /* NotificareInboxItem.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,7 @@
 		F289F5E725B8643A0091AB97 /* NotificareInbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareInbox.swift; sourceTree = "<group>"; };
 		F289F5EB25B864A90091AB97 /* NotificareInboxKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificareInboxKit.h; sourceTree = "<group>"; };
 		F289F5EC25B8651F0091AB97 /* NotificareInboxDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareInboxDelegate.swift; sourceTree = "<group>"; };
+		F289F5F025B884EC0091AB97 /* NotificareInboxItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareInboxItem.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +100,7 @@
 		F289F53725B85E020091AB97 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				F289F5EF25B884E00091AB97 /* Models */,
 				F289F53925B85E020091AB97 /* Info.plist */,
 				F289F5EB25B864A90091AB97 /* NotificareInboxKit.h */,
 				F289F5E725B8643A0091AB97 /* NotificareInbox.swift */,
@@ -122,6 +125,14 @@
 				F289F55C25B85EA80091AB97 /* NotificareCore.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F289F5EF25B884E00091AB97 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F289F5F025B884EC0091AB97 /* NotificareInboxItem.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -256,6 +267,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F289F5F125B884EC0091AB97 /* NotificareInboxItem.swift in Sources */,
 				F289F5E825B8643A0091AB97 /* NotificareInbox.swift in Sources */,
 				F289F5ED25B8651F0091AB97 /* NotificareInboxDelegate.swift in Sources */,
 			);

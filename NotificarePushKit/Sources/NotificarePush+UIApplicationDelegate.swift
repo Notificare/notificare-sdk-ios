@@ -92,7 +92,8 @@ public extension NotificarePush {
             case let .success(notification):
                 Notificare.shared.eventsManager.logNotificationReceived(notification)
 
-                // TODO: add to inbox
+                // Notify the inbox to add this item.
+                NotificationCenter.default.post(name: NotificareDefinitions.InternalNotification.addInboxItem, object: nil, userInfo: userInfo)
 
                 completion(.success(()))
             case let .failure(error):
