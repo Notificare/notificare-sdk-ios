@@ -4,7 +4,6 @@
 
 import NotificareCore
 import NotificareKit
-import NotificarePushKit
 import UIKit
 
 class NotificareUrlSchemeController: NotificareNotificationPresenter {

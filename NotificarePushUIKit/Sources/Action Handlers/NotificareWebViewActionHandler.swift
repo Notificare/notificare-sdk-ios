@@ -3,7 +3,7 @@
 //
 
 import NotificareCore
-import NotificarePushKit
+import NotificareKit
 import SafariServices
 import UIKit
 
@@ -62,7 +62,7 @@ extension NotificareWebViewActionHandler: SFSafariViewControllerDelegate {
     public func safariViewController(_: SFSafariViewController, didCompleteInitialLoad successfully: Bool) {
         if successfully {
             NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didExecuteAction: action, for: notification)
-            NotificarePush.shared.submitNotificationActionReply(action, for: notification) { _ in }
+            Notificare.shared.sendNotificationReply(action, for: notification) { _ in }
         } else {
             NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFailToExecuteAction: action, for: notification, error: nil)
         }

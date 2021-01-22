@@ -3,7 +3,7 @@
 //
 
 import NotificareCore
-import NotificarePushKit
+import NotificareKit
 import StoreKit
 
 class NotificareStoreController: NSObject, SKStoreProductViewControllerDelegate, NotificareNotificationPresenter {

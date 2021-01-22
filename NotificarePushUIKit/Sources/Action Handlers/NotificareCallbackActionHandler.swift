@@ -8,7 +8,6 @@ import CoreMedia
 import MobileCoreServices
 import NotificareCore
 import NotificareKit
-import NotificarePushKit
 import UIKit
 
 public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
@@ -154,7 +153,7 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
         activityIndicatorView.startAnimating()
 
         if let imageData = imageData {
-            NotificarePush.shared.uploadNotificationActionReplyAsset(imageData, contentType: "image/jpeg") { result in
+            Notificare.shared.uploadNotificationReplyAsset(imageData, contentType: "image/jpeg") { result in
                 switch result {
                 case let .success(url):
                     self.mediaUrl = url
@@ -166,7 +165,7 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
                 }
             }
         } else if let videoData = videoData {
-            NotificarePush.shared.uploadNotificationActionReplyAsset(videoData, contentType: "video/quicktime") { result in
+            Notificare.shared.uploadNotificationReplyAsset(videoData, contentType: "video/quicktime") { result in
                 switch result {
                 case let .success(url):
                     self.mediaUrl = url
@@ -378,7 +377,7 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
     }
 
     private func logAction() {
-        NotificarePush.shared.submitNotificationActionReply(action, for: notification, message: message, media: mediaUrl, mimeType: mediaMimeType) { _ in }
+        Notificare.shared.sendNotificationReply(action, for: notification, message: message, media: mediaUrl, mimeType: mediaMimeType) { _ in }
     }
 }
 

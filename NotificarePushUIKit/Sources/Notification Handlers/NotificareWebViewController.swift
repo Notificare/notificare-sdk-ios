@@ -3,7 +3,6 @@
 //
 
 import NotificareCore
-import NotificarePushKit
 import UIKit
 import WebKit
 

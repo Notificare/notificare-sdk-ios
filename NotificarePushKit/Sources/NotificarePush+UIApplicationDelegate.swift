@@ -82,12 +82,12 @@ public extension NotificarePush {
             return
         }
 
-        guard let api = Notificare.shared.pushApi else {
+        guard Notificare.shared.isConfigured else {
             NotificareLogger.warning("Notificare has not been configured.")
             return
         }
 
-        api.getNotification(id) { result in
+        Notificare.shared.fetchNotification(id) { result in
             switch result {
             case let .success(notification):
                 Notificare.shared.eventsManager.logNotificationReceived(notification)

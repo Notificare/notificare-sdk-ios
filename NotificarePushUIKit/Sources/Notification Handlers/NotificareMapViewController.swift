@@ -4,7 +4,6 @@
 
 import MapKit
 import NotificareCore
-import NotificarePushKit
 import UIKit
 
 public class NotificareMapViewController: NotificareBaseNotificationViewController {

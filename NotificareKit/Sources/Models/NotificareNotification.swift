@@ -2,7 +2,7 @@
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
-import Foundation
+import NotificareCore
 
 public struct NotificareNotification {
     public let id: String
@@ -142,6 +142,11 @@ public extension NotificareNotification {
     struct ResponseData: Decodable {
         public let identifier: String
         public let userText: String?
+
+        public init(identifier: String, userText: String?) {
+            self.identifier = identifier
+            self.userText = userText
+        }
     }
 }
 

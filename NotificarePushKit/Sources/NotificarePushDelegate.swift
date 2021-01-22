@@ -3,6 +3,7 @@
 //
 
 import Foundation
+import NotificareKit
 import UserNotifications
 
 public protocol NotificarePushDelegate: AnyObject {

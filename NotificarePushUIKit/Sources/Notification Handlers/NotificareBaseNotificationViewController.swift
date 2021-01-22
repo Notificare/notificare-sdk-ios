@@ -3,6 +3,7 @@
 //
 
 import NotificareCore
+import NotificareKit
 import NotificarePushKit
 import UIKit
 

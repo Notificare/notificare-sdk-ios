@@ -4,7 +4,6 @@
 
 import NotificareCore
 import NotificareKit
-import NotificarePushKit
 import StoreKit
 import UIKit
 

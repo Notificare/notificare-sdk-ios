@@ -3,7 +3,7 @@
 //
 
 import NotificareCore
-import NotificarePushKit
+import NotificareKit
 import UIKit
 
 class NotificareAlertController: NotificareNotificationPresenter {

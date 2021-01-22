@@ -4,7 +4,7 @@
 
 import MessageUI
 import NotificareCore
-import NotificarePushKit
+import NotificareKit
 
 public class NotificareMailActionHandler: NotificareBaseActionHandler {
     private let sourceViewController: UIViewController
@@ -52,7 +52,7 @@ extension NotificareMailActionHandler: MFMailComposeViewControllerDelegate {
         switch result {
         case .saved, .sent:
             NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didExecuteAction: action, for: notification)
-            NotificarePush.shared.submitNotificationActionReply(action, for: notification) { _ in }
+            Notificare.shared.sendNotificationReply(action, for: notification) { _ in }
 
         case .cancelled:
             NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didNotExecuteAction: action, for: notification)

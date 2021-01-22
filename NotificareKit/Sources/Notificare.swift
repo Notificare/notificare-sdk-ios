@@ -152,6 +152,53 @@ public class Notificare {
         api.getDynamicLink(link, completion)
     }
 
+    public func fetchNotification(_ id: String, _ completion: @escaping NotificareCallback<NotificareNotification>) {
+        guard isConfigured, let api = pushApi else {
+            completion(.failure(.notReady))
+            return
+        }
+
+        api.getNotification(id, completion)
+    }
+
+    public func sendNotificationReply(_ action: NotificareNotification.Action, for notification: NotificareNotification, message: String? = nil, media: String? = nil, mimeType: String? = nil, _ completion: @escaping NotificareCallback<Void>) {
+        guard let device = deviceManager.currentDevice, let api = pushApi else {
+            completion(.failure(.notReady))
+            return
+        }
+
+        let payload = NotificareCreateReplyPayload(
+            notificationId: notification.id,
+            deviceId: device.id,
+            userId: device.userId,
+            label: action.label,
+            data: NotificareCreateReplyPayload.Data(
+                target: action.target,
+                message: message,
+                media: media,
+                mimeType: mimeType
+            )
+        )
+
+        api.createNotificationReply(payload, completion)
+    }
+
+    public func uploadNotificationReplyAsset(_ data: Data, contentType: String, _ completion: @escaping NotificareCallback<String>) {
+        guard let api = Notificare.shared.pushApi else {
+            completion(.failure(.notReady))
+            return
+        }
+
+        api.uploadNotificationReplyAsset(data, contentType: contentType) { result in
+            switch result {
+            case let .success(filename):
+                completion(.success("https://push.notifica.re/upload\(filename)"))
+            case let .failure(error):
+                completion(.failure(error))
+            }
+        }
+    }
+
     // MARK: - Private API
 
     internal func configure(applicationKey: String, applicationSecret: String, services: NotificareServices) {

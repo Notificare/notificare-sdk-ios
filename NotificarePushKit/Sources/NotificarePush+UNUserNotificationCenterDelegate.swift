@@ -17,13 +17,13 @@ extension NotificarePush: UNUserNotificationCenterDelegate {
                 return
             }
 
-            guard let api = Notificare.shared.pushApi else {
+            guard Notificare.shared.isConfigured else {
                 NotificareLogger.warning("Notificare has not been configured.")
                 completionHandler()
                 return
             }
 
-            api.getNotification(id) { result in
+            Notificare.shared.fetchNotification(id) { result in
                 switch result {
                 case let .success(notification):
                     Notificare.shared.eventsManager.logNotificationOpen(notification)
@@ -77,12 +77,12 @@ extension NotificarePush: UNUserNotificationCenterDelegate {
                 return
             }
 
-            guard let api = Notificare.shared.pushApi else {
+            guard Notificare.shared.isConfigured else {
                 NotificareLogger.warning("Notificare has not been configured.")
                 return
             }
 
-            api.getNotification(id) { result in
+            Notificare.shared.fetchNotification(id) { result in
                 switch result {
                 case let .success(notification):
                     // TODO: log notification open?
@@ -123,12 +123,12 @@ extension NotificarePush: UNUserNotificationCenterDelegate {
             return
         }
 
-        guard let api = Notificare.shared.pushApi else {
+        guard Notificare.shared.isConfigured else {
             NotificareLogger.warning("Notificare has not been configured.")
             return
         }
 
-        api.getNotification(id) { result in
+        Notificare.shared.fetchNotification(id) { result in
             switch result {
             case let .success(notification):
                 self.delegate?.notificare(self, shouldOpenSettings: notification)

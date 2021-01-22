@@ -87,44 +87,6 @@ public class NotificarePush: NSObject, NotificareModule {
         userInfo["x-sender"] as? String == "notificare"
     }
 
-    public func submitNotificationActionReply(_ action: NotificareNotification.Action, for notification: NotificareNotification, message: String? = nil, media: String? = nil, mimeType: String? = nil, _ completion: @escaping NotificareCallback<Void>) {
-        guard let device = Notificare.shared.deviceManager.currentDevice else {
-            completion(.failure(.notReady))
-            return
-        }
-
-        let payload = NotificareCreateReplyPayload(
-            notificationId: notification.id,
-            deviceId: device.id,
-            userId: device.userId,
-            label: action.label,
-            data: NotificareCreateReplyPayload.Data(
-                target: action.target,
-                message: message,
-                media: media,
-                mimeType: mimeType
-            )
-        )
-
-        Notificare.shared.pushApi?.createNotificationActionReply(payload, completion)
-    }
-
-    public func uploadNotificationActionReplyAsset(_ data: Data, contentType: String, _ completion: @escaping NotificareCallback<String>) {
-        guard let pushApi = Notificare.shared.pushApi else {
-            completion(.failure(.notReady))
-            return
-        }
-
-        pushApi.uploadNotificationActionReplyAsset(data, contentType: contentType) { result in
-            switch result {
-            case let .success(filename):
-                completion(.success("https://push.notifica.re/upload\(filename)"))
-            case let .failure(error):
-                completion(.failure(error))
-            }
-        }
-    }
-
     private func loadAvailableCategories() -> Set<UNNotificationCategory> {
         var categories = Set<UNNotificationCategory>()
 
@@ -266,12 +228,12 @@ public class NotificarePush: NSObject, NotificareModule {
                         return
                     }
 
-                    guard let api = Notificare.shared.pushApi else {
+                    guard Notificare.shared.isConfigured else {
                         NotificareLogger.warning("Notificare has not been configured.")
                         return
                     }
 
-                    api.getNotification(id) { result in
+                    Notificare.shared.fetchNotification(id) { result in
                         switch result {
                         case let .success(notification):
                             Notificare.shared.eventsManager.logNotificationInfluenced(notification)

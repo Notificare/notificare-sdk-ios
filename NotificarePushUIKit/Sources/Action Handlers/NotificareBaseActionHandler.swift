@@ -2,7 +2,7 @@
 // Copyright (c) 2021 Notificare. All rights reserved.
 //
 
-import NotificarePushKit
+import NotificareKit
 
 public class NotificareBaseActionHandler: NSObject {
     let notification: NotificareNotification

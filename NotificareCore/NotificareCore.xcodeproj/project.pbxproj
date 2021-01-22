@@ -10,6 +10,7 @@
 		F222672F25B725A400735974 /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = F222672E25B725A400735974 /* UIColor+Hex.swift */; };
 		F27D0E1025A70F0F0077612E /* NotificareLocalizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27D0E0F25A70F0F0077612E /* NotificareLocalizable.swift */; };
 		F27D0E1725A70F730077612E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F27D0E1925A70F730077612E /* Localizable.strings */; };
+		F2B1818125BAFE6800384991 /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B1818025BAFE6800384991 /* JSON.swift */; };
 		F2B8C52F25A6115D00FFBE0C /* NotificareCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2B8C52525A6115D00FFBE0C /* NotificareCore.framework */; };
 		F2B8C53425A6115D00FFBE0C /* NotificareCoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B8C53325A6115D00FFBE0C /* NotificareCoreTests.swift */; };
 		F2B8C53625A6115D00FFBE0C /* NotificareCore.h in Headers */ = {isa = PBXBuildFile; fileRef = F2B8C52825A6115D00FFBE0C /* NotificareCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -37,6 +38,7 @@
 		F27D0E0F25A70F0F0077612E /* NotificareLocalizable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareLocalizable.swift; sourceTree = "<group>"; };
 		F27D0E1825A70F730077612E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F27D0E1C25A70F8C0077612E /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
+		F2B1818025BAFE6800384991 /* JSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSON.swift; sourceTree = "<group>"; };
 		F2B8C52525A6115D00FFBE0C /* NotificareCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NotificareCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2B8C52825A6115D00FFBE0C /* NotificareCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificareCore.h; sourceTree = "<group>"; };
 		F2B8C52925A6115D00FFBE0C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 		F2DB0C1B25A86B5000AD93C7 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				F2B1818025BAFE6800384991 /* JSON.swift */,
 				F2DB0C1C25A86B6700AD93C7 /* URL.swift */,
 				F222672E25B725A400735974 /* UIColor+Hex.swift */,
 			);
@@ -279,6 +282,7 @@
 				F2E9D43725AE11C800FF7827 /* NotificareUtils.swift in Sources */,
 				F222672F25B725A400735974 /* UIColor+Hex.swift in Sources */,
 				F27D0E1025A70F0F0077612E /* NotificareLocalizable.swift in Sources */,
+				F2B1818125BAFE6800384991 /* JSON.swift in Sources */,
 				F2E9D43E25AE13FE00FF7827 /* NotificareConfiguration.swift in Sources */,
 				F2B8C54825A611BA00FFBE0C /* NotificareLogger.swift in Sources */,
 				F2DB0C0D25A8647200AD93C7 /* NotificareDefinitions.swift in Sources */,
