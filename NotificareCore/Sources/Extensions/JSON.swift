@@ -26,7 +26,7 @@ public extension KeyedDecodingContainer {
     }
 
     func decodeIfPresent(_ type: [String: Any].Type, forKey key: K) throws -> [String: Any]? {
-        guard contains(key) else {
+        guard try contains(key) && !decodeNil(forKey: key) else {
             return nil
         }
         return try decode(type, forKey: key)
@@ -38,7 +38,7 @@ public extension KeyedDecodingContainer {
     }
 
     func decodeIfPresent(_ type: [Any].Type, forKey key: K) throws -> [Any]? {
-        guard contains(key) else {
+        guard try contains(key) && !decodeNil(forKey: key) else {
             return nil
         }
         return try decode(type, forKey: key)
