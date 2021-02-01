@@ -31,7 +31,7 @@ public class NotificareInbox: NSObject, NotificareModule {
             // NOTE: Make sure the cached item are always sorted by date descending.
             // The most recent one if important to be the first as the sync logic relies on it.
             _cachedEntities = newValue.sorted(by: { (lhs, rhs) -> Bool in
-                lhs.time! < rhs.time!
+                lhs.time!.compare(rhs.time!) == .orderedDescending
             })
         }
     }
