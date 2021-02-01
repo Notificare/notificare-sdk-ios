@@ -13,6 +13,20 @@ public class NotificareInbox: NSObject, NotificareModule {
 
     public weak var delegate: NotificareInboxDelegate?
 
+    public var items: [NotificareInboxItem] {
+        guard let application = Notificare.shared.application else {
+            NotificareLogger.warning("Notificare application is not yet available.")
+            return []
+        }
+
+        guard application.inboxConfig?.useInbox == true else {
+            NotificareLogger.warning("Notificare inbox funcionality is not enabled.")
+            return []
+        }
+
+        return visibleItems
+    }
+
     public var currentBadge: Int {
         guard Notificare.shared.application?.inboxConfig?.useInbox == true,
               Notificare.shared.application?.inboxConfig?.useInbox == true
@@ -143,24 +157,6 @@ public class NotificareInbox: NSObject, NotificareModule {
         }
     }
 
-    public func fetch(_ completion: @escaping NotificareInboxCallback<[NotificareInboxItem]>) {
-        guard let application = Notificare.shared.application else {
-            NotificareLogger.warning("Notificare application not yet available.")
-            completion(.failure(NotificareError.notReady))
-            return
-        }
-
-        guard application.inboxConfig?.useInbox == true else {
-            NotificareLogger.warning("Notificare inbox funcionality is not enabled.")
-            completion(.failure(NotificareInboxError.inboxUnavailable))
-            return
-        }
-
-        refreshBadge { _ in
-            completion(.success(self.visibleItems))
-        }
-    }
-
     public func open(_ item: NotificareInboxItem, _ completion: @escaping NotificareInboxCallback<NotificareNotification>) {
         guard let application = Notificare.shared.application else {
             NotificareLogger.warning("Notificare application not yet available.")
@@ -216,7 +212,7 @@ public class NotificareInbox: NSObject, NotificareModule {
         removeItemFromNotificationCenter(item)
 
         // Notify the delegate.
-        NotificareInbox.shared.delegate?.notificare(NotificareInbox.shared, didLoadInbox: visibleItems)
+        NotificareInbox.shared.delegate?.notificare(NotificareInbox.shared, didUpdateInbox: visibleItems)
 
         // Refresh the badge if applicable.
         refreshBadge { _ in }
@@ -255,7 +251,7 @@ public class NotificareInbox: NSObject, NotificareModule {
                 self.database.saveChanges()
 
                 // Notify the delegate.
-                NotificareInbox.shared.delegate?.notificare(NotificareInbox.shared, didLoadInbox: self.visibleItems)
+                NotificareInbox.shared.delegate?.notificare(NotificareInbox.shared, didUpdateInbox: self.visibleItems)
 
                 // Refresh the badge if applicable.
                 self.refreshBadge { _ in
@@ -295,7 +291,7 @@ public class NotificareInbox: NSObject, NotificareModule {
                 }
 
                 // Notify the delegate.
-                NotificareInbox.shared.delegate?.notificare(NotificareInbox.shared, didLoadInbox: self.visibleItems)
+                NotificareInbox.shared.delegate?.notificare(NotificareInbox.shared, didUpdateInbox: self.visibleItems)
 
                 // Refresh the badge if applicable.
                 self.refreshBadge { _ in
@@ -330,7 +326,7 @@ public class NotificareInbox: NSObject, NotificareModule {
                 self.clearNotificationCenter()
 
                 // Notify the delegate.
-                NotificareInbox.shared.delegate?.notificare(NotificareInbox.shared, didLoadInbox: self.visibleItems)
+                NotificareInbox.shared.delegate?.notificare(NotificareInbox.shared, didUpdateInbox: self.visibleItems)
 
                 self.refreshBadge { _ in
                     completion(.success(()))
@@ -374,7 +370,7 @@ public class NotificareInbox: NSObject, NotificareModule {
                     if response.statusCode == 304 {
                         NotificareLogger.debug("The inbox has not been modified. Proceeding with locally stored data.")
                         self.refreshBadge { _ in
-                            NotificareInbox.shared.delegate?.notificare(NotificareInbox.shared, didLoadInbox: self.visibleItems)
+                            NotificareInbox.shared.delegate?.notificare(NotificareInbox.shared, didUpdateInbox: self.visibleItems)
                         }
                     }
                 }
@@ -471,7 +467,7 @@ public class NotificareInbox: NSObject, NotificareModule {
                     NotificareLogger.debug("Done loading inbox items.")
 
                     // Notify the delegate.
-                    NotificareInbox.shared.delegate?.notificare(NotificareInbox.shared, didLoadInbox: self.visibleItems)
+                    NotificareInbox.shared.delegate?.notificare(NotificareInbox.shared, didUpdateInbox: self.visibleItems)
 
                     // Refresh the badge if applicable.
                     self.refreshBadge { _ in }
@@ -496,7 +492,7 @@ public class NotificareInbox: NSObject, NotificareModule {
         addToLocalInbox(item)
 
         refreshBadge { _ in
-            NotificareInbox.shared.delegate?.notificare(NotificareInbox.shared, didLoadInbox: self.visibleItems)
+            NotificareInbox.shared.delegate?.notificare(NotificareInbox.shared, didUpdateInbox: self.visibleItems)
         }
     }
 
@@ -517,7 +513,7 @@ public class NotificareInbox: NSObject, NotificareModule {
         database.saveChanges()
 
         refreshBadge { _ in
-            NotificareInbox.shared.delegate?.notificare(NotificareInbox.shared, didLoadInbox: self.visibleItems)
+            NotificareInbox.shared.delegate?.notificare(NotificareInbox.shared, didUpdateInbox: self.visibleItems)
         }
     }
 
