@@ -27,10 +27,19 @@ public class NotificareInbox: NSObject, NotificareModule {
         return visibleItems
     }
 
-    public var currentBadge: Int {
-        guard Notificare.shared.application?.inboxConfig?.useInbox == true,
-              Notificare.shared.application?.inboxConfig?.useInbox == true
-        else {
+    public var badge: Int {
+        guard let application = Notificare.shared.application else {
+            NotificareLogger.warning("Notificare application is not yet available.")
+            return 0
+        }
+
+        guard application.inboxConfig?.useInbox == true else {
+            NotificareLogger.warning("Notificare inbox funcionality is not enabled.")
+            return 0
+        }
+
+        guard application.inboxConfig?.autoBadge == true else {
+            NotificareLogger.warning("Notificare auto badge funcionality is not enabled.")
             return 0
         }
 
