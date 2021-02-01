@@ -526,10 +526,6 @@ public class NotificareInbox: NSObject, NotificareModule {
         refreshBadge { _ in }
     }
 
-    @objc private func onNotificationOpenNotification(_: Notification) {
-        NotificareLogger.debug("Received a signal to mark an item as read.")
-    }
-
     @objc private func onApplicationDidBecomeActiveNotification(_: Notification) {
         // Don't check anything unless we're ready.
         guard Notificare.shared.isReady else {
