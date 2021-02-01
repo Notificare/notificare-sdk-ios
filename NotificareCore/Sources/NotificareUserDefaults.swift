@@ -15,5 +15,8 @@ public enum NotificareUserDefaults {
 
         // NotificarePushUIKit
         case reviewedVersion = "re.notifica.local.reviewedVersion"
+
+        // NotificareInboxKit
+        case currentBadge = "re.notifica.local.currentBadge"
     }
 }

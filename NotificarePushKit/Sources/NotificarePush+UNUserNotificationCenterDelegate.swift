@@ -44,6 +44,11 @@ extension NotificarePush: UNUserNotificationCenterDelegate {
                         completionHandler()
                     } else {
                         self.delegate?.notificare(self, didOpenNotification: notification)
+
+                        // Notify the inbox to mark this as read.
+                        // NOTE: The read event was already sent by now.
+                        NotificationCenter.default.post(name: NotificareDefinitions.InternalNotification.readInboxItem, object: nil, userInfo: ["notification": notification])
+
                         completionHandler()
                     }
                 case .failure:

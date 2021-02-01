@@ -45,6 +45,14 @@ public class NotificareEventsModule {
         log(NotificareDefinitions.Events.applicationClose, data: ["length": String(length)])
     }
 
+    public func logNotificationOpen(_ notification: NotificareNotification) {
+        logNotificationOpen(notification.id)
+    }
+
+    public func logNotificationOpen(_ notificationId: String) {
+        log(NotificareDefinitions.Events.notificationOpen, data: nil, for: notificationId)
+    }
+
     public func logCustom(_ event: String, data: NotificareEventData? = nil) {
         log("re.notifica.event.custom.\(event)", data: data)
     }
@@ -199,7 +207,7 @@ extension NotificareEventsModule: NotificareAppDelegateInterceptor {
 
                     if managedEvent.retries < maxRetries {
                         // Persist the attempts counter.
-                        Notificare.shared.database.save()
+                        Notificare.shared.database.saveChanges()
                     } else {
                         NotificareLogger.debug("Event was retried too many times. Removing...")
                         Notificare.shared.database.remove(managedEvent)

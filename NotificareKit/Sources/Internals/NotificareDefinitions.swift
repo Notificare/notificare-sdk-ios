@@ -20,5 +20,7 @@ extension NotificareDefinitions {
         static let applicationOpen = "re.notifica.event.application.Open"
         static let applicationClose = "re.notifica.event.application.Close"
         static let applicationException = "re.notifica.event.application.Exception"
+
+        static let notificationOpen = "re.notifica.event.notification.Open"
     }
 }
