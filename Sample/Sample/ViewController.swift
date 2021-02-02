@@ -4,6 +4,7 @@
 
 import NotificareKit
 import NotificarePushKit
+import NotificareInboxKit
 import UIKit
 
 class ViewController: UIViewController {
@@ -49,6 +50,22 @@ class ViewController: UIViewController {
                 print("Device registered anonymously.")
             case let .failure(error):
                 print("Failed to register device anonymously: \(error)")
+            }
+        }
+    }
+    
+    @IBAction func onListInboxItemsClick(_ sender: Any) {
+        print("-----> Inbox items")
+        print(NotificareInbox.shared.items)
+    }
+
+    @IBAction func onRefreshBadgeClick(_ sender: Any) {
+        NotificareInbox.shared.refreshBadge { (result) in
+            switch result {
+            case .success(let badge):
+                print("-----> Badge: \(badge)")
+            case .failure(let error):
+                print("-----> Failed to refresh the badge: \(error)")
             }
         }
     }

@@ -17,46 +17,60 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y32-dL-mz9">
-                                <rect key="frame" x="113.5" y="108" width="187" height="30"/>
-                                <state key="normal" title="Enable remote notifications"/>
-                                <connections>
-                                    <action selector="onEnableRemoteNotificationsClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="9sD-LJ-tcr"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ShK-q5-6uN">
-                                <rect key="frame" x="141" y="146" width="132" height="30"/>
-                                <state key="normal" title="Send custom event"/>
-                                <connections>
-                                    <action selector="onSendCustomEventClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="aNM-uQ-Gw2"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p0R-FR-967">
-                                <rect key="frame" x="145" y="184" width="124" height="30"/>
-                                <state key="normal" title="Register with user"/>
-                                <connections>
-                                    <action selector="onRegisterWithUserClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="4WW-50-eXE"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vfN-nL-dSt">
-                                <rect key="frame" x="137" y="222" width="140" height="30"/>
-                                <state key="normal" title="Register anonymous"/>
-                                <connections>
-                                    <action selector="onRegisterAnonymousClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="CJa-eE-sZu"/>
-                                </connections>
-                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="zFU-PX-emP">
+                                <rect key="frame" x="16" y="104" width="382" height="220"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y32-dL-mz9">
+                                        <rect key="frame" x="0.0" y="0.0" width="382" height="30"/>
+                                        <state key="normal" title="Enable remote notifications"/>
+                                        <connections>
+                                            <action selector="onEnableRemoteNotificationsClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="9sD-LJ-tcr"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ShK-q5-6uN">
+                                        <rect key="frame" x="0.0" y="38" width="382" height="30"/>
+                                        <state key="normal" title="Send custom event"/>
+                                        <connections>
+                                            <action selector="onSendCustomEventClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="aNM-uQ-Gw2"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p0R-FR-967">
+                                        <rect key="frame" x="0.0" y="76" width="382" height="30"/>
+                                        <state key="normal" title="Register with user"/>
+                                        <connections>
+                                            <action selector="onRegisterWithUserClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="4WW-50-eXE"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vfN-nL-dSt">
+                                        <rect key="frame" x="0.0" y="114" width="382" height="30"/>
+                                        <state key="normal" title="Register anonymous"/>
+                                        <connections>
+                                            <action selector="onRegisterAnonymousClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="CJa-eE-sZu"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W0T-0o-yzD" userLabel="List inbox items">
+                                        <rect key="frame" x="0.0" y="152" width="382" height="30"/>
+                                        <state key="normal" title="List inbox items"/>
+                                        <connections>
+                                            <action selector="onListInboxItemsClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8zb-iB-a5W"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jao-il-I8z">
+                                        <rect key="frame" x="0.0" y="190" width="382" height="30"/>
+                                        <state key="normal" title="Refresh badge"/>
+                                        <connections>
+                                            <action selector="onRefreshBadgeClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="GES-c3-l5M"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="ShK-q5-6uN" firstAttribute="top" secondItem="y32-dL-mz9" secondAttribute="bottom" constant="8" symbolic="YES" id="3zV-bB-0A8"/>
-                            <constraint firstItem="p0R-FR-967" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="6sZ-Xr-1tb"/>
-                            <constraint firstItem="y32-dL-mz9" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="DxF-7D-UeW"/>
-                            <constraint firstItem="vfN-nL-dSt" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="KBc-gd-qEW"/>
-                            <constraint firstItem="ShK-q5-6uN" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="M9e-PP-5aw"/>
-                            <constraint firstItem="p0R-FR-967" firstAttribute="top" secondItem="ShK-q5-6uN" secondAttribute="bottom" constant="8" symbolic="YES" id="MpH-GL-shp"/>
-                            <constraint firstItem="vfN-nL-dSt" firstAttribute="top" secondItem="p0R-FR-967" secondAttribute="bottom" constant="8" symbolic="YES" id="ZVY-ME-KTd"/>
-                            <constraint firstItem="y32-dL-mz9" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="fCs-TK-gCi"/>
+                            <constraint firstItem="zFU-PX-emP" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="16" id="87S-n0-Qzt"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="zFU-PX-emP" secondAttribute="trailing" constant="16" id="X5G-As-vxr"/>
+                            <constraint firstItem="zFU-PX-emP" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="mgR-y0-6bZ"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Sample" id="Wfn-sm-8re"/>

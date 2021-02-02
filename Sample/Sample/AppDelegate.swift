@@ -7,6 +7,7 @@ import NotificareCore
 import NotificareKit
 import NotificarePushKit
 import NotificarePushUIKit
+import NotificareInboxKit
 import UIKit
 
 @UIApplicationMain
@@ -20,16 +21,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Atlantis.start()
 
         NotificareLogger.useAdvancedLogging = true
-        Notificare.shared.delegate = self
 
         if #available(iOS 14.0, *) {
             NotificarePush.shared.presentationOptions = [.banner, .badge, .sound]
         } else {
             NotificarePush.shared.presentationOptions = [.alert, .badge, .sound]
         }
-        NotificarePush.shared.delegate = self
         
+        Notificare.shared.delegate = self
+        NotificarePush.shared.delegate = self
         NotificarePushUI.shared.delegate = self
+        NotificareInbox.shared.delegate = self
 
         return true
     }
@@ -144,5 +146,15 @@ extension AppDelegate: NotificarePushUIDelegate {
     
     func notificare(_ notificarePushUI: NotificarePushUI, shouldPerformSelectorWithURL url: URL, in action: NotificareNotification.Action, for notification: NotificareNotification) {
         //
+    }
+}
+
+extension AppDelegate: NotificareInboxDelegate {
+    func notificare(_ notificareInbox: NotificareInbox, didUpdateInbox items: [NotificareInboxItem]) {
+        NotificareLogger.info("-----> Inbox has loaded. Total = \(items.count)")
+    }
+    
+    func notificare(_ notificareInbox: NotificareInbox, didUpdateBadge badge: Int) {
+        NotificareLogger.info("-----> Badge update. Unread = \(badge)")
     }
 }
