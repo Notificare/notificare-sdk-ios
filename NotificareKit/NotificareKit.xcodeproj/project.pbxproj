@@ -12,11 +12,9 @@
 		42A201A3F80D5668FF5D6759 /* NotificareBootstrap.h in Headers */ = {isa = PBXBuildFile; fileRef = 42A20450A15AAC914DBC800F /* NotificareBootstrap.h */; };
 		42A201D0C1EC33CE1EF188A4 /* NotificareDeviceUpdateBluetoothState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20CD405465790DE15002F /* NotificareDeviceUpdateBluetoothState.swift */; };
 		42A20330821EAB78A0A5EB13 /* URLSession+Retry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20F817E5D783B690400CF /* URLSession+Retry.swift */; };
-		42A20389A56033CA45A7973B /* NotificareSwizzler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A2059D74331E97E84F7649 /* NotificareSwizzler.swift */; };
 		42A204DF76302D72690E9F7A /* NotificareNetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20ACD9317A7EB72200EA4 /* NotificareNetworkError.swift */; };
 		42A204EEDC52B164B27D6563 /* NotificareEventsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20EA7B3E0709119050294 /* NotificareEventsManager.swift */; };
 		42A20521F6E8138CF5F92453 /* NotificareDeviceUpdateLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20EE82E4D1A110128B96D /* NotificareDeviceUpdateLanguage.swift */; };
-		42A2062417BCBBA871B9934D /* NotificareAppDelegateInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20FB65AE760E9D711415C /* NotificareAppDelegateInterceptor.swift */; };
 		42A2068C1883043D66EEB792 /* NotificareDefinitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A2034FAAE7EBBB2DDD7AAD /* NotificareDefinitions.swift */; };
 		42A206D6D089D4BA32A8A697 /* Data+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20D1BCB96A819F309661A /* Data+Hex.swift */; };
 		42A20777ACAC0550ED64C541 /* NotificareDeviceUpdateNotificationSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A202573ADF0EC5B2444115 /* NotificareDeviceUpdateNotificationSettings.swift */; };
@@ -52,8 +50,8 @@
 		F258DE4424BC68CB006F9ABD /* Notificare.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DE4324BC68CB006F9ABD /* Notificare.swift */; };
 		F26718F0250157C200B70A40 /* NotificareEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26718EF250157C200B70A40 /* NotificareEvent.swift */; };
 		F26718FA25017DD600B70A40 /* NotificareDatabase.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F26718F825017DD600B70A40 /* NotificareDatabase.xcdatamodeld */; };
-		F289F5B525B860B60091AB97 /* NotificareCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F289F5B425B860B60091AB97 /* NotificareCore.framework */; };
-		F289F5B625B860B60091AB97 /* NotificareCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F289F5B425B860B60091AB97 /* NotificareCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F289991825C969EF008ADC7E /* NotificareCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F289991725C969EF008ADC7E /* NotificareCore.framework */; };
+		F289991925C969EF008ADC7E /* NotificareCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F289991725C969EF008ADC7E /* NotificareCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F29DA38125022170004CCB8F /* NotificareDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29DA38025022170004CCB8F /* NotificareDatabase.swift */; };
 		F29DA38325024753004CCB8F /* NotificareEvent+CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29DA38225024753004CCB8F /* NotificareEvent+CoreData.swift */; };
 		F2B1817C25BAFDFE00384991 /* NotificareNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B1817B25BAFDFE00384991 /* NotificareNotification.swift */; };
@@ -79,13 +77,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		F289F5B725B860B60091AB97 /* Embed Frameworks */ = {
+		F289991A25C969EF008ADC7E /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				F289F5B625B860B60091AB97 /* NotificareCore.framework in Embed Frameworks */,
+				F289991925C969EF008ADC7E /* NotificareCore.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -98,7 +96,6 @@
 		42A2034FAAE7EBBB2DDD7AAD /* NotificareDefinitions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareDefinitions.swift; sourceTree = "<group>"; };
 		42A20450A15AAC914DBC800F /* NotificareBootstrap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificareBootstrap.h; sourceTree = "<group>"; };
 		42A205897A7C5AF4A7BF9C4A /* JSONExpressible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONExpressible.swift; sourceTree = "<group>"; };
-		42A2059D74331E97E84F7649 /* NotificareSwizzler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareSwizzler.swift; sourceTree = "<group>"; };
 		42A205DF5970468FB18808F5 /* NotificareBootstrap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificareBootstrap.m; sourceTree = "<group>"; };
 		42A2067A01284684F1A3F60C /* NotificareServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareServices.swift; sourceTree = "<group>"; };
 		42A20765E01C8FAF35D1A02F /* NotificareDeviceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareDeviceManager.swift; sourceTree = "<group>"; };
@@ -126,7 +123,6 @@
 		42A20EE82E4D1A110128B96D /* NotificareDeviceUpdateLanguage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareDeviceUpdateLanguage.swift; sourceTree = "<group>"; };
 		42A20F817E5D783B690400CF /* URLSession+Retry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URLSession+Retry.swift"; sourceTree = "<group>"; };
 		42A20FA4BDCBED6D1143526A /* JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSON.swift; sourceTree = "<group>"; };
-		42A20FB65AE760E9D711415C /* NotificareAppDelegateInterceptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareAppDelegateInterceptor.swift; sourceTree = "<group>"; };
 		F20896C52535B8B6001F1B35 /* NotificareUserDataResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareUserDataResponse.swift; sourceTree = "<group>"; };
 		F219FADC252DEB3900464B4E /* NotificareSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareSessionManager.swift; sourceTree = "<group>"; };
 		F22650A4258B6D250004F833 /* NotificareModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareModule.swift; sourceTree = "<group>"; };
@@ -141,6 +137,7 @@
 		F258DE4324BC68CB006F9ABD /* Notificare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notificare.swift; sourceTree = "<group>"; };
 		F26718EF250157C200B70A40 /* NotificareEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareEvent.swift; sourceTree = "<group>"; };
 		F26718F925017DD600B70A40 /* NotificareCoreData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = NotificareCoreData.xcdatamodel; sourceTree = "<group>"; };
+		F289991725C969EF008ADC7E /* NotificareCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F289F5B425B860B60091AB97 /* NotificareCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F29DA38025022170004CCB8F /* NotificareDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareDatabase.swift; sourceTree = "<group>"; };
 		F29DA38225024753004CCB8F /* NotificareEvent+CoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificareEvent+CoreData.swift"; sourceTree = "<group>"; };
@@ -161,7 +158,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F289F5B525B860B60091AB97 /* NotificareCore.framework in Frameworks */,
+				F289991825C969EF008ADC7E /* NotificareCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -176,15 +173,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		42A2004E11A1CF2B5C38B5B0 /* Swizzling */ = {
-			isa = PBXGroup;
-			children = (
-				42A2059D74331E97E84F7649 /* NotificareSwizzler.swift */,
-				42A20FB65AE760E9D711415C /* NotificareAppDelegateInterceptor.swift */,
-			);
-			path = Swizzling;
-			sourceTree = "<group>";
-		};
 		42A2027DBC5B305198382A6D /* Common */ = {
 			isa = PBXGroup;
 			children = (
@@ -331,6 +319,7 @@
 		F289F5B325B860B60091AB97 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F289991725C969EF008ADC7E /* NotificareCore.framework */,
 				F289F5B425B860B60091AB97 /* NotificareCore.framework */,
 			);
 			name = Frameworks;
@@ -352,7 +341,6 @@
 				42A2027DBC5B305198382A6D /* Common */,
 				42A20E1B11DBCE03A4402205 /* Network */,
 				F2E4DBC82525EC6F003FE29B /* Storage */,
-				42A2004E11A1CF2B5C38B5B0 /* Swizzling */,
 				42A2034FAAE7EBBB2DDD7AAD /* NotificareDefinitions.swift */,
 				42A20C54DCF5011314943FAD /* NotificareLaunchState.swift */,
 				42A2067A01284684F1A3F60C /* NotificareServices.swift */,
@@ -418,8 +406,8 @@
 				F258DD4824BC4DBB006F9ABD /* Sources */,
 				F258DD4924BC4DBB006F9ABD /* Frameworks */,
 				F258DD4A24BC4DBB006F9ABD /* Resources */,
-				F289F5B725B860B60091AB97 /* Embed Frameworks */,
 				F27C0453251E2F4200C7D8BA /* SwiftFormat */,
+				F289991A25C969EF008ADC7E /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -545,7 +533,6 @@
 				F2E246E42530B79C00AAA8F4 /* NotificareTagsPayload.swift in Sources */,
 				42A20F5A817E461AD741CEF0 /* NotificareAutoLauncher.swift in Sources */,
 				F2B1817C25BAFDFE00384991 /* NotificareNotification.swift in Sources */,
-				42A20389A56033CA45A7973B /* NotificareSwizzler.swift in Sources */,
 				F29DA38325024753004CCB8F /* NotificareEvent+CoreData.swift in Sources */,
 				F20896C62535B8B6001F1B35 /* NotificareUserDataResponse.swift in Sources */,
 				42A20A8202602F357473A0EC /* NotificareDeviceTagsResponse.swift in Sources */,
@@ -563,7 +550,6 @@
 				42A201D0C1EC33CE1EF188A4 /* NotificareDeviceUpdateBluetoothState.swift in Sources */,
 				42A2081F8D099BF50C87B29E /* NotificareUserDefaults.swift in Sources */,
 				42A20A18C4B0AD218F0B7E70 /* NotificareTransport.swift in Sources */,
-				42A2062417BCBBA871B9934D /* NotificareAppDelegateInterceptor.swift in Sources */,
 				42A20F732AE3E8130EA533BF /* NotificareReachability.swift in Sources */,
 				42A20BBE4E276C8BA79EDF44 /* NotificareServices.swift in Sources */,
 				42A2068C1883043D66EEB792 /* NotificareDefinitions.swift in Sources */,

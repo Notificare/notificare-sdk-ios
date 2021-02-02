@@ -43,6 +43,9 @@ public class NotificarePush: NSObject, NotificareModule {
             """)
         }
 
+        // Register interceptor to receive APNS swizzled events.
+        _ = NotificareSwizzler.addInterceptor(NotificarePush.shared)
+
         // Listen to 'application did become active'.
         NotificationCenter.default.addObserver(NotificarePush.shared,
                                                selector: #selector(updateNotificationSettings),
@@ -258,3 +261,6 @@ public class NotificarePush: NSObject, NotificareModule {
         }
     }
 }
+
+// Protocol conformance exposed as UIApplicationDelegate.
+extension NotificarePush: NotificareAppDelegateInterceptor {}

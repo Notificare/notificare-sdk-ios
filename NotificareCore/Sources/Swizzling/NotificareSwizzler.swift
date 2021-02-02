@@ -2,15 +2,13 @@
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
-import Foundation
-import NotificareCore
 import UIKit
 
 private typealias ApplicationDidBecomeActive = @convention(c) (Any, Selector, UIApplication) -> Void
 private typealias ApplicationWillResignActive = @convention(c) (Any, Selector, UIApplication) -> Void
 private typealias ApplicationDidRegisterForRemoteNotificationsWithDeviceToken = @convention(c) (Any, Selector, UIApplication, Data) -> Void
 private typealias ApplicationDidFailToRegisterForRemoteNotificationsWithError = @convention(c) (Any, Selector, UIApplication, Error) -> Void
-private typealias ApplicationDidReceiveRemoteNotification = @convention(c) (Any, Selector, UIApplication, [AnyHashable: Any]) -> Void
+private typealias ApplicationDidReceiveRemoteNotification = @convention(c) (Any, Selector, UIApplication, [AnyHashable: Any], @escaping (UIBackgroundFetchResult) -> Void) -> Void
 
 private enum AssociatedObjectKeys {
     static var originalClass = "Notificare_OriginalClass"
@@ -225,12 +223,12 @@ public class NotificareSwizzler: NSProxy {
             storeOriginalImplementationInto: &originalImplementationsStore
         )
 
-        // For application:didReceiveRemoteNotification:
+        // For application:didReceiveRemoteNotification:fetchCompletionHandler:
         proxyInstanceMethod(
             toClass: subClass,
-            withSelector: #selector(application(_:didReceiveRemoteNotification:)),
+            withSelector: #selector(application(_:didReceiveRemoteNotification:fetchCompletionHandler:)),
             fromClass: NotificareSwizzler.self,
-            fromSelector: #selector(application(_:didReceiveRemoteNotification:)),
+            fromSelector: #selector(application(_:didReceiveRemoteNotification:fetchCompletionHandler:)),
             withOriginalClass: type(of: originalDelegate),
             storeOriginalImplementationInto: &originalImplementationsStore
         )
@@ -377,15 +375,15 @@ extension NotificareSwizzler {
         originalImplementation?(self, selector, application, error)
     }
 
-    @objc private func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
+    @objc private func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         NotificareSwizzler.interceptors.forEach { _, interceptor in
-            interceptor.application?(application, didReceiveRemoteNotification: userInfo)
+            interceptor.application?(application, didReceiveRemoteNotification: userInfo, fetchCompletionHandler: completionHandler)
         }
 
-        let selector = #selector(application(_:didReceiveRemoteNotification:))
+        let selector = #selector(application(_:didReceiveRemoteNotification:fetchCompletionHandler:))
         let originalImplementation: ApplicationDidReceiveRemoteNotification? =
             NotificareSwizzler.originalMethodImplementation(for: selector, object: self)
 
-        originalImplementation?(self, selector, application, userInfo)
+        originalImplementation?(self, selector, application, userInfo, completionHandler)
     }
 }

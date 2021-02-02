@@ -221,8 +221,14 @@ public class Notificare {
 
         let configuration = NotificareUtils.getConfiguration()
         if configuration?.swizzlingEnabled ?? true {
-            // NotificareSwizzler.setup(withRemoteNotifications: pushManager != nil)
-            NotificareSwizzler.setup(withRemoteNotifications: false)
+            var swizzleApns = false
+
+            // Check if the Push module is loaded.
+            if (NSClassFromString(NotificareDefinitions.Modules.push.rawValue) as? NotificareModule.Type) != nil {
+                swizzleApns = true
+            }
+
+            NotificareSwizzler.setup(withRemoteNotifications: swizzleApns)
         } else {
             NotificareLogger.warning("""
             Automatic App Delegate Proxy is not enabled. \
