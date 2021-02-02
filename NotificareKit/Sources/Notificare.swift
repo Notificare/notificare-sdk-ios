@@ -33,6 +33,11 @@ public class Notificare {
 
     public weak var delegate: NotificareDelegate?
 
+    public var useAdvancedLogging: Bool {
+        get { NotificareLogger.useAdvancedLogging }
+        set { NotificareLogger.useAdvancedLogging = newValue }
+    }
+
     private init() {}
 
     // MARK: - Public API
