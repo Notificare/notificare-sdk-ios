@@ -33,8 +33,15 @@ public class NotificarePush: NSObject, NotificareModule {
             return
         }
 
-        // TODO: check plist setting
-        NotificarePush.shared.notificationCenter.delegate = NotificarePush.shared
+        if let configuration = NotificareUtils.getConfiguration(), configuration.userNotificationCenterDelegateEnabled {
+            NotificareLogger.debug("Notificare will set itself as the UNUserNotificationCenter delegate.")
+            NotificarePush.shared.notificationCenter.delegate = NotificarePush.shared
+        } else {
+            NotificareLogger.warning("""
+            Please configure your plist settings to allow Notificare to become the UNUserNotificationCenter delegate. \
+            Alternatively forward the UNUserNotificationCenter delegate events to Notificare.
+            """)
+        }
 
         // Listen to 'application did become active'.
         NotificationCenter.default.addObserver(NotificarePush.shared,

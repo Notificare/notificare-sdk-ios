@@ -7,6 +7,7 @@ import UIKit
 public struct NotificareConfiguration: Codable {
     public let autoLaunch: Bool
     public let swizzlingEnabled: Bool
+    public let userNotificationCenterDelegateEnabled: Bool
     public let crashReportsEnabled: Bool
     public let services: String?
     public let production: Bool
