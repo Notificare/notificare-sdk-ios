@@ -48,6 +48,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 }
 
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    func userNotificationCenter(_ center: UNUserNotificationCenter, openSettingsFor notification: UNNotification?) {
+        NotificarePush.shared.userNotificationCenter(center, openSettingsFor: notification)
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        NotificarePush.shared.userNotificationCenter(center, didReceive: response, withCompletionHandler: completionHandler)
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        NotificarePush.shared.userNotificationCenter(center, willPresent: notification, withCompletionHandler: completionHandler)
+    }
+}
+
 extension AppDelegate: NotificareDelegate {
 
     func notificare(_: Notificare, onReady _: NotificareApplication) {
