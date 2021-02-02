@@ -1,25 +1,63 @@
 #!/bin/sh
 
+# Automatically exit on error.
+set -e
+
+frameworks=( "NotificareCore" "NotificareKit" "NotificarePushKit" "NotificarePushUIKit" "NotificareInboxKit" )
+
 echo "Cleaning build folder"
 rm -rf .build .artefacts
 
-echo "Building: Notificare SDK"
-sh build.sdk.sh
+clean_framework () {
+  local framework=$1
 
-echo "Building: Notificare Assets"
-sh build.assets.sh
+  xcodebuild clean \
+      -workspace Notificare.xcworkspace \
+      -scheme $framework \
+      -sdk iphoneos \
+      -quiet
+}
 
-echo "Building: Notificare Location"
-sh build.location.sh
+build_framework () {
+  local framework=$1
 
-echo "Building: Notificare Loyalty"
-sh build.loyalty.sh
+  # iOS devices
+  xcodebuild archive \
+      -workspace Notificare.xcworkspace \
+      -scheme $framework \
+      -archivePath ".build/$framework-iOS.xcarchive" \
+      -destination "generic/platform=iOS" \
+      -sdk iphoneos \
+      -quiet \
+      SKIP_INSTALL=NO \
+      BUILD_LIBRARY_FOR_DISTRIBUTION=YES
 
-echo "Building: Notificare Monetize"
-sh build.monetize.sh
+  # iOS simulators
+  xcodebuild archive \
+      -workspace Notificare.xcworkspace \
+      -scheme $framework \
+      -archivePath ".build/$framework-iOS-simulator.xcarchive" \
+      -destination "generic/platform=iOS Simulator" \
+      -sdk iphonesimulator \
+      -quiet \
+      SKIP_INSTALL=NO \
+      BUILD_LIBRARY_FOR_DISTRIBUTION=YES
 
-echo "Building: Notificare Push"
-sh build.push.sh
+  # Build the xcframework
+  xcodebuild -create-xcframework \
+      -framework ".build/$framework-iOS.xcarchive/Products/Library/Frameworks/$framework.framework" \
+      -framework ".build/$framework-iOS-simulator.xcarchive/Products/Library/Frameworks/$framework.framework" \
+      -output ".artefacts/$framework.xcframework"
+}
 
-echo "Building: Notificare Scannable"
-sh build.scannable.sh
+for framework in "${frameworks[@]}"
+do
+	echo "Cleaning: $framework"
+  clean_framework $framework
+done
+
+for framework in "${frameworks[@]}"
+do
+	echo "Building: $framework"
+  build_framework $framework
+done
