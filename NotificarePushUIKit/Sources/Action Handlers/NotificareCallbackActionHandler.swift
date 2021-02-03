@@ -14,7 +14,7 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
     private let response: NotificareNotification.ResponseData?
     private let sourceViewController: UIViewController
 
-    private var theme: NotificareConfiguration.Theme?
+    private var theme: NotificareOptions.Theme?
 
     private var navigationController: UINavigationController!
     private var viewController: UIViewController!
@@ -47,7 +47,7 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
 
         viewController = UIViewController()
         navigationController = UINavigationController(rootViewController: viewController)
-        theme = NotificareUtils.getConfiguration()?.theme(for: viewController)
+        theme = Notificare.shared.options!.theme(for: viewController)
 
         placeholderView = UIView(frame: CGRect(x: 0, y: 0, width: viewController.view.frame.width, height: viewController.view.frame.height))
         placeholderView.autoresizingMask = [.flexibleWidth, .flexibleHeight]

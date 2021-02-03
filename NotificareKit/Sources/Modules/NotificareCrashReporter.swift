@@ -7,7 +7,7 @@ import NotificareCore
 
 struct NotificareCrashReporter {
     func configure() {
-        let crashReportsEnabled = NotificareUtils.getConfiguration()?.crashReportsEnabled ?? true
+        let crashReportsEnabled = Notificare.shared.options!.crashReportsEnabled
 
         guard crashReportsEnabled else {
             NotificareLogger.debug("Crash reports are not enabled.")

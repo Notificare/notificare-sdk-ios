@@ -91,25 +91,6 @@ public enum NotificareUtils {
         return modules
     }
 
-    // MARK: - Configurations
-
-    public static func getConfiguration() -> NotificareConfiguration? {
-        guard let path = Bundle.main.path(forResource: "Notificare", ofType: "plist") else {
-            fatalError("Notificare.plist is missing.")
-        }
-
-        guard let data = try? Data(contentsOf: URL(fileURLWithPath: path)) else {
-            fatalError("Notificare.plist data appears to be corrupted.")
-        }
-
-        let decoder = PropertyListDecoder()
-        guard let configuration = try? decoder.decode(NotificareConfiguration.self, from: data) else {
-            fatalError("Failed to parse Notificare.plist. Please check the contents are valid.")
-        }
-
-        return configuration
-    }
-
     // MARK: - JSON encoding
 
     public static let isoDateFormatter: DateFormatter = {

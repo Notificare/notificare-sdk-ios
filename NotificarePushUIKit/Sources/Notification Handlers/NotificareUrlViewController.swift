@@ -3,6 +3,7 @@
 //
 
 import NotificareCore
+import NotificareKit
 import UIKit
 import WebKit
 
@@ -109,7 +110,7 @@ extension NotificareUrlViewController: WKNavigationDelegate, WKUIDelegate {
             return
         }
 
-        if let urlSchemes = NotificareUtils.getConfiguration()?.options?.urlSchemes, let scheme = url.scheme, urlSchemes.contains(scheme) {
+        if let scheme = url.scheme, Notificare.shared.options!.urlSchemes.contains(scheme) {
             handleNotificareQueryParameters(for: url)
             NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didClickURL: url, in: notification)
             decisionHandler(.cancel)

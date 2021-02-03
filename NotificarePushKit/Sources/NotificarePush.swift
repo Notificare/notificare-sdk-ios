@@ -33,7 +33,7 @@ public class NotificarePush: NSObject, NotificareModule {
             return
         }
 
-        if let configuration = NotificareUtils.getConfiguration(), configuration.userNotificationCenterDelegateEnabled {
+        if Notificare.shared.options!.userNotificationCenterDelegateEnabled {
             NotificareLogger.debug("Notificare will set itself as the UNUserNotificationCenter delegate.")
             NotificarePush.shared.notificationCenter.delegate = NotificarePush.shared
         } else {

@@ -10,7 +10,7 @@ import UIKit
 public class NotificareBaseNotificationViewController: UIViewController {
     var notification: NotificareNotification!
 
-    private var theme: NotificareConfiguration.Theme?
+    private var theme: NotificareOptions.Theme?
 
     private(set) var actionsButton: UIBarButtonItem?
 
@@ -43,7 +43,7 @@ public class NotificareBaseNotificationViewController: UIViewController {
 
     override public func viewDidLoad() {
         super.viewDidLoad()
-        theme = NotificareUtils.getConfiguration()?.theme(for: self)
+        theme = Notificare.shared.options!.theme(for: self)
 
         // Update the view controller's title.
         title = notification.title ?? NotificareUtils.applicationName
@@ -95,7 +95,7 @@ public class NotificareBaseNotificationViewController: UIViewController {
         }
 
         return queryItems.contains { (item) -> Bool in
-            if item.name == "notificareCloseWindow" || item.name == NotificareUtils.getConfiguration()?.options?.closeWindowQueryParameter {
+            if item.name == "notificareCloseWindow" || item.name == Notificare.shared.options!.closeWindowQueryParameter {
                 return true
             } else if item.name == "notificareOpenActions", item.value == "1" || item.value == "true" {
                 return true
@@ -117,7 +117,7 @@ public class NotificareBaseNotificationViewController: UIViewController {
         }
 
         queryItems.forEach { item in
-            if item.name == "notificareCloseWindow" || item.name == NotificareUtils.getConfiguration()?.options?.closeWindowQueryParameter {
+            if item.name == "notificareCloseWindow" || item.name == Notificare.shared.options!.closeWindowQueryParameter {
                 if item.value == "1" || item.value == "true" {
                     if let rootViewController = UIApplication.shared.keyWindow?.rootViewController, rootViewController.presentedViewController != nil {
                         rootViewController.dismiss(animated: true, completion: nil)

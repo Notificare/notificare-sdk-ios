@@ -22,7 +22,6 @@
 		F2DB0C3725A884A200AD93C7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F2DB0C3625A884A200AD93C7 /* Assets.xcassets */; };
 		F2E9D43325ADF8A100FF7827 /* NotificareUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E9D43225ADF8A100FF7827 /* NotificareUserDefaults.swift */; };
 		F2E9D43725AE11C800FF7827 /* NotificareUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E9D43625AE11C800FF7827 /* NotificareUtils.swift */; };
-		F2E9D43E25AE13FE00FF7827 /* NotificareConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E9D43D25AE13FE00FF7827 /* NotificareConfiguration.swift */; };
 		F2F311E025C17E08007E4B01 /* AnyCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F311DF25C17E08007E4B01 /* AnyCodable.swift */; };
 		F2F311E625C17E34007E4B01 /* AnyDecodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F311E525C17E34007E4B01 /* AnyDecodable.swift */; };
 		F2F311EB25C17E4E007E4B01 /* AnyEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F311EA25C17E4E007E4B01 /* AnyEncodable.swift */; };
@@ -60,7 +59,6 @@
 		F2DB0C3625A884A200AD93C7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F2E9D43225ADF8A100FF7827 /* NotificareUserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareUserDefaults.swift; sourceTree = "<group>"; };
 		F2E9D43625AE11C800FF7827 /* NotificareUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareUtils.swift; sourceTree = "<group>"; };
-		F2E9D43D25AE13FE00FF7827 /* NotificareConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareConfiguration.swift; sourceTree = "<group>"; };
 		F2F311DF25C17E08007E4B01 /* AnyCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyCodable.swift; sourceTree = "<group>"; };
 		F2F311E525C17E34007E4B01 /* AnyDecodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyDecodable.swift; sourceTree = "<group>"; };
 		F2F311EA25C17E4E007E4B01 /* AnyEncodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyEncodable.swift; sourceTree = "<group>"; };
@@ -127,7 +125,6 @@
 			isa = PBXGroup;
 			children = (
 				F2F311DE25C17DF9007E4B01 /* AnyCodable */,
-				F2E9D43C25AE13EB00FF7827 /* Configuration */,
 				F2F311F425C18DED007E4B01 /* CoreData */,
 				F2DB0C1B25A86B5000AD93C7 /* Extensions */,
 				F27D0E1F25A70F920077612E /* Resources */,
@@ -161,14 +158,6 @@
 				F2F311F025C182F5007E4B01 /* Dictionary.swift */,
 			);
 			path = Extensions;
-			sourceTree = "<group>";
-		};
-		F2E9D43C25AE13EB00FF7827 /* Configuration */ = {
-			isa = PBXGroup;
-			children = (
-				F2E9D43D25AE13FE00FF7827 /* NotificareConfiguration.swift */,
-			);
-			path = Configuration;
 			sourceTree = "<group>";
 		};
 		F2F311DE25C17DF9007E4B01 /* AnyCodable */ = {
@@ -331,7 +320,6 @@
 				F2F311F125C182F5007E4B01 /* Dictionary.swift in Sources */,
 				F2B1818125BAFE6800384991 /* JSON.swift in Sources */,
 				F289992525C96B8B008ADC7E /* NotificareSwizzler.swift in Sources */,
-				F2E9D43E25AE13FE00FF7827 /* NotificareConfiguration.swift in Sources */,
 				F2F311F625C18E2D007E4B01 /* NotificareDatabase.swift in Sources */,
 				F2B8C54825A611BA00FFBE0C /* NotificareLogger.swift in Sources */,
 				F2DB0C0D25A8647200AD93C7 /* NotificareDefinitions.swift in Sources */,

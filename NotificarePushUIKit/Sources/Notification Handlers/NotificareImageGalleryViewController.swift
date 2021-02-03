@@ -3,6 +3,7 @@
 //
 
 import NotificareCore
+import NotificareKit
 import UIKit
 
 public class NotificareImageGalleryViewController: NotificareBaseNotificationViewController {
@@ -10,12 +11,12 @@ public class NotificareImageGalleryViewController: NotificareBaseNotificationVie
     private(set) var collectionView: UICollectionView!
     private(set) var pageControl: UIPageControl!
 
-    private var theme: NotificareConfiguration.Theme?
+    private var theme: NotificareOptions.Theme?
     private var imageViews = [UIImageView]()
 
     override public func viewDidLoad() {
         super.viewDidLoad()
-        theme = NotificareUtils.getConfiguration()?.theme(for: self)
+        theme = Notificare.shared.options!.theme(for: self)
 
         setupViews()
         setupContent()
@@ -145,7 +146,7 @@ extension NotificareImageGalleryViewController: UICollectionViewDelegate, UIColl
     }
 
     public func collectionView(_: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if NotificareUtils.getConfiguration()?.options?.imageSharing == true {
+        if Notificare.shared.options!.imageSharingEnabled == true {
             openSharingActionSheet(for: imageViews[indexPath.row].image!)
         }
     }

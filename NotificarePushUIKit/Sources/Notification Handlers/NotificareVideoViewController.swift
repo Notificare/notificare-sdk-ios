@@ -3,6 +3,7 @@
 //
 
 import NotificareCore
+import NotificareKit
 import UIKit
 import WebKit
 
@@ -83,10 +84,9 @@ public class NotificareVideoViewController: NotificareBaseNotificationViewContro
 
 extension NotificareVideoViewController: WKNavigationDelegate, WKUIDelegate {
     public func webView(_: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        if let urlSchemes = NotificareUtils.getConfiguration()?.options?.urlSchemes,
-           let url = navigationAction.request.url,
+        if let url = navigationAction.request.url,
            let scheme = url.scheme,
-           urlSchemes.contains(scheme)
+           Notificare.shared.options!.urlSchemes.contains(scheme)
         {
             NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didClickURL: url, in: notification)
             decisionHandler(.cancel)

@@ -12,9 +12,9 @@ public struct NotificareOptions {
     public let swizzlingEnabled: Bool
     public let userNotificationCenterDelegateEnabled: Bool
     public let crashReportsEnabled: Bool
-    public let urlSchemes: [String]?
+    public let urlSchemes: [String]
     public let closeWindowQueryParameter: String?
-    public let imageSharingEnabled: Bool?
+    public let imageSharingEnabled: Bool
     public let safariDismissButtonStyle: Int?
     public let themes: Themes?
 

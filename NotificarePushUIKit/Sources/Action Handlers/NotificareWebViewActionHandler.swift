@@ -32,7 +32,7 @@ public class NotificareWebViewActionHandler: NotificareBaseActionHandler {
 
                 safariViewController.delegate = self
 
-                if let configuration = NotificareUtils.getConfiguration(), let theme = configuration.theme(for: self.sourceViewController) {
+                if let theme = Notificare.shared.options!.theme(for: self.sourceViewController) {
                     if let colorStr = theme.safariBarTintColor {
                         safariViewController.preferredBarTintColor = UIColor(hexString: colorStr)
                     }
@@ -42,7 +42,7 @@ public class NotificareWebViewActionHandler: NotificareBaseActionHandler {
                     }
 
                     if #available(iOS 11.0, *) {
-                        if let styleInt = configuration.options?.safariDismissButtonStyle,
+                        if let styleInt = Notificare.shared.options!.safariDismissButtonStyle,
                            let style = SFSafariViewController.DismissButtonStyle(rawValue: styleInt)
                         {
                             safariViewController.dismissButtonStyle = style
