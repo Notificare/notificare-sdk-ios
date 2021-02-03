@@ -13,13 +13,14 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
-    func application(_: UIApplication, didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    func application(_: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
 
         // Enable Proxyman debugging.
         Atlantis.start()
 
         Notificare.shared.useAdvancedLogging = true
+        Notificare.shared.launchOptions = launchOptions
         
         if #available(iOS 14.0, *) {
             NotificarePush.shared.presentationOptions = [.banner, .badge, .sound]
@@ -32,6 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NotificarePushUI.shared.delegate = self
         NotificareInbox.shared.delegate = self
         
+        Notificare.shared.configure()
         Notificare.shared.launch()
 
         return true
