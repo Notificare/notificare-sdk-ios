@@ -31,6 +31,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NotificarePush.shared.delegate = self
         NotificarePushUI.shared.delegate = self
         NotificareInbox.shared.delegate = self
+        
+        Notificare.shared.launch()
 
         return true
     }
