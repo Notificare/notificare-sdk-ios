@@ -109,6 +109,15 @@ class InboxViewController: UITableViewController {
                                           style: .cancel,
                                           handler: nil))
 
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                alert.modalPresentationStyle = .popover
+                alert.popoverPresentationController?.permittedArrowDirections = .up
+                alert.popoverPresentationController?.sourceView = tableView
+                alert.popoverPresentationController?.sourceRect = tableView.rectForRow(at: indexPath)
+            } else {
+                alert.modalPresentationStyle = .currentContext
+            }
+
             present(alert, animated: true, completion: nil)
         }
     }
