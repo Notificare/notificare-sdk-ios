@@ -36,7 +36,7 @@
 		42A20DF7449245801169DBFC /* NotificareDeviceUpdateTimezone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20E1D1A9D36BEAC8C3C27 /* NotificareDeviceUpdateTimezone.swift */; };
 		42A20E38789D8AECF8AAF0D9 /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20FA4BDCBED6D1143526A /* JSON.swift */; };
 		42A20EB2CB2443B42A805978 /* JSONExpressible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A205897A7C5AF4A7BF9C4A /* JSONExpressible.swift */; };
-		42A20F5A817E461AD741CEF0 /* NotificareAutoLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20A542B5A23849B81C344 /* NotificareAutoLauncher.swift */; };
+		42A20F5A817E461AD741CEF0 /* NotificareAutoConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20A542B5A23849B81C344 /* NotificareAutoConfig.swift */; };
 		42A20F732AE3E8130EA533BF /* NotificareReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20819BD36234AAE88DC4D /* NotificareReachability.swift */; };
 		42A20FD7791BD275D8A3A0E5 /* NotificareError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20228EB70EA83D835BF01 /* NotificareError.swift */; };
 		F20896C62535B8B6001F1B35 /* NotificareUserDataResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20896C52535B8B6001F1B35 /* NotificareUserDataResponse.swift */; };
@@ -48,10 +48,12 @@
 		F258DD5B24BC4DBC006F9ABD /* CoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DD5A24BC4DBC006F9ABD /* CoreTests.swift */; };
 		F258DD5D24BC4DBC006F9ABD /* NotificareKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F258DD4F24BC4DBB006F9ABD /* NotificareKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F258DE4424BC68CB006F9ABD /* Notificare.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DE4324BC68CB006F9ABD /* Notificare.swift */; };
+		F25E62F925CAA924007C1202 /* NotificareServicesInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F25E62F825CAA924007C1202 /* NotificareServicesInfo.swift */; };
 		F26718F0250157C200B70A40 /* NotificareEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26718EF250157C200B70A40 /* NotificareEvent.swift */; };
 		F26718FA25017DD600B70A40 /* NotificareDatabase.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F26718F825017DD600B70A40 /* NotificareDatabase.xcdatamodeld */; };
 		F289991825C969EF008ADC7E /* NotificareCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F289991725C969EF008ADC7E /* NotificareCore.framework */; };
 		F289991925C969EF008ADC7E /* NotificareCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F289991725C969EF008ADC7E /* NotificareCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F289993525C97D35008ADC7E /* NotificareOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F289993425C97D35008ADC7E /* NotificareOptions.swift */; };
 		F29DA38125022170004CCB8F /* NotificareDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29DA38025022170004CCB8F /* NotificareDatabase.swift */; };
 		F29DA38325024753004CCB8F /* NotificareEvent+CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29DA38225024753004CCB8F /* NotificareEvent+CoreData.swift */; };
 		F2B1817C25BAFDFE00384991 /* NotificareNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B1817B25BAFDFE00384991 /* NotificareNotification.swift */; };
@@ -104,7 +106,7 @@
 		42A2094F1471668D9F7C7043 /* NotificareTransport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareTransport.swift; sourceTree = "<group>"; };
 		42A209A1566809594BA82594 /* NotificareDeviceUpdateBackgroundAppRefresh.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareDeviceUpdateBackgroundAppRefresh.swift; sourceTree = "<group>"; };
 		42A209A71E0E97443A11A01F /* NotificarePushApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificarePushApi.swift; sourceTree = "<group>"; };
-		42A20A542B5A23849B81C344 /* NotificareAutoLauncher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareAutoLauncher.swift; sourceTree = "<group>"; };
+		42A20A542B5A23849B81C344 /* NotificareAutoConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareAutoConfig.swift; sourceTree = "<group>"; };
 		42A20ACD9317A7EB72200EA4 /* NotificareNetworkError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareNetworkError.swift; sourceTree = "<group>"; };
 		42A20B124FB2C08F1A880DB2 /* URLRequest+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URLRequest+Extensions.swift"; sourceTree = "<group>"; };
 		42A20B3065832FD6345EDD14 /* NotificareDeviceTagsResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareDeviceTagsResponse.swift; sourceTree = "<group>"; };
@@ -135,9 +137,11 @@
 		F258DD5A24BC4DBC006F9ABD /* CoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreTests.swift; sourceTree = "<group>"; };
 		F258DD5C24BC4DBC006F9ABD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F258DE4324BC68CB006F9ABD /* Notificare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notificare.swift; sourceTree = "<group>"; };
+		F25E62F825CAA924007C1202 /* NotificareServicesInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareServicesInfo.swift; sourceTree = "<group>"; };
 		F26718EF250157C200B70A40 /* NotificareEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareEvent.swift; sourceTree = "<group>"; };
 		F26718F925017DD600B70A40 /* NotificareCoreData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = NotificareCoreData.xcdatamodel; sourceTree = "<group>"; };
 		F289991725C969EF008ADC7E /* NotificareCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F289993425C97D35008ADC7E /* NotificareOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareOptions.swift; sourceTree = "<group>"; };
 		F289F5B425B860B60091AB97 /* NotificareCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F29DA38025022170004CCB8F /* NotificareDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareDatabase.swift; sourceTree = "<group>"; };
 		F29DA38225024753004CCB8F /* NotificareEvent+CoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificareEvent+CoreData.swift"; sourceTree = "<group>"; };
@@ -223,14 +227,14 @@
 			path = JSON;
 			sourceTree = "<group>";
 		};
-		42A20D17A4EF88ED36EA223F /* AutoLaunch */ = {
+		42A20D17A4EF88ED36EA223F /* AutoConfig */ = {
 			isa = PBXGroup;
 			children = (
-				42A20A542B5A23849B81C344 /* NotificareAutoLauncher.swift */,
+				42A20A542B5A23849B81C344 /* NotificareAutoConfig.swift */,
 				42A20450A15AAC914DBC800F /* NotificareBootstrap.h */,
 				42A205DF5970468FB18808F5 /* NotificareBootstrap.m */,
 			);
-			path = AutoLaunch;
+			path = AutoConfig;
 			sourceTree = "<group>";
 		};
 		42A20E1B11DBCE03A4402205 /* Network */ = {
@@ -291,6 +295,8 @@
 				F23E3C3224D8267000044574 /* NotificareDelegate.swift */,
 				42A20228EB70EA83D835BF01 /* NotificareError.swift */,
 				F26718F825017DD600B70A40 /* NotificareDatabase.xcdatamodeld */,
+				F25E62F825CAA924007C1202 /* NotificareServicesInfo.swift */,
+				F289993425C97D35008ADC7E /* NotificareOptions.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -337,7 +343,7 @@
 		F2E4DBBD2525EC3C003FE29B /* Internals */ = {
 			isa = PBXGroup;
 			children = (
-				42A20D17A4EF88ED36EA223F /* AutoLaunch */,
+				42A20D17A4EF88ED36EA223F /* AutoConfig */,
 				42A2027DBC5B305198382A6D /* Common */,
 				42A20E1B11DBCE03A4402205 /* Network */,
 				F2E4DBC82525EC6F003FE29B /* Storage */,
@@ -531,7 +537,7 @@
 				42A204DF76302D72690E9F7A /* NotificareNetworkError.swift in Sources */,
 				F2B1818725BB1BA700384991 /* NotificareNotificationResponse.swift in Sources */,
 				F2E246E42530B79C00AAA8F4 /* NotificareTagsPayload.swift in Sources */,
-				42A20F5A817E461AD741CEF0 /* NotificareAutoLauncher.swift in Sources */,
+				42A20F5A817E461AD741CEF0 /* NotificareAutoConfig.swift in Sources */,
 				F2B1817C25BAFDFE00384991 /* NotificareNotification.swift in Sources */,
 				F29DA38325024753004CCB8F /* NotificareEvent+CoreData.swift in Sources */,
 				F20896C62535B8B6001F1B35 /* NotificareUserDataResponse.swift in Sources */,
@@ -545,6 +551,7 @@
 				42A20CCB8A76FCFAD9A70759 /* NotificareDeviceUpdateLocation.swift in Sources */,
 				42A20DF7449245801169DBFC /* NotificareDeviceUpdateTimezone.swift in Sources */,
 				42A20521F6E8138CF5F92453 /* NotificareDeviceUpdateLanguage.swift in Sources */,
+				F25E62F925CAA924007C1202 /* NotificareServicesInfo.swift in Sources */,
 				F26718F0250157C200B70A40 /* NotificareEvent.swift in Sources */,
 				42A20854525B27A0B50E4239 /* NotificareDeviceUpdateBackgroundAppRefresh.swift in Sources */,
 				42A201D0C1EC33CE1EF188A4 /* NotificareDeviceUpdateBluetoothState.swift in Sources */,
@@ -567,6 +574,7 @@
 				42A20E38789D8AECF8AAF0D9 /* JSON.swift in Sources */,
 				42A20BF1A314A1F88EDC568F /* JSONRawRepresentable.swift in Sources */,
 				42A20EB2CB2443B42A805978 /* JSONExpressible.swift in Sources */,
+				F289993525C97D35008ADC7E /* NotificareOptions.swift in Sources */,
 				42A2004C5E6156F7E25D7640 /* JSONCodable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

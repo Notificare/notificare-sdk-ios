@@ -141,7 +141,7 @@ public class NotificareSwizzler: NSProxy {
         if object_setClass(originalDelegate, subClass) != nil {
             NotificareLogger.info("""
             Successfully created the App Delegate Proxy. \
-            To disable automatic proxy, set the flag 'swizzlingEnabled' to NO on the Notificare.plist.
+            To disable automatic proxy, set the flag 'SWIZZLING_ENABLED' to NO on the NotificareOptions.plist.
             """)
         }
 

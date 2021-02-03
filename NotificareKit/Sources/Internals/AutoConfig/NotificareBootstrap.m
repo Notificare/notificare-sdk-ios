@@ -8,7 +8,7 @@
 
 }
 + (void)load {
-     [NotificareAutoLauncher setup];
+     [NotificareAutoConfig setup];
 }
 
 @end

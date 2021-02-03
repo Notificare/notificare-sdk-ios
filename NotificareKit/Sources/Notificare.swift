@@ -22,9 +22,8 @@ public class Notificare {
     public let deviceManager = NotificareDeviceManager()
 
     // Configuration variables
-    internal private(set) var applicationKey: String?
-    internal private(set) var applicationSecret: String?
-    internal private(set) var services: NotificareServices = .production
+    public private(set) var servicesInfo: NotificareServicesInfo?
+    public private(set) var options: NotificareOptions?
 
     // Launch / application state
     internal private(set) var state: NotificareLaunchState = .none
@@ -50,8 +49,74 @@ public class Notificare {
         state == .ready
     }
 
-    public func configure(applicationKey: String, applicationSecret: String) {
-        configure(applicationKey: applicationKey, applicationSecret: applicationSecret, services: .production)
+    public func configure() {
+        guard let path = Bundle.main.path(forResource: NotificareServicesInfo.fileName, ofType: NotificareServicesInfo.fileExtension) else {
+            fatalError("\(NotificareServicesInfo.fileName).\(NotificareServicesInfo.fileExtension) is missing.")
+        }
+
+        guard let servicesInfo = NotificareServicesInfo(contentsOfFile: path) else {
+            fatalError("Could not parse the Notificare plist. Please check the contents are valid.")
+        }
+
+        var options: NotificareOptions
+        if let path = Bundle.main.path(forResource: NotificareOptions.fileName, ofType: NotificareOptions.fileExtension) {
+            guard let parsedOptions = NotificareOptions(contentsOfFile: path) else {
+                fatalError("Could not parse the Notificare options plist. Please check the contents are valid.")
+            }
+
+            options = parsedOptions
+        } else {
+            options = NotificareOptions()
+        }
+
+        configure(servicesInfo: servicesInfo, options: options)
+    }
+
+    public func configure(servicesInfo: NotificareServicesInfo, options: NotificareOptions) {
+        guard state == .none else {
+            NotificareLogger.warning("Notificare has already been configured. Skipping...")
+            return
+        }
+
+        self.servicesInfo = servicesInfo
+        self.options = options
+
+        NotificareLogger.debug("Configuring network services.")
+        configureNetworking(applicationKey: servicesInfo.applicationKey, applicationSecret: servicesInfo.applicationSecret, services: servicesInfo.useTestApi ? .test : .production)
+
+        if options.swizzlingEnabled {
+            var swizzleApns = false
+
+            // Check if the Push module is loaded.
+            if (NSClassFromString(NotificareDefinitions.Modules.push.rawValue) as? NotificareModule.Type) != nil {
+                swizzleApns = true
+            }
+
+            NotificareSwizzler.setup(withRemoteNotifications: swizzleApns)
+        } else {
+            NotificareLogger.warning("""
+            Automatic App Delegate Proxy is not enabled. \
+            You will need to forward UIAppDelegate events to Notificare manually. \
+            Please check the documentation for which events to forward.
+            """)
+        }
+
+        NotificareLogger.debug("Configuring available modules.")
+        sessionManager.configure()
+        crashReporter.configure()
+        database.configure()
+        eventsManager.configure()
+        deviceManager.configure()
+
+        NotificareDefinitions.Modules.allCases.forEach { module in
+            if let cls = NSClassFromString(module.rawValue) as? NotificareModule.Type {
+                NotificareLogger.debug("Configuring plugin: \(module.rawValue)")
+                cls.configure(applicationKey: servicesInfo.applicationKey, applicationSecret: servicesInfo.applicationSecret)
+            }
+        }
+
+        NotificareLogger.debug("Notificare configured all services.")
+        state = .configured
     }
 
     public func launch() {
@@ -205,55 +270,6 @@ public class Notificare {
     }
 
     // MARK: - Private API
-
-    internal func configure(applicationKey: String, applicationSecret: String, services: NotificareServices) {
-        guard state == .none else {
-            NotificareLogger.warning("Notificare has already been configured. Skipping...")
-            return
-        }
-
-        self.applicationKey = applicationKey
-        self.applicationSecret = applicationSecret
-        self.services = services
-
-        NotificareLogger.debug("Configuring network services.")
-        configureNetworking(applicationKey: applicationKey, applicationSecret: applicationSecret, services: services)
-
-        let configuration = NotificareUtils.getConfiguration()
-        if configuration?.swizzlingEnabled ?? true {
-            var swizzleApns = false
-
-            // Check if the Push module is loaded.
-            if (NSClassFromString(NotificareDefinitions.Modules.push.rawValue) as? NotificareModule.Type) != nil {
-                swizzleApns = true
-            }
-
-            NotificareSwizzler.setup(withRemoteNotifications: swizzleApns)
-        } else {
-            NotificareLogger.warning("""
-            Automatic App Delegate Proxy is not enabled. \
-            You will need to forward UIAppDelegate events to Notificare manually. \
-            Please check the documentation for which events to forward.
-            """)
-        }
-
-        NotificareLogger.debug("Configuring available modules.")
-        sessionManager.configure()
-        crashReporter.configure()
-        database.configure()
-        eventsManager.configure()
-        deviceManager.configure()
-
-        NotificareDefinitions.Modules.allCases.forEach { module in
-            if let cls = NSClassFromString(module.rawValue) as? NotificareModule.Type {
-                NotificareLogger.debug("Configuring plugin: \(module.rawValue)")
-                cls.configure(applicationKey: applicationKey, applicationSecret: applicationSecret)
-            }
-        }
-
-        NotificareLogger.debug("Notificare configured for '\(services)' services.")
-        state = .configured
-    }
 
     private func configureNetworking(applicationKey: String, applicationSecret: String, services: NotificareServices) {
         do {
