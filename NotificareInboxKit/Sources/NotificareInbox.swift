@@ -558,7 +558,7 @@ public class NotificareInbox: NSObject, NotificareModule {
                 switch result {
                 case let .success(response):
                     let total = self.visibleItems.count
-                    let unread = self.visibleItems.filter { $0.opened }.count
+                    let unread = self.visibleItems.filter { !$0.opened }.count
 
                     if response.count != total || response.unread != unread {
                         NotificareLogger.debug("The inbox needs an update. The count/unread don't match with the local data.")
