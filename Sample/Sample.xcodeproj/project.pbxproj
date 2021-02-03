@@ -12,6 +12,10 @@
 		F22650CA258B6E900004F833 /* NotificarePushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F22650C9258B6E900004F833 /* NotificarePushKit.framework */; };
 		F22650CB258B6E900004F833 /* NotificarePushKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F22650C9258B6E900004F833 /* NotificarePushKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F2423D3825764B4100FCCFB7 /* Atlantis in Frameworks */ = {isa = PBXBuildFile; productRef = F2423D3725764B4100FCCFB7 /* Atlantis */; };
+		F25B6DC525CABDE6007BC2C8 /* InboxItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F25B6DC425CABDE6007BC2C8 /* InboxItemTableViewCell.swift */; };
+		F25B6DC725CABE11007BC2C8 /* InboxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F25B6DC625CABE11007BC2C8 /* InboxViewController.swift */; };
+		F25B6DCA25CAC5A4007BC2C8 /* Date+TimeAgo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F25B6DC925CAC5A4007BC2C8 /* Date+TimeAgo.swift */; };
+		F25B6DCD25CAC67E007BC2C8 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = F25B6DCC25CAC67E007BC2C8 /* SDWebImage */; };
 		F25E630025CAB29A007C1202 /* NotificareServices.plist in Resources */ = {isa = PBXBuildFile; fileRef = F25E62FF25CAB29A007C1202 /* NotificareServices.plist */; };
 		F28622DA250FA37500E7D800 /* Notificare.plist in Resources */ = {isa = PBXBuildFile; fileRef = F28622D9250FA37500E7D800 /* Notificare.plist */; };
 		F289F56525B85EC20091AB97 /* NotificareInboxKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F289F56425B85EC20091AB97 /* NotificareInboxKit.framework */; };
@@ -55,6 +59,9 @@
 		F251694824D4077D0025B51F /* NotificareMonetize.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareMonetize.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F251694924D4077D0025B51F /* NotificarePush.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificarePush.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F251694A24D4077D0025B51F /* NotificareScannable.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareScannable.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F25B6DC425CABDE6007BC2C8 /* InboxItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxItemTableViewCell.swift; sourceTree = "<group>"; };
+		F25B6DC625CABE11007BC2C8 /* InboxViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxViewController.swift; sourceTree = "<group>"; };
+		F25B6DC925CAC5A4007BC2C8 /* Date+TimeAgo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+TimeAgo.swift"; sourceTree = "<group>"; };
 		F25E62FF25CAB29A007C1202 /* NotificareServices.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = NotificareServices.plist; sourceTree = "<group>"; };
 		F28553C7258BA18C006674C1 /* Sample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Sample.entitlements; sourceTree = "<group>"; };
 		F28622D9250FA37500E7D800 /* Notificare.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Notificare.plist; sourceTree = "<group>"; };
@@ -79,6 +86,7 @@
 				F2423D3825764B4100FCCFB7 /* Atlantis in Frameworks */,
 				F2B8C56525A6176B00FFBE0C /* NotificareCore.framework in Frameworks */,
 				F289F56525B85EC20091AB97 /* NotificareInboxKit.framework in Frameworks */,
+				F25B6DCD25CAC67E007BC2C8 /* SDWebImage in Frameworks */,
 				F22650CA258B6E900004F833 /* NotificarePushKit.framework in Frameworks */,
 				F22650C6258B6E890004F833 /* NotificareKit.framework in Frameworks */,
 				F29B17FC25A4911C007ED6F9 /* NotificarePushUIKit.framework in Frameworks */,
@@ -108,6 +116,39 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		F25B6DC125CABDBF007BC2C8 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				F25B6DC325CABDCC007BC2C8 /* Cells */,
+				F25B6DC225CABDC4007BC2C8 /* View Controllers */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		F25B6DC225CABDC4007BC2C8 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				F25B6DC625CABE11007BC2C8 /* InboxViewController.swift */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		F25B6DC325CABDCC007BC2C8 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				F25B6DC425CABDE6007BC2C8 /* InboxItemTableViewCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		F25B6DC825CAC58C007BC2C8 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				F25B6DC925CAC5A4007BC2C8 /* Date+TimeAgo.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		F29FD1EB24CB1FE1004B166D = {
 			isa = PBXGroup;
 			children = (
@@ -128,6 +169,8 @@
 		F29FD1F624CB1FE1004B166D /* Sample */ = {
 			isa = PBXGroup;
 			children = (
+				F25B6DC825CAC58C007BC2C8 /* Extensions */,
+				F25B6DC125CABDBF007BC2C8 /* UI */,
 				F28553C7258BA18C006674C1 /* Sample.entitlements */,
 				F29FD1F724CB1FE1004B166D /* AppDelegate.swift */,
 				F29FD1FB24CB1FE1004B166D /* ViewController.swift */,
@@ -160,6 +203,7 @@
 			name = Sample;
 			packageProductDependencies = (
 				F2423D3725764B4100FCCFB7 /* Atlantis */,
+				F25B6DCC25CAC67E007BC2C8 /* SDWebImage */,
 			);
 			productName = Sample;
 			productReference = F29FD1F424CB1FE1004B166D /* Sample.app */;
@@ -173,6 +217,7 @@
 			attributes = {
 				LastSwiftUpdateCheck = 1200;
 				LastUpgradeCheck = 1230;
+				ORGANIZATIONNAME = Notificare;
 				TargetAttributes = {
 					F29FD1F324CB1FE1004B166D = {
 						CreatedOnToolsVersion = 12.0;
@@ -190,6 +235,7 @@
 			mainGroup = F29FD1EB24CB1FE1004B166D;
 			packageReferences = (
 				F2423D3625764B4000FCCFB7 /* XCRemoteSwiftPackageReference "atlantis" */,
+				F25B6DCB25CAC67E007BC2C8 /* XCRemoteSwiftPackageReference "SDWebImage" */,
 			);
 			productRefGroup = F29FD1F524CB1FE1004B166D /* Products */;
 			projectDirPath = "";
@@ -220,8 +266,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F25B6DC525CABDE6007BC2C8 /* InboxItemTableViewCell.swift in Sources */,
+				F25B6DCA25CAC5A4007BC2C8 /* Date+TimeAgo.swift in Sources */,
 				F29FD1FC24CB1FE1004B166D /* ViewController.swift in Sources */,
 				F29FD1F824CB1FE1004B166D /* AppDelegate.swift in Sources */,
+				F25B6DC725CABE11007BC2C8 /* InboxViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -372,6 +421,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y47BY73NFN;
 				INFOPLIST_FILE = Sample/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -392,6 +442,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y47BY73NFN;
 				INFOPLIST_FILE = Sample/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -435,6 +486,14 @@
 				minimumVersion = 1.4.3;
 			};
 		};
+		F25B6DCB25CAC67E007BC2C8 /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImage";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.10.4;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -442,6 +501,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F2423D3625764B4000FCCFB7 /* XCRemoteSwiftPackageReference "atlantis" */;
 			productName = Atlantis;
+		};
+		F25B6DCC25CAC67E007BC2C8 /* SDWebImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F25B6DCB25CAC67E007BC2C8 /* XCRemoteSwiftPackageReference "SDWebImage" */;
+			productName = SDWebImage;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
