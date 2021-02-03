@@ -2,9 +2,9 @@
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
+import NotificareInboxKit
 import NotificareKit
 import NotificarePushKit
-import NotificareInboxKit
 import UIKit
 
 class ViewController: UIViewController {
@@ -16,9 +16,9 @@ class ViewController: UIViewController {
     @IBAction private func onEnableRemoteNotificationsClick(_: Any) {
         NotificarePush.shared.enableRemoteNotifications { result in
             switch result {
-            case .success(let granted):
+            case let .success(granted):
                 print("-----> User allowed notifications: \(granted)")
-            case .failure(let error):
+            case let .failure(error):
                 print("-----> Something went wrong: \(error)")
             }
         }
@@ -32,9 +32,9 @@ class ViewController: UIViewController {
         Notificare.shared.eventsManager.logCustom("test", data: data)
     }
 
-    @IBAction func onRegisterWithUserClick(_ sender: Any) {
+    @IBAction func onRegisterWithUserClick(_: Any) {
         Notificare.shared.deviceManager.register(userId: "d09f8b8e-2c10-4ae9-82e5-44f1bf627d89", userName: "John Doe") { result in
-            switch (result) {
+            switch result {
             case .success:
                 print("Device registered with user.")
             case let .failure(error):
@@ -43,9 +43,9 @@ class ViewController: UIViewController {
         }
     }
 
-    @IBAction func onRegisterAnonymousClick(_ sender: Any) {
+    @IBAction func onRegisterAnonymousClick(_: Any) {
         Notificare.shared.deviceManager.register(userId: nil, userName: nil) { result in
-            switch (result) {
+            switch result {
             case .success:
                 print("Device registered anonymously.")
             case let .failure(error):
@@ -53,18 +53,18 @@ class ViewController: UIViewController {
             }
         }
     }
-    
-    @IBAction func onListInboxItemsClick(_ sender: Any) {
+
+    @IBAction func onListInboxItemsClick(_: Any) {
         print("-----> Inbox items")
         print(NotificareInbox.shared.items)
     }
 
-    @IBAction func onRefreshBadgeClick(_ sender: Any) {
-        NotificareInbox.shared.refreshBadge { (result) in
+    @IBAction func onRefreshBadgeClick(_: Any) {
+        NotificareInbox.shared.refreshBadge { result in
             switch result {
-            case .success(let badge):
+            case let .success(badge):
                 print("-----> Badge: \(badge)")
-            case .failure(let error):
+            case let .failure(error):
                 print("-----> Failed to refresh the badge: \(error)")
             }
         }

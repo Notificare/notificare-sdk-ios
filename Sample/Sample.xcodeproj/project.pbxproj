@@ -16,6 +16,7 @@
 		F25B6DC725CABE11007BC2C8 /* InboxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F25B6DC625CABE11007BC2C8 /* InboxViewController.swift */; };
 		F25B6DCA25CAC5A4007BC2C8 /* Date+TimeAgo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F25B6DC925CAC5A4007BC2C8 /* Date+TimeAgo.swift */; };
 		F25B6DCD25CAC67E007BC2C8 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = F25B6DCC25CAC67E007BC2C8 /* SDWebImage */; };
+		F25B6DD025CAEC04007BC2C8 /* NavigationItem+Subtitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F25B6DCF25CAEC04007BC2C8 /* NavigationItem+Subtitle.swift */; };
 		F25E630025CAB29A007C1202 /* NotificareServices.plist in Resources */ = {isa = PBXBuildFile; fileRef = F25E62FF25CAB29A007C1202 /* NotificareServices.plist */; };
 		F28622DA250FA37500E7D800 /* Notificare.plist in Resources */ = {isa = PBXBuildFile; fileRef = F28622D9250FA37500E7D800 /* Notificare.plist */; };
 		F289F56525B85EC20091AB97 /* NotificareInboxKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F289F56425B85EC20091AB97 /* NotificareInboxKit.framework */; };
@@ -62,6 +63,7 @@
 		F25B6DC425CABDE6007BC2C8 /* InboxItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxItemTableViewCell.swift; sourceTree = "<group>"; };
 		F25B6DC625CABE11007BC2C8 /* InboxViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxViewController.swift; sourceTree = "<group>"; };
 		F25B6DC925CAC5A4007BC2C8 /* Date+TimeAgo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+TimeAgo.swift"; sourceTree = "<group>"; };
+		F25B6DCF25CAEC04007BC2C8 /* NavigationItem+Subtitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NavigationItem+Subtitle.swift"; sourceTree = "<group>"; };
 		F25E62FF25CAB29A007C1202 /* NotificareServices.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = NotificareServices.plist; sourceTree = "<group>"; };
 		F28553C7258BA18C006674C1 /* Sample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Sample.entitlements; sourceTree = "<group>"; };
 		F28622D9250FA37500E7D800 /* Notificare.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Notificare.plist; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 			isa = PBXGroup;
 			children = (
 				F25B6DC925CAC5A4007BC2C8 /* Date+TimeAgo.swift */,
+				F25B6DCF25CAEC04007BC2C8 /* NavigationItem+Subtitle.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -195,6 +198,7 @@
 				F29FD1F124CB1FE1004B166D /* Frameworks */,
 				F29FD1F224CB1FE1004B166D /* Resources */,
 				F22650C8258B6E890004F833 /* Embed Frameworks */,
+				F25B6DCE25CAE859007BC2C8 /* SwiftFormat */,
 			);
 			buildRules = (
 			);
@@ -261,6 +265,27 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		F25B6DCE25CAE859007BC2C8 /* SwiftFormat */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftFormat;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftformat >/dev/null; then\n  echo \"$(pwd)\"\n  swiftformat .\nelse\n  echo \"warning: SwiftFormat not installed, download from https://github.com/nicklockwood/SwiftFormat\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		F29FD1F024CB1FE1004B166D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -268,6 +293,7 @@
 			files = (
 				F25B6DC525CABDE6007BC2C8 /* InboxItemTableViewCell.swift in Sources */,
 				F25B6DCA25CAC5A4007BC2C8 /* Date+TimeAgo.swift in Sources */,
+				F25B6DD025CAEC04007BC2C8 /* NavigationItem+Subtitle.swift in Sources */,
 				F29FD1FC24CB1FE1004B166D /* ViewController.swift in Sources */,
 				F29FD1F824CB1FE1004B166D /* AppDelegate.swift in Sources */,
 				F25B6DC725CABE11007BC2C8 /* InboxViewController.swift in Sources */,

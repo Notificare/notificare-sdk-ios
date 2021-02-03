@@ -3,10 +3,10 @@
 //
 
 import Atlantis
+import NotificareInboxKit
 import NotificareKit
 import NotificarePushKit
 import NotificarePushUIKit
-import NotificareInboxKit
 import UIKit
 
 @UIApplicationMain
@@ -21,18 +21,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         Notificare.shared.useAdvancedLogging = true
         Notificare.shared.launchOptions = launchOptions
-        
+
         if #available(iOS 14.0, *) {
             NotificarePush.shared.presentationOptions = [.banner, .badge, .sound]
         } else {
             NotificarePush.shared.presentationOptions = [.alert, .badge, .sound]
         }
-        
+
         Notificare.shared.delegate = self
         NotificarePush.shared.delegate = self
         NotificarePushUI.shared.delegate = self
         NotificareInbox.shared.delegate = self
-        
+
         Notificare.shared.configure()
         Notificare.shared.launch()
 
@@ -41,7 +41,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 
 extension AppDelegate: NotificareDelegate {
-
     func notificare(_: Notificare, onReady _: NotificareApplication) {
         print("-----> Notificare is ready.")
     }
@@ -52,44 +51,43 @@ extension AppDelegate: NotificareDelegate {
 }
 
 extension AppDelegate: NotificarePushDelegate {
-
-    func notificare(_ notificarePush: NotificarePush, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+    func notificare(_: NotificarePush, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("-----> Notificare: failed to register for remote notifications: \(error)")
     }
 
-    func notificare(_ notificarePush: NotificarePush, didChangeNotificationSettings granted: Bool) {
+    func notificare(_: NotificarePush, didChangeNotificationSettings granted: Bool) {
         print("-----> Notificare: notification settings changed: \(granted)")
     }
 
-    func notificare(_ notificarePush: NotificarePush, didReceiveSystemNotification notification: NotificareSystemNotification) {
+    func notificare(_: NotificarePush, didReceiveSystemNotification notification: NotificareSystemNotification) {
         print("-----> Notificare: received a system notification: \(notification)")
     }
 
-    func notificare(_ notificarePush: NotificarePush, didReceiveNotification notification: NotificareNotification) {
+    func notificare(_: NotificarePush, didReceiveNotification notification: NotificareNotification) {
         print("-----> Notificare: received a notification: \(notification)")
     }
 
-    func notificare(_ notificarePush: NotificarePush, didReceiveUnknownNotification userInfo: [AnyHashable : Any]) {
+    func notificare(_: NotificarePush, didReceiveUnknownNotification userInfo: [AnyHashable: Any]) {
         print("-----> Notificare: received an unknown notification: \(userInfo)")
     }
 
-    func notificare(_ notificarePush: NotificarePush, shouldOpenSettings notification: NotificareNotification?) {
+    func notificare(_: NotificarePush, shouldOpenSettings _: NotificareNotification?) {
         print("-----> Notificare: should open notification settings")
     }
 
-    func notificare(_ notificarePush: NotificarePush, didReceiveUnknownAction action: [AnyHashable : Any], for notification: [AnyHashable : Any]) {
+    func notificare(_: NotificarePush, didReceiveUnknownAction action: [AnyHashable: Any], for _: [AnyHashable: Any]) {
         print("-----> Notificare: received an unknown action: \(action)")
     }
-    
-    func notificare(_ notificarePush: NotificarePush, didOpenNotification notification: NotificareNotification) {
+
+    func notificare(_: NotificarePush, didOpenNotification notification: NotificareNotification) {
         guard let controller = window?.rootViewController else {
             return
         }
 
         NotificarePushUI.shared.presentNotification(notification, in: controller)
     }
-    
-    func notificare(_ notificarePush: NotificarePush, didOpenAction action: NotificareNotification.Action, for notification: NotificareNotification, with response: NotificareNotification.ResponseData?) {
+
+    func notificare(_: NotificarePush, didOpenAction action: NotificareNotification.Action, for notification: NotificareNotification, with response: NotificareNotification.ResponseData?) {
         guard let controller = window?.rootViewController else {
             return
         }
@@ -99,53 +97,53 @@ extension AppDelegate: NotificarePushDelegate {
 }
 
 extension AppDelegate: NotificarePushUIDelegate {
-    func notificare(_ notificarePushUI: NotificarePushUI, willPresentNotification notification: NotificareNotification) {
+    func notificare(_: NotificarePushUI, willPresentNotification notification: NotificareNotification) {
         print("-----> Notificare: will present notification '\(notification.id)'")
     }
-    
-    func notificare(_ notificarePushUI: NotificarePushUI, didPresentNotification notification: NotificareNotification) {
+
+    func notificare(_: NotificarePushUI, didPresentNotification notification: NotificareNotification) {
         print("-----> Notificare: did present notification '\(notification.id)'")
     }
-    
-    func notificare(_ notificarePushUI: NotificarePushUI, didFailToPresentNotification notification: NotificareNotification) {
+
+    func notificare(_: NotificarePushUI, didFailToPresentNotification notification: NotificareNotification) {
         print("-----> Notificare: did fail to present notification '\(notification.id)'")
     }
-    
-    func notificare(_ notificarePushUI: NotificarePushUI, didFinishPresentingNotification notification: NotificareNotification) {
+
+    func notificare(_: NotificarePushUI, didFinishPresentingNotification notification: NotificareNotification) {
         print("-----> Notificare: did finish presenting notification '\(notification.id)'")
     }
-    
-    func notificare(_ notificarePushUI: NotificarePushUI, didClickURL url: URL, in notification: NotificareNotification) {
+
+    func notificare(_: NotificarePushUI, didClickURL url: URL, in notification: NotificareNotification) {
         print("-----> Notificare: did click url '\(url)' in notification '\(notification.id)'")
     }
-    
-    func notificare(_ notificarePushUI: NotificarePushUI, willExecuteAction action: NotificareNotification.Action, for notification: NotificareNotification) {
+
+    func notificare(_: NotificarePushUI, willExecuteAction action: NotificareNotification.Action, for notification: NotificareNotification) {
         print("-----> Notificare: will execute action '\(action.label)' in notification '\(notification.id)'")
     }
-    
-    func notificare(_ notificarePushUI: NotificarePushUI, didExecuteAction action: NotificareNotification.Action, for notification: NotificareNotification) {
+
+    func notificare(_: NotificarePushUI, didExecuteAction action: NotificareNotification.Action, for notification: NotificareNotification) {
         print("-----> Notificare: did execute action '\(action.label)' in notification '\(notification.id)'")
     }
-    
-    func notificare(_ notificarePushUI: NotificarePushUI, didNotExecuteAction action: NotificareNotification.Action, for notification: NotificareNotification) {
+
+    func notificare(_: NotificarePushUI, didNotExecuteAction action: NotificareNotification.Action, for notification: NotificareNotification) {
         print("-----> Notificare: did not execute action '\(action.label)' in notification '\(notification.id)'")
     }
-    
-    func notificare(_ notificarePushUI: NotificarePushUI, didFailToExecuteAction action: NotificareNotification.Action, for notification: NotificareNotification, error: Error?) {
+
+    func notificare(_: NotificarePushUI, didFailToExecuteAction action: NotificareNotification.Action, for notification: NotificareNotification, error _: Error?) {
         print("-----> Notificare: did fail to execute action '\(action.label)' in notification '\(notification.id)'")
     }
-    
-    func notificare(_ notificarePushUI: NotificarePushUI, shouldPerformSelectorWithURL url: URL, in action: NotificareNotification.Action, for notification: NotificareNotification) {
+
+    func notificare(_: NotificarePushUI, shouldPerformSelectorWithURL _: URL, in _: NotificareNotification.Action, for _: NotificareNotification) {
         //
     }
 }
 
 extension AppDelegate: NotificareInboxDelegate {
-    func notificare(_ notificareInbox: NotificareInbox, didUpdateInbox items: [NotificareInboxItem]) {
+    func notificare(_: NotificareInbox, didUpdateInbox items: [NotificareInboxItem]) {
         print("-----> Inbox has loaded. Total = \(items.count)")
     }
-    
-    func notificare(_ notificareInbox: NotificareInbox, didUpdateBadge badge: Int) {
+
+    func notificare(_: NotificareInbox, didUpdateBadge badge: Int) {
         print("-----> Badge update. Unread = \(badge)")
     }
 }
