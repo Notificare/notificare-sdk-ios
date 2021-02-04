@@ -70,9 +70,7 @@ public class NotificarePush: NSObject, NotificareModule {
 
             if granted {
                 NotificareLogger.info("User granted permission to receive alerts, badge and sounds")
-
-                let categories = self.loadAvailableCategories()
-                self.notificationCenter.setNotificationCategories(categories)
+                self.reloadActionCategories()
             } else {
                 NotificareLogger.info("User did not grant permission to receive alerts, badge and sounds.")
             }
@@ -95,6 +93,13 @@ public class NotificarePush: NSObject, NotificareModule {
 
     public func isNotificareNotification(_ userInfo: [AnyHashable: Any]) -> Bool {
         userInfo["x-sender"] as? String == "notificare"
+    }
+
+    internal func reloadActionCategories() {
+        NotificareLogger.debug("Reloading action categories.")
+
+        let categories = loadAvailableCategories()
+        notificationCenter.setNotificationCategories(categories)
     }
 
     private func loadAvailableCategories() -> Set<UNNotificationCategory> {

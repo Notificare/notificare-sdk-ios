@@ -56,10 +56,21 @@ public extension NotificarePush {
 
             switch type {
             case "re.notifica.notification.system.Application":
-                break
+                Notificare.shared.fetchApplication { result in
+                    switch result {
+                    case .success:
+                        self.reloadActionCategories()
+                        completion(.success(()))
+
+                    case .failure:
+                        completion(.success(()))
+                    }
+                }
             case "re.notifica.notification.system.Wallet":
+                // TODO handle Wallet system notifications
                 break
             case "re.notifica.notification.system.Products":
+                // TODO handle Products system notifications
                 break
             case "re.notifica.notification.system.Inbox":
                 break

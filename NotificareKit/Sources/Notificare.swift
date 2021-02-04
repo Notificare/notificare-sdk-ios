@@ -213,6 +213,23 @@ public class Notificare {
         state = .configured
     }
 
+    public func fetchApplication(_ completion: @escaping NotificareCallback<NotificareApplication>) {
+        guard isConfigured, let api = pushApi else {
+            return completion(.failure(.notReady))
+        }
+
+        api.getApplicationInfo { result in
+            switch result {
+            case let .success(application):
+                self.application = application
+                completion(.success(application))
+
+            case let .failure(error):
+                completion(.failure(error))
+            }
+        }
+    }
+
     public func fetchDynamicLink(_ link: String, _ completion: @escaping NotificareCallback<NotificareDynamicLink>) {
         guard isConfigured, let api = pushApi else {
             completion(.failure(.notReady))
