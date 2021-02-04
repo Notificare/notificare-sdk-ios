@@ -78,7 +78,7 @@ public extension NotificarePush {
             case "re.notifica.notification.system.Inbox":
                 // Notify the inbox to reload itself.
                 NotificationCenter.default.post(name: NotificareDefinitions.InternalNotification.reloadInbox, object: nil, userInfo: nil)
-                
+
                 completion(.success(()))
 
             default:

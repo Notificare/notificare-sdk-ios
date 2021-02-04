@@ -65,8 +65,16 @@ public class NotificareUrlViewController: NotificareBaseNotificationViewControll
         view.addSubview(loadingView)
 
         progressView = UIProgressView(progressViewStyle: .default)
-        progressView.center = view.center
+        progressView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(progressView)
+
+        // Progress view constraints
+        NSLayoutConstraint.activate([
+            progressView.widthAnchor.constraint(equalToConstant: 150),
+            progressView.heightAnchor.constraint(equalToConstant: 4),
+            progressView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            progressView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+        ])
     }
 
     private func setupContent() {
