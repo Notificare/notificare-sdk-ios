@@ -66,14 +66,21 @@ public extension NotificarePush {
                         completion(.success(()))
                     }
                 }
+
             case "re.notifica.notification.system.Wallet":
-                // TODO handle Wallet system notifications
+                // TODO: handle Wallet system notifications
                 break
+
             case "re.notifica.notification.system.Products":
-                // TODO handle Products system notifications
+                // TODO: handle Products system notifications
                 break
+
             case "re.notifica.notification.system.Inbox":
-                break
+                // Notify the inbox to reload itself.
+                NotificationCenter.default.post(name: NotificareDefinitions.InternalNotification.reloadInbox, object: nil, userInfo: nil)
+                
+                completion(.success(()))
+
             default:
                 NotificareLogger.warning("Unhandled system notification: \(type)")
             }

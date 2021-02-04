@@ -88,6 +88,12 @@ public class NotificareInbox: NSObject, NotificareModule {
                                                name: NotificareDefinitions.InternalNotification.refreshBadge,
                                                object: nil)
 
+        // Listen to inbox reload requests.
+        NotificationCenter.default.addObserver(NotificareInbox.shared,
+                                               selector: #selector(onReloadInboxNotification(_:)),
+                                               name: NotificareDefinitions.InternalNotification.reloadInbox,
+                                               object: nil)
+
         // Listen to application did become active events.
         NotificationCenter.default.addObserver(NotificareInbox.shared,
                                                selector: #selector(onApplicationDidBecomeActiveNotification(_:)),
@@ -529,6 +535,11 @@ public class NotificareInbox: NSObject, NotificareModule {
     @objc private func onRefreshBadgeNotification(_: Notification) {
         NotificareLogger.debug("Received a signal to refresh the badge.")
         refreshBadge { _ in }
+    }
+
+    @objc private func onReloadInboxNotification(_: Notification) {
+        NotificareLogger.debug("Received a signal to reload the inbox.")
+        reloadInbox()
     }
 
     @objc private func onApplicationDidBecomeActiveNotification(_: Notification) {

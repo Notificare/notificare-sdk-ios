@@ -15,5 +15,6 @@ public enum NotificareDefinitions {
         public static let addInboxItem = NSNotification.Name(rawValue: "NotificareInboxKit.AddInboxItem")
         public static let readInboxItem = NSNotification.Name(rawValue: "NotificareInboxKit.ReadInboxItem")
         public static let refreshBadge = NSNotification.Name(rawValue: "NotificareInboxKit.RefreshBadge")
+        public static let reloadInbox = NSNotification.Name(rawValue: "NotificareInboxKit.ReloadInbox")
     }
 }
