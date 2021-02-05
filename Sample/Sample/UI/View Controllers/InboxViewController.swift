@@ -48,7 +48,9 @@ class InboxViewController: UITableViewController {
         NotificareInbox.shared.open(item) { result in
             switch result {
             case let .success(notification):
-                NotificarePushUI.shared.presentNotification(notification, in: self.navigationController!)
+                if let detailViewController = self.splitViewController?.viewControllers.last as? UINavigationController {
+                    NotificarePushUI.shared.presentNotification(notification, in: detailViewController)
+                }
 
             case .failure:
                 break
@@ -85,7 +87,9 @@ class InboxViewController: UITableViewController {
                                               NotificareInbox.shared.open(item) { result in
                                                   switch result {
                                                   case let .success(notification):
-                                                      NotificarePushUI.shared.presentNotification(notification, in: self.navigationController!)
+                                                      if let detailViewController = self.splitViewController?.viewControllers.last as? UINavigationController {
+                                                          NotificarePushUI.shared.presentNotification(notification, in: detailViewController)
+                                                      }
 
                                                   case .failure:
                                                       break

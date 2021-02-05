@@ -11,6 +11,7 @@ class InboxItemTableViewCell: UITableViewCell {
     @IBOutlet var attachmentImageView: UIImageView!
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var messageLabel: UILabel!
+    @IBOutlet var notificationTypeLabel: UILabel!
     @IBOutlet var timeAgoLabel: UILabel!
     @IBOutlet var openedImageView: UIImageView!
 
@@ -37,6 +38,7 @@ class InboxItemTableViewCell: UITableViewCell {
 
         titleLabel.text = item.title
         messageLabel.text = item.message
+        notificationTypeLabel.text = item.type.components(separatedBy: ".").last
         timeAgoLabel.text = item.time.timeAgo
         openedImageView.isHidden = item.opened
     }

@@ -11,8 +11,6 @@ import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    var window: UIWindow?
-
     func application(_: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
 
@@ -80,19 +78,33 @@ extension AppDelegate: NotificarePushDelegate {
     }
 
     func notificare(_: NotificarePush, didOpenNotification notification: NotificareNotification) {
-        guard let controller = window?.rootViewController else {
+        //        guard let controller = window?.rootViewController else {
+        //            return
+        //        }
+
+        guard let scene = UIApplication.shared.connectedScenes.filter({ $0.activationState == .foregroundActive }).first,
+              let window = (scene.delegate as! UIWindowSceneDelegate).window!,
+              let rootViewController = window.rootViewController
+        else {
             return
         }
 
-        NotificarePushUI.shared.presentNotification(notification, in: controller)
+        NotificarePushUI.shared.presentNotification(notification, in: rootViewController)
     }
 
     func notificare(_: NotificarePush, didOpenAction action: NotificareNotification.Action, for notification: NotificareNotification, with response: NotificareNotification.ResponseData?) {
-        guard let controller = window?.rootViewController else {
+//        guard let controller = window?.rootViewController else {
+//            return
+//        }
+
+        guard let scene = UIApplication.shared.connectedScenes.filter({ $0.activationState == .foregroundActive }).first,
+              let window = (scene.delegate as! UIWindowSceneDelegate).window!,
+              let rootViewController = window.rootViewController
+        else {
             return
         }
 
-        NotificarePushUI.shared.presentAction(action, for: notification, with: response, in: controller)
+        NotificarePushUI.shared.presentAction(action, for: notification, with: response, in: rootViewController)
     }
 }
 
