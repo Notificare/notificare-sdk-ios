@@ -33,9 +33,7 @@ open class NotificareDatabase {
     public func configure() {
         // Force the container to be loaded.
         _ = persistentContainer
-    }
 
-    public func launch(_ completion: @escaping (Result<Void, Error>) -> Void) {
 //        if let currentVersion = NotificareUserDefaults.currentDatabaseVersion,
 //           currentVersion != NotificareDefinitions.databaseVersion
 //        {
@@ -43,7 +41,16 @@ open class NotificareDatabase {
 //            rebuildStore(completion)
 //        } else {
         NotificareLogger.debug("Loading local database.")
-        loadStore(completion)
+        loadStore { result in
+            switch result {
+            case .success:
+                break
+
+            case let .failure(error):
+                NotificareLogger.error("Failed to load CoreData store '\(self.name)': \(error)")
+                fatalError("Failed to load CoreData store.")
+            }
+        }
 //        }
     }
 

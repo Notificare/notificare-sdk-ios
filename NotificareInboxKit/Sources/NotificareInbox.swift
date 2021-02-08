@@ -102,16 +102,12 @@ public class NotificareInbox: NSObject, NotificareModule {
     }
 
     public static func launch(_ completion: @escaping NotificareInboxCallback<Void>) {
-        NotificareInbox.shared.database.launch { result in
-            switch result {
-            case .success:
-                NotificareInbox.shared.sync()
-                completion(.success(()))
-            case let .failure(error):
-                NotificareLogger.error("Failed to launch the inbox database: \(error)")
-                completion(.failure(error))
-            }
-        }
+        NotificareInbox.shared.sync()
+        completion(.success(()))
+    }
+
+    public static func unlaunch(_ completion: @escaping (Result<Void, Error>) -> Void) {
+        NotificareInbox.shared.clear(completion)
     }
 
     // MARK: - Public API

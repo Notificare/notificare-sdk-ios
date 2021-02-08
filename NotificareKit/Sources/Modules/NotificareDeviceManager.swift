@@ -321,6 +321,28 @@ public class NotificareDeviceManager {
         }
     }
 
+    internal func delete(_ completion: @escaping NotificareCallback<Void>) {
+        guard Notificare.shared.isReady,
+              let device = currentDevice,
+              let pushApi = Notificare.shared.pushApi
+        else {
+            completion(.failure(.notReady))
+            return
+        }
+
+        pushApi.deleteDevice(device.id) { result in
+            switch result {
+            case .success:
+                // Update current device properties.
+                self.currentDevice = nil
+
+                completion(.success(()))
+            case let .failure(error):
+                completion(.failure(error))
+            }
+        }
+    }
+
     // MARK: - Internal API
 
     public func updateNotificationSettings(_ allowedUI: Bool, _ completion: @escaping NotificareCallback<Void>) {
@@ -489,7 +511,7 @@ public class NotificareDeviceManager {
         }
     }
 
-    private func registerTemporary(_ completion: @escaping NotificareCallback<Void>) {
+    internal func registerTemporary(_ completion: @escaping NotificareCallback<Void>) {
         let token = currentDevice?.id ?? withUnsafePointer(to: UUID().uuid) {
             Data(bytes: $0, count: 16)
         }.toHexString()
@@ -501,14 +523,6 @@ public class NotificareDeviceManager {
             userName: currentDevice?.userName,
             completion
         )
-//        { result in
-//            switch result {
-//            case .success:
-//                self.updateNotificationSettings(allowedUI: false, completion)
-//            case let .failure(error):
-//                completion(.failure(error))
-//            }
-//        }
     }
 
     public func registerAPNS(token: String, _ completion: @escaping NotificareCallback<Void>) {

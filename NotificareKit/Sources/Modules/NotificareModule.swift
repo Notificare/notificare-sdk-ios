@@ -8,4 +8,6 @@ public protocol NotificareModule {
     static func configure(applicationKey: String, applicationSecret: String)
 
     static func launch(_ completion: @escaping (Result<Void, Error>) -> Void)
+
+    static func unlaunch(_ completion: @escaping (Result<Void, Error>) -> Void)
 }

@@ -64,6 +64,10 @@ public class NotificarePush: NSObject, NotificareModule {
         completion(.success(()))
     }
 
+    public static func unlaunch(_ completion: @escaping (Result<Void, Error>) -> Void) {
+        completion(.success(()))
+    }
+
     public func enableRemoteNotifications(_ completion: @escaping NotificareCallback<Bool>) {
         // Request notification authorization options.
         notificationCenter.requestAuthorization(options: authorizationOptions) { granted, _ in
@@ -259,6 +263,10 @@ public class NotificarePush: NSObject, NotificareModule {
     }
 
     @objc private func updateNotificationSettings() {
+        guard Notificare.shared.isReady else {
+            return
+        }
+
         notificationCenter.getNotificationSettings { settings in
             var allowedUI = settings.authorizationStatus == .authorized
 
@@ -283,7 +291,8 @@ public class NotificarePush: NSObject, NotificareModule {
                     NotificareLogger.debug("User notification settings updated.")
                     completion?(.success(()))
                 case let .failure(error):
-                    NotificareLogger.debug("Could not update user notification settings.")
+                    NotificareLogger.error("Could not update user notification settings.")
+                    NotificareLogger.debug("\(error)")
                     completion?(.failure(error))
                 }
             }
