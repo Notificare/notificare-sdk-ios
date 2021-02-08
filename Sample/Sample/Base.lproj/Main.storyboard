@@ -19,52 +19,66 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="zFU-PX-emP">
-                                <rect key="frame" x="16" y="104" width="382" height="258"/>
+                                <rect key="frame" x="16" y="104" width="382" height="334"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y32-dL-mz9">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A5Q-db-eL6">
                                         <rect key="frame" x="0.0" y="0.0" width="382" height="30"/>
+                                        <state key="normal" title="Launch"/>
+                                        <connections>
+                                            <action selector="onLaunchClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Ak8-Kb-e7O"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CdT-xx-PMa">
+                                        <rect key="frame" x="0.0" y="38" width="382" height="30"/>
+                                        <state key="normal" title="Un-launch"/>
+                                        <connections>
+                                            <action selector="onUnlaunchClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="LwP-6L-ha3"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y32-dL-mz9">
+                                        <rect key="frame" x="0.0" y="76" width="382" height="30"/>
                                         <state key="normal" title="Enable remote notifications"/>
                                         <connections>
                                             <action selector="onEnableRemoteNotificationsClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="9sD-LJ-tcr"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ShK-q5-6uN">
-                                        <rect key="frame" x="0.0" y="38" width="382" height="30"/>
+                                        <rect key="frame" x="0.0" y="114" width="382" height="30"/>
                                         <state key="normal" title="Send custom event"/>
                                         <connections>
                                             <action selector="onSendCustomEventClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="aNM-uQ-Gw2"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p0R-FR-967">
-                                        <rect key="frame" x="0.0" y="76" width="382" height="30"/>
+                                        <rect key="frame" x="0.0" y="152" width="382" height="30"/>
                                         <state key="normal" title="Register with user"/>
                                         <connections>
                                             <action selector="onRegisterWithUserClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="4WW-50-eXE"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vfN-nL-dSt">
-                                        <rect key="frame" x="0.0" y="114" width="382" height="30"/>
+                                        <rect key="frame" x="0.0" y="190" width="382" height="30"/>
                                         <state key="normal" title="Register anonymous"/>
                                         <connections>
                                             <action selector="onRegisterAnonymousClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="CJa-eE-sZu"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W0T-0o-yzD" userLabel="List inbox items">
-                                        <rect key="frame" x="0.0" y="152" width="382" height="30"/>
+                                        <rect key="frame" x="0.0" y="228" width="382" height="30"/>
                                         <state key="normal" title="List inbox items"/>
                                         <connections>
                                             <action selector="onListInboxItemsClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8zb-iB-a5W"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jao-il-I8z">
-                                        <rect key="frame" x="0.0" y="190" width="382" height="30"/>
+                                        <rect key="frame" x="0.0" y="266" width="382" height="30"/>
                                         <state key="normal" title="Refresh badge"/>
                                         <connections>
                                             <action selector="onRefreshBadgeClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="GES-c3-l5M"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eDr-pX-pXB">
-                                        <rect key="frame" x="0.0" y="228" width="382" height="30"/>
+                                        <rect key="frame" x="0.0" y="304" width="382" height="30"/>
                                         <state key="normal" title="Open inbox"/>
                                         <connections>
                                             <segue destination="pY1-jj-0Q2" kind="presentation" id="OrE-ne-Ern"/>

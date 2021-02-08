@@ -13,6 +13,14 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
 
+    @IBAction func onLaunchClicked(_: Any) {
+        Notificare.shared.launch()
+    }
+
+    @IBAction func onUnlaunchClicked(_: Any) {
+        Notificare.shared.unlaunch()
+    }
+
     @IBAction private func onEnableRemoteNotificationsClick(_: Any) {
         NotificarePush.shared.enableRemoteNotifications { result in
             switch result {
