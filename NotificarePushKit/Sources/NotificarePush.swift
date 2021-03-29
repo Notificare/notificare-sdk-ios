@@ -94,7 +94,19 @@ public class NotificarePush: NSObject, NotificareModule {
         UIApplication.shared.registerForRemoteNotifications()
     }
 
-    public func disableRemoteNotifications() {}
+    public func disableRemoteNotifications() {
+        Notificare.shared.deviceManager.registerTemporary { result in
+            switch result {
+            case .success:
+                UIApplication.shared.unregisterForRemoteNotifications()
+                NotificareLogger.info("Unregistered from APNS.")
+
+            case let .failure(error):
+                NotificareLogger.error("Failed to register a temporary device and unregister from APNS.")
+                NotificareLogger.debug("\(error)")
+            }
+        }
+    }
 
     public func isNotificareNotification(_ userInfo: [AnyHashable: Any]) -> Bool {
         userInfo["x-sender"] as? String == "notificare"

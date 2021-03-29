@@ -511,10 +511,15 @@ public class NotificareDeviceManager {
         }
     }
 
-    internal func registerTemporary(_ completion: @escaping NotificareCallback<Void>) {
-        let token = currentDevice?.id ?? withUnsafePointer(to: UUID().uuid) {
+    public func registerTemporary(_ completion: @escaping NotificareCallback<Void>) {
+        var token = withUnsafePointer(to: UUID().uuid) {
             Data(bytes: $0, count: 16)
         }.toHexString()
+
+        // NOTE: keep the same token if available and only when not changing transport providers.
+        if let device = currentDevice, device.transport == .notificare {
+            token = device.id
+        }
 
         register(
             transport: .notificare,
