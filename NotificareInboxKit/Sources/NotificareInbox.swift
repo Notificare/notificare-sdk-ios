@@ -490,7 +490,7 @@ public class NotificareInbox: NSObject, NotificareModule {
                     self.addToLocalInbox(item)
                 }
 
-                if response.count > step * 100 {
+                if response.count > (step + 1) * 100 {
                     NotificareLogger.debug("Loading more inbox items.")
                     self.requestRemoteInboxItems(step: step + 1)
                 } else {
