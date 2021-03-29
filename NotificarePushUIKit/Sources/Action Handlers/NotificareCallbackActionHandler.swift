@@ -345,19 +345,18 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
             params["mimeType"] = mimeType
         }
 
-        let data: Data
+        if let components = URLComponents(url: url, resolvingAgainstBaseURL: false) {
+            components.queryItems?.forEach { item in
+                params[item.name] = item.value
+            }
+        }
 
+        let data: Data
         do {
             data = try NotificareUtils.jsonEncoder.encode(params)
         } catch {
             NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFailToExecuteAction: action, for: notification, error: error)
             return
-        }
-
-        if let components = URLComponents(url: url, resolvingAgainstBaseURL: false) {
-            components.queryItems?.forEach { item in
-                params[item.name] = item.value
-            }
         }
 
         var request = URLRequest(url: url)
