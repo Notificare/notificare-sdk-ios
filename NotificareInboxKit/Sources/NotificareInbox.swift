@@ -20,7 +20,7 @@ public class NotificareInbox: NSObject, NotificareModule {
         }
 
         guard application.inboxConfig?.useInbox == true else {
-            NotificareLogger.warning("Notificare inbox funcionality is not enabled.")
+            NotificareLogger.warning("Notificare inbox functionality is not enabled.")
             return []
         }
 
@@ -34,12 +34,12 @@ public class NotificareInbox: NSObject, NotificareModule {
         }
 
         guard application.inboxConfig?.useInbox == true else {
-            NotificareLogger.warning("Notificare inbox funcionality is not enabled.")
+            NotificareLogger.warning("Notificare inbox functionality is not enabled.")
             return 0
         }
 
         guard application.inboxConfig?.autoBadge == true else {
-            NotificareLogger.warning("Notificare auto badge funcionality is not enabled.")
+            NotificareLogger.warning("Notificare auto badge functionality is not enabled.")
             return 0
         }
 
@@ -119,7 +119,7 @@ public class NotificareInbox: NSObject, NotificareModule {
         }
 
         guard application.inboxConfig?.useInbox == true else {
-            NotificareLogger.warning("Notificare inbox funcionality is not enabled.")
+            NotificareLogger.warning("Notificare inbox functionality is not enabled.")
             return
         }
 
@@ -137,13 +137,13 @@ public class NotificareInbox: NSObject, NotificareModule {
         }
 
         guard application.inboxConfig?.useInbox == true else {
-            NotificareLogger.warning("Notificare inbox funcionality is not enabled.")
+            NotificareLogger.warning("Notificare inbox functionality is not enabled.")
             completion(.failure(NotificareInboxError.inboxUnavailable))
             return
         }
 
         guard application.inboxConfig?.autoBadge == true else {
-            NotificareLogger.warning("Notificare auto badge funcionality is not enabled.")
+            NotificareLogger.warning("Notificare auto badge functionality is not enabled.")
             completion(.failure(NotificareInboxError.autoBadgeUnavailable))
             return
         }
@@ -176,7 +176,7 @@ public class NotificareInbox: NSObject, NotificareModule {
         }
 
         guard application.inboxConfig?.useInbox == true else {
-            NotificareLogger.warning("Notificare inbox funcionality is not enabled.")
+            NotificareLogger.warning("Notificare inbox functionality is not enabled.")
             completion(.failure(NotificareInboxError.inboxUnavailable))
             return
         }
@@ -204,7 +204,7 @@ public class NotificareInbox: NSObject, NotificareModule {
         }
 
         guard application.inboxConfig?.useInbox == true else {
-            NotificareLogger.warning("Notificare inbox funcionality is not enabled.")
+            NotificareLogger.warning("Notificare inbox functionality is not enabled.")
             return
         }
 
@@ -240,7 +240,7 @@ public class NotificareInbox: NSObject, NotificareModule {
         }
 
         guard application.inboxConfig?.useInbox == true else {
-            NotificareLogger.warning("Notificare inbox funcionality is not enabled.")
+            NotificareLogger.warning("Notificare inbox functionality is not enabled.")
             completion(.failure(NotificareInboxError.inboxUnavailable))
             return
         }
@@ -284,7 +284,7 @@ public class NotificareInbox: NSObject, NotificareModule {
         }
 
         guard application.inboxConfig?.useInbox == true else {
-            NotificareLogger.warning("Notificare inbox funcionality is not enabled.")
+            NotificareLogger.warning("Notificare inbox functionality is not enabled.")
             completion(.failure(NotificareInboxError.inboxUnavailable))
             return
         }
@@ -325,7 +325,7 @@ public class NotificareInbox: NSObject, NotificareModule {
         }
 
         guard application.inboxConfig?.useInbox == true else {
-            NotificareLogger.warning("Notificare inbox funcionality is not enabled.")
+            NotificareLogger.warning("Notificare inbox functionality is not enabled.")
             completion(.failure(NotificareInboxError.inboxUnavailable))
             return
         }
