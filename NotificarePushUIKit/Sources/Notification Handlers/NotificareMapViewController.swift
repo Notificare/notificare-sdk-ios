@@ -35,19 +35,21 @@ public class NotificareMapViewController: NotificareBaseNotificationViewControll
     private func setupContent() {
         var markers = [MapMarker]()
 
-        notification.content.forEach { content in
-            if let data = content.data as? [String: Any],
-               let latitude = data["latitude"] as? Double,
-               let longitude = data["longitude"] as? Double
-            {
-                let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-                let marker = MapMarker(title: data["title"] as? String,
-                                       subtitle: data["description"] as? String,
-                                       coordinate: coordinate)
+        notification.content
+            .filter { $0.type == "re.notifica.content.Marker" }
+            .forEach { content in
+                if let data = content.data as? [String: Any],
+                   let latitude = data["latitude"] as? Double,
+                   let longitude = data["longitude"] as? Double
+                {
+                    let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+                    let marker = MapMarker(title: data["title"] as? String,
+                                           subtitle: data["description"] as? String,
+                                           coordinate: coordinate)
 
-                markers.append(marker)
+                    markers.append(marker)
+                }
             }
-        }
 
         mapView.addAnnotations(markers)
     }
