@@ -25,39 +25,39 @@ public class NotificareEventsModule {
         processStoredEvents()
     }
 
-    public func logApplicationInstall() {
-        log(NotificareDefinitions.Events.applicationInstall)
+    public func logApplicationInstall(_ completion: NotificareCallback<Void>? = nil) {
+        log(NotificareDefinitions.Events.applicationInstall, completion)
     }
 
-    public func logApplicationRegistration() {
-        log(NotificareDefinitions.Events.applicationRegistration)
+    public func logApplicationRegistration(_ completion: NotificareCallback<Void>? = nil) {
+        log(NotificareDefinitions.Events.applicationRegistration, completion)
     }
 
-    public func logApplicationUpgrade() {
-        log(NotificareDefinitions.Events.applicationUpgrade)
+    public func logApplicationUpgrade(_ completion: NotificareCallback<Void>? = nil) {
+        log(NotificareDefinitions.Events.applicationUpgrade, completion)
     }
 
-    public func logApplicationOpen() {
-        log(NotificareDefinitions.Events.applicationOpen)
+    public func logApplicationOpen(_ completion: NotificareCallback<Void>? = nil) {
+        log(NotificareDefinitions.Events.applicationOpen, completion)
     }
 
-    public func logApplicationClose(length: TimeInterval) {
-        log(NotificareDefinitions.Events.applicationClose, data: ["length": String(length)])
+    public func logApplicationClose(length: TimeInterval, _ completion: NotificareCallback<Void>? = nil) {
+        log(NotificareDefinitions.Events.applicationClose, data: ["length": String(length)], completion)
     }
 
-    public func logNotificationOpen(_ notification: NotificareNotification) {
-        logNotificationOpen(notification.id)
+    public func logNotificationOpen(_ notification: NotificareNotification, _ completion: NotificareCallback<Void>? = nil) {
+        logNotificationOpen(notification.id, completion)
     }
 
-    public func logNotificationOpen(_ notificationId: String) {
-        log(NotificareDefinitions.Events.notificationOpen, data: nil, for: notificationId)
+    public func logNotificationOpen(_ notificationId: String, _ completion: NotificareCallback<Void>? = nil) {
+        log(NotificareDefinitions.Events.notificationOpen, data: nil, for: notificationId, completion)
     }
 
-    public func logCustom(_ event: String, data: NotificareEventData? = nil) {
-        log("re.notifica.event.custom.\(event)", data: data)
+    public func logCustom(_ event: String, data: NotificareEventData? = nil, _ completion: NotificareCallback<Void>? = nil) {
+        log("re.notifica.event.custom.\(event)", data: data, completion)
     }
 
-    public func log(_ event: String, data: NotificareEventData? = nil, for notification: String? = nil) {
+    public func log(_ event: String, data: NotificareEventData? = nil, for notification: String? = nil, _ completion: NotificareCallback<Void>? = nil) {
         guard let device = Notificare.shared.deviceManager.currentDevice else {
             NotificareLogger.warning("Cannot send an event before a device is registered.")
             return
@@ -77,17 +77,24 @@ public class NotificareEventsModule {
             data: data
         )
 
-        log(event)
+        log(event, completion)
     }
 
-    private func log(_ event: NotificareEvent) {
+    private func log(_ event: NotificareEvent, _ completion: NotificareCallback<Void>?) {
         Notificare.shared.pushApi?.logEvent(event) { result in
             switch result {
             case .success:
                 NotificareLogger.info("Event '\(event.type)' sent successfully.")
+                if let completion = completion {
+                    completion(.success(()))
+                }
             case let .failure(error):
                 NotificareLogger.warning("Failed to send the event: \(event.type).")
                 NotificareLogger.debug("\(error)")
+
+                if let completion = completion {
+                    completion(.failure(error))
+                }
 
                 if !self.discardableEvents.contains(event.type) && error.recoverable {
                     NotificareLogger.info("Queuing event to be sent whenever possible.")

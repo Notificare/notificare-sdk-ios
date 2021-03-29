@@ -5,11 +5,11 @@
 import NotificareKit
 
 extension NotificareEventsModule {
-    func logNotificationReceived(_ notification: NotificareNotification) {
-        log("re.notifica.event.notification.Receive", data: nil, for: notification.id)
+    func logNotificationReceived(_ notification: NotificareNotification, _ completion: NotificareCallback<Void>? = nil) {
+        log("re.notifica.event.notification.Receive", data: nil, for: notification.id, completion)
     }
 
-    func logNotificationInfluenced(_ notification: NotificareNotification) {
-        log("re.notifica.event.notification.Influenced", data: nil, for: notification.id)
+    func logNotificationInfluenced(_ notification: NotificareNotification, _ completion: NotificareCallback<Void>? = nil) {
+        log("re.notifica.event.notification.Influenced", data: nil, for: notification.id, completion)
     }
 }
