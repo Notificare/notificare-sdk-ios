@@ -188,16 +188,23 @@ public class NotificareInbox: NSObject, NotificareModule {
             switch result {
             case let .success(notification):
                 // Mark the item as read & send a notification open event.
-                self.markAsRead(item)
+                self.markAsRead(item) { result in
+                    switch result {
+                    case .success:
+                        completion(.success(notification))
 
-                completion(.success(notification))
+                    case let .failure(error):
+                        completion(.failure(error))
+                    }
+                }
+
             case let .failure(error):
                 completion(.failure(error))
             }
         }
     }
 
-    public func markAsRead(_ item: NotificareInboxItem) {
+    public func markAsRead(_ item: NotificareInboxItem, _ completion: @escaping NotificareCallback<Void>) {
         guard let application = Notificare.shared.application else {
             NotificareLogger.warning("Notificare application not yet available.")
             return
@@ -209,24 +216,33 @@ public class NotificareInbox: NSObject, NotificareModule {
         }
 
         // Send an event to mark the notification as read in the remote inbox.
-        Notificare.shared.eventsManager.logNotificationOpen(item.notificationId)
+        Notificare.shared.eventsManager.logNotificationOpen(item.notificationId) { result in
+            switch result {
+            case .success:
+                // Mark entities as read.
+                self.cachedEntities
+                    .filter { $0.id == item.id }
+                    .forEach { $0.opened = true }
 
-        // Mark entities as read.
-        cachedEntities
-            .filter { $0.id == item.id }
-            .forEach { $0.opened = true }
+                // Persist the changes to the database.
+                self.database.saveChanges()
 
-        // Persist the changes to the database.
-        database.saveChanges()
+                // No need to keep the item in the notification center.
+                self.removeItemFromNotificationCenter(item)
 
-        // No need to keep the item in the notification center.
-        removeItemFromNotificationCenter(item)
+                // Notify the delegate.
+                NotificareInbox.shared.delegate?.notificare(NotificareInbox.shared, didUpdateInbox: self.visibleItems)
 
-        // Notify the delegate.
-        NotificareInbox.shared.delegate?.notificare(NotificareInbox.shared, didUpdateInbox: visibleItems)
+                // Refresh the badge if applicable.
+                self.refreshBadge { _ in }
 
-        // Refresh the badge if applicable.
-        refreshBadge { _ in }
+            case let .failure(error):
+                NotificareLogger.warning("Failed to mark item as read.")
+                NotificareLogger.debug("\(error)")
+
+                completion(.failure(error))
+            }
+        }
     }
 
     public func markAllAsRead(_ completion: @escaping NotificareInboxCallback<Void>) {

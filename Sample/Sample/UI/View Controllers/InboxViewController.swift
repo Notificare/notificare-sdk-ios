@@ -100,7 +100,7 @@ class InboxViewController: UITableViewController {
             alert.addAction(UIAlertAction(title: "Mark as read",
                                           style: .default,
                                           handler: { _ in
-                                              NotificareInbox.shared.markAsRead(item)
+                                              NotificareInbox.shared.markAsRead(item) { _ in }
                                           }))
 
             alert.addAction(UIAlertAction(title: "Delete",

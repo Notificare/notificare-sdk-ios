@@ -26,33 +26,43 @@ extension NotificarePush: UNUserNotificationCenterDelegate {
             Notificare.shared.fetchNotification(id) { result in
                 switch result {
                 case let .success(notification):
-                    Notificare.shared.eventsManager.logNotificationOpen(notification)
+                    Notificare.shared.eventsManager.logNotificationOpen(notification) { result in
+                        switch result {
+                        case .success:
+                            if response.actionIdentifier != UNNotificationDefaultActionIdentifier, response.actionIdentifier != UNNotificationDismissActionIdentifier {
+                                if let clickedAction = notification.actions.first(where: { $0.label == response.actionIdentifier }) {
+                                    let response = NotificareNotification.ResponseData(
+                                        identifier: response.actionIdentifier,
+                                        userText: (response as? UNTextInputNotificationResponse)?.userText
+                                    )
 
-                    if response.actionIdentifier != UNNotificationDefaultActionIdentifier, response.actionIdentifier != UNNotificationDismissActionIdentifier {
-                        if let clickedAction = notification.actions.first(where: { $0.label == response.actionIdentifier }) {
-                            let response = NotificareNotification.ResponseData(
-                                identifier: response.actionIdentifier,
-                                userText: (response as? UNTextInputNotificationResponse)?.userText
-                            )
+                                    self.delegate?.notificare(self, didOpenAction: clickedAction, for: notification, with: response)
+                                }
 
-                            self.delegate?.notificare(self, didOpenAction: clickedAction, for: notification, with: response)
+                                // Notify the inbox to update the badge.
+                                NotificationCenter.default.post(name: NotificareDefinitions.InternalNotification.refreshBadge, object: nil, userInfo: nil)
+
+                                completionHandler()
+                            } else {
+                                self.delegate?.notificare(self, didOpenNotification: notification)
+
+                                // Notify the inbox to mark this as read.
+                                // NOTE: The read event was already sent by now.
+                                NotificationCenter.default.post(name: NotificareDefinitions.InternalNotification.readInboxItem, object: nil, userInfo: ["notification": notification])
+
+                                completionHandler()
+                            }
+
+                        case let .failure(error):
+                            NotificareLogger.error("Failed to log the notification as open.")
+                            NotificareLogger.debug("\(error)")
+                            completionHandler()
                         }
-
-                        // Notify the inbox to update the badge.
-                        NotificationCenter.default.post(name: NotificareDefinitions.InternalNotification.refreshBadge, object: nil, userInfo: nil)
-
-                        completionHandler()
-                    } else {
-                        self.delegate?.notificare(self, didOpenNotification: notification)
-
-                        // Notify the inbox to mark this as read.
-                        // NOTE: The read event was already sent by now.
-                        NotificationCenter.default.post(name: NotificareDefinitions.InternalNotification.readInboxItem, object: nil, userInfo: ["notification": notification])
-
-                        completionHandler()
                     }
-                case .failure:
+
+                case let .failure(error):
                     NotificareLogger.error("Failed to fetch notification with id '\(id)'.")
+                    NotificareLogger.debug("\(error)")
                     completionHandler()
                 }
             }
