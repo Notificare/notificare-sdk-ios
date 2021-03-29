@@ -261,6 +261,9 @@ public class NotificareInbox: NSObject, NotificareModule {
                 // Persist the changes to the database.
                 self.database.saveChanges()
 
+                // Clear all items from the notification center.
+                self.clearNotificationCenter()
+
                 // Notify the delegate.
                 NotificareInbox.shared.delegate?.notificare(NotificareInbox.shared, didUpdateInbox: self.visibleItems)
 
