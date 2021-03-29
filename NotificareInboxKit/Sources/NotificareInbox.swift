@@ -370,7 +370,7 @@ public class NotificareInbox: NSObject, NotificareModule {
         let timestamp = Int64(firstItem.time!.timeIntervalSince1970 * 1000)
 
         NotificareLogger.debug("Checking if the inbox has been modified since \(timestamp).")
-        api.getInbox(for: device.id) { result in
+        api.getInbox(for: device.id, since: timestamp) { result in
             switch result {
             case .success:
                 NotificareLogger.info("The inbox has been modified. Performing a full sync.")
