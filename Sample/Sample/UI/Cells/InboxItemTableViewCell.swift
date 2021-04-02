@@ -28,7 +28,7 @@ class InboxItemTableViewCell: UITableViewCell {
         attachmentImageView.layer.cornerRadius = 8.0
 
         var attachmentUrl: URL?
-        if let urlStr = item.attachment?.uri {
+        if let urlStr = item.notification.attachments.first?.uri {
             attachmentUrl = URL(string: urlStr)
         }
 
@@ -36,9 +36,9 @@ class InboxItemTableViewCell: UITableViewCell {
             self.attachmentImageView.contentMode = image != nil ? .scaleAspectFill : .scaleAspectFit
         }
 
-        titleLabel.text = item.title
-        messageLabel.text = item.message
-        notificationTypeLabel.text = item.type.components(separatedBy: ".").last
+        titleLabel.text = item.notification.title
+        messageLabel.text = item.notification.message
+        notificationTypeLabel.text = item.notification.type.components(separatedBy: ".").last
         timeAgoLabel.text = item.time.timeAgo
         openedImageView.isHidden = item.opened
     }

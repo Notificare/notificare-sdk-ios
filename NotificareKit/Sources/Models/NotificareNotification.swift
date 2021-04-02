@@ -5,6 +5,7 @@
 import NotificareCore
 
 public struct NotificareNotification {
+    public let partial: Bool
     public let id: String
     public let type: String
     public let time: Date
@@ -16,10 +17,26 @@ public struct NotificareNotification {
     public let attachments: [Attachment]
     public let extra: [String: Any]
     public let targetContentIdentifier: String?
+
+    public init(partial: Bool, id: String, type: String, time: Date, title: String?, subtitle: String?, message: String, content: [Content], actions: [Action], attachments: [Attachment], extra: [String: Any], targetContentIdentifier: String?) {
+        self.partial = partial
+        self.id = id
+        self.type = type
+        self.time = time
+        self.title = title
+        self.subtitle = subtitle
+        self.message = message
+        self.content = content
+        self.actions = actions
+        self.attachments = attachments
+        self.extra = extra
+        self.targetContentIdentifier = targetContentIdentifier
+    }
 }
 
-extension NotificareNotification: Decodable {
+extension NotificareNotification: Codable {
     enum CodingKeys: String, CodingKey {
+        case partial
         case id = "_id"
         case type
         case time
@@ -36,6 +53,7 @@ extension NotificareNotification: Decodable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
+        partial = try container.decodeIfPresent(Bool.self, forKey: .partial) ?? false
         id = try container.decode(String.self, forKey: .id)
         type = try container.decode(String.self, forKey: .type)
         time = try container.decode(Date.self, forKey: .time)
@@ -62,12 +80,30 @@ extension NotificareNotification: Decodable {
         }
 
         if container.contains(.extra) {
-            extra = try container.decode([String: Any].self, forKey: .extra)
+            let decoded = try container.decode(AnyCodable.self, forKey: .extra)
+            extra = decoded.value as! [String: Any]
         } else {
             extra = [:]
         }
 
         targetContentIdentifier = try container.decodeIfPresent(String.self, forKey: .targetContentIdentifier)
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(partial, forKey: .partial)
+        try container.encode(id, forKey: .id)
+        try container.encode(type, forKey: .type)
+        try container.encode(time, forKey: .time)
+        try container.encodeIfPresent(title, forKey: .title)
+        try container.encodeIfPresent(subtitle, forKey: .subtitle)
+        try container.encode(message, forKey: .message)
+        try container.encode(content, forKey: .content)
+        try container.encode(actions, forKey: .actions)
+        try container.encode(attachments, forKey: .attachments)
+        try container.encode(AnyCodable(extra), forKey: .extra)
+        try container.encode(targetContentIdentifier, forKey: .targetContentIdentifier)
     }
 }
 
@@ -90,7 +126,7 @@ public extension NotificareNotification {
 
 // NotificareNotification.Content
 public extension NotificareNotification {
-    struct Content: Decodable {
+    struct Content: Codable {
         public let type: String
         public let data: Any
 
@@ -98,11 +134,27 @@ public extension NotificareNotification {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             type = try container.decode(String.self, forKey: .type)
 
-            if let str = try? container.decode(String.self, forKey: .data) {
-                data = str
-            } else {
-                data = try container.decode([String: Any].self, forKey: .data)
-            }
+            let decoded = try container.decode(AnyCodable.self, forKey: .data)
+            data = decoded.value
+
+//            if let str = try? container.decode(String.self, forKey: .data) {
+//                data = str
+//            } else {
+//                data = try container.decode([String: Any].self, forKey: .data)
+//            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+
+            try container.encode(type, forKey: .type)
+            try container.encode(AnyCodable(data), forKey: .data)
+
+//            if data is String {
+//                try container.encode(data as! String, forKey: .data)
+//            } else {
+//                try container.encode(data as! [String: Any], forKey: .data)
+//            }
         }
 
         enum CodingKeys: String, CodingKey {
@@ -114,7 +166,7 @@ public extension NotificareNotification {
 
 // NotificareNotification.Action
 public extension NotificareNotification {
-    struct Action: Decodable {
+    struct Action: Codable {
         public let type: String
         public let label: String
         public let target: String?
@@ -152,8 +204,13 @@ public extension NotificareNotification {
 
 // NotificareNotification.Attachment
 public extension NotificareNotification {
-    struct Attachment: Decodable {
+    struct Attachment: Codable {
         public let mimeType: String
         public let uri: String
+
+        public init(mimeType: String, uri: String) {
+            self.mimeType = mimeType
+            self.uri = uri
+        }
     }
 }

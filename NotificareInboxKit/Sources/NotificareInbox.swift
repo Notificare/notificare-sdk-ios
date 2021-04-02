@@ -184,22 +184,41 @@ public class NotificareInbox: NSObject, NotificareModule {
         // Remove the item from the notification center.
         removeItemFromNotificationCenter(item)
 
-        Notificare.shared.fetchNotification(item.notificationId) { result in
-            switch result {
-            case let .success(notification):
-                // Mark the item as read & send a notification open event.
-                self.markAsRead(item) { result in
-                    switch result {
-                    case .success:
-                        completion(.success(notification))
-
-                    case let .failure(error):
-                        completion(.failure(error))
+        if item.notification.partial {
+            Notificare.shared.fetchNotification(item.notification.id) { result in
+                switch result {
+                case let .success(notification):
+                    // Update the entity in the database.
+                    if let entity = self.cachedEntities.first(where: { $0.id == item.id }) {
+                        entity.setNotification(notification)
+                        self.database.saveChanges()
                     }
-                }
 
-            case let .failure(error):
-                completion(.failure(error))
+                    // Mark the item as read & send a notification open event.
+                    self.markAsRead(item) { result in
+                        switch result {
+                        case .success:
+                            completion(.success(notification))
+
+                        case let .failure(error):
+                            completion(.failure(error))
+                        }
+                    }
+
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        } else {
+            // Mark the item as read & send a notification open event.
+            markAsRead(item) { result in
+                switch result {
+                case .success:
+                    completion(.success(item.notification))
+
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
         }
     }
@@ -216,7 +235,7 @@ public class NotificareInbox: NSObject, NotificareModule {
         }
 
         // Send an event to mark the notification as read in the remote inbox.
-        Notificare.shared.eventsManager.logNotificationOpen(item.notificationId) { result in
+        Notificare.shared.eventsManager.logNotificationOpen(item.notification.id) { result in
             switch result {
             case .success:
                 // Mark entities as read.
@@ -426,7 +445,7 @@ public class NotificareInbox: NSObject, NotificareModule {
         // NOTE: Remove duplicates for a given notification before adding the item to the inbox.
         // When receiving a triggered notification, we may receive it more than once.
         cachedEntities
-            .filter { $0.notificationId == item.notificationId }
+            .filter { $0.notificationId == item.notification.id }
             .forEach { entity in
                 database.remove(entity)
 
@@ -487,7 +506,7 @@ public class NotificareInbox: NSObject, NotificareModule {
             case let .success(response):
                 // Add all items to the database.
                 response.inboxItems.forEach { item in
-                    self.addToLocalInbox(item)
+                    self.addToLocalInbox(NotificareInboxItem(remote: item))
                 }
 
                 if response.count > (step + 1) * 100 {
@@ -511,15 +530,28 @@ public class NotificareInbox: NSObject, NotificareModule {
 
     // MARK: - NotificationCenter events
 
-    @objc private func onAddItemNotification(_ notification: Notification) {
+    @objc private func onAddItemNotification(_ notificationSignal: Notification) {
         NotificareLogger.debug("Received a signal to add an item to the inbox.")
 
-        guard let userInfo = notification.userInfo, let item = NotificareInboxItem(userInfo: userInfo) else {
-            NotificareLogger.warning("Unable to parse inbox item.")
+        guard let userInfo = notificationSignal.userInfo,
+              let notification = userInfo["notification"] as? NotificareNotification,
+              let inboxItemId = userInfo["inboxItemId"] as? String,
+              let inboxItemVisible = userInfo["inboxItemVisible"] as? Bool
+        else {
+            NotificareLogger.warning("Unable to handle 'add to inbox' signal.")
             return
         }
 
-        addToLocalInbox(item)
+        addToLocalInbox(
+            NotificareInboxItem(
+                id: inboxItemId,
+                notification: notification,
+                time: Date(),
+                opened: false,
+                visible: inboxItemVisible,
+                expires: userInfo["inboxItemExpires"] as? Date
+            )
+        )
 
         refreshBadge { _ in
             NotificareInbox.shared.delegate?.notificare(NotificareInbox.shared, didUpdateInbox: self.visibleItems)

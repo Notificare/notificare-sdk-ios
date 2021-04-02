@@ -105,18 +105,55 @@ public extension NotificarePush {
             return
         }
 
+        Notificare.shared.eventsManager.logNotificationReceived(id)
+
         Notificare.shared.fetchNotification(id) { result in
             switch result {
             case let .success(notification):
-                Notificare.shared.eventsManager.logNotificationReceived(notification)
-
-                // Notify the inbox to add this item.
-                NotificationCenter.default.post(name: NotificareDefinitions.InternalNotification.addInboxItem, object: nil, userInfo: userInfo)
+                // Put the notification in the inbox, if appropriate.
+                self.addToLocalInbox(userInfo: userInfo, notification: notification)
 
                 completion(.success(()))
             case let .failure(error):
-                completion(.failure(error))
+                NotificareLogger.error("Failed to fetch notification.")
+                NotificareLogger.debug("\(error)")
+
+                // Put the notification in the inbox, if appropriate.
+                if let notification = NotificareNotification(apnsDictionary: userInfo) {
+                    self.addToLocalInbox(userInfo: userInfo, notification: notification)
+
+                    completion(.success(()))
+                } else {
+                    NotificareLogger.debug("Unable to create a partial notification from the APNS payload.")
+                    completion(.failure(error))
+                }
             }
         }
+    }
+
+    private func addToLocalInbox(userInfo: [AnyHashable: Any], notification: NotificareNotification) {
+        guard let inboxItemId = userInfo["inboxItemId"] as? String else {
+            NotificareLogger.debug("APNS payload does not include an inbox item id.")
+            return
+        }
+
+        var content: [String: Any] = [
+            "notification": notification,
+            "inboxItemId": inboxItemId,
+            "inboxItemVisible": userInfo["inboxItemVisible"] as? Bool ?? false,
+        ]
+
+        if let expiresStr = userInfo["inboxItemExpires"] as? String,
+           let inboxItemExpires = NotificareUtils.isoDateFormatter.date(from: expiresStr)
+        {
+            content["inboxItemExpires"] = inboxItemExpires
+        }
+
+        // Notify the inbox to add this item.
+        NotificationCenter.default.post(
+            name: NotificareDefinitions.InternalNotification.addInboxItem,
+            object: nil,
+            userInfo: content
+        )
     }
 }
