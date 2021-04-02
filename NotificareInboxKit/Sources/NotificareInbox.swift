@@ -102,7 +102,10 @@ public class NotificareInbox: NSObject, NotificareModule {
     }
 
     public static func launch(_ completion: @escaping NotificareInboxCallback<Void>) {
-        NotificareInbox.shared.sync()
+        if UIApplication.shared.applicationState == .active {
+            NotificareInbox.shared.sync()
+        }
+
         completion(.success(()))
     }
 
