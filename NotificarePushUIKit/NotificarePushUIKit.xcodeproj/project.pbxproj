@@ -24,8 +24,6 @@
 		F29B17D525A48BF0007ED6F9 /* NotificarePushUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F29B17CB25A48BEF007ED6F9 /* NotificarePushUIKit.framework */; };
 		F29B17DA25A48BF0007ED6F9 /* NotificarePushUIKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29B17D925A48BF0007ED6F9 /* NotificarePushUIKitTests.swift */; };
 		F29B17DC25A48BF0007ED6F9 /* NotificarePushUIKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F29B17CE25A48BEF007ED6F9 /* NotificarePushUIKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F29B17EF25A48C9B007ED6F9 /* NotificarePushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F29B17EE25A48C9B007ED6F9 /* NotificarePushKit.framework */; };
-		F29B17F025A48C9B007ED6F9 /* NotificarePushKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F29B17EE25A48C9B007ED6F9 /* NotificarePushKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F29B17F325A48CAF007ED6F9 /* NotificarePushUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29B17F225A48CAF007ED6F9 /* NotificarePushUI.swift */; };
 		F29B180225A4B81A007ED6F9 /* NotificarePushUI+UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29B180125A4B81A007ED6F9 /* NotificarePushUI+UserDefaults.swift */; };
 		F29C96E725ACBE2500620E9B /* NotificareImageGalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29C96E625ACBE2500620E9B /* NotificareImageGalleryViewController.swift */; };
@@ -58,7 +56,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				F29B17F025A48C9B007ED6F9 /* NotificarePushKit.framework in Embed Frameworks */,
 				F2B8C56225A6173F00FFBE0C /* NotificareCore.framework in Embed Frameworks */,
 				F2B181AF25BB224400384991 /* NotificareKit.framework in Embed Frameworks */,
 			);
@@ -107,7 +104,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F29B17EF25A48C9B007ED6F9 /* NotificarePushKit.framework in Frameworks */,
 				F2B8C56125A6173F00FFBE0C /* NotificareCore.framework in Frameworks */,
 				F2B181AE25BB224400384991 /* NotificareKit.framework in Frameworks */,
 			);
