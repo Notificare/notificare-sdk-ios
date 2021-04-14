@@ -13,7 +13,7 @@ For support please use: http://support.notifica.re
   spec.documentation_url  = "https://docs.notifica.re"
   spec.license            = { :type => "MIT" }
   spec.author             = { "Notificare" => "info@notifica.re" }
-  spec.source             = { :git => 'https://github.com/notificare/notificare-sdk-ios', :tag => "#{spec.version}" }
+  spec.source             = { :git => 'https://github.com/notificare/notificare-sdk-ios.git', :tag => "#{spec.version}" }
   spec.swift_version      = "5.3"
 
   # Supported deployment targets
