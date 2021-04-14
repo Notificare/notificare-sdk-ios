@@ -1,0 +1,316 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.3.2 (swiftlang-1200.0.45 clang-1200.0.32.28)
+// swift-module-flags: -target arm64-apple-ios10.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name NotificareCore
+import CoreData
+import Foundation
+@_exported import NotificareCore
+import Swift
+import UIKit
+import os
+@objc public protocol NotificareAppDelegateInterceptor {
+  @objc optional func applicationDidBecomeActive(_ application: UIKit.UIApplication)
+  @objc optional func applicationWillResignActive(_ application: UIKit.UIApplication)
+  @objc optional func application(_ application: UIKit.UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Foundation.Data)
+  @objc optional func application(_ application: UIKit.UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Swift.Error)
+  @objc optional func application(_ application: UIKit.UIApplication, didReceiveRemoteNotification userInfo: [Swift.AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIKit.UIBackgroundFetchResult) -> Swift.Void)
+}
+public enum NotificareUtils {
+  public static var applicationName: Swift.String? {
+    get
+  }
+  public static var applicationVersion: Swift.String {
+    get
+  }
+  public static var deviceString: Swift.String {
+    get
+  }
+  public static var deviceLanguage: Swift.String {
+    get
+  }
+  public static var deviceRegion: Swift.String {
+    get
+  }
+  public static var osVersion: Swift.String {
+    get
+  }
+  public static var timeZoneOffset: Swift.Float {
+    get
+  }
+  public static func getLoadedModules() -> [Swift.String]
+  public static let isoDateFormatter: Foundation.DateFormatter
+  public static let jsonDecoder: Foundation.JSONDecoder
+  public static let jsonEncoder: Foundation.JSONEncoder
+}
+extension UIColor {
+  convenience public init(hexString: Swift.String, alpha: CoreGraphics.CGFloat = 1.0)
+  public func toHexString() -> Swift.String
+}
+@_hasMissingDesignatedInitializers public class NotificareLocalizable {
+  public static func string(resource: NotificareCore.NotificareLocalizable.StringResource) -> Swift.String
+  public static func string(resource: Swift.String, fallback: Swift.String) -> Swift.String
+  public static func image(resource: NotificareCore.NotificareLocalizable.ImageResource) -> UIKit.UIImage?
+  public enum StringResource : Swift.String {
+    case ok
+    case cancel
+    case actions
+    case pushDefaultCategory
+    case actionsSend
+    case actionsInputPlaceholder
+    case actionsShareImageTextPlaceholder
+    case rateAlertYesButton
+    case rateAlertNoButton
+    case mapUnknownTitleMarker
+    case actionMailSubject
+    case actionMailBody
+    case closeButton
+    case sendButton
+    public typealias RawValue = Swift.String
+    public init?(rawValue: Swift.String)
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public enum ImageResource : Swift.String {
+    case actions
+    case mapMarker
+    case mapMarkerUserLocation
+    case close
+    case send
+    public typealias RawValue = Swift.String
+    public init?(rawValue: Swift.String)
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  @objc deinit
+}
+extension Dictionary {
+  public func mapKeys<Transformed>(_ transform: (Key) throws -> Transformed) rethrows -> [Transformed : Value] where Transformed : Swift.Hashable
+}
+extension KeyedDecodingContainer {
+  public func decode(_ type: [Swift.String : Any].Type, forKey key: K) throws -> [Swift.String : Any]
+  public func decodeIfPresent(_ type: [Swift.String : Any].Type, forKey key: K) throws -> [Swift.String : Any]?
+  public func decode(_ type: [Any].Type, forKey key: K) throws -> [Any]
+  public func decodeIfPresent(_ type: [Any].Type, forKey key: K) throws -> [Any]?
+  public func decode(_: [Swift.String : Any].Type) throws -> [Swift.String : Any]
+}
+extension UnkeyedDecodingContainer {
+  public mutating func decode(_: [Any].Type) throws -> [Any]
+  public mutating func decode(_ type: [Swift.String : Any].Type) throws -> [Swift.String : Any]
+}
+@objc @_inheritsConvenienceInitializers public class NotificareSwizzler : Foundation.NSProxy {
+  public static func setup(withRemoteNotifications: Swift.Bool = false)
+  public static func addInterceptor(_ interceptor: NotificareCore.NotificareAppDelegateInterceptor) -> Swift.String?
+  public static func removeInterceptor(_ interceptor: NotificareCore.NotificareAppDelegateInterceptor)
+  @objc deinit
+}
+open class NotificareDatabase {
+  public var persistentContainer: CoreData.NSPersistentContainer {
+    get
+    set
+  }
+  public var context: CoreData.NSManagedObjectContext {
+    get
+  }
+  public init(name: Swift.String, rebuildOnVersionChange: Swift.Bool = true)
+  public func configure()
+  public func saveChanges()
+  @objc deinit
+}
+public enum NotificareLogger {
+  public static var useAdvancedLogging: Swift.Bool
+  public static func debug(_ message: Swift.String, file: Swift.String = #file)
+  public static func debug(_ message: Swift.String, tag: Swift.String?)
+  public static func info(_ message: Swift.String, file: Swift.String = #file)
+  public static func info(_ message: Swift.String, tag: Swift.String?)
+  public static func warning(_ message: Swift.String, file: Swift.String = #file)
+  public static func warning(_ message: Swift.String, tag: Swift.String?)
+  public static func error(_ message: Swift.String, file: Swift.String = #file)
+  public static func error(_ message: Swift.String, tag: Swift.String?)
+}
+public enum NotificareDefinitions {
+  public enum Modules : Swift.String, Swift.CaseIterable {
+    case push
+    case pushUI
+    case inbox
+    public typealias AllCases = [NotificareCore.NotificareDefinitions.Modules]
+    public static var allCases: [NotificareCore.NotificareDefinitions.Modules] {
+      get
+    }
+    public typealias RawValue = Swift.String
+    public var rawValue: Swift.String {
+      get
+    }
+    public init?(rawValue: Swift.String)
+  }
+  public enum InternalNotification {
+    public static let addInboxItem: Foundation.NSNotification.Name
+    public static let readInboxItem: Foundation.NSNotification.Name
+    public static let refreshBadge: Foundation.NSNotification.Name
+    public static let reloadInbox: Foundation.NSNotification.Name
+  }
+}
+@frozen public struct AnyCodable : Swift.Codable {
+  public let value: Any
+  public init<T>(_ value: T?)
+}
+extension AnyCodable : NotificareCore._AnyEncodable, NotificareCore._AnyDecodable {
+}
+extension AnyCodable : Swift.Equatable {
+  public static func == (lhs: NotificareCore.AnyCodable, rhs: NotificareCore.AnyCodable) -> Swift.Bool
+}
+extension AnyCodable : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+extension AnyCodable : Swift.CustomDebugStringConvertible {
+  public var debugDescription: Swift.String {
+    get
+  }
+}
+extension AnyCodable : Swift.ExpressibleByNilLiteral {
+}
+extension AnyCodable : Swift.ExpressibleByBooleanLiteral {
+  public typealias BooleanLiteralType = Swift.Bool
+}
+extension AnyCodable : Swift.ExpressibleByIntegerLiteral {
+  public typealias IntegerLiteralType = Swift.Int
+}
+extension AnyCodable : Swift.ExpressibleByFloatLiteral {
+  public typealias FloatLiteralType = Swift.Double
+}
+extension AnyCodable : Swift.ExpressibleByStringLiteral {
+  public typealias StringLiteralType = Swift.String
+  public typealias ExtendedGraphemeClusterLiteralType = Swift.String
+  public typealias UnicodeScalarLiteralType = Swift.String
+}
+extension AnyCodable : Swift.ExpressibleByArrayLiteral {
+  public typealias ArrayLiteralElement = Any
+}
+extension AnyCodable : Swift.ExpressibleByDictionaryLiteral {
+  public typealias Key = Swift.AnyHashable
+  public typealias Value = Any
+}
+public enum NotificareUserDefaults {
+  public enum Key : Swift.String {
+    case currentDatabaseVersion
+    case preferredLanguage
+    case preferredRegion
+    case registeredDevice
+    case crashReport
+    case reviewedVersion
+    case currentBadge
+    public typealias RawValue = Swift.String
+    public init?(rawValue: Swift.String)
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+}
+extension URL {
+  public func appendingQueryComponent(name: Swift.String, value: Swift.String) -> Foundation.URL
+  public mutating func appendQueryComponent(name: Swift.String, value: Swift.String)
+}
+@frozen public struct AnyEncodable : Swift.Encodable {
+  public let value: Any
+  public init<T>(_ value: T?)
+}
+@usableFromInline
+internal protocol _AnyEncodable {
+  var value: Any { get }
+  init<T>(_ value: T?)
+}
+extension AnyEncodable : NotificareCore._AnyEncodable {
+}
+extension _AnyEncodable {
+  public func encode(to encoder: Swift.Encoder) throws
+}
+extension AnyEncodable : Swift.Equatable {
+  public static func == (lhs: NotificareCore.AnyEncodable, rhs: NotificareCore.AnyEncodable) -> Swift.Bool
+}
+extension AnyEncodable : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+extension AnyEncodable : Swift.CustomDebugStringConvertible {
+  public var debugDescription: Swift.String {
+    get
+  }
+}
+extension AnyEncodable : Swift.ExpressibleByNilLiteral {
+}
+extension AnyEncodable : Swift.ExpressibleByBooleanLiteral {
+  public typealias BooleanLiteralType = Swift.Bool
+}
+extension AnyEncodable : Swift.ExpressibleByIntegerLiteral {
+  public typealias IntegerLiteralType = Swift.Int
+}
+extension AnyEncodable : Swift.ExpressibleByFloatLiteral {
+  public typealias FloatLiteralType = Swift.Double
+}
+extension AnyEncodable : Swift.ExpressibleByStringLiteral {
+  public typealias StringLiteralType = Swift.String
+  public typealias ExtendedGraphemeClusterLiteralType = Swift.String
+  public typealias UnicodeScalarLiteralType = Swift.String
+}
+extension AnyEncodable : Swift.ExpressibleByStringInterpolation {
+  public typealias StringInterpolation = Swift.DefaultStringInterpolation
+}
+extension AnyEncodable : Swift.ExpressibleByArrayLiteral {
+  public typealias ArrayLiteralElement = Any
+}
+extension AnyEncodable : Swift.ExpressibleByDictionaryLiteral {
+  public typealias Key = Swift.AnyHashable
+  public typealias Value = Any
+}
+extension _AnyEncodable {
+  public init(nilLiteral _: ())
+  public init(booleanLiteral value: Swift.Bool)
+  public init(integerLiteral value: Swift.Int)
+  public init(floatLiteral value: Swift.Double)
+  public init(extendedGraphemeClusterLiteral value: Swift.String)
+  public init(stringLiteral value: Swift.String)
+  public init(arrayLiteral elements: Any...)
+  public init(dictionaryLiteral elements: (Swift.AnyHashable, Any)...)
+}
+@frozen public struct AnyDecodable : Swift.Decodable {
+  public let value: Any
+  public init<T>(_ value: T?)
+}
+@usableFromInline
+internal protocol _AnyDecodable {
+  var value: Any { get }
+  init<T>(_ value: T?)
+}
+extension AnyDecodable : NotificareCore._AnyDecodable {
+}
+extension _AnyDecodable {
+  public init(from decoder: Swift.Decoder) throws
+}
+extension AnyDecodable : Swift.Equatable {
+  public static func == (lhs: NotificareCore.AnyDecodable, rhs: NotificareCore.AnyDecodable) -> Swift.Bool
+}
+extension AnyDecodable : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+extension AnyDecodable : Swift.CustomDebugStringConvertible {
+  public var debugDescription: Swift.String {
+    get
+  }
+}
+extension NotificareCore.NotificareLocalizable.StringResource : Swift.Equatable {}
+extension NotificareCore.NotificareLocalizable.StringResource : Swift.Hashable {}
+extension NotificareCore.NotificareLocalizable.StringResource : Swift.RawRepresentable {}
+extension NotificareCore.NotificareLocalizable.ImageResource : Swift.Equatable {}
+extension NotificareCore.NotificareLocalizable.ImageResource : Swift.Hashable {}
+extension NotificareCore.NotificareLocalizable.ImageResource : Swift.RawRepresentable {}
+extension NotificareCore.NotificareDefinitions.Modules : Swift.Equatable {}
+extension NotificareCore.NotificareDefinitions.Modules : Swift.Hashable {}
+extension NotificareCore.NotificareDefinitions.Modules : Swift.RawRepresentable {}
+extension NotificareCore.NotificareUserDefaults.Key : Swift.Equatable {}
+extension NotificareCore.NotificareUserDefaults.Key : Swift.Hashable {}
+extension NotificareCore.NotificareUserDefaults.Key : Swift.RawRepresentable {}

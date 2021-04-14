@@ -1,0 +1,603 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.3.2 (swiftlang-1200.0.45 clang-1200.0.32.28)
+// swift-module-flags: -target i386-apple-ios10.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name NotificareKit
+import CoreData
+import Foundation
+import NotificareCore
+@_exported import NotificareKit
+import Swift
+import SystemConfiguration
+import UIKit
+public typealias NotificareCallback<T> = (Swift.Result<T, NotificareKit.NotificareError>) -> Swift.Void
+@_hasMissingDesignatedInitializers public class Notificare {
+  public static let shared: NotificareKit.Notificare
+  public var pushApi: NotificareKit.NotificarePushApi? {
+    get
+  }
+  final public let eventsManager: NotificareKit.NotificareEventsModule
+  final public let deviceManager: NotificareKit.NotificareDeviceManager
+  public var servicesInfo: NotificareKit.NotificareServicesInfo? {
+    get
+  }
+  public var options: NotificareKit.NotificareOptions? {
+    get
+  }
+  public var application: NotificareKit.NotificareApplication? {
+    get
+  }
+  public var launchOptions: [UIKit.UIApplication.LaunchOptionsKey : Any]?
+  weak public var delegate: NotificareKit.NotificareDelegate?
+  public var useAdvancedLogging: Swift.Bool {
+    get
+    set
+  }
+  public var isConfigured: Swift.Bool {
+    get
+  }
+  public var isReady: Swift.Bool {
+    get
+  }
+  public func configure()
+  public func configure(servicesInfo: NotificareKit.NotificareServicesInfo, options: NotificareKit.NotificareOptions)
+  public func launch()
+  public func unlaunch()
+  public func fetchApplication(_ completion: @escaping NotificareKit.NotificareCallback<NotificareKit.NotificareApplication>)
+  public func fetchDynamicLink(_ link: Swift.String, _ completion: @escaping NotificareKit.NotificareCallback<NotificareKit.NotificareDynamicLink>)
+  public func fetchNotification(_ id: Swift.String, _ completion: @escaping NotificareKit.NotificareCallback<NotificareKit.NotificareNotification>)
+  public func sendNotificationReply(_ action: NotificareKit.NotificareNotification.Action, for notification: NotificareKit.NotificareNotification, message: Swift.String? = nil, media: Swift.String? = nil, mimeType: Swift.String? = nil, _ completion: @escaping NotificareKit.NotificareCallback<Swift.Void>)
+  public func uploadNotificationReplyAsset(_ data: Foundation.Data, contentType: Swift.String, _ completion: @escaping NotificareKit.NotificareCallback<Swift.String>)
+  @objc deinit
+}
+public struct NotificareDynamicLink : Swift.Codable {
+  public let target: Swift.String
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public protocol NotificareDelegate : AnyObject {
+  func notificare(_ notificare: NotificareKit.Notificare, onReady application: NotificareKit.NotificareApplication)
+  func notificare(_ notificare: NotificareKit.Notificare, didRegisterDevice device: NotificareKit.NotificareDevice)
+}
+extension NotificareDelegate {
+  public func notificare(_: NotificareKit.Notificare, didRegisterDevice _: NotificareKit.NotificareDevice)
+}
+public protocol NotificareModule {
+  static func configure(applicationKey: Swift.String, applicationSecret: Swift.String)
+  static func launch(_ completion: @escaping (Swift.Result<Swift.Void, Swift.Error>) -> Swift.Void)
+  static func unlaunch(_ completion: @escaping (Swift.Result<Swift.Void, Swift.Error>) -> Swift.Void)
+}
+public struct NotificarePushApi {
+  public typealias Completion<T> = (Swift.Result<T, NotificareKit.NotificareError>) -> Swift.Void
+  public let baseUrl: Foundation.URL
+  public let applicationKey: Swift.String
+  public let applicationSecret: Swift.String
+  public let session: Foundation.URLSession
+  public let decoder: Foundation.JSONDecoder
+  public let encoder: Foundation.JSONEncoder
+}
+public enum NotificareError : Swift.Error {
+  case notReady
+  case networkFailure(cause: NotificareKit.NotificareNetworkError)
+  case encodingFailure
+  case parsingFailure
+  case invalidLanguageCode
+  case invalidArgument
+}
+public struct NotificareApplication : Swift.Codable {
+  public let id: Swift.String
+  public let name: Swift.String
+  public let category: Swift.String
+  public let appStoreId: Swift.String?
+  public let services: [Swift.String : Swift.Bool]
+  public let inboxConfig: NotificareKit.NotificareApplication.InboxConfig?
+  public let regionConfig: NotificareKit.NotificareApplication.RegionConfig?
+  public let userDataFields: [NotificareKit.NotificareApplication.UserDataField]
+  public let actionCategories: [NotificareKit.NotificareApplication.ActionCategory]
+  public struct InboxConfig : Swift.Codable {
+    public let useInbox: Swift.Bool
+    public let autoBadge: Swift.Bool
+    public init(from decoder: Swift.Decoder) throws
+    public func encode(to encoder: Swift.Encoder) throws
+  }
+  public struct RegionConfig : Swift.Codable {
+    public let proximityUUID: Swift.String?
+    public init(from decoder: Swift.Decoder) throws
+    public func encode(to encoder: Swift.Encoder) throws
+  }
+  public struct UserDataField : Swift.Codable {
+    public let type: Swift.String
+    public let key: Swift.String
+    public let label: Swift.String
+    public init(from decoder: Swift.Decoder) throws
+    public func encode(to encoder: Swift.Encoder) throws
+  }
+  public struct ActionCategory : Swift.Codable {
+    public let name: Swift.String
+    public let description: Swift.String?
+    public let type: Swift.String
+    public let actions: [NotificareKit.NotificareApplication.ActionCategory.Action]
+    public struct Action : Swift.Codable {
+      public let type: Swift.String
+      public let label: Swift.String
+      public let target: Swift.String?
+      public let camera: Swift.Bool
+      public let keyboard: Swift.Bool
+      public let destructive: Swift.Bool
+      public init(from decoder: Swift.Decoder) throws
+      public func encode(to encoder: Swift.Encoder) throws
+    }
+    public init(from decoder: Swift.Decoder) throws
+    public func encode(to encoder: Swift.Encoder) throws
+  }
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public enum NotificareNetworkError : Swift.Error {
+  case inaccessible
+  case urlError(Foundation.URLError)
+  case genericError(Swift.Error)
+  case noResponse
+  case invalidResponseType(Foundation.URLResponse)
+  case noResponseData(Foundation.HTTPURLResponse)
+  case endpointError(Foundation.HTTPURLResponse, Foundation.Data?)
+}
+extension NotificareNetworkError : Foundation.LocalizedError {
+  public var errorDescription: Swift.String? {
+    get
+  }
+  public var failureReason: Swift.String? {
+    get
+  }
+}
+@objc @_inheritsConvenienceInitializers public class NotificareAutoConfig : ObjectiveC.NSObject {
+  @objc public static func setup()
+  @objc public static func didFinishLaunching(_ notification: Foundation.Notification)
+  @objc deinit
+  @objc override dynamic public init()
+}
+public struct NotificareNotification {
+  public let partial: Swift.Bool
+  public let id: Swift.String
+  public let type: Swift.String
+  public let time: Foundation.Date
+  public let title: Swift.String?
+  public let subtitle: Swift.String?
+  public let message: Swift.String
+  public let content: [NotificareKit.NotificareNotification.Content]
+  public let actions: [NotificareKit.NotificareNotification.Action]
+  public let attachments: [NotificareKit.NotificareNotification.Attachment]
+  public let extra: [Swift.String : Any]
+  public let targetContentIdentifier: Swift.String?
+  public init(partial: Swift.Bool, id: Swift.String, type: Swift.String, time: Foundation.Date, title: Swift.String?, subtitle: Swift.String?, message: Swift.String, content: [NotificareKit.NotificareNotification.Content], actions: [NotificareKit.NotificareNotification.Action], attachments: [NotificareKit.NotificareNotification.Attachment], extra: [Swift.String : Any], targetContentIdentifier: Swift.String?)
+}
+extension NotificareNotification : Swift.Codable {
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+extension NotificareNotification {
+  public enum NotificationType : Swift.String {
+    case none
+    case alert
+    case webView
+    case url
+    case urlScheme
+    case image
+    case video
+    case map
+    case rate
+    case passbook
+    case store
+    public typealias RawValue = Swift.String
+    public init?(rawValue: Swift.String)
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+}
+extension NotificareNotification {
+  public struct Content : Swift.Codable {
+    public let type: Swift.String
+    public let data: Any
+    public init(from decoder: Swift.Decoder) throws
+    public func encode(to encoder: Swift.Encoder) throws
+  }
+}
+extension NotificareNotification {
+  public struct Action : Swift.Codable {
+    public let type: Swift.String
+    public let label: Swift.String
+    public let target: Swift.String?
+    public let keyboard: Swift.Bool
+    public let camera: Swift.Bool
+    public init(from decoder: Swift.Decoder) throws
+    public func encode(to encoder: Swift.Encoder) throws
+  }
+}
+extension NotificareNotification.Action {
+  public enum ActionType : Swift.String {
+    case app
+    case browser
+    case callback
+    case custom
+    case mail
+    case sms
+    case telephone
+    case webView
+    public typealias RawValue = Swift.String
+    public init?(rawValue: Swift.String)
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+}
+extension NotificareNotification {
+  public struct ResponseData : Swift.Decodable {
+    public let identifier: Swift.String
+    public let userText: Swift.String?
+    public init(identifier: Swift.String, userText: Swift.String?)
+    public init(from decoder: Swift.Decoder) throws
+  }
+}
+extension NotificareNotification {
+  public struct Attachment : Swift.Codable {
+    public let mimeType: Swift.String
+    public let uri: Swift.String
+    public init(mimeType: Swift.String, uri: Swift.String)
+    public init(from decoder: Swift.Decoder) throws
+    public func encode(to encoder: Swift.Encoder) throws
+  }
+}
+public struct NotificareTime {
+  public let hours: Swift.Int
+  public let minutes: Swift.Int
+  public init(hours: Swift.Int, minutes: Swift.Int) throws
+  public init(string: Swift.String) throws
+  public func format() -> Swift.String
+}
+extension NotificareTime : Swift.Codable {
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public typealias NotificareUserData = [Swift.String : Swift.String]
+public struct NotificareDevice : Swift.Codable {
+  public let id: Swift.String
+  public var userId: Swift.String? {
+    get
+  }
+  public var userName: Swift.String? {
+    get
+  }
+  public var timeZoneOffset: Swift.Float {
+    get
+  }
+  public var osVersion: Swift.String {
+    get
+  }
+  public var sdkVersion: Swift.String {
+    get
+  }
+  public var appVersion: Swift.String {
+    get
+  }
+  public var deviceString: Swift.String {
+    get
+  }
+  public var language: Swift.String {
+    get
+  }
+  public var region: Swift.String {
+    get
+  }
+  public var transport: NotificareKit.NotificareTransport {
+    get
+  }
+  public var dnd: NotificareKit.NotificareDoNotDisturb? {
+    get
+  }
+  public var userData: NotificareKit.NotificareUserData? {
+    get
+  }
+  public var lastRegistered: Foundation.Date {
+    get
+  }
+  public var allowedUI: Swift.Bool {
+    get
+  }
+  public var backgroundAppRefresh: Swift.Bool {
+    get
+  }
+  public var bluetoothEnabled: Swift.Bool {
+    get
+  }
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public struct NotificareServicesInfo : Swift.Decodable {
+  public let applicationKey: Swift.String
+  public let applicationSecret: Swift.String
+  public let useTestApi: Swift.Bool
+  public init(applicationKey: Swift.String, applicationSecret: Swift.String)
+  public init?(contentsOfFile plistPath: Swift.String)
+  public init(from decoder: Swift.Decoder) throws
+}
+public typealias NotificareEventData = NotificareKit.JSON
+public struct NotificareEvent {
+  public let type: Swift.String
+  public let timestamp: Swift.Int64
+  public let deviceId: Swift.String?
+  public let sessionId: Swift.String?
+  public let notificationId: Swift.String?
+  public let userId: Swift.String?
+  public let data: NotificareKit.NotificareEventData?
+}
+extension NotificareEvent : Swift.Codable {
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public enum NotificareTransport : Swift.String, Swift.Codable {
+  case notificare
+  case apns
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum ReachabilityError : Swift.Error {
+  case failedToCreateWithAddress(Darwin.sockaddr, Swift.Int32)
+  case failedToCreateWithHostname(Swift.String, Swift.Int32)
+  case unableToSetCallback(Swift.Int32)
+  case unableToSetDispatchQueue(Swift.Int32)
+  case unableToGetFlags(Swift.Int32)
+}
+extension NSNotification.Name {
+  public static let reachabilityChanged: Foundation.Notification.Name
+}
+public class NotificareReachability {
+  public typealias NetworkReachable = (NotificareKit.NotificareReachability) -> Swift.Void
+  public typealias NetworkUnreachable = (NotificareKit.NotificareReachability) -> Swift.Void
+  public enum Connection : Swift.CustomStringConvertible {
+    case unavailable, wifi, cellular
+    public var description: Swift.String {
+      get
+    }
+    public static func == (a: NotificareKit.NotificareReachability.Connection, b: NotificareKit.NotificareReachability.Connection) -> Swift.Bool
+    public var hashValue: Swift.Int {
+      get
+    }
+    public func hash(into hasher: inout Swift.Hasher)
+  }
+  public var whenReachable: NotificareKit.NotificareReachability.NetworkReachable?
+  public var whenUnreachable: NotificareKit.NotificareReachability.NetworkUnreachable?
+  public var allowsCellularConnection: Swift.Bool
+  public var notificationCenter: Foundation.NotificationCenter
+  public var connection: NotificareKit.NotificareReachability.Connection {
+    get
+  }
+  required public init(reachabilityRef: SystemConfiguration.SCNetworkReachability, queueQoS: Dispatch.DispatchQoS = .default, targetQueue: Dispatch.DispatchQueue? = nil, notificationQueue: Dispatch.DispatchQueue? = .main)
+  convenience public init(hostname: Swift.String, queueQoS: Dispatch.DispatchQoS = .default, targetQueue: Dispatch.DispatchQueue? = nil, notificationQueue: Dispatch.DispatchQueue? = .main) throws
+  convenience public init(queueQoS: Dispatch.DispatchQoS = .default, targetQueue: Dispatch.DispatchQueue? = nil, notificationQueue: Dispatch.DispatchQueue? = .main) throws
+  @objc deinit
+}
+extension NotificareReachability {
+  public func startNotifier() throws
+  public func stopNotifier()
+  public var description: Swift.String {
+    get
+  }
+}
+public enum NotificareServices : Swift.String {
+  case test
+  case production
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public struct NotificareDoNotDisturb : Swift.Codable {
+  public let start: NotificareKit.NotificareTime
+  public let end: NotificareKit.NotificareTime
+  public init(start: NotificareKit.NotificareTime, end: NotificareKit.NotificareTime)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+extension URLRequest {
+  public mutating func setBasicAuthentication(username: Swift.String, password: Swift.String)
+  public mutating func setBearerAuthentication(token: Swift.String)
+  public mutating func setNotificareHeaders()
+  public mutating func setMethod(_ method: Swift.String, payload: Foundation.Data? = nil)
+}
+extension URLSession {
+  public static var maximumNumberOfRetries: Swift.Int
+  public typealias DataResult = Swift.Result<Foundation.Data, NotificareKit.NotificareNetworkError>
+  public typealias Callback = (Foundation.URLSession.DataResult) -> Swift.Void
+  public func perform(_ urlRequest: Foundation.URLRequest, maxRetries: Swift.Int = URLSession.maximumNumberOfRetries, allowEmptyData: Swift.Bool = false, callback: @escaping Foundation.URLSession.Callback)
+}
+extension Data {
+  public func toHexString() -> Swift.String
+}
+@_hasMissingDesignatedInitializers public class NotificareDeviceManager {
+  public var currentDevice: NotificareKit.NotificareDevice? {
+    get
+  }
+  public var preferredLanguage: Swift.String? {
+    get
+  }
+  public func register(userId: Swift.String?, userName: Swift.String?, _ completion: @escaping NotificareKit.NotificareCallback<Swift.Void>)
+  public func updatePreferredLanguage(_ preferredLanguage: Swift.String?, _ completion: @escaping NotificareKit.NotificareCallback<Swift.String?>)
+  public func fetchTags(_ completion: @escaping NotificareKit.NotificareCallback<[Swift.String]>)
+  public func addTag(_ tag: Swift.String, _ completion: @escaping NotificareKit.NotificareCallback<Swift.Void>)
+  public func addTags(_ tags: [Swift.String], _ completion: @escaping NotificareKit.NotificareCallback<Swift.Void>)
+  public func removeTag(_ tag: Swift.String, _ completion: @escaping NotificareKit.NotificareCallback<Swift.Void>)
+  public func removeTags(_ tags: [Swift.String], _ completion: @escaping NotificareKit.NotificareCallback<Swift.Void>)
+  public func clearTags(_ completion: @escaping NotificareKit.NotificareCallback<Swift.Void>)
+  public func fetchDoNotDisturb(_ completion: @escaping NotificareKit.NotificareCallback<NotificareKit.NotificareDoNotDisturb?>)
+  public func updateDoNotDisturb(_ dnd: NotificareKit.NotificareDoNotDisturb, _ completion: @escaping NotificareKit.NotificareCallback<Swift.Void>)
+  public func clearDoNotDisturb(_ completion: @escaping NotificareKit.NotificareCallback<Swift.Void>)
+  public func fetchUserData(_ completion: @escaping NotificareKit.NotificareCallback<NotificareKit.NotificareUserData?>)
+  public func updateUserData(_ userData: NotificareKit.NotificareUserData, _ completion: @escaping NotificareKit.NotificareCallback<Swift.Void>)
+  public func updateNotificationSettings(_ allowedUI: Swift.Bool, _ completion: @escaping NotificareKit.NotificareCallback<Swift.Void>)
+  public func registerTemporary(_ completion: @escaping NotificareKit.NotificareCallback<Swift.Void>)
+  public func registerAPNS(token: Swift.String, _ completion: @escaping NotificareKit.NotificareCallback<Swift.Void>)
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class NotificareEventsModule {
+  public func logApplicationInstall(_ completion: NotificareKit.NotificareCallback<Swift.Void>? = nil)
+  public func logApplicationRegistration(_ completion: NotificareKit.NotificareCallback<Swift.Void>? = nil)
+  public func logApplicationUpgrade(_ completion: NotificareKit.NotificareCallback<Swift.Void>? = nil)
+  public func logApplicationOpen(_ completion: NotificareKit.NotificareCallback<Swift.Void>? = nil)
+  public func logApplicationClose(length: Foundation.TimeInterval, _ completion: NotificareKit.NotificareCallback<Swift.Void>? = nil)
+  public func logNotificationOpen(_ notification: NotificareKit.NotificareNotification, _ completion: NotificareKit.NotificareCallback<Swift.Void>? = nil)
+  public func logNotificationOpen(_ notificationId: Swift.String, _ completion: NotificareKit.NotificareCallback<Swift.Void>? = nil)
+  public func logCustom(_ event: Swift.String, data: NotificareKit.NotificareEventData? = nil, _ completion: NotificareKit.NotificareCallback<Swift.Void>? = nil)
+  public func log(_ event: Swift.String, data: NotificareKit.NotificareEventData? = nil, for notification: Swift.String? = nil, _ completion: NotificareKit.NotificareCallback<Swift.Void>? = nil)
+  @objc deinit
+}
+extension NotificareEventsModule : NotificareCore.NotificareAppDelegateInterceptor {
+  @objc dynamic public func applicationDidBecomeActive(_: UIKit.UIApplication)
+}
+public struct JSON {
+  public var value: Any {
+    get
+  }
+  public init()
+  public init(_ value: Any?)
+}
+extension JSON : Swift.RawRepresentable {
+  public init?(rawValue: Foundation.Data)
+  public var rawValue: Foundation.Data {
+    get
+  }
+  public typealias RawValue = Foundation.Data
+}
+extension JSON : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+extension JSON : Swift.ExpressibleByStringLiteral {
+  public init(stringLiteral value: Swift.StringLiteralType)
+  public init(extendedGraphemeClusterLiteral value: Swift.StringLiteralType)
+  public init(unicodeScalarLiteral value: Swift.StringLiteralType)
+  public typealias StringLiteralType = Swift.StringLiteralType
+  public typealias ExtendedGraphemeClusterLiteralType = Swift.StringLiteralType
+  public typealias UnicodeScalarLiteralType = Swift.StringLiteralType
+}
+extension JSON : Swift.ExpressibleByIntegerLiteral {
+  public init(integerLiteral value: Swift.Int)
+  public typealias IntegerLiteralType = Swift.Int
+}
+extension JSON : Swift.ExpressibleByFloatLiteral {
+  public init(floatLiteral value: Swift.FloatLiteralType)
+  public typealias FloatLiteralType = Swift.FloatLiteralType
+}
+extension JSON : Swift.ExpressibleByBooleanLiteral {
+  public init(booleanLiteral value: Swift.Bool)
+  public typealias BooleanLiteralType = Swift.Bool
+}
+extension JSON : Swift.ExpressibleByDictionaryLiteral {
+  public init(dictionaryLiteral elements: (Swift.String, Any)...)
+  public typealias Key = Swift.String
+  public typealias Value = Any
+}
+extension JSON : Swift.ExpressibleByArrayLiteral {
+  public init(arrayLiteral elements: Any...)
+  public typealias ArrayLiteralElement = Any
+}
+public struct NotificareOptions {
+  public let autoConfig: Swift.Bool
+  public let swizzlingEnabled: Swift.Bool
+  public let userNotificationCenterDelegateEnabled: Swift.Bool
+  public let crashReportsEnabled: Swift.Bool
+  public let urlSchemes: [Swift.String]
+  public let closeWindowQueryParameter: Swift.String?
+  public let imageSharingEnabled: Swift.Bool
+  public let safariDismissButtonStyle: Swift.Int?
+  public let themes: NotificareKit.NotificareOptions.Themes?
+  public struct Themes : Swift.Decodable {
+    public let light: NotificareKit.NotificareOptions.Theme?
+    public let dark: NotificareKit.NotificareOptions.Theme?
+    public init(from decoder: Swift.Decoder) throws
+  }
+  public struct Theme : Swift.Decodable {
+    public let backgroundColor: Swift.String?
+    public let actionButtonTextColor: Swift.String?
+    public let toolbarBackgroundColor: Swift.String?
+    public let activityIndicatorColor: Swift.String?
+    public let buttonTextColor: Swift.String?
+    public let textFieldTextColor: Swift.String?
+    public let textFieldBackgroundColor: Swift.String?
+    public let safariBarTintColor: Swift.String?
+    public let safariControlsTintColor: Swift.String?
+    public init(from decoder: Swift.Decoder) throws
+  }
+}
+extension NotificareOptions : Swift.Decodable {
+  public init()
+  public init?(contentsOfFile plistPath: Swift.String)
+  public init(from decoder: Swift.Decoder) throws
+}
+extension NotificareOptions {
+  public func theme(for controller: UIKit.UIViewController) -> NotificareKit.NotificareOptions.Theme?
+}
+extension JSON : Swift.Codable {
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+@_inheritsConvenienceInitializers @objc(NotificareCoreDataEvent) public class NotificareCoreDataEvent : CoreData.NSManagedObject {
+  @objc override dynamic public init(entity: CoreData.NSEntityDescription, insertInto context: CoreData.NSManagedObjectContext?)
+  @objc deinit
+}
+extension NotificareCoreDataEvent {
+  @nonobjc public class func fetchRequest() -> CoreData.NSFetchRequest<NotificareKit.NotificareCoreDataEvent>
+  @objc @NSManaged dynamic public var data: Foundation.Data? {
+    @objc get
+    @objc set
+  }
+  @objc @NSManaged dynamic public var deviceId: Swift.String? {
+    @objc get
+    @objc set
+  }
+  @objc @NSManaged dynamic public var notificationId: Swift.String? {
+    @objc get
+    @objc set
+  }
+  @objc @NSManaged dynamic public var retries: Swift.Int16 {
+    @objc get
+    @objc set
+  }
+  @objc @NSManaged dynamic public var sessionId: Swift.String? {
+    @objc get
+    @objc set
+  }
+  @objc @NSManaged dynamic public var timestamp: Swift.Int64 {
+    @objc get
+    @objc set
+  }
+  @objc @NSManaged dynamic public var ttl: Swift.Int32 {
+    @objc get
+    @objc set
+  }
+  @objc @NSManaged dynamic public var type: Swift.String? {
+    @objc get
+    @objc set
+  }
+  @objc @NSManaged dynamic public var userId: Swift.String? {
+    @objc get
+    @objc set
+  }
+}
+extension NotificareKit.NotificareNotification.NotificationType : Swift.Equatable {}
+extension NotificareKit.NotificareNotification.NotificationType : Swift.Hashable {}
+extension NotificareKit.NotificareNotification.NotificationType : Swift.RawRepresentable {}
+extension NotificareKit.NotificareNotification.Action.ActionType : Swift.Equatable {}
+extension NotificareKit.NotificareNotification.Action.ActionType : Swift.Hashable {}
+extension NotificareKit.NotificareNotification.Action.ActionType : Swift.RawRepresentable {}
+extension NotificareKit.NotificareTransport : Swift.Equatable {}
+extension NotificareKit.NotificareTransport : Swift.Hashable {}
+extension NotificareKit.NotificareTransport : Swift.RawRepresentable {}
+extension NotificareKit.NotificareReachability.Connection : Swift.Equatable {}
+extension NotificareKit.NotificareReachability.Connection : Swift.Hashable {}
+extension NotificareKit.NotificareServices : Swift.Equatable {}
+extension NotificareKit.NotificareServices : Swift.Hashable {}
+extension NotificareKit.NotificareServices : Swift.RawRepresentable {}

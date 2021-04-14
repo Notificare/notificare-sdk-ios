@@ -1,0 +1,4 @@
+framework module NotificareInboxKit {
+  header "NotificareInboxKit-Swift.h"
+  requires objc
+}

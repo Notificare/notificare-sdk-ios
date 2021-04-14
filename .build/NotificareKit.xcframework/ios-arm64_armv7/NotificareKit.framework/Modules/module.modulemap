@@ -1,0 +1,11 @@
+framework module NotificareKit {
+  umbrella header "NotificareKit.h"
+
+  export *
+  module * { export * }
+}
+
+module NotificareKit.Swift {
+    header "NotificareKit-Swift.h"
+    requires objc
+}

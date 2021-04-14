@@ -1,0 +1,11 @@
+framework module NotificarePushUIKit {
+  umbrella header "NotificarePushUIKit.h"
+
+  export *
+  module * { export * }
+}
+
+module NotificarePushUIKit.Swift {
+    header "NotificarePushUIKit-Swift.h"
+    requires objc
+}

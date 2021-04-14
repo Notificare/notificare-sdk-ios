@@ -39,7 +39,6 @@ playground.xcworkspace
 # Packages/
 # Package.pins
 # Package.resolved
-.build/
 
 # CocoaPods
 #
@@ -85,4 +84,4 @@ iOSInjectionProject/
 # AppCode
 .idea/
 
-.artefacts
+.build/archives
