@@ -36,7 +36,12 @@ extension NotificarePush: UNUserNotificationCenterDelegate {
                                         userText: (response as? UNTextInputNotificationResponse)?.userText
                                     )
 
-                                    self.delegate?.notificare(self, didOpenAction: clickedAction, for: notification, with: response)
+                                    if clickedAction.type == NotificareNotification.Action.ActionType.callback.rawValue && !clickedAction.camera && (!clickedAction.keyboard || response.userText != nil) {
+                                        NotificareLogger.debug("Handling a notification action without UI.")
+                                        // todo sendQuickResponse(notification, action, responseText)
+                                    } else {
+                                        self.delegate?.notificare(self, didOpenAction: clickedAction, for: notification, with: response)
+                                    }
                                 }
 
                                 // Notify the inbox to update the badge.
