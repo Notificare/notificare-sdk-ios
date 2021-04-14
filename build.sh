@@ -6,7 +6,7 @@ set -e
 frameworks=( "NotificareCore" "NotificareKit" "NotificarePushKit" "NotificarePushUIKit" "NotificareInboxKit" )
 
 echo "Cleaning build folder"
-rm -rf .build .artefacts
+rm -rf .build
 
 clean_framework () {
   local framework=$1
@@ -25,7 +25,7 @@ build_framework () {
   xcodebuild archive \
       -workspace Notificare.xcworkspace \
       -scheme $framework \
-      -archivePath ".build/$framework-iOS.xcarchive" \
+      -archivePath ".build/archives/$framework-iOS.xcarchive" \
       -destination "generic/platform=iOS" \
       -sdk iphoneos \
       -quiet \
@@ -36,7 +36,7 @@ build_framework () {
   xcodebuild archive \
       -workspace Notificare.xcworkspace \
       -scheme $framework \
-      -archivePath ".build/$framework-iOS-simulator.xcarchive" \
+      -archivePath ".build/archives/$framework-iOS-simulator.xcarchive" \
       -destination "generic/platform=iOS Simulator" \
       -sdk iphonesimulator \
       -quiet \
@@ -45,9 +45,9 @@ build_framework () {
 
   # Build the xcframework
   xcodebuild -create-xcframework \
-      -framework ".build/$framework-iOS.xcarchive/Products/Library/Frameworks/$framework.framework" \
-      -framework ".build/$framework-iOS-simulator.xcarchive/Products/Library/Frameworks/$framework.framework" \
-      -output ".artefacts/$framework.xcframework"
+      -framework ".build/archives/$framework-iOS.xcarchive/Products/Library/Frameworks/$framework.framework" \
+      -framework ".build/archives/$framework-iOS-simulator.xcarchive/Products/Library/Frameworks/$framework.framework" \
+      -output ".build/$framework.xcframework"
 }
 
 for framework in "${frameworks[@]}"
@@ -61,3 +61,6 @@ do
 	echo "Building: $framework"
   build_framework $framework
 done
+
+rm -rf .build/archives
+echo "Done."
