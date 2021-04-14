@@ -21,31 +21,20 @@ For support please use: http://support.notifica.re
 
   # Subspecs
 
-  spec.subspec 'NotificareSDK' do |subspec|
-    subspec.vendored_frameworks = ".artefacts/NotificareSDK.xcframework"
+  spec.subspec 'NotificareKit' do |subspec|
+    subspec.vendored_frameworks = ".build/NotificareKit.xcframework", ".build/NotificareCore.xcframework"
   end
 
-  spec.subspec 'NotificareAssets' do |subspec|
-    subspec.vendored_frameworks = ".artefacts/NotificareAssets.xcframework"
+  spec.subspec 'NotificareInboxKit' do |subspec|
+    subspec.vendored_frameworks = ".build/NotificareInboxKit.xcframework", ".build/NotificareCore.xcframework"
   end
 
-  spec.subspec 'NotificareLocation' do |subspec|
-    subspec.vendored_frameworks = ".artefacts/NotificareLocation.xcframework"
+  spec.subspec 'NotificarePushKit' do |subspec|
+    subspec.vendored_frameworks = ".build/NotificarePushKit.xcframework", ".build/NotificareCore.xcframework"
   end
 
-  spec.subspec 'NotificareLoyalty' do |subspec|
-    subspec.vendored_frameworks = ".artefacts/NotificareLoyalty.xcframework"
+  spec.subspec 'NotificarePushUIKit' do |subspec|
+    subspec.vendored_frameworks = ".build/NotificarePushUIKit.xcframework", ".build/NotificareCore.xcframework"
   end
 
-  spec.subspec 'NotificareMonetize' do |subspec|
-    subspec.vendored_frameworks = ".artefacts/NotificareMonetize.xcframework"
-  end
-
-  spec.subspec 'NotificarePush' do |subspec|
-    subspec.vendored_frameworks = ".artefacts/NotificarePush.xcframework"
-  end
-
-  spec.subspec 'NotificareScannable' do |subspec|
-    subspec.vendored_frameworks = ".artefacts/NotificareScannable.xcframework"
-  end
 end
