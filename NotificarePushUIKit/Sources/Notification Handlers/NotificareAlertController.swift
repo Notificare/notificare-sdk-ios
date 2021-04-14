@@ -23,7 +23,7 @@ class NotificareAlertController: NotificareNotificationPresenter {
                 UIAlertAction(title: NotificareLocalizable.string(resource: action.label, fallback: action.label),
                               style: .default,
                               handler: { _ in
-                                  NotificareBaseNotificationViewController.handleAction(action, for: self.notification)
+                                  NotificarePushUI.shared.presentAction(action, for: self.notification, with: nil, in: controller)
 
                                   NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFinishPresentingNotification: self.notification)
                               })

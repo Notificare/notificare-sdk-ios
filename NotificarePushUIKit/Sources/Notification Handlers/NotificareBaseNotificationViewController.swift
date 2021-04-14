@@ -4,7 +4,6 @@
 
 import NotificareCore
 import NotificareKit
-import NotificarePushKit
 import UIKit
 
 public class NotificareBaseNotificationViewController: UIViewController {
@@ -82,7 +81,7 @@ public class NotificareBaseNotificationViewController: UIViewController {
     }
 
     func handleAction(_ action: NotificareNotification.Action) {
-        NotificareBaseNotificationViewController.handleAction(action, for: notification)
+        NotificarePushUI.shared.presentAction(action, for: notification, with: nil, in: self)
     }
 
     func hasNotificareQueryParameters(in url: URL) -> Bool {
@@ -136,9 +135,5 @@ public class NotificareBaseNotificationViewController: UIViewController {
                 }
             }
         }
-    }
-
-    static func handleAction(_ action: NotificareNotification.Action, for notification: NotificareNotification) {
-        NotificarePush.shared.delegate?.notificare(NotificarePush.shared, didOpenAction: action, for: notification, with: nil)
     }
 }
