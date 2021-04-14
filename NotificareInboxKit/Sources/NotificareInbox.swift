@@ -229,6 +229,7 @@ public class NotificareInbox: NSObject, NotificareModule {
     public func markAsRead(_ item: NotificareInboxItem, _ completion: @escaping NotificareCallback<Void>) {
         guard let application = Notificare.shared.application else {
             NotificareLogger.warning("Notificare application not yet available.")
+            // TODO: we should use completion handler to report a failure.
             return
         }
 
@@ -257,6 +258,8 @@ public class NotificareInbox: NSObject, NotificareModule {
 
                 // Refresh the badge if applicable.
                 self.refreshBadge { _ in }
+
+                completion(.success(()))
 
             case let .failure(error):
                 NotificareLogger.warning("Failed to mark item as read.")
