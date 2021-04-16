@@ -21,20 +21,24 @@ For support please use: http://support.notifica.re
 
   # Subspecs
 
+  spec.subspec 'NotificareCore' do |subspec|
+    subspec.vendored_frameworks = ".build/NotificareCore.xcframework"
+  end
+
   spec.subspec 'NotificareKit' do |subspec|
-    subspec.vendored_frameworks = ".build/NotificareKit.xcframework", ".build/NotificareCore.xcframework"
+    subspec.vendored_frameworks = ".build/NotificareKit.xcframework"
   end
 
   spec.subspec 'NotificareInboxKit' do |subspec|
-    subspec.vendored_frameworks = ".build/NotificareInboxKit.xcframework", ".build/NotificareCore.xcframework"
+    subspec.vendored_frameworks = ".build/NotificareInboxKit.xcframework"
   end
 
   spec.subspec 'NotificarePushKit' do |subspec|
-    subspec.vendored_frameworks = ".build/NotificarePushKit.xcframework", ".build/NotificareCore.xcframework"
+    subspec.vendored_frameworks = ".build/NotificarePushKit.xcframework"
   end
 
   spec.subspec 'NotificarePushUIKit' do |subspec|
-    subspec.vendored_frameworks = ".build/NotificarePushUIKit.xcframework", ".build/NotificareCore.xcframework"
+    subspec.vendored_frameworks = ".build/NotificarePushUIKit.xcframework"
   end
 
 end
