@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F27DB19D262F2B16000C024D /* PushAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27DB19C262F2B16000C024D /* PushAPI.swift */; };
+		F27DB1A0262F2B5C000C024D /* PushAPI+Responses.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27DB19F262F2B5C000C024D /* PushAPI+Responses.swift */; };
+		F27DB1A3262F2B94000C024D /* PushAPI+Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27DB1A2262F2B94000C024D /* PushAPI+Models.swift */; };
 		F289F53F25B85E020091AB97 /* NotificareInboxKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F289F53525B85E020091AB97 /* NotificareInboxKit.framework */; };
 		F289F54425B85E020091AB97 /* NotificareInboxKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F289F54325B85E020091AB97 /* NotificareInboxKitTests.swift */; };
 		F289F55D25B85EA80091AB97 /* NotificareCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F289F55C25B85EA80091AB97 /* NotificareCore.framework */; };
@@ -21,8 +24,6 @@
 		F28E584A25C041C900C83537 /* InboxItemEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28E584925C041C900C83537 /* InboxItemEntity.swift */; };
 		F2C90A6E25C4193900B1F343 /* NotificareInbox+UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C90A6D25C4193900B1F343 /* NotificareInbox+UserDefaults.swift */; };
 		F2F311FA25C1962D007E4B01 /* NotificareInboxError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F311F925C1962D007E4B01 /* NotificareInboxError.swift */; };
-		F2F311FE25C1A1CD007E4B01 /* NotificarePushApi+Inbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F311FD25C1A1CD007E4B01 /* NotificarePushApi+Inbox.swift */; };
-		F2F3120225C1A2FC007E4B01 /* NotificareInboxResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F3120125C1A2FC007E4B01 /* NotificareInboxResponse.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		F27DB19C262F2B16000C024D /* PushAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAPI.swift; sourceTree = "<group>"; };
+		F27DB19F262F2B5C000C024D /* PushAPI+Responses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PushAPI+Responses.swift"; sourceTree = "<group>"; };
+		F27DB1A2262F2B94000C024D /* PushAPI+Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PushAPI+Models.swift"; sourceTree = "<group>"; };
 		F289F53525B85E020091AB97 /* NotificareInboxKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NotificareInboxKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F289F53925B85E020091AB97 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F289F53E25B85E020091AB97 /* NotificareInboxKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NotificareInboxKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -67,8 +71,6 @@
 		F28E584925C041C900C83537 /* InboxItemEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxItemEntity.swift; sourceTree = "<group>"; };
 		F2C90A6D25C4193900B1F343 /* NotificareInbox+UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificareInbox+UserDefaults.swift"; sourceTree = "<group>"; };
 		F2F311F925C1962D007E4B01 /* NotificareInboxError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareInboxError.swift; sourceTree = "<group>"; };
-		F2F311FD25C1A1CD007E4B01 /* NotificarePushApi+Inbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificarePushApi+Inbox.swift"; sourceTree = "<group>"; };
-		F2F3120125C1A2FC007E4B01 /* NotificareInboxResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareInboxResponse.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +94,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F27DB199262F2B00000C024D /* Push API */ = {
+			isa = PBXGroup;
+			children = (
+				F27DB19C262F2B16000C024D /* PushAPI.swift */,
+				F27DB19F262F2B5C000C024D /* PushAPI+Responses.swift */,
+				F27DB1A2262F2B94000C024D /* PushAPI+Models.swift */,
+			);
+			path = "Push API";
+			sourceTree = "<group>";
+		};
 		F289F52B25B85E020091AB97 = {
 			isa = PBXGroup;
 			children = (
@@ -174,18 +186,9 @@
 		F2F311FC25C1A1BD007E4B01 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				F2F3120025C1A2D9007E4B01 /* Responses */,
-				F2F311FD25C1A1CD007E4B01 /* NotificarePushApi+Inbox.swift */,
+				F27DB199262F2B00000C024D /* Push API */,
 			);
 			path = Network;
-			sourceTree = "<group>";
-		};
-		F2F3120025C1A2D9007E4B01 /* Responses */ = {
-			isa = PBXGroup;
-			children = (
-				F2F3120125C1A2FC007E4B01 /* NotificareInboxResponse.swift */,
-			);
-			path = Responses;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -321,13 +324,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				F289F5F125B884EC0091AB97 /* NotificareInboxItem.swift in Sources */,
-				F2F311FE25C1A1CD007E4B01 /* NotificarePushApi+Inbox.swift in Sources */,
 				F28E584625C040A500C83537 /* NotificareInboxDataModel.xcdatamodeld in Sources */,
 				F28E584A25C041C900C83537 /* InboxItemEntity.swift in Sources */,
+				F27DB19D262F2B16000C024D /* PushAPI.swift in Sources */,
 				F289F5E825B8643A0091AB97 /* NotificareInbox.swift in Sources */,
-				F2F3120225C1A2FC007E4B01 /* NotificareInboxResponse.swift in Sources */,
+				F27DB1A3262F2B94000C024D /* PushAPI+Models.swift in Sources */,
 				F2C90A6E25C4193900B1F343 /* NotificareInbox+UserDefaults.swift in Sources */,
 				F289F5ED25B8651F0091AB97 /* NotificareInboxDelegate.swift in Sources */,
+				F27DB1A0262F2B5C000C024D /* PushAPI+Responses.swift in Sources */,
 				F2F311FA25C1962D007E4B01 /* NotificareInboxError.swift in Sources */,
 				F28E583B25C0401800C83537 /* InboxDatabase.swift in Sources */,
 			);

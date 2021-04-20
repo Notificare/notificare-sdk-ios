@@ -25,6 +25,8 @@ public enum NotificareNetworkError: Error {
 
     /// Status code is `400` or higher thus return the entire `HTTPURLResponse` and `Data` so caller can figure out what happened.
     case endpointError(HTTPURLResponse, Data?)
+
+    case validationError(response: HTTPURLResponse, data: Data?, validStatusCodes: ClosedRange<Int>)
 }
 
 extension NotificareNetworkError {
@@ -78,6 +80,9 @@ extension NotificareNetworkError: LocalizedError {
 
         case .inaccessible:
             return NSLocalizedString("Service is not accessible", comment: "")
+
+        case .validationError:
+            return NSLocalizedString("Invalid response code", comment: "")
         }
     }
 
@@ -104,6 +109,9 @@ extension NotificareNetworkError: LocalizedError {
         case let .endpointError(httpURLResponse, data):
             let str = "\(httpURLResponse.formattedHeaders)\n\n\(data?.utf8StringRepresentation ?? "")"
             return str
+
+        case .validationError:
+            return NSLocalizedString("Request succeeded but returned an invalid responde code.", comment: "")
         }
     }
 }

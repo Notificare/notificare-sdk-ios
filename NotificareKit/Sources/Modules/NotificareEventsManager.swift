@@ -81,28 +81,30 @@ public class NotificareEventsModule {
     }
 
     private func log(_ event: NotificareEvent, _ completion: NotificareCallback<Void>?) {
-        Notificare.shared.pushApi?.logEvent(event) { result in
-            switch result {
-            case .success:
-                NotificareLogger.info("Event '\(event.type)' sent successfully.")
-                if let completion = completion {
-                    completion(.success(()))
-                }
-            case let .failure(error):
-                NotificareLogger.warning("Failed to send the event: \(event.type).")
-                NotificareLogger.debug("\(error)")
+        NotificareRequest.Builder()
+            .post("/event", body: event)
+            .response { result in
+                switch result {
+                case .success:
+                    NotificareLogger.info("Event '\(event.type)' sent successfully.")
+                    if let completion = completion {
+                        completion(.success(()))
+                    }
+                case let .failure(error):
+                    NotificareLogger.warning("Failed to send the event: \(event.type).")
+                    NotificareLogger.debug("\(error)")
 
-                if let completion = completion {
-                    completion(.failure(error))
-                }
+                    if let completion = completion {
+                        completion(.failure(error))
+                    }
 
-                if !self.discardableEvents.contains(event.type) && error.recoverable {
-                    NotificareLogger.info("Queuing event to be sent whenever possible.")
+                    if !self.discardableEvents.contains(event.type), let error = error as? NotificareError, error.recoverable {
+                        NotificareLogger.info("Queuing event to be sent whenever possible.")
 
-                    Notificare.shared.database.add(event)
+                        Notificare.shared.database.add(event)
+                    }
                 }
             }
-        }
     }
 }
 
@@ -200,33 +202,35 @@ extension NotificareEventsModule: NotificareAppDelegateInterceptor {
         group.enter()
 
         // Perform the network request, which can retry internally.
-        Notificare.shared.pushApi!.logEvent(event) { result in
-            switch result {
-            case .success:
-                NotificareLogger.debug("Event processed. Removing from storage...")
-                Notificare.shared.database.remove(managedEvent)
-            case let .failure(error):
-                if error.recoverable {
-                    NotificareLogger.debug("Failed to process event.")
+        NotificareRequest.Builder()
+            .post("/event", body: event)
+            .response { result in
+                switch result {
+                case .success:
+                    NotificareLogger.debug("Event processed. Removing from storage...")
+                    Notificare.shared.database.remove(managedEvent)
+                case let .failure(error):
+                    if let error = error as? NotificareError, error.recoverable {
+                        NotificareLogger.debug("Failed to process event.")
 
-                    // Increase the attempts counter.
-                    managedEvent.retries += 1
+                        // Increase the attempts counter.
+                        managedEvent.retries += 1
 
-                    if managedEvent.retries < maxRetries {
-                        // Persist the attempts counter.
-                        Notificare.shared.database.saveChanges()
+                        if managedEvent.retries < maxRetries {
+                            // Persist the attempts counter.
+                            Notificare.shared.database.saveChanges()
+                        } else {
+                            NotificareLogger.debug("Event was retried too many times. Removing...")
+                            Notificare.shared.database.remove(managedEvent)
+                        }
                     } else {
-                        NotificareLogger.debug("Event was retried too many times. Removing...")
+                        NotificareLogger.debug("Failed to process event due to an unrecoverable error. Discarding it...")
                         Notificare.shared.database.remove(managedEvent)
                     }
-                } else {
-                    NotificareLogger.debug("Failed to process event due to an unrecoverable error. Discarding it...")
-                    Notificare.shared.database.remove(managedEvent)
                 }
-            }
 
-            group.leave()
-        }
+                group.leave()
+            }
 
         // Wait until the request finishes.
         group.wait()

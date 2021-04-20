@@ -9,15 +9,14 @@ public extension URLSession {
     static var maximumNumberOfRetries: Int = 5
 
     /// Output types
-    typealias DataResult = Result<Data, NotificareNetworkError>
+    typealias DataResult = Result<(response: HTTPURLResponse, data: Data?), NotificareNetworkError>
     typealias Callback = (DataResult) -> Void
 
     /// Executes given URLRequest instance, possibly retrying the said number of times. Through `callback` returns either `Data` from the response or `NetworkError` instance.
     /// If any authentication needs to be done, it's handled internally by this methods and its derivatives.
     /// - Parameters:
     ///   - urlRequest: URLRequest instance to execute.
-    ///   - maxRetries: Number of automatic retries (default is 10).
-    ///   - allowEmptyData: Should empty response `Data` be treated as failure (this is default) even if no other errors are returned by URLSession. Default is `false`.
+    ///   - maxRetries: Number of automatic retries (default is 5).
     ///   - callback: Closure to return the result of the request's execution.
     func perform(_ urlRequest: URLRequest,
                  maxRetries: Int = URLSession.maximumNumberOfRetries,
@@ -78,9 +77,7 @@ private extension URLSession {
     }
 
     ///    Process results of `URLSessionDataTask` and converts it into `DataResult` instance
-    func process(_ data: Data?, _ urlResponse: URLResponse?, _ error: Error?, for networkRequest: NetworkRequest) -> DataResult {
-        let allowEmptyData = networkRequest.allowEmptyData
-
+    func process(_ data: Data?, _ urlResponse: URLResponse?, _ error: Error?, for _: NetworkRequest) -> DataResult {
         if let urlError = error as? URLError {
             return .failure(NotificareNetworkError.urlError(urlError))
         } else if let otherError = error {
@@ -95,19 +92,19 @@ private extension URLSession {
             }
         }
 
-        if httpURLResponse.statusCode >= 400 {
-            return .failure(NotificareNetworkError.endpointError(httpURLResponse, data))
-        }
+//        if httpURLResponse.statusCode >= 400 {
+//            return .failure(NotificareNetworkError.endpointError(httpURLResponse, data))
+//        }
+//
+//        guard let data = data, !data.isEmpty else {
+//            if allowEmptyData {
+//                return .success(Data())
+//            }
+//
+//            return .failure(NotificareNetworkError.noResponseData(httpURLResponse))
+//        }
 
-        guard let data = data, !data.isEmpty else {
-            if allowEmptyData {
-                return .success(Data())
-            }
-
-            return .failure(NotificareNetworkError.noResponseData(httpURLResponse))
-        }
-
-        return .success(data)
+        return .success((response: httpURLResponse, data: data))
     }
 
     ///    Checks the result of URLSessionDataTask and if there were errors, should the URLRequest be retried.

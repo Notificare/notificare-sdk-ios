@@ -5,7 +5,7 @@
 import NotificareCore
 import UIKit
 
-public typealias NotificareCallback<T> = (Result<T, NotificareError>) -> Void
+public typealias NotificareCallback<T> = (Result<T, Error>) -> Void
 
 public class Notificare {
     public static let shared = Notificare()
@@ -15,7 +15,6 @@ public class Notificare {
     internal let sessionManager = NotificareSessionManager()
     internal let database = NotificareDatabase()
     internal private(set) var reachability: NotificareReachability?
-    public private(set) var pushApi: NotificarePushApi?
 
     // Consumer modules
     public let eventsManager = NotificareEventsModule()
@@ -82,7 +81,7 @@ public class Notificare {
         self.options = options
 
         NotificareLogger.debug("Configuring network services.")
-        configureNetworking(applicationKey: servicesInfo.applicationKey, applicationSecret: servicesInfo.applicationSecret, services: servicesInfo.useTestApi ? .test : .production)
+        configureNetworking(applicationKey: servicesInfo.applicationKey, applicationSecret: servicesInfo.applicationSecret, services: servicesInfo.services == .test ? .test : .production)
 
         if options.swizzlingEnabled {
             var swizzleApns = false
@@ -145,11 +144,9 @@ public class Notificare {
         }
 
         // Fetch the application info.
-        pushApi!.getApplicationInfo { result in
+        fetchApplication { result in
             switch result {
             case let .success(application):
-                self.application = application
-
                 // Launch the device manager: registration.
                 self.deviceManager.launch { _ in
                     // Ignore the error if device registration fails.
@@ -272,52 +269,67 @@ public class Notificare {
     }
 
     public func fetchApplication(_ completion: @escaping NotificareCallback<NotificareApplication>) {
-        guard isConfigured, let api = pushApi else {
-            return completion(.failure(.notReady))
-        }
+        NotificareRequest.Builder()
+            .get("/application/info")
+            .responseDecodable(PushAPI.Responses.Application.self) { result in
+                switch result {
+                case let .success(response):
+                    let application = response.application.toModel()
+                    self.application = application
+                    completion(.success(application))
 
-        api.getApplicationInfo { result in
-            switch result {
-            case let .success(application):
-                self.application = application
-                completion(.success(application))
-
-            case let .failure(error):
-                completion(.failure(error))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
-        }
     }
 
     public func fetchDynamicLink(_ link: String, _ completion: @escaping NotificareCallback<NotificareDynamicLink>) {
-        guard isConfigured, let api = pushApi else {
-            completion(.failure(.notReady))
-            return
-        }
+        let urlEncodedLink = link.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
 
-        api.getDynamicLink(link, completion)
+        NotificareRequest.Builder()
+            .get("/link/dynamic/\(urlEncodedLink)")
+            .query(name: "platform", value: "iOS")
+            .query(name: "deviceID", value: Notificare.shared.deviceManager.currentDevice?.id)
+            .query(name: "userID", value: Notificare.shared.deviceManager.currentDevice?.userId)
+            .responseDecodable(PushAPI.Responses.DynamicLink.self) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.link))
+
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
     }
 
     public func fetchNotification(_ id: String, _ completion: @escaping NotificareCallback<NotificareNotification>) {
-        guard isConfigured, let api = pushApi else {
-            completion(.failure(.notReady))
-            return
-        }
+        NotificareRequest.Builder()
+            .get("/notification/\(id)")
+            .responseDecodable(PushAPI.Responses.Notification.self) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.notification))
 
-        api.getNotification(id, completion)
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
     }
 
+    // TODO: rename to createNotificationReply
     public func sendNotificationReply(_ action: NotificareNotification.Action, for notification: NotificareNotification, message: String? = nil, media: String? = nil, mimeType: String? = nil, _ completion: @escaping NotificareCallback<Void>) {
-        guard let device = deviceManager.currentDevice, let api = pushApi else {
-            completion(.failure(.notReady))
+        guard isReady, let device = deviceManager.currentDevice else {
+            completion(.failure(NotificareError.notReady))
             return
         }
 
-        let payload = NotificareCreateReplyPayload(
-            notificationId: notification.id,
-            deviceId: device.id,
-            userId: device.userId,
+        let payload = PushAPI.Payloads.CreateNotificationReply(
+            notification: notification.id,
+            deviceID: device.id,
+            userID: device.userId,
             label: action.label,
-            data: NotificareCreateReplyPayload.Data(
+            data: PushAPI.Payloads.CreateNotificationReply.ReplyData(
                 target: action.target,
                 message: message,
                 media: media,
@@ -325,28 +337,34 @@ public class Notificare {
             )
         )
 
-        api.createNotificationReply(payload, completion)
+        NotificareRequest.Builder()
+            .post("/reply", body: payload)
+            .response { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
     }
 
     public func uploadNotificationReplyAsset(_ data: Data, contentType: String, _ completion: @escaping NotificareCallback<String>) {
-        guard let api = Notificare.shared.pushApi else {
-            completion(.failure(.notReady))
-            return
-        }
-
-        api.uploadNotificationReplyAsset(data, contentType: contentType) { result in
-            switch result {
-            case let .success(filename):
-                completion(.success("https://push.notifica.re/upload\(filename)"))
-            case let .failure(error):
-                completion(.failure(error))
+        NotificareRequest.Builder()
+            .post("/upload/reply", body: data, contentType: contentType)
+            .responseDecodable(PushAPI.Responses.UploadAsset.self) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success("https://push.notifica.re/upload\(response.filename)"))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
-        }
     }
 
     // MARK: - Private API
 
-    private func configureNetworking(applicationKey: String, applicationSecret: String, services: NotificareServices) {
+    private func configureNetworking(applicationKey _: String, applicationSecret _: String, services: NotificareServices) {
         do {
             reachability = try NotificareReachability(hostname: services.pushHost.host!)
 
@@ -360,12 +378,6 @@ public class Notificare {
         } catch {
             fatalError("Failed to configure the reachability module: \(error.localizedDescription)")
         }
-
-        pushApi = NotificarePushApi(
-            applicationKey: applicationKey,
-            applicationSecret: applicationSecret,
-            services: services
-        )
     }
 
     private func launchResult(_ result: Result<NotificareApplication, Error>) {

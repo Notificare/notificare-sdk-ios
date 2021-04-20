@@ -4,14 +4,10 @@
 
 import NotificareKit
 
-struct NotificareInboxResponse: Decodable {
-    let inboxItems: [InboxItem]
-    let count: Int
-    let unread: Int
-
-    struct InboxItem: Decodable {
-        let id: String
-        let notificationId: String
+internal extension PushAPI.Models {
+    struct RemoteInboxItem: Decodable {
+        let _id: String
+        let notification: String
         let type: String
         let time: Date
         let title: String?
@@ -26,8 +22,8 @@ struct NotificareInboxResponse: Decodable {
         init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
 
-            id = try container.decode(String.self, forKey: .id)
-            notificationId = try container.decode(String.self, forKey: .notificationId)
+            _id = try container.decode(String.self, forKey: ._id)
+            notification = try container.decode(String.self, forKey: .notification)
             type = try container.decode(String.self, forKey: .type)
             time = try container.decode(Date.self, forKey: .time)
             title = try container.decodeIfPresent(String.self, forKey: .title)
@@ -41,8 +37,8 @@ struct NotificareInboxResponse: Decodable {
         }
 
         enum CodingKeys: String, CodingKey {
-            case id = "_id"
-            case notificationId = "notification"
+            case _id
+            case notification
             case type
             case time
             case title

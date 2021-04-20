@@ -39,18 +39,20 @@ struct NotificareCrashReporter {
             return
         }
 
-        Notificare.shared.pushApi!.logEvent(event) { result in
-            switch result {
-            case .success:
-                NotificareLogger.info("Crash report processed.")
+        NotificareRequest.Builder()
+            .post("/event", body: event)
+            .response { result in
+                switch result {
+                case .success:
+                    NotificareLogger.info("Crash report processed.")
 
-                // Clean up the stored crash report
-                NotificareUserDefaults.crashReport = nil
-            case let .failure(error):
-                NotificareLogger.error("Failed to process a crash report.")
-                NotificareLogger.debug("\(error)")
+                    // Clean up the stored crash report
+                    NotificareUserDefaults.crashReport = nil
+                case let .failure(error):
+                    NotificareLogger.error("Failed to process a crash report.")
+                    NotificareLogger.debug("\(error)")
+                }
             }
-        }
     }
 
     private let uncaughtExceptionHandler: @convention(c) (NSException) -> Void = { exception in

@@ -24,30 +24,12 @@ public struct NotificareDevice: Codable {
     public internal(set) var allowedUI: Bool
     public internal(set) var backgroundAppRefresh: Bool
     public internal(set) var bluetoothEnabled: Bool
-
-    // public internal(set) var locationServicesAuthStatus: String?
-    // public internal(set) var locationServicesAccuracyAuth: String?
-    // public internal(set) var registeredForNotifications: Bool
-    // public internal(set) var allowedLocationServices: Bool
-
-//    public struct Location: Codable {
-//        public internal(set) var country: String?
-//        // public internal(set) var countryCode: String?
-//        public internal(set) var latitude: Float?
-//        public internal(set) var longitude: Float?
-//        public internal(set) var altitude: Float?
-//        public internal(set) var accuracy: Float?
-//        public internal(set) var floor: Float?
-//        public internal(set) var speed: Float?
-//        public internal(set) var course: Float?
-//
-//    }
 }
 
 extension NotificareDevice {
-    init(from registration: NotificareDeviceRegistration, previous: NotificareDevice?) {
-        id = registration.deviceId
-        userId = registration.userId
+    init(from registration: PushAPI.Payloads.Device.Registration, previous: NotificareDevice?) {
+        id = registration.deviceID
+        userId = registration.userID
         userName = registration.userName
         timeZoneOffset = registration.timeZoneOffset
         osVersion = registration.osVersion

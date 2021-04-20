@@ -24,7 +24,7 @@ public struct NotificareInboxItem {
 
 // NotificareInboxItem.init(remote:)
 extension NotificareInboxItem {
-    init(remote: NotificareInboxResponse.InboxItem) {
+    init(remote: PushAPI.Models.RemoteInboxItem) {
         let attachments: [NotificareNotification.Attachment]
         if let attachment = remote.attachment {
             attachments = [attachment]
@@ -32,10 +32,10 @@ extension NotificareInboxItem {
             attachments = []
         }
 
-        id = remote.id
+        id = remote._id
         notification = NotificareNotification(
             partial: true,
-            id: remote.id,
+            id: remote._id,
             type: remote.type,
             time: remote.time,
             title: remote.title,

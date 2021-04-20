@@ -48,7 +48,7 @@ public class NotificareDeviceManager {
                                                object: nil)
     }
 
-    func launch(_ completion: @escaping (Result<Void, NotificareError>) -> Void) {
+    func launch(_ completion: @escaping NotificareCallback<Void>) {
         if let device = currentDevice {
             if device.appVersion != NotificareUtils.applicationVersion {
                 // It's not the same version, let's log it as an upgrade.
@@ -93,7 +93,7 @@ public class NotificareDeviceManager {
         guard Notificare.shared.isReady,
               let device = currentDevice
         else {
-            completion(.failure(.notReady))
+            completion(.failure(NotificareError.notReady))
             return
         }
 
@@ -102,7 +102,7 @@ public class NotificareDeviceManager {
 
     public func updatePreferredLanguage(_ preferredLanguage: String?, _ completion: @escaping NotificareCallback<String?>) {
         guard Notificare.shared.isReady else {
-            completion(.failure(.notReady))
+            completion(.failure(NotificareError.notReady))
             return
         }
 
@@ -112,7 +112,7 @@ public class NotificareDeviceManager {
             // TODO: improve language validator
             guard parts.count == 2 else {
                 NotificareLogger.error("Not a valid preferred language. Use a ISO 639-1 language code and a ISO 3166-2 region code (e.g. en-US).")
-                completion(.failure(.invalidLanguageCode))
+                completion(.failure(NotificareError.invalidLanguageCode))
                 return
             }
 
@@ -152,15 +152,21 @@ public class NotificareDeviceManager {
     }
 
     public func fetchTags(_ completion: @escaping NotificareCallback<[String]>) {
-        guard Notificare.shared.isReady,
-              let device = currentDevice,
-              let pushApi = Notificare.shared.pushApi
-        else {
-            completion(.failure(.notReady))
+        guard Notificare.shared.isReady, let device = currentDevice else {
+            completion(.failure(NotificareError.notReady))
             return
         }
 
-        pushApi.getDeviceTags(with: device.id, completion)
+        NotificareRequest.Builder()
+            .get("/device/\(device.id)/tags")
+            .responseDecodable(PushAPI.Responses.Tags.self) { result in
+                switch result {
+                case let .success(response):
+                    completion(.success(response.tags))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
     }
 
     public func addTag(_ tag: String, _ completion: @escaping NotificareCallback<Void>) {
@@ -168,17 +174,21 @@ public class NotificareDeviceManager {
     }
 
     public func addTags(_ tags: [String], _ completion: @escaping NotificareCallback<Void>) {
-        guard Notificare.shared.isReady,
-              let device = currentDevice,
-              let pushApi = Notificare.shared.pushApi
-        else {
-            completion(.failure(.notReady))
+        guard Notificare.shared.isReady, let device = currentDevice else {
+            completion(.failure(NotificareError.notReady))
             return
         }
 
-        let payload = NotificareTagsPayload(tags: tags)
-
-        pushApi.addDeviceTags(with: device.id, payload: payload, completion)
+        NotificareRequest.Builder()
+            .put("/device/\(device.id)/addtags", body: PushAPI.Payloads.Device.Tags(tags: tags))
+            .response { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
     }
 
     public func removeTag(_ tag: String, _ completion: @escaping NotificareCallback<Void>) {
@@ -186,279 +196,275 @@ public class NotificareDeviceManager {
     }
 
     public func removeTags(_ tags: [String], _ completion: @escaping NotificareCallback<Void>) {
-        guard Notificare.shared.isReady,
-              let device = currentDevice,
-              let pushApi = Notificare.shared.pushApi
-        else {
-            completion(.failure(.notReady))
+        guard Notificare.shared.isReady, let device = currentDevice else {
+            completion(.failure(NotificareError.notReady))
             return
         }
 
-        let payload = NotificareTagsPayload(tags: tags)
-
-        pushApi.removeDeviceTags(with: device.id, payload: payload, completion)
+        NotificareRequest.Builder()
+            .put("/device/\(device.id)/removetags", body: PushAPI.Payloads.Device.Tags(tags: tags))
+            .response { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
     }
 
     public func clearTags(_ completion: @escaping NotificareCallback<Void>) {
-        guard Notificare.shared.isReady,
-              let device = currentDevice,
-              let pushApi = Notificare.shared.pushApi
-        else {
-            completion(.failure(.notReady))
+        guard Notificare.shared.isReady, let device = currentDevice else {
+            completion(.failure(NotificareError.notReady))
             return
         }
 
-        pushApi.clearDeviceTags(with: device.id, completion)
+        NotificareRequest.Builder()
+            .put("/device/\(device.id)/cleartags")
+            .response { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
     }
 
     public func fetchDoNotDisturb(_ completion: @escaping NotificareCallback<NotificareDoNotDisturb?>) {
-        guard Notificare.shared.isReady,
-              let device = currentDevice,
-              let pushApi = Notificare.shared.pushApi
-        else {
-            completion(.failure(.notReady))
+        guard Notificare.shared.isReady, let device = currentDevice else {
+            completion(.failure(NotificareError.notReady))
             return
         }
 
-        pushApi.fetchDeviceDoNotDisturb(device.id) { result in
-            switch result {
-            case let .success(dnd):
-                // Update current device properties.
-                self.currentDevice!.dnd = dnd
+        NotificareRequest.Builder()
+            .get("/device/\(device.id)/dnd")
+            .responseDecodable(PushAPI.Responses.DoNotDisturb.self) { result in
+                switch result {
+                case let .success(response):
+                    // Update current device properties.
+                    self.currentDevice?.dnd = response.dnd
 
-                completion(.success(dnd))
-            case let .failure(error):
-                completion(.failure(error))
+                    completion(.success(response.dnd))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
-        }
     }
 
     public func updateDoNotDisturb(_ dnd: NotificareDoNotDisturb, _ completion: @escaping NotificareCallback<Void>) {
-        guard Notificare.shared.isReady,
-              let device = currentDevice,
-              let pushApi = Notificare.shared.pushApi
-        else {
-            completion(.failure(.notReady))
+        guard Notificare.shared.isReady, let device = currentDevice else {
+            completion(.failure(NotificareError.notReady))
             return
         }
 
-        pushApi.updateDeviceDoNotDisturb(device.id, dnd: dnd) { result in
-            switch result {
-            case .success:
-                // Update current device properties.
-                self.currentDevice!.dnd = dnd
+        NotificareRequest.Builder()
+            .put("/device/\(device.id)/dnd", body: dnd)
+            .response { result in
+                switch result {
+                case .success:
+                    // Update current device properties.
+                    self.currentDevice?.dnd = dnd
 
-                completion(.success(()))
-            case let .failure(error):
-                completion(.failure(error))
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
-        }
     }
 
     public func clearDoNotDisturb(_ completion: @escaping NotificareCallback<Void>) {
-        guard Notificare.shared.isReady,
-              let device = currentDevice,
-              let pushApi = Notificare.shared.pushApi
-        else {
-            completion(.failure(.notReady))
+        guard Notificare.shared.isReady, let device = currentDevice else {
+            completion(.failure(NotificareError.notReady))
             return
         }
 
-        pushApi.clearDeviceDoNotDisturb(device.id) { result in
-            switch result {
-            case .success:
-                // Update current device properties.
-                self.currentDevice!.dnd = nil
+        NotificareRequest.Builder()
+            .put("/device/\(device.id)/cleardnd")
+            .response { result in
+                switch result {
+                case .success:
+                    // Update current device properties.
+                    self.currentDevice?.dnd = nil
 
-                completion(.success(()))
-            case let .failure(error):
-                completion(.failure(error))
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
-        }
     }
 
     public func fetchUserData(_ completion: @escaping NotificareCallback<NotificareUserData?>) {
-        guard Notificare.shared.isReady,
-              let device = currentDevice,
-              let pushApi = Notificare.shared.pushApi
-        else {
-            completion(.failure(.notReady))
+        guard Notificare.shared.isReady, let device = currentDevice else {
+            completion(.failure(NotificareError.notReady))
             return
         }
 
-        pushApi.fetchDeviceUserData(device.id) { result in
-            switch result {
-            case let .success(userData):
-                // Update current device properties.
-                self.currentDevice!.userData = userData
+        NotificareRequest.Builder()
+            .get("/device/\(device.id)/userdata")
+            .responseDecodable(PushAPI.Responses.UserData.self) { result in
+                switch result {
+                case let .success(response):
+                    // Update current device properties.
+                    self.currentDevice?.userData = response.userData
 
-                completion(.success(userData))
-            case let .failure(error):
-                completion(.failure(error))
+                    completion(.success(response.userData))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
-        }
     }
 
     public func updateUserData(_ userData: NotificareUserData, _ completion: @escaping NotificareCallback<Void>) {
-        guard Notificare.shared.isReady,
-              let device = currentDevice,
-              let pushApi = Notificare.shared.pushApi
-        else {
-            completion(.failure(.notReady))
+        guard Notificare.shared.isReady, let device = currentDevice else {
+            completion(.failure(NotificareError.notReady))
             return
         }
 
-        pushApi.updateDeviceUserData(device.id, userData: userData) { result in
-            switch result {
-            case .success:
-                // Update current device properties.
-                self.currentDevice!.userData = userData
+        NotificareRequest.Builder()
+            .put("/device/\(device.id)/userdata", body: userData)
+            .response { result in
+                switch result {
+                case .success:
+                    // Update current device properties.
+                    self.currentDevice?.userData = userData
 
-                completion(.success(()))
-            case let .failure(error):
-                completion(.failure(error))
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
-        }
     }
 
     internal func delete(_ completion: @escaping NotificareCallback<Void>) {
-        guard Notificare.shared.isReady,
-              let device = currentDevice,
-              let pushApi = Notificare.shared.pushApi
-        else {
-            completion(.failure(.notReady))
+        guard Notificare.shared.isReady, let device = currentDevice else {
+            completion(.failure(NotificareError.notReady))
             return
         }
 
-        pushApi.deleteDevice(device.id) { result in
-            switch result {
-            case .success:
-                // Update current device properties.
-                self.currentDevice = nil
+        NotificareRequest.Builder()
+            .delete("/device/\(device.id)")
+            .response { result in
+                switch result {
+                case .success:
+                    // Update current device properties.
+                    self.currentDevice = nil
 
-                completion(.success(()))
-            case let .failure(error):
-                completion(.failure(error))
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
-        }
     }
 
     // MARK: - Internal API
 
     public func updateNotificationSettings(_ allowedUI: Bool, _ completion: @escaping NotificareCallback<Void>) {
-        guard Notificare.shared.isReady,
-              let device = currentDevice,
-              let pushApi = Notificare.shared.pushApi
-        else {
-            completion(.failure(.notReady))
+        guard Notificare.shared.isReady, let device = currentDevice else {
+            completion(.failure(NotificareError.notReady))
             return
         }
 
-        let payload = NotificareDeviceUpdateNotificationSettings(
+        let payload = PushAPI.Payloads.Device.UpdateNotificationSettings(
             language: getLanguage(),
             region: getRegion(),
             allowedUI: allowedUI
         )
 
-        pushApi.updateDevice(device.id, with: payload) { result in
-            switch result {
-            case .success:
-                // Update current device properties.
-                self.currentDevice!.allowedUI = payload.allowedUI
+        NotificareRequest.Builder()
+            .put("/device/\(device.id)", body: payload)
+            .response { result in
+                switch result {
+                case .success:
+                    // Update current device properties.
+                    self.currentDevice?.allowedUI = allowedUI
 
-                completion(.success(()))
-            case let .failure(error):
-                completion(.failure(error))
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
-        }
     }
 
     func updateTimezone(_ completion: @escaping NotificareCallback<Void>) {
-        guard Notificare.shared.isReady,
-              let device = currentDevice,
-              let pushApi = Notificare.shared.pushApi
-        else {
-            completion(.failure(.notReady))
+        guard Notificare.shared.isReady, let device = currentDevice else {
+            completion(.failure(NotificareError.notReady))
             return
         }
 
-        let timeZoneOffset = NotificareUtils.timeZoneOffset
-
-        let payload = NotificareDeviceUpdateTimezone(
+        let payload = PushAPI.Payloads.Device.UpdateTimeZone(
             language: getLanguage(),
             region: getRegion(),
-            timeZoneOffset: timeZoneOffset
+            timeZoneOffset: NotificareUtils.timeZoneOffset
         )
 
-        pushApi.updateDevice(device.id, with: payload) { result in
-            switch result {
-            case .success:
-                // Update current device properties.
-                self.currentDevice!.timeZoneOffset = timeZoneOffset
+        NotificareRequest.Builder()
+            .put("/device/\(device.id)", body: payload)
+            .response { result in
+                switch result {
+                case .success:
+                    // Update current device properties.
+                    self.currentDevice?.timeZoneOffset = payload.timeZoneOffset
 
-                completion(.success(()))
-            case let .failure(error):
-                completion(.failure(error))
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
-        }
     }
 
     func updateLanguage(_ completion: @escaping NotificareCallback<Void>) {
-        guard Notificare.shared.isReady,
-              let device = currentDevice,
-              let pushApi = Notificare.shared.pushApi
-        else {
-            completion(.failure(.notReady))
+        guard Notificare.shared.isReady, let device = currentDevice else {
+            completion(.failure(NotificareError.notReady))
             return
         }
 
-        let payload = NotificareDeviceUpdateLanguage(
+        let payload = PushAPI.Payloads.Device.UpdateLanguage(
             language: getLanguage(),
             region: getRegion()
         )
 
-        pushApi.updateDevice(device.id, with: payload) { result in
-            switch result {
-            case .success:
-                // Update current device properties.
-                self.currentDevice!.language = payload.language
-                self.currentDevice!.region = payload.region
+        NotificareRequest.Builder()
+            .put("/device/\(device.id)", body: payload)
+            .response { result in
+                switch result {
+                case .success:
+                    // Update current device properties.
+                    self.currentDevice?.language = payload.language
+                    self.currentDevice?.region = payload.region
 
-                completion(.success(()))
-            case let .failure(error):
-                completion(.failure(error))
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
-        }
     }
 
     func updateBackgroundAppRefresh(_ completion: @escaping NotificareCallback<Void>) {
-        guard Notificare.shared.isReady,
-              let device = currentDevice,
-              let pushApi = Notificare.shared.pushApi
-        else {
-            completion(.failure(.notReady))
+        guard Notificare.shared.isReady, let device = currentDevice else {
+            completion(.failure(NotificareError.notReady))
             return
         }
 
-        let backgroundAppRefresh = UIApplication.shared.backgroundRefreshStatus == .available
-
-        let payload = NotificareDeviceUpdateBackgroundAppRefresh(
+        let payload = PushAPI.Payloads.Device.UpdateBackgroundAppRefresh(
             language: getLanguage(),
             region: getRegion(),
-            backgroundAppRefresh: backgroundAppRefresh
+            backgroundAppRefresh: UIApplication.shared.backgroundRefreshStatus == .available
         )
 
-        pushApi.updateDevice(device.id, with: payload) { result in
-            switch result {
-            case .success:
-                // Update current device properties.
-                self.currentDevice!.backgroundAppRefresh = payload.backgroundAppRefresh
+        NotificareRequest.Builder()
+            .put("/device/\(device.id)", body: payload)
+            .response { result in
+                switch result {
+                case .success:
+                    // Update current device properties.
+                    self.currentDevice?.backgroundAppRefresh = payload.backgroundAppRefresh
 
-                completion(.success(()))
-            case let .failure(error):
-                completion(.failure(error))
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
-        }
     }
 
     // func updateBluetoothState(bluetoothEnabled _: Bool, _: @escaping DeviceCallback) {}
@@ -469,10 +475,10 @@ public class NotificareDeviceManager {
         if registrationChanged(token: token, userId: userId, userName: userName) {
             let oldDeviceId = currentDevice?.id != nil && currentDevice?.id != token ? currentDevice?.id : nil
 
-            let deviceRegistration = NotificareDeviceRegistration(
-                deviceId: token,
+            let deviceRegistration = PushAPI.Payloads.Device.Registration(
+                deviceID: token,
                 oldDeviceId: oldDeviceId,
-                userId: userId,
+                userID: userId,
                 userName: userName,
                 language: getLanguage(),
                 region: getRegion(),
@@ -487,23 +493,25 @@ public class NotificareDeviceManager {
                 backgroundAppRefresh: UIApplication.shared.backgroundRefreshStatus == .available
             )
 
-            Notificare.shared.pushApi!.createDevice(with: deviceRegistration) { result in
-                switch result {
-                case .success:
-                    let device = NotificareDevice(from: deviceRegistration, previous: self.currentDevice)
+            NotificareRequest.Builder()
+                .post("/device", body: deviceRegistration)
+                .response { result in
+                    switch result {
+                    case .success:
+                        let device = NotificareDevice(from: deviceRegistration, previous: self.currentDevice)
 
-                    // Update and store the cached device.
-                    self.currentDevice = device
+                        // Update and store the cached device.
+                        self.currentDevice = device
 
-                    // Notify delegate.
-                    Notificare.shared.delegate?.notificare(Notificare.shared, didRegisterDevice: device)
+                        // Notify delegate.
+                        Notificare.shared.delegate?.notificare(Notificare.shared, didRegisterDevice: device)
 
-                    completion(.success(()))
-                case let .failure(error):
-                    NotificareLogger.error("Failed to register device: \(error)")
-                    completion(.failure(error))
+                        completion(.success(()))
+                    case let .failure(error):
+                        NotificareLogger.error("Failed to register device: \(error)")
+                        completion(.failure(error))
+                    }
                 }
-            }
         } else {
             NotificareLogger.info("Skipping device registration, nothing changed.")
             Notificare.shared.delegate?.notificare(Notificare.shared, didRegisterDevice: currentDevice!)

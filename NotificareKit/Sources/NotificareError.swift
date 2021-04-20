@@ -5,6 +5,8 @@
 import Foundation
 
 public enum NotificareError: Error {
+    case generic(message: String, cause: Error? = nil)
+
     case notReady
     case networkFailure(cause: NotificareNetworkError)
     case encodingFailure

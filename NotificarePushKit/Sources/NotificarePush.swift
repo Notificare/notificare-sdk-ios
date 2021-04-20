@@ -69,6 +69,8 @@ public class NotificarePush: NSObject, NotificareModule {
     }
 
     public func enableRemoteNotifications(_ completion: @escaping NotificareCallback<Bool>) {
+        // TODO: check if Notificare is ready and if the application services contain 'apns'.
+
         // Request notification authorization options.
         notificationCenter.requestAuthorization(options: authorizationOptions) { granted, _ in
             NotificareLogger.info("Registered user notification settings.")
@@ -118,13 +120,13 @@ public class NotificarePush: NSObject, NotificareModule {
         else {
             NotificareLogger.warning("Could not find an attachment URI. Please ensure you're calling this method with the correct payload.")
             // TODO: create proper error
-            completion(.failure(.invalidArgument))
+            completion(.failure(NotificareError.invalidArgument))
             return
         }
 
         guard let url = URL(string: uri) else {
             NotificareLogger.warning("Invalid attachment URI. Please ensure it's a valid URL.")
-            completion(.failure(.invalidArgument))
+            completion(.failure(NotificareError.invalidArgument))
             return
         }
 
@@ -141,7 +143,7 @@ public class NotificarePush: NSObject, NotificareModule {
 
             guard let data = data, let response = response else {
                 // TODO: create proper error
-                completion(.failure(.invalidArgument))
+                completion(.failure(NotificareError.invalidArgument))
                 return
             }
 
@@ -149,7 +151,7 @@ public class NotificarePush: NSObject, NotificareModule {
                 try data.write(to: filePath, options: .atomic)
             } catch {
                 // TODO: create proper error
-                completion(.failure(.invalidArgument))
+                completion(.failure(NotificareError.invalidArgument))
                 return
             }
 
@@ -168,7 +170,7 @@ public class NotificarePush: NSObject, NotificareModule {
                 completion(.success(attachment))
             } catch {
                 // TODO: create proper error
-                completion(.failure(.invalidArgument))
+                completion(.failure(NotificareError.invalidArgument))
                 return
             }
         }.resume()
