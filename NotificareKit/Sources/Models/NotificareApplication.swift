@@ -2,7 +2,7 @@
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
-import Foundation
+import NotificareCore
 
 public struct NotificareApplication: Codable {
     public let id: String
@@ -15,49 +15,104 @@ public struct NotificareApplication: Codable {
     public let userDataFields: [UserDataField]
     public let actionCategories: [ActionCategory]
 
-    public struct InboxConfig: Codable {
+    public func toJson() throws -> [String: Any] {
+        let data = try NotificareUtils.jsonEncoder.encode(self)
+        return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
+    }
+
+    public static func fromJson(json: [String: Any]) throws -> NotificareApplication {
+        let data = try JSONSerialization.data(withJSONObject: json, options: [])
+        return try NotificareUtils.jsonDecoder.decode(NotificareApplication.self, from: data)
+    }
+}
+
+public extension NotificareApplication {
+    struct InboxConfig: Codable {
         public let useInbox: Bool
         public let autoBadge: Bool
-    }
 
-    public struct RegionConfig: Codable {
+        public func toJson() throws -> [String: Any] {
+            let data = try NotificareUtils.jsonEncoder.encode(self)
+            return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
+        }
+
+        public static func fromJson(json: [String: Any]) throws -> InboxConfig {
+            let data = try JSONSerialization.data(withJSONObject: json, options: [])
+            return try NotificareUtils.jsonDecoder.decode(InboxConfig.self, from: data)
+        }
+    }
+}
+
+public extension NotificareApplication {
+    struct RegionConfig: Codable {
         public let proximityUUID: String?
-    }
 
-    public struct UserDataField: Codable {
+        public func toJson() throws -> [String: Any] {
+            let data = try NotificareUtils.jsonEncoder.encode(self)
+            return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
+        }
+
+        public static func fromJson(json: [String: Any]) throws -> RegionConfig {
+            let data = try JSONSerialization.data(withJSONObject: json, options: [])
+            return try NotificareUtils.jsonDecoder.decode(RegionConfig.self, from: data)
+        }
+    }
+}
+
+public extension NotificareApplication {
+    struct UserDataField: Codable {
         public let type: String
         public let key: String
         public let label: String
-    }
 
-    public struct ActionCategory: Codable {
+        public func toJson() throws -> [String: Any] {
+            let data = try NotificareUtils.jsonEncoder.encode(self)
+            return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
+        }
+
+        public static func fromJson(json: [String: Any]) throws -> UserDataField {
+            let data = try JSONSerialization.data(withJSONObject: json, options: [])
+            return try NotificareUtils.jsonDecoder.decode(UserDataField.self, from: data)
+        }
+    }
+}
+
+public extension NotificareApplication {
+    struct ActionCategory: Codable {
         public let name: String
         public let description: String?
         public let type: String
         public let actions: [Action]
 
-        public struct Action: Codable {
-            public let type: String
-            public let label: String
-            public let target: String?
-            public let camera: Bool
-            public let keyboard: Bool
-            public let destructive: Bool
+        public func toJson() throws -> [String: Any] {
+            let data = try NotificareUtils.jsonEncoder.encode(self)
+            return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
+        }
+
+        public static func fromJson(json: [String: Any]) throws -> ActionCategory {
+            let data = try JSONSerialization.data(withJSONObject: json, options: [])
+            return try NotificareUtils.jsonDecoder.decode(ActionCategory.self, from: data)
         }
     }
 }
 
-// Coding keys
-extension NotificareApplication {
-    enum CodingKeys: String, CodingKey {
-        case id = "_id"
-        case name
-        case category
-        case appStoreId
-        case services
-        case inboxConfig
-        case regionConfig
-        case userDataFields
-        case actionCategories
+public extension NotificareApplication.ActionCategory {
+    struct Action: Codable {
+        public let type: String
+        public let label: String
+        public let target: String?
+        public let camera: Bool
+        public let keyboard: Bool
+        public let destructive: Bool
+
+        public func toJson() throws -> [String: Any] {
+            let data = try NotificareUtils.jsonEncoder.encode(self)
+            return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
+        }
+
+        public static func fromJson(json: [String: Any]) throws -> Action {
+            let data = try JSONSerialization.data(withJSONObject: json, options: [])
+            return try NotificareUtils.jsonDecoder.decode(Action.self, from: data)
+        }
     }
 }
