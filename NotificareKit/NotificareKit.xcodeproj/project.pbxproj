@@ -60,6 +60,7 @@
 		F293E2CC26303073008C2010 /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = F293E2C826303073008C2010 /* UIColor+Hex.swift */; };
 		F293E2DB26304675008C2010 /* LocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F293E2DA26304675008C2010 /* LocalStorage.swift */; };
 		F293E3232630524B008C2010 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F293E3252630524B008C2010 /* Localizable.strings */; };
+		F293E32C263053C8008C2010 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F293E32B263053C8008C2010 /* Assets.xcassets */; };
 		F29DA38125022170004CCB8F /* NotificareDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29DA38025022170004CCB8F /* NotificareDatabase.swift */; };
 		F29DA38325024753004CCB8F /* NotificareEvent+CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29DA38225024753004CCB8F /* NotificareEvent+CoreData.swift */; };
 		F2B1817C25BAFDFE00384991 /* NotificareNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B1817B25BAFDFE00384991 /* NotificareNotification.swift */; };
@@ -125,7 +126,6 @@
 		F293E27A26302C48008C2010 /* NotificareUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareUtils.swift; sourceTree = "<group>"; };
 		F293E28426302C70008C2010 /* NotificareLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareLogger.swift; sourceTree = "<group>"; };
 		F293E28926302C76008C2010 /* NotificareLocalizable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareLocalizable.swift; sourceTree = "<group>"; };
-		F293E29426302CBA008C2010 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F293E2B126303008008C2010 /* NotificareAbstractDatabase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareAbstractDatabase.swift; sourceTree = "<group>"; };
 		F293E2B526303034008C2010 /* AnyEncodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyEncodable.swift; sourceTree = "<group>"; };
 		F293E2B626303034008C2010 /* AnyCodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyCodable.swift; sourceTree = "<group>"; };
@@ -139,6 +139,7 @@
 		F293E2DA26304675008C2010 /* LocalStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorage.swift; sourceTree = "<group>"; };
 		F293E3242630524B008C2010 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F293E3282630531B008C2010 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
+		F293E32B263053C8008C2010 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F29DA38025022170004CCB8F /* NotificareDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareDatabase.swift; sourceTree = "<group>"; };
 		F29DA38225024753004CCB8F /* NotificareEvent+CoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificareEvent+CoreData.swift"; sourceTree = "<group>"; };
 		F2B1817B25BAFDFE00384991 /* NotificareNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareNotification.swift; sourceTree = "<group>"; };
@@ -322,7 +323,7 @@
 		F293E29526302CBA008C2010 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				F293E29426302CBA008C2010 /* Assets.xcassets */,
+				F293E32B263053C8008C2010 /* Assets.xcassets */,
 				F293E3252630524B008C2010 /* Localizable.strings */,
 			);
 			path = Resources;
@@ -509,6 +510,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F293E32C263053C8008C2010 /* Assets.xcassets in Resources */,
 				F293E3232630524B008C2010 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
