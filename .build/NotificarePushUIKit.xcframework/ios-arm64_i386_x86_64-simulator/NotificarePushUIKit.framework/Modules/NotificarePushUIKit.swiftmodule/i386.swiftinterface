@@ -7,7 +7,6 @@ import CoreMedia
 import MapKit
 import MessageUI
 import MobileCoreServices
-import NotificareCore
 import NotificareKit
 @_exported import NotificarePushUIKit
 import SafariServices

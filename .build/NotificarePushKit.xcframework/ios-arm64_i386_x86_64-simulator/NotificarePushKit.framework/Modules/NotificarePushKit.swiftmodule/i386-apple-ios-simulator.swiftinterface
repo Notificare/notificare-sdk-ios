@@ -3,7 +3,6 @@
 // swift-module-flags: -target i386-apple-ios10.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name NotificarePushKit
 import Foundation
 import MobileCoreServices
-import NotificareCore
 import NotificareKit
 @_exported import NotificarePushKit
 import Swift
@@ -24,7 +23,7 @@ import UserNotifications
   public func fetchAttachment(for userInfo: [Swift.AnyHashable : Any], _ completion: @escaping NotificareKit.NotificareCallback<UserNotifications.UNNotificationAttachment>)
   @objc deinit
 }
-extension NotificarePush : NotificareCore.NotificareAppDelegateInterceptor {
+extension NotificarePush : NotificareKit.NotificareAppDelegateInterceptor {
 }
 extension NotificarePush : UserNotifications.UNUserNotificationCenterDelegate {
   @objc dynamic public func userNotificationCenter(_: UserNotifications.UNUserNotificationCenter, didReceive response: UserNotifications.UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Swift.Void)

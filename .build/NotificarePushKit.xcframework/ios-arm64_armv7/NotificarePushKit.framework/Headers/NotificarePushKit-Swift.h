@@ -191,7 +191,7 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 #pragma clang diagnostic ignored "-Watimport-in-framework-header"
 #endif
 @import Foundation;
-@import NotificareCore;
+@import NotificareKit;
 @import ObjectiveC;
 @import UIKit;
 @import UserNotifications;
@@ -439,7 +439,7 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 #pragma clang diagnostic ignored "-Watimport-in-framework-header"
 #endif
 @import Foundation;
-@import NotificareCore;
+@import NotificareKit;
 @import ObjectiveC;
 @import UIKit;
 @import UserNotifications;

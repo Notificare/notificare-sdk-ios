@@ -3,7 +3,6 @@
 // swift-module-flags: -target arm64-apple-ios10.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name NotificareInboxKit
 import CoreData
 import Foundation
-import NotificareCore
 import NotificareKit
 import Swift
 import UIKit
