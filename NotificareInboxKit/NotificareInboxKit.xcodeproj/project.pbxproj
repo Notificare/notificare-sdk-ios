@@ -20,7 +20,7 @@
 		F28E583B25C0401800C83537 /* InboxDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28E583A25C0401800C83537 /* InboxDatabase.swift */; };
 		F28E584625C040A500C83537 /* NotificareInboxDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F28E584325C040A500C83537 /* NotificareInboxDataModel.xcdatamodeld */; };
 		F28E584A25C041C900C83537 /* InboxItemEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28E584925C041C900C83537 /* InboxItemEntity.swift */; };
-		F2C90A6E25C4193900B1F343 /* NotificareInbox+UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2C90A6D25C4193900B1F343 /* NotificareInbox+UserDefaults.swift */; };
+		F293E2EA2630491E008C2010 /* LocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F293E2E92630491E008C2010 /* LocalStorage.swift */; };
 		F2F311FA25C1962D007E4B01 /* NotificareInboxError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F311F925C1962D007E4B01 /* NotificareInboxError.swift */; };
 /* End PBXBuildFile section */
 
@@ -66,7 +66,7 @@
 		F28E583A25C0401800C83537 /* InboxDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxDatabase.swift; sourceTree = "<group>"; };
 		F28E584425C040A500C83537 /* NotificareInboxDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = NotificareInboxDataModel.xcdatamodel; sourceTree = "<group>"; };
 		F28E584925C041C900C83537 /* InboxItemEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxItemEntity.swift; sourceTree = "<group>"; };
-		F2C90A6D25C4193900B1F343 /* NotificareInbox+UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificareInbox+UserDefaults.swift"; sourceTree = "<group>"; };
+		F293E2E92630491E008C2010 /* LocalStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorage.swift; sourceTree = "<group>"; };
 		F2F311F925C1962D007E4B01 /* NotificareInboxError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareInboxError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -165,7 +165,7 @@
 			children = (
 				F28E584825C041B000C83537 /* Database */,
 				F2F311FC25C1A1BD007E4B01 /* Network */,
-				F2C90A6D25C4193900B1F343 /* NotificareInbox+UserDefaults.swift */,
+				F293E2E92630491E008C2010 /* LocalStorage.swift */,
 			);
 			path = Internals;
 			sourceTree = "<group>";
@@ -325,9 +325,9 @@
 				F27DB19D262F2B16000C024D /* PushAPI.swift in Sources */,
 				F289F5E825B8643A0091AB97 /* NotificareInbox.swift in Sources */,
 				F27DB1A3262F2B94000C024D /* PushAPI+Models.swift in Sources */,
-				F2C90A6E25C4193900B1F343 /* NotificareInbox+UserDefaults.swift in Sources */,
 				F289F5ED25B8651F0091AB97 /* NotificareInboxDelegate.swift in Sources */,
 				F27DB1A0262F2B5C000C024D /* PushAPI+Responses.swift in Sources */,
+				F293E2EA2630491E008C2010 /* LocalStorage.swift in Sources */,
 				F2F311FA25C1962D007E4B01 /* NotificareInboxError.swift in Sources */,
 				F28E583B25C0401800C83537 /* InboxDatabase.swift in Sources */,
 			);

@@ -33,7 +33,7 @@ struct NotificareCrashReporter {
     }
 
     func launch() {
-        guard let event = NotificareUserDefaults.crashReport else {
+        guard let event = LocalStorage.crashReport else {
             NotificareLogger.debug("No crash report to process.")
             return
         }
@@ -46,7 +46,7 @@ struct NotificareCrashReporter {
                     NotificareLogger.info("Crash report processed.")
 
                     // Clean up the stored crash report
-                    NotificareUserDefaults.crashReport = nil
+                    LocalStorage.crashReport = nil
                 case let .failure(error):
                     NotificareLogger.error("Failed to process a crash report.")
                     NotificareLogger.debug("\(error)")
@@ -57,7 +57,7 @@ struct NotificareCrashReporter {
     private let uncaughtExceptionHandler: @convention(c) (NSException) -> Void = { exception in
         let timestamp = Int64(Date().timeIntervalSince1970 * 1000)
 
-        NotificareUserDefaults.crashReport = NotificareEvent(
+        LocalStorage.crashReport = NotificareEvent(
             type: NotificareDefinitions.Events.applicationException,
             timestamp: timestamp,
             deviceId: Notificare.shared.deviceManager.currentDevice?.id,
@@ -100,7 +100,7 @@ struct NotificareCrashReporter {
         default: name = "Unknown"
         }
 
-        NotificareUserDefaults.crashReport = NotificareEvent(
+        LocalStorage.crashReport = NotificareEvent(
             type: NotificareDefinitions.Events.applicationException,
             timestamp: timestamp,
             deviceId: Notificare.shared.deviceManager.currentDevice?.id,

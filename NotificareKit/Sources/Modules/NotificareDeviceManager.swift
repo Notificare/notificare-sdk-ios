@@ -7,16 +7,16 @@ import UIKit
 public class NotificareDeviceManager {
     public private(set) var currentDevice: NotificareDevice? {
         get {
-            NotificareUserDefaults.registeredDevice
+            LocalStorage.registeredDevice
         }
         set {
-            NotificareUserDefaults.registeredDevice = newValue
+            LocalStorage.registeredDevice = newValue
         }
     }
 
     public var preferredLanguage: String? {
-        guard let preferredLanguage = NotificareUserDefaults.preferredLanguage,
-              let preferredRegion = NotificareUserDefaults.preferredRegion
+        guard let preferredLanguage = LocalStorage.preferredLanguage,
+              let preferredRegion = LocalStorage.preferredRegion
         else {
             return nil
         }
@@ -118,13 +118,13 @@ public class NotificareDeviceManager {
             let region = parts[1]
 
             // Only update if the value is not the same.
-            guard language != NotificareUserDefaults.preferredLanguage, region != NotificareUserDefaults.preferredRegion else {
+            guard language != LocalStorage.preferredLanguage, region != LocalStorage.preferredRegion else {
                 completion(.success("\(language)-\(region)"))
                 return
             }
 
-            NotificareUserDefaults.preferredLanguage = language
-            NotificareUserDefaults.preferredRegion = region
+            LocalStorage.preferredLanguage = language
+            LocalStorage.preferredRegion = region
 
             updateLanguage { result in
                 switch result {
@@ -135,8 +135,8 @@ public class NotificareDeviceManager {
                 }
             }
         } else {
-            NotificareUserDefaults.preferredLanguage = nil
-            NotificareUserDefaults.preferredRegion = nil
+            LocalStorage.preferredLanguage = nil
+            LocalStorage.preferredRegion = nil
 
             updateLanguage { result in
                 switch result {
@@ -615,11 +615,11 @@ public class NotificareDeviceManager {
     }
 
     private func getLanguage() -> String {
-        NotificareUserDefaults.preferredLanguage ?? NotificareUtils.deviceLanguage
+        LocalStorage.preferredLanguage ?? NotificareUtils.deviceLanguage
     }
 
     private func getRegion() -> String {
-        NotificareUserDefaults.preferredRegion ?? NotificareUtils.deviceRegion
+        LocalStorage.preferredRegion ?? NotificareUtils.deviceRegion
     }
 
     // MARK: - Notification Center listeners

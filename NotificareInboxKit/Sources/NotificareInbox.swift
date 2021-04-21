@@ -42,7 +42,7 @@ public class NotificareInbox: NSObject, NotificareModule {
             return 0
         }
 
-        return NotificareUserDefaults.currentBadge
+        return LocalStorage.currentBadge
     }
 
     private let database = InboxDatabase()
@@ -153,7 +153,7 @@ public class NotificareInbox: NSObject, NotificareModule {
             switch result {
             case let .success(response):
                 // Keep a cached copy of the current badge.
-                NotificareUserDefaults.currentBadge = response.unread
+                LocalStorage.currentBadge = response.unread
 
                 // Update the application badge.
                 UIApplication.shared.applicationIconBadgeNumber = response.unread
