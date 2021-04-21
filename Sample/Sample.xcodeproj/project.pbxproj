@@ -28,8 +28,6 @@
 		F29FD1FF24CB1FE1004B166D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F29FD1FD24CB1FE1004B166D /* Main.storyboard */; };
 		F29FD20124CB1FE3004B166D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F29FD20024CB1FE3004B166D /* Assets.xcassets */; };
 		F29FD20424CB1FE3004B166D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F29FD20224CB1FE3004B166D /* LaunchScreen.storyboard */; };
-		F2B8C56525A6176B00FFBE0C /* NotificareCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2B8C56425A6176B00FFBE0C /* NotificareCore.framework */; };
-		F2B8C56625A6176B00FFBE0C /* NotificareCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F2B8C56425A6176B00FFBE0C /* NotificareCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F2F41D4A25CC0CE20010260B /* InboxDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F41D4925CC0CE20010260B /* InboxDetailViewController.swift */; };
 		F2F41D7025CD4B5B0010260B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F41D6F25CD4B5B0010260B /* SceneDelegate.swift */; };
 		F2F41D7825CD651D0010260B /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F41D7725CD651D0010260B /* NotificationService.swift */; };
@@ -58,7 +56,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				F29B17FD25A4911C007ED6F9 /* NotificarePushUIKit.framework in Embed Frameworks */,
-				F2B8C56625A6176B00FFBE0C /* NotificareCore.framework in Embed Frameworks */,
 				F22650C7258B6E890004F833 /* NotificareKit.framework in Embed Frameworks */,
 				F289F56625B85EC20091AB97 /* NotificareInboxKit.framework in Embed Frameworks */,
 				F22650CB258B6E900004F833 /* NotificarePushKit.framework in Embed Frameworks */,
@@ -132,7 +129,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F2423D3825764B4100FCCFB7 /* Atlantis in Frameworks */,
-				F2B8C56525A6176B00FFBE0C /* NotificareCore.framework in Frameworks */,
 				F289F56525B85EC20091AB97 /* NotificareInboxKit.framework in Frameworks */,
 				F25B6DCD25CAC67E007BC2C8 /* SDWebImage in Frameworks */,
 				F22650CA258B6E900004F833 /* NotificarePushKit.framework in Frameworks */,
