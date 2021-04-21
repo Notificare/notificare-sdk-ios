@@ -48,27 +48,11 @@ public class Notificare {
         state == .ready
     }
 
-    public func configure() {
-        guard let path = Bundle.main.path(forResource: NotificareServicesInfo.fileName, ofType: NotificareServicesInfo.fileExtension) else {
-            fatalError("\(NotificareServicesInfo.fileName).\(NotificareServicesInfo.fileExtension) is missing.")
-        }
-
-        guard let servicesInfo = NotificareServicesInfo(contentsOfFile: path) else {
-            fatalError("Could not parse the Notificare plist. Please check the contents are valid.")
-        }
-
-        var options: NotificareOptions
-        if let path = Bundle.main.path(forResource: NotificareOptions.fileName, ofType: NotificareOptions.fileExtension) {
-            guard let parsedOptions = NotificareOptions(contentsOfFile: path) else {
-                fatalError("Could not parse the Notificare options plist. Please check the contents are valid.")
-            }
-
-            options = parsedOptions
-        } else {
-            options = NotificareOptions()
-        }
-
-        configure(servicesInfo: servicesInfo, options: options)
+    public func configure(servicesInfo: NotificareServicesInfo? = nil, options: NotificareOptions? = nil) {
+        configure(
+            servicesInfo: servicesInfo ?? loadServiceInfoFile(),
+            options: options ?? loadOptionsFile()
+        )
     }
 
     public func configure(servicesInfo: NotificareServicesInfo, options: NotificareOptions) {
@@ -403,6 +387,30 @@ public class Notificare {
         case .failure:
             NotificareLogger.error("Failed to launch Notificare.")
             state = .configured
+        }
+    }
+
+    private func loadServiceInfoFile() -> NotificareServicesInfo {
+        guard let path = Bundle.main.path(forResource: NotificareServicesInfo.fileName, ofType: NotificareServicesInfo.fileExtension) else {
+            fatalError("\(NotificareServicesInfo.fileName).\(NotificareServicesInfo.fileExtension) is missing.")
+        }
+
+        guard let servicesInfo = NotificareServicesInfo(contentsOfFile: path) else {
+            fatalError("Could not parse the Notificare plist. Please check the contents are valid.")
+        }
+
+        return servicesInfo
+    }
+
+    private func loadOptionsFile() -> NotificareOptions {
+        if let path = Bundle.main.path(forResource: NotificareOptions.fileName, ofType: NotificareOptions.fileExtension) {
+            guard let options = NotificareOptions(contentsOfFile: path) else {
+                fatalError("Could not parse the Notificare options plist. Please check the contents are valid.")
+            }
+
+            return options
+        } else {
+            return NotificareOptions()
         }
     }
 }
