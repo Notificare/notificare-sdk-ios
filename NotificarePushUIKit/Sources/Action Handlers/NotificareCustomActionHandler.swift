@@ -10,7 +10,7 @@ public class NotificareCustomActionHandler: NotificareBaseActionHandler {
         if let target = action.target, let url = URL(string: target) {
             NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, shouldPerformSelectorWithURL: url, in: action, for: notification)
             NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didExecuteAction: action, for: notification)
-            Notificare.shared.sendNotificationReply(action, for: notification) { _ in }
+            Notificare.shared.createNotificationReply(action, for: notification) { _ in }
         } else {
             NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFailToExecuteAction: action, for: notification, error: ActionError.invalidUrl)
         }

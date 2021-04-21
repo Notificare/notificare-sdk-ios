@@ -376,7 +376,7 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
     }
 
     private func logAction() {
-        Notificare.shared.sendNotificationReply(action, for: notification, message: message, media: mediaUrl, mimeType: mediaMimeType) { _ in }
+        Notificare.shared.createNotificationReply(action, for: notification, message: message, media: mediaUrl, mimeType: mediaMimeType) { _ in }
     }
 }
 
