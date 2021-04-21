@@ -2,7 +2,7 @@
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
-import Foundation
+import NotificareCore
 
 public typealias NotificareUserData = [String: String]
 
@@ -24,6 +24,16 @@ public struct NotificareDevice: Codable {
     public internal(set) var allowedUI: Bool
     public internal(set) var backgroundAppRefresh: Bool
     public internal(set) var bluetoothEnabled: Bool
+
+    public func toJson() throws -> [String: Any] {
+        let data = try NotificareUtils.jsonEncoder.encode(self)
+        return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
+    }
+
+    public static func fromJson(json: [String: Any]) throws -> NotificareDevice {
+        let data = try JSONSerialization.data(withJSONObject: json, options: [])
+        return try NotificareUtils.jsonDecoder.decode(NotificareDevice.self, from: data)
+    }
 }
 
 extension NotificareDevice {

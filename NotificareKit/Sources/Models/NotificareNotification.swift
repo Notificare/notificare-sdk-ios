@@ -32,12 +32,22 @@ public struct NotificareNotification {
         self.extra = extra
         self.targetContentIdentifier = targetContentIdentifier
     }
+
+    public func toJson() throws -> [String: Any] {
+        let data = try NotificareUtils.jsonEncoder.encode(self)
+        return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
+    }
+
+    public static func fromJson(json: [String: Any]) throws -> NotificareNotification {
+        let data = try JSONSerialization.data(withJSONObject: json, options: [])
+        return try NotificareUtils.jsonDecoder.decode(NotificareNotification.self, from: data)
+    }
 }
 
 extension NotificareNotification: Codable {
     enum CodingKeys: String, CodingKey {
         case partial
-        case id = "_id"
+        case id
         case type
         case time
         case title
@@ -60,31 +70,12 @@ extension NotificareNotification: Codable {
         title = try container.decodeIfPresent(String.self, forKey: .title)
         subtitle = try container.decodeIfPresent(String.self, forKey: .subtitle)
         message = try container.decode(String.self, forKey: .message)
+        content = try container.decode([Content].self, forKey: .content)
+        actions = try container.decode([Action].self, forKey: .actions)
+        attachments = try container.decode([Attachment].self, forKey: .attachments)
 
-        if container.contains(.content) {
-            content = try container.decode([Content].self, forKey: .content)
-        } else {
-            content = []
-        }
-
-        if container.contains(.actions) {
-            actions = try container.decode([Action].self, forKey: .actions)
-        } else {
-            actions = []
-        }
-
-        if container.contains(.attachments) {
-            attachments = try container.decode([Attachment].self, forKey: .attachments)
-        } else {
-            attachments = []
-        }
-
-        if container.contains(.extra) {
-            let decoded = try container.decode(AnyCodable.self, forKey: .extra)
-            extra = decoded.value as! [String: Any]
-        } else {
-            extra = [:]
-        }
+        let decodedExtra = try container.decode(AnyCodable.self, forKey: .extra)
+        extra = decodedExtra.value as! [String: Any]
 
         targetContentIdentifier = try container.decodeIfPresent(String.self, forKey: .targetContentIdentifier)
     }
@@ -136,12 +127,6 @@ public extension NotificareNotification {
 
             let decoded = try container.decode(AnyCodable.self, forKey: .data)
             data = decoded.value
-
-//            if let str = try? container.decode(String.self, forKey: .data) {
-//                data = str
-//            } else {
-//                data = try container.decode([String: Any].self, forKey: .data)
-//            }
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -149,17 +134,21 @@ public extension NotificareNotification {
 
             try container.encode(type, forKey: .type)
             try container.encode(AnyCodable(data), forKey: .data)
-
-//            if data is String {
-//                try container.encode(data as! String, forKey: .data)
-//            } else {
-//                try container.encode(data as! [String: Any], forKey: .data)
-//            }
         }
 
         enum CodingKeys: String, CodingKey {
             case type
             case data
+        }
+
+        public func toJson() throws -> [String: Any] {
+            let data = try NotificareUtils.jsonEncoder.encode(self)
+            return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
+        }
+
+        public static func fromJson(json: [String: Any]) throws -> Content {
+            let data = try JSONSerialization.data(withJSONObject: json, options: [])
+            return try NotificareUtils.jsonDecoder.decode(Content.self, from: data)
         }
     }
 }
@@ -172,6 +161,16 @@ public extension NotificareNotification {
         public let target: String?
         public let keyboard: Bool
         public let camera: Bool
+
+        public func toJson() throws -> [String: Any] {
+            let data = try NotificareUtils.jsonEncoder.encode(self)
+            return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
+        }
+
+        public static func fromJson(json: [String: Any]) throws -> Action {
+            let data = try JSONSerialization.data(withJSONObject: json, options: [])
+            return try NotificareUtils.jsonDecoder.decode(Action.self, from: data)
+        }
     }
 }
 
@@ -211,6 +210,16 @@ public extension NotificareNotification {
         public init(mimeType: String, uri: String) {
             self.mimeType = mimeType
             self.uri = uri
+        }
+
+        public func toJson() throws -> [String: Any] {
+            let data = try NotificareUtils.jsonEncoder.encode(self)
+            return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
+        }
+
+        public static func fromJson(json: [String: Any]) throws -> Attachment {
+            let data = try JSONSerialization.data(withJSONObject: json, options: [])
+            return try NotificareUtils.jsonDecoder.decode(Attachment.self, from: data)
         }
     }
 }

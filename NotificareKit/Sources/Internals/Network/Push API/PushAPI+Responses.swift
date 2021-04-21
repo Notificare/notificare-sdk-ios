@@ -26,7 +26,7 @@ internal extension PushAPI.Responses {
     }
 
     struct Notification: Decodable {
-        let notification: NotificareNotification
+        let notification: PushAPI.Models.Notification
     }
 
     struct UploadAsset: Decodable {

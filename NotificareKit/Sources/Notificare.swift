@@ -309,7 +309,7 @@ public class Notificare {
             .responseDecodable(PushAPI.Responses.Notification.self) { result in
                 switch result {
                 case let .success(response):
-                    completion(.success(response.notification))
+                    completion(.success(response.notification.toModel()))
 
                 case let .failure(error):
                     completion(.failure(error))
