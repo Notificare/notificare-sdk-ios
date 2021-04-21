@@ -81,7 +81,7 @@
                                         <rect key="frame" x="0.0" y="304" width="382" height="30"/>
                                         <state key="normal" title="Open inbox"/>
                                         <connections>
-                                            <segue destination="pY1-jj-0Q2" kind="presentation" id="OrE-ne-Ern"/>
+                                            <segue destination="yCD-Ua-l8h" kind="show" id="p4V-Yu-FlZ"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -106,11 +106,11 @@
             <objects>
                 <viewController id="ouQ-Tb-P6R" customClass="InboxDetailViewController" customModule="Sample" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="lyl-mb-O7d">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tPr-RS-rtL" userLabel="Badge Background">
-                                <rect key="frame" x="107" y="321" width="200" height="200"/>
+                                <rect key="frame" x="107" y="348" width="200" height="200"/>
                                 <color key="backgroundColor" name="Notificare Blue"/>
                                 <constraints>
                                     <constraint firstAttribute="width" priority="750" constant="200" id="Zfy-w3-DKq"/>
@@ -118,7 +118,7 @@
                                 </constraints>
                             </view>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Badge" translatesAutoresizingMaskIntoConstraints="NO" id="SAo-JC-vRc">
-                                <rect key="frame" x="139" y="353" width="136" height="136"/>
+                                <rect key="frame" x="139" y="380" width="136" height="136"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="SAo-JC-vRc" secondAttribute="height" multiplier="1:1" id="scB-qX-y3j"/>
                                 </constraints>
@@ -151,8 +151,9 @@
         <scene sceneID="zxL-Dv-ehM">
             <objects>
                 <navigationController id="Z4l-hU-fea" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="Q8l-AB-ZFC"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="HHg-ju-jGP">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -175,14 +176,14 @@
                 </splitViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7nz-dZ-MT9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2386" y="140"/>
+            <point key="canvasLocation" x="2238" y="488"/>
         </scene>
         <!--Inbox-->
         <scene sceneID="S0D-rR-7TC">
             <objects>
                 <tableViewController id="yCD-Ua-l8h" customClass="InboxViewController" customModule="Sample" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="uLH-Ko-5vO">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
@@ -318,7 +319,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="cgR-Xp-68k" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="bcj-I8-xya">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -331,6 +332,9 @@
             <point key="canvasLocation" x="3272" y="488"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="p4V-Yu-FlZ"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="Badge" width="64" height="64"/>
         <image name="circle.fill" catalog="system" width="128" height="121"/>

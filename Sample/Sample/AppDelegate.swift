@@ -82,7 +82,7 @@ extension AppDelegate: NotificarePushDelegate {
         //            return
         //        }
 
-        guard let scene = UIApplication.shared.connectedScenes.filter({ $0.activationState == .foregroundActive }).first,
+        guard let scene = UIApplication.shared.connectedScenes.filter({ $0.activationState == .foregroundActive }).first ?? UIApplication.shared.connectedScenes.first,
               let window = (scene.delegate as! UIWindowSceneDelegate).window!,
               let rootViewController = window.rootViewController
         else {
@@ -97,7 +97,7 @@ extension AppDelegate: NotificarePushDelegate {
 //            return
 //        }
 
-        guard let scene = UIApplication.shared.connectedScenes.filter({ $0.activationState == .foregroundActive }).first,
+        guard let scene = UIApplication.shared.connectedScenes.filter({ $0.activationState == .foregroundActive }).first ?? UIApplication.shared.connectedScenes.first,
               let window = (scene.delegate as! UIWindowSceneDelegate).window!,
               let rootViewController = window.rootViewController
         else {
