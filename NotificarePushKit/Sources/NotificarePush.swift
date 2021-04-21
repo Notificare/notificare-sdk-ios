@@ -131,8 +131,7 @@ public class NotificarePush: NSObject, NotificareModule {
 
         URLSession.shared.dataTask(with: url) { data, response, error in
             if let error = error {
-                // TODO: create proper error
-                // completion(.failure(error))
+                completion(.failure(error))
                 return
             }
 
