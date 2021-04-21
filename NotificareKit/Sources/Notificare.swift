@@ -2,7 +2,6 @@
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
-import NotificareCore
 import UIKit
 
 public typealias NotificareCallback<T> = (Result<T, Error>) -> Void

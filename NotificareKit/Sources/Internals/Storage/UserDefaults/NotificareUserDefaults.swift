@@ -2,8 +2,6 @@
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
-import NotificareCore
-
 extension NotificareUserDefaults {
     static var currentDatabaseVersion: String? {
         get {

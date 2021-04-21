@@ -2,7 +2,6 @@
 // Copyright (c) 2021 Notificare. All rights reserved.
 //
 
-import NotificareCore
 import NotificareKit
 import UIKit
 import WebKit

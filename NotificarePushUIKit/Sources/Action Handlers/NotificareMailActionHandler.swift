@@ -3,7 +3,6 @@
 //
 
 import MessageUI
-import NotificareCore
 import NotificareKit
 
 public class NotificareMailActionHandler: NotificareBaseActionHandler {

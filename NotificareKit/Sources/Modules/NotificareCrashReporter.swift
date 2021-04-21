@@ -3,7 +3,6 @@
 //
 
 import Foundation
-import NotificareCore
 
 struct NotificareCrashReporter {
     func configure() {

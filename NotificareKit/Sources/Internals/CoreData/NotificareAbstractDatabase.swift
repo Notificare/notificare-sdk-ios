@@ -4,7 +4,7 @@
 
 import CoreData
 
-open class NotificareDatabase {
+open class NotificareAbstractDatabase {
     private let name: String
     private let rebuildOnVersionChange: Bool
 

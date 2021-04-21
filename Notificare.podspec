@@ -21,10 +21,6 @@ For support please use: http://support.notifica.re
 
   # Subspecs
 
-  spec.subspec 'NotificareCore' do |subspec|
-    subspec.vendored_frameworks = ".build/NotificareCore.xcframework"
-  end
-
   spec.subspec 'NotificareKit' do |subspec|
     subspec.vendored_frameworks = ".build/NotificareKit.xcframework"
   end

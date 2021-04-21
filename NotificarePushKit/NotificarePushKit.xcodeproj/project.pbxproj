@@ -18,8 +18,6 @@
 		F258DDA524BC4EE2006F9ABD /* NotificarePushKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F258DD9724BC4EE2006F9ABD /* NotificarePushKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F28553C5258B8848006674C1 /* NotificarePushDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28553C4258B8848006674C1 /* NotificarePushDelegate.swift */; };
 		F2B6A34426173F32001CB7DC /* NotificareNotification+APNS.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B6A34326173F32001CB7DC /* NotificareNotification+APNS.swift */; };
-		F2B8C55D25A6173700FFBE0C /* NotificareCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2B8C55C25A6173700FFBE0C /* NotificareCore.framework */; };
-		F2B8C55E25A6173700FFBE0C /* NotificareCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F2B8C55C25A6173700FFBE0C /* NotificareCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F2D4E26E259CE1CB00AF37A7 /* NotificarePush+UNUserNotificationCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D4E26D259CE1CB00AF37A7 /* NotificarePush+UNUserNotificationCenterDelegate.swift */; };
 /* End PBXBuildFile section */
 
@@ -41,7 +39,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				F22650BA258B6E560004F833 /* NotificareKit.framework in Embed Frameworks */,
-				F2B8C55E25A6173700FFBE0C /* NotificareCore.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -75,7 +72,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F22650B9258B6E560004F833 /* NotificareKit.framework in Frameworks */,
-				F2B8C55D25A6173700FFBE0C /* NotificareCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

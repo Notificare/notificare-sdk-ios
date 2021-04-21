@@ -34,8 +34,6 @@
 		F2F41D7025CD4B5B0010260B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F41D6F25CD4B5B0010260B /* SceneDelegate.swift */; };
 		F2F41D7825CD651D0010260B /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F41D7725CD651D0010260B /* NotificationService.swift */; };
 		F2F41D7C25CD651D0010260B /* NotificationService.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = F2F41D7525CD651D0010260B /* NotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		F2F41D8225CD67830010260B /* NotificareCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2B8C56425A6176B00FFBE0C /* NotificareCore.framework */; };
-		F2F41D8325CD67830010260B /* NotificareCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F2B8C56425A6176B00FFBE0C /* NotificareCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F2F41D8425CD67830010260B /* NotificarePushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F22650C9258B6E900004F833 /* NotificarePushKit.framework */; };
 		F2F41D8525CD67830010260B /* NotificarePushKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F22650C9258B6E900004F833 /* NotificarePushKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F2F41D8725CD67980010260B /* NotificareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F22650C5258B6E890004F833 /* NotificareKit.framework */; };
@@ -85,7 +83,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				F2F41D8325CD67830010260B /* NotificareCore.framework in Embed Frameworks */,
 				F2F41D8525CD67830010260B /* NotificarePushKit.framework in Embed Frameworks */,
 				F2F41D8825CD67980010260B /* NotificareKit.framework in Embed Frameworks */,
 			);
@@ -148,7 +145,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F2F41D8225CD67830010260B /* NotificareCore.framework in Frameworks */,
 				F2F41D8425CD67830010260B /* NotificarePushKit.framework in Frameworks */,
 				F2F41D8725CD67980010260B /* NotificareKit.framework in Frameworks */,
 			);

@@ -2,8 +2,6 @@
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
-import NotificareCore
-
 public struct NotificareNotification {
     public let partial: Bool
     public let id: String

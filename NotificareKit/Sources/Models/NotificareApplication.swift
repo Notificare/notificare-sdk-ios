@@ -2,8 +2,6 @@
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
-import NotificareCore
-
 public struct NotificareApplication: Codable {
     public let id: String
     public let name: String

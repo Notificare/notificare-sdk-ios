@@ -3,7 +3,6 @@
 //
 
 import Foundation
-import NotificareCore
 
 internal extension PushAPI.Models {
     struct Application: Decodable {

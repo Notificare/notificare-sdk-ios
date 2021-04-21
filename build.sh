@@ -3,7 +3,7 @@
 # Automatically exit on error.
 set -e
 
-frameworks=( "NotificareCore" "NotificareKit" "NotificarePushKit" "NotificarePushUIKit" "NotificareInboxKit" )
+frameworks=( "NotificareKit" "NotificarePushKit" "NotificarePushUIKit" "NotificareInboxKit" )
 
 echo "Cleaning build folder"
 rm -rf .build

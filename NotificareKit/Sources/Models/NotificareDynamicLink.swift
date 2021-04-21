@@ -2,8 +2,6 @@
 // Copyright (c) 2021 Notificare. All rights reserved.
 //
 
-import NotificareCore
-
 public struct NotificareDynamicLink: Codable {
     public let target: String
 

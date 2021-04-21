@@ -11,7 +11,6 @@
 		F258DE3324BC4FAD006F9ABD /* ScannableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DE3224BC4FAD006F9ABD /* ScannableTests.swift */; };
 		F258DE3524BC4FAD006F9ABD /* NotificareScannablesKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F258DE2724BC4FAD006F9ABD /* NotificareScannablesKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F289F5BA25B860E10091AB97 /* NotificareCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F289F5B925B860E10091AB97 /* NotificareCore.framework */; };
-		F289F5BB25B860E10091AB97 /* NotificareCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F289F5B925B860E10091AB97 /* NotificareCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F289F5BD25B860E90091AB97 /* NotificareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F22650B0258B6E410004F833 /* NotificareKit.framework */; };
 		F289F5BE25B860E90091AB97 /* NotificareKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F22650B0258B6E410004F833 /* NotificareKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
@@ -33,7 +32,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				F289F5BB25B860E10091AB97 /* NotificareCore.framework in Embed Frameworks */,
 				F289F5BE25B860E90091AB97 /* NotificareKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";

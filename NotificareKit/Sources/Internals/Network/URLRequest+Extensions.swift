@@ -2,8 +2,6 @@
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
-import NotificareCore
-
 public extension URLRequest {
     mutating func setBasicAuthentication(username: String, password: String) {
         let base64encoded = "\(username):\(password)"

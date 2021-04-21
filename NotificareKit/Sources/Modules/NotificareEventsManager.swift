@@ -2,8 +2,6 @@
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
-import Foundation
-import NotificareCore
 import UIKit
 
 private let maxRetries = 5

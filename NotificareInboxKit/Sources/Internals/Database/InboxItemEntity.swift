@@ -3,7 +3,6 @@
 //
 
 import CoreData
-import NotificareCore
 import NotificareKit
 
 extension InboxItemEntity {

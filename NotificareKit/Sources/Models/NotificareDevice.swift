@@ -2,8 +2,6 @@
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
-import NotificareCore
-
 public typealias NotificareUserData = [String: String]
 
 public struct NotificareDevice: Codable {

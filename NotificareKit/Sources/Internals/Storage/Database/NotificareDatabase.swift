@@ -4,9 +4,8 @@
 
 import CoreData
 import Foundation
-import NotificareCore
 
-class NotificareDatabase: NotificareCore.NotificareDatabase {
+class NotificareDatabase: NotificareAbstractDatabase {
     init() {
         super.init(name: "NotificareDatabase", rebuildOnVersionChange: true)
     }

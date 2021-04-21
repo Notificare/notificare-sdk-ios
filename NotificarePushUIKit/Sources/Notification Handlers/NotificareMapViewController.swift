@@ -3,7 +3,7 @@
 //
 
 import MapKit
-import NotificareCore
+import NotificareKit
 import UIKit
 
 public class NotificareMapViewController: NotificareBaseNotificationViewController {

@@ -6,7 +6,6 @@ import AVFoundation
 import CoreGraphics
 import CoreMedia
 import MobileCoreServices
-import NotificareCore
 import NotificareKit
 import UIKit
 

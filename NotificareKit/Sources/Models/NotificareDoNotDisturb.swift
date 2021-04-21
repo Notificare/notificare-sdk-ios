@@ -2,8 +2,6 @@
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
-import NotificareCore
-
 public struct NotificareDoNotDisturb: Codable {
     public let start: NotificareTime
     public let end: NotificareTime

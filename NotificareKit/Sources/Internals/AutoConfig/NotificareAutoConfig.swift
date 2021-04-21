@@ -3,7 +3,6 @@
 //
 
 import Foundation
-import NotificareCore
 import UIKit
 
 public class NotificareAutoConfig: NSObject {

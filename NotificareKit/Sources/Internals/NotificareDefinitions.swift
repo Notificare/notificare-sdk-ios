@@ -2,9 +2,7 @@
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
-import NotificareCore
-
-extension NotificareDefinitions {
+public enum NotificareDefinitions {
     static let sdkVersion = "3.0.0"
     static let databaseVersion = "3.0.0"
 
@@ -22,5 +20,18 @@ extension NotificareDefinitions {
         static let applicationException = "re.notifica.event.application.Exception"
 
         static let notificationOpen = "re.notifica.event.notification.Open"
+    }
+
+    public enum Modules: String, CaseIterable {
+        case push = "NotificarePushKit.NotificarePush"
+        case pushUI = "NotificarePushUIKit.NotificarePushUI"
+        case inbox = "NotificareInboxKit.NotificareInbox"
+    }
+
+    public enum InternalNotification {
+        public static let addInboxItem = NSNotification.Name(rawValue: "NotificareInboxKit.AddInboxItem")
+        public static let readInboxItem = NSNotification.Name(rawValue: "NotificareInboxKit.ReadInboxItem")
+        public static let refreshBadge = NSNotification.Name(rawValue: "NotificareInboxKit.RefreshBadge")
+        public static let reloadInbox = NSNotification.Name(rawValue: "NotificareInboxKit.ReloadInbox")
     }
 }

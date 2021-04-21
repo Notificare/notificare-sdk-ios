@@ -4,9 +4,9 @@
 
 import CoreData
 import Foundation
-import NotificareCore
+import NotificareKit
 
-class InboxDatabase: NotificareCore.NotificareDatabase {
+class InboxDatabase: NotificareAbstractDatabase {
     init() {
         super.init(name: "NotificareInboxDataModel", rebuildOnVersionChange: true)
     }

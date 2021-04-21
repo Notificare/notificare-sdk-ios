@@ -32,8 +32,6 @@
 		F2B181AE25BB224400384991 /* NotificareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2B181AD25BB224300384991 /* NotificareKit.framework */; };
 		F2B181AF25BB224400384991 /* NotificareKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F2B181AD25BB224300384991 /* NotificareKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F2B8C51725A5DD9400FFBE0C /* NotificareWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B8C51625A5DD9400FFBE0C /* NotificareWebViewController.swift */; };
-		F2B8C56125A6173F00FFBE0C /* NotificareCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2B8C56025A6173F00FFBE0C /* NotificareCore.framework */; };
-		F2B8C56225A6173F00FFBE0C /* NotificareCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F2B8C56025A6173F00FFBE0C /* NotificareCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F2CB6F5C25AEFD0600FC994E /* NotificareMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2CB6F5B25AEFD0600FC994E /* NotificareMapViewController.swift */; };
 		F2E9D41E25ADE98D00FF7827 /* NotificareVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E9D41D25ADE98D00FF7827 /* NotificareVideoViewController.swift */; };
 		F2E9D45825AE1D4500FF7827 /* NotificareUrlViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E9D45725AE1D4500FF7827 /* NotificareUrlViewController.swift */; };
@@ -56,7 +54,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				F2B8C56225A6173F00FFBE0C /* NotificareCore.framework in Embed Frameworks */,
 				F2B181AF25BB224400384991 /* NotificareKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -104,7 +101,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F2B8C56125A6173F00FFBE0C /* NotificareCore.framework in Frameworks */,
 				F2B181AE25BB224400384991 /* NotificareKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -3,7 +3,6 @@
 //
 
 import MobileCoreServices
-import NotificareCore
 import NotificareKit
 import UIKit
 import UserNotifications
