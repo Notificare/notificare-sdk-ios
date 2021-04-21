@@ -6,7 +6,7 @@ import Foundation
 import NotificareKit
 import Swift
 import UIKit
-public struct NotificareInboxItem {
+public struct NotificareInboxItem : Swift.Codable {
   public let id: Swift.String
   public var notification: NotificareKit.NotificareNotification {
     get
@@ -16,6 +16,12 @@ public struct NotificareInboxItem {
     get
   }
   public let expires: Foundation.Date?
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+extension NotificareInboxItem {
+  public func toJson() throws -> [Swift.String : Any]
+  public static func fromJson(json: [Swift.String : Any]) throws -> NotificareInboxKit.NotificareInboxItem
 }
 public typealias NotificareInboxCallback<T> = (Swift.Result<T, Swift.Error>) -> Swift.Void
 @objc @_inheritsConvenienceInitializers public class NotificareInbox : ObjectiveC.NSObject, NotificareKit.NotificareModule {
