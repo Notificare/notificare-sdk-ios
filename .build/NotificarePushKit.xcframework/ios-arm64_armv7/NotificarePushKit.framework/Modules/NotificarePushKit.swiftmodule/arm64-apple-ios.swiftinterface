@@ -31,9 +31,15 @@ extension NotificarePush : UserNotifications.UNUserNotificationCenterDelegate {
   @objc dynamic public func userNotificationCenter(_: UserNotifications.UNUserNotificationCenter, openSettingsFor notification: UserNotifications.UNNotification?)
 }
 public struct NotificareSystemNotification {
-  public let id: Swift.String?
+  public let id: Swift.String
   public let type: Swift.String
-  public let extras: [Swift.AnyHashable : Any]
+  public let extra: [Swift.String : Any]
+  public func toJson() throws -> [Swift.String : Any]
+  public static func fromJson(json: [Swift.String : Any]) throws -> NotificarePushKit.NotificareSystemNotification
+}
+extension NotificareSystemNotification : Swift.Codable {
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
 }
 public protocol NotificarePushDelegate : AnyObject {
   func notificare(_ notificarePush: NotificarePushKit.NotificarePush, didFailToRegisterForRemoteNotificationsWithError error: Swift.Error)
