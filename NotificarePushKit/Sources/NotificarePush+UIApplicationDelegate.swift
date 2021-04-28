@@ -112,6 +112,9 @@ public extension NotificarePush {
                 // Put the notification in the inbox, if appropriate.
                 self.addToLocalInbox(userInfo: userInfo, notification: notification)
 
+                // Notify the delegate.
+                self.delegate?.notificare(self, didReceiveNotification: notification)
+
                 completion(.success(()))
             case let .failure(error):
                 NotificareLogger.error("Failed to fetch notification.")
