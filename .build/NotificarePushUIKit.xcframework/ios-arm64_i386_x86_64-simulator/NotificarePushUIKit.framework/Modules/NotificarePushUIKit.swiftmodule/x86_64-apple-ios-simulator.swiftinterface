@@ -1,5 +1,5 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 5.3.2 (swiftlang-1200.0.45 clang-1200.0.32.28)
+// swift-compiler-version: Apple Swift version 5.4 (swiftlang-1205.0.26.9 clang-1205.0.19.55)
 // swift-module-flags: -target x86_64-apple-ios10.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name NotificarePushUIKit
 import AVFoundation
 import CoreGraphics
@@ -24,10 +24,10 @@ extension NotificareAppActionHandler {
       get
     }
     public static func == (a: NotificarePushUIKit.NotificareAppActionHandler.ActionError, b: NotificarePushUIKit.NotificareAppActionHandler.ActionError) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
     public var hashValue: Swift.Int {
       get
     }
-    public func hash(into hasher: inout Swift.Hasher)
   }
 }
 @objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class NotificareCustomActionHandler : NotificarePushUIKit.NotificareBaseActionHandler {
@@ -40,24 +40,24 @@ extension NotificareCustomActionHandler {
       get
     }
     public static func == (a: NotificarePushUIKit.NotificareCustomActionHandler.ActionError, b: NotificarePushUIKit.NotificareCustomActionHandler.ActionError) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
     public var hashValue: Swift.Int {
       get
     }
-    public func hash(into hasher: inout Swift.Hasher)
   }
 }
 @objc @_inheritsConvenienceInitializers public class NotificareBaseNotificationViewController : UIKit.UIViewController {
   @objc override dynamic public func viewDidLoad()
-  @objc deinit
   @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
   @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
 }
 @objc @_inheritsConvenienceInitializers public class NotificareImageGalleryViewController : NotificarePushUIKit.NotificareBaseNotificationViewController {
   @objc override dynamic public func viewDidLoad()
   @objc override dynamic public func viewDidDisappear(_ animated: Swift.Bool)
-  @objc deinit
   @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
   @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
 }
 extension NotificareImageGalleryViewController : UIKit.UICollectionViewDelegate, UIKit.UICollectionViewDataSource, UIKit.UICollectionViewDelegateFlowLayout {
   @objc dynamic public func numberOfSections(in _: UIKit.UICollectionView) -> Swift.Int
@@ -70,9 +70,9 @@ extension NotificareImageGalleryViewController : UIKit.UICollectionViewDelegate,
 @objc @_inheritsConvenienceInitializers public class NotificareMapViewController : NotificarePushUIKit.NotificareBaseNotificationViewController {
   @objc override dynamic public func viewDidLoad()
   @objc override dynamic public func viewDidDisappear(_ animated: Swift.Bool)
-  @objc deinit
   @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
   @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
 }
 extension NotificareMapViewController : MapKit.MKMapViewDelegate {
   @objc dynamic public func mapView(_ mapView: MapKit.MKMapView, viewFor annotation: MapKit.MKAnnotation) -> MapKit.MKAnnotationView?
@@ -88,10 +88,10 @@ extension NotificareTelephoneActionHandler {
       get
     }
     public static func == (a: NotificarePushUIKit.NotificareTelephoneActionHandler.ActionError, b: NotificarePushUIKit.NotificareTelephoneActionHandler.ActionError) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
     public var hashValue: Swift.Int {
       get
     }
-    public func hash(into hasher: inout Swift.Hasher)
   }
 }
 @_hasMissingDesignatedInitializers public class NotificarePushUI {
@@ -187,10 +187,10 @@ extension NotificareWebViewActionHandler {
       get
     }
     public static func == (a: NotificarePushUIKit.NotificareWebViewActionHandler.ActionError, b: NotificarePushUIKit.NotificareWebViewActionHandler.ActionError) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
     public var hashValue: Swift.Int {
       get
     }
-    public func hash(into hasher: inout Swift.Hasher)
   }
 }
 @objc @_hasMissingDesignatedInitializers public class NotificareCallbackActionHandler : NotificarePushUIKit.NotificareBaseActionHandler {
@@ -212,10 +212,10 @@ extension NotificareBrowserActionHandler {
       get
     }
     public static func == (a: NotificarePushUIKit.NotificareBrowserActionHandler.ActionError, b: NotificarePushUIKit.NotificareBrowserActionHandler.ActionError) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
     public var hashValue: Swift.Int {
       get
     }
-    public func hash(into hasher: inout Swift.Hasher)
   }
 }
 @objc @_hasMissingDesignatedInitializers public class NotificareSmsActionHandler : NotificarePushUIKit.NotificareBaseActionHandler {
@@ -232,10 +232,10 @@ extension NotificareSmsActionHandler {
       get
     }
     public static func == (a: NotificarePushUIKit.NotificareSmsActionHandler.ActionError, b: NotificarePushUIKit.NotificareSmsActionHandler.ActionError) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
     public var hashValue: Swift.Int {
       get
     }
-    public func hash(into hasher: inout Swift.Hasher)
   }
 }
 @objc @_hasMissingDesignatedInitializers public class NotificareMailActionHandler : NotificarePushUIKit.NotificareBaseActionHandler {
@@ -251,10 +251,10 @@ extension NotificareMailActionHandler {
       get
     }
     public static func == (a: NotificarePushUIKit.NotificareMailActionHandler.ActionError, b: NotificarePushUIKit.NotificareMailActionHandler.ActionError) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
     public var hashValue: Swift.Int {
       get
     }
-    public func hash(into hasher: inout Swift.Hasher)
   }
 }
 extension NotificarePushUIKit.NotificareAppActionHandler.ActionError : Swift.Equatable {}

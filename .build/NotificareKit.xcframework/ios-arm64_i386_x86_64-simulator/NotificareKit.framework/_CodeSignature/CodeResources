@@ -6,11 +6,11 @@
 	<dict>
 		<key>Assets.car</key>
 		<data>
-		/P4ond5cRO/3zpEF0ibHZ04R6Rc=
+		Y84b7E9n8HjHAmC+ogv8XayzbDk=
 		</data>
 		<key>Headers/NotificareKit-Swift.h</key>
 		<data>
-		s3z1X36q57rDz87wXSSzrNyWHSg=
+		eTGos/OFDx1ErKV42oFwMqIMSHE=
 		</data>
 		<key>Headers/NotificareKit.h</key>
 		<data>
@@ -18,79 +18,79 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		D2CnCso2ezFIVA5VKKwAUzi3pUw=
+		1gXnzBKrP/jz1Yimj/+twUWV1SM=
 		</data>
 		<key>Modules/NotificareKit.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<data>
-		CFV2Q8u030BGmhmtgJf1rba+9K0=
+		aBe7459vgZyWighPwMM6PqG+L0w=
 		</data>
 		<key>Modules/NotificareKit.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		dzVRlA6lpb9EklnXkT3qyBOE2EM=
+		yepS21lMDbBPx7KxePIL25s+et4=
 		</data>
 		<key>Modules/NotificareKit.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		7ZZUiUgqo9vbKEuHAZiOYfy7djs=
+		Oexl3KymJVmYeCk5i0H7XrpKRDg=
 		</data>
 		<key>Modules/NotificareKit.swiftmodule/arm64.swiftdoc</key>
 		<data>
-		CFV2Q8u030BGmhmtgJf1rba+9K0=
+		aBe7459vgZyWighPwMM6PqG+L0w=
 		</data>
 		<key>Modules/NotificareKit.swiftmodule/arm64.swiftinterface</key>
 		<data>
-		dzVRlA6lpb9EklnXkT3qyBOE2EM=
+		yepS21lMDbBPx7KxePIL25s+et4=
 		</data>
 		<key>Modules/NotificareKit.swiftmodule/arm64.swiftmodule</key>
 		<data>
-		7ZZUiUgqo9vbKEuHAZiOYfy7djs=
+		Oexl3KymJVmYeCk5i0H7XrpKRDg=
 		</data>
 		<key>Modules/NotificareKit.swiftmodule/i386-apple-ios-simulator.swiftdoc</key>
 		<data>
-		U6cuXOJMU1unuSUWBcYkadTz9kc=
+		5Lm3EWAchJAD9D+Kv8xlMBmoRy4=
 		</data>
 		<key>Modules/NotificareKit.swiftmodule/i386-apple-ios-simulator.swiftinterface</key>
 		<data>
-		ktxlz/j1+PIY9/5CRoFSevOjkxQ=
+		p19Nj5U38Ycu/SRGN+/rHSGPLiw=
 		</data>
 		<key>Modules/NotificareKit.swiftmodule/i386-apple-ios-simulator.swiftmodule</key>
 		<data>
-		gR/GIO2KStJtlVks16Hxw8kJO34=
+		A0ksGTTy2diOKrwSerRtCHl5yBM=
 		</data>
 		<key>Modules/NotificareKit.swiftmodule/i386.swiftdoc</key>
 		<data>
-		U6cuXOJMU1unuSUWBcYkadTz9kc=
+		5Lm3EWAchJAD9D+Kv8xlMBmoRy4=
 		</data>
 		<key>Modules/NotificareKit.swiftmodule/i386.swiftinterface</key>
 		<data>
-		ktxlz/j1+PIY9/5CRoFSevOjkxQ=
+		p19Nj5U38Ycu/SRGN+/rHSGPLiw=
 		</data>
 		<key>Modules/NotificareKit.swiftmodule/i386.swiftmodule</key>
 		<data>
-		gR/GIO2KStJtlVks16Hxw8kJO34=
+		A0ksGTTy2diOKrwSerRtCHl5yBM=
 		</data>
 		<key>Modules/NotificareKit.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<data>
-		6uiVbA4nVFNiNqpSmclvyxUf6ak=
+		XmAyTS65y+E0llRITRy6JSvAoUw=
 		</data>
 		<key>Modules/NotificareKit.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		7FP2Vlc0vU3n/G1gUX8dFVIGTTQ=
+		iNFMAp/2jFhZyEduX0xi2+zvbQY=
 		</data>
 		<key>Modules/NotificareKit.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		G2dnf/1DrFsUTACUC5khALo1znc=
+		4/I9M+Vz5kwdL8BGu8gAj3sMCgc=
 		</data>
 		<key>Modules/NotificareKit.swiftmodule/x86_64.swiftdoc</key>
 		<data>
-		6uiVbA4nVFNiNqpSmclvyxUf6ak=
+		XmAyTS65y+E0llRITRy6JSvAoUw=
 		</data>
 		<key>Modules/NotificareKit.swiftmodule/x86_64.swiftinterface</key>
 		<data>
-		7FP2Vlc0vU3n/G1gUX8dFVIGTTQ=
+		iNFMAp/2jFhZyEduX0xi2+zvbQY=
 		</data>
 		<key>Modules/NotificareKit.swiftmodule/x86_64.swiftmodule</key>
 		<data>
-		G2dnf/1DrFsUTACUC5khALo1znc=
+		4/I9M+Vz5kwdL8BGu8gAj3sMCgc=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -129,22 +129,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			/P4ond5cRO/3zpEF0ibHZ04R6Rc=
+			Y84b7E9n8HjHAmC+ogv8XayzbDk=
 			</data>
 			<key>hash2</key>
 			<data>
-			UfaTnz/YoCbI5GlxbrfX77n66wVReLZlJog1HBDaBbk=
+			RTVDGhOcZLaNtA0f37gqHCj+8CP4lPeq1Wt63OGQD5g=
 			</data>
 		</dict>
 		<key>Headers/NotificareKit-Swift.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			s3z1X36q57rDz87wXSSzrNyWHSg=
+			eTGos/OFDx1ErKV42oFwMqIMSHE=
 			</data>
 			<key>hash2</key>
 			<data>
-			Oou5pJIZekyPA6+/YyahqJ0faRmjBgkpJ4kIo1ggFHg=
+			hParYrVJ5FrKnjoHl7fz0qY3XOFRT8py4/aJ5Yk2Bqw=
 			</data>
 		</dict>
 		<key>Headers/NotificareKit.h</key>
@@ -162,198 +162,198 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			CFV2Q8u030BGmhmtgJf1rba+9K0=
+			aBe7459vgZyWighPwMM6PqG+L0w=
 			</data>
 			<key>hash2</key>
 			<data>
-			VzJDDeR0GY0G6ozgwUA6S2fFukU25586V1WPqt1uD9A=
+			qCY9oIGq+PUFNEPQXuhfks2ObVvdjLR9rEFv4raeUSE=
 			</data>
 		</dict>
 		<key>Modules/NotificareKit.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			dzVRlA6lpb9EklnXkT3qyBOE2EM=
+			yepS21lMDbBPx7KxePIL25s+et4=
 			</data>
 			<key>hash2</key>
 			<data>
-			6pzHCy5QLs3EMPrgLNI3jHe2uZt3cK6nLdNCCbR/Ans=
+			8/+74dppAw9QHwX4Ne3Wpd1XV6vZ3Su2LvIEDn9WQww=
 			</data>
 		</dict>
 		<key>Modules/NotificareKit.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			7ZZUiUgqo9vbKEuHAZiOYfy7djs=
+			Oexl3KymJVmYeCk5i0H7XrpKRDg=
 			</data>
 			<key>hash2</key>
 			<data>
-			TvsDu7RSKdQh6JbUp4elUF7v+EsiX3ubmxgCrR21DrE=
+			NckuVoiAtDz9Lc2wkqkmId5UXfawNqQBbxM/OgA+HiA=
 			</data>
 		</dict>
 		<key>Modules/NotificareKit.swiftmodule/arm64.swiftdoc</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			CFV2Q8u030BGmhmtgJf1rba+9K0=
+			aBe7459vgZyWighPwMM6PqG+L0w=
 			</data>
 			<key>hash2</key>
 			<data>
-			VzJDDeR0GY0G6ozgwUA6S2fFukU25586V1WPqt1uD9A=
+			qCY9oIGq+PUFNEPQXuhfks2ObVvdjLR9rEFv4raeUSE=
 			</data>
 		</dict>
 		<key>Modules/NotificareKit.swiftmodule/arm64.swiftinterface</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			dzVRlA6lpb9EklnXkT3qyBOE2EM=
+			yepS21lMDbBPx7KxePIL25s+et4=
 			</data>
 			<key>hash2</key>
 			<data>
-			6pzHCy5QLs3EMPrgLNI3jHe2uZt3cK6nLdNCCbR/Ans=
+			8/+74dppAw9QHwX4Ne3Wpd1XV6vZ3Su2LvIEDn9WQww=
 			</data>
 		</dict>
 		<key>Modules/NotificareKit.swiftmodule/arm64.swiftmodule</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			7ZZUiUgqo9vbKEuHAZiOYfy7djs=
+			Oexl3KymJVmYeCk5i0H7XrpKRDg=
 			</data>
 			<key>hash2</key>
 			<data>
-			TvsDu7RSKdQh6JbUp4elUF7v+EsiX3ubmxgCrR21DrE=
+			NckuVoiAtDz9Lc2wkqkmId5UXfawNqQBbxM/OgA+HiA=
 			</data>
 		</dict>
 		<key>Modules/NotificareKit.swiftmodule/i386-apple-ios-simulator.swiftdoc</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			U6cuXOJMU1unuSUWBcYkadTz9kc=
+			5Lm3EWAchJAD9D+Kv8xlMBmoRy4=
 			</data>
 			<key>hash2</key>
 			<data>
-			rI7us6qEaib8gcqfGFIq7z+JtSo6e9/3G/pXCuZy+FA=
+			aiCoQQBSFA0KMivt/NJbUpDdzbLP8JHIOTO/h8dTshI=
 			</data>
 		</dict>
 		<key>Modules/NotificareKit.swiftmodule/i386-apple-ios-simulator.swiftinterface</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			ktxlz/j1+PIY9/5CRoFSevOjkxQ=
+			p19Nj5U38Ycu/SRGN+/rHSGPLiw=
 			</data>
 			<key>hash2</key>
 			<data>
-			axvtAuNc9LnRdQKlBBoLQaMN7Bo8d0dwEPXyEIap/yU=
+			H5VgxJEtVhqvi8MtiEMEA2wmmRQGt49qGuCPT7n/iEE=
 			</data>
 		</dict>
 		<key>Modules/NotificareKit.swiftmodule/i386-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			gR/GIO2KStJtlVks16Hxw8kJO34=
+			A0ksGTTy2diOKrwSerRtCHl5yBM=
 			</data>
 			<key>hash2</key>
 			<data>
-			6iP5u4HtOeV2LukO3v7FplGQOrxqLm0mJZ6VRcIPYe4=
+			Zq23JRtXXIsECToXX+mbnXhTqDH+zyKEaAv0kOk0q7g=
 			</data>
 		</dict>
 		<key>Modules/NotificareKit.swiftmodule/i386.swiftdoc</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			U6cuXOJMU1unuSUWBcYkadTz9kc=
+			5Lm3EWAchJAD9D+Kv8xlMBmoRy4=
 			</data>
 			<key>hash2</key>
 			<data>
-			rI7us6qEaib8gcqfGFIq7z+JtSo6e9/3G/pXCuZy+FA=
+			aiCoQQBSFA0KMivt/NJbUpDdzbLP8JHIOTO/h8dTshI=
 			</data>
 		</dict>
 		<key>Modules/NotificareKit.swiftmodule/i386.swiftinterface</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			ktxlz/j1+PIY9/5CRoFSevOjkxQ=
+			p19Nj5U38Ycu/SRGN+/rHSGPLiw=
 			</data>
 			<key>hash2</key>
 			<data>
-			axvtAuNc9LnRdQKlBBoLQaMN7Bo8d0dwEPXyEIap/yU=
+			H5VgxJEtVhqvi8MtiEMEA2wmmRQGt49qGuCPT7n/iEE=
 			</data>
 		</dict>
 		<key>Modules/NotificareKit.swiftmodule/i386.swiftmodule</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			gR/GIO2KStJtlVks16Hxw8kJO34=
+			A0ksGTTy2diOKrwSerRtCHl5yBM=
 			</data>
 			<key>hash2</key>
 			<data>
-			6iP5u4HtOeV2LukO3v7FplGQOrxqLm0mJZ6VRcIPYe4=
+			Zq23JRtXXIsECToXX+mbnXhTqDH+zyKEaAv0kOk0q7g=
 			</data>
 		</dict>
 		<key>Modules/NotificareKit.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			6uiVbA4nVFNiNqpSmclvyxUf6ak=
+			XmAyTS65y+E0llRITRy6JSvAoUw=
 			</data>
 			<key>hash2</key>
 			<data>
-			u72kfMPA8f1d+Mb/p0OAdhehoXyDqAClxcF2HFpjCIA=
+			2gRZU/7kBw0SgnP3m77PR0e0q/lZnXBmP71VCY9gf40=
 			</data>
 		</dict>
 		<key>Modules/NotificareKit.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			7FP2Vlc0vU3n/G1gUX8dFVIGTTQ=
+			iNFMAp/2jFhZyEduX0xi2+zvbQY=
 			</data>
 			<key>hash2</key>
 			<data>
-			iL0RW9BIrD0eVxL8ZCQUy0L0V80f9d8Xu6nhJQjoIqQ=
+			CUDz1KU2TgfGmvSVm5kwDfkS8RdZ1dy8HMNTYUrukZo=
 			</data>
 		</dict>
 		<key>Modules/NotificareKit.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			G2dnf/1DrFsUTACUC5khALo1znc=
+			4/I9M+Vz5kwdL8BGu8gAj3sMCgc=
 			</data>
 			<key>hash2</key>
 			<data>
-			gYvMZVwG2ufY0zQ71Shp5VQhnHjVNPKT1OL4/o+ssow=
+			YM863ufltcr7WKG6egcIMZ8GRr6k2dvPgUZr0q1g60k=
 			</data>
 		</dict>
 		<key>Modules/NotificareKit.swiftmodule/x86_64.swiftdoc</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			6uiVbA4nVFNiNqpSmclvyxUf6ak=
+			XmAyTS65y+E0llRITRy6JSvAoUw=
 			</data>
 			<key>hash2</key>
 			<data>
-			u72kfMPA8f1d+Mb/p0OAdhehoXyDqAClxcF2HFpjCIA=
+			2gRZU/7kBw0SgnP3m77PR0e0q/lZnXBmP71VCY9gf40=
 			</data>
 		</dict>
 		<key>Modules/NotificareKit.swiftmodule/x86_64.swiftinterface</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			7FP2Vlc0vU3n/G1gUX8dFVIGTTQ=
+			iNFMAp/2jFhZyEduX0xi2+zvbQY=
 			</data>
 			<key>hash2</key>
 			<data>
-			iL0RW9BIrD0eVxL8ZCQUy0L0V80f9d8Xu6nhJQjoIqQ=
+			CUDz1KU2TgfGmvSVm5kwDfkS8RdZ1dy8HMNTYUrukZo=
 			</data>
 		</dict>
 		<key>Modules/NotificareKit.swiftmodule/x86_64.swiftmodule</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			G2dnf/1DrFsUTACUC5khALo1znc=
+			4/I9M+Vz5kwdL8BGu8gAj3sMCgc=
 			</data>
 			<key>hash2</key>
 			<data>
-			gYvMZVwG2ufY0zQ71Shp5VQhnHjVNPKT1OL4/o+ssow=
+			YM863ufltcr7WKG6egcIMZ8GRr6k2dvPgUZr0q1g60k=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
