@@ -331,6 +331,37 @@ public class Notificare {
             }
     }
 
+    public func callNotificationReplyWebhook(url: URL, data: [String: String], _ completion: @escaping NotificareCallback<Void>) {
+        var params = [String: String]()
+
+        // Add all query params to the POST body.
+        if let components = URLComponents(url: url, resolvingAgainstBaseURL: false), let queryItems = components.queryItems {
+            queryItems.forEach { item in
+                if let value = item.value {
+                    params[item.name] = value
+                }
+            }
+        }
+
+        // Add our standard properties.
+        params["userID"] = deviceManager.currentDevice?.userId
+        params["deviceID"] = deviceManager.currentDevice?.id
+
+        // Add all the items passed via data.
+        data.forEach { params[$0.key] = $0.value }
+
+        NotificareRequest.Builder()
+            .post(url.absoluteString, body: params)
+            .response { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+    }
+
     public func uploadNotificationReplyAsset(_ data: Data, contentType: String, _ completion: @escaping NotificareCallback<String>) {
         NotificareRequest.Builder()
             .post("/upload/reply", body: data, contentType: contentType)
@@ -342,6 +373,17 @@ public class Notificare {
                     completion(.failure(error))
                 }
             }
+    }
+
+    public func removeNotificationFromNotificationCenter(_ notification: NotificareNotification) {
+        UNUserNotificationCenter.current().getDeliveredNotifications { notifications in
+            notifications.forEach {
+                if let id = $0.request.content.userInfo["id"] as? String, id == notification.id {
+                    NotificareLogger.debug("Removing notification '\(notification.id)' from the notification center.")
+                    UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [$0.request.identifier])
+                }
+            }
+        }
     }
 
     // MARK: - Private API
