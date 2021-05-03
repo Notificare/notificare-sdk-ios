@@ -48,9 +48,9 @@ public protocol NotificarePushDelegate : AnyObject {
   func notificare(_ notificarePush: NotificarePushKit.NotificarePush, didReceiveNotification notification: NotificareKit.NotificareNotification)
   func notificare(_ notificarePush: NotificarePushKit.NotificarePush, didReceiveSystemNotification notification: NotificarePushKit.NotificareSystemNotification)
   func notificare(_ notificarePush: NotificarePushKit.NotificarePush, shouldOpenSettings notification: NotificareKit.NotificareNotification?)
-  func notificare(_ notificarePush: NotificarePushKit.NotificarePush, didReceiveUnknownAction action: Swift.String, for notification: [Swift.AnyHashable : Any], with data: [Swift.AnyHashable : Any])
+  func notificare(_ notificarePush: NotificarePushKit.NotificarePush, didReceiveUnknownAction action: Swift.String, for notification: [Swift.AnyHashable : Any], responseText: Swift.String?)
   func notificare(_ notificarePush: NotificarePushKit.NotificarePush, didOpenNotification notification: NotificareKit.NotificareNotification)
-  func notificare(_ notificarePush: NotificarePushKit.NotificarePush, didOpenAction action: NotificareKit.NotificareNotification.Action, for notification: NotificareKit.NotificareNotification, with response: NotificareKit.NotificareNotification.ResponseData?)
+  func notificare(_ notificarePush: NotificarePushKit.NotificarePush, didOpenAction action: NotificareKit.NotificareNotification.Action, for notification: NotificareKit.NotificareNotification)
 }
 extension NotificarePushDelegate {
   public func notificare(_: NotificarePushKit.NotificarePush, didFailToRegisterForRemoteNotificationsWithError _: Swift.Error)
@@ -59,9 +59,9 @@ extension NotificarePushDelegate {
   public func notificare(_: NotificarePushKit.NotificarePush, didReceiveNotification _: NotificareKit.NotificareNotification)
   public func notificare(_: NotificarePushKit.NotificarePush, didReceiveSystemNotification _: NotificarePushKit.NotificareSystemNotification)
   public func notificare(_: NotificarePushKit.NotificarePush, shouldOpenSettings _: NotificareKit.NotificareNotification?)
-  public func notificare(_: NotificarePushKit.NotificarePush, didReceiveUnknownAction _: Swift.String, for _: [Swift.AnyHashable : Any], with _: [Swift.AnyHashable : Any])
+  public func notificare(_: NotificarePushKit.NotificarePush, didReceiveUnknownAction _: Swift.String, for _: [Swift.AnyHashable : Any], responseText _: Swift.String?)
   public func notificare(_: NotificarePushKit.NotificarePush, didOpenNotification _: NotificareKit.NotificareNotification)
-  public func notificare(_: NotificarePushKit.NotificarePush, didOpenAction _: NotificareKit.NotificareNotification.Action, for _: NotificareKit.NotificareNotification, with _: NotificareKit.NotificareNotification.ResponseData?)
+  public func notificare(_: NotificarePushKit.NotificarePush, didOpenAction _: NotificareKit.NotificareNotification.Action, for _: NotificareKit.NotificareNotification)
 }
 extension NotificarePush {
   @objc dynamic public func application(_: UIKit.UIApplication, didRegisterForRemoteNotificationsWithDeviceToken token: Foundation.Data)

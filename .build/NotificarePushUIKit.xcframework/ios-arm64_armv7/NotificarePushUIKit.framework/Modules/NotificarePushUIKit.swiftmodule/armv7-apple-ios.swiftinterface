@@ -101,6 +101,11 @@ extension NotificareTelephoneActionHandler {
   public func presentAction(_ action: NotificareKit.NotificareNotification.Action, for notification: NotificareKit.NotificareNotification, with response: NotificareKit.NotificareNotification.ResponseData?, in controller: UIKit.UIViewController)
   @objc deinit
 }
+extension NotificareNotification {
+  public var requiresViewController: Swift.Bool {
+    get
+  }
+}
 @objc @_hasMissingDesignatedInitializers public class NotificareBaseActionHandler : ObjectiveC.NSObject {
   @objc override dynamic public init()
   @objc deinit

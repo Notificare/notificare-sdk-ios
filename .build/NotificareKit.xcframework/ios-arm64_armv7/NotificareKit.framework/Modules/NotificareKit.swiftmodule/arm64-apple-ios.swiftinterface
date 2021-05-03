@@ -41,8 +41,10 @@ public typealias NotificareCallback<T> = (Swift.Result<T, Swift.Error>) -> Swift
   public func fetchApplication(_ completion: @escaping NotificareKit.NotificareCallback<NotificareKit.NotificareApplication>)
   public func fetchDynamicLink(_ link: Swift.String, _ completion: @escaping NotificareKit.NotificareCallback<NotificareKit.NotificareDynamicLink>)
   public func fetchNotification(_ id: Swift.String, _ completion: @escaping NotificareKit.NotificareCallback<NotificareKit.NotificareNotification>)
-  public func createNotificationReply(_ action: NotificareKit.NotificareNotification.Action, for notification: NotificareKit.NotificareNotification, message: Swift.String? = nil, media: Swift.String? = nil, mimeType: Swift.String? = nil, _ completion: @escaping NotificareKit.NotificareCallback<Swift.Void>)
+  public func createNotificationReply(notification: NotificareKit.NotificareNotification, action: NotificareKit.NotificareNotification.Action, message: Swift.String? = nil, media: Swift.String? = nil, mimeType: Swift.String? = nil, _ completion: @escaping NotificareKit.NotificareCallback<Swift.Void>)
+  public func callNotificationReplyWebhook(url: Foundation.URL, data: [Swift.String : Swift.String], _ completion: @escaping NotificareKit.NotificareCallback<Swift.Void>)
   public func uploadNotificationReplyAsset(_ data: Foundation.Data, contentType: Swift.String, _ completion: @escaping NotificareKit.NotificareCallback<Swift.String>)
+  public func removeNotificationFromNotificationCenter(_ notification: NotificareKit.NotificareNotification)
   @objc deinit
 }
 open class NotificareAbstractDatabase {

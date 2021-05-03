@@ -223,6 +223,15 @@ SWIFT_CLASS("_TtC17NotificarePushKit14NotificarePush")
 @interface NotificarePush (SWIFT_EXTENSION(NotificarePushKit)) <NotificareAppDelegateInterceptor>
 @end
 
+@class UIApplication;
+@class NSData;
+
+@interface NotificarePush (SWIFT_EXTENSION(NotificarePushKit))
+- (void)application:(UIApplication * _Nonnull)_ didRegisterForRemoteNotificationsWithDeviceToken:(NSData * _Nonnull)token;
+- (void)application:(UIApplication * _Nonnull)_ didFailToRegisterForRemoteNotificationsWithError:(NSError * _Nonnull)error;
+- (void)application:(UIApplication * _Nonnull)_ didReceiveRemoteNotification:(NSDictionary * _Nonnull)userInfo fetchCompletionHandler:(void (^ _Nonnull)(UIBackgroundFetchResult))completionHandler;
+@end
+
 @class UNUserNotificationCenter;
 @class UNNotificationResponse;
 @class UNNotification;
@@ -231,15 +240,6 @@ SWIFT_CLASS("_TtC17NotificarePushKit14NotificarePush")
 - (void)userNotificationCenter:(UNUserNotificationCenter * _Nonnull)_ didReceiveNotificationResponse:(UNNotificationResponse * _Nonnull)response withCompletionHandler:(void (^ _Nonnull)(void))completionHandler;
 - (void)userNotificationCenter:(UNUserNotificationCenter * _Nonnull)_ willPresentNotification:(UNNotification * _Nonnull)notification withCompletionHandler:(void (^ _Nonnull)(UNNotificationPresentationOptions))completionHandler;
 - (void)userNotificationCenter:(UNUserNotificationCenter * _Nonnull)_ openSettingsForNotification:(UNNotification * _Nullable)notification;
-@end
-
-@class UIApplication;
-@class NSData;
-
-@interface NotificarePush (SWIFT_EXTENSION(NotificarePushKit))
-- (void)application:(UIApplication * _Nonnull)_ didRegisterForRemoteNotificationsWithDeviceToken:(NSData * _Nonnull)token;
-- (void)application:(UIApplication * _Nonnull)_ didFailToRegisterForRemoteNotificationsWithError:(NSError * _Nonnull)error;
-- (void)application:(UIApplication * _Nonnull)_ didReceiveRemoteNotification:(NSDictionary * _Nonnull)userInfo fetchCompletionHandler:(void (^ _Nonnull)(UIBackgroundFetchResult))completionHandler;
 @end
 
 #if __has_attribute(external_source_symbol)
@@ -472,6 +472,15 @@ SWIFT_CLASS("_TtC17NotificarePushKit14NotificarePush")
 @interface NotificarePush (SWIFT_EXTENSION(NotificarePushKit)) <NotificareAppDelegateInterceptor>
 @end
 
+@class UIApplication;
+@class NSData;
+
+@interface NotificarePush (SWIFT_EXTENSION(NotificarePushKit))
+- (void)application:(UIApplication * _Nonnull)_ didRegisterForRemoteNotificationsWithDeviceToken:(NSData * _Nonnull)token;
+- (void)application:(UIApplication * _Nonnull)_ didFailToRegisterForRemoteNotificationsWithError:(NSError * _Nonnull)error;
+- (void)application:(UIApplication * _Nonnull)_ didReceiveRemoteNotification:(NSDictionary * _Nonnull)userInfo fetchCompletionHandler:(void (^ _Nonnull)(UIBackgroundFetchResult))completionHandler;
+@end
+
 @class UNUserNotificationCenter;
 @class UNNotificationResponse;
 @class UNNotification;
@@ -480,15 +489,6 @@ SWIFT_CLASS("_TtC17NotificarePushKit14NotificarePush")
 - (void)userNotificationCenter:(UNUserNotificationCenter * _Nonnull)_ didReceiveNotificationResponse:(UNNotificationResponse * _Nonnull)response withCompletionHandler:(void (^ _Nonnull)(void))completionHandler;
 - (void)userNotificationCenter:(UNUserNotificationCenter * _Nonnull)_ willPresentNotification:(UNNotification * _Nonnull)notification withCompletionHandler:(void (^ _Nonnull)(UNNotificationPresentationOptions))completionHandler;
 - (void)userNotificationCenter:(UNUserNotificationCenter * _Nonnull)_ openSettingsForNotification:(UNNotification * _Nullable)notification;
-@end
-
-@class UIApplication;
-@class NSData;
-
-@interface NotificarePush (SWIFT_EXTENSION(NotificarePushKit))
-- (void)application:(UIApplication * _Nonnull)_ didRegisterForRemoteNotificationsWithDeviceToken:(NSData * _Nonnull)token;
-- (void)application:(UIApplication * _Nonnull)_ didFailToRegisterForRemoteNotificationsWithError:(NSError * _Nonnull)error;
-- (void)application:(UIApplication * _Nonnull)_ didReceiveRemoteNotification:(NSDictionary * _Nonnull)userInfo fetchCompletionHandler:(void (^ _Nonnull)(UIBackgroundFetchResult))completionHandler;
 @end
 
 #if __has_attribute(external_source_symbol)
@@ -721,6 +721,15 @@ SWIFT_CLASS("_TtC17NotificarePushKit14NotificarePush")
 @interface NotificarePush (SWIFT_EXTENSION(NotificarePushKit)) <NotificareAppDelegateInterceptor>
 @end
 
+@class UIApplication;
+@class NSData;
+
+@interface NotificarePush (SWIFT_EXTENSION(NotificarePushKit))
+- (void)application:(UIApplication * _Nonnull)_ didRegisterForRemoteNotificationsWithDeviceToken:(NSData * _Nonnull)token;
+- (void)application:(UIApplication * _Nonnull)_ didFailToRegisterForRemoteNotificationsWithError:(NSError * _Nonnull)error;
+- (void)application:(UIApplication * _Nonnull)_ didReceiveRemoteNotification:(NSDictionary * _Nonnull)userInfo fetchCompletionHandler:(void (^ _Nonnull)(UIBackgroundFetchResult))completionHandler;
+@end
+
 @class UNUserNotificationCenter;
 @class UNNotificationResponse;
 @class UNNotification;
@@ -729,15 +738,6 @@ SWIFT_CLASS("_TtC17NotificarePushKit14NotificarePush")
 - (void)userNotificationCenter:(UNUserNotificationCenter * _Nonnull)_ didReceiveNotificationResponse:(UNNotificationResponse * _Nonnull)response withCompletionHandler:(void (^ _Nonnull)(void))completionHandler;
 - (void)userNotificationCenter:(UNUserNotificationCenter * _Nonnull)_ willPresentNotification:(UNNotification * _Nonnull)notification withCompletionHandler:(void (^ _Nonnull)(UNNotificationPresentationOptions))completionHandler;
 - (void)userNotificationCenter:(UNUserNotificationCenter * _Nonnull)_ openSettingsForNotification:(UNNotification * _Nullable)notification;
-@end
-
-@class UIApplication;
-@class NSData;
-
-@interface NotificarePush (SWIFT_EXTENSION(NotificarePushKit))
-- (void)application:(UIApplication * _Nonnull)_ didRegisterForRemoteNotificationsWithDeviceToken:(NSData * _Nonnull)token;
-- (void)application:(UIApplication * _Nonnull)_ didFailToRegisterForRemoteNotificationsWithError:(NSError * _Nonnull)error;
-- (void)application:(UIApplication * _Nonnull)_ didReceiveRemoteNotification:(NSDictionary * _Nonnull)userInfo fetchCompletionHandler:(void (^ _Nonnull)(UIBackgroundFetchResult))completionHandler;
 @end
 
 #if __has_attribute(external_source_symbol)
