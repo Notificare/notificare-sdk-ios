@@ -10,7 +10,6 @@ import NotificareKit
 import UIKit
 
 public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
-    private let response: NotificareNotification.ResponseData?
     private let sourceViewController: UIViewController
 
     private var theme: NotificareOptions.Theme?
@@ -33,14 +32,13 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
     private var videoData: Data?
 
     private var message: String? {
-        response?.userText ?? messageField?.text ?? messageView?.text
+        messageField?.text ?? messageView?.text
     }
 
     private var mediaUrl: String?
     private var mediaMimeType: String?
 
-    init(notification: NotificareNotification, action: NotificareNotification.Action, response: NotificareNotification.ResponseData?, sourceViewController: UIViewController) {
-        self.response = response
+    init(notification: NotificareNotification, action: NotificareNotification.Action, sourceViewController: UIViewController) {
         self.sourceViewController = sourceViewController
         super.init(notification: notification, action: action)
 
@@ -124,12 +122,7 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
         }
 
         if action.keyboard {
-            if response?.userText != nil {
-                send()
-            } else {
-                openKeyboard()
-            }
-
+            openKeyboard()
             return
         }
 

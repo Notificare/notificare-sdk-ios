@@ -89,7 +89,7 @@ public class NotificarePushUI {
         latestPresentableNotificationHandler?.present(in: controller)
     }
 
-    public func presentAction(_ action: NotificareNotification.Action, for notification: NotificareNotification, with response: NotificareNotification.ResponseData?, in controller: UIViewController) {
+    public func presentAction(_ action: NotificareNotification.Action, for notification: NotificareNotification, in controller: UIViewController) {
         NotificareLogger.debug("Presenting notification action '\(action.type)' for notification '\(notification.id)'.")
 
         guard let type = NotificareNotification.Action.ActionType(rawValue: action.type) else {
@@ -107,7 +107,6 @@ public class NotificarePushUI {
         case .callback:
             latestPresentableActionHandler = NotificareCallbackActionHandler(notification: notification,
                                                                              action: action,
-                                                                             response: response,
                                                                              sourceViewController: controller)
         case .custom:
             latestPresentableActionHandler = NotificareCustomActionHandler(notification: notification,

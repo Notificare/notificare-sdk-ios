@@ -80,7 +80,7 @@ public class NotificareBaseNotificationViewController: UIViewController {
     }
 
     func handleAction(_ action: NotificareNotification.Action) {
-        NotificarePushUI.shared.presentAction(action, for: notification, with: nil, in: self)
+        NotificarePushUI.shared.presentAction(action, for: notification, in: self)
     }
 
     func hasNotificareQueryParameters(in url: URL) -> Bool {
