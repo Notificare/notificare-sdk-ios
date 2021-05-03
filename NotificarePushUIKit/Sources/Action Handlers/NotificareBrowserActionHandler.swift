@@ -11,7 +11,7 @@ public class NotificareBrowserActionHandler: NotificareBaseActionHandler {
             DispatchQueue.main.async {
                 UIApplication.shared.open(url, options: [:]) { _ in
                     NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didExecuteAction: self.action, for: self.notification)
-                    Notificare.shared.createNotificationReply(self.action, for: self.notification) { _ in }
+                    Notificare.shared.createNotificationReply(notification: self.notification, action: self.action) { _ in }
                 }
             }
         } else {

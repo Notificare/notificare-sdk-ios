@@ -50,7 +50,7 @@ extension NotificareSmsActionHandler: MFMessageComposeViewControllerDelegate {
         switch result {
         case .sent:
             NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didExecuteAction: action, for: notification)
-            Notificare.shared.createNotificationReply(action, for: notification) { _ in }
+            Notificare.shared.createNotificationReply(notification: notification, action: action) { _ in }
 
         case .cancelled:
             NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didNotExecuteAction: action, for: notification)

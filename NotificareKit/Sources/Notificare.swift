@@ -300,7 +300,7 @@ public class Notificare {
             }
     }
 
-    public func createNotificationReply(_ action: NotificareNotification.Action, for notification: NotificareNotification, message: String? = nil, media: String? = nil, mimeType: String? = nil, _ completion: @escaping NotificareCallback<Void>) {
+    public func createNotificationReply(notification: NotificareNotification, action: NotificareNotification.Action, message: String? = nil, media: String? = nil, mimeType: String? = nil, _ completion: @escaping NotificareCallback<Void>) {
         guard isReady, let device = deviceManager.currentDevice else {
             completion(.failure(NotificareError.notReady))
             return
