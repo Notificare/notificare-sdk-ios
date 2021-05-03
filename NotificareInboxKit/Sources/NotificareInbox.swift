@@ -183,7 +183,7 @@ public class NotificareInbox: NSObject, NotificareModule {
         }
 
         // Remove the item from the notification center.
-        removeItemFromNotificationCenter(item)
+        Notificare.shared.removeNotificationFromNotificationCenter(item.notification)
 
         if item.notification.partial {
             Notificare.shared.fetchNotification(item.notification.id) { result in
@@ -249,7 +249,7 @@ public class NotificareInbox: NSObject, NotificareModule {
                 self.database.saveChanges()
 
                 // No need to keep the item in the notification center.
-                self.removeItemFromNotificationCenter(item)
+                Notificare.shared.removeNotificationFromNotificationCenter(item.notification)
 
                 // Notify the delegate.
                 NotificareInbox.shared.delegate?.notificare(NotificareInbox.shared, didUpdateInbox: self.visibleItems)
@@ -295,7 +295,7 @@ public class NotificareInbox: NSObject, NotificareModule {
                             entity.opened = true
 
                             // No need to keep the item in the notification center.
-                            self.removeItemFromNotificationCenter(entity.toModel())
+                            Notificare.shared.removeNotificationFromNotificationCenter(entity.toModel().notification)
                         }
 
                     // Persist the changes to the database.
@@ -341,7 +341,7 @@ public class NotificareInbox: NSObject, NotificareModule {
                         self.database.remove(entity)
                         self.cachedEntities.remove(at: index)
 
-                        self.removeItemFromNotificationCenter(item)
+                        Notificare.shared.removeNotificationFromNotificationCenter(item.notification)
                     }
 
                     // Notify the delegate.
@@ -480,20 +480,9 @@ public class NotificareInbox: NSObject, NotificareModule {
             .map { $0.toModel() }
             .forEach { item in
                 if item.expired {
-                    removeItemFromNotificationCenter(item)
+                    Notificare.shared.removeNotificationFromNotificationCenter(item.notification)
                 }
             }
-    }
-
-    private func removeItemFromNotificationCenter(_ item: NotificareInboxItem) {
-        UNUserNotificationCenter.current().getDeliveredNotifications { notifications in
-            notifications.forEach { notification in
-                if let id = notification.request.content.userInfo["id"] as? String, id == item.id {
-                    NotificareLogger.debug("Removing inbox item '\(item.id)' from the notification center.")
-                    UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [notification.request.identifier])
-                }
-            }
-        }
     }
 
     private func clearNotificationCenter() {

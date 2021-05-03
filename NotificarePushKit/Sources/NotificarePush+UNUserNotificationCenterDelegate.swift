@@ -30,16 +30,13 @@ extension NotificarePush: UNUserNotificationCenterDelegate {
                         case .success:
                             if response.actionIdentifier != UNNotificationDefaultActionIdentifier, response.actionIdentifier != UNNotificationDismissActionIdentifier {
                                 if let clickedAction = notification.actions.first(where: { $0.label == response.actionIdentifier }) {
-                                    let response = NotificareNotification.ResponseData(
-                                        identifier: response.actionIdentifier,
-                                        userText: (response as? UNTextInputNotificationResponse)?.userText
-                                    )
+                                    let responseText = (response as? UNTextInputNotificationResponse)?.userText
 
-                                    if clickedAction.type == NotificareNotification.Action.ActionType.callback.rawValue && !clickedAction.camera && (!clickedAction.keyboard || response.userText != nil) {
+                                    if clickedAction.type == NotificareNotification.Action.ActionType.callback.rawValue && !clickedAction.camera && (!clickedAction.keyboard || responseText != nil) {
                                         NotificareLogger.debug("Handling a notification action without UI.")
-                                        // todo sendQuickResponse(notification, action, responseText)
+                                        self.handleQuickResponse(notification: notification, action: clickedAction, responseText: responseText)
                                     } else {
-                                        self.delegate?.notificare(self, didOpenAction: clickedAction, for: notification, with: response)
+                                        self.delegate?.notificare(self, didOpenAction: clickedAction, for: notification)
                                     }
                                 }
 
@@ -51,8 +48,7 @@ extension NotificarePush: UNUserNotificationCenterDelegate {
                                 self.delegate?.notificare(self, didOpenNotification: notification)
 
                                 // Notify the inbox to mark this as read.
-                                // NOTE: The read event was already sent by now.
-                                NotificationCenter.default.post(name: NotificareDefinitions.InternalNotification.readInboxItem, object: nil, userInfo: ["notification": notification])
+                                self.markAsRead(notification)
 
                                 completionHandler()
                             }
@@ -73,12 +69,12 @@ extension NotificarePush: UNUserNotificationCenterDelegate {
         } else {
             // Unrecognizable notification
             if response.actionIdentifier != UNNotificationDefaultActionIdentifier, response.actionIdentifier != UNNotificationDismissActionIdentifier {
-                var data = ["identifier": response.actionIdentifier]
+                var responseText: String?
                 if let response = response as? UNTextInputNotificationResponse {
-                    data["userText"] = response.userText
+                    responseText = response.userText
                 }
 
-                delegate?.notificare(self, didReceiveUnknownAction: response.actionIdentifier, for: userInfo, with: data)
+                delegate?.notificare(self, didReceiveUnknownAction: response.actionIdentifier, for: userInfo, responseText: responseText)
             } else {
                 delegate?.notificare(self, didReceiveUnknownNotification: userInfo)
             }
@@ -155,5 +151,59 @@ extension NotificarePush: UNUserNotificationCenterDelegate {
                 NotificareLogger.error("Failed to fetch notification with id '\(id)' for notification settings.")
             }
         }
+    }
+
+    private func handleQuickResponse(notification: NotificareNotification, action: NotificareNotification.Action, responseText: String?) {
+        // Log the notification open event.
+        Notificare.shared.eventsManager.logNotificationOpen(notification.id)
+
+        sendQuickResponse(notification: notification, action: action, responseText: responseText) { _ in
+            // Remove the notification from the notification center.
+            Notificare.shared.removeNotificationFromNotificationCenter(notification)
+
+            // Notify the inbox to mark the item as read.
+            self.markAsRead(notification)
+        }
+    }
+
+    private func sendQuickResponse(notification: NotificareNotification, action: NotificareNotification.Action, responseText: String?, _ completion: @escaping NotificareCallback<Void>) {
+        guard let target = action.target, let url = URL(string: target), url.scheme != nil, url.host != nil else {
+            // NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didExecuteAction: action, for: notification)
+            sendQuickResponseAction(notification: notification, action: action, responseText: responseText, completion)
+
+            return
+        }
+
+        var params = [
+            "notificationID": notification.id,
+            "label": action.label,
+        ]
+
+        if let responseText = responseText {
+            params["message"] = responseText
+        }
+
+        Notificare.shared.callNotificationReplyWebhook(url: url, data: params) { result in
+            if case let .failure(error) = result {
+                NotificareLogger.debug("Failed to call the notification reply webhook.\n\(error)")
+            }
+
+            self.sendQuickResponseAction(notification: notification, action: action, responseText: responseText, completion)
+        }
+    }
+
+    private func sendQuickResponseAction(notification: NotificareNotification, action: NotificareNotification.Action, responseText: String?, _ completion: @escaping NotificareCallback<Void>) {
+        Notificare.shared.createNotificationReply(notification: notification, action: action, message: responseText, media: nil, mimeType: nil) { result in
+            if case let .failure(error) = result {
+                NotificareLogger.debug("Failed to create a notification reply.\n\(error)")
+            }
+
+            completion(result)
+        }
+    }
+
+    private func markAsRead(_ notification: NotificareNotification) {
+        // NOTE: The read event was already sent by now.
+        NotificationCenter.default.post(name: NotificareDefinitions.InternalNotification.readInboxItem, object: nil, userInfo: ["notification": notification])
     }
 }
