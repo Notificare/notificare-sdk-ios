@@ -122,7 +122,11 @@ public extension NotificarePush {
 
                 // Put the notification in the inbox, if appropriate.
                 if let notification = NotificareNotification(apnsDictionary: userInfo) {
+                    // Put the notification in the inbox, if appropriate.
                     self.addToLocalInbox(userInfo: userInfo, notification: notification)
+
+                    // Notify the delegate.
+                    self.delegate?.notificare(self, didReceiveNotification: notification)
 
                     completion(.success(()))
                 } else {
