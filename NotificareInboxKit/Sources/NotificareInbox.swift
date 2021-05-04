@@ -8,6 +8,11 @@ import UIKit
 public typealias NotificareInboxCallback<T> = (Result<T, Error>) -> Void
 
 public class NotificareInbox: NSObject, NotificareModule {
+    private static let addInboxItemNotification = NSNotification.Name(rawValue: "NotificareInboxKit.AddInboxItem")
+    private static let readInboxItemNotification = NSNotification.Name(rawValue: "NotificareInboxKit.ReadInboxItem")
+    private static let refreshBadgeNotification = NSNotification.Name(rawValue: "NotificareInboxKit.RefreshBadge")
+    private static let reloadInboxNotification = NSNotification.Name(rawValue: "NotificareInboxKit.ReloadInbox")
+
     public static let shared = NotificareInbox()
 
     public weak var delegate: NotificareInboxDelegate?
@@ -72,25 +77,25 @@ public class NotificareInbox: NSObject, NotificareModule {
         // Listen to inbox addition requests.
         NotificationCenter.default.addObserver(NotificareInbox.shared,
                                                selector: #selector(onAddItemNotification(_:)),
-                                               name: NotificareDefinitions.InternalNotification.addInboxItem,
+                                               name: addInboxItemNotification,
                                                object: nil)
 
         // Listen to inbox read requests.
         NotificationCenter.default.addObserver(NotificareInbox.shared,
                                                selector: #selector(onReadItemNotification(_:)),
-                                               name: NotificareDefinitions.InternalNotification.readInboxItem,
+                                               name: readInboxItemNotification,
                                                object: nil)
 
         // Listen to badge refresh requests.
         NotificationCenter.default.addObserver(NotificareInbox.shared,
                                                selector: #selector(onRefreshBadgeNotification(_:)),
-                                               name: NotificareDefinitions.InternalNotification.refreshBadge,
+                                               name: refreshBadgeNotification,
                                                object: nil)
 
         // Listen to inbox reload requests.
         NotificationCenter.default.addObserver(NotificareInbox.shared,
                                                selector: #selector(onReloadInboxNotification(_:)),
-                                               name: NotificareDefinitions.InternalNotification.reloadInbox,
+                                               name: reloadInboxNotification,
                                                object: nil)
 
         // Listen to application did become active events.
@@ -569,14 +574,14 @@ public class NotificareInbox: NSObject, NotificareModule {
     @objc private func onReadItemNotification(_ notification: Notification) {
         NotificareLogger.debug("Received a signal to mark an item as read.")
 
-        guard let userInfo = notification.userInfo, let notification = userInfo["notification"] as? NotificareNotification else {
+        guard let userInfo = notification.userInfo, let inboxItemId = userInfo["inboxItemId"] as? String else {
             NotificareLogger.warning("Unable to handle the notification read request.")
             return
         }
 
         // Mark entities as read.
         cachedEntities
-            .filter { $0.notificationId == notification.id }
+            .filter { $0.id == inboxItemId }
             .forEach { $0.opened = true }
 
         // Persist the changes to the database.

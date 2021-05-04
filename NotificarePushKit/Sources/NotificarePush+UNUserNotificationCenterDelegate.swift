@@ -34,21 +34,21 @@ extension NotificarePush: UNUserNotificationCenterDelegate {
 
                                     if clickedAction.type == NotificareNotification.Action.ActionType.callback.rawValue && !clickedAction.camera && (!clickedAction.keyboard || responseText != nil) {
                                         NotificareLogger.debug("Handling a notification action without UI.")
-                                        self.handleQuickResponse(notification: notification, action: clickedAction, responseText: responseText)
+                                        self.handleQuickResponse(userInfo: userInfo, notification: notification, action: clickedAction, responseText: responseText)
                                     } else {
                                         self.delegate?.notificare(self, didOpenAction: clickedAction, for: notification)
                                     }
                                 }
 
                                 // Notify the inbox to update the badge.
-                                NotificationCenter.default.post(name: NotificareDefinitions.InternalNotification.refreshBadge, object: nil, userInfo: nil)
+                                InboxIntegration.refreshBadge()
 
                                 completionHandler()
                             } else {
                                 self.delegate?.notificare(self, didOpenNotification: notification)
 
                                 // Notify the inbox to mark this as read.
-                                self.markAsRead(notification)
+                                InboxIntegration.markItemAsRead(userInfo: userInfo)
 
                                 completionHandler()
                             }
@@ -153,7 +153,7 @@ extension NotificarePush: UNUserNotificationCenterDelegate {
         }
     }
 
-    private func handleQuickResponse(notification: NotificareNotification, action: NotificareNotification.Action, responseText: String?) {
+    private func handleQuickResponse(userInfo: [AnyHashable: Any], notification: NotificareNotification, action: NotificareNotification.Action, responseText: String?) {
         // Log the notification open event.
         Notificare.shared.eventsManager.logNotificationOpen(notification.id)
 
@@ -162,7 +162,7 @@ extension NotificarePush: UNUserNotificationCenterDelegate {
             Notificare.shared.removeNotificationFromNotificationCenter(notification)
 
             // Notify the inbox to mark the item as read.
-            self.markAsRead(notification)
+            InboxIntegration.markItemAsRead(userInfo: userInfo)
         }
     }
 
@@ -200,10 +200,5 @@ extension NotificarePush: UNUserNotificationCenterDelegate {
 
             completion(result)
         }
-    }
-
-    private func markAsRead(_ notification: NotificareNotification) {
-        // NOTE: The read event was already sent by now.
-        NotificationCenter.default.post(name: NotificareDefinitions.InternalNotification.readInboxItem, object: nil, userInfo: ["notification": notification])
     }
 }
