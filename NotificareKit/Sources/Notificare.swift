@@ -25,8 +25,16 @@ public class Notificare {
 
     // Launch / application state
     internal private(set) var state: NotificareLaunchState = .none
-    public private(set) var application: NotificareApplication?
     public var launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+
+    public private(set) var application: NotificareApplication? {
+        get {
+            LocalStorage.application
+        }
+        set {
+            LocalStorage.application = newValue
+        }
+    }
 
     public weak var delegate: NotificareDelegate?
 
@@ -407,7 +415,6 @@ public class Notificare {
     private func launchResult(_ result: Result<NotificareApplication, Error>) {
         switch result {
         case let .success(application):
-            self.application = application
             state = .ready
 
             let enabledServices = application.services.filter { $0.value }.map(\.key)

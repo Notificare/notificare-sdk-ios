@@ -6,11 +6,49 @@ import Foundation
 
 enum LocalStorage {
     private enum Keys: String {
+        case application = "re.notifica.local_storage.application"
         case device = "re.notifica.local_storage.device"
         case preferredLanguage = "re.notifica.local_storage.preferred_language"
         case preferredRegion = "re.notifica.local_storage.preferred_region"
         case crashReport = "re.notifica.local_storage.crash_report"
         case currentDatabaseVersion = "re.notifica.local_storage.current_database_version"
+    }
+
+    static var application: NotificareApplication? {
+        get {
+            guard let data = UserDefaults.standard.object(forKey: Keys.application.rawValue) as? Data else {
+                return nil
+            }
+
+            do {
+                let decoder = NotificareUtils.jsonDecoder
+                return try decoder.decode(NotificareApplication.self, from: data)
+            } catch {
+                NotificareLogger.warning("Failed to decode the stored device.\n\(error)")
+
+                // Remove the corrupted application from local storage.
+                UserDefaults.standard.removeObject(forKey: Keys.application.rawValue)
+                UserDefaults.standard.synchronize()
+
+                return nil
+            }
+        }
+        set {
+            guard let newValue = newValue else {
+                UserDefaults.standard.removeObject(forKey: Keys.application.rawValue)
+                return
+            }
+
+            do {
+                let encoder = NotificareUtils.jsonEncoder
+                let data = try encoder.encode(newValue)
+
+                UserDefaults.standard.set(data, forKey: Keys.application.rawValue)
+                UserDefaults.standard.synchronize()
+            } catch {
+                NotificareLogger.warning("Failed to encode the stored application.\n\(error)")
+            }
+        }
     }
 
     static var device: NotificareDevice? {
@@ -25,11 +63,11 @@ enum LocalStorage {
                 return try decoder.decode(NotificareDevice.self, from: data)
             } catch {
                 NotificareLogger.warning("Failed to decode the stored device.\n\(error)")
-                
+
                 // Remove the corrupted device from local storage.
                 settings.removeObject(forKey: Keys.device.rawValue)
                 settings.synchronize()
-                
+
                 return nil
             }
         }
@@ -43,7 +81,7 @@ enum LocalStorage {
             do {
                 let encoder = NotificareUtils.jsonEncoder
                 let data = try encoder.encode(newValue)
-                
+
                 settings.set(data, forKey: Keys.device.rawValue)
                 settings.synchronize()
             } catch {
@@ -82,11 +120,11 @@ enum LocalStorage {
                 return try NotificareUtils.jsonDecoder.decode(NotificareEvent.self, from: data)
             } catch {
                 NotificareLogger.warning("Failed to decode the stored crash report.\n\(error)")
-                
+
                 // Remove the corrupted crash report from local storage.
                 UserDefaults.standard.removeObject(forKey: Keys.crashReport.rawValue)
                 UserDefaults.standard.synchronize()
-                
+
                 return nil
             }
         }
@@ -106,7 +144,7 @@ enum LocalStorage {
             }
         }
     }
-    
+
     static var currentDatabaseVersion: String? {
         get {
             UserDefaults.standard.string(forKey: Keys.currentDatabaseVersion.rawValue)
