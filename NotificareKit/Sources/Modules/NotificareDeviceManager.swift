@@ -7,10 +7,10 @@ import UIKit
 public class NotificareDeviceManager {
     public private(set) var currentDevice: NotificareDevice? {
         get {
-            LocalStorage.registeredDevice
+            LocalStorage.device
         }
         set {
-            LocalStorage.registeredDevice = newValue
+            LocalStorage.device = newValue
         }
     }
 
