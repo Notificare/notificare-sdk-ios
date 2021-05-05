@@ -114,7 +114,8 @@ public class NotificareInbox: NSObject, NotificareModule {
     }
 
     public static func unlaunch(_ completion: @escaping (Result<Void, Error>) -> Void) {
-        NotificareInbox.shared.clear(completion)
+        NotificareInbox.shared.clearLocalInbox()
+        completion(.success(()))
     }
 
     // MARK: - Public API
