@@ -14,6 +14,9 @@ public class NotificarePush: NSObject, NotificareModule {
     public var authorizationOptions: UNAuthorizationOptions = [.badge, .sound, .alert]
     public var categoryOptions: UNNotificationCategoryOptions
     public var presentationOptions: UNNotificationPresentationOptions = []
+    public var isRemoteNotificationsEnabled: Bool {
+        LocalStorage.remoteNotificationsEnabled
+    }
 
     private var notificationCenter: UNUserNotificationCenter {
         UNUserNotificationCenter.current()
@@ -93,9 +96,15 @@ public class NotificarePush: NSObject, NotificareModule {
 
         // Request an APNS token.
         UIApplication.shared.registerForRemoteNotifications()
+
+        // Keep track of the status in local storage.
+        LocalStorage.remoteNotificationsEnabled = true
     }
 
     public func disableRemoteNotifications() {
+        // Keep track of the status in local storage.
+        LocalStorage.remoteNotificationsEnabled = false
+
         Notificare.shared.deviceManager.registerTemporary { result in
             switch result {
             case .success:

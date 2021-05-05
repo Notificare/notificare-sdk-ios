@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		F2128F022594E47700F7F68F /* NotificareSystemNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2128F012594E47700F7F68F /* NotificareSystemNotification.swift */; };
+		F21619F32642DCE90005BFF9 /* LocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21619F22642DCE90005BFF9 /* LocalStorage.swift */; };
 		F226509B258B6B900004F833 /* NotificarePush.swift in Sources */ = {isa = PBXBuildFile; fileRef = F226509A258B6B900004F833 /* NotificarePush.swift */; };
 		F22650B9258B6E560004F833 /* NotificareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F22650B8258B6E560004F833 /* NotificareKit.framework */; };
 		F22650BA258B6E560004F833 /* NotificareKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F22650B8258B6E560004F833 /* NotificareKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -48,6 +49,7 @@
 
 /* Begin PBXFileReference section */
 		F2128F012594E47700F7F68F /* NotificareSystemNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareSystemNotification.swift; sourceTree = "<group>"; };
+		F21619F22642DCE90005BFF9 /* LocalStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorage.swift; sourceTree = "<group>"; };
 		F226509A258B6B900004F833 /* NotificarePush.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificarePush.swift; sourceTree = "<group>"; };
 		F22650B8258B6E560004F833 /* NotificareKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F23A5568259C7D6D00B57CF1 /* NotificarePush+EventsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificarePush+EventsManager.swift"; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				F2E9221C2641A4D8005279C0 /* InboxIntegration.swift */,
+				F21619F22642DCE90005BFF9 /* LocalStorage.swift */,
 			);
 			path = Internals;
 			sourceTree = "<group>";
@@ -294,6 +297,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F21619F32642DCE90005BFF9 /* LocalStorage.swift in Sources */,
 				F226509B258B6B900004F833 /* NotificarePush.swift in Sources */,
 				F2D4E26E259CE1CB00AF37A7 /* NotificarePush+UNUserNotificationCenterDelegate.swift in Sources */,
 				F2128F022594E47700F7F68F /* NotificareSystemNotification.swift in Sources */,
