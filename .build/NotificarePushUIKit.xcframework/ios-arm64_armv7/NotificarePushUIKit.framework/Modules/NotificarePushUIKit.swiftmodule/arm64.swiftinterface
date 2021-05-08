@@ -98,7 +98,7 @@ extension NotificareTelephoneActionHandler {
   public static let shared: NotificarePushUIKit.NotificarePushUI
   weak public var delegate: NotificarePushUIKit.NotificarePushUIDelegate?
   public func presentNotification(_ notification: NotificareKit.NotificareNotification, in controller: UIKit.UIViewController)
-  public func presentAction(_ action: NotificareKit.NotificareNotification.Action, for notification: NotificareKit.NotificareNotification, with response: NotificareKit.NotificareNotification.ResponseData?, in controller: UIKit.UIViewController)
+  public func presentAction(_ action: NotificareKit.NotificareNotification.Action, for notification: NotificareKit.NotificareNotification, in controller: UIKit.UIViewController)
   @objc deinit
 }
 extension NotificareNotification {

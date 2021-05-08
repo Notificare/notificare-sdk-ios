@@ -19,10 +19,10 @@ public typealias NotificareCallback<T> = (Swift.Result<T, Swift.Error>) -> Swift
   public var options: NotificareKit.NotificareOptions? {
     get
   }
+  public var launchOptions: [UIKit.UIApplication.LaunchOptionsKey : Any]?
   public var application: NotificareKit.NotificareApplication? {
     get
   }
-  public var launchOptions: [UIKit.UIApplication.LaunchOptionsKey : Any]?
   weak public var delegate: NotificareKit.NotificareDelegate?
   public var useAdvancedLogging: Swift.Bool {
     get
@@ -284,14 +284,6 @@ extension NotificareNotification.Action {
     public var rawValue: Swift.String {
       get
     }
-  }
-}
-extension NotificareNotification {
-  public struct ResponseData : Swift.Decodable {
-    public let identifier: Swift.String
-    public let userText: Swift.String?
-    public init(identifier: Swift.String, userText: Swift.String?)
-    public init(from decoder: Swift.Decoder) throws
   }
 }
 extension NotificareNotification {
@@ -617,12 +609,6 @@ public enum NotificareDefinitions {
     public var rawValue: Swift.String {
       get
     }
-  }
-  public enum InternalNotification {
-    public static let addInboxItem: Foundation.NSNotification.Name
-    public static let readInboxItem: Foundation.NSNotification.Name
-    public static let refreshBadge: Foundation.NSNotification.Name
-    public static let reloadInbox: Foundation.NSNotification.Name
   }
 }
 public struct NotificareDoNotDisturb : Swift.Codable {

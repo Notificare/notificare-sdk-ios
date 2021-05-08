@@ -14,6 +14,9 @@ import UserNotifications
   public var authorizationOptions: UserNotifications.UNAuthorizationOptions
   public var categoryOptions: UserNotifications.UNNotificationCategoryOptions
   public var presentationOptions: UserNotifications.UNNotificationPresentationOptions
+  public var isRemoteNotificationsEnabled: Swift.Bool {
+    get
+  }
   public static func configure(applicationKey _: Swift.String, applicationSecret _: Swift.String)
   public static func launch(_ completion: @escaping (Swift.Result<Swift.Void, Swift.Error>) -> Swift.Void)
   public static func unlaunch(_ completion: @escaping (Swift.Result<Swift.Void, Swift.Error>) -> Swift.Void)
