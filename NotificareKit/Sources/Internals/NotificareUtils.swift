@@ -93,24 +93,16 @@ public enum NotificareUtils {
 
     // MARK: - JSON encoding
 
-    public static let isoDateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-        formatter.timeZone = TimeZone(identifier: "UTC")
-
-        return formatter
-    }()
-
     public static let jsonDecoder: JSONDecoder = {
         let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .formatted(isoDateFormatter)
+        decoder.dateDecodingStrategy = .formatted(NotificareIsoDateUtils.parser)
 
         return decoder
     }()
 
     public static let jsonEncoder: JSONEncoder = {
         let encoder = JSONEncoder()
-        encoder.dateEncodingStrategy = .formatted(isoDateFormatter)
+        encoder.dateEncodingStrategy = .formatted(NotificareIsoDateUtils.formatter)
 
         return encoder
     }()

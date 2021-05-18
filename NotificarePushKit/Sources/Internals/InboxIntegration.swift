@@ -41,7 +41,7 @@ internal class InboxIntegration {
         ]
 
         if let expiresStr = userInfo["inboxItemExpires"] as? String,
-           let inboxItemExpires = NotificareUtils.isoDateFormatter.date(from: expiresStr)
+           let inboxItemExpires = NotificareIsoDateUtils.parse(expiresStr)
         {
             content["inboxItemExpires"] = inboxItemExpires
         }

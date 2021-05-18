@@ -67,6 +67,7 @@
 		F2DB0C1325A8692C00AD93C7 /* NotificareDynamicLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2DB0C1225A8692C00AD93C7 /* NotificareDynamicLink.swift */; };
 		F2E07E5F25344D0700AF0C14 /* NotificareDoNotDisturb.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E07E5E25344D0700AF0C14 /* NotificareDoNotDisturb.swift */; };
 		F2E07E7A2534B5DD00AF0C14 /* NotificareTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E07E792534B5DD00AF0C14 /* NotificareTime.swift */; };
+		F2F986672654149D00C8B068 /* NotificareIsoDateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F986662654149D00C8B068 /* NotificareIsoDateUtils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -146,6 +147,7 @@
 		F2DB0C1225A8692C00AD93C7 /* NotificareDynamicLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareDynamicLink.swift; sourceTree = "<group>"; };
 		F2E07E5E25344D0700AF0C14 /* NotificareDoNotDisturb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareDoNotDisturb.swift; sourceTree = "<group>"; };
 		F2E07E792534B5DD00AF0C14 /* NotificareTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareTime.swift; sourceTree = "<group>"; };
+		F2F986662654149D00C8B068 /* NotificareIsoDateUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareIsoDateUtils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -382,6 +384,7 @@
 				F293E28426302C70008C2010 /* NotificareLogger.swift */,
 				42A2067A01284684F1A3F60C /* NotificareServices.swift */,
 				F293E27A26302C48008C2010 /* NotificareUtils.swift */,
+				F2F986662654149D00C8B068 /* NotificareIsoDateUtils.swift */,
 			);
 			path = Internals;
 			sourceTree = "<group>";
@@ -553,6 +556,7 @@
 				F258DE4424BC68CB006F9ABD /* Notificare.swift in Sources */,
 				42A2011DB7750225B7C9D3E2 /* NotificareBootstrap.m in Sources */,
 				F27DB183262EDAC2000C024D /* PushAPI.swift in Sources */,
+				F2F986672654149D00C8B068 /* NotificareIsoDateUtils.swift in Sources */,
 				F293E2B226303008008C2010 /* NotificareAbstractDatabase.swift in Sources */,
 				F293E2DB26304675008C2010 /* LocalStorage.swift in Sources */,
 				F29DA38125022170004CCB8F /* NotificareDatabase.swift in Sources */,
