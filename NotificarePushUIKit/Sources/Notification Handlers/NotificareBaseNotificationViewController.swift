@@ -92,7 +92,7 @@ public class NotificareBaseNotificationViewController: UIViewController {
             return false
         }
 
-        return queryItems.contains { (item) -> Bool in
+        return queryItems.contains { item -> Bool in
             if item.name == "notificareCloseWindow" || item.name == Notificare.shared.options!.closeWindowQueryParameter {
                 return true
             } else if item.name == "notificareOpenActions", item.value == "1" || item.value == "true" {

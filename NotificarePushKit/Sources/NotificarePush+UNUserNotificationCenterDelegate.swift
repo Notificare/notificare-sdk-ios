@@ -32,7 +32,7 @@ extension NotificarePush: UNUserNotificationCenterDelegate {
                                 if let clickedAction = notification.actions.first(where: { $0.label == response.actionIdentifier }) {
                                     let responseText = (response as? UNTextInputNotificationResponse)?.userText
 
-                                    if clickedAction.type == NotificareNotification.Action.ActionType.callback.rawValue && !clickedAction.camera && (!clickedAction.keyboard || responseText != nil) {
+                                    if clickedAction.type == NotificareNotification.Action.ActionType.callback.rawValue, !clickedAction.camera, !clickedAction.keyboard || responseText != nil {
                                         NotificareLogger.debug("Handling a notification action without UI.")
                                         self.handleQuickResponse(userInfo: userInfo, notification: notification, action: clickedAction, responseText: responseText)
                                     } else {

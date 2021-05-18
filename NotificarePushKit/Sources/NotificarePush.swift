@@ -216,7 +216,7 @@ public class NotificarePush: NSObject, NotificareModule {
 
         // Loop over all the application info actionCategories list of Rich Push templates created for this application.
         Notificare.shared.application?.actionCategories.forEach { category in
-            let actions = category.actions.map { (action) -> UNNotificationAction in
+            let actions = category.actions.map { action -> UNNotificationAction in
                 if action.destructive {
                     return UNNotificationAction(
                         identifier: action.label,

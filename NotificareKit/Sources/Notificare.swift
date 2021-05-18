@@ -417,7 +417,7 @@ public class Notificare {
         case let .success(application):
             state = .ready
 
-            let enabledServices = application.services.filter { $0.value }.map(\.key)
+            let enabledServices = application.services.filter(\.value).map(\.key)
             let enabledModules = NotificareUtils.getLoadedModules()
 
             NotificareLogger.debug("/==================================================================================/")
