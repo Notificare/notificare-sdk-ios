@@ -68,4 +68,8 @@ internal extension PushAPI.Payloads {
             let mimeType: String?
         }
     }
+
+    struct TestDeviceRegistration: Encodable {
+        let deviceID: String
+    }
 }

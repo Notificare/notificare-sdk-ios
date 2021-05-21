@@ -622,6 +622,28 @@ public class NotificareDeviceManager {
         LocalStorage.preferredRegion ?? NotificareUtils.deviceRegion
     }
 
+    internal func registerTestDevice(nonce: String, _ completion: @escaping NotificareCallback<Void>) {
+        guard let device = currentDevice else {
+            completion(.failure(NotificareError.notReady))
+            return
+        }
+
+        let payload = PushAPI.Payloads.TestDeviceRegistration(
+            deviceID: device.id
+        )
+
+        NotificareRequest.Builder()
+            .put("/support/testdevice/\(nonce)", body: payload)
+            .response { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+    }
+
     // MARK: - Notification Center listeners
 
     @objc private func updateDeviceTimezone() {

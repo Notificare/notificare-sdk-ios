@@ -394,6 +394,23 @@ public class Notificare {
         }
     }
 
+    public func handleTestDeviceUrl(_ url: URL) -> Bool {
+        guard let nonce = parseTestDeviceNonce(url: url) else {
+            return false
+        }
+
+        deviceManager.registerTestDevice(nonce: nonce) { result in
+            switch result {
+            case .success:
+                NotificareLogger.info("Device registered for testing.")
+            case let .failure(error):
+                NotificareLogger.error("Failed to register the device for testing.\n\(error)")
+            }
+        }
+
+        return true
+    }
+
     // MARK: - Private API
 
     private func configureNetworking(applicationKey _: String, applicationSecret _: String, services: NotificareServices) {
@@ -460,5 +477,17 @@ public class Notificare {
         } else {
             return NotificareOptions()
         }
+    }
+
+    private func parseTestDeviceNonce(url: URL) -> String? {
+        guard let application = self.application else { return nil }
+        guard let scheme = url.scheme else { return nil }
+
+        // deep link: test.nc{applicationId}/notifica.re/testdevice/{nonce}
+        guard scheme == "test.nc\(application.id)" else { return nil }
+
+        guard url.pathComponents.count == 3, url.pathComponents[1] == "testdevice" else { return nil }
+
+        return url.pathComponents[2]
     }
 }
