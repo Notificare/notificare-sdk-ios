@@ -45,7 +45,12 @@ public typealias NotificareCallback<T> = (Swift.Result<T, Swift.Error>) -> Swift
   public func callNotificationReplyWebhook(url: Foundation.URL, data: [Swift.String : Swift.String], _ completion: @escaping NotificareKit.NotificareCallback<Swift.Void>)
   public func uploadNotificationReplyAsset(_ data: Foundation.Data, contentType: Swift.String, _ completion: @escaping NotificareKit.NotificareCallback<Swift.String>)
   public func removeNotificationFromNotificationCenter(_ notification: NotificareKit.NotificareNotification)
+  public func handleTestDeviceUrl(_ url: Foundation.URL) -> Swift.Bool
   @objc deinit
+}
+public enum NotificareIsoDateUtils {
+  public static func parse(_ date: Swift.String) -> Foundation.Date?
+  public static func format(_ date: Foundation.Date) -> Swift.String
 }
 open class NotificareAbstractDatabase {
   public var persistentContainer: CoreData.NSPersistentContainer {
@@ -371,7 +376,7 @@ extension NotificareTime : Swift.Codable {
   public init(from decoder: Swift.Decoder) throws
   public func encode(to encoder: Swift.Encoder) throws
 }
-public typealias NotificareUserData = [Swift.String : Swift.String]
+public typealias NotificareUserData = [Swift.String : Swift.String?]
 public struct NotificareDevice : Swift.Codable {
   public let id: Swift.String
   public var userId: Swift.String? {
@@ -407,7 +412,7 @@ public struct NotificareDevice : Swift.Codable {
   public var dnd: NotificareKit.NotificareDoNotDisturb? {
     get
   }
-  public var userData: NotificareKit.NotificareUserData? {
+  public var userData: NotificareKit.NotificareUserData {
     get
   }
   public var lastRegistered: Foundation.Date {
@@ -450,7 +455,6 @@ public enum NotificareUtils {
     get
   }
   public static func getLoadedModules() -> [Swift.String]
-  public static let isoDateFormatter: Foundation.DateFormatter
   public static let jsonDecoder: Foundation.JSONDecoder
   public static let jsonEncoder: Foundation.JSONEncoder
 }
@@ -748,7 +752,7 @@ extension Data {
   public func fetchDoNotDisturb(_ completion: @escaping NotificareKit.NotificareCallback<NotificareKit.NotificareDoNotDisturb?>)
   public func updateDoNotDisturb(_ dnd: NotificareKit.NotificareDoNotDisturb, _ completion: @escaping NotificareKit.NotificareCallback<Swift.Void>)
   public func clearDoNotDisturb(_ completion: @escaping NotificareKit.NotificareCallback<Swift.Void>)
-  public func fetchUserData(_ completion: @escaping NotificareKit.NotificareCallback<NotificareKit.NotificareUserData?>)
+  public func fetchUserData(_ completion: @escaping NotificareKit.NotificareCallback<NotificareKit.NotificareUserData>)
   public func updateUserData(_ userData: NotificareKit.NotificareUserData, _ completion: @escaping NotificareKit.NotificareCallback<Swift.Void>)
   public func updateNotificationSettings(_ allowedUI: Swift.Bool, _ completion: @escaping NotificareKit.NotificareCallback<Swift.Void>)
   public func registerTemporary(_ completion: @escaping NotificareKit.NotificareCallback<Swift.Void>)
