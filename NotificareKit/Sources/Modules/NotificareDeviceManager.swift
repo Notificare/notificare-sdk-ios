@@ -475,7 +475,7 @@ public class NotificareDeviceManager {
 
             let deviceRegistration = PushAPI.Payloads.Device.Registration(
                 deviceID: token,
-                oldDeviceId: oldDeviceId,
+                oldDeviceID: oldDeviceId,
                 userID: userId,
                 userName: userName,
                 language: getLanguage(),

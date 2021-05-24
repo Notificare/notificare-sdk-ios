@@ -8,7 +8,7 @@ internal extension PushAPI.Payloads {
     enum Device {
         struct Registration: Encodable {
             let deviceID: String
-            let oldDeviceId: String?
+            let oldDeviceID: String?
             let userID: String?
             let userName: String?
             let language: String
