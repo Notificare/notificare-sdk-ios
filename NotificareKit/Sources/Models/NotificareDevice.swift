@@ -17,7 +17,7 @@ public struct NotificareDevice: Codable {
     public internal(set) var region: String
     public internal(set) var transport: NotificareTransport
     public internal(set) var dnd: NotificareDoNotDisturb?
-    public internal(set) var userData: NotificareUserData?
+    public internal(set) var userData: NotificareUserData
     public internal(set) var lastRegistered: Date
     public internal(set) var allowedUI: Bool
     public internal(set) var backgroundAppRefresh: Bool
@@ -48,7 +48,7 @@ extension NotificareDevice {
         region = registration.region
         transport = registration.transport
         dnd = previous?.dnd
-        userData = previous?.userData
+        userData = previous?.userData ?? [:]
         lastRegistered = Date()
         allowedUI = registration.allowedUI
         backgroundAppRefresh = registration.backgroundAppRefresh

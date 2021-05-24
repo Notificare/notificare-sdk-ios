@@ -292,7 +292,7 @@ public class NotificareDeviceManager {
             }
     }
 
-    public func fetchUserData(_ completion: @escaping NotificareCallback<NotificareUserData?>) {
+    public func fetchUserData(_ completion: @escaping NotificareCallback<NotificareUserData>) {
         guard Notificare.shared.isReady, let device = currentDevice else {
             completion(.failure(NotificareError.notReady))
             return
@@ -303,10 +303,11 @@ public class NotificareDeviceManager {
             .responseDecodable(PushAPI.Responses.UserData.self) { result in
                 switch result {
                 case let .success(response):
+                    let userData = response.userData ?? [:]
                     // Update current device properties.
-                    self.currentDevice?.userData = response.userData
+                    self.currentDevice?.userData = userData
 
-                    completion(.success(response.userData))
+                    completion(.success(userData))
                 case let .failure(error):
                     completion(.failure(error))
                 }
