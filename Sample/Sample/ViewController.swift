@@ -32,6 +32,10 @@ class ViewController: UIViewController {
         }
     }
 
+    @IBAction func onDisableRemoteNotificationsClick(_: Any) {
+        NotificarePush.shared.disableRemoteNotifications()
+    }
+
     @IBAction func onSendCustomEventClick(_: Any) {
         let data: NotificareEventData = [
             "color": "blue",
@@ -58,6 +62,18 @@ class ViewController: UIViewController {
                 print("Device registered anonymously.")
             case let .failure(error):
                 print("Failed to register device anonymously: \(error)")
+            }
+        }
+    }
+
+    @IBAction func onFetchUserDataClick(_: Any) {
+        Notificare.shared.deviceManager.fetchUserData { result in
+            switch result {
+            case let .success(userData):
+                NotificareLogger.info("User data = \(userData)")
+
+            case let .failure(error):
+                NotificareLogger.error("Failed to fetch user data.\n\(error)")
             }
         }
     }
