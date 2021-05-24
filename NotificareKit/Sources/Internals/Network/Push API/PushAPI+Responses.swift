@@ -18,7 +18,7 @@ internal extension PushAPI.Responses {
     }
 
     struct UserData: Decodable {
-        let userData: NotificareUserData?
+        let userData: [String: String?]?
     }
 
     struct DynamicLink: Decodable {

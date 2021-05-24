@@ -303,7 +303,8 @@ public class NotificareDeviceManager {
             .responseDecodable(PushAPI.Responses.UserData.self) { result in
                 switch result {
                 case let .success(response):
-                    let userData = response.userData ?? [:]
+                    let userData = response.userData?.compactMapValues { $0 } ?? [:]
+
                     // Update current device properties.
                     self.currentDevice?.userData = userData
 
