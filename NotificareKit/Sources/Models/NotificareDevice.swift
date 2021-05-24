@@ -2,7 +2,7 @@
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
-public typealias NotificareUserData = [String: String]
+public typealias NotificareUserData = [String: String?]
 
 public struct NotificareDevice: Codable {
     public let id: String
