@@ -94,8 +94,10 @@ public class NotificarePush: NSObject, NotificareModule {
             }
         }
 
-        // Request an APNS token.
-        UIApplication.shared.registerForRemoteNotifications()
+        DispatchQueue.main.async {
+            // Request an APNS token.
+            UIApplication.shared.registerForRemoteNotifications()
+        }
 
         // Keep track of the status in local storage.
         LocalStorage.remoteNotificationsEnabled = true
