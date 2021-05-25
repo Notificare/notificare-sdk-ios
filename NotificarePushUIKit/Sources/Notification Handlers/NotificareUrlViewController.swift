@@ -155,6 +155,13 @@ extension NotificareUrlViewController: WKNavigationDelegate, WKUIDelegate {
         progressView.removeFromSuperview()
     }
 
+    public func webView(_: WKWebView, didFailProvisionalNavigation _: WKNavigation!, withError _: Error) {
+        NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFailToPresentNotification: notification)
+
+        loadingView.removeFromSuperview()
+        progressView.removeFromSuperview()
+    }
+
     public func webView(_: WKWebView, didFinish _: WKNavigation!) {
         NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didPresentNotification: notification)
 
