@@ -220,7 +220,7 @@ public struct NotificareRequest {
                     throw NotificareError.generic(message: "Unable to determine the base url for the request.")
                 }
 
-                urlStr = !baseUrl.hasSuffix("/")
+                urlStr = !baseUrl.hasSuffix("/") && !urlStr.hasPrefix("/")
                     ? "\(baseUrl)/\(urlStr)"
                     : "\(baseUrl)\(urlStr)"
             }
