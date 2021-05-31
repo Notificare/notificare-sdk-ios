@@ -18,6 +18,11 @@ public class NotificarePush: NSObject, NotificareModule {
         LocalStorage.remoteNotificationsEnabled
     }
 
+    public private(set) var allowedUI: Bool {
+        get { LocalStorage.allowedUI }
+        set { LocalStorage.allowedUI = newValue }
+    }
+
     private var notificationCenter: UNUserNotificationCenter {
         UNUserNotificationCenter.current()
     }
@@ -299,29 +304,42 @@ public class NotificarePush: NSObject, NotificareModule {
                 }
             }
 
-            self.handleNotificationSettings(allowedUI)
+            self.handleNotificationSettings(allowedUI) { _ in }
         }
     }
 
-    private func handleNotificationSettings(_ allowedUI: Bool, _ completion: NotificareCallback<Void>? = nil) {
-        // Notify the delegate.
-        delegate?.notificare(self, didChangeNotificationSettings: allowedUI)
+    private func handleNotificationSettings(_ allowedUI: Bool, _ completion: @escaping NotificareCallback<Void>) {
+        guard let device = Notificare.shared.deviceManager.currentDevice else {
+            completion(.failure(NotificareError.notReady))
+            return
+        }
 
-        if Notificare.shared.deviceManager.currentDevice?.allowedUI != allowedUI {
-            Notificare.shared.deviceManager.updateNotificationSettings(allowedUI) { result in
-                switch result {
-                case .success:
-                    NotificareLogger.debug("User notification settings updated.")
-                    completion?(.success(()))
-                case let .failure(error):
-                    NotificareLogger.error("Could not update user notification settings.")
-                    NotificareLogger.debug("\(error)")
-                    completion?(.failure(error))
+        if self.allowedUI != allowedUI {
+            let payload = PushAPI.Payloads.UpdateNotificationSettings(
+                allowedUI: allowedUI
+            )
+
+            NotificareRequest.Builder()
+                .put("/device/\(device.id)", body: payload)
+                .response { result in
+                    switch result {
+                    case .success:
+                        NotificareLogger.debug("User notification settings updated.")
+
+                        // Update current stored property.
+                        self.allowedUI = allowedUI
+
+                        // Notify the delegate.
+                        self.delegate?.notificare(self, didChangeNotificationSettings: allowedUI)
+
+                        completion(.success(()))
+                    case let .failure(error):
+                        completion(.failure(error))
+                    }
                 }
-            }
         } else {
             NotificareLogger.debug("User notification settings update skipped, nothing changed.")
-            completion?(.success(()))
+            completion(.success(()))
         }
     }
 

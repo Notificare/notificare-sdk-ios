@@ -20,14 +20,7 @@ internal extension PushAPI.Payloads {
             let appVersion: String
             let deviceString: String
             let timeZoneOffset: Float
-            let allowedUI: Bool
             let backgroundAppRefresh: Bool
-        }
-
-        struct UpdateNotificationSettings: Encodable {
-            let language: String
-            let region: String
-            let allowedUI: Bool
         }
 
         struct UpdateTimeZone: Encodable {

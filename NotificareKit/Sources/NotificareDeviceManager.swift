@@ -359,33 +359,6 @@ public class NotificareDeviceManager {
 
     // MARK: - Internal API
 
-    public func updateNotificationSettings(_ allowedUI: Bool, _ completion: @escaping NotificareCallback<Void>) {
-        guard Notificare.shared.isReady, let device = currentDevice else {
-            completion(.failure(NotificareError.notReady))
-            return
-        }
-
-        let payload = PushAPI.Payloads.Device.UpdateNotificationSettings(
-            language: getLanguage(),
-            region: getRegion(),
-            allowedUI: allowedUI
-        )
-
-        NotificareRequest.Builder()
-            .put("/device/\(device.id)", body: payload)
-            .response { result in
-                switch result {
-                case .success:
-                    // Update current device properties.
-                    self.currentDevice?.allowedUI = allowedUI
-
-                    completion(.success(()))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-    }
-
     func updateTimezone(_ completion: @escaping NotificareCallback<Void>) {
         guard Notificare.shared.isReady, let device = currentDevice else {
             completion(.failure(NotificareError.notReady))
@@ -489,7 +462,6 @@ public class NotificareDeviceManager {
                 appVersion: NotificareUtils.applicationVersion,
                 deviceString: NotificareUtils.deviceString,
                 timeZoneOffset: NotificareUtils.timeZoneOffset,
-                allowedUI: transport == .notificare ? false : currentDevice?.allowedUI ?? false,
                 backgroundAppRefresh: UIApplication.shared.backgroundRefreshStatus == .available
             )
 

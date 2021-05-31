@@ -168,7 +168,6 @@ extension NotificarePush: UNUserNotificationCenterDelegate {
 
     private func sendQuickResponse(notification: NotificareNotification, action: NotificareNotification.Action, responseText: String?, _ completion: @escaping NotificareCallback<Void>) {
         guard let target = action.target, let url = URL(string: target), url.scheme != nil, url.host != nil else {
-            // NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didExecuteAction: action, for: notification)
             sendQuickResponseAction(notification: notification, action: action, responseText: responseText, completion)
 
             return

@@ -251,7 +251,6 @@
 			children = (
 				F2E4DBBD2525EC3C003FE29B /* Internals */,
 				F2323000252F37CC007778AA /* Models */,
-				F258DE4524BC699A006F9ABD /* Modules */,
 				F293E29526302CBA008C2010 /* Resources */,
 				F258DD5024BC4DBB006F9ABD /* Info.plist */,
 				F258DD4F24BC4DBB006F9ABD /* NotificareKit.h */,
@@ -277,13 +276,6 @@
 				F258DD5C24BC4DBC006F9ABD /* Info.plist */,
 			);
 			path = Tests;
-			sourceTree = "<group>";
-		};
-		F258DE4524BC699A006F9ABD /* Modules */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Modules;
 			sourceTree = "<group>";
 		};
 		F286051C262D9A3400F6D582 /* Request */ = {

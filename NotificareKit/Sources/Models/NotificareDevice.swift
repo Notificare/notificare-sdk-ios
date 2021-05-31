@@ -19,7 +19,6 @@ public struct NotificareDevice: Codable {
     public internal(set) var dnd: NotificareDoNotDisturb?
     public internal(set) var userData: NotificareUserData
     public internal(set) var lastRegistered: Date
-    public internal(set) var allowedUI: Bool
     public internal(set) var backgroundAppRefresh: Bool
 
     public func toJson() throws -> [String: Any] {
@@ -49,7 +48,6 @@ extension NotificareDevice {
         dnd = previous?.dnd
         userData = previous?.userData ?? [:]
         lastRegistered = Date()
-        allowedUI = registration.allowedUI
         backgroundAppRefresh = registration.backgroundAppRefresh
     }
 }
