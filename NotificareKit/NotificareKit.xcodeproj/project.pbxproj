@@ -257,10 +257,15 @@
 				F258DD4F24BC4DBB006F9ABD /* NotificareKit.h */,
 				F258DE4324BC68CB006F9ABD /* Notificare.swift */,
 				F23E3C3224D8267000044574 /* NotificareDelegate.swift */,
+				F22650A4258B6D250004F833 /* NotificareModule.swift */,
+				42A208E69A6C0B2C639FBFB4 /* NotificareCrashReporter.swift */,
+				42A20765E01C8FAF35D1A02F /* NotificareDeviceManager.swift */,
+				42A20EA7B3E0709119050294 /* NotificareEventsManager.swift */,
+				F219FADC252DEB3900464B4E /* NotificareSessionManager.swift */,
 				42A20228EB70EA83D835BF01 /* NotificareError.swift */,
 				F26718F825017DD600B70A40 /* NotificareDatabase.xcdatamodeld */,
-				F25E62F825CAA924007C1202 /* NotificareServicesInfo.swift */,
 				F289993425C97D35008ADC7E /* NotificareOptions.swift */,
+				F25E62F825CAA924007C1202 /* NotificareServicesInfo.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -277,11 +282,6 @@
 		F258DE4524BC699A006F9ABD /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-				42A208E69A6C0B2C639FBFB4 /* NotificareCrashReporter.swift */,
-				42A20765E01C8FAF35D1A02F /* NotificareDeviceManager.swift */,
-				42A20EA7B3E0709119050294 /* NotificareEventsManager.swift */,
-				F219FADC252DEB3900464B4E /* NotificareSessionManager.swift */,
-				F22650A4258B6D250004F833 /* NotificareModule.swift */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
