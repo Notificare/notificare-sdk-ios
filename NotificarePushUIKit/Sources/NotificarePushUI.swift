@@ -7,13 +7,23 @@ import SafariServices
 import StoreKit
 import UIKit
 
-public class NotificarePushUI {
+public class NotificarePushUI: NotificareModule {
     public static let shared = NotificarePushUI()
 
     public weak var delegate: NotificarePushUIDelegate?
 
     private var latestPresentableNotificationHandler: NotificareNotificationPresenter?
     private var latestPresentableActionHandler: NotificareBaseActionHandler?
+
+    public static func configure() {}
+
+    public static func launch(_ completion: @escaping (Result<Void, Error>) -> Void) {
+        completion(.success(()))
+    }
+
+    public static func unlaunch(_ completion: @escaping (Result<Void, Error>) -> Void) {
+        completion(.success(()))
+    }
 
 //    func presentNotification(_ notification: NotificareNotification, in controller: UIViewController) {}
 //
