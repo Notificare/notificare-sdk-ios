@@ -35,7 +35,7 @@ public class NotificarePush: NSObject, NotificareModule {
         }
     }
 
-    public static func configure(applicationKey _: String, applicationSecret _: String) {
+    public static func configure() {
         guard !Notificare.shared.isConfigured else {
             NotificareLogger.warning("Notificare has already been configured. Skipping...")
             return

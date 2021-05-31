@@ -101,7 +101,7 @@ public class Notificare {
         NotificareDefinitions.Modules.allCases.forEach { module in
             if let cls = NSClassFromString(module.rawValue) as? NotificareModule.Type {
                 NotificareLogger.debug("Configuring plugin: \(module.rawValue)")
-                cls.configure(applicationKey: servicesInfo.applicationKey, applicationSecret: servicesInfo.applicationSecret)
+                cls.configure()
             }
         }
 

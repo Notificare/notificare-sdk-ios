@@ -71,7 +71,7 @@ public class NotificareInbox: NSObject, NotificareModule {
 
     // MARK: Notificare module
 
-    public static func configure(applicationKey _: String, applicationSecret _: String) {
+    public static func configure() {
         NotificareInbox.shared.database.configure()
 
         // Listen to inbox addition requests.
