@@ -21,7 +21,6 @@ public struct NotificareDevice: Codable {
     public internal(set) var lastRegistered: Date
     public internal(set) var allowedUI: Bool
     public internal(set) var backgroundAppRefresh: Bool
-    public internal(set) var bluetoothEnabled: Bool
 
     public func toJson() throws -> [String: Any] {
         let data = try NotificareUtils.jsonEncoder.encode(self)
@@ -52,6 +51,5 @@ extension NotificareDevice {
         lastRegistered = Date()
         allowedUI = registration.allowedUI
         backgroundAppRefresh = registration.backgroundAppRefresh
-        bluetoothEnabled = previous?.bluetoothEnabled ?? false
     }
 }
