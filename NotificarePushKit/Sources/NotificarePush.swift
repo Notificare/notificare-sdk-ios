@@ -115,9 +115,18 @@ public class NotificarePush: NSObject, NotificareModule {
         Notificare.shared.deviceManager.registerTemporary { result in
             switch result {
             case .success:
+                // Unregister from APNS
                 UIApplication.shared.unregisterForRemoteNotifications()
-                NotificareLogger.info("Unregistered from APNS.")
 
+                // Update notification settings
+                self.handleNotificationSettings(false) { result in
+                    switch result {
+                    case .success:
+                        NotificareLogger.info("Unregistered from APNS.")
+                    case let .failure(error):
+                        NotificareLogger.error("Failed to update the notification settings.\n\(error)")
+                    }
+                }
             case let .failure(error):
                 NotificareLogger.error("Failed to register a temporary device and unregister from APNS.")
                 NotificareLogger.debug("\(error)")
