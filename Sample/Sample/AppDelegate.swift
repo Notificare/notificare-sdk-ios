@@ -18,7 +18,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Atlantis.start()
 
         Notificare.shared.useAdvancedLogging = true
-        Notificare.shared.launchOptions = launchOptions
 
         if #available(iOS 14.0, *) {
             NotificarePush.shared.presentationOptions = [.banner, .badge, .sound]
@@ -31,8 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NotificarePushUI.shared.delegate = self
         NotificareInbox.shared.delegate = self
 
-        Notificare.shared.configure()
-        Notificare.shared.launch()
+        Notificare.shared.launch(launchOptions)
 
         return true
     }
