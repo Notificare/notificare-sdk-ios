@@ -173,7 +173,6 @@
 			isa = PBXGroup;
 			children = (
 				42A20A5F475EFD460FDA6622 /* JSON */,
-				42A20D1BCB96A819F309661A /* Data+Hex.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -326,6 +325,7 @@
 		F293E29A26302CC9008C2010 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				42A20D1BCB96A819F309661A /* Data+Hex.swift */,
 				F293E2C626303073008C2010 /* Dictionary.swift */,
 				F293E2C526303073008C2010 /* JSON_Decode.swift */,
 				F293E2C826303073008C2010 /* UIColor+Hex.swift */,
