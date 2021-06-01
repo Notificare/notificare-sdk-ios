@@ -72,7 +72,7 @@ public class Notificare {
         self.options = options
 
         NotificareLogger.debug("Configuring network services.")
-        configureNetworking(applicationKey: servicesInfo.applicationKey, applicationSecret: servicesInfo.applicationSecret, services: servicesInfo.services == .test ? .test : .production)
+        configureReachability(services: servicesInfo.services)
 
         if options.swizzlingEnabled {
             var swizzleApns = false
@@ -413,9 +413,10 @@ public class Notificare {
 
     // MARK: - Private API
 
-    private func configureNetworking(applicationKey _: String, applicationSecret _: String, services: NotificareServices) {
+    private func configureReachability(services: NotificareServicesInfo.Services) {
         do {
-            reachability = try NotificareReachability(hostname: services.pushHost.host!)
+            let url = URL(string: services.pushHost)!
+            reachability = try NotificareReachability(hostname: url.host!)
 
             reachability?.whenReachable = { _ in
                 NotificareLogger.debug("Notificare is reachable.")
