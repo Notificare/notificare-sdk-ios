@@ -71,6 +71,18 @@ public class Notificare {
         self.servicesInfo = servicesInfo
         self.options = options
 
+        if !LocalStorage.migrated {
+            NotificareLogger.debug("Checking if there is legacy data that needs to be migrated.")
+            let migration = LocalStorageMigration()
+
+            if migration.hasLegacyData {
+                migration.migrate()
+                NotificareLogger.info("Legacy data found and migrated to the new storage format.")
+            }
+
+            LocalStorage.migrated = true
+        }
+
         NotificareLogger.debug("Configuring network services.")
         configureReachability(services: servicesInfo.services)
 

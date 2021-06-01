@@ -63,6 +63,7 @@
 		F29DA38125022170004CCB8F /* NotificareDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29DA38025022170004CCB8F /* NotificareDatabase.swift */; };
 		F29DA38325024753004CCB8F /* NotificareEvent+CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29DA38225024753004CCB8F /* NotificareEvent+CoreData.swift */; };
 		F2B1817C25BAFDFE00384991 /* NotificareNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B1817B25BAFDFE00384991 /* NotificareNotification.swift */; };
+		F2D3894026664AAA00EAEF44 /* LocalStorageMigration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D3893F26664AAA00EAEF44 /* LocalStorageMigration.swift */; };
 		F2DB0C1325A8692C00AD93C7 /* NotificareDynamicLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2DB0C1225A8692C00AD93C7 /* NotificareDynamicLink.swift */; };
 		F2E07E5F25344D0700AF0C14 /* NotificareDoNotDisturb.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E07E5E25344D0700AF0C14 /* NotificareDoNotDisturb.swift */; };
 		F2E07E7A2534B5DD00AF0C14 /* NotificareTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E07E792534B5DD00AF0C14 /* NotificareTime.swift */; };
@@ -142,6 +143,7 @@
 		F29DA38025022170004CCB8F /* NotificareDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareDatabase.swift; sourceTree = "<group>"; };
 		F29DA38225024753004CCB8F /* NotificareEvent+CoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificareEvent+CoreData.swift"; sourceTree = "<group>"; };
 		F2B1817B25BAFDFE00384991 /* NotificareNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareNotification.swift; sourceTree = "<group>"; };
+		F2D3893F26664AAA00EAEF44 /* LocalStorageMigration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorageMigration.swift; sourceTree = "<group>"; };
 		F2DB0C1225A8692C00AD93C7 /* NotificareDynamicLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareDynamicLink.swift; sourceTree = "<group>"; };
 		F2E07E5E25344D0700AF0C14 /* NotificareDoNotDisturb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareDoNotDisturb.swift; sourceTree = "<group>"; };
 		F2E07E792534B5DD00AF0C14 /* NotificareTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareTime.swift; sourceTree = "<group>"; };
@@ -383,6 +385,7 @@
 			children = (
 				F29DA37F25022154004CCB8F /* Database */,
 				F293E2D9263043A0008C2010 /* Local Storage */,
+				F2D3893F26664AAA00EAEF44 /* LocalStorageMigration.swift */,
 			);
 			path = Storage;
 			sourceTree = "<group>";
@@ -568,6 +571,7 @@
 				F29DA38325024753004CCB8F /* NotificareEvent+CoreData.swift in Sources */,
 				F2E07E7A2534B5DD00AF0C14 /* NotificareTime.swift in Sources */,
 				42A207D529B7F7770917822D /* NotificareDevice.swift in Sources */,
+				F2D3894026664AAA00EAEF44 /* LocalStorageMigration.swift in Sources */,
 				F293E27B26302C48008C2010 /* NotificareUtils.swift in Sources */,
 				F25E62F925CAA924007C1202 /* NotificareServicesInfo.swift in Sources */,
 				F293E2BF26303056008C2010 /* NotificareSwizzler.swift in Sources */,

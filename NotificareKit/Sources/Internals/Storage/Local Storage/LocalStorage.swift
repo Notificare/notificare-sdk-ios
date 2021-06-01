@@ -6,12 +6,23 @@ import Foundation
 
 enum LocalStorage {
     private enum Keys: String {
+        case migrated = "re.notifica.local_storage.migrated"
         case application = "re.notifica.local_storage.application"
         case device = "re.notifica.local_storage.device"
         case preferredLanguage = "re.notifica.local_storage.preferred_language"
         case preferredRegion = "re.notifica.local_storage.preferred_region"
         case crashReport = "re.notifica.local_storage.crash_report"
         case currentDatabaseVersion = "re.notifica.local_storage.current_database_version"
+    }
+
+    static var migrated: Bool {
+        get {
+            UserDefaults.standard.bool(forKey: Keys.migrated.rawValue)
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Keys.migrated.rawValue)
+            UserDefaults.standard.synchronize()
+        }
     }
 
     static var application: NotificareApplication? {

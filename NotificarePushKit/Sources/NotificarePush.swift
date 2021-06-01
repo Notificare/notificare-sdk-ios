@@ -35,6 +35,11 @@ public class NotificarePush: NSObject, NotificareModule {
         }
     }
 
+    public static func migrate() {
+        LocalStorage.allowedUI = UserDefaults.standard.bool(forKey: "notificareAllowedUI")
+        LocalStorage.remoteNotificationsEnabled = UserDefaults.standard.bool(forKey: "notificareRegisteredForNotifications")
+    }
+
     public static func configure() {
         guard !Notificare.shared.isConfigured else {
             NotificareLogger.warning("Notificare has already been configured. Skipping...")
