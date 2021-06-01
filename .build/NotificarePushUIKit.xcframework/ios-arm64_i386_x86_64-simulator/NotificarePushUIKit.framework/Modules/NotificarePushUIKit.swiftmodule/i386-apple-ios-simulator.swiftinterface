@@ -94,9 +94,12 @@ extension NotificareTelephoneActionHandler {
     }
   }
 }
-@_hasMissingDesignatedInitializers public class NotificarePushUI {
+@_hasMissingDesignatedInitializers public class NotificarePushUI : NotificareKit.NotificareModule {
   public static let shared: NotificarePushUIKit.NotificarePushUI
   weak public var delegate: NotificarePushUIKit.NotificarePushUIDelegate?
+  public static func configure()
+  public static func launch(_ completion: @escaping (Swift.Result<Swift.Void, Swift.Error>) -> Swift.Void)
+  public static func unlaunch(_ completion: @escaping (Swift.Result<Swift.Void, Swift.Error>) -> Swift.Void)
   public func presentNotification(_ notification: NotificareKit.NotificareNotification, in controller: UIKit.UIViewController)
   public func presentAction(_ action: NotificareKit.NotificareNotification.Action, for notification: NotificareKit.NotificareNotification, in controller: UIKit.UIViewController)
   @objc deinit
@@ -160,6 +163,7 @@ extension NotificareUrlViewController : WebKit.WKScriptMessageHandler {
 extension NotificareUrlViewController : WebKit.WKNavigationDelegate, WebKit.WKUIDelegate {
   @objc dynamic public func webView(_ webView: WebKit.WKWebView, decidePolicyFor navigationAction: WebKit.WKNavigationAction, decisionHandler: @escaping (WebKit.WKNavigationActionPolicy) -> Swift.Void)
   @objc dynamic public func webView(_: WebKit.WKWebView, didFail _: WebKit.WKNavigation!, withError _: Swift.Error)
+  @objc dynamic public func webView(_: WebKit.WKWebView, didFailProvisionalNavigation _: WebKit.WKNavigation!, withError _: Swift.Error)
   @objc dynamic public func webView(_: WebKit.WKWebView, didFinish _: WebKit.WKNavigation!)
   @objc dynamic public func webView(_: WebKit.WKWebView, runJavaScriptAlertPanelWithMessage message: Swift.String, initiatedByFrame _: WebKit.WKFrameInfo, completionHandler: @escaping () -> Swift.Void)
   @objc dynamic public func webView(_: WebKit.WKWebView, runJavaScriptConfirmPanelWithMessage message: Swift.String, initiatedByFrame _: WebKit.WKFrameInfo, completionHandler: @escaping (Swift.Bool) -> Swift.Void)

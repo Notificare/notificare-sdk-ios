@@ -33,7 +33,7 @@ public typealias NotificareInboxCallback<T> = (Swift.Result<T, Swift.Error>) -> 
   public var badge: Swift.Int {
     get
   }
-  public static func configure(applicationKey _: Swift.String, applicationSecret _: Swift.String)
+  public static func configure()
   public static func launch(_ completion: @escaping NotificareInboxKit.NotificareInboxCallback<Swift.Void>)
   public static func unlaunch(_ completion: @escaping (Swift.Result<Swift.Void, Swift.Error>) -> Swift.Void)
   public func refresh()

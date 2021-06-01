@@ -371,6 +371,7 @@ SWIFT_CLASS("_TtC19NotificarePushUIKit27NotificareUrlViewController")
 @interface NotificareUrlViewController (SWIFT_EXTENSION(NotificarePushUIKit)) <WKNavigationDelegate, WKUIDelegate>
 - (void)webView:(WKWebView * _Nonnull)webView decidePolicyForNavigationAction:(WKNavigationAction * _Nonnull)navigationAction decisionHandler:(void (^ _Nonnull)(WKNavigationActionPolicy))decisionHandler;
 - (void)webView:(WKWebView * _Nonnull)_ didFailNavigation:(WKNavigation * _Null_unspecified)_ withError:(NSError * _Nonnull)_;
+- (void)webView:(WKWebView * _Nonnull)_ didFailProvisionalNavigation:(WKNavigation * _Null_unspecified)_ withError:(NSError * _Nonnull)_;
 - (void)webView:(WKWebView * _Nonnull)_ didFinishNavigation:(WKNavigation * _Null_unspecified)_;
 - (void)webView:(WKWebView * _Nonnull)_ runJavaScriptAlertPanelWithMessage:(NSString * _Nonnull)message initiatedByFrame:(WKFrameInfo * _Nonnull)_ completionHandler:(void (^ _Nonnull)(void))completionHandler;
 - (void)webView:(WKWebView * _Nonnull)_ runJavaScriptConfirmPanelWithMessage:(NSString * _Nonnull)message initiatedByFrame:(WKFrameInfo * _Nonnull)_ completionHandler:(void (^ _Nonnull)(BOOL))completionHandler;
@@ -803,6 +804,7 @@ SWIFT_CLASS("_TtC19NotificarePushUIKit27NotificareUrlViewController")
 @interface NotificareUrlViewController (SWIFT_EXTENSION(NotificarePushUIKit)) <WKNavigationDelegate, WKUIDelegate>
 - (void)webView:(WKWebView * _Nonnull)webView decidePolicyForNavigationAction:(WKNavigationAction * _Nonnull)navigationAction decisionHandler:(void (^ _Nonnull)(WKNavigationActionPolicy))decisionHandler;
 - (void)webView:(WKWebView * _Nonnull)_ didFailNavigation:(WKNavigation * _Null_unspecified)_ withError:(NSError * _Nonnull)_;
+- (void)webView:(WKWebView * _Nonnull)_ didFailProvisionalNavigation:(WKNavigation * _Null_unspecified)_ withError:(NSError * _Nonnull)_;
 - (void)webView:(WKWebView * _Nonnull)_ didFinishNavigation:(WKNavigation * _Null_unspecified)_;
 - (void)webView:(WKWebView * _Nonnull)_ runJavaScriptAlertPanelWithMessage:(NSString * _Nonnull)message initiatedByFrame:(WKFrameInfo * _Nonnull)_ completionHandler:(void (^ _Nonnull)(void))completionHandler;
 - (void)webView:(WKWebView * _Nonnull)_ runJavaScriptConfirmPanelWithMessage:(NSString * _Nonnull)message initiatedByFrame:(WKFrameInfo * _Nonnull)_ completionHandler:(void (^ _Nonnull)(BOOL))completionHandler;
@@ -1235,6 +1237,7 @@ SWIFT_CLASS("_TtC19NotificarePushUIKit27NotificareUrlViewController")
 @interface NotificareUrlViewController (SWIFT_EXTENSION(NotificarePushUIKit)) <WKNavigationDelegate, WKUIDelegate>
 - (void)webView:(WKWebView * _Nonnull)webView decidePolicyForNavigationAction:(WKNavigationAction * _Nonnull)navigationAction decisionHandler:(void (^ _Nonnull)(WKNavigationActionPolicy))decisionHandler;
 - (void)webView:(WKWebView * _Nonnull)_ didFailNavigation:(WKNavigation * _Null_unspecified)_ withError:(NSError * _Nonnull)_;
+- (void)webView:(WKWebView * _Nonnull)_ didFailProvisionalNavigation:(WKNavigation * _Null_unspecified)_ withError:(NSError * _Nonnull)_;
 - (void)webView:(WKWebView * _Nonnull)_ didFinishNavigation:(WKNavigation * _Null_unspecified)_;
 - (void)webView:(WKWebView * _Nonnull)_ runJavaScriptAlertPanelWithMessage:(NSString * _Nonnull)message initiatedByFrame:(WKFrameInfo * _Nonnull)_ completionHandler:(void (^ _Nonnull)(void))completionHandler;
 - (void)webView:(WKWebView * _Nonnull)_ runJavaScriptConfirmPanelWithMessage:(NSString * _Nonnull)message initiatedByFrame:(WKFrameInfo * _Nonnull)_ completionHandler:(void (^ _Nonnull)(BOOL))completionHandler;

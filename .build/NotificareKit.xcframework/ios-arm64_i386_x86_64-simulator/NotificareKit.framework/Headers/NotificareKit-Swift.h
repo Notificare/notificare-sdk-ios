@@ -231,7 +231,7 @@ SWIFT_PROTOCOL("_TtP13NotificareKit32NotificareAppDelegateInterceptor_")
 SWIFT_CLASS("_TtC13NotificareKit20NotificareAutoConfig")
 @interface NotificareAutoConfig : NSObject
 + (void)setup;
-+ (void)didFinishLaunching:(NSNotification * _Nonnull)notification;
++ (void)didFinishLaunching:(NSNotification * _Nonnull)_;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -505,7 +505,7 @@ SWIFT_PROTOCOL("_TtP13NotificareKit32NotificareAppDelegateInterceptor_")
 SWIFT_CLASS("_TtC13NotificareKit20NotificareAutoConfig")
 @interface NotificareAutoConfig : NSObject
 + (void)setup;
-+ (void)didFinishLaunching:(NSNotification * _Nonnull)notification;
++ (void)didFinishLaunching:(NSNotification * _Nonnull)_;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -779,7 +779,7 @@ SWIFT_PROTOCOL("_TtP13NotificareKit32NotificareAppDelegateInterceptor_")
 SWIFT_CLASS("_TtC13NotificareKit20NotificareAutoConfig")
 @interface NotificareAutoConfig : NSObject
 + (void)setup;
-+ (void)didFinishLaunching:(NSNotification * _Nonnull)notification;
++ (void)didFinishLaunching:(NSNotification * _Nonnull)_;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 

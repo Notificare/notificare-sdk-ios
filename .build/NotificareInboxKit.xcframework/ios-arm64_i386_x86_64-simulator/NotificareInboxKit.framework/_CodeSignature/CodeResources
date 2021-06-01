@@ -22,7 +22,7 @@
 		</data>
 		<key>Frameworks/NotificareKit.framework/NotificareKit</key>
 		<data>
-		jCk4i1kuXoD439D1zWnaMCIADBU=
+		ZMMkubcAsd1zG1gvbCl8VDu2MTc=
 		</data>
 		<key>Frameworks/NotificareKit.framework/_CodeSignature/CodeResources</key>
 		<data>
@@ -60,11 +60,11 @@
 		</data>
 		<key>Modules/NotificareInboxKit.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		s9R4s1iNpUVG5n+nxcJ/7voYJxA=
+		vCk3k3fi0RRGNjw1ENX62wTppww=
 		</data>
 		<key>Modules/NotificareInboxKit.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		/ZMxXmqUWSUWUPafiHf9DszDAJ4=
+		6tnwcyizGjMmyS+HVs3e56qb4Jc=
 		</data>
 		<key>Modules/NotificareInboxKit.swiftmodule/arm64.swiftdoc</key>
 		<data>
@@ -72,11 +72,11 @@
 		</data>
 		<key>Modules/NotificareInboxKit.swiftmodule/arm64.swiftinterface</key>
 		<data>
-		s9R4s1iNpUVG5n+nxcJ/7voYJxA=
+		vCk3k3fi0RRGNjw1ENX62wTppww=
 		</data>
 		<key>Modules/NotificareInboxKit.swiftmodule/arm64.swiftmodule</key>
 		<data>
-		/ZMxXmqUWSUWUPafiHf9DszDAJ4=
+		6tnwcyizGjMmyS+HVs3e56qb4Jc=
 		</data>
 		<key>Modules/NotificareInboxKit.swiftmodule/i386-apple-ios-simulator.swiftdoc</key>
 		<data>
@@ -84,11 +84,11 @@
 		</data>
 		<key>Modules/NotificareInboxKit.swiftmodule/i386-apple-ios-simulator.swiftinterface</key>
 		<data>
-		I2kamZRaeGX6724pq7UU8W5RUwo=
+		c5IjJts8LPDUnAo3Q50ja6UaU1c=
 		</data>
 		<key>Modules/NotificareInboxKit.swiftmodule/i386-apple-ios-simulator.swiftmodule</key>
 		<data>
-		moIw+ga514P1VPiRmseWQvQf+a8=
+		0k6/nOh8NFH9B9oug5Xeqnudxys=
 		</data>
 		<key>Modules/NotificareInboxKit.swiftmodule/i386.swiftdoc</key>
 		<data>
@@ -96,11 +96,11 @@
 		</data>
 		<key>Modules/NotificareInboxKit.swiftmodule/i386.swiftinterface</key>
 		<data>
-		I2kamZRaeGX6724pq7UU8W5RUwo=
+		c5IjJts8LPDUnAo3Q50ja6UaU1c=
 		</data>
 		<key>Modules/NotificareInboxKit.swiftmodule/i386.swiftmodule</key>
 		<data>
-		moIw+ga514P1VPiRmseWQvQf+a8=
+		0k6/nOh8NFH9B9oug5Xeqnudxys=
 		</data>
 		<key>Modules/NotificareInboxKit.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<data>
@@ -108,11 +108,11 @@
 		</data>
 		<key>Modules/NotificareInboxKit.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		UWZ+7aKg+gKVExRX/FhYnmwqNUY=
+		EKzOa/AzzhkK6FTc8Pt7fEWRmfs=
 		</data>
 		<key>Modules/NotificareInboxKit.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		FiyGBUsu1EGAg6D8OnYxzYmq+6g=
+		bQKc9eZBwMyKZWLqu8fOHpWsheg=
 		</data>
 		<key>Modules/NotificareInboxKit.swiftmodule/x86_64.swiftdoc</key>
 		<data>
@@ -120,11 +120,11 @@
 		</data>
 		<key>Modules/NotificareInboxKit.swiftmodule/x86_64.swiftinterface</key>
 		<data>
-		UWZ+7aKg+gKVExRX/FhYnmwqNUY=
+		EKzOa/AzzhkK6FTc8Pt7fEWRmfs=
 		</data>
 		<key>Modules/NotificareInboxKit.swiftmodule/x86_64.swiftmodule</key>
 		<data>
-		FiyGBUsu1EGAg6D8OnYxzYmq+6g=
+		bQKc9eZBwMyKZWLqu8fOHpWsheg=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -193,11 +193,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			jCk4i1kuXoD439D1zWnaMCIADBU=
+			ZMMkubcAsd1zG1gvbCl8VDu2MTc=
 			</data>
 			<key>hash2</key>
 			<data>
-			blHtc3Mb9fClY8bCdmYUtCskvPwrii5etml5H7SOFco=
+			sY1hBQbvFSfCY+URWDiQ9fyIn3UeveEzKE8OjHjVBUo=
 			</data>
 		</dict>
 		<key>Frameworks/NotificareKit.framework/_CodeSignature/CodeResources</key>
@@ -263,22 +263,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			s9R4s1iNpUVG5n+nxcJ/7voYJxA=
+			vCk3k3fi0RRGNjw1ENX62wTppww=
 			</data>
 			<key>hash2</key>
 			<data>
-			6Ffj0hV1Wac9zPPjfYN/sI+YGmwrcFHYyWlFO/0JQOo=
+			Yr2nl8ZEKB92fjG5WHYXFXNpnvis7LCDDfAVqw1ei64=
 			</data>
 		</dict>
 		<key>Modules/NotificareInboxKit.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			/ZMxXmqUWSUWUPafiHf9DszDAJ4=
+			6tnwcyizGjMmyS+HVs3e56qb4Jc=
 			</data>
 			<key>hash2</key>
 			<data>
-			Fl+MzUjrKU42Ide4e4y4z11uIPdbhn/AFeuo8NONlUU=
+			d7oN0oQiJz2GkYtCgN2B0x5xRow3pJarrHvxRpbI4tY=
 			</data>
 		</dict>
 		<key>Modules/NotificareInboxKit.swiftmodule/arm64.swiftdoc</key>
@@ -296,22 +296,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			s9R4s1iNpUVG5n+nxcJ/7voYJxA=
+			vCk3k3fi0RRGNjw1ENX62wTppww=
 			</data>
 			<key>hash2</key>
 			<data>
-			6Ffj0hV1Wac9zPPjfYN/sI+YGmwrcFHYyWlFO/0JQOo=
+			Yr2nl8ZEKB92fjG5WHYXFXNpnvis7LCDDfAVqw1ei64=
 			</data>
 		</dict>
 		<key>Modules/NotificareInboxKit.swiftmodule/arm64.swiftmodule</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			/ZMxXmqUWSUWUPafiHf9DszDAJ4=
+			6tnwcyizGjMmyS+HVs3e56qb4Jc=
 			</data>
 			<key>hash2</key>
 			<data>
-			Fl+MzUjrKU42Ide4e4y4z11uIPdbhn/AFeuo8NONlUU=
+			d7oN0oQiJz2GkYtCgN2B0x5xRow3pJarrHvxRpbI4tY=
 			</data>
 		</dict>
 		<key>Modules/NotificareInboxKit.swiftmodule/i386-apple-ios-simulator.swiftdoc</key>
@@ -329,22 +329,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			I2kamZRaeGX6724pq7UU8W5RUwo=
+			c5IjJts8LPDUnAo3Q50ja6UaU1c=
 			</data>
 			<key>hash2</key>
 			<data>
-			sbI6Qjpcgzp5WEB97P682cb3CTZ+eM+Rw/Pb5GE53Pc=
+			stXFEQELJHfDCMNuOZRuGvYUMKLDidT9MBVcBHQBCpA=
 			</data>
 		</dict>
 		<key>Modules/NotificareInboxKit.swiftmodule/i386-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			moIw+ga514P1VPiRmseWQvQf+a8=
+			0k6/nOh8NFH9B9oug5Xeqnudxys=
 			</data>
 			<key>hash2</key>
 			<data>
-			K0DNmFYFPmM13UsuMMyJc1bpTTv9M0E4F1RV2zUeCs4=
+			RF72IoVFPmg0Q2YG4OCpCgsH2cP1NxDLNUQHu7v1U8Y=
 			</data>
 		</dict>
 		<key>Modules/NotificareInboxKit.swiftmodule/i386.swiftdoc</key>
@@ -362,22 +362,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			I2kamZRaeGX6724pq7UU8W5RUwo=
+			c5IjJts8LPDUnAo3Q50ja6UaU1c=
 			</data>
 			<key>hash2</key>
 			<data>
-			sbI6Qjpcgzp5WEB97P682cb3CTZ+eM+Rw/Pb5GE53Pc=
+			stXFEQELJHfDCMNuOZRuGvYUMKLDidT9MBVcBHQBCpA=
 			</data>
 		</dict>
 		<key>Modules/NotificareInboxKit.swiftmodule/i386.swiftmodule</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			moIw+ga514P1VPiRmseWQvQf+a8=
+			0k6/nOh8NFH9B9oug5Xeqnudxys=
 			</data>
 			<key>hash2</key>
 			<data>
-			K0DNmFYFPmM13UsuMMyJc1bpTTv9M0E4F1RV2zUeCs4=
+			RF72IoVFPmg0Q2YG4OCpCgsH2cP1NxDLNUQHu7v1U8Y=
 			</data>
 		</dict>
 		<key>Modules/NotificareInboxKit.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
@@ -395,22 +395,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			UWZ+7aKg+gKVExRX/FhYnmwqNUY=
+			EKzOa/AzzhkK6FTc8Pt7fEWRmfs=
 			</data>
 			<key>hash2</key>
 			<data>
-			HqJNEVbRDPHLaeRErpS/kD20dv7PCfJLZHwDVcTJ0gM=
+			GK1oPwYqttybCJbgid+dS8Vdf5+HFmDILUHFi5f1Sa8=
 			</data>
 		</dict>
 		<key>Modules/NotificareInboxKit.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			FiyGBUsu1EGAg6D8OnYxzYmq+6g=
+			bQKc9eZBwMyKZWLqu8fOHpWsheg=
 			</data>
 			<key>hash2</key>
 			<data>
-			B9Vqm2gRgizMOYCW9gJjNCwR5SXbgEvtEACd9JzQXYA=
+			NRA8Ye6q/jtJ8YqlW2hvEec3JvEJSo9eBMivM36X9I4=
 			</data>
 		</dict>
 		<key>Modules/NotificareInboxKit.swiftmodule/x86_64.swiftdoc</key>
@@ -428,22 +428,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			UWZ+7aKg+gKVExRX/FhYnmwqNUY=
+			EKzOa/AzzhkK6FTc8Pt7fEWRmfs=
 			</data>
 			<key>hash2</key>
 			<data>
-			HqJNEVbRDPHLaeRErpS/kD20dv7PCfJLZHwDVcTJ0gM=
+			GK1oPwYqttybCJbgid+dS8Vdf5+HFmDILUHFi5f1Sa8=
 			</data>
 		</dict>
 		<key>Modules/NotificareInboxKit.swiftmodule/x86_64.swiftmodule</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			FiyGBUsu1EGAg6D8OnYxzYmq+6g=
+			bQKc9eZBwMyKZWLqu8fOHpWsheg=
 			</data>
 			<key>hash2</key>
 			<data>
-			B9Vqm2gRgizMOYCW9gJjNCwR5SXbgEvtEACd9JzQXYA=
+			NRA8Ye6q/jtJ8YqlW2hvEec3JvEJSo9eBMivM36X9I4=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

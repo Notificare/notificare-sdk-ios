@@ -19,7 +19,9 @@ public typealias NotificareCallback<T> = (Swift.Result<T, Swift.Error>) -> Swift
   public var options: NotificareKit.NotificareOptions? {
     get
   }
-  public var launchOptions: [UIKit.UIApplication.LaunchOptionsKey : Any]?
+  public var launchOptions: [UIKit.UIApplication.LaunchOptionsKey : Any]? {
+    get
+  }
   public var application: NotificareKit.NotificareApplication? {
     get
   }
@@ -36,7 +38,7 @@ public typealias NotificareCallback<T> = (Swift.Result<T, Swift.Error>) -> Swift
   }
   public func configure(servicesInfo: NotificareKit.NotificareServicesInfo? = nil, options: NotificareKit.NotificareOptions? = nil)
   public func configure(servicesInfo: NotificareKit.NotificareServicesInfo, options: NotificareKit.NotificareOptions)
-  public func launch()
+  public func launch(_: [UIKit.UIApplication.LaunchOptionsKey : Any]? = nil)
   public func unlaunch()
   public func fetchApplication(_ completion: @escaping NotificareKit.NotificareCallback<NotificareKit.NotificareApplication>)
   public func fetchDynamicLink(_ link: Swift.String, _ completion: @escaping NotificareKit.NotificareCallback<NotificareKit.NotificareDynamicLink>)
@@ -80,9 +82,13 @@ extension NotificareDelegate {
   public func notificare(_: NotificareKit.Notificare, didRegisterDevice _: NotificareKit.NotificareDevice)
 }
 public protocol NotificareModule {
-  static func configure(applicationKey: Swift.String, applicationSecret: Swift.String)
+  static func migrate()
+  static func configure()
   static func launch(_ completion: @escaping (Swift.Result<Swift.Void, Swift.Error>) -> Swift.Void)
   static func unlaunch(_ completion: @escaping (Swift.Result<Swift.Void, Swift.Error>) -> Swift.Void)
+}
+extension NotificareModule {
+  public static func migrate()
 }
 extension URL {
   public func appendingQueryComponent(name: Swift.String, value: Swift.String) -> Foundation.URL
@@ -206,7 +212,7 @@ extension NotificareNetworkError : Foundation.LocalizedError {
 }
 @objc @_inheritsConvenienceInitializers public class NotificareAutoConfig : ObjectiveC.NSObject {
   @objc public static func setup()
-  @objc public static func didFinishLaunching(_ notification: Foundation.Notification)
+  @objc public static func didFinishLaunching(_: Foundation.Notification)
   @objc override dynamic public init()
   @objc deinit
 }
@@ -418,13 +424,7 @@ public struct NotificareDevice : Swift.Codable {
   public var lastRegistered: Foundation.Date {
     get
   }
-  public var allowedUI: Swift.Bool {
-    get
-  }
   public var backgroundAppRefresh: Swift.Bool {
-    get
-  }
-  public var bluetoothEnabled: Swift.Bool {
     get
   }
   public func toJson() throws -> [Swift.String : Any]
@@ -590,15 +590,6 @@ extension AnyCodable : Swift.ExpressibleByDictionaryLiteral {
   public typealias Key = Swift.AnyHashable
   public typealias Value = Any
 }
-public enum NotificareServices : Swift.String {
-  case test
-  case production
-  public init?(rawValue: Swift.String)
-  public typealias RawValue = Swift.String
-  public var rawValue: Swift.String {
-    get
-  }
-}
 public enum NotificareDefinitions {
   public enum Modules : Swift.String, Swift.CaseIterable {
     case push
@@ -754,7 +745,6 @@ extension Data {
   public func clearDoNotDisturb(_ completion: @escaping NotificareKit.NotificareCallback<Swift.Void>)
   public func fetchUserData(_ completion: @escaping NotificareKit.NotificareCallback<NotificareKit.NotificareUserData>)
   public func updateUserData(_ userData: NotificareKit.NotificareUserData, _ completion: @escaping NotificareKit.NotificareCallback<Swift.Void>)
-  public func updateNotificationSettings(_ allowedUI: Swift.Bool, _ completion: @escaping NotificareKit.NotificareCallback<Swift.Void>)
   public func registerTemporary(_ completion: @escaping NotificareKit.NotificareCallback<Swift.Void>)
   public func registerAPNS(token: Swift.String, _ completion: @escaping NotificareKit.NotificareCallback<Swift.Void>)
   @objc deinit
@@ -920,9 +910,6 @@ extension NotificareKit.NotificareTransport : Swift.Hashable {}
 extension NotificareKit.NotificareTransport : Swift.RawRepresentable {}
 extension NotificareKit.NotificareReachability.Connection : Swift.Equatable {}
 extension NotificareKit.NotificareReachability.Connection : Swift.Hashable {}
-extension NotificareKit.NotificareServices : Swift.Equatable {}
-extension NotificareKit.NotificareServices : Swift.Hashable {}
-extension NotificareKit.NotificareServices : Swift.RawRepresentable {}
 extension NotificareKit.NotificareDefinitions.Modules : Swift.Equatable {}
 extension NotificareKit.NotificareDefinitions.Modules : Swift.Hashable {}
 extension NotificareKit.NotificareDefinitions.Modules : Swift.RawRepresentable {}

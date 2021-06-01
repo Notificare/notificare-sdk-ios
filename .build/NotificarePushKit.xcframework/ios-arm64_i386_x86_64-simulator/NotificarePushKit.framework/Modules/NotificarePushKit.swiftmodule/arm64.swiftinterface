@@ -17,7 +17,11 @@ import UserNotifications
   public var isRemoteNotificationsEnabled: Swift.Bool {
     get
   }
-  public static func configure(applicationKey _: Swift.String, applicationSecret _: Swift.String)
+  public var allowedUI: Swift.Bool {
+    get
+  }
+  public static func migrate()
+  public static func configure()
   public static func launch(_ completion: @escaping (Swift.Result<Swift.Void, Swift.Error>) -> Swift.Void)
   public static func unlaunch(_ completion: @escaping (Swift.Result<Swift.Void, Swift.Error>) -> Swift.Void)
   public func enableRemoteNotifications(_ completion: @escaping NotificareKit.NotificareCallback<Swift.Bool>)
