@@ -76,5 +76,12 @@ public struct NotificareServicesInfo: Decodable {
             case .production: return "https://pass.notifica.re"
             }
         }
+
+        public var dynamicLinksDomain: String {
+            switch self {
+            case .test: return "test.ntc.re"
+            case .production: return "ntc.re"
+            }
+        }
     }
 }

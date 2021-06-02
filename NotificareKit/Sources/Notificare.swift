@@ -423,6 +423,35 @@ public class Notificare {
         return true
     }
 
+    public func handleDynamicLinkUrl(_ url: URL) -> Bool {
+        guard let url = parseDynamicLink(url: url) else {
+            return false
+        }
+
+        NotificareLogger.debug("Handling a dynamic link.")
+        fetchDynamicLink(url.absoluteString) { result in
+            switch result {
+            case let .success(link):
+                guard let targetUrl = URL(string: link.target) else {
+                    NotificareLogger.warning("Failed to parse the dynamic link target url.")
+                    return
+                }
+
+                DispatchQueue.main.async {
+                    UIApplication.shared.open(targetUrl, options: [:]) { opened in
+                        if !opened {
+                            NotificareLogger.warning("The dynamic link's target was not handled by the application.")
+                        }
+                    }
+                }
+            case let .failure(error):
+                NotificareLogger.warning("Failed to fetch the dynamic link.\n\(error)")
+            }
+        }
+
+        return true
+    }
+
     // MARK: - Private API
 
     private func configureReachability(services: NotificareServicesInfo.Services) {
@@ -502,5 +531,34 @@ public class Notificare {
         guard url.pathComponents.count == 3, url.pathComponents[1] == "testdevice" else { return nil }
 
         return url.pathComponents[2]
+    }
+
+    private func parseDynamicLink(url: URL) -> URL? {
+        guard let host = url.host else {
+            return nil
+        }
+
+        guard let servicesInfo = servicesInfo else {
+            NotificareLogger.warning("Unable to parse dynamic link. Notificare services have not been configured.")
+            return nil
+        }
+
+        guard host.matches("^([a-z0-9-])+\\.\\Q\(servicesInfo.services.dynamicLinksDomain)\\E$".toRegex()) else {
+            NotificareLogger.debug("Domain pattern wasn't a match.")
+            return nil
+        }
+
+        guard url.pathComponents.count == 2 else {
+            NotificareLogger.debug("Path components length wasn't a match.")
+            return nil
+        }
+
+        let code = url.pathComponents[1]
+        guard code.matches("^[a-zA-Z0-9_-]+$".toRegex()) else {
+            NotificareLogger.debug("First path component value wasn't a match.")
+            return nil
+        }
+
+        return url
     }
 }
