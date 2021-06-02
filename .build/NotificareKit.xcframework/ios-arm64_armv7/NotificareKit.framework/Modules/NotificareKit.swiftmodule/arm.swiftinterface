@@ -48,6 +48,7 @@ public typealias NotificareCallback<T> = (Swift.Result<T, Swift.Error>) -> Swift
   public func uploadNotificationReplyAsset(_ data: Foundation.Data, contentType: Swift.String, _ completion: @escaping NotificareKit.NotificareCallback<Swift.String>)
   public func removeNotificationFromNotificationCenter(_ notification: NotificareKit.NotificareNotification)
   public func handleTestDeviceUrl(_ url: Foundation.URL) -> Swift.Bool
+  public func handleDynamicLinkUrl(_ url: Foundation.URL) -> Swift.Bool
   @objc deinit
 }
 public enum NotificareIsoDateUtils {
