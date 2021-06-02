@@ -15,7 +15,7 @@ public class NotificareAutoConfig: NSObject {
         )
     }
 
-    @objc public static func didFinishLaunching(_: Notification) {
+    @objc public static func didFinishLaunching(_ notification: Notification) {
         NotificationCenter.default.removeObserver(
             self,
             name: UIApplication.didFinishLaunchingNotification,
@@ -39,6 +39,7 @@ public class NotificareAutoConfig: NSObject {
             return
         }
 
+        Notificare.shared.launchOptions = notification.userInfo as? [UIApplication.LaunchOptionsKey: Any]
         Notificare.shared.configure()
     }
 }

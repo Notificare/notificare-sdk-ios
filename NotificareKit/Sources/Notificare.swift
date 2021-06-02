@@ -25,7 +25,7 @@ public class Notificare {
 
     // Launch / application state
     internal private(set) var state: NotificareLaunchState = .none
-    public private(set) var launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+    public internal(set) var launchOptions: [UIApplication.LaunchOptionsKey: Any]?
 
     public private(set) var application: NotificareApplication? {
         get {
