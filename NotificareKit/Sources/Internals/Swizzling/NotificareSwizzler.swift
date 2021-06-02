@@ -9,6 +9,8 @@ private typealias ApplicationWillResignActive = @convention(c) (Any, Selector, U
 private typealias ApplicationDidRegisterForRemoteNotificationsWithDeviceToken = @convention(c) (Any, Selector, UIApplication, Data) -> Void
 private typealias ApplicationDidFailToRegisterForRemoteNotificationsWithError = @convention(c) (Any, Selector, UIApplication, Error) -> Void
 private typealias ApplicationDidReceiveRemoteNotification = @convention(c) (Any, Selector, UIApplication, [AnyHashable: Any], @escaping (UIBackgroundFetchResult) -> Void) -> Void
+private typealias ApplicationOpenURL = @convention(c) (Any, Selector, UIApplication, URL, [UIApplication.OpenURLOptionsKey: Any]) -> Bool
+private typealias ApplicationContinueUserActivity = @convention(c) (Any, Selector, UIApplication, NSUserActivity, ([UIUserActivityRestoring]?) -> Void) -> Bool
 
 private enum AssociatedObjectKeys {
     static var originalClass = "Notificare_OriginalClass"
@@ -171,6 +173,26 @@ public class NotificareSwizzler: NSProxy {
             withSelector: #selector(applicationWillResignActive(_:)),
             fromClass: NotificareSwizzler.self,
             fromSelector: #selector(applicationWillResignActive(_:)),
+            withOriginalClass: originalClass,
+            storeOriginalImplementationInto: &originalImplementationsStore
+        )
+
+        // For application(_:open:options:)
+        proxyInstanceMethod(
+            toClass: subClass,
+            withSelector: NSSelectorFromString("application:openURL:options:"),
+            fromClass: NotificareSwizzler.self,
+            fromSelector: #selector(application(_:open:options:)),
+            withOriginalClass: originalClass,
+            storeOriginalImplementationInto: &originalImplementationsStore
+        )
+
+        // For #selector(application(_:continue:restorationHandler:))
+        proxyInstanceMethod(
+            toClass: subClass,
+            withSelector: NSSelectorFromString("application:continueUserActivity:restorationHandler:"),
+            fromClass: NotificareSwizzler.self,
+            fromSelector: #selector(application(_:continue:restorationHandler:)),
             withOriginalClass: originalClass,
             storeOriginalImplementationInto: &originalImplementationsStore
         )
@@ -385,5 +407,39 @@ extension NotificareSwizzler {
             NotificareSwizzler.originalMethodImplementation(for: selector, object: self)
 
         originalImplementation?(self, selector, application, userInfo, completionHandler)
+    }
+
+    @objc private func application(_ application: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any]) -> Bool {
+        var interceptorsResult = false
+
+        NotificareSwizzler.interceptors.forEach { _, interceptor in
+            let result = interceptor.application?(application, open: url, options: options) ?? false
+            interceptorsResult = interceptorsResult || result
+        }
+
+        let selector = NSSelectorFromString("application:openURL:options:")
+        let originalImplementation: ApplicationOpenURL? =
+            NotificareSwizzler.originalMethodImplementation(for: selector, object: self)
+
+        let originalResult = originalImplementation?(self, selector, application, url, options) ?? false
+
+        return interceptorsResult || originalResult
+    }
+
+    @objc private func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+        var interceptorsResult = false
+
+        NotificareSwizzler.interceptors.forEach { _, interceptor in
+            let result = interceptor.application?(application, continue: userActivity, restorationHandler: restorationHandler) ?? false
+            interceptorsResult = interceptorsResult || result
+        }
+
+        let selector = NSSelectorFromString("application:continueUserActivity:restorationHandler:")
+        let originalImplementation: ApplicationContinueUserActivity? =
+            NotificareSwizzler.originalMethodImplementation(for: selector, object: self)
+
+        let originalResult = originalImplementation?(self, selector, application, userActivity, restorationHandler) ?? false
+
+        return interceptorsResult || originalResult
     }
 }
