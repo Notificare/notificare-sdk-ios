@@ -22,7 +22,7 @@
 		</data>
 		<key>Frameworks/NotificareKit.framework/NotificareKit</key>
 		<data>
-		r9GvV+GXAvI7RioCnkRg4uUoOso=
+		CCmnFYtCdPNQMz8Nzy0ZmSboBYM=
 		</data>
 		<key>Frameworks/NotificareKit.framework/_CodeSignature/CodeResources</key>
 		<data>
@@ -68,7 +68,7 @@
 		</data>
 		<key>Modules/NotificarePushKit.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		gzEsI0Wi2kVv0DoBPwghWheQpus=
+		IqPf+F9JHxHgcdih9OcCgD+xuh0=
 		</data>
 		<key>Modules/NotificarePushKit.swiftmodule/arm64.swiftdoc</key>
 		<data>
@@ -80,7 +80,7 @@
 		</data>
 		<key>Modules/NotificarePushKit.swiftmodule/arm64.swiftmodule</key>
 		<data>
-		gzEsI0Wi2kVv0DoBPwghWheQpus=
+		IqPf+F9JHxHgcdih9OcCgD+xuh0=
 		</data>
 		<key>Modules/NotificarePushKit.swiftmodule/i386-apple-ios-simulator.swiftdoc</key>
 		<data>
@@ -92,7 +92,7 @@
 		</data>
 		<key>Modules/NotificarePushKit.swiftmodule/i386-apple-ios-simulator.swiftmodule</key>
 		<data>
-		mzPW1r7WSA3RHA7RUm+tJXuFYj0=
+		3kuM9+xxotnwjILnWkimfEgTTJU=
 		</data>
 		<key>Modules/NotificarePushKit.swiftmodule/i386.swiftdoc</key>
 		<data>
@@ -104,7 +104,7 @@
 		</data>
 		<key>Modules/NotificarePushKit.swiftmodule/i386.swiftmodule</key>
 		<data>
-		mzPW1r7WSA3RHA7RUm+tJXuFYj0=
+		3kuM9+xxotnwjILnWkimfEgTTJU=
 		</data>
 		<key>Modules/NotificarePushKit.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<data>
@@ -116,7 +116,7 @@
 		</data>
 		<key>Modules/NotificarePushKit.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		+lDAZLWY9f4fFaI6dQXPlUwvX3I=
+		+Fzr5wlON/GT1cvA5kkvTaFyH5o=
 		</data>
 		<key>Modules/NotificarePushKit.swiftmodule/x86_64.swiftdoc</key>
 		<data>
@@ -128,7 +128,7 @@
 		</data>
 		<key>Modules/NotificarePushKit.swiftmodule/x86_64.swiftmodule</key>
 		<data>
-		+lDAZLWY9f4fFaI6dQXPlUwvX3I=
+		+Fzr5wlON/GT1cvA5kkvTaFyH5o=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -185,11 +185,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			r9GvV+GXAvI7RioCnkRg4uUoOso=
+			CCmnFYtCdPNQMz8Nzy0ZmSboBYM=
 			</data>
 			<key>hash2</key>
 			<data>
-			48uXK37MAYFe2tlj6rbOQV3ILJKsi43t60vfCqbEO4U=
+			ds3HbCzphMILEHi2DgB1eNaFyMlc7/HJcYuyiOyFDVk=
 			</data>
 		</dict>
 		<key>Frameworks/NotificareKit.framework/_CodeSignature/CodeResources</key>
@@ -277,11 +277,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			gzEsI0Wi2kVv0DoBPwghWheQpus=
+			IqPf+F9JHxHgcdih9OcCgD+xuh0=
 			</data>
 			<key>hash2</key>
 			<data>
-			huUbvXhnvvPg2X25mZnJ2z9q/NthJR7ePnuD+k+6BJI=
+			PnwlvOYEbYrmN4wYu0YnRoMvNFs4zFEG7GE1vjremyA=
 			</data>
 		</dict>
 		<key>Modules/NotificarePushKit.swiftmodule/arm64.swiftdoc</key>
@@ -310,11 +310,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			gzEsI0Wi2kVv0DoBPwghWheQpus=
+			IqPf+F9JHxHgcdih9OcCgD+xuh0=
 			</data>
 			<key>hash2</key>
 			<data>
-			huUbvXhnvvPg2X25mZnJ2z9q/NthJR7ePnuD+k+6BJI=
+			PnwlvOYEbYrmN4wYu0YnRoMvNFs4zFEG7GE1vjremyA=
 			</data>
 		</dict>
 		<key>Modules/NotificarePushKit.swiftmodule/i386-apple-ios-simulator.swiftdoc</key>
@@ -343,11 +343,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			mzPW1r7WSA3RHA7RUm+tJXuFYj0=
+			3kuM9+xxotnwjILnWkimfEgTTJU=
 			</data>
 			<key>hash2</key>
 			<data>
-			017TJpKc6CFjTrdc8Fuu1m8EGfBFIe51cnpJDZ8xf10=
+			snjUpbDF4Z0VJzxfd+D3lDvSUw7c6I8i5tndeFXLx+s=
 			</data>
 		</dict>
 		<key>Modules/NotificarePushKit.swiftmodule/i386.swiftdoc</key>
@@ -376,11 +376,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			mzPW1r7WSA3RHA7RUm+tJXuFYj0=
+			3kuM9+xxotnwjILnWkimfEgTTJU=
 			</data>
 			<key>hash2</key>
 			<data>
-			017TJpKc6CFjTrdc8Fuu1m8EGfBFIe51cnpJDZ8xf10=
+			snjUpbDF4Z0VJzxfd+D3lDvSUw7c6I8i5tndeFXLx+s=
 			</data>
 		</dict>
 		<key>Modules/NotificarePushKit.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
@@ -409,11 +409,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			+lDAZLWY9f4fFaI6dQXPlUwvX3I=
+			+Fzr5wlON/GT1cvA5kkvTaFyH5o=
 			</data>
 			<key>hash2</key>
 			<data>
-			Cz5Y5JcLCt/s/wDLyWuXL0CWFso7OWk4bEeEEw4FNgs=
+			Q8dIPtySGsnGNOtjji+eHHl28GsbmjU/upwvJHC1LoA=
 			</data>
 		</dict>
 		<key>Modules/NotificarePushKit.swiftmodule/x86_64.swiftdoc</key>
@@ -442,11 +442,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			+lDAZLWY9f4fFaI6dQXPlUwvX3I=
+			+Fzr5wlON/GT1cvA5kkvTaFyH5o=
 			</data>
 			<key>hash2</key>
 			<data>
-			Cz5Y5JcLCt/s/wDLyWuXL0CWFso7OWk4bEeEEw4FNgs=
+			Q8dIPtySGsnGNOtjji+eHHl28GsbmjU/upwvJHC1LoA=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

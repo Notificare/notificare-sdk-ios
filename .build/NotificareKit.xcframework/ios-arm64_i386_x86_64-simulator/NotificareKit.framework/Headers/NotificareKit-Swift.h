@@ -215,6 +215,10 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 @class UIApplication;
 @class NSData;
 @class NSObject;
+@class NSURL;
+@class NSNumber;
+@class NSUserActivity;
+@protocol UIUserActivityRestoring;
 
 SWIFT_PROTOCOL("_TtP13NotificareKit32NotificareAppDelegateInterceptor_")
 @protocol NotificareAppDelegateInterceptor
@@ -224,6 +228,8 @@ SWIFT_PROTOCOL("_TtP13NotificareKit32NotificareAppDelegateInterceptor_")
 - (void)application:(UIApplication * _Nonnull)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData * _Nonnull)deviceToken;
 - (void)application:(UIApplication * _Nonnull)application didFailToRegisterForRemoteNotificationsWithError:(NSError * _Nonnull)error;
 - (void)application:(UIApplication * _Nonnull)application didReceiveRemoteNotification:(NSDictionary * _Nonnull)userInfo fetchCompletionHandler:(void (^ _Nonnull)(UIBackgroundFetchResult))completionHandler;
+- (BOOL)application:(UIApplication * _Nonnull)app open:(NSURL * _Nonnull)url options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> * _Nonnull)options SWIFT_WARN_UNUSED_RESULT;
+- (BOOL)application:(UIApplication * _Nonnull)application continue:(NSUserActivity * _Nonnull)userActivity restorationHandler:(void (^ _Nonnull)(NSArray<id <UIUserActivityRestoring>> * _Nullable))restorationHandler SWIFT_WARN_UNUSED_RESULT;
 @end
 
 @class NSNotification;
@@ -244,7 +250,6 @@ SWIFT_CLASS_NAMED("NotificareCoreDataEvent")
 @end
 
 @class NSString;
-@class NSNumber;
 
 @interface NotificareCoreDataEvent (SWIFT_EXTENSION(NotificareKit))
 @property (nonatomic, copy) NSData * _Nullable data;
@@ -489,6 +494,10 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 @class UIApplication;
 @class NSData;
 @class NSObject;
+@class NSURL;
+@class NSNumber;
+@class NSUserActivity;
+@protocol UIUserActivityRestoring;
 
 SWIFT_PROTOCOL("_TtP13NotificareKit32NotificareAppDelegateInterceptor_")
 @protocol NotificareAppDelegateInterceptor
@@ -498,6 +507,8 @@ SWIFT_PROTOCOL("_TtP13NotificareKit32NotificareAppDelegateInterceptor_")
 - (void)application:(UIApplication * _Nonnull)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData * _Nonnull)deviceToken;
 - (void)application:(UIApplication * _Nonnull)application didFailToRegisterForRemoteNotificationsWithError:(NSError * _Nonnull)error;
 - (void)application:(UIApplication * _Nonnull)application didReceiveRemoteNotification:(NSDictionary * _Nonnull)userInfo fetchCompletionHandler:(void (^ _Nonnull)(UIBackgroundFetchResult))completionHandler;
+- (BOOL)application:(UIApplication * _Nonnull)app open:(NSURL * _Nonnull)url options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> * _Nonnull)options SWIFT_WARN_UNUSED_RESULT;
+- (BOOL)application:(UIApplication * _Nonnull)application continue:(NSUserActivity * _Nonnull)userActivity restorationHandler:(void (^ _Nonnull)(NSArray<id <UIUserActivityRestoring>> * _Nullable))restorationHandler SWIFT_WARN_UNUSED_RESULT;
 @end
 
 @class NSNotification;
@@ -518,7 +529,6 @@ SWIFT_CLASS_NAMED("NotificareCoreDataEvent")
 @end
 
 @class NSString;
-@class NSNumber;
 
 @interface NotificareCoreDataEvent (SWIFT_EXTENSION(NotificareKit))
 @property (nonatomic, copy) NSData * _Nullable data;
@@ -763,6 +773,10 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 @class UIApplication;
 @class NSData;
 @class NSObject;
+@class NSURL;
+@class NSNumber;
+@class NSUserActivity;
+@protocol UIUserActivityRestoring;
 
 SWIFT_PROTOCOL("_TtP13NotificareKit32NotificareAppDelegateInterceptor_")
 @protocol NotificareAppDelegateInterceptor
@@ -772,6 +786,8 @@ SWIFT_PROTOCOL("_TtP13NotificareKit32NotificareAppDelegateInterceptor_")
 - (void)application:(UIApplication * _Nonnull)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData * _Nonnull)deviceToken;
 - (void)application:(UIApplication * _Nonnull)application didFailToRegisterForRemoteNotificationsWithError:(NSError * _Nonnull)error;
 - (void)application:(UIApplication * _Nonnull)application didReceiveRemoteNotification:(NSDictionary * _Nonnull)userInfo fetchCompletionHandler:(void (^ _Nonnull)(UIBackgroundFetchResult))completionHandler;
+- (BOOL)application:(UIApplication * _Nonnull)app open:(NSURL * _Nonnull)url options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> * _Nonnull)options SWIFT_WARN_UNUSED_RESULT;
+- (BOOL)application:(UIApplication * _Nonnull)application continue:(NSUserActivity * _Nonnull)userActivity restorationHandler:(void (^ _Nonnull)(NSArray<id <UIUserActivityRestoring>> * _Nullable))restorationHandler SWIFT_WARN_UNUSED_RESULT;
 @end
 
 @class NSNotification;
@@ -792,7 +808,6 @@ SWIFT_CLASS_NAMED("NotificareCoreDataEvent")
 @end
 
 @class NSString;
-@class NSNumber;
 
 @interface NotificareCoreDataEvent (SWIFT_EXTENSION(NotificareKit))
 @property (nonatomic, copy) NSData * _Nullable data;

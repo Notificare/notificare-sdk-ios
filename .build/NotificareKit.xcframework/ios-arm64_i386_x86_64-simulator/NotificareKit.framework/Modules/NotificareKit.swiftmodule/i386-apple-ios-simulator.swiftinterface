@@ -192,6 +192,8 @@ public enum NotificareLogger {
   @objc optional func application(_ application: UIKit.UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Foundation.Data)
   @objc optional func application(_ application: UIKit.UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Swift.Error)
   @objc optional func application(_ application: UIKit.UIApplication, didReceiveRemoteNotification userInfo: [Swift.AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIKit.UIBackgroundFetchResult) -> Swift.Void)
+  @objc optional func application(_ app: UIKit.UIApplication, open url: Foundation.URL, options: [UIKit.UIApplication.OpenURLOptionsKey : Any]) -> Swift.Bool
+  @objc optional func application(_ application: UIKit.UIApplication, continue userActivity: Foundation.NSUserActivity, restorationHandler: @escaping ([UIKit.UIUserActivityRestoring]?) -> Swift.Void) -> Swift.Bool
 }
 public enum NotificareNetworkError : Swift.Error {
   case inaccessible
