@@ -23,6 +23,7 @@
 			<string>re.notifica.demo</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
+				<string>re.notifica</string>
 				<string>test.nc$(NOTIFICARE_APPLICATION_ID)</string>
 			</array>
 		</dict>

@@ -46,8 +46,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
         URLContexts.forEach { context in
             if Notificare.shared.handleTestDeviceUrl(context.url) {
-                NotificareLogger.info("Handled the test device registration url.")
+                print("-----> Handled the test device registration url.")
+                return
             }
+
+            print("----> Opened URL = \(context.url.absoluteString)")
         }
+    }
+
+    func scene(_: UIScene, continue userActivity: NSUserActivity) {
+        guard let url = userActivity.webpageURL else {
+            return
+        }
+
+        _ = Notificare.shared.handleDynamicLinkUrl(url)
     }
 }
