@@ -10,7 +10,7 @@
 		</data>
 		<key>Frameworks/NotificareKit.framework/Info.plist</key>
 		<data>
-		rFudlkvqivWfuADndl3g2iHACD8=
+		cGQ5rxhACZ9aMUafT8xh0K7oNNM=
 		</data>
 		<key>Frameworks/NotificareKit.framework/NotificareDatabase.momd/NotificareCoreData.mom</key>
 		<data>
@@ -22,11 +22,11 @@
 		</data>
 		<key>Frameworks/NotificareKit.framework/NotificareKit</key>
 		<data>
-		CCmnFYtCdPNQMz8Nzy0ZmSboBYM=
+		wRgQpHdwmMb2MReShBQ8Jg81MIs=
 		</data>
 		<key>Frameworks/NotificareKit.framework/_CodeSignature/CodeResources</key>
 		<data>
-		Q30zfoLYr4WftX04PzBDT+McRtY=
+		yAJslZqggBoTm2TCpsaNPHesuU4=
 		</data>
 		<key>Frameworks/NotificareKit.framework/en.lproj/Localizable.strings</key>
 		<dict>
@@ -56,7 +56,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		sj/lfaCESXDMK9x3s5B7W33S61U=
+		UxhjzGObLfCBTrziaX01r1Su9L0=
 		</data>
 		<key>Modules/NotificarePushUIKit.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<data>
@@ -152,11 +152,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			rFudlkvqivWfuADndl3g2iHACD8=
+			cGQ5rxhACZ9aMUafT8xh0K7oNNM=
 			</data>
 			<key>hash2</key>
 			<data>
-			d9mut2FTgh3o+2D8w91s9Ta1nGoapmY1VLsE9t8vl9k=
+			M57UUra7iICvA0myYONFWjXTcP5Zp13cqdMtaCWZamI=
 			</data>
 		</dict>
 		<key>Frameworks/NotificareKit.framework/NotificareDatabase.momd/NotificareCoreData.mom</key>
@@ -185,22 +185,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			CCmnFYtCdPNQMz8Nzy0ZmSboBYM=
+			wRgQpHdwmMb2MReShBQ8Jg81MIs=
 			</data>
 			<key>hash2</key>
 			<data>
-			ds3HbCzphMILEHi2DgB1eNaFyMlc7/HJcYuyiOyFDVk=
+			dLv22KDxk4JUgfmbZ2whbZqlofMe4cxW1O/gHcRmzps=
 			</data>
 		</dict>
 		<key>Frameworks/NotificareKit.framework/_CodeSignature/CodeResources</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			Q30zfoLYr4WftX04PzBDT+McRtY=
+			yAJslZqggBoTm2TCpsaNPHesuU4=
 			</data>
 			<key>hash2</key>
 			<data>
-			yfX4L7zyhwrvR/aKlj0/JU3iTOIDlnOI8QL7/ksXKQ4=
+			7vsB9GXOPWrMncHR1l7647eUfo4t0VWjSBzaNL7d12s=
 			</data>
 		</dict>
 		<key>Frameworks/NotificareKit.framework/en.lproj/Localizable.strings</key>

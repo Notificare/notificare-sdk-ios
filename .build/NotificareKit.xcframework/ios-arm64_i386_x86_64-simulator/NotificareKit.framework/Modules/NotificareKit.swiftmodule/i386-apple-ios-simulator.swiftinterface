@@ -19,9 +19,6 @@ public typealias NotificareCallback<T> = (Swift.Result<T, Swift.Error>) -> Swift
   public var options: NotificareKit.NotificareOptions? {
     get
   }
-  public var launchOptions: [UIKit.UIApplication.LaunchOptionsKey : Any]? {
-    get
-  }
   public var application: NotificareKit.NotificareApplication? {
     get
   }
@@ -38,7 +35,7 @@ public typealias NotificareCallback<T> = (Swift.Result<T, Swift.Error>) -> Swift
   }
   public func configure(servicesInfo: NotificareKit.NotificareServicesInfo? = nil, options: NotificareKit.NotificareOptions? = nil)
   public func configure(servicesInfo: NotificareKit.NotificareServicesInfo, options: NotificareKit.NotificareOptions)
-  public func launch(_: [UIKit.UIApplication.LaunchOptionsKey : Any]? = nil)
+  public func launch()
   public func unlaunch()
   public func fetchApplication(_ completion: @escaping NotificareKit.NotificareCallback<NotificareKit.NotificareApplication>)
   public func fetchDynamicLink(_ link: Swift.String, _ completion: @escaping NotificareKit.NotificareCallback<NotificareKit.NotificareDynamicLink>)
