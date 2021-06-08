@@ -50,6 +50,28 @@ build_framework () {
       -output ".build/$framework.xcframework"
 }
 
+zip_frameworks () {
+  local filenames=()
+
+  for framework in "${frameworks[@]}"
+  do
+    # Zip each invididual framework
+    (cd .build; zip -rq $framework.zip $framework.xcframework)
+
+    # Keep track of all the filenames
+    filenames+=( $framework.xcframework )
+  done
+
+  # Build a combined zip file with all the frameworks
+  (cd .build; zip -rq Notificare.zip "${filenames[@]}")
+
+  for framework in "${frameworks[@]}"
+  do
+    echo "Checksum for $framework.zip"
+    swift package compute-checksum .build/$framework.zip
+  done
+}
+
 for framework in "${frameworks[@]}"
 do
 	echo "Cleaning: $framework"
@@ -61,6 +83,9 @@ do
 	echo "Building: $framework"
   build_framework $framework
 done
+
+echo "Zipping all XCFrameworks"
+zip_frameworks
 
 rm -rf .build/archives
 echo "Done."
