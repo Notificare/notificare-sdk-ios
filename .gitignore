@@ -84,4 +84,4 @@ iOSInjectionProject/
 # AppCode
 .idea/
 
-.build/archives
+.build
