@@ -2,6 +2,8 @@
 
 import PackageDescription
 
+let version = "3.0.0-alpha.1"
+
 let package = Package(
     name: "Notificare",
     platforms: [
@@ -9,63 +11,42 @@ let package = Package(
     ],
     products: [
         .library(
-            name: "NotificareSDK",
-            targets: ["NotificareSDK"]
+            name: "NotificareKit",
+            targets: ["NotificareKit"]
         ),
         .library(
-            name: "NotificareAssets",
-            targets: ["NotificareAssets"]
+            name: "NotificareInboxKit",
+            targets: ["NotificareInboxKit"]
         ),
         .library(
-            name: "NotificareLocation",
-            targets: ["NotificareLocation"]
+            name: "NotificarePushKit",
+            targets: ["NotificarePushKit"]
         ),
         .library(
-            name: "NotificareLoyalty",
-            targets: ["NotificareLoyalty"]
-        ),
-        .library(
-            name: "NotificareMonetize",
-            targets: ["NotificareMonetize"]
-        ),
-        .library(
-            name: "NotificarePush",
-            targets: ["NotificarePush"]
-        ),
-        .library(
-            name: "NotificareScannable",
-            targets: ["NotificareScannable"]
+            name: "NotificarePushUIKit",
+            targets: ["NotificarePushUIKit"]
         ),
     ],
-    dependencies: [],
     targets: [
         .binaryTarget(
-            name: "NotificareSDK",
-            path: ".artefacts/NotificareSDK.xcframework"
+            name: "NotificareKit",
+            url: "https://github.com/notificare/notificare-sdk-ios/releases/download/\(version)/NotificareKit.zip",
+            checksum: "176402bf2cfceac38884bef0572e0c7b08e2c17da60ceb5963bc9b83f27684bf"
         ),
         .binaryTarget(
-            name: "NotificareAssets",
-            path: ".artefacts/NotificareAssets.xcframework"
+            name: "NotificareInboxKit",
+            url: "https://github.com/notificare/notificare-sdk-ios/releases/download/\(version)/NotificareInboxKit.zip",
+            checksum: "db7363b136ffa548b867b17eeffc093680a4c42739c06158369dba0847850687"
         ),
         .binaryTarget(
-            name: "NotificareLocation",
-            path: ".artefacts/NotificareLocation.xcframework"
+            name: "NotificarePushKit",
+            url: "https://github.com/notificare/notificare-sdk-ios/releases/download/\(version)/NotificarePushKit.zip",
+            checksum: "f822371eb5918a9b8441ed0ad1ce0f936de3b7e38da2b920c47fccaf76cf1876"
         ),
         .binaryTarget(
-            name: "NotificareLoyalty",
-            path: ".artefacts/NotificareLoyalty.xcframework"
-        ),
-        .binaryTarget(
-            name: "NotificareMonetize",
-            path: ".artefacts/NotificareMonetize.xcframework"
-        ),
-        .binaryTarget(
-            name: "NotificarePush",
-            path: ".artefacts/NotificarePush.xcframework"
-        ),
-        .binaryTarget(
-            name: "NotificareScannable",
-            path: ".artefacts/NotificareScannable.xcframework"
+            name: "NotificarePushUIKit",
+            url: "https://github.com/notificare/notificare-sdk-ios/releases/download/\(version)/NotificarePushUIKit.zip",
+            checksum: "8a98499104a6d75381cd054fd7251394874149b5ddd2636fcc077fcfd1f7cb44"
         ),
     ]
 )
