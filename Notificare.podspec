@@ -13,7 +13,7 @@ For support please use: http://support.notifica.re
   spec.documentation_url  = "https://docs.notifica.re"
   spec.license            = { :type => "MIT" }
   spec.author             = { "Notificare" => "info@notifica.re" }
-  spec.source             = { :git => 'https://github.com/notificare/notificare-sdk-ios.git', :tag => "#{spec.version}" }
+  spec.source             = { :http => "https://github.com/notificare/notificare-sdk-ios/releases/download/#{spec.version}/build.zip" }
   spec.swift_version      = "5.3"
 
   # Supported deployment targets
@@ -22,19 +22,19 @@ For support please use: http://support.notifica.re
   # Subspecs
 
   spec.subspec 'NotificareKit' do |subspec|
-    subspec.vendored_frameworks = ".build/NotificareKit.xcframework"
+    subspec.vendored_frameworks = "NotificareKit.xcframework"
   end
 
   spec.subspec 'NotificareInboxKit' do |subspec|
-    subspec.vendored_frameworks = ".build/NotificareInboxKit.xcframework"
+    subspec.vendored_frameworks = "NotificareInboxKit.xcframework"
   end
 
   spec.subspec 'NotificarePushKit' do |subspec|
-    subspec.vendored_frameworks = ".build/NotificarePushKit.xcframework"
+    subspec.vendored_frameworks = "NotificarePushKit.xcframework"
   end
 
   spec.subspec 'NotificarePushUIKit' do |subspec|
-    subspec.vendored_frameworks = ".build/NotificarePushUIKit.xcframework"
+    subspec.vendored_frameworks = "NotificarePushUIKit.xcframework"
   end
 
 end
