@@ -4,7 +4,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
-        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -125,7 +124,7 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tPr-RS-rtL" userLabel="Badge Background">
                                 <rect key="frame" x="107" y="348" width="200" height="200"/>
-                                <color key="backgroundColor" name="Notificare Blue"/>
+                                <color key="backgroundColor" systemColor="systemBlueColor"/>
                                 <constraints>
                                     <constraint firstAttribute="width" priority="750" constant="200" id="Zfy-w3-DKq"/>
                                     <constraint firstAttribute="width" secondItem="tPr-RS-rtL" secondAttribute="height" multiplier="1:1" id="gSF-jO-VOE"/>
@@ -210,7 +209,7 @@
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4Gg-O0-xok">
                                             <rect key="frame" x="20" y="30" width="80" height="60"/>
-                                            <color key="backgroundColor" name="Notificare Blue"/>
+                                            <color key="backgroundColor" systemColor="systemBlueColor"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="60" id="QtO-Ex-x05"/>
                                                 <constraint firstAttribute="width" constant="80" id="X9N-l5-v9E"/>
@@ -354,9 +353,6 @@
         <image name="circle.fill" catalog="system" width="128" height="121"/>
         <image name="envelope.open.fill" catalog="system" width="128" height="119"/>
         <image name="trash.fill" catalog="system" width="121" height="128"/>
-        <namedColor name="Notificare Blue">
-            <color red="0.16862745098039217" green="0.25882352941176473" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

@@ -2,7 +2,7 @@
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
-import Atlantis
+// import Atlantis
 import NotificareInboxKit
 import NotificareKit
 import NotificarePushKit
@@ -11,11 +11,13 @@ import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    func application(_: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    var window: UIWindow?
+
+    func application(_: UIApplication, didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
 
         // Enable Proxyman debugging.
-        Atlantis.start()
+        // Atlantis.start()
 
         Notificare.shared.useAdvancedLogging = true
 
@@ -30,9 +32,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NotificarePushUI.shared.delegate = self
         NotificareInbox.shared.delegate = self
 
-        Notificare.shared.launch(launchOptions)
+        Notificare.shared.launch()
 
         return true
+    }
+
+    func application(_: UIApplication, open url: URL, options _: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
+        if Notificare.shared.handleTestDeviceUrl(url) || Notificare.shared.handleDynamicLinkUrl(url) {
+            return true
+        }
+
+        return false
+    }
+
+    func application(_: UIApplication, continue userActivity: NSUserActivity, restorationHandler _: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+        guard let url = userActivity.webpageURL else {
+            return false
+        }
+
+        return Notificare.shared.handleDynamicLinkUrl(url)
     }
 }
 
@@ -76,31 +94,31 @@ extension AppDelegate: NotificarePushDelegate {
     }
 
     func notificare(_: NotificarePush, didOpenNotification notification: NotificareNotification) {
-        //        guard let controller = window?.rootViewController else {
-        //            return
-        //        }
-
-        guard let scene = UIApplication.shared.connectedScenes.filter({ $0.activationState == .foregroundActive }).first ?? UIApplication.shared.connectedScenes.first,
-              let window = (scene.delegate as! UIWindowSceneDelegate).window!,
-              let rootViewController = window.rootViewController
-        else {
+        guard let rootViewController = window?.rootViewController else {
             return
         }
+
+//        guard let scene = UIApplication.shared.connectedScenes.filter({ $0.activationState == .foregroundActive }).first ?? UIApplication.shared.connectedScenes.first,
+//              let window = (scene.delegate as! UIWindowSceneDelegate).window!,
+//              let rootViewController = window.rootViewController
+//        else {
+//            return
+//        }
 
         NotificarePushUI.shared.presentNotification(notification, in: rootViewController)
     }
 
     func notificare(_: NotificarePush, didOpenAction action: NotificareNotification.Action, for notification: NotificareNotification) {
-//        guard let controller = window?.rootViewController else {
-//            return
-//        }
-
-        guard let scene = UIApplication.shared.connectedScenes.filter({ $0.activationState == .foregroundActive }).first ?? UIApplication.shared.connectedScenes.first,
-              let window = (scene.delegate as! UIWindowSceneDelegate).window!,
-              let rootViewController = window.rootViewController
-        else {
+        guard let rootViewController = window?.rootViewController else {
             return
         }
+
+//        guard let scene = UIApplication.shared.connectedScenes.filter({ $0.activationState == .foregroundActive }).first ?? UIApplication.shared.connectedScenes.first,
+//              let window = (scene.delegate as! UIWindowSceneDelegate).window!,
+//              let rootViewController = window.rootViewController
+//        else {
+//            return
+//        }
 
         NotificarePushUI.shared.presentAction(action, for: notification, in: rootViewController)
     }
