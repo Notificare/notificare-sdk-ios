@@ -25,7 +25,6 @@ public class Notificare {
 
     // Launch / application state
     internal private(set) var state: NotificareLaunchState = .none
-    public internal(set) var launchOptions: [UIApplication.LaunchOptionsKey: Any]?
 
     public private(set) var application: NotificareApplication? {
         get {
@@ -121,7 +120,7 @@ public class Notificare {
         state = .configured
     }
 
-    public func launch(_: [UIApplication.LaunchOptionsKey: Any]? = nil) {
+    public func launch() {
         if state == .none {
             NotificareLogger.warning("Notificare wasn't configured. Configuring before launching.")
             configure()

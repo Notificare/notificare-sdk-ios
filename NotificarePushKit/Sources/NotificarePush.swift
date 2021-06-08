@@ -71,8 +71,6 @@ public class NotificarePush: NSObject, NotificareModule {
             NotificarePush.shared.updateNotificationSettings()
         }
 
-        NotificarePush.shared.handleLaunchOptions()
-
         completion(.success(()))
     }
 
@@ -354,42 +352,6 @@ public class NotificarePush: NSObject, NotificareModule {
         } else {
             NotificareLogger.debug("User notification settings update skipped, nothing changed.")
             completion(.success(()))
-        }
-    }
-
-    private func handleLaunchOptions() {
-        // For safety reasons, handle the launch options on the main thread.
-        DispatchQueue.main.async {
-            // Check for the presence of a remote notification in the launch options.
-            if let userInfo = Notificare.shared.launchOptions?[.remoteNotification] as? [AnyHashable: Any] {
-                if self.isNotificareNotification(userInfo) {
-                    NotificareLogger.info("Application launched via notification.")
-
-                    guard let id = userInfo["id"] as? String else {
-                        NotificareLogger.warning("Missing 'id' property in notification payload.")
-                        return
-                    }
-
-                    guard Notificare.shared.isConfigured else {
-                        NotificareLogger.warning("Notificare has not been configured.")
-                        return
-                    }
-
-                    Notificare.shared.fetchNotification(id) { result in
-                        switch result {
-                        case let .success(notification):
-                            Notificare.shared.eventsManager.logNotificationInfluenced(notification)
-                        case .failure:
-                            break
-                        }
-                    }
-                }
-            }
-
-//            // Handle URL Schemes at launch, this is needed when the application is force to awake and handle a click from an email message.
-//            if let url = Notificare.shared.launchOptions?[.url] {
-//                NotificareLogger.info("Application launched from an URL.")
-//            }
         }
     }
 }
