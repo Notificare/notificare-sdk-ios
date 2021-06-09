@@ -3,7 +3,7 @@
 # Automatically exit on error.
 set -e
 
-frameworks=( "NotificareKit" "NotificarePushKit" "NotificarePushUIKit" "NotificareInboxKit" )
+frameworks=( "NotificareKit" "NotificareInboxKit" "NotificarePushKit" "NotificarePushUIKit" )
 
 echo "Cleaning build folder"
 rm -rf .build
@@ -51,28 +51,25 @@ build_framework () {
 }
 
 zip_frameworks () {
-  local filenames=()
+  mkdir .build/Notificare
 
   for framework in "${frameworks[@]}"
   do
     # Zip each invididual framework
     (cd .build; zip -rq $framework.zip $framework.xcframework)
 
-    # Keep track of all the filenames
-    filenames+=( $framework.xcframework )
-  done
-
-  # Build a combined zip file with all the frameworks
-  (cd .build; zip -rq Notificare.zip "${filenames[@]}")
-
-  # Copy the license file to the combined zip file
-  zip -q .build/Notificare.zip LICENSE
-
-  for framework in "${frameworks[@]}"
-  do
     echo "Checksum for $framework.zip"
     swift package compute-checksum .build/$framework.zip
+
+    # Prepare each framework for the Cocoapods build folder.
+    cp -r .build/$framework.xcframework .build/Notificare
   done
+
+  # Copy the license file to the Cocoapods build folder
+  cp LICENSE .build/Notificare
+
+  # Build a combined zip file with all the frameworks
+  (cd .build; zip -rq Notificare.zip Notificare)
 }
 
 for framework in "${frameworks[@]}"
