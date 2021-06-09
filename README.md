@@ -10,6 +10,9 @@ The Notificare iOS SDK makes it quick and easy to communicate efficiently with m
 Get started with our [📚 integration guides](https://docs.notifica.re/sdk/v3/ios/setup) and [example projects](#examples), or [📘 browse the SDK reference]() (coming soon).
 
 
+> :warning: **The v3 SDK is currently in alpha. If you are running a production application, take a look at the v2.x SDK instead.**
+
+
 Table of contents
 =================
 
