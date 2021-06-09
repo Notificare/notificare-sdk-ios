@@ -31,22 +31,22 @@ let package = Package(
         .binaryTarget(
             name: "NotificareKit",
             url: "https://github.com/notificare/notificare-sdk-ios/releases/download/\(version)/NotificareKit.zip",
-            checksum: "176402bf2cfceac38884bef0572e0c7b08e2c17da60ceb5963bc9b83f27684bf"
+            checksum: "f733c5a98609c98ddaec9938c4ee096b070162aacd02b5a5d9b64102fa1a942f"
         ),
         .binaryTarget(
             name: "NotificareInboxKit",
             url: "https://github.com/notificare/notificare-sdk-ios/releases/download/\(version)/NotificareInboxKit.zip",
-            checksum: "db7363b136ffa548b867b17eeffc093680a4c42739c06158369dba0847850687"
+            checksum: "172444e3118290e8c8f0e8c52a0aeaf116a0d554ba1e69e4d01c6dc77d38d700"
         ),
         .binaryTarget(
             name: "NotificarePushKit",
             url: "https://github.com/notificare/notificare-sdk-ios/releases/download/\(version)/NotificarePushKit.zip",
-            checksum: "f822371eb5918a9b8441ed0ad1ce0f936de3b7e38da2b920c47fccaf76cf1876"
+            checksum: "d503151c8bd23abd892246dcdddbd02cb8b1ff7ad9a562697c9c2f20e3fcc37a"
         ),
         .binaryTarget(
             name: "NotificarePushUIKit",
             url: "https://github.com/notificare/notificare-sdk-ios/releases/download/\(version)/NotificarePushUIKit.zip",
-            checksum: "8a98499104a6d75381cd054fd7251394874149b5ddd2636fcc077fcfd1f7cb44"
+            checksum: "691bd7d68e1a5eefcf698d580c847ba3b94cc2c6177d293868f9c54180fbbd37"
         ),
     ]
 )
