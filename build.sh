@@ -65,6 +65,9 @@ zip_frameworks () {
   # Build a combined zip file with all the frameworks
   (cd .build; zip -rq Notificare.zip "${filenames[@]}")
 
+  # Copy the license file to the combined zip file
+  zip -q .build/Notificare.zip LICENSE
+
   for framework in "${frameworks[@]}"
   do
     echo "Checksum for $framework.zip"
