@@ -43,7 +43,13 @@ class NotificareUrlSchemeController: NotificareNotificationPresenter {
             }
         } else {
             // It's a non-universal link from Notificare, let's just try and open it.
-            guard let url = URL(string: urlStr) else {
+            guard let url = URL(string: urlStr), let urlScheme = url.scheme else {
+                NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFailToPresentNotification: notification)
+                return
+            }
+
+            guard NotificareUtils.getSupportedUrlSchemes().contains(urlScheme) else {
+                NotificareLogger.warning("Cannot open a deep link that's not supported by the application.")
                 NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFailToPresentNotification: notification)
                 return
             }
