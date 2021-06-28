@@ -3,7 +3,7 @@
 # Notificare iOS SDK
 
 [![GitHub release](https://img.shields.io/github/v/release/notificare/notificare-sdk-ios?include_prereleases)](https://github.com/notificare/notificare-sdk-ios/releases)
-[![License](https://img.shields.io/github/license/notificare/notificare-sdk-ios)](https://github.com/notificare/notificare-sdk-ios/blob/master/LICENSE)
+[![License](https://img.shields.io/github/license/notificare/notificare-sdk-ios)](https://github.com/notificare/notificare-sdk-ios/blob/main/LICENSE)
 
 The Notificare iOS SDK makes it quick and easy to communicate efficiently with many of the Notificare API services and enables you to seamlessly integrate our various features, from Push Notifications to Contextualised Storage.
 
