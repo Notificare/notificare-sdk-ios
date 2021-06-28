@@ -87,9 +87,9 @@ extension NotificareWebViewController: WKNavigationDelegate, WKUIDelegate {
 
             // Let's handle custom URLs if not http or https.
             if let url = navigationAction.request.url,
-               let scheme = url.scheme,
-               scheme != "http", scheme != "https",
-               UIApplication.shared.canOpenURL(url)
+               let urlScheme = url.scheme,
+               urlScheme != "http", urlScheme != "https",
+               NotificareUtils.getSupportedUrlSchemes().contains(urlScheme) || UIApplication.shared.canOpenURL(url)
             {
                 UIApplication.shared.open(url, options: [:]) { _ in
                     decisionHandler(.cancel)

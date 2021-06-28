@@ -7,7 +7,11 @@ import UIKit
 
 public class NotificareAppActionHandler: NotificareBaseActionHandler {
     override func execute() {
-        if let target = action.target, let url = URL(string: target), UIApplication.shared.canOpenURL(url) {
+        if let target = action.target,
+           let url = URL(string: target),
+           let urlScheme = url.scheme,
+           NotificareUtils.getSupportedUrlSchemes().contains(urlScheme) || UIApplication.shared.canOpenURL(url)
+        {
             DispatchQueue.main.async {
                 UIApplication.shared.open(url, options: [:]) { _ in
                     NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didExecuteAction: self.action, for: self.notification)
