@@ -51,7 +51,7 @@ public class NotificareEventsModule {
         log(NotificareDefinitions.Events.notificationOpen, data: nil, for: notificationId, completion)
     }
 
-    public func logCustom(_ event: String, data: NotificareEventData? = nil, _ completion: NotificareCallback<Void>? = nil) {
+    public func logCustom(_ event: String, data: NotificareEventData? = nil, _ completion: @escaping NotificareCallback<Void>) {
         log("re.notifica.event.custom.\(event)", data: data, completion)
     }
 

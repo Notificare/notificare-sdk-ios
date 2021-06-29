@@ -41,7 +41,8 @@ class ViewController: UIViewController {
             "color": "blue",
         ]
 
-        Notificare.shared.eventsManager.logCustom("test", data: data)
+        Notificare.shared.eventsManager.logCustom("test", data: data) { _ in
+        }
     }
 
     @IBAction func onRegisterWithUserClick(_: Any) {
