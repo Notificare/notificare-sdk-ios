@@ -17,15 +17,22 @@ extension NotificareEvent {
         event.userId = userId
         event.ttl = 24 * 60 * 60 // 24 hours
         event.retries = 0
-        event.data = try? JSONEncoder().encode(data)
+
+        if let data = data {
+            event.data = try? NotificareUtils.jsonEncoder.encode(AnyCodable(data))
+        } else {
+            event.data = nil
+        }
 
         return event
     }
 
     init(from managed: NotificareCoreDataEvent) {
         var eventData: NotificareEventData?
-        if let data = managed.data {
-            eventData = try? JSONDecoder().decode(NotificareEventData.self, from: data)
+        if let data = managed.data,
+           let decoded = try? NotificareUtils.jsonDecoder.decode(AnyCodable.self, from: data)
+        {
+            eventData = decoded.value as? NotificareEventData
         }
 
         self.init(
