@@ -161,7 +161,7 @@ extension AppDelegate: NotificarePushUIDelegate {
         print("-----> Notificare: did fail to execute action '\(action.label)' in notification '\(notification.id)'")
     }
 
-    func notificare(_: NotificarePushUI, shouldPerformSelectorWithURL _: URL, in _: NotificareNotification.Action, for _: NotificareNotification) {
+    func notificare(_: NotificarePushUI, didReceiveCustomAction _: URL, in _: NotificareNotification.Action, for _: NotificareNotification) {
         //
     }
 }

@@ -7,7 +7,7 @@ import NotificareKit
 public class NotificareCustomActionHandler: NotificareBaseActionHandler {
     override func execute() {
         if let target = action.target, let url = URL(string: target) {
-            NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, shouldPerformSelectorWithURL: url, in: action, for: notification)
+            NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didReceiveCustomAction: url, in: action, for: notification)
             NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didExecuteAction: action, for: notification)
             Notificare.shared.createNotificationReply(notification: notification, action: action) { _ in }
         } else {
