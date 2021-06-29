@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		42A2004C5E6156F7E25D7640 /* JSONCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20B4FCC8F316C9CA0B951 /* JSONCodable.swift */; };
 		42A2011DB7750225B7C9D3E2 /* NotificareBootstrap.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A205DF5970468FB18808F5 /* NotificareBootstrap.m */; };
 		42A201A3F80D5668FF5D6759 /* NotificareBootstrap.h in Headers */ = {isa = PBXBuildFile; fileRef = 42A20450A15AAC914DBC800F /* NotificareBootstrap.h */; };
 		42A20330821EAB78A0A5EB13 /* URLSession+Retry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20F817E5D783B690400CF /* URLSession+Retry.swift */; };
@@ -21,9 +20,6 @@
 		42A20AD28857EBCB0A86A104 /* NotificareLaunchState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20C54DCF5011314943FAD /* NotificareLaunchState.swift */; };
 		42A20BCB911114B0BCBEF371 /* NotificareCrashReporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A208E69A6C0B2C639FBFB4 /* NotificareCrashReporter.swift */; };
 		42A20BCDB5A9B47688D37655 /* URLRequest+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20B124FB2C08F1A880DB2 /* URLRequest+Extensions.swift */; };
-		42A20BF1A314A1F88EDC568F /* JSONRawRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20CB1809855F90C723D7C /* JSONRawRepresentable.swift */; };
-		42A20E38789D8AECF8AAF0D9 /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20FA4BDCBED6D1143526A /* JSON.swift */; };
-		42A20EB2CB2443B42A805978 /* JSONExpressible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A205897A7C5AF4A7BF9C4A /* JSONExpressible.swift */; };
 		42A20F5A817E461AD741CEF0 /* NotificareAutoConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20A542B5A23849B81C344 /* NotificareAutoConfig.swift */; };
 		42A20F732AE3E8130EA533BF /* NotificareReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20819BD36234AAE88DC4D /* NotificareReachability.swift */; };
 		42A20FD7791BD275D8A3A0E5 /* NotificareError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A20228EB70EA83D835BF01 /* NotificareError.swift */; };
@@ -85,7 +81,6 @@
 		42A20228EB70EA83D835BF01 /* NotificareError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareError.swift; sourceTree = "<group>"; };
 		42A2034FAAE7EBBB2DDD7AAD /* NotificareDefinitions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareDefinitions.swift; sourceTree = "<group>"; };
 		42A20450A15AAC914DBC800F /* NotificareBootstrap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificareBootstrap.h; sourceTree = "<group>"; };
-		42A205897A7C5AF4A7BF9C4A /* JSONExpressible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONExpressible.swift; sourceTree = "<group>"; };
 		42A205DF5970468FB18808F5 /* NotificareBootstrap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificareBootstrap.m; sourceTree = "<group>"; };
 		42A20765E01C8FAF35D1A02F /* NotificareDeviceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareDeviceManager.swift; sourceTree = "<group>"; };
 		42A20819BD36234AAE88DC4D /* NotificareReachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareReachability.swift; sourceTree = "<group>"; };
@@ -94,14 +89,11 @@
 		42A20A542B5A23849B81C344 /* NotificareAutoConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareAutoConfig.swift; sourceTree = "<group>"; };
 		42A20ACD9317A7EB72200EA4 /* NotificareNetworkError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareNetworkError.swift; sourceTree = "<group>"; };
 		42A20B124FB2C08F1A880DB2 /* URLRequest+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URLRequest+Extensions.swift"; sourceTree = "<group>"; };
-		42A20B4FCC8F316C9CA0B951 /* JSONCodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONCodable.swift; sourceTree = "<group>"; };
 		42A20C54DCF5011314943FAD /* NotificareLaunchState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareLaunchState.swift; sourceTree = "<group>"; };
-		42A20CB1809855F90C723D7C /* JSONRawRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONRawRepresentable.swift; sourceTree = "<group>"; };
 		42A20D1BCB96A819F309661A /* Data+Hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Data+Hex.swift"; sourceTree = "<group>"; };
 		42A20DE51F956B3A8FBAB402 /* NotificareDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareDevice.swift; sourceTree = "<group>"; };
 		42A20EA7B3E0709119050294 /* NotificareEventsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareEventsManager.swift; sourceTree = "<group>"; };
 		42A20F817E5D783B690400CF /* URLSession+Retry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URLSession+Retry.swift"; sourceTree = "<group>"; };
-		42A20FA4BDCBED6D1143526A /* JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSON.swift; sourceTree = "<group>"; };
 		F219FADC252DEB3900464B4E /* NotificareSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareSessionManager.swift; sourceTree = "<group>"; };
 		F22650A4258B6D250004F833 /* NotificareModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareModule.swift; sourceTree = "<group>"; };
 		F2323001252F3886007778AA /* NotificareApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareApplication.swift; sourceTree = "<group>"; };
@@ -171,25 +163,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		42A2027DBC5B305198382A6D /* Common */ = {
-			isa = PBXGroup;
-			children = (
-				42A20A5F475EFD460FDA6622 /* JSON */,
-			);
-			path = Common;
-			sourceTree = "<group>";
-		};
-		42A20A5F475EFD460FDA6622 /* JSON */ = {
-			isa = PBXGroup;
-			children = (
-				42A20FA4BDCBED6D1143526A /* JSON.swift */,
-				42A20CB1809855F90C723D7C /* JSONRawRepresentable.swift */,
-				42A205897A7C5AF4A7BF9C4A /* JSONExpressible.swift */,
-				42A20B4FCC8F316C9CA0B951 /* JSONCodable.swift */,
-			);
-			path = JSON;
-			sourceTree = "<group>";
-		};
 		42A20D17A4EF88ED36EA223F /* AutoConfig */ = {
 			isa = PBXGroup;
 			children = (
@@ -367,7 +340,6 @@
 			children = (
 				F293E27526302BDA008C2010 /* AnyCodable */,
 				42A20D17A4EF88ED36EA223F /* AutoConfig */,
-				42A2027DBC5B305198382A6D /* Common */,
 				F293E29C26302CDB008C2010 /* CoreData */,
 				F293E29A26302CC9008C2010 /* Extensions */,
 				42A20E1B11DBCE03A4402205 /* Network */,
@@ -599,11 +571,7 @@
 				42A204EEDC52B164B27D6563 /* NotificareEventsManager.swift in Sources */,
 				42A20BCB911114B0BCBEF371 /* NotificareCrashReporter.swift in Sources */,
 				F293E2CC26303073008C2010 /* UIColor+Hex.swift in Sources */,
-				42A20E38789D8AECF8AAF0D9 /* JSON.swift in Sources */,
-				42A20BF1A314A1F88EDC568F /* JSONRawRepresentable.swift in Sources */,
-				42A20EB2CB2443B42A805978 /* JSONExpressible.swift in Sources */,
 				F289993525C97D35008ADC7E /* NotificareOptions.swift in Sources */,
-				42A2004C5E6156F7E25D7640 /* JSONCodable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
