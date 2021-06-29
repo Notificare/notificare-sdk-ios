@@ -1,4 +1,4 @@
-[<img height="150" src="https://raw.githubusercontent.com/notificare/notificare-sdk-ios/main/assets/logo.png"/>](https://notificare.com)
+[<img src="https://raw.githubusercontent.com/notificare/notificare-sdk-ios/main/assets/logo.png"/>](https://notificare.com)
 
 # Notificare iOS SDK
 
