@@ -2,6 +2,7 @@
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
+import NotificareAssetsKit
 import NotificareInboxKit
 import NotificareKit
 import NotificarePushKit
@@ -91,6 +92,17 @@ class ViewController: UIViewController {
                 print("-----> Badge: \(badge)")
             case let .failure(error):
                 print("-----> Failed to refresh the badge: \(error)")
+            }
+        }
+    }
+
+    @IBAction func onFetchAssetsClick(_: Any) {
+        NotificareAssets.shared.fetchAssets(for: "LANDSCAPES") { result in
+            switch result {
+            case let .success(assets):
+                print("Assets = \(assets)")
+            case let .failure(error):
+                print("Failed to fetch assets.\n\(error)")
             }
         }
     }
