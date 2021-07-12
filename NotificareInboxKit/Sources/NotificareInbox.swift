@@ -5,8 +5,6 @@
 import NotificareKit
 import UIKit
 
-public typealias NotificareInboxCallback<T> = (Result<T, Error>) -> Void
-
 public class NotificareInbox: NSObject, NotificareModule {
     private static let addInboxItemNotification = NSNotification.Name(rawValue: "NotificareInboxKit.AddInboxItem")
     private static let readInboxItemNotification = NSNotification.Name(rawValue: "NotificareInboxKit.ReadInboxItem")
@@ -105,7 +103,7 @@ public class NotificareInbox: NSObject, NotificareModule {
                                                object: nil)
     }
 
-    public static func launch(_ completion: @escaping NotificareInboxCallback<Void>) {
+    public static func launch(_ completion: @escaping NotificareCallback<Void>) {
         if UIApplication.shared.applicationState == .active {
             NotificareInbox.shared.sync()
         }
@@ -134,7 +132,7 @@ public class NotificareInbox: NSObject, NotificareModule {
         reloadInbox()
     }
 
-    public func refreshBadge(_ completion: @escaping NotificareInboxCallback<Int>) {
+    public func refreshBadge(_ completion: @escaping NotificareCallback<Int>) {
         guard let application = Notificare.shared.application,
               let device = Notificare.shared.deviceManager.currentDevice
         else {
@@ -175,7 +173,7 @@ public class NotificareInbox: NSObject, NotificareModule {
         }
     }
 
-    public func open(_ item: NotificareInboxItem, _ completion: @escaping NotificareInboxCallback<NotificareNotification>) {
+    public func open(_ item: NotificareInboxItem, _ completion: @escaping NotificareCallback<NotificareNotification>) {
         guard let application = Notificare.shared.application else {
             NotificareLogger.warning("Notificare application not yet available.")
             completion(.failure(NotificareError.notReady))
@@ -274,7 +272,7 @@ public class NotificareInbox: NSObject, NotificareModule {
         }
     }
 
-    public func markAllAsRead(_ completion: @escaping NotificareInboxCallback<Void>) {
+    public func markAllAsRead(_ completion: @escaping NotificareCallback<Void>) {
         guard let application = Notificare.shared.application,
               let device = Notificare.shared.deviceManager.currentDevice
         else {
@@ -323,7 +321,7 @@ public class NotificareInbox: NSObject, NotificareModule {
             }
     }
 
-    public func remove(_ item: NotificareInboxItem, _ completion: @escaping NotificareInboxCallback<Void>) {
+    public func remove(_ item: NotificareInboxItem, _ completion: @escaping NotificareCallback<Void>) {
         guard let application = Notificare.shared.application else {
             NotificareLogger.warning("Notificare application not yet available.")
             completion(.failure(NotificareError.notReady))
@@ -363,7 +361,7 @@ public class NotificareInbox: NSObject, NotificareModule {
             }
     }
 
-    public func clear(_ completion: @escaping NotificareInboxCallback<Void>) {
+    public func clear(_ completion: @escaping NotificareCallback<Void>) {
         guard let application = Notificare.shared.application,
               let device = Notificare.shared.deviceManager.currentDevice
         else {
