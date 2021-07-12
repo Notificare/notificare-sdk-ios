@@ -10,7 +10,7 @@ public struct NotificareServicesInfo: Decodable {
 
     public let applicationKey: String
     public let applicationSecret: String
-    internal let services: Services
+    public let services: Services
 
     public init(applicationKey: String, applicationSecret: String) {
         self.applicationKey = applicationKey
@@ -52,7 +52,7 @@ public struct NotificareServicesInfo: Decodable {
         case useTestApi = "USE_TEST_API"
     }
 
-    internal enum Services {
+    public enum Services {
         case test
         case production
 
