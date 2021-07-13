@@ -15,6 +15,10 @@ let package = Package(
             targets: ["NotificareKit"]
         ),
         .library(
+            name: "NotificareAssetsKit",
+            targets: ["NotificareAssetsKit"]
+        )
+        .library(
             name: "NotificareInboxKit",
             targets: ["NotificareInboxKit"]
         ),
@@ -32,6 +36,11 @@ let package = Package(
             name: "NotificareKit",
             url: "https://github.com/notificare/notificare-sdk-ios/releases/download/\(version)/NotificareKit.zip",
             checksum: "aaf82e40d99f0e5fef7ffbe3bc079447a6f1459e1b75165d8073e68fe6747969"
+        ),
+        .binaryTarget(
+            name: "NotificareAssetsKit",
+            url: "https://github.com/notificare/notificare-sdk-ios/releases/download/\(version)/NotificareAssetsKit.zip",
+            checksum: "---"
         ),
         .binaryTarget(
             name: "NotificareInboxKit",

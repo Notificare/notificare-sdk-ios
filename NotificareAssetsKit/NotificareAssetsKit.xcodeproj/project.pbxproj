@@ -10,9 +10,13 @@
 		F258DDC224BC4F09006F9ABD /* NotificareAssetsKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F258DDB824BC4F09006F9ABD /* NotificareAssetsKit.framework */; };
 		F258DDC724BC4F09006F9ABD /* AssetsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DDC624BC4F09006F9ABD /* AssetsTests.swift */; };
 		F258DDC924BC4F09006F9ABD /* NotificareAssetsKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F258DDBB24BC4F09006F9ABD /* NotificareAssetsKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F289F5DA25B861670091AB97 /* NotificareCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F289F5D825B861670091AB97 /* NotificareCore.framework */; };
 		F289F5DC25B861670091AB97 /* NotificareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F289F5D925B861670091AB97 /* NotificareKit.framework */; };
 		F289F5DD25B861670091AB97 /* NotificareKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F289F5D925B861670091AB97 /* NotificareKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F2ABF33C269C43AB00401D3F /* NotificareAssets.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2ABF33B269C43AB00401D3F /* NotificareAssets.swift */; };
+		F2ABF33F269C45A900401D3F /* NotificareAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2ABF33E269C45A900401D3F /* NotificareAsset.swift */; };
+		F2ABF344269C577600401D3F /* PushAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2ABF343269C577600401D3F /* PushAPI.swift */; };
+		F2ABF346269C579900401D3F /* PushAPI+Responses.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2ABF345269C579900401D3F /* PushAPI+Responses.swift */; };
+		F2ABF348269C57C500401D3F /* PushAPI+Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2ABF347269C57C500401D3F /* PushAPI+Models.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +54,11 @@
 		F289F5D825B861670091AB97 /* NotificareCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F289F5D925B861670091AB97 /* NotificareKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2AAAF78251D019A00465EC5 /* NotificareSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F2ABF33B269C43AB00401D3F /* NotificareAssets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareAssets.swift; sourceTree = "<group>"; };
+		F2ABF33E269C45A900401D3F /* NotificareAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareAsset.swift; sourceTree = "<group>"; };
+		F2ABF343269C577600401D3F /* PushAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAPI.swift; sourceTree = "<group>"; };
+		F2ABF345269C579900401D3F /* PushAPI+Responses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PushAPI+Responses.swift"; sourceTree = "<group>"; };
+		F2ABF347269C57C500401D3F /* PushAPI+Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PushAPI+Models.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,7 +66,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F289F5DA25B861670091AB97 /* NotificareCore.framework in Frameworks */,
 				F289F5DC25B861670091AB97 /* NotificareKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -95,8 +103,11 @@
 		F258DDBA24BC4F09006F9ABD /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				F2ABF341269C575900401D3F /* Internals */,
+				F2ABF33D269C456F00401D3F /* Models */,
 				F258DDBC24BC4F09006F9ABD /* Info.plist */,
 				F258DDBB24BC4F09006F9ABD /* NotificareAssetsKit.h */,
+				F2ABF33B269C43AB00401D3F /* NotificareAssets.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -119,6 +130,40 @@
 				F258DEAB24BC96DF006F9ABD /* Notificare.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F2ABF33D269C456F00401D3F /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F2ABF33E269C45A900401D3F /* NotificareAsset.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		F2ABF340269C574A00401D3F /* Push API */ = {
+			isa = PBXGroup;
+			children = (
+				F2ABF343269C577600401D3F /* PushAPI.swift */,
+				F2ABF347269C57C500401D3F /* PushAPI+Models.swift */,
+				F2ABF345269C579900401D3F /* PushAPI+Responses.swift */,
+			);
+			path = "Push API";
+			sourceTree = "<group>";
+		};
+		F2ABF341269C575900401D3F /* Internals */ = {
+			isa = PBXGroup;
+			children = (
+				F2ABF342269C575F00401D3F /* Network */,
+			);
+			path = Internals;
+			sourceTree = "<group>";
+		};
+		F2ABF342269C575F00401D3F /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				F2ABF340269C574A00401D3F /* Push API */,
+			);
+			path = Network;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -185,6 +230,7 @@
 				TargetAttributes = {
 					F258DDB724BC4F09006F9ABD = {
 						CreatedOnToolsVersion = 11.5;
+						LastSwiftMigration = 1250;
 					};
 					F258DDC024BC4F09006F9ABD = {
 						CreatedOnToolsVersion = 11.5;
@@ -253,6 +299,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F2ABF33C269C43AB00401D3F /* NotificareAssets.swift in Sources */,
+				F2ABF346269C579900401D3F /* PushAPI+Responses.swift in Sources */,
+				F2ABF33F269C45A900401D3F /* NotificareAsset.swift in Sources */,
+				F2ABF344269C577600401D3F /* PushAPI.swift in Sources */,
+				F2ABF348269C57C500401D3F /* PushAPI+Models.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -400,6 +451,7 @@
 		F258DDCD24BC4F09006F9ABD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -418,6 +470,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -426,6 +479,7 @@
 		F258DDCE24BC4F09006F9ABD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -452,6 +506,7 @@
 		F258DDD024BC4F09006F9ABD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y47BY73NFN;
 				INFOPLIST_FILE = Tests/Info.plist;
@@ -470,6 +525,7 @@
 		F258DDD124BC4F09006F9ABD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y47BY73NFN;
 				INFOPLIST_FILE = Tests/Info.plist;

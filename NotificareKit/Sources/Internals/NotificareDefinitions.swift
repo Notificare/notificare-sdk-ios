@@ -26,5 +26,6 @@ public enum NotificareDefinitions {
         case push = "NotificarePushKit.NotificarePush"
         case pushUI = "NotificarePushUIKit.NotificarePushUI"
         case inbox = "NotificareInboxKit.NotificareInbox"
+        case assets = "NotificareAssetsKit.NotificareAssets"
     }
 }
