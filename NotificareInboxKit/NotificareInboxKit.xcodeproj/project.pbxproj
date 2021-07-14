@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F27DB19D262F2B16000C024D /* PushAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27DB19C262F2B16000C024D /* PushAPI.swift */; };
 		F27DB1A0262F2B5C000C024D /* PushAPI+Responses.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27DB19F262F2B5C000C024D /* PushAPI+Responses.swift */; };
 		F27DB1A3262F2B94000C024D /* PushAPI+Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27DB1A2262F2B94000C024D /* PushAPI+Models.swift */; };
 		F289F53F25B85E020091AB97 /* NotificareInboxKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F289F53525B85E020091AB97 /* NotificareInboxKit.framework */; };
@@ -49,7 +48,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		F27DB19C262F2B16000C024D /* PushAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAPI.swift; sourceTree = "<group>"; };
 		F27DB19F262F2B5C000C024D /* PushAPI+Responses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PushAPI+Responses.swift"; sourceTree = "<group>"; };
 		F27DB1A2262F2B94000C024D /* PushAPI+Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PushAPI+Models.swift"; sourceTree = "<group>"; };
 		F289F53525B85E020091AB97 /* NotificareInboxKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NotificareInboxKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -93,9 +91,8 @@
 		F27DB199262F2B00000C024D /* Push API */ = {
 			isa = PBXGroup;
 			children = (
-				F27DB19C262F2B16000C024D /* PushAPI.swift */,
-				F27DB19F262F2B5C000C024D /* PushAPI+Responses.swift */,
 				F27DB1A2262F2B94000C024D /* PushAPI+Models.swift */,
+				F27DB19F262F2B5C000C024D /* PushAPI+Responses.swift */,
 			);
 			path = "Push API";
 			sourceTree = "<group>";
@@ -322,7 +319,6 @@
 				F289F5F125B884EC0091AB97 /* NotificareInboxItem.swift in Sources */,
 				F28E584625C040A500C83537 /* NotificareInboxDataModel.xcdatamodeld in Sources */,
 				F28E584A25C041C900C83537 /* InboxItemEntity.swift in Sources */,
-				F27DB19D262F2B16000C024D /* PushAPI.swift in Sources */,
 				F289F5E825B8643A0091AB97 /* NotificareInbox.swift in Sources */,
 				F27DB1A3262F2B94000C024D /* PushAPI+Models.swift in Sources */,
 				F289F5ED25B8651F0091AB97 /* NotificareInboxDelegate.swift in Sources */,

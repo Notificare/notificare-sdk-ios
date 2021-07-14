@@ -44,6 +44,8 @@
 	<string>We will need access to the device&apos;s microphone to reply to notifications.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>We may need to access your photos to reply to notifications.</string>
+	<key>NFCReaderUsageDescription</key>
+	<string>We will need access to the device&apos;s NFC reader to unlock new content.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>

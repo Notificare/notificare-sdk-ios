@@ -494,7 +494,7 @@ public class NotificareInbox: NSObject, NotificareModule {
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
     }
 
-    private func fetchRemoteInbox(for deviceId: String, since: Int64? = nil, skip: Int = 0, limit: Int = 100, _ completion: @escaping NotificareCallback<PushAPI.Responses.RemoteInbox>) {
+    private func fetchRemoteInbox(for deviceId: String, since: Int64? = nil, skip: Int = 0, limit: Int = 100, _ completion: @escaping NotificareCallback<NotificareInternals.PushAPI.Responses.RemoteInbox>) {
         let request = NotificareRequest.Builder()
             .get("/notification/inbox/fordevice/\(deviceId)")
             .query(name: "skip", value: String(format: "%d", skip))
@@ -504,7 +504,7 @@ public class NotificareInbox: NSObject, NotificareModule {
             _ = request.query(name: "ifModifiedSince", value: "\(since)")
         }
 
-        request.responseDecodable(PushAPI.Responses.RemoteInbox.self, completion)
+        request.responseDecodable(NotificareInternals.PushAPI.Responses.RemoteInbox.self, completion)
     }
 
     private func requestRemoteInboxItems(step: Int = 0) {

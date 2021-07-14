@@ -64,6 +64,7 @@
 		F2DB0C1325A8692C00AD93C7 /* NotificareDynamicLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2DB0C1225A8692C00AD93C7 /* NotificareDynamicLink.swift */; };
 		F2E07E5F25344D0700AF0C14 /* NotificareDoNotDisturb.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E07E5E25344D0700AF0C14 /* NotificareDoNotDisturb.swift */; };
 		F2E07E7A2534B5DD00AF0C14 /* NotificareTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E07E792534B5DD00AF0C14 /* NotificareTime.swift */; };
+		F2E801E9269F021800582DB8 /* NotificareInternals.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E801E8269F021800582DB8 /* NotificareInternals.swift */; };
 		F2F986672654149D00C8B068 /* NotificareIsoDateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F986662654149D00C8B068 /* NotificareIsoDateUtils.swift */; };
 /* End PBXBuildFile section */
 
@@ -141,6 +142,7 @@
 		F2DB0C1225A8692C00AD93C7 /* NotificareDynamicLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareDynamicLink.swift; sourceTree = "<group>"; };
 		F2E07E5E25344D0700AF0C14 /* NotificareDoNotDisturb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareDoNotDisturb.swift; sourceTree = "<group>"; };
 		F2E07E792534B5DD00AF0C14 /* NotificareTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareTime.swift; sourceTree = "<group>"; };
+		F2E801E8269F021800582DB8 /* NotificareInternals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareInternals.swift; sourceTree = "<group>"; };
 		F2F986662654149D00C8B068 /* NotificareIsoDateUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareIsoDateUtils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -345,6 +347,7 @@
 				42A20E1B11DBCE03A4402205 /* Network */,
 				F2E4DBC82525EC6F003FE29B /* Storage */,
 				F293E29026302CAD008C2010 /* Swizzling */,
+				F2E801E8269F021800582DB8 /* NotificareInternals.swift */,
 				42A2034FAAE7EBBB2DDD7AAD /* NotificareDefinitions.swift */,
 				42A20C54DCF5011314943FAD /* NotificareLaunchState.swift */,
 				F293E28926302C76008C2010 /* NotificareLocalizable.swift */,
@@ -526,6 +529,7 @@
 				F2F986672654149D00C8B068 /* NotificareIsoDateUtils.swift in Sources */,
 				F293E2B226303008008C2010 /* NotificareAbstractDatabase.swift in Sources */,
 				F293E2DB26304675008C2010 /* LocalStorage.swift in Sources */,
+				F2E801E9269F021800582DB8 /* NotificareInternals.swift in Sources */,
 				F29DA38125022170004CCB8F /* NotificareDatabase.swift in Sources */,
 				F27DB188262EDEB5000C024D /* PushAPI+Models.swift in Sources */,
 				F2DB0C1325A8692C00AD93C7 /* NotificareDynamicLink.swift in Sources */,

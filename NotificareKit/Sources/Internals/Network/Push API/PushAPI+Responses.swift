@@ -4,9 +4,9 @@
 
 import Foundation
 
-internal extension PushAPI.Responses {
+internal extension NotificareInternals.PushAPI.Responses {
     struct Application: Decodable {
-        let application: PushAPI.Models.Application
+        let application: NotificareInternals.PushAPI.Models.Application
     }
 
     struct Tags: Decodable {
@@ -26,7 +26,7 @@ internal extension PushAPI.Responses {
     }
 
     struct Notification: Decodable {
-        let notification: PushAPI.Models.Notification
+        let notification: NotificareInternals.PushAPI.Models.Notification
     }
 
     struct UploadAsset: Decodable {

@@ -6,12 +6,16 @@ import NotificareAssetsKit
 import NotificareInboxKit
 import NotificareKit
 import NotificarePushKit
+import NotificarePushUIKit
+import NotificareScannablesKit
 import UIKit
 
 class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+
+        NotificareScannables.shared.delegate = self
     }
 
     @IBAction func onLaunchClicked(_: Any) {
@@ -105,5 +109,54 @@ class ViewController: UIViewController {
                 print("Failed to fetch assets.\n\(error)")
             }
         }
+    }
+
+    @IBAction func onStartScannableSessionClick(_: Any) {
+        if NotificareScannables.shared.canStartNfcScannableSession {
+            NotificareScannables.shared.startNfcScannableSession()
+        } else {
+            NotificareScannables.shared.startQrCodeScannableSession(controller: navigationController!, modal: true)
+        }
+    }
+}
+
+extension ViewController: NotificareScannablesDelegate {
+    func notificare(_: NotificareScannables, didDetectScannable scannable: NotificareScannable) {
+        guard let notification = scannable.notification else {
+            let alert = UIAlertController(
+                title: "Error",
+                message: "This scannable does not contain a notification.",
+                preferredStyle: .alert
+            )
+
+            alert.addAction(
+                UIAlertAction(
+                    title: "OK",
+                    style: .default
+                )
+            )
+
+            present(alert, animated: true)
+            return
+        }
+
+        NotificarePushUI.shared.presentNotification(notification, in: navigationController!)
+    }
+
+    func notificare(_: NotificareScannables, didInvalidateScannerSession error: Error) {
+        let alert = UIAlertController(
+            title: "Error",
+            message: error.localizedDescription,
+            preferredStyle: .alert
+        )
+
+        alert.addAction(
+            UIAlertAction(
+                title: "OK",
+                style: .default
+            )
+        )
+
+        present(alert, animated: true)
     }
 }

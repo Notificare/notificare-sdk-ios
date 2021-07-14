@@ -19,7 +19,6 @@
 		F258DDA524BC4EE2006F9ABD /* NotificarePushKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F258DD9724BC4EE2006F9ABD /* NotificarePushKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F28553C5258B8848006674C1 /* NotificarePushDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28553C4258B8848006674C1 /* NotificarePushDelegate.swift */; };
 		F2B6A34426173F32001CB7DC /* NotificareNotification+APNS.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B6A34326173F32001CB7DC /* NotificareNotification+APNS.swift */; };
-		F2D3893C266542CD00EAEF44 /* PushAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D3893B266542CD00EAEF44 /* PushAPI.swift */; };
 		F2D3893E266542F200EAEF44 /* PushAPI+Payloads.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D3893D266542F200EAEF44 /* PushAPI+Payloads.swift */; };
 		F2D4E26E259CE1CB00AF37A7 /* NotificarePush+UNUserNotificationCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D4E26D259CE1CB00AF37A7 /* NotificarePush+UNUserNotificationCenterDelegate.swift */; };
 		F2E9221D2641A4D8005279C0 /* InboxIntegration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E9221C2641A4D8005279C0 /* InboxIntegration.swift */; };
@@ -68,7 +67,6 @@
 		F2AAAF88251D01B400465EC5 /* NotificareSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2B6A34326173F32001CB7DC /* NotificareNotification+APNS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificareNotification+APNS.swift"; sourceTree = "<group>"; };
 		F2B8C55C25A6173700FFBE0C /* NotificareCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F2D3893B266542CD00EAEF44 /* PushAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAPI.swift; sourceTree = "<group>"; };
 		F2D3893D266542F200EAEF44 /* PushAPI+Payloads.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PushAPI+Payloads.swift"; sourceTree = "<group>"; };
 		F2D4E26D259CE1CB00AF37A7 /* NotificarePush+UNUserNotificationCenterDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificarePush+UNUserNotificationCenterDelegate.swift"; sourceTree = "<group>"; };
 		F2E9221C2641A4D8005279C0 /* InboxIntegration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxIntegration.swift; sourceTree = "<group>"; };
@@ -170,7 +168,6 @@
 		F2D3893A266542BF00EAEF44 /* Push API */ = {
 			isa = PBXGroup;
 			children = (
-				F2D3893B266542CD00EAEF44 /* PushAPI.swift */,
 				F2D3893D266542F200EAEF44 /* PushAPI+Payloads.swift */,
 			);
 			path = "Push API";
@@ -323,7 +320,6 @@
 				F226509B258B6B900004F833 /* NotificarePush.swift in Sources */,
 				F2D4E26E259CE1CB00AF37A7 /* NotificarePush+UNUserNotificationCenterDelegate.swift in Sources */,
 				F2128F022594E47700F7F68F /* NotificareSystemNotification.swift in Sources */,
-				F2D3893C266542CD00EAEF44 /* PushAPI.swift in Sources */,
 				F28553C5258B8848006674C1 /* NotificarePushDelegate.swift in Sources */,
 				F240E09225927DCC00DBC25F /* NotificarePush+UIApplicationDelegate.swift in Sources */,
 				F2E9221D2641A4D8005279C0 /* InboxIntegration.swift in Sources */,

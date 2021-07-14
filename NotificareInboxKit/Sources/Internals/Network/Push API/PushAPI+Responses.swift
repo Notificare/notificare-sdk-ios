@@ -2,11 +2,11 @@
 // Copyright (c) 2021 Notificare. All rights reserved.
 //
 
-import Foundation
+import NotificareKit
 
-internal extension PushAPI.Responses {
+internal extension NotificareInternals.PushAPI.Responses {
     struct RemoteInbox: Decodable {
-        let inboxItems: [PushAPI.Models.RemoteInboxItem]
+        let inboxItems: [NotificareInternals.PushAPI.Models.RemoteInboxItem]
         let count: Int
         let unread: Int
     }
