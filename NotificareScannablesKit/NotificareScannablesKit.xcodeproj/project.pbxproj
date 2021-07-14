@@ -10,9 +10,15 @@
 		F258DE2E24BC4FAD006F9ABD /* NotificareScannablesKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F258DE2424BC4FAD006F9ABD /* NotificareScannablesKit.framework */; };
 		F258DE3324BC4FAD006F9ABD /* ScannableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DE3224BC4FAD006F9ABD /* ScannableTests.swift */; };
 		F258DE3524BC4FAD006F9ABD /* NotificareScannablesKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F258DE2724BC4FAD006F9ABD /* NotificareScannablesKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F289F5BA25B860E10091AB97 /* NotificareCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F289F5B925B860E10091AB97 /* NotificareCore.framework */; };
 		F289F5BD25B860E90091AB97 /* NotificareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F22650B0258B6E410004F833 /* NotificareKit.framework */; };
 		F289F5BE25B860E90091AB97 /* NotificareKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F22650B0258B6E410004F833 /* NotificareKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F2E801D4269D93AA00582DB8 /* NotificareScannables.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E801D3269D93AA00582DB8 /* NotificareScannables.swift */; };
+		F2E801DD269D947E00582DB8 /* NotificareScannable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E801DC269D947E00582DB8 /* NotificareScannable.swift */; };
+		F2E801DF269D94B100582DB8 /* PushAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E801DE269D94B100582DB8 /* PushAPI.swift */; };
+		F2E801E1269D94BF00582DB8 /* PushAPI+Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E801E0269D94BF00582DB8 /* PushAPI+Models.swift */; };
+		F2E801E3269D94CA00582DB8 /* PushAPI+Responses.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E801E2269D94CA00582DB8 /* PushAPI+Responses.swift */; };
+		F2E801E5269D957700582DB8 /* NotificareScannablesDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E801E4269D957700582DB8 /* NotificareScannablesDelegate.swift */; };
+		F2E801E7269DC9C600582DB8 /* CoreNFC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2E801E6269DC9C500582DB8 /* CoreNFC.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +56,13 @@
 		F258DE9C24BC96D0006F9ABD /* Notificare.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Notificare.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F289F5B925B860E10091AB97 /* NotificareCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2AAAF8C251D01BA00465EC5 /* NotificareSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F2E801D3269D93AA00582DB8 /* NotificareScannables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareScannables.swift; sourceTree = "<group>"; };
+		F2E801DC269D947E00582DB8 /* NotificareScannable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareScannable.swift; sourceTree = "<group>"; };
+		F2E801DE269D94B100582DB8 /* PushAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAPI.swift; sourceTree = "<group>"; };
+		F2E801E0269D94BF00582DB8 /* PushAPI+Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PushAPI+Models.swift"; sourceTree = "<group>"; };
+		F2E801E2269D94CA00582DB8 /* PushAPI+Responses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PushAPI+Responses.swift"; sourceTree = "<group>"; };
+		F2E801E4269D957700582DB8 /* NotificareScannablesDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareScannablesDelegate.swift; sourceTree = "<group>"; };
+		F2E801E6269DC9C500582DB8 /* CoreNFC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreNFC.framework; path = System/Library/Frameworks/CoreNFC.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,8 +70,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F289F5BA25B860E10091AB97 /* NotificareCore.framework in Frameworks */,
 				F289F5BD25B860E90091AB97 /* NotificareKit.framework in Frameworks */,
+				F2E801E7269DC9C600582DB8 /* CoreNFC.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,8 +108,12 @@
 		F258DE2624BC4FAD006F9ABD /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				F2E801D9269D946700582DB8 /* Internals */,
+				F2E801D8269D946200582DB8 /* Models */,
 				F258DE2824BC4FAD006F9ABD /* Info.plist */,
 				F258DE2724BC4FAD006F9ABD /* NotificareScannablesKit.h */,
+				F2E801D3269D93AA00582DB8 /* NotificareScannables.swift */,
+				F2E801E4269D957700582DB8 /* NotificareScannablesDelegate.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -113,12 +130,47 @@
 		F258DE9B24BC96D0006F9ABD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F2E801E6269DC9C500582DB8 /* CoreNFC.framework */,
 				F289F5B925B860E10091AB97 /* NotificareCore.framework */,
 				F22650B0258B6E410004F833 /* NotificareKit.framework */,
 				F2AAAF8C251D01BA00465EC5 /* NotificareSDK.framework */,
 				F258DE9C24BC96D0006F9ABD /* Notificare.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F2E801D8269D946200582DB8 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F2E801DC269D947E00582DB8 /* NotificareScannable.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		F2E801D9269D946700582DB8 /* Internals */ = {
+			isa = PBXGroup;
+			children = (
+				F2E801DA269D946D00582DB8 /* Network */,
+			);
+			path = Internals;
+			sourceTree = "<group>";
+		};
+		F2E801DA269D946D00582DB8 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				F2E801DB269D947200582DB8 /* Push API */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		F2E801DB269D947200582DB8 /* Push API */ = {
+			isa = PBXGroup;
+			children = (
+				F2E801DE269D94B100582DB8 /* PushAPI.swift */,
+				F2E801E0269D94BF00582DB8 /* PushAPI+Models.swift */,
+				F2E801E2269D94CA00582DB8 /* PushAPI+Responses.swift */,
+			);
+			path = "Push API";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -185,6 +237,7 @@
 				TargetAttributes = {
 					F258DE2324BC4FAD006F9ABD = {
 						CreatedOnToolsVersion = 11.5;
+						LastSwiftMigration = 1250;
 					};
 					F258DE2C24BC4FAD006F9ABD = {
 						CreatedOnToolsVersion = 11.5;
@@ -253,6 +306,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F2E801E1269D94BF00582DB8 /* PushAPI+Models.swift in Sources */,
+				F2E801D4269D93AA00582DB8 /* NotificareScannables.swift in Sources */,
+				F2E801E5269D957700582DB8 /* NotificareScannablesDelegate.swift in Sources */,
+				F2E801E3269D94CA00582DB8 /* PushAPI+Responses.swift in Sources */,
+				F2E801DD269D947E00582DB8 /* NotificareScannable.swift in Sources */,
+				F2E801DF269D94B100582DB8 /* PushAPI.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -400,6 +459,7 @@
 		F258DE3924BC4FAD006F9ABD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -418,6 +478,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -426,6 +487,7 @@
 		F258DE3A24BC4FAD006F9ABD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -452,6 +514,7 @@
 		F258DE3C24BC4FAD006F9ABD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y47BY73NFN;
 				INFOPLIST_FILE = Tests/Info.plist;
@@ -470,6 +533,7 @@
 		F258DE3D24BC4FAD006F9ABD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y47BY73NFN;
 				INFOPLIST_FILE = Tests/Info.plist;
