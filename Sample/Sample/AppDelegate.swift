@@ -42,7 +42,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return true
         }
 
-        return false
+        print("-----> Received deep link: \(url.absoluteString)")
+        return true
     }
 
     func application(_: UIApplication, continue userActivity: NSUserActivity, restorationHandler _: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
