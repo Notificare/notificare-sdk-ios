@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="zFU-PX-emP">
-                                <rect key="frame" x="16" y="104" width="382" height="448"/>
+                                <rect key="frame" x="16" y="104" width="382" height="486"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A5Q-db-eL6">
                                         <rect key="frame" x="0.0" y="0.0" width="382" height="30"/>
@@ -102,6 +102,13 @@
                                         <state key="normal" title="Fetch assets"/>
                                         <connections>
                                             <action selector="onFetchAssetsClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7ee-0a-nld"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZAX-2A-uFY">
+                                        <rect key="frame" x="0.0" y="456" width="382" height="30"/>
+                                        <state key="normal" title="Start scannable session"/>
+                                        <connections>
+                                            <action selector="onStartScannableSessionClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jbZ-jr-XPz"/>
                                         </connections>
                                     </button>
                                 </subviews>
