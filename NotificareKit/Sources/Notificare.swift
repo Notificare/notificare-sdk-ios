@@ -273,7 +273,7 @@ public class Notificare {
     public func fetchApplication(_ completion: @escaping NotificareCallback<NotificareApplication>) {
         NotificareRequest.Builder()
             .get("/application/info")
-            .responseDecodable(PushAPI.Responses.Application.self) { result in
+            .responseDecodable(NotificareInternals.PushAPI.Responses.Application.self) { result in
                 switch result {
                 case let .success(response):
                     let application = response.application.toModel()
@@ -294,7 +294,7 @@ public class Notificare {
             .query(name: "platform", value: "iOS")
             .query(name: "deviceID", value: Notificare.shared.deviceManager.currentDevice?.id)
             .query(name: "userID", value: Notificare.shared.deviceManager.currentDevice?.userId)
-            .responseDecodable(PushAPI.Responses.DynamicLink.self) { result in
+            .responseDecodable(NotificareInternals.PushAPI.Responses.DynamicLink.self) { result in
                 switch result {
                 case let .success(response):
                     completion(.success(response.link))
@@ -308,7 +308,7 @@ public class Notificare {
     public func fetchNotification(_ id: String, _ completion: @escaping NotificareCallback<NotificareNotification>) {
         NotificareRequest.Builder()
             .get("/notification/\(id)")
-            .responseDecodable(PushAPI.Responses.Notification.self) { result in
+            .responseDecodable(NotificareInternals.PushAPI.Responses.Notification.self) { result in
                 switch result {
                 case let .success(response):
                     completion(.success(response.notification.toModel()))
@@ -325,12 +325,12 @@ public class Notificare {
             return
         }
 
-        let payload = PushAPI.Payloads.CreateNotificationReply(
+        let payload = NotificareInternals.PushAPI.Payloads.CreateNotificationReply(
             notification: notification.id,
             deviceID: device.id,
             userID: device.userId,
             label: action.label,
-            data: PushAPI.Payloads.CreateNotificationReply.ReplyData(
+            data: NotificareInternals.PushAPI.Payloads.CreateNotificationReply.ReplyData(
                 target: action.target,
                 message: message,
                 media: media,
@@ -384,7 +384,7 @@ public class Notificare {
     public func uploadNotificationReplyAsset(_ data: Data, contentType: String, _ completion: @escaping NotificareCallback<String>) {
         NotificareRequest.Builder()
             .post("/upload/reply", body: data, contentType: contentType)
-            .responseDecodable(PushAPI.Responses.UploadAsset.self) { result in
+            .responseDecodable(NotificareInternals.PushAPI.Responses.UploadAsset.self) { result in
                 switch result {
                 case let .success(response):
                     completion(.success("https://push.notifica.re/upload\(response.filename)"))

@@ -4,7 +4,7 @@
 
 import Foundation
 
-internal extension PushAPI.Payloads {
+internal extension NotificareInternals.PushAPI.Payloads {
     enum Device {
         struct Registration: Encodable {
             let deviceID: String

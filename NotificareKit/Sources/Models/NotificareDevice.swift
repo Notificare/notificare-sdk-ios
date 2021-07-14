@@ -33,7 +33,7 @@ public struct NotificareDevice: Codable {
 }
 
 extension NotificareDevice {
-    init(from registration: PushAPI.Payloads.Device.Registration, previous: NotificareDevice?) {
+    init(from registration: NotificareInternals.PushAPI.Payloads.Device.Registration, previous: NotificareDevice?) {
         id = registration.deviceID
         userId = registration.userID
         userName = registration.userName

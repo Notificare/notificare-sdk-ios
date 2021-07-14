@@ -4,7 +4,7 @@
 
 import Foundation
 
-internal extension PushAPI.Models {
+public extension NotificareInternals.PushAPI.Models {
     struct Application: Decodable {
         public let _id: String
         public let name: String
@@ -16,7 +16,7 @@ internal extension PushAPI.Models {
         public let userDataFields: [NotificareApplication.UserDataField]
         public let actionCategories: [NotificareApplication.ActionCategory]
 
-        func toModel() -> NotificareApplication {
+        public func toModel() -> NotificareApplication {
             NotificareApplication(
                 id: _id,
                 name: name,
@@ -96,7 +96,7 @@ internal extension PushAPI.Models {
             targetContentIdentifier = try container.decodeIfPresent(String.self, forKey: .targetContentIdentifier)
         }
 
-        func toModel() -> NotificareNotification {
+        public func toModel() -> NotificareNotification {
             NotificareNotification(
                 partial: false,
                 id: _id,

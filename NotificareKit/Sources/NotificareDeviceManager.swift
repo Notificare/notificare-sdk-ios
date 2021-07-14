@@ -157,7 +157,7 @@ public class NotificareDeviceManager {
 
         NotificareRequest.Builder()
             .get("/device/\(device.id)/tags")
-            .responseDecodable(PushAPI.Responses.Tags.self) { result in
+            .responseDecodable(NotificareInternals.PushAPI.Responses.Tags.self) { result in
                 switch result {
                 case let .success(response):
                     completion(.success(response.tags))
@@ -178,7 +178,7 @@ public class NotificareDeviceManager {
         }
 
         NotificareRequest.Builder()
-            .put("/device/\(device.id)/addtags", body: PushAPI.Payloads.Device.Tags(tags: tags))
+            .put("/device/\(device.id)/addtags", body: NotificareInternals.PushAPI.Payloads.Device.Tags(tags: tags))
             .response { result in
                 switch result {
                 case .success:
@@ -200,7 +200,7 @@ public class NotificareDeviceManager {
         }
 
         NotificareRequest.Builder()
-            .put("/device/\(device.id)/removetags", body: PushAPI.Payloads.Device.Tags(tags: tags))
+            .put("/device/\(device.id)/removetags", body: NotificareInternals.PushAPI.Payloads.Device.Tags(tags: tags))
             .response { result in
                 switch result {
                 case .success:
@@ -237,7 +237,7 @@ public class NotificareDeviceManager {
 
         NotificareRequest.Builder()
             .get("/device/\(device.id)/dnd")
-            .responseDecodable(PushAPI.Responses.DoNotDisturb.self) { result in
+            .responseDecodable(NotificareInternals.PushAPI.Responses.DoNotDisturb.self) { result in
                 switch result {
                 case let .success(response):
                     // Update current device properties.
@@ -300,7 +300,7 @@ public class NotificareDeviceManager {
 
         NotificareRequest.Builder()
             .get("/device/\(device.id)/userdata")
-            .responseDecodable(PushAPI.Responses.UserData.self) { result in
+            .responseDecodable(NotificareInternals.PushAPI.Responses.UserData.self) { result in
                 switch result {
                 case let .success(response):
                     let userData = response.userData?.compactMapValues { $0 } ?? [:]
@@ -365,7 +365,7 @@ public class NotificareDeviceManager {
             return
         }
 
-        let payload = PushAPI.Payloads.Device.UpdateTimeZone(
+        let payload = NotificareInternals.PushAPI.Payloads.Device.UpdateTimeZone(
             language: getLanguage(),
             region: getRegion(),
             timeZoneOffset: NotificareUtils.timeZoneOffset
@@ -392,7 +392,7 @@ public class NotificareDeviceManager {
             return
         }
 
-        let payload = PushAPI.Payloads.Device.UpdateLanguage(
+        let payload = NotificareInternals.PushAPI.Payloads.Device.UpdateLanguage(
             language: getLanguage(),
             region: getRegion()
         )
@@ -419,7 +419,7 @@ public class NotificareDeviceManager {
             return
         }
 
-        let payload = PushAPI.Payloads.Device.UpdateBackgroundAppRefresh(
+        let payload = NotificareInternals.PushAPI.Payloads.Device.UpdateBackgroundAppRefresh(
             language: getLanguage(),
             region: getRegion(),
             backgroundAppRefresh: UIApplication.shared.backgroundRefreshStatus == .available
@@ -448,7 +448,7 @@ public class NotificareDeviceManager {
         if registrationChanged(token: token, userId: userId, userName: userName) {
             let oldDeviceId = currentDevice?.id != nil && currentDevice?.id != token ? currentDevice?.id : nil
 
-            let deviceRegistration = PushAPI.Payloads.Device.Registration(
+            let deviceRegistration = NotificareInternals.PushAPI.Payloads.Device.Registration(
                 deviceID: token,
                 oldDeviceID: oldDeviceId,
                 userID: userId,
@@ -602,7 +602,7 @@ public class NotificareDeviceManager {
             return
         }
 
-        let payload = PushAPI.Payloads.TestDeviceRegistration(
+        let payload = NotificareInternals.PushAPI.Payloads.TestDeviceRegistration(
             deviceID: device.id
         )
 
