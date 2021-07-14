@@ -2,10 +2,10 @@
 // Copyright (c) 2021 Notificare. All rights reserved.
 //
 
-import Foundation
+import NotificareKit
 
-internal extension PushAPI.Responses {
+internal extension NotificareInternals.PushAPI.Responses {
     struct Scannable: Decodable {
-        let scannable: PushAPI.Models.Scannable
+        let scannable: NotificareInternals.PushAPI.Models.Scannable
     }
 }

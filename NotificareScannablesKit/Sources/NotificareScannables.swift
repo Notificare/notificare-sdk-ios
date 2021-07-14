@@ -147,7 +147,7 @@ public class NotificareScannables: NSObject, NotificareModule {
             .get("/scannable/tag/\(encodedTag)")
             .query(name: "deviceID", value: Notificare.shared.deviceManager.currentDevice?.id)
             .query(name: "userID", value: Notificare.shared.deviceManager.currentDevice?.userId)
-            .responseDecodable(PushAPI.Responses.Scannable.self) { result in
+            .responseDecodable(NotificareInternals.PushAPI.Responses.Scannable.self) { result in
                 switch result {
                 case let .success(response):
                     let scannable = response.scannable.toModel()
