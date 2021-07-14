@@ -42,9 +42,32 @@ public class NotificareScannables: NSObject, NotificareModule {
         }
     }
 
-    public func startQrCodeScannableSession(controller: UINavigationController, modal: Bool = true) {
-        _ = controller
-        _ = modal
+    public func startQrCodeScannableSession(controller: UIViewController, modal: Bool = false) {
+        let qrCodeScanner = NotificareQrCodeScannerViewController()
+        qrCodeScanner.onQrCodeDetected = { qrCode in
+
+            DispatchQueue.main.async {
+                if let controller = controller as? UINavigationController, !modal {
+                    controller.popViewController(animated: true)
+                } else {
+                    controller.dismiss(animated: true)
+                }
+            }
+
+            self.handleScannableTag(qrCode)
+        }
+
+        if let controller = controller as? UINavigationController, !modal {
+            controller.pushViewController(qrCodeScanner, animated: true)
+        } else {
+            if controller.presentedViewController != nil {
+                controller.dismiss(animated: true) {
+                    controller.present(qrCodeScanner, animated: true)
+                }
+            } else {
+                controller.present(qrCodeScanner, animated: true)
+            }
+        }
     }
 
     // MARK: - Private API

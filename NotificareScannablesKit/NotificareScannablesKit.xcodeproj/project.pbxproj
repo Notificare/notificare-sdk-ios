@@ -18,6 +18,7 @@
 		F2E801E3269D94CA00582DB8 /* PushAPI+Responses.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E801E2269D94CA00582DB8 /* PushAPI+Responses.swift */; };
 		F2E801E5269D957700582DB8 /* NotificareScannablesDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E801E4269D957700582DB8 /* NotificareScannablesDelegate.swift */; };
 		F2E801E7269DC9C600582DB8 /* CoreNFC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2E801E6269DC9C500582DB8 /* CoreNFC.framework */; };
+		F2E801EC269F19BC00582DB8 /* NotificareQrCodeScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E801EB269F19BC00582DB8 /* NotificareQrCodeScannerViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +62,7 @@
 		F2E801E2269D94CA00582DB8 /* PushAPI+Responses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PushAPI+Responses.swift"; sourceTree = "<group>"; };
 		F2E801E4269D957700582DB8 /* NotificareScannablesDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareScannablesDelegate.swift; sourceTree = "<group>"; };
 		F2E801E6269DC9C500582DB8 /* CoreNFC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreNFC.framework; path = System/Library/Frameworks/CoreNFC.framework; sourceTree = SDKROOT; };
+		F2E801EB269F19BC00582DB8 /* NotificareQrCodeScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareQrCodeScannerViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +110,7 @@
 			children = (
 				F2E801D9269D946700582DB8 /* Internals */,
 				F2E801D8269D946200582DB8 /* Models */,
+				F2E801EA269F19AB00582DB8 /* UI */,
 				F258DE2824BC4FAD006F9ABD /* Info.plist */,
 				F258DE2724BC4FAD006F9ABD /* NotificareScannablesKit.h */,
 				F2E801D3269D93AA00582DB8 /* NotificareScannables.swift */,
@@ -168,6 +171,14 @@
 				F2E801E2269D94CA00582DB8 /* PushAPI+Responses.swift */,
 			);
 			path = "Push API";
+			sourceTree = "<group>";
+		};
+		F2E801EA269F19AB00582DB8 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				F2E801EB269F19BC00582DB8 /* NotificareQrCodeScannerViewController.swift */,
+			);
+			path = UI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -306,6 +317,7 @@
 				F2E801E1269D94BF00582DB8 /* PushAPI+Models.swift in Sources */,
 				F2E801D4269D93AA00582DB8 /* NotificareScannables.swift in Sources */,
 				F2E801E5269D957700582DB8 /* NotificareScannablesDelegate.swift in Sources */,
+				F2E801EC269F19BC00582DB8 /* NotificareQrCodeScannerViewController.swift in Sources */,
 				F2E801E3269D94CA00582DB8 /* PushAPI+Responses.swift in Sources */,
 				F2E801DD269D947E00582DB8 /* NotificareScannable.swift in Sources */,
 			);
