@@ -102,7 +102,7 @@ public extension NotificareAsset {
 
 // NotificareAsset.init(PushAPI.Models.Asset)
 internal extension NotificareAsset {
-    init(asset: PushAPI.Models.Asset) {
+    init(asset: NotificareInternals.PushAPI.Models.Asset) {
         title = asset.title
         description = asset.description
         key = asset.key

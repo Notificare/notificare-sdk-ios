@@ -23,7 +23,7 @@ public struct NotificareInboxItem: Codable {
 
 // NotificareInboxItem.init(remote:)
 extension NotificareInboxItem {
-    init(remote: PushAPI.Models.RemoteInboxItem) {
+    init(remote: NotificareInternals.PushAPI.Models.RemoteInboxItem) {
         let attachments: [NotificareNotification.Attachment]
         if let attachment = remote.attachment {
             attachments = [attachment]

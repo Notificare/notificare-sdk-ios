@@ -4,7 +4,7 @@
 
 import NotificareKit
 
-internal extension PushAPI.Models {
+internal extension NotificareInternals.PushAPI.Models {
     struct Asset: Decodable {
         let _id: String
         let key: String?

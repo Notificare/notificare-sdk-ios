@@ -2,9 +2,9 @@
 // Copyright (c) 2021 Notificare. All rights reserved.
 //
 
-import Foundation
+import NotificareKit
 
-internal extension PushAPI.Payloads {
+internal extension NotificareInternals.PushAPI.Payloads {
     struct UpdateNotificationSettings: Encodable {
         let allowedUI: Bool
     }

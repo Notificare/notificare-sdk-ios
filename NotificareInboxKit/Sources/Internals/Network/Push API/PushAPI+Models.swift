@@ -4,7 +4,7 @@
 
 import NotificareKit
 
-internal extension PushAPI.Models {
+internal extension NotificareInternals.PushAPI.Models {
     struct RemoteInboxItem: Decodable {
         let _id: String
         let notification: String

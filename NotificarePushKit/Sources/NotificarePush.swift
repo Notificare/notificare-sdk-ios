@@ -327,7 +327,7 @@ public class NotificarePush: NSObject, NotificareModule {
         }
 
         if self.allowedUI != allowedUI {
-            let payload = PushAPI.Payloads.UpdateNotificationSettings(
+            let payload = NotificareInternals.PushAPI.Payloads.UpdateNotificationSettings(
                 allowedUI: allowedUI
             )
 

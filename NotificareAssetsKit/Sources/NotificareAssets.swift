@@ -38,7 +38,7 @@ public class NotificareAssets: NSObject, NotificareModule {
             .get("/asset/forgroup/\(group)")
             .query(name: "deviceID", value: Notificare.shared.deviceManager.currentDevice?.id)
             .query(name: "userID", value: Notificare.shared.deviceManager.currentDevice?.userId)
-            .responseDecodable(PushAPI.Responses.Assets.self) { result in
+            .responseDecodable(NotificareInternals.PushAPI.Responses.Assets.self) { result in
                 switch result {
                 case let .success(response):
                     let assets = response.assets.map { NotificareAsset(asset: $0) }

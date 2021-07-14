@@ -2,10 +2,10 @@
 // Copyright (c) 2021 Notificare. All rights reserved.
 //
 
-import Foundation
+import NotificareKit
 
-internal extension PushAPI.Responses {
+internal extension NotificareInternals.PushAPI.Responses {
     struct Assets: Decodable {
-        let assets: [PushAPI.Models.Asset]
+        let assets: [NotificareInternals.PushAPI.Models.Asset]
     }
 }
