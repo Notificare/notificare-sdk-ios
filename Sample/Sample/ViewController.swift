@@ -5,6 +5,7 @@
 import NotificareAssetsKit
 import NotificareInboxKit
 import NotificareKit
+import NotificareLoyaltyKit
 import NotificarePushKit
 import NotificarePushUIKit
 import NotificareScannablesKit
@@ -117,6 +118,26 @@ class ViewController: UIViewController {
         } else {
             NotificareScannables.shared.startQrCodeScannableSession(controller: navigationController!, modal: true)
         }
+    }
+
+    @IBAction func onFetchPassClick(_: Any) {
+        NotificareLoyalty.shared.fetchPass(serial: "2e5cdf49-83f8-4029-b5bb-dc478ff309b9") { result in
+            switch result {
+            case let .success(pass):
+                print("Pass = \(pass)")
+            case let .failure(error):
+                print("Failed to fetch pass.\n\(error)")
+            }
+        }
+
+//        NotificareLoyalty.shared.fetchPass(barcode: "2e5cdf49-83f8-4029-b5bb-dc478ff309b9") { result in
+//            switch result {
+//            case let .success(pass):
+//                print("Pass = \(pass)")
+//            case let .failure(error):
+//                print("Failed to fetch pass.\n\(error)")
+//            }
+//        }
     }
 }
 

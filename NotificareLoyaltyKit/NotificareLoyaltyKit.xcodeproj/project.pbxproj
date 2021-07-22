@@ -7,12 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F216F0B126A825F700F9EF56 /* NotificareLoyalty.swift in Sources */ = {isa = PBXBuildFile; fileRef = F216F0B026A825F700F9EF56 /* NotificareLoyalty.swift */; };
+		F216F0B626A8266700F9EF56 /* PassKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F216F0B526A8266700F9EF56 /* PassKit.framework */; };
+		F216F0B826A8369900F9EF56 /* NotificareLoyaltyDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F216F0B726A8369900F9EF56 /* NotificareLoyaltyDelegate.swift */; };
 		F258DDE624BC4F32006F9ABD /* NotificareLoyaltyKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F258DDDC24BC4F31006F9ABD /* NotificareLoyaltyKit.framework */; };
 		F258DDEB24BC4F32006F9ABD /* LoyaltyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DDEA24BC4F32006F9ABD /* LoyaltyTests.swift */; };
 		F258DDED24BC4F32006F9ABD /* NotificareLoyaltyKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F258DDDF24BC4F31006F9ABD /* NotificareLoyaltyKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F289F5CA25B861320091AB97 /* NotificareCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F289F5C825B861320091AB97 /* NotificareCore.framework */; };
 		F289F5CC25B861320091AB97 /* NotificareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F289F5C925B861320091AB97 /* NotificareKit.framework */; };
 		F289F5CD25B861320091AB97 /* NotificareKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F289F5C925B861320091AB97 /* NotificareKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F2BB224426A867AF00B20BF3 /* NotificarePass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2BB224326A867AF00B20BF3 /* NotificarePass.swift */; };
+		F2BB224926A870D500B20BF3 /* PushAPI+Responses.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2BB224826A870D500B20BF3 /* PushAPI+Responses.swift */; };
+		F2BB224B26A8710300B20BF3 /* PushAPI+Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2BB224A26A8710300B20BF3 /* PushAPI+Models.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +45,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		F216F0B026A825F700F9EF56 /* NotificareLoyalty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareLoyalty.swift; sourceTree = "<group>"; };
+		F216F0B526A8266700F9EF56 /* PassKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PassKit.framework; path = System/Library/Frameworks/PassKit.framework; sourceTree = SDKROOT; };
+		F216F0B726A8369900F9EF56 /* NotificareLoyaltyDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareLoyaltyDelegate.swift; sourceTree = "<group>"; };
 		F258DDDC24BC4F31006F9ABD /* NotificareLoyaltyKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NotificareLoyaltyKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F258DDDF24BC4F31006F9ABD /* NotificareLoyaltyKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificareLoyaltyKit.h; sourceTree = "<group>"; };
 		F258DDE024BC4F31006F9ABD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -50,6 +58,9 @@
 		F289F5C825B861320091AB97 /* NotificareCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F289F5C925B861320091AB97 /* NotificareKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2AAAF80251D01A800465EC5 /* NotificareSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F2BB224326A867AF00B20BF3 /* NotificarePass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificarePass.swift; sourceTree = "<group>"; };
+		F2BB224826A870D500B20BF3 /* PushAPI+Responses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PushAPI+Responses.swift"; sourceTree = "<group>"; };
+		F2BB224A26A8710300B20BF3 /* PushAPI+Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PushAPI+Models.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,7 +68,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F289F5CA25B861320091AB97 /* NotificareCore.framework in Frameworks */,
+				F216F0B626A8266700F9EF56 /* PassKit.framework in Frameworks */,
 				F289F5CC25B861320091AB97 /* NotificareKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -95,8 +106,12 @@
 		F258DDDE24BC4F31006F9ABD /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				F2BB224526A870B900B20BF3 /* Internals */,
+				F2BB224226A867A400B20BF3 /* Models */,
 				F258DDE024BC4F31006F9ABD /* Info.plist */,
 				F258DDDF24BC4F31006F9ABD /* NotificareLoyaltyKit.h */,
+				F216F0B026A825F700F9EF56 /* NotificareLoyalty.swift */,
+				F216F0B726A8369900F9EF56 /* NotificareLoyaltyDelegate.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -113,12 +128,46 @@
 		F258DEA524BC96DA006F9ABD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F216F0B526A8266700F9EF56 /* PassKit.framework */,
 				F289F5C825B861320091AB97 /* NotificareCore.framework */,
 				F289F5C925B861320091AB97 /* NotificareKit.framework */,
 				F2AAAF80251D01A800465EC5 /* NotificareSDK.framework */,
 				F258DEA624BC96DA006F9ABD /* Notificare.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F2BB224226A867A400B20BF3 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F2BB224326A867AF00B20BF3 /* NotificarePass.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		F2BB224526A870B900B20BF3 /* Internals */ = {
+			isa = PBXGroup;
+			children = (
+				F2BB224626A870C300B20BF3 /* Network */,
+			);
+			path = Internals;
+			sourceTree = "<group>";
+		};
+		F2BB224626A870C300B20BF3 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				F2BB224726A870C800B20BF3 /* Push API */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		F2BB224726A870C800B20BF3 /* Push API */ = {
+			isa = PBXGroup;
+			children = (
+				F2BB224A26A8710300B20BF3 /* PushAPI+Models.swift */,
+				F2BB224826A870D500B20BF3 /* PushAPI+Responses.swift */,
+			);
+			path = "Push API";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -185,6 +234,7 @@
 				TargetAttributes = {
 					F258DDDB24BC4F31006F9ABD = {
 						CreatedOnToolsVersion = 11.5;
+						LastSwiftMigration = 1300;
 					};
 					F258DDE424BC4F32006F9ABD = {
 						CreatedOnToolsVersion = 11.5;
@@ -253,6 +303,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F216F0B126A825F700F9EF56 /* NotificareLoyalty.swift in Sources */,
+				F2BB224926A870D500B20BF3 /* PushAPI+Responses.swift in Sources */,
+				F216F0B826A8369900F9EF56 /* NotificareLoyaltyDelegate.swift in Sources */,
+				F2BB224426A867AF00B20BF3 /* NotificarePass.swift in Sources */,
+				F2BB224B26A8710300B20BF3 /* PushAPI+Models.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -400,6 +455,7 @@
 		F258DDF124BC4F32006F9ABD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -418,6 +474,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -426,6 +483,7 @@
 		F258DDF224BC4F32006F9ABD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -452,6 +510,7 @@
 		F258DDF424BC4F32006F9ABD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y47BY73NFN;
 				INFOPLIST_FILE = Tests/Info.plist;
@@ -470,6 +529,7 @@
 		F258DDF524BC4F32006F9ABD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y47BY73NFN;
 				INFOPLIST_FILE = Tests/Info.plist;

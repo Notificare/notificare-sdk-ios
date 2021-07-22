@@ -82,8 +82,15 @@ public class NotificarePushUI: NotificareModule {
             latestPresentableNotificationHandler = notificationController
 
         case .passbook:
-            // TODO: handle passbook notification
-            return
+            if NotificareDefinitions.Modules.loyalty.isAvailable {
+                LoyaltyIntegration.onPassReceived(in: notification)
+                return
+            }
+
+            let notificationController = NotificareWebPassViewController()
+            notificationController.notification = notification
+
+            latestPresentableNotificationHandler = notificationController
 
         case .store:
             latestPresentableNotificationHandler = NotificareStoreController(notification: notification)
