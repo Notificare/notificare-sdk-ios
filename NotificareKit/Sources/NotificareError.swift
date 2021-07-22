@@ -13,4 +13,7 @@ public enum NotificareError: Error {
     case parsingFailure
     case invalidLanguageCode
     case invalidArgument
+
+    case applicationUnavailable
+    case serviceUnavailable(module: String)
 }
