@@ -5,6 +5,7 @@
 // import Atlantis
 import NotificareInboxKit
 import NotificareKit
+import NotificareLoyaltyKit
 import NotificarePushKit
 import NotificarePushUIKit
 import UIKit
@@ -31,6 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NotificarePush.shared.delegate = self
         NotificarePushUI.shared.delegate = self
         NotificareInbox.shared.delegate = self
+        NotificareLoyalty.shared.delegate = self
 
         Notificare.shared.launch()
 
@@ -174,5 +176,15 @@ extension AppDelegate: NotificareInboxDelegate {
 
     func notificare(_: NotificareInbox, didUpdateBadge badge: Int) {
         print("-----> Badge update. Unread = \(badge)")
+    }
+}
+
+extension AppDelegate: NotificareLoyaltyDelegate {
+    func notificare(_: NotificareLoyalty, didReceivePass _: URL, in notification: NotificareNotification) {
+        guard let rootViewController = window?.rootViewController else {
+            return
+        }
+
+        NotificareLoyalty.shared.present(notification, in: rootViewController)
     }
 }
