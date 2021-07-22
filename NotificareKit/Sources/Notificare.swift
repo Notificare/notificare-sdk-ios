@@ -89,7 +89,7 @@ public class Notificare {
             var swizzleApns = false
 
             // Check if the Push module is loaded.
-            if (NSClassFromString(NotificareDefinitions.Modules.push.rawValue) as? NotificareModule.Type) != nil {
+            if NotificareDefinitions.Modules.push.isAvailable {
                 swizzleApns = true
             }
 
@@ -110,9 +110,9 @@ public class Notificare {
         deviceManager.configure()
 
         NotificareDefinitions.Modules.allCases.forEach { module in
-            if let cls = NSClassFromString(module.rawValue) as? NotificareModule.Type {
+            if let instance = module.instance {
                 NotificareLogger.debug("Configuring plugin: \(module.rawValue)")
-                cls.configure()
+                instance.configure()
             }
         }
 
@@ -165,11 +165,11 @@ public class Notificare {
 
                     // Loop all possible modules and launch the available ones.
                     NotificareDefinitions.Modules.allCases.forEach { module in
-                        if let cls = NSClassFromString(module.rawValue) as? NotificareModule.Type {
+                        if let instance = module.instance {
                             dispatchGroup.enter()
 
                             NotificareLogger.debug("Launching '\(module.rawValue)' plugin.")
-                            cls.launch { result in
+                            instance.launch { result in
                                 switch result {
                                 case .success:
                                     NotificareLogger.debug("Launched '\(module.rawValue)' successfully.")
@@ -219,11 +219,11 @@ public class Notificare {
 
                 // Loop all possible modules and un-launch the available ones.
                 NotificareDefinitions.Modules.allCases.reversed().forEach { module in
-                    if let cls = NSClassFromString(module.rawValue) as? NotificareModule.Type {
+                    if let instance = module.instance {
                         dispatchGroup.enter()
 
                         NotificareLogger.debug("Un-launching '\(module.rawValue)' plugin.")
-                        cls.unlaunch { result in
+                        instance.unlaunch { result in
                             switch result {
                             case .success:
                                 NotificareLogger.debug("Un-launched '\(module.rawValue)' successfully.")

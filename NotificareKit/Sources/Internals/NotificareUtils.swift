@@ -83,7 +83,7 @@ public enum NotificareUtils {
         var modules = [String]()
 
         NotificareDefinitions.Modules.allCases.forEach { module in
-            if NSClassFromString(module.rawValue) != nil {
+            if module.isAvailable {
                 modules.append("\(module)")
             }
         }

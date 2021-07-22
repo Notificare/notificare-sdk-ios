@@ -56,8 +56,7 @@ internal struct LocalStorageMigration {
 
         // Signal each available module to migrate whatever data it needs.
         NotificareDefinitions.Modules.allCases.forEach { module in
-            let cls = NSClassFromString(module.rawValue) as? NotificareModule.Type
-            cls?.migrate()
+            module.instance?.migrate()
         }
 
         // Remove all legacy properties.

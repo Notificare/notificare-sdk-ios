@@ -28,5 +28,13 @@ public enum NotificareDefinitions {
         case inbox = "NotificareInboxKit.NotificareInbox"
         case assets = "NotificareAssetsKit.NotificareAssets"
         case scannables = "NotificareScannablesKit.NotificareScannables"
+
+        public var isAvailable: Bool {
+            NSClassFromString(rawValue) != nil
+        }
+
+        public var instance: NotificareModule.Type? {
+            NSClassFromString(rawValue) as? NotificareModule.Type
+        }
     }
 }
