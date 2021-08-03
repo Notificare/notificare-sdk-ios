@@ -2,12 +2,12 @@
   "object": {
     "pins": [
       {
-        "package": "Atlantis",
+        "package": "atlantis",
         "repositoryURL": "https://github.com/ProxymanApp/atlantis",
         "state": {
           "branch": null,
-          "revision": "cd36eda0ab6e6792a2ddd3cfbd1f6bf5102ce74f",
-          "version": "1.4.3"
+          "revision": "2ee37f1da01b438d67012cc1405617e158f358a1",
+          "version": "1.11.2"
         }
       },
       {

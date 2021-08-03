@@ -13,7 +13,6 @@
 		F22650C7258B6E890004F833 /* NotificareKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F22650C5258B6E890004F833 /* NotificareKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F22650CA258B6E900004F833 /* NotificarePushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F22650C9258B6E900004F833 /* NotificarePushKit.framework */; };
 		F22650CB258B6E900004F833 /* NotificarePushKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F22650C9258B6E900004F833 /* NotificarePushKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F2423D3825764B4100FCCFB7 /* Atlantis in Frameworks */ = {isa = PBXBuildFile; productRef = F2423D3725764B4100FCCFB7 /* Atlantis */; };
 		F25B6DC525CABDE6007BC2C8 /* InboxItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F25B6DC425CABDE6007BC2C8 /* InboxItemTableViewCell.swift */; };
 		F25B6DC725CABE11007BC2C8 /* InboxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F25B6DC625CABE11007BC2C8 /* InboxViewController.swift */; };
 		F25B6DCA25CAC5A4007BC2C8 /* Date+TimeAgo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F25B6DC925CAC5A4007BC2C8 /* Date+TimeAgo.swift */; };
@@ -41,6 +40,7 @@
 		F2F41D8525CD67830010260B /* NotificarePushKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F22650C9258B6E900004F833 /* NotificarePushKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F2F41D8725CD67980010260B /* NotificareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F22650C5258B6E890004F833 /* NotificareKit.framework */; };
 		F2F41D8825CD67980010260B /* NotificareKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F22650C5258B6E890004F833 /* NotificareKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F2F6977226B93D1A00AB663E /* Atlantis in Frameworks */ = {isa = PBXBuildFile; productRef = F2F6977126B93D1A00AB663E /* Atlantis */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -138,7 +138,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F2423D3825764B4100FCCFB7 /* Atlantis in Frameworks */,
 				F2E801D6269D93C300582DB8 /* NotificareScannablesKit.framework in Frameworks */,
 				F289F56525B85EC20091AB97 /* NotificareInboxKit.framework in Frameworks */,
 				F25B6DCD25CAC67E007BC2C8 /* SDWebImage in Frameworks */,
@@ -146,6 +145,7 @@
 				F22650CA258B6E900004F833 /* NotificarePushKit.framework in Frameworks */,
 				F22650C6258B6E890004F833 /* NotificareKit.framework in Frameworks */,
 				F29B17FC25A4911C007ED6F9 /* NotificarePushUIKit.framework in Frameworks */,
+				F2F6977226B93D1A00AB663E /* Atlantis in Frameworks */,
 				F216F0B326A8265500F9EF56 /* NotificareLoyaltyKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -287,8 +287,8 @@
 			);
 			name = Sample;
 			packageProductDependencies = (
-				F2423D3725764B4100FCCFB7 /* Atlantis */,
 				F25B6DCC25CAC67E007BC2C8 /* SDWebImage */,
+				F2F6977126B93D1A00AB663E /* Atlantis */,
 			);
 			productName = Sample;
 			productReference = F29FD1F424CB1FE1004B166D /* Sample.app */;
@@ -319,7 +319,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1230;
-				LastUpgradeCheck = 1250;
+				LastUpgradeCheck = 1300;
 				ORGANIZATIONNAME = Notificare;
 				TargetAttributes = {
 					F29FD1F324CB1FE1004B166D = {
@@ -340,8 +340,8 @@
 			);
 			mainGroup = F29FD1EB24CB1FE1004B166D;
 			packageReferences = (
-				F2423D3625764B4000FCCFB7 /* XCRemoteSwiftPackageReference "atlantis" */,
 				F25B6DCB25CAC67E007BC2C8 /* XCRemoteSwiftPackageReference "SDWebImage" */,
+				F2F6977026B93D1A00AB663E /* XCRemoteSwiftPackageReference "atlantis" */,
 			);
 			productRefGroup = F29FD1F524CB1FE1004B166D /* Products */;
 			projectDirPath = "";
@@ -684,14 +684,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		F2423D3625764B4000FCCFB7 /* XCRemoteSwiftPackageReference "atlantis" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ProxymanApp/atlantis";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.4.3;
-			};
-		};
 		F25B6DCB25CAC67E007BC2C8 /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SDWebImage/SDWebImage";
@@ -700,18 +692,26 @@
 				minimumVersion = 5.10.4;
 			};
 		};
+		F2F6977026B93D1A00AB663E /* XCRemoteSwiftPackageReference "atlantis" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ProxymanApp/atlantis";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		F2423D3725764B4100FCCFB7 /* Atlantis */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F2423D3625764B4000FCCFB7 /* XCRemoteSwiftPackageReference "atlantis" */;
-			productName = Atlantis;
-		};
 		F25B6DCC25CAC67E007BC2C8 /* SDWebImage */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = F25B6DCB25CAC67E007BC2C8 /* XCRemoteSwiftPackageReference "SDWebImage" */;
 			productName = SDWebImage;
+		};
+		F2F6977126B93D1A00AB663E /* Atlantis */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F2F6977026B93D1A00AB663E /* XCRemoteSwiftPackageReference "atlantis" */;
+			productName = Atlantis;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
