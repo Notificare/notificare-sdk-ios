@@ -17,6 +17,7 @@
 		F2F697C626B9450000AB663E /* NotificareKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F2F697C426B9450000AB663E /* NotificareKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F2F697CA26B9473F00AB663E /* NotificareAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F697C926B9473F00AB663E /* NotificareAuthentication.swift */; };
 		F2F697D226B95C2800AB663E /* PushAPI+Responses.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F697D126B95C2800AB663E /* PushAPI+Responses.swift */; };
+		F2F697D426B95DF600AB663E /* NotificareAuthentication+EventsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F697D326B95DF600AB663E /* NotificareAuthentication+EventsManager.swift */; };
 		F2F697D726B95EEE00AB663E /* Credentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F697D626B95EEE00AB663E /* Credentials.swift */; };
 		F2F697D926B97AF700AB663E /* PushAPI+Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F697D826B97AF700AB663E /* PushAPI+Models.swift */; };
 /* End PBXBuildFile section */
@@ -56,6 +57,7 @@
 		F2F697C426B9450000AB663E /* NotificareKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2F697C926B9473F00AB663E /* NotificareAuthentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareAuthentication.swift; sourceTree = "<group>"; };
 		F2F697D126B95C2800AB663E /* PushAPI+Responses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PushAPI+Responses.swift"; sourceTree = "<group>"; };
+		F2F697D326B95DF600AB663E /* NotificareAuthentication+EventsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificareAuthentication+EventsManager.swift"; sourceTree = "<group>"; };
 		F2F697D626B95EEE00AB663E /* Credentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Credentials.swift; sourceTree = "<group>"; };
 		F2F697D826B97AF700AB663E /* PushAPI+Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PushAPI+Models.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -106,6 +108,7 @@
 				F2F697BC26B943EF00AB663E /* Models */,
 				F2F697A426B9412D00AB663E /* NotificareAuthentication.h */,
 				F2F697C926B9473F00AB663E /* NotificareAuthentication.swift */,
+				F2F697D326B95DF600AB663E /* NotificareAuthentication+EventsManager.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -310,6 +313,7 @@
 				F2F697D226B95C2800AB663E /* PushAPI+Responses.swift in Sources */,
 				F2F697D726B95EEE00AB663E /* Credentials.swift in Sources */,
 				F2F697BE26B9442100AB663E /* NotificareUser.swift in Sources */,
+				F2F697D426B95DF600AB663E /* NotificareAuthentication+EventsManager.swift in Sources */,
 				F2F697C026B944D500AB663E /* NotificareUserPreference.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
