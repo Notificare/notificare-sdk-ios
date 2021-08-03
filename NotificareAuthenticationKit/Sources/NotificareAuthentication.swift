@@ -126,9 +126,29 @@ public class NotificareAuthentication: NSObject, NotificareModule {
 
     // MARK: - Private API
 
-    private func checkPrerequisites() throws {}
+    private func checkPrerequisites() throws {
+        if !Notificare.shared.isReady {
+            NotificareLogger.warning("Notificare is not ready yet.")
+            throw NotificareError.notReady
+        }
+        
+        guard let application = Notificare.shared.application else {
+            NotificareLogger.warning("Notificare application is not yet available.")
+            throw NotificareError.applicationUnavailable
+        }
+        
+        guard application.services["oauth2"] == true else {
+            NotificareLogger.warning("Notificare authentication functionality is not enabled.")
+            throw NotificareError.serviceUnavailable(module: "oauth2")
+        }
+    }
 
-    private func checkUserLoggedInPrerequisite() throws {}
+    private func checkUserLoggedInPrerequisite() throws {
+        guard isLoggedIn else {
+            NotificareLogger.warning("The user is not logged in.")
+            throw NotificareAuthenticationError.userNotLoggedIn
+        }
+    }
 
     private func addUserSegmentToPreference(segmentId: String, to preference: NotificareUserPreference, _ completion: @escaping NotificareCallback<Void>) {
         _ = segmentId
@@ -141,4 +161,8 @@ public class NotificareAuthentication: NSObject, NotificareModule {
         _ = preference
         _ = completion
     }
+}
+
+public enum NotificareAuthenticationError: Error {
+    case userNotLoggedIn
 }
