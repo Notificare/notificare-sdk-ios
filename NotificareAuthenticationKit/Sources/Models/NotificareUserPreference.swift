@@ -8,7 +8,7 @@ import NotificareKit
 public struct NotificareUserPreference: Codable {
     public let id: String
     public let label: String
-    public let type: `Type`
+    public let type: PreferenceType
     public let options: [Option]
     public let position: Int
 
@@ -24,7 +24,7 @@ public struct NotificareUserPreference: Codable {
 }
 
 public extension NotificareUserPreference {
-    enum `Type`: String, Codable {
+    enum PreferenceType: String, Codable {
         case single
         case choice
         case select
