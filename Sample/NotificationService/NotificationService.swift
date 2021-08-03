@@ -6,25 +6,15 @@ import NotificarePushKit
 import UserNotifications
 
 class NotificationService: UNNotificationServiceExtension {
-    var contentHandler: ((UNNotificationContent) -> Void)?
-    var bestAttemptContent: UNMutableNotificationContent?
-
     override func didReceive(_ request: UNNotificationRequest, withContentHandler contentHandler: @escaping (UNNotificationContent) -> Void) {
-        self.contentHandler = contentHandler
-        bestAttemptContent = (request.content.mutableCopy() as? UNMutableNotificationContent)
-
-        NotificarePush.shared.fetchAttachment(for: request.content.userInfo) { result in
+        NotificarePush.shared.handleNotificationRequest(request) { result in
             switch result {
-            case let .success(attachment):
-                if let bestAttemptContent = self.bestAttemptContent {
-                    bestAttemptContent.attachments = [attachment]
-                    contentHandler(bestAttemptContent)
-                }
+            case let .success(content):
+                contentHandler(content)
 
-            case .failure:
-                if let bestAttemptContent = self.bestAttemptContent {
-                    contentHandler(bestAttemptContent)
-                }
+            case let .failure(error):
+                print("Failed to handle the notification request.\n\(error)")
+                contentHandler(request.content)
             }
         }
     }
@@ -32,8 +22,5 @@ class NotificationService: UNNotificationServiceExtension {
     override func serviceExtensionTimeWillExpire() {
         // Called just before the extension will be terminated by the system.
         // Use this as an opportunity to deliver your "best attempt" at modified content, otherwise the original push payload will be used.
-        if let contentHandler = contentHandler, let bestAttemptContent = bestAttemptContent {
-            contentHandler(bestAttemptContent)
-        }
     }
 }
