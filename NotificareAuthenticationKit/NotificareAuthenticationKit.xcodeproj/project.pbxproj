@@ -21,6 +21,7 @@
 		F2F697D726B95EEE00AB663E /* Credentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F697D626B95EEE00AB663E /* Credentials.swift */; };
 		F2F697D926B97AF700AB663E /* PushAPI+Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F697D826B97AF700AB663E /* PushAPI+Models.swift */; };
 		F2F697DC26B9885600AB663E /* LocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F697DB26B9885600AB663E /* LocalStorage.swift */; };
+		F2F697DE26BA92C800AB663E /* PushAPI+Payloads.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F697DD26BA92C800AB663E /* PushAPI+Payloads.swift */; };
 		F2F697E126BAE33000AB663E /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F697E026BAE33000AB663E /* Keychain.swift */; };
 /* End PBXBuildFile section */
 
@@ -62,6 +63,8 @@
 		F2F697D326B95DF600AB663E /* NotificareAuthentication+EventsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificareAuthentication+EventsManager.swift"; sourceTree = "<group>"; };
 		F2F697D626B95EEE00AB663E /* Credentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Credentials.swift; sourceTree = "<group>"; };
 		F2F697D826B97AF700AB663E /* PushAPI+Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PushAPI+Models.swift"; sourceTree = "<group>"; };
+		F2F697DB26B9885600AB663E /* LocalStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorage.swift; sourceTree = "<group>"; };
+		F2F697DD26BA92C800AB663E /* PushAPI+Payloads.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PushAPI+Payloads.swift"; sourceTree = "<group>"; };
 		F2F697E026BAE33000AB663E /* Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -165,6 +168,7 @@
 			isa = PBXGroup;
 			children = (
 				F2F697D826B97AF700AB663E /* PushAPI+Models.swift */,
+				F2F697DD26BA92C800AB663E /* PushAPI+Payloads.swift */,
 				F2F697D126B95C2800AB663E /* PushAPI+Responses.swift */,
 			);
 			path = "Push API";
@@ -329,6 +333,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F2F697DC26B9885600AB663E /* LocalStorage.swift in Sources */,
+				F2F697DE26BA92C800AB663E /* PushAPI+Payloads.swift in Sources */,
 				F2F697D926B97AF700AB663E /* PushAPI+Models.swift in Sources */,
 				F2F697C226B944DF00AB663E /* NotificareUserSegment.swift in Sources */,
 				F2F697CA26B9473F00AB663E /* NotificareAuthentication.swift in Sources */,
