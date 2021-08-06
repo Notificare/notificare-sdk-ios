@@ -56,13 +56,16 @@ public struct NotificareRequest {
         private var baseUrl: String?
         private var url: String?
         private var queryItems = [String: String]()
+        private var authentication: Authentication?
         private var headers = [String: String]()
         private var method: String?
         private var body: Data?
         private var bodyEncodingError: Error?
         private var validStatusCodes: ClosedRange<Int> = 200 ... 299
 
-        public init() {}
+        public init() {
+            authentication = createDefaultAuthentication()
+        }
 
         public func baseUrl(url: String) -> Self {
             baseUrl = url
@@ -94,6 +97,12 @@ public struct NotificareRequest {
         }
 
         public func post<T: Encodable>(_ url: String, body: T?) -> Self {
+            _ = post(url)
+            encode(body)
+            return self
+        }
+
+        public func post(_ url: String, body: [URLQueryItem]) -> Self {
             _ = post(url)
             encode(body)
             return self
@@ -148,6 +157,11 @@ public struct NotificareRequest {
             return self
         }
 
+        public func authentication(_ authentication: Authentication?) -> Self {
+            self.authentication = authentication
+            return self
+        }
+
         public func validate(range: ClosedRange<Int>) -> Self {
             validStatusCodes = range
             return self
@@ -178,12 +192,8 @@ public struct NotificareRequest {
             request.setValue(NotificareUtils.applicationVersion, forHTTPHeaderField: "X-Notificare-App-Version")
 
             // Add application authentication when available
-            if let applicationKey = Notificare.shared.servicesInfo?.applicationKey, let applicationSecret = Notificare.shared.servicesInfo?.applicationSecret {
-                let base64encoded = "\(applicationKey):\(applicationSecret)"
-                    .data(using: .utf8)!
-                    .base64EncodedString()
-
-                request.setValue("Basic \(base64encoded)", forHTTPHeaderField: "Authorization")
+            if let authentication = authentication {
+                request.setValue(authentication.encode(), forHTTPHeaderField: "Authorization")
             }
 
             return NotificareRequest(
@@ -238,6 +248,17 @@ public struct NotificareRequest {
             return url
         }
 
+        private func createDefaultAuthentication() -> Authentication? {
+            guard let applicationKey = Notificare.shared.servicesInfo?.applicationKey,
+                  let applicationSecret = Notificare.shared.servicesInfo?.applicationSecret
+            else {
+                NotificareLogger.warning("Notificare application authentication not configured.")
+                return nil
+            }
+
+            return .basic(username: applicationKey, password: applicationSecret)
+        }
+
         private func encode<T: Encodable>(_ body: T?) {
             if let body = body {
                 do {
@@ -246,6 +267,37 @@ public struct NotificareRequest {
                 } catch {
                     bodyEncodingError = error
                 }
+            }
+        }
+
+        private func encode(_ body: [URLQueryItem]) {
+            let parameters = body.map { item -> String in
+                let key = item.name
+                let value = item.value?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+
+                return "\(key)=\(value ?? "")"
+            }
+
+            self.body = parameters.joined(separator: "&").data(using: .utf8)
+            headers["Content-Type"] = "application/x-www-form-urlencoded"
+        }
+    }
+
+    public enum Authentication {
+        case basic(username: String, password: String)
+        case bearer(token: String)
+
+        public func encode() -> String {
+            switch self {
+            case let .basic(username, password):
+                let base64encoded = "\(username):\(password)"
+                    .data(using: .utf8)!
+                    .base64EncodedString()
+
+                return "Basic \(base64encoded)"
+
+            case let .bearer(token):
+                return "Bearer \(token)"
             }
         }
     }
