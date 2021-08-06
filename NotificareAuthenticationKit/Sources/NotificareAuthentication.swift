@@ -412,25 +412,35 @@ public class NotificareAuthentication: NSObject, NotificareModule {
     }
 
     public func parsePasswordResetToken(_ url: URL) -> String? {
-        guard url.pathComponents.count >= 5,
-              url.pathComponents[1] == "oauth",
-              url.pathComponents[2] == "resetpassword"
+        guard let application = Notificare.shared.application else {
+            NotificareLogger.warning("Notificare application is not yet available.")
+            return nil
+        }
+
+        guard url.scheme == "nc\(application.id)",
+              url.pathComponents.count >= 3,
+              url.pathComponents[1] == "resetpassword"
         else {
             return nil
         }
 
-        return url.pathComponents[4]
+        return url.pathComponents[2]
     }
 
     public func parseValidateUserToken(_ url: URL) -> String? {
-        guard url.pathComponents.count >= 5,
-              url.pathComponents[1] == "oauth",
-              url.pathComponents[2] == "validate"
+        guard let application = Notificare.shared.application else {
+            NotificareLogger.warning("Notificare application is not yet available.")
+            return nil
+        }
+
+        guard url.scheme == "nc\(application.id)",
+              url.pathComponents.count >= 3,
+              url.pathComponents[1] == "validate"
         else {
             return nil
         }
 
-        return url.pathComponents[4]
+        return url.pathComponents[2]
     }
 
     // MARK: - Private API
