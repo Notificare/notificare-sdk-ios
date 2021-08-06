@@ -20,6 +20,7 @@
 		F2F697D426B95DF600AB663E /* NotificareAuthentication+EventsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F697D326B95DF600AB663E /* NotificareAuthentication+EventsManager.swift */; };
 		F2F697D726B95EEE00AB663E /* Credentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F697D626B95EEE00AB663E /* Credentials.swift */; };
 		F2F697D926B97AF700AB663E /* PushAPI+Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F697D826B97AF700AB663E /* PushAPI+Models.swift */; };
+		F2F697DC26B9885600AB663E /* LocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F697DB26B9885600AB663E /* LocalStorage.swift */; };
 		F2F697E126BAE33000AB663E /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F697E026BAE33000AB663E /* Keychain.swift */; };
 /* End PBXBuildFile section */
 
@@ -147,6 +148,7 @@
 				F2F697DF26BAE32500AB663E /* Keychain */,
 				F2F697CF26B95C1300AB663E /* Network */,
 				F2F697D526B95EDB00AB663E /* OAuth */,
+				F2F697DA26B9883B00AB663E /* Storage */,
 			);
 			path = Internals;
 			sourceTree = "<group>";
@@ -174,6 +176,14 @@
 				F2F697D626B95EEE00AB663E /* Credentials.swift */,
 			);
 			path = OAuth;
+			sourceTree = "<group>";
+		};
+		F2F697DA26B9883B00AB663E /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				F2F697DB26B9885600AB663E /* LocalStorage.swift */,
+			);
+			path = Storage;
 			sourceTree = "<group>";
 		};
 		F2F697DF26BAE32500AB663E /* Keychain */ = {
@@ -318,6 +328,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F2F697DC26B9885600AB663E /* LocalStorage.swift in Sources */,
 				F2F697D926B97AF700AB663E /* PushAPI+Models.swift in Sources */,
 				F2F697C226B944DF00AB663E /* NotificareUserSegment.swift in Sources */,
 				F2F697CA26B9473F00AB663E /* NotificareAuthentication.swift in Sources */,
