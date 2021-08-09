@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F24372E326BD74DE00188153 /* AuthenticationRenewal.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24372E226BD74DE00188153 /* AuthenticationRenewal.swift */; };
 		F2F697AA26B9412D00AB663E /* NotificareAuthenticationKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2F697A126B9412D00AB663E /* NotificareAuthenticationKit.framework */; };
 		F2F697AF26B9412D00AB663E /* NotificareAuthenticationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F697AE26B9412D00AB663E /* NotificareAuthenticationTests.swift */; };
 		F2F697B026B9412D00AB663E /* NotificareAuthentication.h in Headers */ = {isa = PBXBuildFile; fileRef = F2F697A426B9412D00AB663E /* NotificareAuthentication.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -50,6 +51,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		F24372E226BD74DE00188153 /* AuthenticationRenewal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationRenewal.swift; sourceTree = "<group>"; };
 		F2F697A126B9412D00AB663E /* NotificareAuthenticationKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NotificareAuthenticationKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2F697A426B9412D00AB663E /* NotificareAuthentication.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificareAuthentication.h; sourceTree = "<group>"; };
 		F2F697A926B9412D00AB663E /* NotificareAuthenticationKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NotificareAuthenticationKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -177,6 +179,7 @@
 		F2F697D526B95EDB00AB663E /* OAuth */ = {
 			isa = PBXGroup;
 			children = (
+				F24372E226BD74DE00188153 /* AuthenticationRenewal.swift */,
 				F2F697D626B95EEE00AB663E /* Credentials.swift */,
 			);
 			path = OAuth;
@@ -336,6 +339,7 @@
 				F2F697DE26BA92C800AB663E /* PushAPI+Payloads.swift in Sources */,
 				F2F697D926B97AF700AB663E /* PushAPI+Models.swift in Sources */,
 				F2F697C226B944DF00AB663E /* NotificareUserSegment.swift in Sources */,
+				F24372E326BD74DE00188153 /* AuthenticationRenewal.swift in Sources */,
 				F2F697CA26B9473F00AB663E /* NotificareAuthentication.swift in Sources */,
 				F2F697E126BAE33000AB663E /* Keychain.swift in Sources */,
 				F2F697D226B95C2800AB663E /* PushAPI+Responses.swift in Sources */,

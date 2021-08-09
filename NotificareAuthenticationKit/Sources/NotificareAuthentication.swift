@@ -8,6 +8,8 @@ import NotificareKit
 public class NotificareAuthentication: NSObject, NotificareModule {
     public static let shared = NotificareAuthentication()
 
+    private let authenticationRenewal = AuthenticationRenewal()
+
     // MARK: - Notificare Module
 
     public static func configure() {}
@@ -128,6 +130,7 @@ public class NotificareAuthentication: NSObject, NotificareModule {
         NotificareRequest.Builder()
             .get("/user/me")
             .authentication(.bearer(token: credentials.accessToken))
+            .authenticationDelegate(authenticationRenewal)
             .responseDecodable(NotificareInternals.PushAPI.Responses.UserDetailsResponse.self) { result in
                 switch result {
                 case let .success(response):
@@ -156,6 +159,7 @@ public class NotificareAuthentication: NSObject, NotificareModule {
         NotificareRequest.Builder()
             .put("/user/changepassword", body: payload)
             .authentication(.bearer(token: credentials.accessToken))
+            .authenticationDelegate(authenticationRenewal)
             .response { result in
                 switch result {
                 case .success:
@@ -181,6 +185,7 @@ public class NotificareAuthentication: NSObject, NotificareModule {
         NotificareRequest.Builder()
             .put("/user/generatetoken/me")
             .authentication(.bearer(token: credentials.accessToken))
+            .authenticationDelegate(authenticationRenewal)
             .responseDecodable(NotificareInternals.PushAPI.Responses.UserDetailsResponse.self) { result in
                 switch result {
                 case let .success(response):
@@ -361,6 +366,7 @@ public class NotificareAuthentication: NSObject, NotificareModule {
         NotificareRequest.Builder()
             .put("/user/me/add/\(segment.id)")
             .authentication(.bearer(token: credentials.accessToken))
+            .authenticationDelegate(authenticationRenewal)
             .response { result in
                 switch result {
                 case .success:
@@ -385,6 +391,7 @@ public class NotificareAuthentication: NSObject, NotificareModule {
         NotificareRequest.Builder()
             .put("/user/me/remove/\(segment.id)")
             .authentication(.bearer(token: credentials.accessToken))
+            .authenticationDelegate(authenticationRenewal)
             .response { result in
                 switch result {
                 case .success:
@@ -488,6 +495,7 @@ public class NotificareAuthentication: NSObject, NotificareModule {
         NotificareRequest.Builder()
             .put("/user/me/add/\(segmentId)/preference/\(preference.id)")
             .authentication(.bearer(token: credentials.accessToken))
+            .authenticationDelegate(authenticationRenewal)
             .response { result in
                 switch result {
                 case .success:
@@ -517,6 +525,7 @@ public class NotificareAuthentication: NSObject, NotificareModule {
         NotificareRequest.Builder()
             .put("/user/me/remove/\(segmentId)/preference/\(preference.id)")
             .authentication(.bearer(token: credentials.accessToken))
+            .authenticationDelegate(authenticationRenewal)
             .response { result in
                 switch result {
                 case .success:
