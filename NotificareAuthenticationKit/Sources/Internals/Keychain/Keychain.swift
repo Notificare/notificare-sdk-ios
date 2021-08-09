@@ -156,54 +156,6 @@ internal struct Keychain {
             throw KeychainError.unexpectedStatus(status)
         }
     }
-
-//    static func legacy() throws -> Data? {
-//        let service = "\(Bundle.main.bundleIdentifier!)::NXOAuth2AccountStore"
-//
-//        let query: [String: AnyObject] = [
-//            kSecClass as String: kSecClassGenericPassword as AnyObject,
-//            kSecAttrService as String: service as AnyObject,
-//            kSecReturnAttributes as String: kCFBooleanTrue as AnyObject,
-//        ]
-//
-//        // SecItemCopyMatching will attempt to copy the item
-//        // identified by query to the reference itemCopy
-//        var itemCopy: AnyObject?
-//        let status = SecItemCopyMatching(
-//            query as CFDictionary,
-//            &itemCopy
-//        )
-//
-//        // errSecItemNotFound is a special status indicating the
-//        // read item does not exist. Throw itemNotFound so the
-//        // client can determine whether or not to handle
-//        // this case
-//        guard status != errSecItemNotFound else {
-//            // throw KeychainError.itemNotFound
-//            throw KeychainAccessError.unexpected
-//        }
-//
-//        // Any status other than errSecSuccess indicates the
-//        // read operation failed.
-//        guard status == errSecSuccess else {
-//            // throw KeychainError.unexpectedStatus(status)
-//            throw KeychainAccessError.unexpected
-//        }
-//
-//        // This implementation of KeychainInterface requires all
-//        // items to be saved and read as Data. Otherwise,
-//        // invalidItemFormat is thrown
-//        guard let attributes = itemCopy as? [String: AnyObject] else {
-//            // throw KeychainError.invalidItemFormat
-//            throw KeychainAccessError.unexpected
-//        }
-//
-//        guard let data = attributes[kSecAttrGeneric as String] as? Data else {
-//            return nil
-//        }
-//
-//        return data
-//    }
 }
 
 public enum KeychainError: Error {

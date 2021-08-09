@@ -12,6 +12,18 @@ public class NotificareAuthentication: NSObject, NotificareModule {
 
     // MARK: - Notificare Module
 
+    public static func migrate() {
+        if let account = MigrationUtils.getLegacyCredentials() {
+            LocalStorage.credentials = Credentials(
+                accessToken: account.accessToken.accessToken,
+                refreshToken: account.accessToken.refreshToken,
+                expiresIn: 0
+            )
+
+            MigrationUtils.removeLegacyCredentials()
+        }
+    }
+
     public static func configure() {}
 
     public static func launch(_ completion: @escaping (Result<Void, Error>) -> Void) {
