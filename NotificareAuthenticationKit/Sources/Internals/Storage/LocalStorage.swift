@@ -15,6 +15,8 @@ internal enum LocalStorage {
             do {
                 let data = try keychain.get(account: KEY_CREDENTIALS)
                 return try NotificareUtils.jsonDecoder.decode(Credentials.self, from: data)
+            } catch KeychainError.itemNotFound {
+                return nil
             } catch {
                 NotificareLogger.warning("Failed to decode the stored credentials.\n\(error)")
                 return nil
