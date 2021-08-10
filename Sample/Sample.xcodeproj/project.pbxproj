@@ -41,6 +41,8 @@
 		F2F41D8725CD67980010260B /* NotificareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F22650C5258B6E890004F833 /* NotificareKit.framework */; };
 		F2F41D8825CD67980010260B /* NotificareKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F22650C5258B6E890004F833 /* NotificareKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F2F6977226B93D1A00AB663E /* Atlantis in Frameworks */ = {isa = PBXBuildFile; productRef = F2F6977126B93D1A00AB663E /* Atlantis */; };
+		F2F697CC26B9541D00AB663E /* NotificareAuthenticationKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2F697CB26B9541D00AB663E /* NotificareAuthenticationKit.framework */; };
+		F2F697CD26B9541D00AB663E /* NotificareAuthenticationKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F2F697CB26B9541D00AB663E /* NotificareAuthenticationKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +67,7 @@
 				F289F56625B85EC20091AB97 /* NotificareInboxKit.framework in Embed Frameworks */,
 				F216F0B426A8265500F9EF56 /* NotificareLoyaltyKit.framework in Embed Frameworks */,
 				F2ABF34B269CA32500401D3F /* NotificareAssetsKit.framework in Embed Frameworks */,
+				F2F697CD26B9541D00AB663E /* NotificareAuthenticationKit.framework in Embed Frameworks */,
 				F22650CB258B6E900004F833 /* NotificarePushKit.framework in Embed Frameworks */,
 				F2E801D7269D93C300582DB8 /* NotificareScannablesKit.framework in Embed Frameworks */,
 			);
@@ -131,6 +134,8 @@
 		F2F41D7525CD651D0010260B /* NotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2F41D7725CD651D0010260B /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		F2F41D7925CD651D0010260B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F2F697B926B9432D00AB663E /* NotificareAuthentication.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareAuthentication.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F2F697CB26B9541D00AB663E /* NotificareAuthenticationKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareAuthenticationKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,6 +144,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F2E801D6269D93C300582DB8 /* NotificareScannablesKit.framework in Frameworks */,
+				F2F697CC26B9541D00AB663E /* NotificareAuthenticationKit.framework in Frameworks */,
 				F289F56525B85EC20091AB97 /* NotificareInboxKit.framework in Frameworks */,
 				F25B6DCD25CAC67E007BC2C8 /* SDWebImage in Frameworks */,
 				F2ABF34A269CA32500401D3F /* NotificareAssetsKit.framework in Frameworks */,
@@ -165,6 +171,8 @@
 		F251694324D4077D0025B51F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F2F697CB26B9541D00AB663E /* NotificareAuthenticationKit.framework */,
+				F2F697B926B9432D00AB663E /* NotificareAuthentication.framework */,
 				F216F0B226A8265500F9EF56 /* NotificareLoyaltyKit.framework */,
 				F2E801D5269D93C300582DB8 /* NotificareScannablesKit.framework */,
 				F2ABF349269CA32500401D3F /* NotificareAssetsKit.framework */,
@@ -575,11 +583,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y47BY73NFN;
 				INFOPLIST_FILE = Sample/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 3.0.0;
 				NOTIFICARE_APPLICATION_ID = 585702253cad4414df0e3b20;
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -598,11 +607,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y47BY73NFN;
 				INFOPLIST_FILE = Sample/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 3.0.0;
 				NOTIFICARE_APPLICATION_ID = 585702253cad4414df0e3b20;
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";

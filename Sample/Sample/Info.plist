@@ -15,7 +15,7 @@
 	<key>CFBundlePackageType</key>
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -25,6 +25,7 @@
 			<array>
 				<string>re.notifica</string>
 				<string>test.nc$(NOTIFICARE_APPLICATION_ID)</string>
+				<string>nc$(NOTIFICARE_APPLICATION_ID)</string>
 			</array>
 		</dict>
 	</array>
@@ -32,6 +33,8 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NFCReaderUsageDescription</key>
+	<string>We will need access to the device&apos;s NFC reader to unlock new content.</string>
 	<key>NSBonjourServices</key>
 	<array>
 		<string>_Proxyman._tcp</string>
@@ -44,8 +47,6 @@
 	<string>We will need access to the device&apos;s microphone to reply to notifications.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>We may need to access your photos to reply to notifications.</string>
-	<key>NFCReaderUsageDescription</key>
-	<string>We will need access to the device&apos;s NFC reader to unlock new content.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>

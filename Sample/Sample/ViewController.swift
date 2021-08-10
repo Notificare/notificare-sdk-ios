@@ -3,6 +3,7 @@
 //
 
 import NotificareAssetsKit
+import NotificareAuthenticationKit
 import NotificareInboxKit
 import NotificareKit
 import NotificareLoyaltyKit
@@ -138,6 +139,237 @@ class ViewController: UIViewController {
 //                print("Failed to fetch pass.\n\(error)")
 //            }
 //        }
+    }
+
+    @IBAction func onLoginClicked(_: Any) {
+        NotificareAuthentication.shared.login(
+            email: "helder@notifica.re",
+            password: "123456"
+        ) { result in
+            switch result {
+            case .success:
+                print("Done.")
+            case let .failure(error):
+                print("Failed to login.\n\(error)")
+            }
+        }
+    }
+
+    @IBAction func onLogoutClicked(_: Any) {
+        NotificareAuthentication.shared.logout { result in
+            switch result {
+            case .success:
+                print("Done.")
+            case let .failure(error):
+                print("Failed to logout.\n\(error)")
+            }
+        }
+    }
+
+    @IBAction func onFetchUserDetailsClicked(_: Any) {
+        NotificareAuthentication.shared.fetchUserDetails { result in
+            switch result {
+            case let .success(user):
+                print("User details = \(user)")
+            case let .failure(error):
+                print("Failed to login.\n\(error)")
+            }
+        }
+
+        NotificareAuthentication.shared.fetchUserDetails { result in
+            switch result {
+            case let .success(user):
+                print("User details = \(user)")
+            case let .failure(error):
+                print("Failed to login.\n\(error)")
+            }
+        }
+
+        NotificareAuthentication.shared.fetchUserDetails { result in
+            switch result {
+            case let .success(user):
+                print("User details = \(user)")
+            case let .failure(error):
+                print("Failed to login.\n\(error)")
+            }
+        }
+
+        NotificareAuthentication.shared.fetchUserDetails { result in
+            switch result {
+            case let .success(user):
+                print("User details = \(user)")
+            case let .failure(error):
+                print("Failed to login.\n\(error)")
+            }
+        }
+
+        NotificareAuthentication.shared.fetchUserDetails { result in
+            switch result {
+            case let .success(user):
+                print("User details = \(user)")
+            case let .failure(error):
+                print("Failed to login.\n\(error)")
+            }
+        }
+    }
+
+    @IBAction func onFetchUserPreferencesClicked(_: Any) {
+        NotificareAuthentication.shared.fetchUserPreferences { result in
+            switch result {
+            case let .success(preferences):
+                print("User preferences = \(preferences)")
+            case let .failure(error):
+                print("Failed.\n\(error)")
+            }
+        }
+    }
+
+    @IBAction func onFetchUserSegmentsClicked(_: Any) {
+        NotificareAuthentication.shared.fetchUserSegments { result in
+            switch result {
+            case let .success(segments):
+                print("User segments = \(segments)")
+            case let .failure(error):
+                print("Failed.\n\(error)")
+            }
+        }
+    }
+
+    @IBAction func onSendPasswordResetClicked(_: Any) {
+        NotificareAuthentication.shared.sendPasswordReset(email: "helder@notifica.re") { result in
+            switch result {
+            case .success:
+                print("Done.")
+            case let .failure(error):
+                print("Failed.\n\(error)")
+            }
+        }
+    }
+
+    @IBAction func onResetPasswordClicked(_: Any) {
+        NotificareAuthentication.shared.resetPassword("123456", token: "---") { result in
+            switch result {
+            case .success:
+                print("Done.")
+            case let .failure(error):
+                print("Failed.\n\(error)")
+            }
+        }
+    }
+
+    @IBAction func onChangePasswordClicked(_: Any) {
+        NotificareAuthentication.shared.changePassword("123456") { result in
+            switch result {
+            case .success:
+                print("Done.")
+            case let .failure(error):
+                print("Failed.\n\(error)")
+            }
+        }
+    }
+
+    @IBAction func onValidateUserClicked(_: Any) {
+        NotificareAuthentication.shared.validateUser(token: "---") { result in
+            switch result {
+            case .success:
+                print("Done.")
+            case let .failure(error):
+                print("Failed.\n\(error)")
+            }
+        }
+    }
+
+    @IBAction func onGeneratePushEmailClicked(_: Any) {
+        NotificareAuthentication.shared.generatePushEmailAddress { result in
+            switch result {
+            case let .success(user):
+                print("User = \(user)")
+            case let .failure(error):
+                print("Failed.\n\(error)")
+            }
+        }
+    }
+
+    @IBAction func onAddUserSegmentClicked(_: Any) {
+        NotificareAuthentication.shared.fetchUserSegments { result in
+            switch result {
+            case let .success(segments):
+                let segment = segments.first!
+
+                NotificareAuthentication.shared.addUserSegment(segment) { result in
+                    switch result {
+                    case .success:
+                        print("Done.")
+                    case let .failure(error):
+                        print("Failed.\n\(error)")
+                    }
+                }
+            case let .failure(error):
+                print("Failed.\n\(error)")
+            }
+        }
+    }
+
+    @IBAction func onRemoveUserSegmentClicked(_: Any) {
+        NotificareAuthentication.shared.fetchUserSegments { result in
+            switch result {
+            case let .success(segments):
+                let segment = segments.first!
+
+                NotificareAuthentication.shared.removeUserSegment(segment) { result in
+                    switch result {
+                    case .success:
+                        print("Done.")
+                    case let .failure(error):
+                        print("Failed.\n\(error)")
+                    }
+                }
+            case let .failure(error):
+                print("Failed.\n\(error)")
+            }
+        }
+    }
+
+    @IBAction func onAddUserSegmentToPreferenceClicked(_: Any) {
+        NotificareAuthentication.shared.fetchUserPreferences { result in
+            switch result {
+            case let .success(preferences):
+                let preference = preferences.first!
+                let option = preference.options.first!
+
+                NotificareAuthentication.shared.addUserSegmentToPreference(option: option, to: preference) { result in
+                    switch result {
+                    case .success:
+                        print("Done.")
+                    case let .failure(error):
+                        print("Failed.\n\(error)")
+                    }
+                }
+            case let .failure(error):
+                print("Failed.\n\(error)")
+            }
+        }
+    }
+
+    @IBAction func onRemoveUserSegmentFromPreferenceClicked(_: Any) {
+        NotificareAuthentication.shared.fetchUserPreferences { result in
+            switch result {
+            case let .success(preferences):
+                let preference = preferences.first!
+                let option = preference.options.first!
+
+                NotificareAuthentication.shared.removeUserSegmentFromPreference(option: option, from: preference) { result in
+                    switch result {
+                    case .success:
+                        print("Done.")
+                    case let .failure(error):
+                        print("Failed.\n\(error)")
+                    }
+                }
+            case let .failure(error):
+                print("Failed.\n\(error)")
+            }
+        }
     }
 }
 

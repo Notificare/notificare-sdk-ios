@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="s1l-x7-hJj">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19115.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="s1l-x7-hJj">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19107.4"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -17,116 +17,249 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="zFU-PX-emP">
-                                <rect key="frame" x="16" y="104" width="382" height="524"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sBa-2v-aDf">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A5Q-db-eL6">
-                                        <rect key="frame" x="0.0" y="0.0" width="382" height="30"/>
-                                        <state key="normal" title="Launch"/>
-                                        <connections>
-                                            <action selector="onLaunchClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Ak8-Kb-e7O"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CdT-xx-PMa">
-                                        <rect key="frame" x="0.0" y="38" width="382" height="30"/>
-                                        <state key="normal" title="Un-launch"/>
-                                        <connections>
-                                            <action selector="onUnlaunchClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="LwP-6L-ha3"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y32-dL-mz9">
-                                        <rect key="frame" x="0.0" y="76" width="382" height="30"/>
-                                        <state key="normal" title="Enable remote notifications"/>
-                                        <connections>
-                                            <action selector="onEnableRemoteNotificationsClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="9sD-LJ-tcr"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lTy-R0-51C">
-                                        <rect key="frame" x="0.0" y="114" width="382" height="30"/>
-                                        <state key="normal" title="Disable remote notifications"/>
-                                        <connections>
-                                            <action selector="onDisableRemoteNotificationsClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Wde-gj-7pp"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ShK-q5-6uN">
-                                        <rect key="frame" x="0.0" y="152" width="382" height="30"/>
-                                        <state key="normal" title="Send custom event"/>
-                                        <connections>
-                                            <action selector="onSendCustomEventClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="aNM-uQ-Gw2"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p0R-FR-967">
-                                        <rect key="frame" x="0.0" y="190" width="382" height="30"/>
-                                        <state key="normal" title="Register with user"/>
-                                        <connections>
-                                            <action selector="onRegisterWithUserClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="4WW-50-eXE"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vfN-nL-dSt">
-                                        <rect key="frame" x="0.0" y="228" width="382" height="30"/>
-                                        <state key="normal" title="Register anonymous"/>
-                                        <connections>
-                                            <action selector="onRegisterAnonymousClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="CJa-eE-sZu"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0u2-wm-NVF">
-                                        <rect key="frame" x="0.0" y="266" width="382" height="30"/>
-                                        <state key="normal" title="Fetch user data"/>
-                                        <connections>
-                                            <action selector="onFetchUserDataClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="JLA-Ek-PZ0"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W0T-0o-yzD" userLabel="List inbox items">
-                                        <rect key="frame" x="0.0" y="304" width="382" height="30"/>
-                                        <state key="normal" title="List inbox items"/>
-                                        <connections>
-                                            <action selector="onListInboxItemsClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8zb-iB-a5W"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jao-il-I8z">
-                                        <rect key="frame" x="0.0" y="342" width="382" height="30"/>
-                                        <state key="normal" title="Refresh badge"/>
-                                        <connections>
-                                            <action selector="onRefreshBadgeClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="GES-c3-l5M"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eDr-pX-pXB">
-                                        <rect key="frame" x="0.0" y="380" width="382" height="30"/>
-                                        <state key="normal" title="Open inbox"/>
-                                        <connections>
-                                            <segue destination="yCD-Ua-l8h" kind="show" id="p4V-Yu-FlZ"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qnz-ce-41q">
-                                        <rect key="frame" x="0.0" y="418" width="382" height="30"/>
-                                        <state key="normal" title="Fetch assets"/>
-                                        <connections>
-                                            <action selector="onFetchAssetsClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7ee-0a-nld"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZAX-2A-uFY">
-                                        <rect key="frame" x="0.0" y="456" width="382" height="30"/>
-                                        <state key="normal" title="Start scannable session"/>
-                                        <connections>
-                                            <action selector="onStartScannableSessionClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jbZ-jr-XPz"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u97-jh-ZI1">
-                                        <rect key="frame" x="0.0" y="494" width="382" height="30"/>
-                                        <state key="normal" title="Fetch pass"/>
-                                        <connections>
-                                            <action selector="onFetchPassClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="WOn-f0-ZJI"/>
-                                        </connections>
-                                    </button>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="zFU-PX-emP">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="1147.5"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A5Q-db-eL6">
+                                                <rect key="frame" x="0.0" y="0.0" width="414" height="30"/>
+                                                <state key="normal" title="Launch"/>
+                                                <connections>
+                                                    <action selector="onLaunchClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Ak8-Kb-e7O"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CdT-xx-PMa">
+                                                <rect key="frame" x="0.0" y="38" width="414" height="30"/>
+                                                <state key="normal" title="Un-launch"/>
+                                                <connections>
+                                                    <action selector="onUnlaunchClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="LwP-6L-ha3"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y32-dL-mz9">
+                                                <rect key="frame" x="0.0" y="76" width="414" height="30"/>
+                                                <state key="normal" title="Enable remote notifications"/>
+                                                <connections>
+                                                    <action selector="onEnableRemoteNotificationsClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="9sD-LJ-tcr"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lTy-R0-51C">
+                                                <rect key="frame" x="0.0" y="114" width="414" height="30"/>
+                                                <state key="normal" title="Disable remote notifications"/>
+                                                <connections>
+                                                    <action selector="onDisableRemoteNotificationsClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Wde-gj-7pp"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ShK-q5-6uN">
+                                                <rect key="frame" x="0.0" y="152" width="414" height="30"/>
+                                                <state key="normal" title="Send custom event"/>
+                                                <connections>
+                                                    <action selector="onSendCustomEventClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="aNM-uQ-Gw2"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p0R-FR-967">
+                                                <rect key="frame" x="0.0" y="190" width="414" height="30"/>
+                                                <state key="normal" title="Register with user"/>
+                                                <connections>
+                                                    <action selector="onRegisterWithUserClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="4WW-50-eXE"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vfN-nL-dSt">
+                                                <rect key="frame" x="0.0" y="228" width="414" height="30"/>
+                                                <state key="normal" title="Register anonymous"/>
+                                                <connections>
+                                                    <action selector="onRegisterAnonymousClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="CJa-eE-sZu"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0u2-wm-NVF">
+                                                <rect key="frame" x="0.0" y="266" width="414" height="30"/>
+                                                <state key="normal" title="Fetch user data"/>
+                                                <connections>
+                                                    <action selector="onFetchUserDataClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="JLA-Ek-PZ0"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W0T-0o-yzD" userLabel="List inbox items">
+                                                <rect key="frame" x="0.0" y="304" width="414" height="30"/>
+                                                <state key="normal" title="List inbox items"/>
+                                                <connections>
+                                                    <action selector="onListInboxItemsClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8zb-iB-a5W"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jao-il-I8z">
+                                                <rect key="frame" x="0.0" y="342" width="414" height="30"/>
+                                                <state key="normal" title="Refresh badge"/>
+                                                <connections>
+                                                    <action selector="onRefreshBadgeClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="GES-c3-l5M"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eDr-pX-pXB">
+                                                <rect key="frame" x="0.0" y="380" width="414" height="30"/>
+                                                <state key="normal" title="Open inbox"/>
+                                                <connections>
+                                                    <segue destination="yCD-Ua-l8h" kind="show" id="p4V-Yu-FlZ"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qnz-ce-41q">
+                                                <rect key="frame" x="0.0" y="418" width="414" height="30"/>
+                                                <state key="normal" title="Fetch assets"/>
+                                                <connections>
+                                                    <action selector="onFetchAssetsClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7ee-0a-nld"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZAX-2A-uFY">
+                                                <rect key="frame" x="0.0" y="456" width="414" height="30"/>
+                                                <state key="normal" title="Start scannable session"/>
+                                                <connections>
+                                                    <action selector="onStartScannableSessionClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jbZ-jr-XPz"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u97-jh-ZI1">
+                                                <rect key="frame" x="0.0" y="494" width="414" height="30"/>
+                                                <state key="normal" title="Fetch pass"/>
+                                                <connections>
+                                                    <action selector="onFetchPassClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="WOn-f0-ZJI"/>
+                                                </connections>
+                                            </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Authentication" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V0S-RK-ffi">
+                                                <rect key="frame" x="0.0" y="532" width="414" height="20.5"/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ktj-EJ-PUh">
+                                                <rect key="frame" x="0.0" y="560.5" width="414" height="34.5"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain" title="Login"/>
+                                                <connections>
+                                                    <action selector="onLoginClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6bz-lx-L67"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fed-ND-0kj">
+                                                <rect key="frame" x="0.0" y="603" width="414" height="34.5"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain" title="Logout"/>
+                                                <connections>
+                                                    <action selector="onLogoutClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="oUD-Qt-E30"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6v5-nB-uH3">
+                                                <rect key="frame" x="0.0" y="645.5" width="414" height="34.5"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain" title="Fetch user details"/>
+                                                <connections>
+                                                    <action selector="onFetchUserDetailsClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="uBA-Ba-sQK"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jw4-Gi-vgI">
+                                                <rect key="frame" x="0.0" y="688" width="414" height="34.5"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain" title="Fetch user preferences"/>
+                                                <connections>
+                                                    <action selector="onFetchUserPreferencesClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="9x2-zU-UKg"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EgJ-2t-CCp">
+                                                <rect key="frame" x="0.0" y="730.5" width="414" height="34.5"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain" title="Fetch user segments"/>
+                                                <connections>
+                                                    <action selector="onFetchUserSegmentsClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="EmI-9C-flh"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hFx-jI-MUC">
+                                                <rect key="frame" x="0.0" y="773" width="414" height="34.5"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain" title="Send password reset"/>
+                                                <connections>
+                                                    <action selector="onSendPasswordResetClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="sCy-7L-Rwi"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nx3-Ai-wqx">
+                                                <rect key="frame" x="0.0" y="815.5" width="414" height="34.5"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain" title="Reset password"/>
+                                                <connections>
+                                                    <action selector="onResetPasswordClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Hpy-f2-wOf"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hZd-mL-way">
+                                                <rect key="frame" x="0.0" y="858" width="414" height="34.5"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain" title="Change password"/>
+                                                <connections>
+                                                    <action selector="onChangePasswordClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="fit-0K-MZN"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cwp-ao-g87">
+                                                <rect key="frame" x="0.0" y="900.5" width="414" height="34.5"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain" title="Validate user"/>
+                                                <connections>
+                                                    <action selector="onValidateUserClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="MtQ-TG-m7T"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FvT-Ih-mWL">
+                                                <rect key="frame" x="0.0" y="943" width="414" height="34.5"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain" title="Generate push email"/>
+                                                <connections>
+                                                    <action selector="onGeneratePushEmailClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="4Ut-DI-Zy7"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TSE-sV-7E7">
+                                                <rect key="frame" x="0.0" y="985.5" width="414" height="34.5"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain" title="Add user segment"/>
+                                                <connections>
+                                                    <action selector="onAddUserSegmentClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="lWT-79-eV5"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GCr-um-cNz">
+                                                <rect key="frame" x="0.0" y="1028" width="414" height="34.5"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain" title="Remove user segment"/>
+                                                <connections>
+                                                    <action selector="onRemoveUserSegmentClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="T9l-YI-AOS"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RyA-XS-e9j">
+                                                <rect key="frame" x="0.0" y="1070.5" width="414" height="34.5"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain" title="Add user segment to preference"/>
+                                                <connections>
+                                                    <action selector="onAddUserSegmentToPreferenceClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6xF-A5-1KC"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xgp-yb-Zf7">
+                                                <rect key="frame" x="0.0" y="1113" width="414" height="34.5"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain" title="Remove user segment from preference"/>
+                                                <connections>
+                                                    <action selector="onRemoveUserSegmentFromPreferenceClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="2ba-jc-lao"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
                                 </subviews>
-                            </stackView>
+                                <constraints>
+                                    <constraint firstItem="zFU-PX-emP" firstAttribute="top" secondItem="KGx-hG-d2d" secondAttribute="top" id="Afh-3P-oCt"/>
+                                    <constraint firstItem="zFU-PX-emP" firstAttribute="leading" secondItem="KGx-hG-d2d" secondAttribute="leading" id="PSI-3s-0K0"/>
+                                    <constraint firstItem="zFU-PX-emP" firstAttribute="trailing" secondItem="KGx-hG-d2d" secondAttribute="trailing" id="eqQ-yx-DS4"/>
+                                    <constraint firstItem="zFU-PX-emP" firstAttribute="bottom" secondItem="KGx-hG-d2d" secondAttribute="bottom" id="er4-je-SIy"/>
+                                    <constraint firstItem="zFU-PX-emP" firstAttribute="width" secondItem="kNw-Aq-uoy" secondAttribute="width" id="z5Y-LF-HhU"/>
+                                </constraints>
+                                <viewLayoutGuide key="contentLayoutGuide" id="KGx-hG-d2d"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="kNw-Aq-uoy"/>
+                            </scrollView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="zFU-PX-emP" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="16" id="87S-n0-Qzt"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="zFU-PX-emP" secondAttribute="trailing" constant="16" id="X5G-As-vxr"/>
-                            <constraint firstItem="zFU-PX-emP" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="mgR-y0-6bZ"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="top" secondItem="sBa-2v-aDf" secondAttribute="top" id="69E-XP-hQg"/>
+                            <constraint firstItem="sBa-2v-aDf" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="TeS-G5-BgG"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="leading" secondItem="sBa-2v-aDf" secondAttribute="leading" id="VcT-MT-Lc1"/>
+                            <constraint firstItem="sBa-2v-aDf" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="nIN-3k-jWK"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Sample" id="Wfn-sm-8re"/>
@@ -222,7 +355,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="inbox-item" rowHeight="120" id="SU5-6u-EmW" customClass="InboxItemTableViewCell" customModule="Sample" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="24.5" width="414" height="120"/>
+                                <rect key="frame" x="0.0" y="50" width="414" height="120"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="SU5-6u-EmW" id="24r-Sz-JiM">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="120"/>
@@ -237,22 +370,22 @@
                                             </constraints>
                                         </imageView>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="i7b-6m-X3d">
-                                            <rect key="frame" x="116" y="38" width="35.5" height="44"/>
+                                            <rect key="frame" x="116" y="36" width="41.5" height="48.5"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Inbox" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T5p-lt-VzP">
-                                                    <rect key="frame" x="0.0" y="0.0" width="35.5" height="17"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Inbox" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T5p-lt-VzP">
+                                                    <rect key="frame" x="0.0" y="0.0" width="41.5" height="20.5"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cGv-4m-IgK">
-                                                    <rect key="frame" x="0.0" y="17" width="35.5" height="13.5"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cGv-4m-IgK">
+                                                    <rect key="frame" x="0.0" y="20.5" width="41.5" height="14.5"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                                                     <color key="textColor" systemColor="systemGrayColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ftw-YO-fCB">
-                                                    <rect key="frame" x="0.0" y="30.5" width="35.5" height="13.5"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ftw-YO-fCB">
+                                                    <rect key="frame" x="0.0" y="35" width="41.5" height="13.5"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleCaption2"/>
                                                     <color key="textColor" systemColor="systemGrayColor"/>
                                                     <nil key="highlightedColor"/>
@@ -260,16 +393,16 @@
                                             </subviews>
                                         </stackView>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="bottom" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="juC-Gj-9uo">
-                                            <rect key="frame" x="365.5" y="45.5" width="28.5" height="29.5"/>
+                                            <rect key="frame" x="363" y="45" width="31" height="30.5"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yXU-AD-5eZ">
-                                                    <rect key="frame" x="0.0" y="0.0" width="28.5" height="13.5"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="31" height="14.5"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                                                     <color key="textColor" systemColor="systemGrayColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="TvO-HZ-R9p">
-                                                    <rect key="frame" x="20.5" y="22" width="8" height="7"/>
+                                                    <rect key="frame" x="23" y="23" width="8" height="7"/>
                                                     <color key="tintColor" systemColor="systemBlueColor"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="8" id="Av8-tN-eg3"/>

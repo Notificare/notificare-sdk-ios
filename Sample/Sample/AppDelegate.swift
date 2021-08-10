@@ -3,6 +3,7 @@
 //
 
 // import Atlantis
+import NotificareAuthenticationKit
 import NotificareInboxKit
 import NotificareKit
 import NotificareLoyaltyKit
@@ -41,6 +42,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_: UIApplication, open url: URL, options _: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
         if Notificare.shared.handleTestDeviceUrl(url) || Notificare.shared.handleDynamicLinkUrl(url) {
+            return true
+        }
+
+        if let token = NotificareAuthentication.shared.parsePasswordResetToken(url) {
+            print("---> Password reset token = \(token)")
+            return true
+        }
+
+        if let token = NotificareAuthentication.shared.parseValidateUserToken(url) {
+            print("---> Validate user token = \(token)")
             return true
         }
 
