@@ -14,6 +14,8 @@
 		F2696AB326C2B43C002EA653 /* PushAPI+Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2696AB226C2B43C002EA653 /* PushAPI+Models.swift */; };
 		F2696AB526C2B446002EA653 /* PushAPI+Payloads.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2696AB426C2B446002EA653 /* PushAPI+Payloads.swift */; };
 		F2696AB726C2B44F002EA653 /* PushAPI+Responses.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2696AB626C2B44F002EA653 /* PushAPI+Responses.swift */; };
+		F26E6DCF26C44BE500FA67CB /* NotificareRegion+CLLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26E6DCE26C44BE500FA67CB /* NotificareRegion+CLLocation.swift */; };
+		F26E6DD126C44C4A00FA67CB /* NotificareRegion.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26E6DD026C44C4A00FA67CB /* NotificareRegion.swift */; };
 		F288C1F826C407D600B6C83C /* LocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F288C1F726C407D600B6C83C /* LocalStorage.swift */; };
 		F289F5D425B8614B0091AB97 /* NotificareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F289F5D125B8614B0091AB97 /* NotificareKit.framework */; };
 		F289F5D525B8614B0091AB97 /* NotificareKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F289F5D125B8614B0091AB97 /* NotificareKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -56,6 +58,8 @@
 		F2696AB226C2B43C002EA653 /* PushAPI+Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PushAPI+Models.swift"; sourceTree = "<group>"; };
 		F2696AB426C2B446002EA653 /* PushAPI+Payloads.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PushAPI+Payloads.swift"; sourceTree = "<group>"; };
 		F2696AB626C2B44F002EA653 /* PushAPI+Responses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PushAPI+Responses.swift"; sourceTree = "<group>"; };
+		F26E6DCE26C44BE500FA67CB /* NotificareRegion+CLLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificareRegion+CLLocation.swift"; sourceTree = "<group>"; };
+		F26E6DD026C44C4A00FA67CB /* NotificareRegion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareRegion.swift; sourceTree = "<group>"; };
 		F288C1F726C407D600B6C83C /* LocalStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorage.swift; sourceTree = "<group>"; };
 		F289F5D025B8614B0091AB97 /* NotificareCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F289F5D125B8614B0091AB97 /* NotificareKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -137,6 +141,7 @@
 		F2696AAE26C2B41B002EA653 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				F26E6DD026C44C4A00FA67CB /* NotificareRegion.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -146,6 +151,7 @@
 			children = (
 				F2696AB026C2B426002EA653 /* Network */,
 				F288C1F626C407BE00B6C83C /* Storage */,
+				F26E6DCE26C44BE500FA67CB /* NotificareRegion+CLLocation.swift */,
 			);
 			path = Internals;
 			sourceTree = "<group>";
@@ -309,9 +315,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F26E6DD126C44C4A00FA67CB /* NotificareRegion.swift in Sources */,
 				F2696AB326C2B43C002EA653 /* PushAPI+Models.swift in Sources */,
 				F288C1F826C407D600B6C83C /* LocalStorage.swift in Sources */,
 				F2696AB726C2B44F002EA653 /* PushAPI+Responses.swift in Sources */,
+				F26E6DCF26C44BE500FA67CB /* NotificareRegion+CLLocation.swift in Sources */,
 				F2696AB526C2B446002EA653 /* PushAPI+Payloads.swift in Sources */,
 				F2696AAA26C275C5002EA653 /* NotificareGeo.swift in Sources */,
 			);
