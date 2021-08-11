@@ -7,10 +7,13 @@ import Foundation
 import NotificareKit
 import UIKit
 
+private let MAX_MONITORED_REGIONS = 10
+
 public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegate {
     public static let shared = NotificareGeo()
 
     private var locationManager: CLLocationManager!
+    private var processingLocationUpdate = false
 
     private var hasReducedAccuracy: Bool {
         if #available(iOS 14.0, *) {
@@ -75,12 +78,46 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
     // MARK: - Public API
 
     public var locationServicesEnabled: Bool {
-        false
+        LocalStorage.locationServicesEnabled && CLLocationManager.locationServicesEnabled()
     }
 
-    public func enableLocationUpdates() {}
+    public func enableLocationUpdates() {
+        do {
+            try checkPrerequisites()
+            try checkPlistPrerequisites()
+        } catch {
+            return
+        }
 
-    public func disableLocationUpdates() {}
+        let status = CLLocationManager.authorizationStatus()
+
+        switch status {
+        case .notDetermined:
+            NotificareLogger.warning("Location permission not determined. You must request permissions before enabling location updates.")
+
+        case .restricted, .denied:
+            handleLocationServicesUnauthorized()
+
+        case .authorizedWhenInUse:
+            handleLocationServicesAuthorized(monitorSignificantLocationChanges: false)
+
+        case .authorizedAlways:
+            handleLocationServicesAuthorized(monitorSignificantLocationChanges: true)
+
+        @unknown default:
+            NotificareLogger.warning("Unsupported authorization status: \(status)")
+        }
+    }
+
+    public func disableLocationUpdates() {
+        do {
+            try checkPrerequisites()
+        } catch {
+            return
+        }
+
+        //
+    }
 
     // MARK: - Private API
 
@@ -116,9 +153,109 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
         }
     }
 
-    private func handleLocationServicesUnauthorized() {}
+    private func handleLocationServicesUnauthorized() {
+        // TODO: handleLocationServicesUnauthorized()
 
-    private func handleLocationServicesAuthorized(monitorSignificantLocationChanges _: Bool) {}
+        // NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
+        // [settings setObject:@"none" forKey:kNotificareLocationServicesAuthStatus];
+        // [settings setBool:NO forKey:kNotificareAllowedLocationServices];
+        // if ( [settings synchronize] ) {
+        //     [[[NotificareDeviceManager shared] device] setAllowedLocationServices:NO];
+        //     [[[NotificareDeviceManager shared] device] setLocationServicesAuthStatus:@"none"];
+        //     //No authorization or restricted, let's save this in the device
+        //     [[NotificareDeviceManager shared] clearDeviceLocation:^(NotificareDevice * _Nonnull response) {
+        //         [[NotificareLogging shared] nLog:@"Notificare: Device Location cleared"];
+        //     } errorHandler:^(NSError * _Nonnull response) {
+        //         [[NotificareLogging shared] nLog:@"Notificare: Failed to clear Device Location"];
+        //     }];
+        // }
+    }
+
+    private func handleLocationServicesAuthorized(monitorSignificantLocationChanges: Bool) {
+        NotificareLogger.debug("Requesting user location. This might take a while. Please wait...")
+        locationManager.requestLocation()
+
+        if monitorSignificantLocationChanges, CLLocationManager.significantLocationChangeMonitoringAvailable() {
+            NotificareLogger.debug("Started monitoring significant location changes.")
+            locationManager.startMonitoringSignificantLocationChanges()
+        }
+
+        if monitorSignificantLocationChanges, Notificare.shared.options?.visitsApiEnabled == true, CLLocationManager.headingAvailable() {
+            NotificareLogger.debug("Started monitoring visits.")
+            locationManager.startMonitoringVisits()
+        }
+
+        if Notificare.shared.options?.headingApiEnabled == true, CLLocationManager.headingAvailable() {
+            NotificareLogger.debug("Started updating heading.")
+            locationManager.startUpdatingHeading()
+        }
+
+        // TODO: checkBluetoothEnabled()
+    }
+
+    private func saveLocation(_ location: CLLocation, _ completion: @escaping () -> Void) {
+        let geocoder = CLGeocoder()
+        geocoder.reverseGeocodeLocation(location) { placemarks, error in
+            if let error = error {
+                NotificareLogger.warning("Failed to reverse geocode location.\n\(error)")
+                completion()
+                return
+            }
+
+            guard let placemark = placemarks?.first,
+                  let device = Notificare.shared.deviceManager.currentDevice
+            else {
+                completion()
+                return
+            }
+
+            let payload = NotificareInternals.PushAPI.Payloads.UpdateDeviceLocation(
+                latitude: location.coordinate.latitude,
+                longitude: location.coordinate.longitude,
+                altitude: location.altitude,
+                locationAccuracy: location.horizontalAccuracy >= 0 ? location.horizontalAccuracy : nil,
+                speed: location.speed >= 0 ? location.speed : nil,
+                course: location.course >= 0 ? location.course : nil,
+                country: placemark.isoCountryCode,
+                floor: location.floor?.level,
+                locationServicesAuthStatus: self.authorizationMode,
+                locationServicesAccuracyAuth: self.accuracyMode
+            )
+
+            NotificareRequest.Builder()
+                .put("/device/\(device.id)", body: payload)
+                .response { result in
+                    switch result {
+                    case .success:
+                        NotificareLogger.info("Updated location to \(placemark.name ?? "---").")
+                    case let .failure(error):
+                        NotificareLogger.error("Failed to save location to \(placemark.name ?? "---").\n\(error)")
+                    }
+
+                    completion()
+                }
+        }
+    }
+
+    private func loadNearestRegions(_ location: CLLocation, _ completion: @escaping () -> Void) {
+        NotificareRequest.Builder()
+            .get("region/bylocation/\(location.coordinate.latitude)/\(location.coordinate.longitude)")
+            .responseDecodable(NotificareInternals.PushAPI.Responses.FetchRegions.self) { result in
+                switch result {
+                case let .success(response):
+                    let regions = Array(response.regions.prefix(MAX_MONITORED_REGIONS))
+                    self.monitorRegions(regions)
+                case let .failure(error):
+                    NotificareLogger.error("Failed to load nearest regions.\n\(error)")
+                }
+
+                completion()
+            }
+    }
+
+    private func monitorRegions(_ regions: [NotificareInternals.PushAPI.Models.Region]) {
+        _ = regions
+    }
 
     // MARK: - NotificationCenter events
 
@@ -140,13 +277,41 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
     }
 
     public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        _ = manager
-        _ = locations
+        guard !processingLocationUpdate, let location = locations.last else {
+            return
+        }
+
+        NotificareLogger.info("Received a location update. Processing...")
+        processingLocationUpdate = true
+
+        saveLocation(location) {
+            if #available(iOS 14.0, *) {
+                // Do not monitor regions unless we have full accuracy and always auth.
+                guard manager.accuracyAuthorization == .fullAccuracy, manager.authorizationStatus == .authorizedAlways else {
+                    // Unlock location updates.
+                    self.processingLocationUpdate = false
+
+                    return
+                }
+            }
+
+            // Load the nearest regions.
+            self.loadNearestRegions(location) {
+                // Unlock location updates.
+                self.processingLocationUpdate = false
+            }
+
+            // Add this location to the region session.
+            // [self updateRegionSessionLocations:location];
+        }
     }
 
-    public func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        _ = manager
-        _ = error
+    public func locationManager(_: CLLocationManager, didFailWithError error: Error) {
+        if let error = error as? CLError, error.code == .locationUnknown || error.code == .network {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.enableLocationUpdates()
+            }
+        }
     }
 
     // MARK: - Internals
