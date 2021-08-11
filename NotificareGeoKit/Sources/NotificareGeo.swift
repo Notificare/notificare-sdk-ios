@@ -243,7 +243,10 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
             .responseDecodable(NotificareInternals.PushAPI.Responses.FetchRegions.self) { result in
                 switch result {
                 case let .success(response):
-                    let regions = Array(response.regions.prefix(MAX_MONITORED_REGIONS))
+                    let regions = response.regions
+                        .prefix(MAX_MONITORED_REGIONS)
+                        .map { $0.toModel() }
+
                     self.monitorRegions(regions)
                 case let .failure(error):
                     NotificareLogger.error("Failed to load nearest regions.\n\(error)")
@@ -253,8 +256,22 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
             }
     }
 
-    private func monitorRegions(_ regions: [NotificareInternals.PushAPI.Models.Region]) {
-        _ = regions
+    private func monitorRegions(_ regions: [NotificareRegion]) {
+        locationManager.monitoredRegions.forEach { monitoredRegion in
+            NotificareLogger.info("Monitored region = \(monitoredRegion.identifier)")
+
+            if !regions.contains(where: { $0.id == monitoredRegion.identifier }) {
+                NotificareLogger.info("Stopped monitoring region '\(monitoredRegion.identifier)'.")
+                locationManager.stopMonitoring(for: monitoredRegion)
+            }
+        }
+
+        regions.forEach { region in
+            if !locationManager.monitoredRegions.contains(where: { $0.identifier == region.id }) {
+                NotificareLogger.info("Started monitoring region '\(region.name)'.")
+                locationManager.startMonitoring(for: region.toCLRegion(with: locationManager))
+            }
+        }
     }
 
     // MARK: - NotificationCenter events
@@ -355,6 +372,40 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
                 self.enableLocationUpdates()
             }
         }
+    }
+
+    public func locationManager(_: CLLocationManager, didEnterRegion region: CLRegion) {
+        NotificareLogger.info("--> Region enter = \(region.identifier)")
+
+        let content = UNMutableNotificationContent()
+        content.title = "Region enter"
+        content.body = region.identifier
+        content.sound = .default
+
+        let request = UNNotificationRequest(
+            identifier: region.identifier,
+            content: content,
+            trigger: UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+        )
+
+        UNUserNotificationCenter.current().add(request) { _ in }
+    }
+
+    public func locationManager(_: CLLocationManager, didExitRegion region: CLRegion) {
+        NotificareLogger.info("--> Region exit = \(region.identifier)")
+
+        let content = UNMutableNotificationContent()
+        content.title = "Region exit"
+        content.body = region.identifier
+        content.sound = .default
+
+        let request = UNNotificationRequest(
+            identifier: region.identifier,
+            content: content,
+            trigger: UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+        )
+
+        UNUserNotificationCenter.current().add(request) { _ in }
     }
 
     // MARK: - Internals
