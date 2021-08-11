@@ -23,7 +23,7 @@ internal extension NotificareInternals.PushAPI.Models {
 
         struct AdvancedGeometry: Decodable {
             let type: String
-            let coordinates: [[Double]]
+            let coordinates: [[[Double]]]
         }
 
         func toModel() -> NotificareRegion {
@@ -37,10 +37,14 @@ internal extension NotificareInternals.PushAPI.Models {
                         longitude: geometry.coordinates[0]
                     )
                 ),
-                advancedGeometry: advancedGeometry.map { geometry in
-                    NotificareRegion.AdvancedGeometry(
+                advancedGeometry: advancedGeometry.flatMap { geometry in
+                    guard let coordinates = geometry.coordinates.first else {
+                        return nil
+                    }
+
+                    return NotificareRegion.AdvancedGeometry(
                         type: geometry.type,
-                        coordinates: geometry.coordinates.map { coordinates in
+                        coordinates: coordinates.map { coordinates in
                             NotificareRegion.Coordinate(
                                 latitude: coordinates[1],
                                 longitude: coordinates[0]
