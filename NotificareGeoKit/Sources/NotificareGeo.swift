@@ -50,6 +50,18 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
             NotificareLogger.debug("Using Background Location Updates background mode.")
             NotificareGeo.shared.locationManager.allowsBackgroundLocationUpdates = true
         }
+
+        // Listen to application did become active events.
+        NotificationCenter.default.addObserver(NotificareGeo.shared,
+                                               selector: #selector(onApplicationDidBecomeActiveNotification(_:)),
+                                               name: UIApplication.didBecomeActiveNotification,
+                                               object: nil)
+
+        // Listen to application will resign active events.
+        NotificationCenter.default.addObserver(NotificareGeo.shared,
+                                               selector: #selector(onApplicationWillResignActiveNotification(_:)),
+                                               name: UIApplication.willResignActiveNotification,
+                                               object: nil)
     }
 
     public static func launch(_ completion: @escaping (Result<Void, Error>) -> Void) {
