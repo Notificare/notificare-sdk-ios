@@ -89,6 +89,9 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
             return
         }
 
+        // Keep track of the location services status.
+        LocalStorage.locationServicesEnabled = true
+
         let status = CLLocationManager.authorizationStatus()
 
         switch status {
@@ -112,9 +115,13 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
     public func disableLocationUpdates() {
         do {
             try checkPrerequisites()
+            try checkPlistPrerequisites()
         } catch {
             return
         }
+
+        // Keep track of the location services status.
+        LocalStorage.locationServicesEnabled = true
 
         //
     }
