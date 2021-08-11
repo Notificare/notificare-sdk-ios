@@ -10,11 +10,22 @@ import UIKit
 public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegate {
     public static let shared = NotificareGeo()
 
+    private var locationManager: CLLocationManager!
+
     // MARK: - Notificare Module
 
     public static func migrate() {}
 
-    public static func configure() {}
+    public static func configure() {
+        NotificareGeo.shared.locationManager = CLLocationManager()
+        NotificareGeo.shared.locationManager?.delegate = NotificareGeo.shared
+        NotificareGeo.shared.locationManager?.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+
+        if let backgroundModes = Bundle.main.infoDictionary?["UIBackgroundModes"] as? [String], backgroundModes.contains("location") {
+            NotificareLogger.debug("Using Background Location Updates background mode.")
+            NotificareGeo.shared.locationManager.allowsBackgroundLocationUpdates = true
+        }
+    }
 
     public static func launch(_ completion: @escaping (Result<Void, Error>) -> Void) {
         completion(.success(()))
