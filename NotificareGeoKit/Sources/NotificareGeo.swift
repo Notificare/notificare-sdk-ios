@@ -12,6 +12,31 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
 
     private var locationManager: CLLocationManager!
 
+    private var hasReducedAccuracy: Bool {
+        if #available(iOS 14.0, *) {
+            return locationManager.accuracyAuthorization == .reducedAccuracy
+        }
+
+        return false
+    }
+
+    private var authorizationMode: AuthorizationMode {
+        let status = CLLocationManager.authorizationStatus()
+
+        switch status {
+        case .authorizedAlways:
+            return .always
+        case .authorizedWhenInUse:
+            return .use
+        default:
+            return .none
+        }
+    }
+
+    private var accuracyMode: AccuracyMode {
+        hasReducedAccuracy ? .reduced : .full
+    }
+
     // MARK: - Notificare Module
 
     public static func migrate() {}
