@@ -30,6 +30,7 @@ public enum NotificareDefinitions {
         case assets = "NotificareAssetsKit.NotificareAssets"
         case scannables = "NotificareScannablesKit.NotificareScannables"
         case authentication = "NotificareAuthenticationKit.NotificareAuthentication"
+        case geo = "NotificareGeoKit.NotificareGeo"
 
         public var isAvailable: Bool {
             NSClassFromString(rawValue) != nil
