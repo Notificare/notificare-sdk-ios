@@ -84,9 +84,37 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
 
     // MARK: - Private API
 
-    private func checkPrerequisites() throws {}
+    private func checkPrerequisites() throws {
+        if !Notificare.shared.isReady {
+            NotificareLogger.warning("Notificare is not ready yet.")
+            throw NotificareError.notReady
+        }
 
-    private func checkPlistPrerequisites() throws {}
+        guard let application = Notificare.shared.application else {
+            NotificareLogger.warning("Notificare application is not yet available.")
+            throw NotificareError.applicationUnavailable
+        }
+
+        guard application.services["locationServices"] == true else {
+            NotificareLogger.warning("Notificare location functionality is not enabled.")
+            throw NotificareError.serviceUnavailable(module: "locationServices")
+        }
+    }
+
+    private func checkPlistPrerequisites() throws {
+        guard
+            Bundle.main.object(forInfoDictionaryKey: "NSLocationAlwaysAndWhenInUseUsageDescription") != nil,
+            Bundle.main.object(forInfoDictionaryKey: "NSLocationAlwaysUsageDescription") != nil,
+            Bundle.main.object(forInfoDictionaryKey: "NSLocationWhenInUseUsageDescription") != nil
+        else {
+            NotificareLogger.warning("/==================================================================================/")
+            NotificareLogger.warning("We've detected that you did not add mandatory Info.plist entries for location services.")
+            NotificareLogger.warning("Please add a text explaning why you need location updates in \"NSLocationAlwaysAndWhenInUseUsageDescription\", \"NSLocationAlwaysUsageDescription\" and \"NSLocationWhenInUseUsageDescription\" entries of your app's Info.plist before proceeding.")
+            NotificareLogger.warning("/==================================================================================/")
+
+            throw NotificareGeoError.missingPlistEntries
+        }
+    }
 
     private func handleLocationServicesUnauthorized() {}
 
@@ -135,4 +163,6 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
     }
 }
 
-public enum NotificareGeoError: Error {}
+public enum NotificareGeoError: Error {
+    case missingPlistEntries
+}
