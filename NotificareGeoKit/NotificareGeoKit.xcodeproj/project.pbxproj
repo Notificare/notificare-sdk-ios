@@ -11,6 +11,9 @@
 		F258DD7F24BC4E95006F9ABD /* LocationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DD7E24BC4E95006F9ABD /* LocationTests.swift */; };
 		F258DD8124BC4E95006F9ABD /* NotificareGeoKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F258DD7324BC4E95006F9ABD /* NotificareGeoKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F2696AAA26C275C5002EA653 /* NotificareGeo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2696AA926C275C5002EA653 /* NotificareGeo.swift */; };
+		F2696AB326C2B43C002EA653 /* PushAPI+Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2696AB226C2B43C002EA653 /* PushAPI+Models.swift */; };
+		F2696AB526C2B446002EA653 /* PushAPI+Payloads.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2696AB426C2B446002EA653 /* PushAPI+Payloads.swift */; };
+		F2696AB726C2B44F002EA653 /* PushAPI+Responses.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2696AB626C2B44F002EA653 /* PushAPI+Responses.swift */; };
 		F289F5D425B8614B0091AB97 /* NotificareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F289F5D125B8614B0091AB97 /* NotificareKit.framework */; };
 		F289F5D525B8614B0091AB97 /* NotificareKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F289F5D125B8614B0091AB97 /* NotificareKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
@@ -49,6 +52,9 @@
 		F258DE8224BC8419006F9ABD /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F258DE8D24BC8AA1006F9ABD /* Notificare.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Notificare.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2696AA926C275C5002EA653 /* NotificareGeo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareGeo.swift; sourceTree = "<group>"; };
+		F2696AB226C2B43C002EA653 /* PushAPI+Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PushAPI+Models.swift"; sourceTree = "<group>"; };
+		F2696AB426C2B446002EA653 /* PushAPI+Payloads.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PushAPI+Payloads.swift"; sourceTree = "<group>"; };
+		F2696AB626C2B44F002EA653 /* PushAPI+Responses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PushAPI+Responses.swift"; sourceTree = "<group>"; };
 		F289F5D025B8614B0091AB97 /* NotificareCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F289F5D125B8614B0091AB97 /* NotificareKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2AAAF7C251D01A000465EC5 /* NotificareSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -96,6 +102,7 @@
 		F258DD7224BC4E95006F9ABD /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				F2696AAF26C2B420002EA653 /* Internals */,
 				F258DD7424BC4E95006F9ABD /* Info.plist */,
 				F258DD7324BC4E95006F9ABD /* NotificareGeoKit.h */,
 				F2696AA926C275C5002EA653 /* NotificareGeo.swift */,
@@ -122,6 +129,33 @@
 				F258DE8224BC8419006F9ABD /* Core.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F2696AAF26C2B420002EA653 /* Internals */ = {
+			isa = PBXGroup;
+			children = (
+				F2696AB026C2B426002EA653 /* Network */,
+				F288C1F626C407BE00B6C83C /* Storage */,
+			);
+			path = Internals;
+			sourceTree = "<group>";
+		};
+		F2696AB026C2B426002EA653 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				F2696AB126C2B431002EA653 /* Push API */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		F2696AB126C2B431002EA653 /* Push API */ = {
+			isa = PBXGroup;
+			children = (
+				F2696AB226C2B43C002EA653 /* PushAPI+Models.swift */,
+				F2696AB426C2B446002EA653 /* PushAPI+Payloads.swift */,
+				F2696AB626C2B44F002EA653 /* PushAPI+Responses.swift */,
+			);
+			path = "Push API";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -188,7 +222,7 @@
 				TargetAttributes = {
 					F258DD6F24BC4E95006F9ABD = {
 						CreatedOnToolsVersion = 11.5;
-						LastSwiftMigration = 1150;
+						LastSwiftMigration = 1300;
 					};
 					F258DD7824BC4E95006F9ABD = {
 						CreatedOnToolsVersion = 11.5;
@@ -257,6 +291,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F2696AB326C2B43C002EA653 /* PushAPI+Models.swift in Sources */,
+				F2696AB726C2B44F002EA653 /* PushAPI+Responses.swift in Sources */,
+				F2696AB526C2B446002EA653 /* PushAPI+Payloads.swift in Sources */,
 				F2696AAA26C275C5002EA653 /* NotificareGeo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -460,6 +497,7 @@
 		F258DD8824BC4E95006F9ABD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y47BY73NFN;
 				INFOPLIST_FILE = Tests/Info.plist;
@@ -478,6 +516,7 @@
 		F258DD8924BC4E95006F9ABD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y47BY73NFN;
 				INFOPLIST_FILE = Tests/Info.plist;
