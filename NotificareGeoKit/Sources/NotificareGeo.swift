@@ -259,9 +259,52 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
 
     // MARK: - NotificationCenter events
 
-    @objc private func onApplicationDidBecomeActiveNotification(_: Notification) {}
+    @objc private func onApplicationDidBecomeActiveNotification(_: Notification) {
+        guard locationServicesEnabled else { return }
 
-    @objc private func onApplicationWillResignActiveNotification(_: Notification) {}
+        do {
+            try checkPrerequisites()
+            try checkPlistPrerequisites()
+        } catch {
+            return
+        }
+
+        // Request user location when we're only authorized while in use
+        // or when the background updates are not available.
+        if CLLocationManager.authorizationStatus() == .authorizedWhenInUse ||
+            UIApplication.shared.backgroundRefreshStatus == .denied ||
+            UIApplication.shared.backgroundRefreshStatus == .restricted ||
+            !CLLocationManager.significantLocationChangeMonitoringAvailable()
+        {
+            NotificareLogger.debug("Requesting user location. This might take a while. Please wait...")
+            locationManager.requestLocation()
+        }
+
+        if Notificare.shared.options?.headingApiEnabled == true && CLLocationManager.headingAvailable() {
+            NotificareLogger.debug("Started updating heading.")
+            locationManager.startUpdatingHeading()
+        }
+
+        if CLLocationManager.authorizationStatus() == .authorizedWhenInUse || CLLocationManager.authorizationStatus() == .authorizedAlways {
+            // TODO: checkBluetoothEnabled()
+        }
+    }
+
+    @objc private func onApplicationWillResignActiveNotification(_: Notification) {
+        guard locationServicesEnabled else { return }
+
+        do {
+            try checkPrerequisites()
+            try checkPlistPrerequisites()
+        } catch {
+            return
+        }
+
+        if Notificare.shared.options?.headingApiEnabled == true, CLLocationManager.headingAvailable() {
+            NotificareLogger.debug("Stopped updating heading.")
+            locationManager.stopUpdatingHeading()
+        }
+    }
 
     // MARK: - CLLocationManagerDelegate
 
