@@ -9,6 +9,8 @@ internal extension NotificareInternals.PushAPI.Models {
     struct Region: Decodable {
         let _id: String
         let name: String
+        let description: String?
+        let referenceKey: String?
         let geometry: Geometry
         let advancedGeometry: AdvancedGeometry?
         let major: Int?
@@ -30,6 +32,8 @@ internal extension NotificareInternals.PushAPI.Models {
             NotificareRegion(
                 id: _id,
                 name: name,
+                description: description,
+                referenceKey: referenceKey,
                 geometry: NotificareRegion.Geometry(
                     type: geometry.type,
                     coordinate: NotificareRegion.Coordinate(

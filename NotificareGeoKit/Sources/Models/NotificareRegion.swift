@@ -7,6 +7,8 @@ import Foundation
 public struct NotificareRegion: Codable {
     public let id: String
     public let name: String
+    public let description: String?
+    public let referenceKey: String?
     public let geometry: Geometry
     public let advancedGeometry: AdvancedGeometry?
     public let major: Int?
