@@ -187,7 +187,7 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
             locationManager.startMonitoringSignificantLocationChanges()
         }
 
-        if monitorSignificantLocationChanges, Notificare.shared.options?.visitsApiEnabled == true, CLLocationManager.headingAvailable() {
+        if monitorSignificantLocationChanges, Notificare.shared.options?.visitsApiEnabled == true {
             NotificareLogger.debug("Started monitoring visits.")
             locationManager.startMonitoringVisits()
         }
