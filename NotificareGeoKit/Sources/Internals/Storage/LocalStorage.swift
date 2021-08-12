@@ -21,8 +21,38 @@ internal enum LocalStorage {
     }
 
 //    static var cachedRegions: [NotificareRegion]
-//
-//    static var monitoredRegions: [String]
-//
+
+    static var monitoredRegions: [NotificareRegion] {
+        get {
+            guard let data = UserDefaults.standard.object(forKey: KEY_MONITORED_REGIONS) as? Data else {
+                return []
+            }
+
+            do {
+                let decoder = NotificareUtils.jsonDecoder
+                return try decoder.decode([NotificareRegion].self, from: data)
+            } catch {
+                NotificareLogger.warning("Failed to decode the monitored regions.\n\(error)")
+
+                // Remove the corrupted application from local storage.
+                UserDefaults.standard.removeObject(forKey: KEY_MONITORED_REGIONS)
+                UserDefaults.standard.synchronize()
+
+                return []
+            }
+        }
+        set {
+            do {
+                let encoder = NotificareUtils.jsonEncoder
+                let data = try encoder.encode(newValue)
+
+                UserDefaults.standard.set(data, forKey: KEY_MONITORED_REGIONS)
+                UserDefaults.standard.synchronize()
+            } catch {
+                NotificareLogger.warning("Failed to encode the monitored regions.\n\(error)")
+            }
+        }
+    }
+
 //    static var monitoredBeacons: [String]
 }
