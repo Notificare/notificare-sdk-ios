@@ -264,21 +264,76 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
     }
 
     private func monitorRegions(_ regions: [NotificareRegion]) {
-        locationManager.monitoredRegions.forEach { monitoredRegion in
-            NotificareLogger.info("Monitored region = \(monitoredRegion.identifier)")
+        var monitoredRegionsCache = LocalStorage.monitoredRegions
 
-            if !regions.contains(where: { $0.id == monitoredRegion.identifier }) {
-                NotificareLogger.info("Stopped monitoring region '\(monitoredRegion.identifier)'.")
-                locationManager.stopMonitoring(for: monitoredRegion)
+        let monitoredRegions = locationManager.monitoredRegions
+            .filter { !($0 is CLBeaconRegion) }
+
+        monitoredRegions
+            .filter { clr in !regions.contains(where: { $0.id == clr.identifier }) }
+            .forEach { clr in
+                NotificareLogger.debug("Stopped monitoring region '\(clr.identifier)'.")
+                locationManager.stopMonitoring(for: clr)
+
+                // TODO: check if we were inside the region and force trigger and exit.
+
+                // Remove the region from the cache.
+                monitoredRegionsCache.removeAll { $0.id == clr.identifier }
             }
+
+        if CLLocationManager.isMonitoringAvailable(for: CLCircularRegion.self) {
+            regions
+                .filter { r in !monitoredRegions.contains(where: { $0.identifier == r.id }) }
+                .forEach { r in
+                    let clr = r.toCLRegion(with: locationManager)
+                    clr.notifyOnEntry = true
+                    clr.notifyOnExit = true
+
+                    NotificareLogger.debug("Started monitoring region '\(r.name)'.")
+                    locationManager.startMonitoring(for: clr)
+
+                    // Add the region to the cache.
+                    monitoredRegionsCache.append(r)
+                }
         }
 
-        regions.forEach { region in
-            if !locationManager.monitoredRegions.contains(where: { $0.identifier == region.id }) {
-                NotificareLogger.info("Started monitoring region '\(region.name)'.")
-                locationManager.startMonitoring(for: region.toCLRegion(with: locationManager))
+        // Persist the update cache to disk.
+        LocalStorage.monitoredRegions = monitoredRegionsCache
+
+        // Check the monitoring status.
+        checkMonitoringStatus()
+    }
+
+    private func checkMonitoringStatus() {
+        let monitoredRegions = locationManager.monitoredRegions
+        NotificareLogger.debug("Location manager monitoring \(monitoredRegions.count) regions.")
+
+        let monitoredRegionsCache = LocalStorage.monitoredRegions
+        NotificareLogger.debug("Cached \(monitoredRegionsCache.count) regions for monitoring.")
+
+        monitoredRegions.forEach { clr in
+            // TODO: exclude fake beacon
+
+            if clr is CLBeaconRegion {
+//                if let beacon = monitoredRegionsCache.first(where: { $0.id == clr.identifier }) {
+//                    NotificareLogger.debug("Monitoring for beacon '\(beacon.name)'.")
+//                } else {
+//                    NotificareLogger.debug("Monitoring for non-cached beacon '\(clr.identifier)'.")
+//                }
+            } else {
+                if let region = monitoredRegionsCache.first(where: { $0.id == clr.identifier }) {
+                    NotificareLogger.debug("Monitoring for region '\(region.name)'.")
+                } else {
+                    NotificareLogger.debug("Monitoring for non-cached region '\(clr.identifier)'.")
+                }
             }
+
+            // Check if we are inside this region.
+            locationManager.requestState(for: clr)
         }
+    }
+
+    private func clearRegions() {
     }
 
     // MARK: - NotificationCenter events
