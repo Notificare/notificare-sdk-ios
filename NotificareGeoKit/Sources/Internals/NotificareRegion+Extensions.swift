@@ -6,6 +6,10 @@ import CoreLocation
 import Foundation
 
 internal extension NotificareRegion {
+    var isPolygon: Bool {
+        advancedGeometry != nil
+    }
+
     func toCLRegion(with manager: CLLocationManager) -> CLRegion {
         CLCircularRegion(
             center: CLLocationCoordinate2D(

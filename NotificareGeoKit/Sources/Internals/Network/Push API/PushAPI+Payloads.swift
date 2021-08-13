@@ -45,4 +45,9 @@ internal extension NotificareInternals.PushAPI.Payloads {
             try container.encode(locationServicesAccuracyAuth, forKey: .locationServicesAccuracyAuth)
         }
     }
+
+    struct RegionTrigger: Encodable {
+        let deviceID: String
+        let region: String
+    }
 }

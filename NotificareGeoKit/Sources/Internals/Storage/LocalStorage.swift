@@ -6,7 +6,7 @@ import Foundation
 import NotificareKit
 
 private let KEY_LOCATION_SERVICES_ENABLED = "re.notifica.geo.location_services_enabled"
-private let KEY_CACHED_REGIONS = "re.notifica.geo.cached_regions"
+private let KEY_ENTERED_REGIONS = "re.notifica.geo.entered_regions"
 private let KEY_MONITORED_REGIONS = "re.notifica.geo.monitored_regions"
 private let KEY_MONITORED_BEACONS = "re.notifica.geo.monitored_beacons"
 
@@ -20,7 +20,15 @@ internal enum LocalStorage {
         }
     }
 
-//    static var cachedRegions: [NotificareRegion]
+    static var enteredRegions: Set<String> {
+        get {
+            let arr = UserDefaults.standard.stringArray(forKey: KEY_ENTERED_REGIONS) ?? []
+            return Set(arr)
+        }
+        set {
+            UserDefaults.standard.set(Array(newValue), forKey: KEY_ENTERED_REGIONS)
+        }
+    }
 
     static var monitoredRegions: [NotificareRegion] {
         get {

@@ -4,6 +4,7 @@
 
 import CoreLocation
 import Foundation
+import MapKit
 import NotificareKit
 import UIKit
 
@@ -275,7 +276,10 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
                 NotificareLogger.debug("Stopped monitoring region '\(clr.identifier)'.")
                 locationManager.stopMonitoring(for: clr)
 
-                // TODO: check if we were inside the region and force trigger and exit.
+                // Make sure we process the region exit appropriately.
+                // This should perform the exit trigger, stop the session
+                // and stop monitoring for beacons in this region.
+                handleRegionExit(clr)
 
                 // Remove the region from the cache.
                 monitoredRegionsCache.removeAll { $0.id == clr.identifier }
@@ -334,6 +338,118 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
     }
 
     private func clearRegions() {
+        // Remove the cached regions.
+        LocalStorage.monitoredRegions = []
+
+        // Stop monitoring all regions.
+        locationManager.monitoredRegions
+            .filter { !($0 is CLBeaconRegion) }
+            .forEach { locationManager.stopMonitoring(for: $0) }
+    }
+
+    private func handleRegionEnter(_ clr: CLRegion) {
+        if let clr = clr as? CLBeaconRegion {
+            //
+        } else {
+            guard let region = LocalStorage.monitoredRegions.first(where: { $0.id == clr.identifier }) else {
+                NotificareLogger.warning("Received an enter event for non-cached region '\(clr.identifier)'.")
+                return
+            }
+
+            if region.isPolygon, let polygon = MKPolygon(region: region) {
+                // This region is a polygon. Proceed if we are inside the polygon boundaries.
+                guard let location = locationManager.location, polygon.contains(location.coordinate) else {
+                    NotificareLogger.debug("Triggered a region enter but we are not inside the polygon boundaries.")
+
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                        NotificareLogger.debug("Requesting state for polygon region.")
+                        self.locationManager.requestState(for: clr)
+                    }
+
+                    NotificareLogger.debug("Requesting some background time.")
+                    // TODO: keep app alive for a while.
+
+                    return
+                }
+            }
+
+            // Make sure we're not inside the region.
+            if !LocalStorage.enteredRegions.contains(region.id) {
+                triggerRegionEnter(region)
+                // TODO: startRegionSession(region)
+            }
+
+            // TODO: start monitoring for beacons in this region.
+        }
+    }
+
+    private func handleRegionExit(_ clr: CLRegion) {
+        if let clr = clr as? CLBeaconRegion {
+            //
+        } else {
+            guard let region = LocalStorage.monitoredRegions.first(where: { $0.id == clr.identifier }) else {
+                NotificareLogger.warning("Received an exit event for non-cached region '\(clr.identifier)'.")
+                return
+            }
+
+            // Make sure we're inside the region.
+            if LocalStorage.enteredRegions.contains(region.id) {
+                triggerRegionExit(region)
+                // TODO: stopRegionSession(region)
+            }
+
+            // TODO: stop monitoring for beacons in this region.
+        }
+    }
+
+    private func triggerRegionEnter(_ region: NotificareRegion) {
+        guard let device = Notificare.shared.deviceManager.currentDevice else {
+            NotificareLogger.warning("Cannot process region enter trigger without a device.")
+            return
+        }
+
+        let payload = NotificareInternals.PushAPI.Payloads.RegionTrigger(
+            deviceID: device.id,
+            region: region.id
+        )
+
+        NotificareRequest.Builder()
+            .post("trigger/re.notifica.trigger.region.Enter", body: payload)
+            .response { result in
+                switch result {
+                case .success:
+                    LocalStorage.enteredRegions = LocalStorage.enteredRegions.appending(region.id)
+
+                    NotificareLogger.debug("Triggered region enter.")
+                case let .failure(error):
+                    NotificareLogger.error("Failed to trigger a region enter.\n\(error)")
+                }
+            }
+    }
+
+    private func triggerRegionExit(_ region: NotificareRegion) {
+        guard let device = Notificare.shared.deviceManager.currentDevice else {
+            NotificareLogger.warning("Cannot process region exit trigger without a device.")
+            return
+        }
+
+        let payload = NotificareInternals.PushAPI.Payloads.RegionTrigger(
+            deviceID: device.id,
+            region: region.id
+        )
+
+        NotificareRequest.Builder()
+            .post("trigger/re.notifica.trigger.region.Exit", body: payload)
+            .response { result in
+                switch result {
+                case .success:
+                    LocalStorage.enteredRegions = LocalStorage.enteredRegions.removing(region.id)
+
+                    NotificareLogger.debug("Triggered region exit.")
+                case let .failure(error):
+                    NotificareLogger.error("Failed to trigger a region exit.\n\(error)")
+                }
+            }
     }
 
     // MARK: - NotificationCenter events
@@ -436,38 +552,61 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
         }
     }
 
-    public func locationManager(_: CLLocationManager, didEnterRegion region: CLRegion) {
-        NotificareLogger.info("--> Region enter = \(region.identifier)")
+    public func locationManager(_ manager: CLLocationManager, didStartMonitoringFor region: CLRegion) {
+        // TODO: check if this is the fake beacon
 
-        let content = UNMutableNotificationContent()
-        content.title = "Region enter"
-        content.body = region.identifier
-        content.sound = .default
-
-        let request = UNNotificationRequest(
-            identifier: region.identifier,
-            content: content,
-            trigger: UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-        )
-
-        UNUserNotificationCenter.current().add(request) { _ in }
+        // Check the state after 2 seconds to avoid colision with other requests.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            manager.requestState(for: region)
+        }
     }
 
-    public func locationManager(_: CLLocationManager, didExitRegion region: CLRegion) {
-        NotificareLogger.info("--> Region exit = \(region.identifier)")
+    public func locationManager(_: CLLocationManager, monitoringDidFailFor region: CLRegion?, withError _: Error) {
+        if let region = region {
+            // Retry to monitor this region
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                self.locationManager.startMonitoring(for: region)
+            }
+        }
+    }
 
-        let content = UNMutableNotificationContent()
-        content.title = "Region exit"
-        content.body = region.identifier
-        content.sound = .default
+    public func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
+        // Ignore beacon regions.
+        guard !(region is CLBeaconRegion) else { return }
 
-        let request = UNNotificationRequest(
-            identifier: region.identifier,
-            content: content,
-            trigger: UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-        )
+        // Ignore polygons.
+        guard let r = LocalStorage.monitoredRegions.first(where: { $0.id == region.identifier }), !r.isPolygon else {
+            return
+        }
 
-        UNUserNotificationCenter.current().add(request) { _ in }
+        // Trigger a location update in order to update the loaded fences as a side effect.
+        manager.requestLocation()
+    }
+
+    public func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
+        // Ignore beacon regions.
+        guard !(region is CLBeaconRegion) else { return }
+
+        // Ignore polygons.
+        guard let r = LocalStorage.monitoredRegions.first(where: { $0.id == region.identifier }), !r.isPolygon else {
+            return
+        }
+
+        // Trigger a location update in order to update the loaded fences as a side effect.
+        manager.requestLocation()
+    }
+
+    public func locationManager(_: CLLocationManager, didDetermineState state: CLRegionState, for region: CLRegion) {
+        switch state {
+        case .inside:
+            handleRegionEnter(region)
+
+        case .outside:
+            handleRegionExit(region)
+
+        case .unknown:
+            break
+        }
     }
 
     // MARK: - Internals
