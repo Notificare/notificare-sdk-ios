@@ -376,7 +376,7 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
             // Make sure we're not inside the region.
             if !LocalStorage.enteredRegions.contains(region.id) {
                 triggerRegionEnter(region)
-                // TODO: startRegionSession(region)
+                startRegionSession(region)
             }
 
             // TODO: start monitoring for beacons in this region.
@@ -395,7 +395,7 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
             // Make sure we're inside the region.
             if LocalStorage.enteredRegions.contains(region.id) {
                 triggerRegionExit(region)
-                // TODO: stopRegionSession(region)
+                stopRegionSession(region)
             }
 
             // TODO: stop monitoring for beacons in this region.
@@ -450,6 +450,99 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
                     NotificareLogger.error("Failed to trigger a region exit.\n\(error)")
                 }
             }
+    }
+
+    private func startRegionSession(_ region: NotificareRegion) {
+        NotificareLogger.debug("Starting session for region '\(region.name)'.")
+
+        var sessions = LocalStorage.regionSessions
+
+        guard !sessions.contains(where: { $0.regionId == region.id }) else {
+            NotificareLogger.debug("Skipping region session start since it already exists for region '\(region.name)'.")
+            return
+        }
+
+        let location = locationManager.location.flatMap { location in
+            NotificareRegionSession.Location(
+                latitude: location.coordinate.latitude,
+                longitude: location.coordinate.longitude,
+                altitude: location.altitude,
+                course: location.course,
+                speed: location.speed,
+                horizontalAccuracy: location.horizontalAccuracy,
+                verticalAccuracy: location.verticalAccuracy,
+                timestamp: location.timestamp
+            )
+        }
+
+        let session = NotificareRegionSession(
+            regionId: region.id,
+            start: Date(),
+            end: nil,
+            locations: location.map { [$0] } ?? []
+        )
+
+        sessions.append(session)
+        LocalStorage.regionSessions = sessions
+    }
+
+    private func updateRegionSession(_ location: CLLocation) {
+        NotificareLogger.debug("Updating region sessions.")
+
+        LocalStorage.regionSessions = LocalStorage.regionSessions.map { session in
+            guard let region = LocalStorage.monitoredRegions.first(where: { $0.id == session.regionId }),
+                  let clr = region.toCLRegion(with: locationManager) as? CLCircularRegion,
+                  clr.contains(location.coordinate)
+            else {
+                return session
+            }
+
+            NotificareLogger.debug("Updating '\(region.name)' session.")
+
+            var locations = session.locations
+            locations.append(
+                NotificareRegionSession.Location(
+                    latitude: location.coordinate.latitude,
+                    longitude: location.coordinate.longitude,
+                    altitude: location.altitude,
+                    course: location.course,
+                    speed: location.speed,
+                    horizontalAccuracy: location.horizontalAccuracy,
+                    verticalAccuracy: location.verticalAccuracy,
+                    timestamp: location.timestamp
+                )
+            )
+
+            return NotificareRegionSession(
+                regionId: session.regionId,
+                start: session.start,
+                end: session.end,
+                locations: locations
+            )
+        }
+    }
+
+    private func stopRegionSession(_ region: NotificareRegion) {
+        NotificareLogger.debug("Stopping session for region '\(region.name)'.")
+
+        var sessions = LocalStorage.regionSessions
+
+        guard let session = sessions.first(where: { $0.regionId == region.id }) else {
+            NotificareLogger.debug("Skipping region session end since no session exists for region '\(region.name)'.")
+            return
+        }
+
+        Notificare.shared.eventsManager.logRegionSession(session) { result in
+            switch result {
+            case .success:
+                NotificareLogger.debug("Region session logged.")
+
+                sessions.removeAll(where: { $0.regionId == region.id })
+                LocalStorage.regionSessions = sessions
+            case let .failure(error):
+                NotificareLogger.error("Failed to log the region session.\n\(error)")
+            }
+        }
     }
 
     // MARK: - NotificationCenter events
@@ -535,12 +628,12 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
 
             // Load the nearest regions.
             self.loadNearestRegions(location) {
+                // Add this location to the region session.
+                self.updateRegionSession(location)
+
                 // Unlock location updates.
                 self.processingLocationUpdate = false
             }
-
-            // Add this location to the region session.
-            // [self updateRegionSessionLocations:location];
         }
     }
 

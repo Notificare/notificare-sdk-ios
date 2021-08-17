@@ -9,6 +9,7 @@ private let KEY_LOCATION_SERVICES_ENABLED = "re.notifica.geo.location_services_e
 private let KEY_ENTERED_REGIONS = "re.notifica.geo.entered_regions"
 private let KEY_MONITORED_REGIONS = "re.notifica.geo.monitored_regions"
 private let KEY_MONITORED_BEACONS = "re.notifica.geo.monitored_beacons"
+private let KEY_REGION_SESSIONS = "re.notifica.geo.region_sessions"
 
 internal enum LocalStorage {
     static var locationServicesEnabled: Bool {
@@ -63,4 +64,36 @@ internal enum LocalStorage {
     }
 
 //    static var monitoredBeacons: [String]
+
+    static var regionSessions: [NotificareRegionSession] {
+        get {
+            guard let data = UserDefaults.standard.object(forKey: KEY_REGION_SESSIONS) as? Data else {
+                return []
+            }
+
+            do {
+                let decoder = NotificareUtils.jsonDecoder
+                return try decoder.decode([NotificareRegionSession].self, from: data)
+            } catch {
+                NotificareLogger.warning("Failed to decode the region sessions.\n\(error)")
+
+                // Remove the corrupted application from local storage.
+                UserDefaults.standard.removeObject(forKey: KEY_REGION_SESSIONS)
+                UserDefaults.standard.synchronize()
+
+                return []
+            }
+        }
+        set {
+            do {
+                let encoder = NotificareUtils.jsonEncoder
+                let data = try encoder.encode(newValue)
+
+                UserDefaults.standard.set(data, forKey: KEY_REGION_SESSIONS)
+                UserDefaults.standard.synchronize()
+            } catch {
+                NotificareLogger.warning("Failed to encode the region sessions.\n\(error)")
+            }
+        }
+    }
 }
