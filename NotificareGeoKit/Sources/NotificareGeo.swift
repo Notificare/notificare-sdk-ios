@@ -338,15 +338,18 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
         let monitoredRegionsCache = LocalStorage.monitoredRegions
         NotificareLogger.debug("Cached \(monitoredRegionsCache.count) regions for monitoring.")
 
+        let monitoredBeaconsCache = LocalStorage.monitoredBeacons
+        NotificareLogger.debug("Cached \(monitoredBeaconsCache.count) beacons for monitoring.")
+
         monitoredRegions.forEach { clr in
             // TODO: exclude fake beacon
 
             if clr is CLBeaconRegion {
-//                if let beacon = monitoredRegionsCache.first(where: { $0.id == clr.identifier }) {
-//                    NotificareLogger.debug("Monitoring for beacon '\(beacon.name)'.")
-//                } else {
-//                    NotificareLogger.debug("Monitoring for non-cached beacon '\(clr.identifier)'.")
-//                }
+                if let beacon = monitoredBeaconsCache.first(where: { $0.id == clr.identifier }) {
+                    NotificareLogger.debug("Monitoring for beacon '\(beacon.name)'.")
+                } else {
+                    NotificareLogger.debug("Monitoring for non-cached beacon '\(clr.identifier)'.")
+                }
             } else {
                 if let region = monitoredRegionsCache.first(where: { $0.id == clr.identifier }) {
                     NotificareLogger.debug("Monitoring for region '\(region.name)'.")
@@ -362,7 +365,9 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
 
     private func clearRegions() {
         // Remove the cached regions.
+        LocalStorage.enteredRegions = []
         LocalStorage.monitoredRegions = []
+        LocalStorage.regionSessions = []
 
         // Stop monitoring all regions.
         locationManager.monitoredRegions
@@ -371,11 +376,47 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
     }
 
     private func clearBeacons() {
+        // Remove the cached beacons.
+        LocalStorage.enteredBeacons = []
+        LocalStorage.monitoredBeacons = []
+        LocalStorage.beaconSessions = []
+
+        // Stop monitoring all beacons.
+        locationManager.monitoredRegions
+            .filter { $0 is CLBeaconRegion }
+            .forEach { locationManager.stopMonitoring(for: $0) }
     }
 
     private func handleRegionEnter(_ clr: CLRegion) {
         if let clr = clr as? CLBeaconRegion {
-            //
+            guard let beacon = LocalStorage.monitoredBeacons.first(where: { $0.id == clr.identifier }) else {
+                NotificareLogger.warning("Received an enter event for non-cached beacon '\(clr.identifier)'.")
+                return
+            }
+
+            // If the region contains both major and minor, then it's an actual beacon.
+            if clr.major != nil, clr.minor != nil {
+                // Make sure we're not inside the beacon.
+                if !LocalStorage.enteredBeacons.contains(beacon.id) {
+                    triggerBeaconEnter(beacon)
+                }
+            } else {
+                // When there's no major or minor, this is the main beacon region.
+                // We should start ranging for beacons in this region.
+
+                guard CLLocationManager.isRangingAvailable() else {
+                    return
+                }
+
+                if #available(iOS 13.0, *) {
+                    locationManager.startRangingBeacons(satisfying: clr.beaconIdentityConstraint)
+                } else {
+                    locationManager.startRangingBeacons(in: clr)
+                }
+
+                // TODO: self.ranging = true
+                startBeaconSession(beacon)
+            }
         } else {
             guard let region = LocalStorage.monitoredRegions.first(where: { $0.id == clr.identifier }) else {
                 NotificareLogger.warning("Received an enter event for non-cached region '\(clr.identifier)'.")
@@ -405,13 +446,41 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
                 startRegionSession(region)
             }
 
-            // TODO: start monitoring for beacons in this region.
+            // Start monitoring for beacons in this region.
+            startMonitoringBeacons(in: region)
         }
     }
 
     private func handleRegionExit(_ clr: CLRegion) {
         if let clr = clr as? CLBeaconRegion {
-            //
+            guard let beacon = LocalStorage.monitoredBeacons.first(where: { $0.id == clr.identifier }) else {
+                NotificareLogger.warning("Received an exit event for non-cached beacon '\(clr.identifier)'.")
+                return
+            }
+
+            // If the region contains both major and minor, then it's an actual beacon.
+            if clr.major != nil, clr.minor != nil {
+                // Make sure we're inside the beacon.
+                if LocalStorage.enteredBeacons.contains(beacon.id) {
+                    triggerBeaconExit(beacon)
+                }
+            } else {
+                // When there's no major or minor, this is the main beacon region.
+                // We should stop ranging for beacons in this region.
+
+                guard CLLocationManager.isRangingAvailable() else {
+                    return
+                }
+
+                if #available(iOS 13.0, *) {
+                    locationManager.stopRangingBeacons(satisfying: clr.beaconIdentityConstraint)
+                } else {
+                    locationManager.stopRangingBeacons(in: clr)
+                }
+
+                // TODO: self.ranging = false
+                stopBeaconSession(beacon)
+            }
         } else {
             guard let region = LocalStorage.monitoredRegions.first(where: { $0.id == clr.identifier }) else {
                 NotificareLogger.warning("Received an exit event for non-cached region '\(clr.identifier)'.")
@@ -424,7 +493,8 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
                 stopRegionSession(region)
             }
 
-            // TODO: stop monitoring for beacons in this region.
+            // Stop monitoring for beacons in this region.
+            stopMonitoringBeacons(in: region)
         }
     }
 
@@ -478,6 +548,10 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
             }
     }
 
+    private func triggerBeaconEnter(_ beacon: NotificareBeacon) {}
+
+    private func triggerBeaconExit(_ beacon: NotificareBeacon) {}
+
     private func startRegionSession(_ region: NotificareRegion) {
         NotificareLogger.debug("Starting session for region '\(region.name)'.")
 
@@ -523,7 +597,7 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
                 return session
             }
 
-            NotificareLogger.debug("Updating '\(region.name)' session.")
+            NotificareLogger.debug("Updating region '\(region.name)' session.")
 
             var locations = session.locations
             locations.append(
@@ -571,6 +645,122 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
         }
     }
 
+    private func startBeaconSession(_ beacon: NotificareBeacon) {}
+
+    private func updateBeaconSession(_ beacon: CLBeacon) {}
+
+    private func stopBeaconSession(_ beacon: NotificareBeacon) {}
+
+    private func startMonitoringBeacons(in region: NotificareRegion) {
+        NotificareLogger.debug("Starting to monitor beacons in region '\(region.name)'.")
+
+        guard let uuidStr = Notificare.shared.application?.regionConfig?.proximityUUID,
+              let uuid = UUID(uuidString: uuidStr)
+        else {
+            NotificareLogger.warning("The Proximity UUID property has not been configured for this application.")
+            return
+        }
+
+        guard let major = region.major else {
+            NotificareLogger.debug("The region '\(region.name)' has not been assigned a major.")
+            return
+        }
+
+        //
+        // Monitor the whole region.
+        //
+
+        let mainBeacon = NotificareBeacon(
+            id: region.id,
+            name: region.name,
+            major: major,
+            minor: nil,
+            triggers: false
+        )
+
+        startMonitoringBeacon(mainBeacon, with: uuid)
+        LocalStorage.monitoredBeacons = LocalStorage.monitoredBeacons.appending(mainBeacon)
+
+        NotificareLogger.debug("Started monitoring the region beacon major.")
+
+        //
+        // Monitor each beacon in the region.
+        //
+
+        NotificareRequest.Builder()
+            .get("/beacon/forregion/\(region.id)")
+            .responseDecodable(NotificareInternals.PushAPI.Responses.FetchBeacons.self) { result in
+                switch result {
+                case let .success(response):
+                    let beacons = response.beacons
+                        .prefix(MAX_MONITORED_BEACONS)
+                        .map { $0.toModel() }
+
+                    // Start monitoring every beacon.
+                    beacons.forEach { self.startMonitoringBeacon($0, with: uuid) }
+
+                    // Store the beacons in local storage.
+                    LocalStorage.monitoredBeacons = LocalStorage.monitoredBeacons.appending(contentsOf: beacons)
+
+                    NotificareLogger.debug("Started monitoring \(beacons.count) individual beacons.")
+                case let .failure(error):
+                    NotificareLogger.error("Failed to fetch beacons for region '\(region.name)'.\n\(error)")
+                }
+            }
+    }
+
+    private func startMonitoringBeacon(_ beacon: NotificareBeacon, with uuid: UUID) {
+        guard CLLocationManager.isMonitoringAvailable(for: CLBeaconRegion.self) else {
+            NotificareLogger.warning("Beacon monitoring is not available.")
+            return
+        }
+
+        let clr: CLBeaconRegion
+
+        if #available(iOS 13.0, *) {
+            if let minor = beacon.minor {
+                clr = CLBeaconRegion(
+                    beaconIdentityConstraint: CLBeaconIdentityConstraint(
+                        uuid: uuid,
+                        major: UInt16(beacon.major),
+                        minor: UInt16(minor)
+                    ),
+                    identifier: beacon.id
+                )
+            } else {
+                clr = CLBeaconRegion(
+                    beaconIdentityConstraint: CLBeaconIdentityConstraint(
+                        uuid: uuid,
+                        major: UInt16(beacon.major)
+                    ),
+                    identifier: beacon.id
+                )
+            }
+        } else {
+            if let minor = beacon.minor {
+                clr = CLBeaconRegion(
+                    proximityUUID: uuid,
+                    major: UInt16(beacon.major),
+                    minor: UInt16(minor),
+                    identifier: beacon.id
+                )
+            } else {
+                clr = CLBeaconRegion(
+                    proximityUUID: uuid,
+                    major: UInt16(beacon.major),
+                    identifier: beacon.id
+                )
+            }
+        }
+
+        clr.notifyEntryStateOnDisplay = true
+        clr.notifyOnEntry = true
+        clr.notifyOnExit = true
+
+        locationManager.startMonitoring(for: clr)
+    }
+
+    private func stopMonitoringBeacons(in region: NotificareRegion) {}
 
     private func keepAlive() {
         guard UIApplication.shared.applicationState != .active else { return }

@@ -9,4 +9,8 @@ internal extension NotificareInternals.PushAPI.Responses {
     struct FetchRegions: Decodable {
         let regions: [NotificareInternals.PushAPI.Models.Region]
     }
+
+    struct FetchBeacons: Decodable {
+        let beacons: [NotificareInternals.PushAPI.Models.Beacon]
+    }
 }

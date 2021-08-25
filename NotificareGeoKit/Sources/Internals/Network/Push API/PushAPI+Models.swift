@@ -63,4 +63,22 @@ internal extension NotificareInternals.PushAPI.Models {
             )
         }
     }
+
+    struct Beacon: Decodable {
+        let _id: String
+        let name: String
+        let major: Int
+        let minor: Int
+        let triggers: Bool
+
+        func toModel() -> NotificareBeacon {
+            NotificareBeacon(
+                id: _id,
+                name: name,
+                major: major,
+                minor: minor,
+                triggers: triggers
+            )
+        }
+    }
 }
