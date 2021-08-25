@@ -98,6 +98,7 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
         switch status {
         case .notDetermined:
             NotificareLogger.warning("Location permission not determined. You must request permissions before enabling location updates.")
+            return
 
         case .restricted, .denied:
             handleLocationServicesUnauthorized()
@@ -110,7 +111,10 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
 
         @unknown default:
             NotificareLogger.warning("Unsupported authorization status: \(status)")
+            return
         }
+
+        NotificareLogger.info("Location updates enabled.")
     }
 
     public func disableLocationUpdates() {
@@ -122,9 +126,28 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
         }
 
         // Keep track of the location services status.
-        LocalStorage.locationServicesEnabled = true
+        LocalStorage.locationServicesEnabled = false
 
-        //
+        // Stop any location updates
+        locationManager.stopUpdatingLocation()
+        locationManager.stopMonitoringSignificantLocationChanges()
+
+        if Notificare.shared.options?.visitsApiEnabled == true {
+            NotificareLogger.debug("Stopped monitoring visits.")
+            locationManager.stopMonitoringVisits()
+        }
+
+        if Notificare.shared.options?.headingApiEnabled == true {
+            NotificareLogger.debug("Stopped updating heading.")
+            locationManager.stopUpdatingHeading()
+        }
+
+        clearRegions()
+        clearBeacons()
+
+        // TODO: update device
+
+        NotificareLogger.info("Location updates disabled.")
     }
 
     // MARK: - Private API
@@ -345,6 +368,9 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
         locationManager.monitoredRegions
             .filter { !($0 is CLBeaconRegion) }
             .forEach { locationManager.stopMonitoring(for: $0) }
+    }
+
+    private func clearBeacons() {
     }
 
     private func handleRegionEnter(_ clr: CLRegion) {
