@@ -231,7 +231,7 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
             locationManager.startUpdatingHeading()
         }
 
-        // TODO: checkBluetoothEnabled()
+        checkBluetoothEnabled()
     }
 
     private func saveLocation(_ location: CLLocation, _ completion: @escaping () -> Void) {
