@@ -548,9 +548,55 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
             }
     }
 
-    private func triggerBeaconEnter(_ beacon: NotificareBeacon) {}
+    private func triggerBeaconEnter(_ beacon: NotificareBeacon) {
+        guard let device = Notificare.shared.deviceManager.currentDevice else {
+            NotificareLogger.warning("Cannot process beacon enter trigger without a device.")
+            return
+        }
 
-    private func triggerBeaconExit(_ beacon: NotificareBeacon) {}
+        let payload = NotificareInternals.PushAPI.Payloads.BeaconTrigger(
+            deviceID: device.id,
+            beacon: beacon.id
+        )
+
+        NotificareRequest.Builder()
+            .post("trigger/re.notifica.trigger.beacon.Enter", body: payload)
+            .response { result in
+                switch result {
+                case .success:
+                    LocalStorage.enteredBeacons = LocalStorage.enteredBeacons.appending(beacon.id)
+
+                    NotificareLogger.debug("Triggered beacon enter.")
+                case let .failure(error):
+                    NotificareLogger.error("Failed to trigger a beacon enter.\n\(error)")
+                }
+            }
+    }
+
+    private func triggerBeaconExit(_ beacon: NotificareBeacon) {
+        guard let device = Notificare.shared.deviceManager.currentDevice else {
+            NotificareLogger.warning("Cannot process beacon exit trigger without a device.")
+            return
+        }
+
+        let payload = NotificareInternals.PushAPI.Payloads.BeaconTrigger(
+            deviceID: device.id,
+            beacon: beacon.id
+        )
+
+        NotificareRequest.Builder()
+            .post("trigger/re.notifica.trigger.beacon.Exit", body: payload)
+            .response { result in
+                switch result {
+                case .success:
+                    LocalStorage.enteredBeacons = LocalStorage.enteredBeacons.removing(beacon.id)
+
+                    NotificareLogger.debug("Triggered beacon exit.")
+                case let .failure(error):
+                    NotificareLogger.error("Failed to trigger a beacon exit.\n\(error)")
+                }
+            }
+    }
 
     private func startRegionSession(_ region: NotificareRegion) {
         NotificareLogger.debug("Starting session for region '\(region.name)'.")
