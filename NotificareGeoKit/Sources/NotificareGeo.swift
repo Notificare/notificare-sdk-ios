@@ -393,7 +393,7 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
                     }
 
                     NotificareLogger.debug("Requesting some background time.")
-                    // TODO: keep app alive for a while.
+                    keepAlive()
 
                     return
                 }
@@ -569,6 +569,14 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
                 NotificareLogger.error("Failed to log the region session.\n\(error)")
             }
         }
+    }
+
+
+    private func keepAlive() {
+        guard UIApplication.shared.applicationState != .active else { return }
+
+        NotificareLogger.debug("Requesting location in background.")
+        locationManager.requestLocation()
     }
 
     // MARK: - NotificationCenter events
