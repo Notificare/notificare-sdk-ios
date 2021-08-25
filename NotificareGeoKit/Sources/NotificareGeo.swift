@@ -894,7 +894,48 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
         locationManager.startMonitoring(for: clr)
     }
 
-    private func stopMonitoringBeacons(in region: NotificareRegion) {}
+    private func stopMonitoringBeacons(in region: NotificareRegion) {
+        // Stop monitoring all beacon regions with the same major.
+        locationManager.monitoredRegions
+            .compactMap { $0 as? CLBeaconRegion }
+            .filter { $0.major?.intValue == region.major }
+            .forEach { clr in
+                // Make sure we stop monitoring it, it will start again on a region enter.
+                locationManager.stopMonitoring(for: clr)
+                
+                guard let beacon = LocalStorage.monitoredBeacons.first(where: { $0.id == clr.identifier }) else {
+                    //
+                    return
+                }
+                
+                if clr.minor != nil {
+                    //
+                    // This is an actual beacon region.
+                    //
+
+                    if LocalStorage.enteredBeacons.contains(clr.identifier) {
+                        triggerBeaconExit(beacon)
+                    }
+                } else {
+                    //
+                    // This is the main beacon region.
+                    //
+                    
+                    if #available(iOS 13.0, *) {
+                        locationManager.stopRangingBeacons(satisfying: clr.beaconIdentityConstraint)
+                        locationManager(locationManager, didRange: [], satisfying: clr.beaconIdentityConstraint)
+                    } else {
+                        locationManager.stopRangingBeacons(in: clr)
+                        locationManager(locationManager, didRangeBeacons: [], in: clr)
+                    }
+                    
+                    stopBeaconSession(beacon)
+                }
+            }
+        
+        // Remove all monitored beacons with this region's major.
+        LocalStorage.monitoredBeacons = LocalStorage.monitoredBeacons.filter { $0.major != region.major }
+    }
 
     private func keepAlive() {
         guard UIApplication.shared.applicationState != .active else { return }
@@ -1114,6 +1155,8 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
                 self.enableLocationUpdates()
             }
         }
+        
+        // TODO: forward to the delegate.
     }
 
     public func locationManager(_: CLLocationManager, didStartMonitoringFor region: CLRegion) {
@@ -1145,10 +1188,13 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
     }
 
     public func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
+        // TODO: forward to the delegate.
+
         // Ignore beacon regions.
         guard !(region is CLBeaconRegion) else { return }
 
         // Ignore polygons.
+        // Location is requested by the keep alive mechanism.
         guard let r = LocalStorage.monitoredRegions.first(where: { $0.id == region.identifier }), !r.isPolygon else {
             return
         }
@@ -1160,11 +1206,6 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
     public func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
         // Ignore beacon regions.
         guard !(region is CLBeaconRegion) else { return }
-
-        // Ignore polygons.
-        guard let r = LocalStorage.monitoredRegions.first(where: { $0.id == region.identifier }), !r.isPolygon else {
-            return
-        }
 
         // Trigger a location update in order to update the loaded fences as a side effect.
         manager.requestLocation()
