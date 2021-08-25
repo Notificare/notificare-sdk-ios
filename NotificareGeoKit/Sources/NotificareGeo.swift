@@ -896,6 +896,36 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
         locationManager.requestLocation()
     }
 
+    private func handleRangingBeacons(_ clBeacons: [CLBeacon], in clr: CLBeaconRegion) {
+        guard let region = LocalStorage.monitoredRegions.first(where: { $0.id == clr.identifier }) else {
+            NotificareLogger.warning("Received a beacon ranging event for non-cached region '\(clr.identifier)'.")
+            return
+        }
+
+        guard LocalStorage.enteredRegions.contains(region.id) else {
+            NotificareLogger.warning("Received a beacon ranging event for non-entered region '\(region.name)'.")
+            return
+        }
+
+        var beacons = [NotificareBeacon]()
+
+        clBeacons
+            .filter { $0.proximity != .unknown }
+            .forEach { clb in
+                if var beacon = LocalStorage.monitoredBeacons.first(where: { $0.major == clb.major.intValue && $0.minor == clb.minor.intValue }) {
+                    // Expose the proximity for the developers.
+                    beacon.proximity = NotificareBeacon.Proximity(clb.proximity)
+                    beacons.append(beacon)
+
+                    // Update beacon session.
+                    updateBeaconSession(clb)
+                }
+            }
+
+        // Notify the delegate.
+        delegate?.notificare(self, didRange: beacons, in: region)
+    }
+
     // MARK: - NotificationCenter events
 
     @objc private func onApplicationDidBecomeActiveNotification(_: Notification) {
@@ -1051,6 +1081,21 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
         case .unknown:
             break
         }
+    }
+
+    public func locationManager(_: CLLocationManager, didRangeBeacons beacons: [CLBeacon], in region: CLBeaconRegion) {
+        handleRangingBeacons(beacons, in: region)
+    }
+
+    @available(iOS 13.0, *)
+    public func locationManager(_: CLLocationManager, didRange beacons: [CLBeacon], satisfying beaconConstraint: CLBeaconIdentityConstraint) {
+        let region = locationManager.monitoredRegions
+            .compactMap { $0 as? CLBeaconRegion }
+            .first { $0.beaconIdentityConstraint == beaconConstraint }
+
+        guard let region = region else { return }
+
+        handleRangingBeacons(beacons, in: region)
     }
 
     // MARK: - Internals
