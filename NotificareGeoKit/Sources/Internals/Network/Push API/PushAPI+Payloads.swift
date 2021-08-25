@@ -55,4 +55,8 @@ internal extension NotificareInternals.PushAPI.Payloads {
         let deviceID: String
         let beacon: String
     }
+
+    struct BluetoothStateUpdate: Encodable {
+        let bluetoothEnabled: Bool
+    }
 }
