@@ -6,6 +6,7 @@ import Foundation
 import NotificareKit
 
 private let KEY_LOCATION_SERVICES_ENABLED = "re.notifica.geo.location_services_enabled"
+private let KEY_BLUETOOTH_ENABLED = "re.notifica.geo.bluetooth_enabled"
 private let KEY_ENTERED_REGIONS = "re.notifica.geo.entered_regions"
 private let KEY_ENTERED_BEACONS = "re.notifica.geo.entered_regions"
 private let KEY_MONITORED_REGIONS = "re.notifica.geo.monitored_regions"
@@ -20,6 +21,15 @@ internal enum LocalStorage {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: KEY_LOCATION_SERVICES_ENABLED)
+        }
+    }
+
+    static var bluetoothEnabled: Bool {
+        get {
+            UserDefaults.standard.bool(forKey: KEY_BLUETOOTH_ENABLED)
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: KEY_BLUETOOTH_ENABLED)
         }
     }
 
