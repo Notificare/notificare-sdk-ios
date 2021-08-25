@@ -31,4 +31,35 @@ extension NotificareEventsModule {
 
         log("re.notifica.event.region.Session", data: data, completion)
     }
+
+    func logBeaconSession(_ session: NotificareBeaconSession, _ completion: NotificareCallback<Void>? = nil) {
+        let sessionEnd = session.end ?? Date()
+        let length = sessionEnd.timeIntervalSince(session.start)
+
+        let data: NotificareEventData = [
+            "fence": session.regionId,
+            "start": session.start,
+            "end": sessionEnd,
+            "length": length,
+            "beacons": session.beacons.map { beacon -> [String: Any] in
+                var result: [String: Any] = [
+                    "proximity": beacon.proximity,
+                    "major": beacon.major,
+                    "minor": beacon.minor,
+                    "timestamp": beacon.timestamp,
+                ]
+
+                if let location = beacon.location {
+                    result["location"] = [
+                        "latitude": location.latitude,
+                        "longitude": location.longitude,
+                    ]
+                }
+
+                return result
+            },
+        ]
+
+        log("re.notifica.event.beacon.Session", data: data, completion)
+    }
 }

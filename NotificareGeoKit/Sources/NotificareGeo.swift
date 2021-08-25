@@ -9,9 +9,12 @@ import NotificareKit
 import UIKit
 
 private let MAX_MONITORED_REGIONS = 10
+private let MAX_MONITORED_BEACONS = 10
 
 public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegate {
     public static let shared = NotificareGeo()
+
+    public weak var delegate: NotificareGeoDelegate?
 
     private var locationManager: CLLocationManager!
     private var processingLocationUpdate = false
@@ -691,11 +694,89 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
         }
     }
 
-    private func startBeaconSession(_ beacon: NotificareBeacon) {}
+    private func startBeaconSession(_ beacon: NotificareBeacon) {
+        guard let region = LocalStorage.monitoredRegions.first(where: { $0.id == beacon.id }) else {
+            NotificareLogger.warning("Cannot start the session for beacon '\(beacon.name)' since the corresponding region is not being monitored.")
+            return
+        }
 
-    private func updateBeaconSession(_ beacon: CLBeacon) {}
+        NotificareLogger.debug("Starting session for beacon '\(beacon.name)'.")
 
-    private func stopBeaconSession(_ beacon: NotificareBeacon) {}
+        guard !LocalStorage.beaconSessions.contains(where: { $0.regionId == region.id }) else {
+            NotificareLogger.debug("Skipping beacon session start since it already exists for region '\(region.name)'.")
+            return
+        }
+
+        LocalStorage.beaconSessions = LocalStorage.beaconSessions.appending(
+            NotificareBeaconSession(
+                regionId: region.id,
+                start: Date(),
+                end: nil,
+                beacons: []
+            )
+        )
+    }
+
+    private func updateBeaconSession(_ beacon: CLBeacon) {
+        guard let region = LocalStorage.monitoredRegions.first(where: { $0.major == beacon.major.intValue }) else {
+            NotificareLogger.warning("Cannot update the session for beacon (major: \(beacon.major), minor: '\(beacon.minor))' since the corresponding region is not being monitored.")
+            return
+        }
+
+        LocalStorage.beaconSessions = LocalStorage.beaconSessions.map { session in
+            guard session.regionId == region.id else {
+                return session
+            }
+
+            NotificareLogger.debug("Updating beacon session for region '\(region.name)'.")
+
+            return NotificareBeaconSession(
+                regionId: session.regionId,
+                start: session.start,
+                end: session.end,
+                beacons: session.beacons.appending(
+                    NotificareBeaconSession.Beacon(
+                        proximity: beacon.proximity.rawValue,
+                        major: beacon.major.intValue,
+                        minor: beacon.minor.intValue,
+                        location: locationManager.location.flatMap { location in
+                            NotificareBeaconSession.Beacon.Location(
+                                latitude: location.coordinate.latitude,
+                                longitude: location.coordinate.longitude
+                            )
+                        },
+                        timestamp: Date()
+                    )
+                )
+            )
+        }
+    }
+
+    private func stopBeaconSession(_ beacon: NotificareBeacon) {
+        guard let region = LocalStorage.monitoredRegions.first(where: { $0.id == beacon.id }) else {
+            NotificareLogger.warning("Cannot stop the session for beacon '\(beacon.name)' since the corresponding region is not being monitored.")
+            return
+        }
+
+        guard let session = LocalStorage.beaconSessions.first(where: { $0.regionId == region.id }) else {
+            NotificareLogger.debug("Skipping beacon session end since no session exists for region '\(region.name)'.")
+            return
+        }
+
+        NotificareLogger.debug("Stopping session for beacon '\(beacon.name)'.")
+
+        Notificare.shared.eventsManager.logBeaconSession(session) { result in
+            switch result {
+            case .success:
+                NotificareLogger.debug("Beacon session logged.")
+
+                // Remove the session from local storage.
+                LocalStorage.beaconSessions = LocalStorage.beaconSessions.filter { $0.regionId != region.id }
+            case let .failure(error):
+                NotificareLogger.error("Failed to log the beacon session.\n\(error)")
+            }
+        }
+    }
 
     private func startMonitoringBeacons(in region: NotificareRegion) {
         NotificareLogger.debug("Starting to monitor beacons in region '\(region.name)'.")

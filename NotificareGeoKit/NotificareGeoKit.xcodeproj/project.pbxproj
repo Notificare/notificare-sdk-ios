@@ -8,7 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		F2422E4926CC0FD800D035AD /* NotificareBeacon.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2422E4826CC0FD800D035AD /* NotificareBeacon.swift */; };
+		F24FF2F426D3DF1D00BB7B1C /* NotificareBeaconSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24FF2F326D3DF1D00BB7B1C /* NotificareBeaconSession.swift */; };
 		F24FF2F626D3FFFA00BB7B1C /* NotificareBeacon+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24FF2F526D3FFFA00BB7B1C /* NotificareBeacon+Extensions.swift */; };
+		F24FF2F826D4018E00BB7B1C /* NotificareGeoDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24FF2F726D4018E00BB7B1C /* NotificareGeoDelegate.swift */; };
 		F258DD7A24BC4E95006F9ABD /* NotificareGeoKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F258DD7024BC4E95006F9ABD /* NotificareGeoKit.framework */; };
 		F258DD7F24BC4E95006F9ABD /* LocationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DD7E24BC4E95006F9ABD /* LocationTests.swift */; };
 		F258DD8124BC4E95006F9ABD /* NotificareGeoKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F258DD7324BC4E95006F9ABD /* NotificareGeoKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -53,7 +55,9 @@
 
 /* Begin PBXFileReference section */
 		F2422E4826CC0FD800D035AD /* NotificareBeacon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareBeacon.swift; sourceTree = "<group>"; };
+		F24FF2F326D3DF1D00BB7B1C /* NotificareBeaconSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareBeaconSession.swift; sourceTree = "<group>"; };
 		F24FF2F526D3FFFA00BB7B1C /* NotificareBeacon+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificareBeacon+Extensions.swift"; sourceTree = "<group>"; };
+		F24FF2F726D4018E00BB7B1C /* NotificareGeoDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareGeoDelegate.swift; sourceTree = "<group>"; };
 		F258DD7024BC4E95006F9ABD /* NotificareGeoKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NotificareGeoKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F258DD7324BC4E95006F9ABD /* NotificareGeoKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificareGeoKit.h; sourceTree = "<group>"; };
 		F258DD7424BC4E95006F9ABD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -126,6 +130,7 @@
 				F258DD7324BC4E95006F9ABD /* NotificareGeoKit.h */,
 				F2696AA926C275C5002EA653 /* NotificareGeo.swift */,
 				F2CDE01B26C6AB7C00CC4867 /* NotificareGeo+EventsManager.swift */,
+				F24FF2F726D4018E00BB7B1C /* NotificareGeoDelegate.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -155,6 +160,7 @@
 			isa = PBXGroup;
 			children = (
 				F2422E4826CC0FD800D035AD /* NotificareBeacon.swift */,
+				F24FF2F326D3DF1D00BB7B1C /* NotificareBeaconSession.swift */,
 				F26E6DD026C44C4A00FA67CB /* NotificareRegion.swift */,
 				F2CDE01D26C6B0BB00CC4867 /* NotificareRegionSession.swift */,
 			);
@@ -339,9 +345,11 @@
 				F2CDE01E26C6B0BB00CC4867 /* NotificareRegionSession.swift in Sources */,
 				F24FF2F626D3FFFA00BB7B1C /* NotificareBeacon+Extensions.swift in Sources */,
 				F29FCFDA26C5688200A2C7E1 /* Collections+Extensions.swift in Sources */,
+				F24FF2F826D4018E00BB7B1C /* NotificareGeoDelegate.swift in Sources */,
 				F2CDE01A26C672F200CC4867 /* MapKit+Extensions.swift in Sources */,
 				F2696AB326C2B43C002EA653 /* PushAPI+Models.swift in Sources */,
 				F288C1F826C407D600B6C83C /* LocalStorage.swift in Sources */,
+				F24FF2F426D3DF1D00BB7B1C /* NotificareBeaconSession.swift in Sources */,
 				F2696AB726C2B44F002EA653 /* PushAPI+Responses.swift in Sources */,
 				F26E6DCF26C44BE500FA67CB /* NotificareRegion+Extensions.swift in Sources */,
 				F2696AB526C2B446002EA653 /* PushAPI+Payloads.swift in Sources */,

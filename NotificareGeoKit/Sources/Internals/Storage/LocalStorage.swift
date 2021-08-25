@@ -11,6 +11,7 @@ private let KEY_ENTERED_BEACONS = "re.notifica.geo.entered_regions"
 private let KEY_MONITORED_REGIONS = "re.notifica.geo.monitored_regions"
 private let KEY_MONITORED_BEACONS = "re.notifica.geo.monitored_beacons"
 private let KEY_REGION_SESSIONS = "re.notifica.geo.region_sessions"
+private let KEY_BEACON_SESSIONS = "re.notifica.geo.beacon_sessions"
 
 internal enum LocalStorage {
     static var locationServicesEnabled: Bool {
@@ -135,6 +136,38 @@ internal enum LocalStorage {
                 UserDefaults.standard.synchronize()
             } catch {
                 NotificareLogger.warning("Failed to encode the region sessions.\n\(error)")
+            }
+        }
+    }
+
+    static var beaconSessions: [NotificareBeaconSession] {
+        get {
+            guard let data = UserDefaults.standard.object(forKey: KEY_BEACON_SESSIONS) as? Data else {
+                return []
+            }
+
+            do {
+                let decoder = NotificareUtils.jsonDecoder
+                return try decoder.decode([NotificareBeaconSession].self, from: data)
+            } catch {
+                NotificareLogger.warning("Failed to decode the beacon sessions.\n\(error)")
+
+                // Remove the corrupted beacon sessions from local storage.
+                UserDefaults.standard.removeObject(forKey: KEY_BEACON_SESSIONS)
+                UserDefaults.standard.synchronize()
+
+                return []
+            }
+        }
+        set {
+            do {
+                let encoder = NotificareUtils.jsonEncoder
+                let data = try encoder.encode(newValue)
+
+                UserDefaults.standard.set(data, forKey: KEY_BEACON_SESSIONS)
+                UserDefaults.standard.synchronize()
+            } catch {
+                NotificareLogger.warning("Failed to encode the beacon sessions.\n\(error)")
             }
         }
     }

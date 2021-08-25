@@ -50,4 +50,9 @@ internal extension NotificareInternals.PushAPI.Payloads {
         let deviceID: String
         let region: String
     }
+
+    struct BeaconTrigger: Encodable {
+        let deviceID: String
+        let beacon: String
+    }
 }
