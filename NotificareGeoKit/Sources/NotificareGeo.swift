@@ -10,14 +10,21 @@ import UIKit
 
 private let MAX_MONITORED_REGIONS = 10
 private let MAX_MONITORED_BEACONS = 10
+private let FAKE_BEACON_IDENTIFIER = "NotificareFakeBeacon"
 
 public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegate {
     public static let shared = NotificareGeo()
 
     public weak var delegate: NotificareGeoDelegate?
 
+    public var bluetoothEnabled: Bool {
+        get { LocalStorage.bluetoothEnabled && LocalStorage.locationServicesEnabled }
+        set { LocalStorage.bluetoothEnabled = newValue }
+    }
+
     private var locationManager: CLLocationManager!
     private var processingLocationUpdate = false
+    private let fakeBeaconUUID = UUID()
 
     private var hasReducedAccuracy: Bool {
         if #available(iOS 14.0, *) {
@@ -897,6 +904,20 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
     }
 
     private func handleRangingBeacons(_ clBeacons: [CLBeacon], in clr: CLBeaconRegion) {
+        guard clr.identifier != FAKE_BEACON_IDENTIFIER else {
+            locationManager.stopMonitoring(for: clr)
+
+            if #available(iOS 13.0, *) {
+                locationManager.stopRangingBeacons(satisfying: clr.beaconIdentityConstraint)
+            } else {
+                locationManager.stopRangingBeacons(in: clr)
+            }
+
+            updateBluetoothState(enabled: true)
+
+            return
+        }
+
         guard let region = LocalStorage.monitoredRegions.first(where: { $0.id == clr.identifier }) else {
             NotificareLogger.warning("Received a beacon ranging event for non-cached region '\(clr.identifier)'.")
             return
@@ -924,6 +945,75 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
 
         // Notify the delegate.
         delegate?.notificare(self, didRange: beacons, in: region)
+    }
+
+    private func handleRangingBeaconsError(_: Error, for clr: CLBeaconRegion) {
+        guard clr.identifier == FAKE_BEACON_IDENTIFIER else {
+            // TODO: forward to the delegate.
+            return
+        }
+
+        locationManager.stopMonitoring(for: clr)
+
+        if #available(iOS 13.0, *) {
+            locationManager.stopRangingBeacons(satisfying: clr.beaconIdentityConstraint)
+        } else {
+            locationManager.stopRangingBeacons(in: clr)
+        }
+
+        updateBluetoothState(enabled: false)
+    }
+
+    private func checkBluetoothEnabled() {
+        NotificareLogger.debug("Checking bluetooth service state.")
+
+        let clr: CLBeaconRegion
+
+        if #available(iOS 13.0, *) {
+            clr = CLBeaconRegion(
+                beaconIdentityConstraint: CLBeaconIdentityConstraint(uuid: fakeBeaconUUID),
+                identifier: FAKE_BEACON_IDENTIFIER
+            )
+        } else {
+            clr = CLBeaconRegion(
+                proximityUUID: fakeBeaconUUID,
+                identifier: FAKE_BEACON_IDENTIFIER
+            )
+        }
+
+        clr.notifyEntryStateOnDisplay = false
+        clr.notifyOnEntry = false
+        clr.notifyOnExit = false
+
+        locationManager.startMonitoring(for: clr)
+    }
+
+    private func updateBluetoothState(enabled: Bool) {
+        guard let device = Notificare.shared.deviceManager.currentDevice else {
+            NotificareLogger.warning("Cannot update bluetooth state when no device is configured.")
+            return
+        }
+
+        if bluetoothEnabled != enabled {
+            let payload = NotificareInternals.PushAPI.Payloads.BluetoothStateUpdate(
+                bluetoothEnabled: enabled
+            )
+
+            NotificareRequest.Builder()
+                .put("/device/\(device.id)", body: payload)
+                .response { result in
+                    switch result {
+                    case .success:
+                        NotificareLogger.debug("Bluetooth state updated.")
+                        self.bluetoothEnabled = enabled
+
+                    case let .failure(error):
+                        NotificareLogger.error("Failed to update the bluetooth state.\n\(error)")
+                    }
+                }
+        } else {
+            NotificareLogger.debug("Skipped bluetooth state update, nothing changed.")
+        }
     }
 
     // MARK: - NotificationCenter events
@@ -955,7 +1045,7 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
         }
 
         if CLLocationManager.authorizationStatus() == .authorizedWhenInUse || CLLocationManager.authorizationStatus() == .authorizedAlways {
-            // TODO: checkBluetoothEnabled()
+            checkBluetoothEnabled()
         }
     }
 
@@ -1026,13 +1116,23 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
         }
     }
 
-    public func locationManager(_ manager: CLLocationManager, didStartMonitoringFor region: CLRegion) {
-        // TODO: check if this is the fake beacon
-
-        // Check the state after 2 seconds to avoid colision with other requests.
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            manager.requestState(for: region)
+    public func locationManager(_: CLLocationManager, didStartMonitoringFor region: CLRegion) {
+        if region.identifier == FAKE_BEACON_IDENTIFIER, let clr = region as? CLBeaconRegion {
+            if #available(iOS 13.0, *) {
+                locationManager.startRangingBeacons(satisfying: clr.beaconIdentityConstraint)
+            } else {
+                locationManager.startRangingBeacons(in: clr)
+            }
         }
+
+        //
+        // Removing this request for state since we already request it right after starting
+        // to monitor a region. This causes two state requests for newly monitored regions.
+        //
+        // // Check the state after 2 seconds to avoid colision with other requests.
+        // DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+        //     manager.requestState(for: region)
+        // }
     }
 
     public func locationManager(_: CLLocationManager, monitoringDidFailFor region: CLRegion?, withError _: Error) {
@@ -1096,6 +1196,21 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
         guard let region = region else { return }
 
         handleRangingBeacons(beacons, in: region)
+    }
+
+    public func locationManager(_: CLLocationManager, rangingBeaconsDidFailFor region: CLBeaconRegion, withError error: Error) {
+        handleRangingBeaconsError(error, for: region)
+    }
+
+    @available(iOS 13.0, *)
+    public func locationManager(_: CLLocationManager, didFailRangingFor beaconConstraint: CLBeaconIdentityConstraint, error: Error) {
+        let region = locationManager.monitoredRegions
+            .compactMap { $0 as? CLBeaconRegion }
+            .first { $0.beaconIdentityConstraint == beaconConstraint }
+
+        guard let region = region else { return }
+
+        handleRangingBeaconsError(error, for: region)
     }
 
     // MARK: - Internals
