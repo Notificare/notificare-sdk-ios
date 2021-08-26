@@ -1172,6 +1172,8 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
                 self.processingLocationUpdate = false
             }
         }
+        
+        // TODO: forward to the delegate.
     }
 
     public func locationManager(_: CLLocationManager, didFailWithError error: Error) {
@@ -1239,12 +1241,15 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
     public func locationManager(_: CLLocationManager, didDetermineState state: CLRegionState, for region: CLRegion) {
         switch state {
         case .inside:
+            // TODO: forward to the delegate.
             handleRegionEnter(region)
 
         case .outside:
+            // TODO: forward to the delegate.
             handleRegionExit(region)
 
         case .unknown:
+            // TODO: forward to the delegate.
             break
         }
     }
