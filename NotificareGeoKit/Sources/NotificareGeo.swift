@@ -152,11 +152,8 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
             locationManager.stopUpdatingHeading()
         }
 
-        clearRegions()
-        clearBeacons()
-
-        // TODO: update device
-        // [self locationServicesNotAuthorized];
+        // This should remove all the regions, beacons and device location.
+        handleLocationServicesUnauthorized()
 
         NotificareLogger.info("Location updates disabled.")
     }
@@ -196,21 +193,37 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
     }
 
     private func handleLocationServicesUnauthorized() {
-        // TODO: handleLocationServicesUnauthorized()
+        guard let device = Notificare.shared.deviceManager.currentDevice else {
+            NotificareLogger.warning("Cannot update location authorization state without a device.")
+            return
+        }
 
-        // NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
-        // [settings setObject:@"none" forKey:kNotificareLocationServicesAuthStatus];
-        // [settings setBool:NO forKey:kNotificareAllowedLocationServices];
-        // if ( [settings synchronize] ) {
-        //     [[[NotificareDeviceManager shared] device] setAllowedLocationServices:NO];
-        //     [[[NotificareDeviceManager shared] device] setLocationServicesAuthStatus:@"none"];
-        //     //No authorization or restricted, let's save this in the device
-        //     [[NotificareDeviceManager shared] clearDeviceLocation:^(NotificareDevice * _Nonnull response) {
-        //         [[NotificareLogging shared] nLog:@"Notificare: Device Location cleared"];
-        //     } errorHandler:^(NSError * _Nonnull response) {
-        //         [[NotificareLogging shared] nLog:@"Notificare: Failed to clear Device Location"];
-        //     }];
-        // }
+        clearRegions()
+        clearBeacons()
+
+        let payload = NotificareInternals.PushAPI.Payloads.UpdateDeviceLocation(
+            latitude: nil,
+            longitude: nil,
+            altitude: nil,
+            locationAccuracy: nil,
+            speed: nil,
+            course: nil,
+            country: nil,
+            floor: nil,
+            locationServicesAuthStatus: nil,
+            locationServicesAccuracyAuth: nil
+        )
+
+        NotificareRequest.Builder()
+            .put("/device/\(device.id)", body: payload)
+            .response { result in
+                switch result {
+                case .success:
+                    NotificareLogger.debug("Device location cleared.")
+                case let .failure(error):
+                    NotificareLogger.error("Failed to clear the device location.\n\(error)")
+                }
+            }
     }
 
     private func handleLocationServicesAuthorized(monitorSignificantLocationChanges: Bool) {
@@ -1109,15 +1122,25 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
 
     // MARK: - CLLocationManagerDelegate
 
-    // In iOS 14 this delegate is called whenever there's changes to auth or accuracy states
-    public func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        _ = manager
+    // Prior to iOS 14, this delegate gets called instead
+    public func locationManager(_: CLLocationManager, didChangeAuthorization _: CLAuthorizationStatus) {
+        if CLLocationManager.authorizationStatus() == .denied || CLLocationManager.authorizationStatus() == .restricted {
+            handleLocationServicesUnauthorized()
+        }
     }
 
-    // Prior to iOS 14, this delegate gets called instead
-    public func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        _ = manager
-        _ = status
+    @available(iOS 14.0, *)
+    public func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        if manager.authorizationStatus == .denied || manager.authorizationStatus == .restricted {
+            handleLocationServicesUnauthorized()
+            return
+        }
+
+        if manager.accuracyAuthorization == .reducedAccuracy {
+            NotificareLogger.debug("Location accuracy authorization set to reduced. Removing regions and beacons.")
+            clearRegions()
+            clearBeacons()
+        }
     }
 
     public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {

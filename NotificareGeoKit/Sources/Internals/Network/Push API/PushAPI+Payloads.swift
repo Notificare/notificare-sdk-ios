@@ -7,16 +7,16 @@ import NotificareKit
 
 internal extension NotificareInternals.PushAPI.Payloads {
     struct UpdateDeviceLocation: Encodable {
-        let latitude: Double
-        let longitude: Double
-        let altitude: Double
+        let latitude: Double?
+        let longitude: Double?
+        let altitude: Double?
         let locationAccuracy: Double?
         let speed: Double?
         let course: Double?
         let country: String?
         let floor: Int?
-        let locationServicesAuthStatus: NotificareGeo.AuthorizationMode
-        let locationServicesAccuracyAuth: NotificareGeo.AccuracyMode
+        let locationServicesAuthStatus: NotificareGeo.AuthorizationMode?
+        let locationServicesAccuracyAuth: NotificareGeo.AccuracyMode?
 
         private enum CodingKeys: String, CodingKey {
             case latitude
