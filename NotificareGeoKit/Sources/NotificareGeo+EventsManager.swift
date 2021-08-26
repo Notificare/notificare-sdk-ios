@@ -62,4 +62,15 @@ extension NotificareEventsModule {
 
         log("re.notifica.event.beacon.Session", data: data, completion)
     }
+
+    func logVisit(_ visit: NotificareVisit, _ completion: @escaping NotificareCallback<Void>) {
+        let data: NotificareEventData = [
+            "departureDate": visit.departureDate,
+            "arrivalDate": visit.arrivalDate,
+            "latitude": visit.latitude,
+            "longitude": visit.longitude,
+        ]
+
+        log("re.notifica.event.location.Visit", data: data, completion)
+    }
 }

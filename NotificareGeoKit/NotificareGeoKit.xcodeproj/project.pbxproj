@@ -27,6 +27,7 @@
 		F2CDE01A26C672F200CC4867 /* MapKit+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2CDE01926C672F200CC4867 /* MapKit+Extensions.swift */; };
 		F2CDE01C26C6AB7C00CC4867 /* NotificareGeo+EventsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2CDE01B26C6AB7C00CC4867 /* NotificareGeo+EventsManager.swift */; };
 		F2CDE01E26C6B0BB00CC4867 /* NotificareRegionSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2CDE01D26C6B0BB00CC4867 /* NotificareRegionSession.swift */; };
+		F2FC8BE126D67CE400089F1B /* NotificareVisit.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2FC8BE026D67CE400089F1B /* NotificareVisit.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +81,7 @@
 		F2CDE01926C672F200CC4867 /* MapKit+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapKit+Extensions.swift"; sourceTree = "<group>"; };
 		F2CDE01B26C6AB7C00CC4867 /* NotificareGeo+EventsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificareGeo+EventsManager.swift"; sourceTree = "<group>"; };
 		F2CDE01D26C6B0BB00CC4867 /* NotificareRegionSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareRegionSession.swift; sourceTree = "<group>"; };
+		F2FC8BE026D67CE400089F1B /* NotificareVisit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareVisit.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -163,6 +165,7 @@
 				F24FF2F326D3DF1D00BB7B1C /* NotificareBeaconSession.swift */,
 				F26E6DD026C44C4A00FA67CB /* NotificareRegion.swift */,
 				F2CDE01D26C6B0BB00CC4867 /* NotificareRegionSession.swift */,
+				F2FC8BE026D67CE400089F1B /* NotificareVisit.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -342,6 +345,7 @@
 				F2CDE01C26C6AB7C00CC4867 /* NotificareGeo+EventsManager.swift in Sources */,
 				F2422E4926CC0FD800D035AD /* NotificareBeacon.swift in Sources */,
 				F26E6DD126C44C4A00FA67CB /* NotificareRegion.swift in Sources */,
+				F2FC8BE126D67CE400089F1B /* NotificareVisit.swift in Sources */,
 				F2CDE01E26C6B0BB00CC4867 /* NotificareRegionSession.swift in Sources */,
 				F24FF2F626D3FFFA00BB7B1C /* NotificareBeacon+Extensions.swift in Sources */,
 				F29FCFDA26C5688200A2C7E1 /* Collections+Extensions.swift in Sources */,

@@ -156,6 +156,7 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
         clearBeacons()
 
         // TODO: update device
+        // [self locationServicesNotAuthorized];
 
         NotificareLogger.info("Location updates disabled.")
     }
@@ -902,12 +903,12 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
             .forEach { clr in
                 // Make sure we stop monitoring it, it will start again on a region enter.
                 locationManager.stopMonitoring(for: clr)
-                
+
                 guard let beacon = LocalStorage.monitoredBeacons.first(where: { $0.id == clr.identifier }) else {
                     //
                     return
                 }
-                
+
                 if clr.minor != nil {
                     //
                     // This is an actual beacon region.
@@ -920,7 +921,7 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
                     //
                     // This is the main beacon region.
                     //
-                    
+
                     if #available(iOS 13.0, *) {
                         locationManager.stopRangingBeacons(satisfying: clr.beaconIdentityConstraint)
                         locationManager(locationManager, didRange: [], satisfying: clr.beaconIdentityConstraint)
@@ -928,11 +929,11 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
                         locationManager.stopRangingBeacons(in: clr)
                         locationManager(locationManager, didRangeBeacons: [], in: clr)
                     }
-                    
+
                     stopBeaconSession(beacon)
                 }
             }
-        
+
         // Remove all monitored beacons with this region's major.
         LocalStorage.monitoredBeacons = LocalStorage.monitoredBeacons.filter { $0.major != region.major }
     }
@@ -1155,7 +1156,7 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
                 self.enableLocationUpdates()
             }
         }
-        
+
         // TODO: forward to the delegate.
     }
 
@@ -1252,6 +1253,33 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
         guard let region = region else { return }
 
         handleRangingBeaconsError(error, for: region)
+    }
+
+    public func locationManager(_: CLLocationManager, didVisit visit: CLVisit) {
+        guard visit.departureDate != Date.distantFuture else { return }
+
+        let visit = NotificareVisit(
+            departureDate: visit.departureDate,
+            arrivalDate: visit.arrivalDate,
+            latitude: visit.coordinate.latitude,
+            longitude: visit.coordinate.longitude
+        )
+
+        Notificare.shared.eventsManager.logVisit(visit) { result in
+            switch result {
+            case .success:
+                NotificareLogger.debug("Visit event successfully registered.")
+            // TODO: forward to the delegate.
+            case let .failure(error):
+                NotificareLogger.error("Failed to register a visit event.\n\(error)")
+            }
+        }
+    }
+
+    public func locationManager(_: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
+        _ = newHeading
+
+        // TODO: forward to the delegate.
     }
 
     // MARK: - Internals
