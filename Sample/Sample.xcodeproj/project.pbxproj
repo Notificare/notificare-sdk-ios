@@ -19,6 +19,8 @@
 		F25B6DCD25CAC67E007BC2C8 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = F25B6DCC25CAC67E007BC2C8 /* SDWebImage */; };
 		F25B6DD025CAEC04007BC2C8 /* NavigationItem+Subtitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F25B6DCF25CAEC04007BC2C8 /* NavigationItem+Subtitle.swift */; };
 		F25E630025CAB29A007C1202 /* NotificareServices.plist in Resources */ = {isa = PBXBuildFile; fileRef = F25E62FF25CAB29A007C1202 /* NotificareServices.plist */; };
+		F2696AAC26C2843F002EA653 /* NotificareGeoKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2696AAB26C2843F002EA653 /* NotificareGeoKit.framework */; };
+		F2696AAD26C2843F002EA653 /* NotificareGeoKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F2696AAB26C2843F002EA653 /* NotificareGeoKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F28622DA250FA37500E7D800 /* Notificare.plist in Resources */ = {isa = PBXBuildFile; fileRef = F28622D9250FA37500E7D800 /* Notificare.plist */; };
 		F289F56525B85EC20091AB97 /* NotificareInboxKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F289F56425B85EC20091AB97 /* NotificareInboxKit.framework */; };
 		F289F56625B85EC20091AB97 /* NotificareInboxKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F289F56425B85EC20091AB97 /* NotificareInboxKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -31,6 +33,9 @@
 		F29FD20424CB1FE3004B166D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F29FD20224CB1FE3004B166D /* LaunchScreen.storyboard */; };
 		F2ABF34A269CA32500401D3F /* NotificareAssetsKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2ABF349269CA32500401D3F /* NotificareAssetsKit.framework */; };
 		F2ABF34B269CA32500401D3F /* NotificareAssetsKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F2ABF349269CA32500401D3F /* NotificareAssetsKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F2CEC66826D4F87D009DB821 /* RangingBeaconsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2CEC66726D4F87D009DB821 /* RangingBeaconsViewController.swift */; };
+		F2CEC66A26D4FCAB009DB821 /* RangingBeaconTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2CEC66926D4FCAB009DB821 /* RangingBeaconTableViewCell.swift */; };
+		F2CEC66C26D51E3B009DB821 /* Notification+Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2CEC66B26D51E3B009DB821 /* Notification+Name.swift */; };
 		F2E801D6269D93C300582DB8 /* NotificareScannablesKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2E801D5269D93C300582DB8 /* NotificareScannablesKit.framework */; };
 		F2E801D7269D93C300582DB8 /* NotificareScannablesKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F2E801D5269D93C300582DB8 /* NotificareScannablesKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F2F41D4A25CC0CE20010260B /* InboxDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F41D4925CC0CE20010260B /* InboxDetailViewController.swift */; };
@@ -65,6 +70,7 @@
 				F29B17FD25A4911C007ED6F9 /* NotificarePushUIKit.framework in Embed Frameworks */,
 				F22650C7258B6E890004F833 /* NotificareKit.framework in Embed Frameworks */,
 				F289F56625B85EC20091AB97 /* NotificareInboxKit.framework in Embed Frameworks */,
+				F2696AAD26C2843F002EA653 /* NotificareGeoKit.framework in Embed Frameworks */,
 				F216F0B426A8265500F9EF56 /* NotificareLoyaltyKit.framework in Embed Frameworks */,
 				F2ABF34B269CA32500401D3F /* NotificareAssetsKit.framework in Embed Frameworks */,
 				F2F697CD26B9541D00AB663E /* NotificareAuthenticationKit.framework in Embed Frameworks */,
@@ -115,6 +121,7 @@
 		F25B6DC925CAC5A4007BC2C8 /* Date+TimeAgo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+TimeAgo.swift"; sourceTree = "<group>"; };
 		F25B6DCF25CAEC04007BC2C8 /* NavigationItem+Subtitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NavigationItem+Subtitle.swift"; sourceTree = "<group>"; };
 		F25E62FF25CAB29A007C1202 /* NotificareServices.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = NotificareServices.plist; sourceTree = "<group>"; };
+		F2696AAB26C2843F002EA653 /* NotificareGeoKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareGeoKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F28553C7258BA18C006674C1 /* Sample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Sample.entitlements; sourceTree = "<group>"; };
 		F28622D9250FA37500E7D800 /* Notificare.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Notificare.plist; sourceTree = "<group>"; };
 		F289F56425B85EC20091AB97 /* NotificareInboxKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareInboxKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -129,6 +136,9 @@
 		F2AAAF98251D01E700465EC5 /* NotificareSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2ABF349269CA32500401D3F /* NotificareAssetsKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareAssetsKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2B8C56425A6176B00FFBE0C /* NotificareCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F2CEC66726D4F87D009DB821 /* RangingBeaconsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RangingBeaconsViewController.swift; sourceTree = "<group>"; };
+		F2CEC66926D4FCAB009DB821 /* RangingBeaconTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RangingBeaconTableViewCell.swift; sourceTree = "<group>"; };
+		F2CEC66B26D51E3B009DB821 /* Notification+Name.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Name.swift"; sourceTree = "<group>"; };
 		F2E801D5269D93C300582DB8 /* NotificareScannablesKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareScannablesKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2F41D4925CC0CE20010260B /* InboxDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxDetailViewController.swift; sourceTree = "<group>"; };
 		F2F41D7525CD651D0010260B /* NotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -151,6 +161,7 @@
 				F22650CA258B6E900004F833 /* NotificarePushKit.framework in Frameworks */,
 				F22650C6258B6E890004F833 /* NotificareKit.framework in Frameworks */,
 				F29B17FC25A4911C007ED6F9 /* NotificarePushUIKit.framework in Frameworks */,
+				F2696AAC26C2843F002EA653 /* NotificareGeoKit.framework in Frameworks */,
 				F2F6977226B93D1A00AB663E /* Atlantis in Frameworks */,
 				F216F0B326A8265500F9EF56 /* NotificareLoyaltyKit.framework in Frameworks */,
 			);
@@ -171,6 +182,7 @@
 		F251694324D4077D0025B51F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F2696AAB26C2843F002EA653 /* NotificareGeoKit.framework */,
 				F2F697CB26B9541D00AB663E /* NotificareAuthenticationKit.framework */,
 				F2F697B926B9432D00AB663E /* NotificareAuthentication.framework */,
 				F216F0B226A8265500F9EF56 /* NotificareLoyaltyKit.framework */,
@@ -207,6 +219,7 @@
 			children = (
 				F25B6DC625CABE11007BC2C8 /* InboxViewController.swift */,
 				F2F41D4925CC0CE20010260B /* InboxDetailViewController.swift */,
+				F2CEC66726D4F87D009DB821 /* RangingBeaconsViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -215,6 +228,7 @@
 			isa = PBXGroup;
 			children = (
 				F25B6DC425CABDE6007BC2C8 /* InboxItemTableViewCell.swift */,
+				F2CEC66926D4FCAB009DB821 /* RangingBeaconTableViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -224,6 +238,7 @@
 			children = (
 				F25B6DC925CAC5A4007BC2C8 /* Date+TimeAgo.swift */,
 				F25B6DCF25CAEC04007BC2C8 /* NavigationItem+Subtitle.swift */,
+				F2CEC66B26D51E3B009DB821 /* Notification+Name.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -410,10 +425,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				F25B6DC525CABDE6007BC2C8 /* InboxItemTableViewCell.swift in Sources */,
+				F2CEC66826D4F87D009DB821 /* RangingBeaconsViewController.swift in Sources */,
+				F2CEC66A26D4FCAB009DB821 /* RangingBeaconTableViewCell.swift in Sources */,
 				F25B6DCA25CAC5A4007BC2C8 /* Date+TimeAgo.swift in Sources */,
 				F25B6DD025CAEC04007BC2C8 /* NavigationItem+Subtitle.swift in Sources */,
 				F29FD1FC24CB1FE1004B166D /* ViewController.swift in Sources */,
 				F29FD1F824CB1FE1004B166D /* AppDelegate.swift in Sources */,
+				F2CEC66C26D51E3B009DB821 /* Notification+Name.swift in Sources */,
 				F25B6DC725CABE11007BC2C8 /* InboxViewController.swift in Sources */,
 				F2F41D4A25CC0CE20010260B /* InboxDetailViewController.swift in Sources */,
 			);
@@ -633,6 +651,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
+				MARKETING_VERSION = 3.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.demo.NotificationService;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -653,6 +672,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
+				MARKETING_VERSION = 3.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.demo.NotificationService;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

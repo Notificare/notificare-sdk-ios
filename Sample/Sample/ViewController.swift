@@ -2,8 +2,10 @@
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
+import CoreLocation
 import NotificareAssetsKit
 import NotificareAuthenticationKit
+import NotificareGeoKit
 import NotificareInboxKit
 import NotificareKit
 import NotificareLoyaltyKit
@@ -86,6 +88,8 @@ class ViewController: UIViewController {
         }
     }
 
+    // MARK: - Inbox
+
     @IBAction func onListInboxItemsClick(_: Any) {
         print("-----> Inbox items")
         print(NotificareInbox.shared.items)
@@ -102,6 +106,34 @@ class ViewController: UIViewController {
         }
     }
 
+    // MARK: - Geo
+
+    @IBAction func onEnableLocationUpdatesClicked(_: Any) {
+        let authorizationStatus = CLLocationManager.authorizationStatus()
+
+        guard authorizationStatus == .authorizedWhenInUse || authorizationStatus == .authorizedAlways else {
+            let locationManager = CLLocationManager()
+            locationManager.requestWhenInUseAuthorization()
+
+            return
+        }
+
+        guard authorizationStatus == .authorizedAlways else {
+            let locationManager = CLLocationManager()
+            locationManager.requestAlwaysAuthorization()
+
+            return
+        }
+
+        NotificareGeo.shared.enableLocationUpdates()
+    }
+
+    @IBAction func onDisableLocationUpdatesClicked(_: Any) {
+        NotificareGeo.shared.disableLocationUpdates()
+    }
+
+    // MARK: - Assets
+
     @IBAction func onFetchAssetsClick(_: Any) {
         NotificareAssets.shared.fetchAssets(for: "LANDSCAPES") { result in
             switch result {
@@ -113,6 +145,8 @@ class ViewController: UIViewController {
         }
     }
 
+    // MARK: - Scannables
+
     @IBAction func onStartScannableSessionClick(_: Any) {
         if NotificareScannables.shared.canStartNfcScannableSession {
             NotificareScannables.shared.startNfcScannableSession()
@@ -120,6 +154,8 @@ class ViewController: UIViewController {
             NotificareScannables.shared.startQrCodeScannableSession(controller: navigationController!, modal: true)
         }
     }
+
+    // MARK: - Loyalty
 
     @IBAction func onFetchPassClick(_: Any) {
         NotificareLoyalty.shared.fetchPass(serial: "2e5cdf49-83f8-4029-b5bb-dc478ff309b9") { result in
@@ -140,6 +176,8 @@ class ViewController: UIViewController {
 //            }
 //        }
     }
+
+    // MARK: - Authentication
 
     @IBAction func onLoginClicked(_: Any) {
         NotificareAuthentication.shared.login(
@@ -411,5 +449,36 @@ extension ViewController: NotificareScannablesDelegate {
         )
 
         present(alert, animated: true)
+    }
+}
+
+extension ViewController: CLLocationManagerDelegate {
+    func locationManagerDidChangeAuthorization(_: CLLocationManager) {
+        handleLocationAuthorizationChanges()
+    }
+
+    func locationManager(_: CLLocationManager, didChangeAuthorization _: CLAuthorizationStatus) {
+        handleLocationAuthorizationChanges()
+    }
+
+    private func handleLocationAuthorizationChanges() {
+        let status = CLLocationManager.authorizationStatus()
+
+        switch status {
+        case .notDetermined:
+            print("---> Authorization status = not determined")
+        case .restricted:
+            print("---> Authorization status = restricted")
+        case .denied:
+            print("---> Authorization status = denied")
+        case .authorizedWhenInUse:
+            print("---> Authorization status = when in use")
+            NotificareGeo.shared.enableLocationUpdates()
+        case .authorizedAlways:
+            print("---> Authorization status = always")
+            NotificareGeo.shared.enableLocationUpdates()
+        default:
+            print("---> Unhandled authorization status: \(status.rawValue)")
+        }
     }
 }

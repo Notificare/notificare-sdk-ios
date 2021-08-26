@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19107.4"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -21,7 +22,7 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="zFU-PX-emP">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="1147.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="1341"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A5Q-db-eL6">
                                                 <rect key="frame" x="0.0" y="0.0" width="414" height="30"/>
@@ -79,162 +80,214 @@
                                                     <action selector="onFetchUserDataClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="JLA-Ek-PZ0"/>
                                                 </connections>
                                             </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Inbox" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G0v-WY-byA">
+                                                <rect key="frame" x="0.0" y="304" width="414" height="20.5"/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W0T-0o-yzD" userLabel="List inbox items">
-                                                <rect key="frame" x="0.0" y="304" width="414" height="30"/>
+                                                <rect key="frame" x="0.0" y="332.5" width="414" height="30"/>
                                                 <state key="normal" title="List inbox items"/>
                                                 <connections>
                                                     <action selector="onListInboxItemsClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8zb-iB-a5W"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jao-il-I8z">
-                                                <rect key="frame" x="0.0" y="342" width="414" height="30"/>
+                                                <rect key="frame" x="0.0" y="370.5" width="414" height="30"/>
                                                 <state key="normal" title="Refresh badge"/>
                                                 <connections>
                                                     <action selector="onRefreshBadgeClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="GES-c3-l5M"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eDr-pX-pXB">
-                                                <rect key="frame" x="0.0" y="380" width="414" height="30"/>
+                                                <rect key="frame" x="0.0" y="408.5" width="414" height="30"/>
                                                 <state key="normal" title="Open inbox"/>
                                                 <connections>
                                                     <segue destination="yCD-Ua-l8h" kind="show" id="p4V-Yu-FlZ"/>
                                                 </connections>
                                             </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Geo" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Eig-jI-wGf">
+                                                <rect key="frame" x="0.0" y="446.5" width="414" height="20.5"/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bBJ-lC-Vqh">
+                                                <rect key="frame" x="0.0" y="475" width="414" height="30"/>
+                                                <state key="normal" title="Enable location updates"/>
+                                                <connections>
+                                                    <action selector="onEnableLocationUpdatesClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="mNL-P9-9NE"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IZ5-lJ-gW0">
+                                                <rect key="frame" x="0.0" y="513" width="414" height="30"/>
+                                                <state key="normal" title="Disable location updates"/>
+                                                <connections>
+                                                    <action selector="onDisableLocationUpdatesClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="WkC-TL-AID"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="flf-S5-njO">
+                                                <rect key="frame" x="0.0" y="551" width="414" height="30"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" title="View ranging beacons"/>
+                                                <connections>
+                                                    <segue destination="76t-09-9t5" kind="show" id="ndV-Hc-l8d"/>
+                                                </connections>
+                                            </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Assets" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OYd-11-x7I">
+                                                <rect key="frame" x="0.0" y="589" width="414" height="20.5"/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qnz-ce-41q">
-                                                <rect key="frame" x="0.0" y="418" width="414" height="30"/>
+                                                <rect key="frame" x="0.0" y="617.5" width="414" height="30"/>
                                                 <state key="normal" title="Fetch assets"/>
                                                 <connections>
                                                     <action selector="onFetchAssetsClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7ee-0a-nld"/>
                                                 </connections>
                                             </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Scannables" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZcZ-ZI-V8w">
+                                                <rect key="frame" x="0.0" y="655.5" width="414" height="20.5"/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZAX-2A-uFY">
-                                                <rect key="frame" x="0.0" y="456" width="414" height="30"/>
+                                                <rect key="frame" x="0.0" y="684" width="414" height="30"/>
                                                 <state key="normal" title="Start scannable session"/>
                                                 <connections>
                                                     <action selector="onStartScannableSessionClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jbZ-jr-XPz"/>
                                                 </connections>
                                             </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loyalty" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VxK-Hb-TNO">
+                                                <rect key="frame" x="0.0" y="722" width="414" height="20.5"/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u97-jh-ZI1">
-                                                <rect key="frame" x="0.0" y="494" width="414" height="30"/>
+                                                <rect key="frame" x="0.0" y="750.5" width="414" height="30"/>
                                                 <state key="normal" title="Fetch pass"/>
                                                 <connections>
                                                     <action selector="onFetchPassClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="WOn-f0-ZJI"/>
                                                 </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Authentication" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V0S-RK-ffi">
-                                                <rect key="frame" x="0.0" y="532" width="414" height="20.5"/>
+                                                <rect key="frame" x="0.0" y="788.5" width="414" height="20.5"/>
                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ktj-EJ-PUh">
-                                                <rect key="frame" x="0.0" y="560.5" width="414" height="34.5"/>
-                                                <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="plain" title="Login"/>
+                                                <rect key="frame" x="0.0" y="817" width="414" height="30"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" title="Login"/>
                                                 <connections>
                                                     <action selector="onLoginClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6bz-lx-L67"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fed-ND-0kj">
-                                                <rect key="frame" x="0.0" y="603" width="414" height="34.5"/>
-                                                <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="plain" title="Logout"/>
+                                                <rect key="frame" x="0.0" y="855" width="414" height="30"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" title="Logout"/>
                                                 <connections>
                                                     <action selector="onLogoutClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="oUD-Qt-E30"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6v5-nB-uH3">
-                                                <rect key="frame" x="0.0" y="645.5" width="414" height="34.5"/>
-                                                <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="plain" title="Fetch user details"/>
+                                                <rect key="frame" x="0.0" y="893" width="414" height="30"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" title="Fetch user details"/>
                                                 <connections>
                                                     <action selector="onFetchUserDetailsClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="uBA-Ba-sQK"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jw4-Gi-vgI">
-                                                <rect key="frame" x="0.0" y="688" width="414" height="34.5"/>
-                                                <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="plain" title="Fetch user preferences"/>
+                                                <rect key="frame" x="0.0" y="931" width="414" height="30"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" title="Fetch user preferences"/>
                                                 <connections>
                                                     <action selector="onFetchUserPreferencesClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="9x2-zU-UKg"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EgJ-2t-CCp">
-                                                <rect key="frame" x="0.0" y="730.5" width="414" height="34.5"/>
-                                                <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="plain" title="Fetch user segments"/>
+                                                <rect key="frame" x="0.0" y="969" width="414" height="30"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" title="Fetch user segments"/>
                                                 <connections>
                                                     <action selector="onFetchUserSegmentsClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="EmI-9C-flh"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hFx-jI-MUC">
-                                                <rect key="frame" x="0.0" y="773" width="414" height="34.5"/>
-                                                <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="plain" title="Send password reset"/>
+                                                <rect key="frame" x="0.0" y="1007" width="414" height="30"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" title="Send password reset"/>
                                                 <connections>
                                                     <action selector="onSendPasswordResetClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="sCy-7L-Rwi"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nx3-Ai-wqx">
-                                                <rect key="frame" x="0.0" y="815.5" width="414" height="34.5"/>
-                                                <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="plain" title="Reset password"/>
+                                                <rect key="frame" x="0.0" y="1045" width="414" height="30"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" title="Reset password"/>
                                                 <connections>
                                                     <action selector="onResetPasswordClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Hpy-f2-wOf"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hZd-mL-way">
-                                                <rect key="frame" x="0.0" y="858" width="414" height="34.5"/>
-                                                <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="plain" title="Change password"/>
+                                                <rect key="frame" x="0.0" y="1083" width="414" height="30"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" title="Change password"/>
                                                 <connections>
                                                     <action selector="onChangePasswordClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="fit-0K-MZN"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cwp-ao-g87">
-                                                <rect key="frame" x="0.0" y="900.5" width="414" height="34.5"/>
-                                                <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="plain" title="Validate user"/>
+                                                <rect key="frame" x="0.0" y="1121" width="414" height="30"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" title="Validate user"/>
                                                 <connections>
                                                     <action selector="onValidateUserClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="MtQ-TG-m7T"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FvT-Ih-mWL">
-                                                <rect key="frame" x="0.0" y="943" width="414" height="34.5"/>
-                                                <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="plain" title="Generate push email"/>
+                                                <rect key="frame" x="0.0" y="1159" width="414" height="30"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" title="Generate push email"/>
                                                 <connections>
                                                     <action selector="onGeneratePushEmailClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="4Ut-DI-Zy7"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TSE-sV-7E7">
-                                                <rect key="frame" x="0.0" y="985.5" width="414" height="34.5"/>
-                                                <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="plain" title="Add user segment"/>
+                                                <rect key="frame" x="0.0" y="1197" width="414" height="30"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" title="Add user segment"/>
                                                 <connections>
                                                     <action selector="onAddUserSegmentClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="lWT-79-eV5"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GCr-um-cNz">
-                                                <rect key="frame" x="0.0" y="1028" width="414" height="34.5"/>
-                                                <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="plain" title="Remove user segment"/>
+                                                <rect key="frame" x="0.0" y="1235" width="414" height="30"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" title="Remove user segment"/>
                                                 <connections>
                                                     <action selector="onRemoveUserSegmentClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="T9l-YI-AOS"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RyA-XS-e9j">
-                                                <rect key="frame" x="0.0" y="1070.5" width="414" height="34.5"/>
-                                                <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="plain" title="Add user segment to preference"/>
+                                                <rect key="frame" x="0.0" y="1273" width="414" height="30"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" title="Add user segment to preference"/>
                                                 <connections>
                                                     <action selector="onAddUserSegmentToPreferenceClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6xF-A5-1KC"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xgp-yb-Zf7">
-                                                <rect key="frame" x="0.0" y="1113" width="414" height="34.5"/>
-                                                <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="plain" title="Remove user segment from preference"/>
+                                                <rect key="frame" x="0.0" y="1311" width="414" height="30"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" title="Remove user segment from preference"/>
                                                 <connections>
                                                     <action selector="onRemoveUserSegmentFromPreferenceClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="2ba-jc-lao"/>
                                                 </connections>
@@ -267,6 +320,86 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1047.8260869565217" y="137.94642857142856"/>
+        </scene>
+        <!--Ranging Beacons-->
+        <scene sceneID="ScX-Xx-Ubg">
+            <objects>
+                <viewController storyboardIdentifier="ranging-beacons" id="76t-09-9t5" customClass="RangingBeaconsViewController" customModule="Sample" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="knf-5I-SfY">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="B0w-ob-3Zg">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ranging-beacon" id="HJD-Cr-Ost" customClass="RangingBeaconTableViewCell" customModule="Sample" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="50" width="414" height="87"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="HJD-Cr-Ost" id="6Ux-tu-tre">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="87"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aoy-au-4xv">
+                                                    <rect key="frame" x="36" y="45" width="31" height="14.5"/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2tD-mx-ltt">
+                                                    <rect key="frame" x="350" y="16" width="48" height="48"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="48" id="JGT-bt-jve"/>
+                                                        <constraint firstAttribute="width" constant="48" id="sKg-Dc-4nB"/>
+                                                    </constraints>
+                                                    <imageReference key="image" image="WiFi-Signal-3"/>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GxF-k8-BVb">
+                                                    <rect key="frame" x="36" y="20" width="42" height="21"/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="2tD-mx-ltt" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="GxF-k8-BVb" secondAttribute="trailing" constant="16" id="3VM-fe-d5z"/>
+                                                <constraint firstItem="2tD-mx-ltt" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="aoy-au-4xv" secondAttribute="trailing" constant="16" id="5Tt-Vs-48o"/>
+                                                <constraint firstItem="aoy-au-4xv" firstAttribute="top" secondItem="GxF-k8-BVb" secondAttribute="bottom" constant="4" id="8hz-wD-pli"/>
+                                                <constraint firstItem="GxF-k8-BVb" firstAttribute="leading" secondItem="6Ux-tu-tre" secondAttribute="leadingMargin" constant="16" id="Ead-KA-Jkt"/>
+                                                <constraint firstAttribute="trailing" secondItem="2tD-mx-ltt" secondAttribute="trailing" constant="16" id="cSz-aw-geq"/>
+                                                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="2tD-mx-ltt" secondAttribute="bottom" constant="16" id="gTk-cf-W9r"/>
+                                                <constraint firstItem="aoy-au-4xv" firstAttribute="leading" secondItem="6Ux-tu-tre" secondAttribute="leadingMargin" constant="16" id="mTB-yU-7oM"/>
+                                                <constraint firstItem="GxF-k8-BVb" firstAttribute="top" secondItem="6Ux-tu-tre" secondAttribute="top" constant="20" symbolic="YES" id="oqT-Wb-Fa8"/>
+                                                <constraint firstItem="2tD-mx-ltt" firstAttribute="top" secondItem="6Ux-tu-tre" secondAttribute="top" constant="16" id="qZK-bq-1Nj"/>
+                                                <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="aoy-au-4xv" secondAttribute="bottom" constant="16" id="xiZ-vp-GFq"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="beaconLabel" destination="GxF-k8-BVb" id="DiL-TF-1vo"/>
+                                            <outlet property="proximityImage" destination="2tD-mx-ltt" id="3ce-uD-obm"/>
+                                            <outlet property="regionLabel" destination="aoy-au-4xv" id="22Q-bs-BG6"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="ajE-k5-M75"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="B0w-ob-3Zg" firstAttribute="leading" secondItem="ajE-k5-M75" secondAttribute="leading" id="5fj-mZ-gv6"/>
+                            <constraint firstItem="B0w-ob-3Zg" firstAttribute="top" secondItem="ajE-k5-M75" secondAttribute="top" id="9N0-S7-DTr"/>
+                            <constraint firstItem="ajE-k5-M75" firstAttribute="trailing" secondItem="B0w-ob-3Zg" secondAttribute="trailing" id="S2Z-hb-C97"/>
+                            <constraint firstItem="ajE-k5-M75" firstAttribute="bottom" secondItem="B0w-ob-3Zg" secondAttribute="bottom" id="fI3-1W-5XC"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Ranging Beacons" id="FQe-gH-9d5"/>
+                    <connections>
+                        <outlet property="tableView" destination="B0w-ob-3Zg" id="t4f-d5-2I0"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cFv-as-zJV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1048" y="922"/>
         </scene>
         <!--Inbox Detail View Controller-->
         <scene sceneID="VG2-0v-gId">
@@ -372,19 +505,19 @@
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="i7b-6m-X3d">
                                             <rect key="frame" x="116" y="36" width="41.5" height="48.5"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Inbox" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T5p-lt-VzP">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Inbox" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T5p-lt-VzP">
                                                     <rect key="frame" x="0.0" y="0.0" width="41.5" height="20.5"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cGv-4m-IgK">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cGv-4m-IgK">
                                                     <rect key="frame" x="0.0" y="20.5" width="41.5" height="14.5"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                                                     <color key="textColor" systemColor="systemGrayColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ftw-YO-fCB">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ftw-YO-fCB">
                                                     <rect key="frame" x="0.0" y="35" width="41.5" height="13.5"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleCaption2"/>
                                                     <color key="textColor" systemColor="systemGrayColor"/>
@@ -504,6 +637,7 @@
     </inferredMetricsTieBreakers>
     <resources>
         <image name="Badge" width="64" height="64"/>
+        <image name="WiFi-Signal-3" width="24" height="24"/>
         <image name="circle.fill" catalog="system" width="128" height="121"/>
         <image name="envelope.open.fill" catalog="system" width="128" height="119"/>
         <image name="trash.fill" catalog="system" width="121" height="128"/>

@@ -2,8 +2,9 @@
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
-// import Atlantis
+import Atlantis
 import NotificareAuthenticationKit
+import NotificareGeoKit
 import NotificareInboxKit
 import NotificareKit
 import NotificareLoyaltyKit
@@ -19,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
 
         // Enable Proxyman debugging.
-        // Atlantis.start()
+        Atlantis.start()
 
         Notificare.shared.useAdvancedLogging = true
 
@@ -34,6 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NotificarePushUI.shared.delegate = self
         NotificareInbox.shared.delegate = self
         NotificareLoyalty.shared.delegate = self
+        NotificareGeo.shared.delegate = self
 
         Notificare.shared.launch()
 
@@ -71,6 +73,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 extension AppDelegate: NotificareDelegate {
     func notificare(_: Notificare, onReady _: NotificareApplication) {
         print("-----> Notificare is ready.")
+
+        if NotificarePush.shared.isRemoteNotificationsEnabled {
+            NotificarePush.shared.enableRemoteNotifications { _ in }
+        }
+
+        if NotificareGeo.shared.locationServicesEnabled {
+            NotificareGeo.shared.enableLocationUpdates()
+        }
     }
 
     func notificare(_: Notificare, didRegisterDevice device: NotificareDevice) {
@@ -197,5 +207,18 @@ extension AppDelegate: NotificareLoyaltyDelegate {
         }
 
         NotificareLoyalty.shared.present(notification, in: rootViewController)
+    }
+}
+
+extension AppDelegate: NotificareGeoDelegate {
+    func notificare(_: NotificareGeo, didRange beacons: [NotificareBeacon], in region: NotificareRegion) {
+        NotificationCenter.default.post(
+            name: .RangingBeacons,
+            object: nil,
+            userInfo: [
+                "region": region,
+                "beacons": beacons,
+            ]
+        )
     }
 }
