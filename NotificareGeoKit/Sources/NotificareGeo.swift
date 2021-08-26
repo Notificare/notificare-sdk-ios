@@ -366,7 +366,8 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
         NotificareLogger.debug("Cached \(monitoredBeaconsCache.count) beacons for monitoring.")
 
         monitoredRegions.forEach { clr in
-            // TODO: exclude fake beacon
+            // Ignore the fake beacon region.
+            guard clr.identifier != FAKE_BEACON_IDENTIFIER else { return }
 
             if clr is CLBeaconRegion {
                 if let beacon = monitoredBeaconsCache.first(where: { $0.id == clr.identifier }) {
