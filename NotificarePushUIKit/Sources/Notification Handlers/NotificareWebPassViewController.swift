@@ -76,8 +76,7 @@ public class NotificareWebPassViewController: NotificareBaseNotificationViewCont
     private func setupContent() {
         guard let content = notification.content.first,
               let passUrlStr = content.data as? String,
-              let host = Notificare.shared.servicesInfo?.services.webPassHost,
-              let application = Notificare.shared.application
+              let host = Notificare.shared.servicesInfo?.services.pushHost
         else {
             NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFailToPresentNotification: notification)
             return
@@ -86,7 +85,7 @@ public class NotificareWebPassViewController: NotificareBaseNotificationViewCont
         let components = passUrlStr.components(separatedBy: "/")
         let id = components[components.count - 1]
 
-        guard let url = URL(string: "\(host)/#/\(application.id)/\(id)") else {
+        guard let url = URL(string: "\(host)/pass/web/\(id)?showWebVersion=1") else {
             NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFailToPresentNotification: notification)
             return
         }

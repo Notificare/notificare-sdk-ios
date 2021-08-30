@@ -70,13 +70,6 @@ public struct NotificareServicesInfo: Decodable {
             }
         }
 
-        public var webPassHost: String {
-            switch self {
-            case .test: return "https://pass-test.notifica.re"
-            case .production: return "https://pass.notifica.re"
-            }
-        }
-
         public var dynamicLinksDomain: String {
             switch self {
             case .test: return "test.ntc.re"
