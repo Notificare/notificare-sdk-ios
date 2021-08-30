@@ -3,6 +3,7 @@
 //
 
 import Atlantis
+import CoreLocation
 import NotificareAuthenticationKit
 import NotificareGeoKit
 import NotificareInboxKit
@@ -211,6 +212,82 @@ extension AppDelegate: NotificareLoyaltyDelegate {
 }
 
 extension AppDelegate: NotificareGeoDelegate {
+    func notificare(_: NotificareGeo, didUpdateLocations locations: [NotificareLocation]) {
+        print("-----> Locations updated = \(locations)")
+    }
+
+    func notificare(_: NotificareGeo, didFailWith error: Error) {
+        print("-----> Location services failed = \(error)")
+    }
+
+    func notificare(_: NotificareGeo, didStartMonitoringFor region: NotificareRegion) {
+        print("-----> Started monitoring region = \(region.name)")
+    }
+
+    func notificare(_: NotificareGeo, didStartMonitoringFor beacon: NotificareBeacon) {
+        print("-----> Started monitoring beacon = \(beacon.name)")
+    }
+
+    func notificare(_: NotificareGeo, monitoringDidFailFor region: NotificareRegion, with error: Error) {
+        print("-----> Failed to monitor region = \(region.name)\n\(error)")
+    }
+
+    func notificare(_: NotificareGeo, monitoringDidFailFor beacon: NotificareBeacon, with error: Error) {
+        print("-----> Failed to monitor beacon = \(beacon.name)\n\(error)")
+    }
+
+    func notificare(_: NotificareGeo, didDetermineState state: CLRegionState, for region: NotificareRegion) {
+        let stateStr: String
+        switch state {
+        case .inside:
+            stateStr = "inside"
+        case .outside:
+            stateStr = "outside"
+        case .unknown:
+            stateStr = "unknown"
+        }
+
+        print("-----> State for region '\(region.name)' = \(stateStr)")
+    }
+
+    func notificare(_: NotificareGeo, didDetermineState state: CLRegionState, for beacon: NotificareBeacon) {
+        let stateStr: String
+        switch state {
+        case .inside:
+            stateStr = "inside"
+        case .outside:
+            stateStr = "outside"
+        case .unknown:
+            stateStr = "unknown"
+        }
+
+        print("-----> State for beacon '\(beacon.name)' = \(stateStr)")
+    }
+
+    func notificare(_: NotificareGeo, didEnter region: NotificareRegion) {
+        print("-----> On region enter = \(region.name)")
+    }
+
+    func notificare(_: NotificareGeo, didEnter beacon: NotificareBeacon) {
+        print("-----> On beacon enter = \(beacon.name)")
+    }
+
+    func notificare(_: NotificareGeo, didExit region: NotificareRegion) {
+        print("-----> On region exit = \(region.name)")
+    }
+
+    func notificare(_: NotificareGeo, didExit beacon: NotificareBeacon) {
+        print("-----> On beacon enter = \(beacon.name)")
+    }
+
+    func notificare(_: NotificareGeo, didVisit visit: NotificareVisit) {
+        print("-----> On visit = \(visit)")
+    }
+
+    func notificare(_: NotificareGeo, didUpdateHeading heading: NotificareHeading) {
+        print("-----> On heading updated = \(heading)")
+    }
+
     func notificare(_: NotificareGeo, didRange beacons: [NotificareBeacon], in region: NotificareRegion) {
         NotificationCenter.default.post(
             name: .RangingBeacons,
@@ -220,5 +297,9 @@ extension AppDelegate: NotificareGeoDelegate {
                 "beacons": beacons,
             ]
         )
+    }
+
+    func notificare(_: NotificareGeo, didFailRangingFor region: NotificareRegion, with _: Error) {
+        print("-----> Failed to range beacons for region = \(region.name)")
     }
 }
