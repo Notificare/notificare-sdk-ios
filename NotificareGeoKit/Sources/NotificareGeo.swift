@@ -633,18 +633,7 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
             return
         }
 
-        let location = locationManager.location.flatMap { location in
-            NotificareRegionSession.Location(
-                latitude: location.coordinate.latitude,
-                longitude: location.coordinate.longitude,
-                altitude: location.altitude,
-                course: location.course,
-                speed: location.speed,
-                horizontalAccuracy: location.horizontalAccuracy,
-                verticalAccuracy: location.verticalAccuracy,
-                timestamp: location.timestamp
-            )
-        }
+        let location = locationManager.location.flatMap { NotificareLocation(cl: $0) }
 
         let session = NotificareRegionSession(
             regionId: region.id,
@@ -670,25 +659,11 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
 
             NotificareLogger.debug("Updating region '\(region.name)' session.")
 
-            var locations = session.locations
-            locations.append(
-                NotificareRegionSession.Location(
-                    latitude: location.coordinate.latitude,
-                    longitude: location.coordinate.longitude,
-                    altitude: location.altitude,
-                    course: location.course,
-                    speed: location.speed,
-                    horizontalAccuracy: location.horizontalAccuracy,
-                    verticalAccuracy: location.verticalAccuracy,
-                    timestamp: location.timestamp
-                )
-            )
-
             return NotificareRegionSession(
                 regionId: session.regionId,
                 start: session.start,
                 end: session.end,
-                locations: locations
+                locations: session.locations.appending(NotificareLocation(cl: location))
             )
         }
     }

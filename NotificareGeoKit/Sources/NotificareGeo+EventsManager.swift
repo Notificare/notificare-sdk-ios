@@ -15,17 +15,23 @@ extension NotificareEventsModule {
             "start": session.start,
             "end": sessionEnd,
             "length": length,
-            "locations": session.locations.map { location in
-                [
+            "locations": session.locations.map { location -> [String: Any] in
+                var result: [String: Any] = [
                     "latitude": location.latitude,
                     "longitude": location.longitude,
                     "altitude": location.altitude,
                     "course": location.course,
+                    "speed": location.speed,
                     "horizontalAccuracy": location.horizontalAccuracy,
                     "verticalAccuracy": location.verticalAccuracy,
-                    "speed": location.speed,
                     "timestamp": location.timestamp,
                 ]
+
+                if let floor = location.floor {
+                    result["floor"] = floor
+                }
+
+                return result
             },
         ]
 
