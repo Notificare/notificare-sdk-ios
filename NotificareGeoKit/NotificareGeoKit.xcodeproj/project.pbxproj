@@ -24,6 +24,7 @@
 		F289F5D425B8614B0091AB97 /* NotificareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F289F5D125B8614B0091AB97 /* NotificareKit.framework */; };
 		F289F5D525B8614B0091AB97 /* NotificareKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F289F5D125B8614B0091AB97 /* NotificareKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F29FCFDA26C5688200A2C7E1 /* Collections+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29FCFD926C5688200A2C7E1 /* Collections+Extensions.swift */; };
+		F2CC441C26DD15A400740C06 /* NotificareHeading.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2CC441B26DD15A400740C06 /* NotificareHeading.swift */; };
 		F2CC441E26DD18E100740C06 /* NotificareLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2CC441D26DD18E100740C06 /* NotificareLocation.swift */; };
 		F2CDE01A26C672F200CC4867 /* MapKit+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2CDE01926C672F200CC4867 /* MapKit+Extensions.swift */; };
 		F2CDE01C26C6AB7C00CC4867 /* NotificareGeo+EventsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2CDE01B26C6AB7C00CC4867 /* NotificareGeo+EventsManager.swift */; };
@@ -79,6 +80,7 @@
 		F289F5D125B8614B0091AB97 /* NotificareKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F29FCFD926C5688200A2C7E1 /* Collections+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collections+Extensions.swift"; sourceTree = "<group>"; };
 		F2AAAF7C251D01A000465EC5 /* NotificareSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F2CC441B26DD15A400740C06 /* NotificareHeading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareHeading.swift; sourceTree = "<group>"; };
 		F2CC441D26DD18E100740C06 /* NotificareLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareLocation.swift; sourceTree = "<group>"; };
 		F2CDE01926C672F200CC4867 /* MapKit+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapKit+Extensions.swift"; sourceTree = "<group>"; };
 		F2CDE01B26C6AB7C00CC4867 /* NotificareGeo+EventsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificareGeo+EventsManager.swift"; sourceTree = "<group>"; };
@@ -168,6 +170,7 @@
 				F24FF2F326D3DF1D00BB7B1C /* NotificareBeaconSession.swift */,
 				F26E6DD026C44C4A00FA67CB /* NotificareRegion.swift */,
 				F2CDE01D26C6B0BB00CC4867 /* NotificareRegionSession.swift */,
+				F2CC441B26DD15A400740C06 /* NotificareHeading.swift */,
 				F2FC8BE026D67CE400089F1B /* NotificareVisit.swift */,
 			);
 			path = Models;
@@ -348,6 +351,7 @@
 				F2CDE01C26C6AB7C00CC4867 /* NotificareGeo+EventsManager.swift in Sources */,
 				F2422E4926CC0FD800D035AD /* NotificareBeacon.swift in Sources */,
 				F26E6DD126C44C4A00FA67CB /* NotificareRegion.swift in Sources */,
+				F2CC441C26DD15A400740C06 /* NotificareHeading.swift in Sources */,
 				F2FC8BE126D67CE400089F1B /* NotificareVisit.swift in Sources */,
 				F2CDE01E26C6B0BB00CC4867 /* NotificareRegionSession.swift in Sources */,
 				F24FF2F626D3FFFA00BB7B1C /* NotificareBeacon+Extensions.swift in Sources */,

@@ -978,9 +978,14 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
         delegate?.notificare(self, didRange: beacons, in: region)
     }
 
-    private func handleRangingBeaconsError(_: Error, for clr: CLBeaconRegion) {
+    private func handleRangingBeaconsError(_ error: Error, for clr: CLBeaconRegion) {
         guard clr.identifier == FAKE_BEACON_IDENTIFIER else {
-            // TODO: forward to the delegate.
+            guard let region = LocalStorage.monitoredRegions.first(where: { $0.id == clr.identifier }) else {
+                NotificareLogger.debug("Received an event (didFailRangingFor) for non-cached region '\(clr.identifier)'.")
+                return
+            }
+
+            delegate?.notificare(self, didFailRangingFor: region, with: error)
             return
         }
 
@@ -1121,6 +1126,9 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
 
     public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard !processingLocationUpdate, let location = locations.last else {
+            // Notify the delegate regardless of the decision to process the location.
+            delegate?.notificare(self, didUpdateLocations: locations.map { NotificareLocation(cl: $0) })
+
             return
         }
 
@@ -1147,8 +1155,8 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
                 self.processingLocationUpdate = false
             }
         }
-        
-        // TODO: forward to the delegate.
+
+        delegate?.notificare(self, didUpdateLocations: locations.map { NotificareLocation(cl: $0) })
     }
 
     public func locationManager(_: CLLocationManager, didFailWithError error: Error) {
@@ -1158,19 +1166,20 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
             }
         }
 
-        // TODO: forward to the delegate.
+        delegate?.notificare(self, didFailWith: error)
     }
 
-    public func locationManager(_: CLLocationManager, didStartMonitoringFor region: CLRegion) {
-        if region.identifier == FAKE_BEACON_IDENTIFIER, let clr = region as? CLBeaconRegion {
+    public func locationManager(_: CLLocationManager, didStartMonitoringFor clr: CLRegion) {
+        if clr.identifier == FAKE_BEACON_IDENTIFIER, let clr = clr as? CLBeaconRegion {
             if #available(iOS 13.0, *) {
                 locationManager.startRangingBeacons(satisfying: clr.beaconIdentityConstraint)
             } else {
                 locationManager.startRangingBeacons(in: clr)
             }
+
+            return
         }
 
-        //
         // Removing this request for state since we already request it right after starting
         // to monitor a region. This causes two state requests for newly monitored regions.
         //
@@ -1178,54 +1187,121 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
         // DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
         //     manager.requestState(for: region)
         // }
-    }
 
-    public func locationManager(_: CLLocationManager, monitoringDidFailFor region: CLRegion?, withError _: Error) {
-        if let region = region {
-            // Retry to monitor this region
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                self.locationManager.startMonitoring(for: region)
+        if clr is CLBeaconRegion {
+            guard let beacon = LocalStorage.monitoredBeacons.first(where: { $0.id == clr.identifier }) else {
+                NotificareLogger.debug("Received an event (didStartMonitoringFor) for non-cached beacon '\(clr.identifier)'.")
+                return
             }
+
+            delegate?.notificare(self, didStartMonitoringFor: beacon)
+        } else {
+            guard let region = LocalStorage.monitoredRegions.first(where: { $0.id == clr.identifier }) else {
+                NotificareLogger.debug("Received an event (didStartMonitoringFor) for non-cached region '\(clr.identifier)'.")
+                return
+            }
+
+            delegate?.notificare(self, didStartMonitoringFor: region)
         }
     }
 
-    public func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
-        // TODO: forward to the delegate.
+    public func locationManager(_: CLLocationManager, monitoringDidFailFor clr: CLRegion?, withError error: Error) {
+        guard let clr = clr else { return }
 
-        // Ignore beacon regions.
-        guard !(region is CLBeaconRegion) else { return }
-
-        // Ignore polygons.
-        // Location is requested by the keep alive mechanism.
-        guard let r = LocalStorage.monitoredRegions.first(where: { $0.id == region.identifier }), !r.isPolygon else {
-            return
+        // Retry to monitor this region
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            self.locationManager.startMonitoring(for: clr)
         }
 
-        // Trigger a location update in order to update the loaded fences as a side effect.
-        manager.requestLocation()
+        if clr is CLBeaconRegion {
+            guard let beacon = LocalStorage.monitoredBeacons.first(where: { $0.id == clr.identifier }) else {
+                NotificareLogger.debug("Received an event (monitoringDidFailFor) for non-cached beacon '\(clr.identifier)'.")
+                return
+            }
+
+            delegate?.notificare(self, monitoringDidFailFor: beacon, with: error)
+        } else {
+            guard let region = LocalStorage.monitoredRegions.first(where: { $0.id == clr.identifier }) else {
+                NotificareLogger.debug("Received an event (monitoringDidFailFor) for non-cached region '\(clr.identifier)'.")
+                return
+            }
+
+            delegate?.notificare(self, monitoringDidFailFor: region, with: error)
+        }
     }
 
-    public func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
-        // Ignore beacon regions.
-        guard !(region is CLBeaconRegion) else { return }
+    public func locationManager(_ manager: CLLocationManager, didEnterRegion clr: CLRegion) {
+        if clr is CLBeaconRegion {
+            guard let beacon = LocalStorage.monitoredBeacons.first(where: { $0.id == clr.identifier }) else {
+                NotificareLogger.debug("Received an event (didEnterRegion) for non-cached beacon '\(clr.identifier)'.")
+                return
+            }
 
-        // Trigger a location update in order to update the loaded fences as a side effect.
-        manager.requestLocation()
+            delegate?.notificare(self, didEnter: beacon)
+        } else {
+            guard let region = LocalStorage.monitoredRegions.first(where: { $0.id == clr.identifier }) else {
+                NotificareLogger.debug("Received an event (didEnterRegion) for non-cached region '\(clr.identifier)'.")
+                return
+            }
+
+            // Ignore polygons.
+            // Location is requested by the keep alive mechanism.
+            if !region.isPolygon {
+                // Trigger a location update in order to update the loaded fences as a side effect.
+                manager.requestLocation()
+            }
+
+            delegate?.notificare(self, didEnter: region)
+        }
     }
 
-    public func locationManager(_: CLLocationManager, didDetermineState state: CLRegionState, for region: CLRegion) {
+    public func locationManager(_ manager: CLLocationManager, didExitRegion clr: CLRegion) {
+        if clr is CLBeaconRegion {
+            guard let beacon = LocalStorage.monitoredBeacons.first(where: { $0.id == clr.identifier }) else {
+                NotificareLogger.debug("Received an event (didExitRegion) for non-cached beacon '\(clr.identifier)'.")
+                return
+            }
+
+            delegate?.notificare(self, didExit: beacon)
+        } else {
+            // Trigger a location update in order to update the loaded fences as a side effect.
+            manager.requestLocation()
+
+            guard let region = LocalStorage.monitoredRegions.first(where: { $0.id == clr.identifier }) else {
+                NotificareLogger.debug("Received an event (didExitRegion) for non-cached region '\(clr.identifier)'.")
+                return
+            }
+
+            delegate?.notificare(self, didExit: region)
+        }
+    }
+
+    public func locationManager(_: CLLocationManager, didDetermineState state: CLRegionState, for clr: CLRegion) {
         switch state {
         case .inside:
-            // TODO: forward to the delegate.
-            handleRegionEnter(region)
+            handleRegionEnter(clr)
 
         case .outside:
-            // TODO: forward to the delegate.
-            handleRegionExit(region)
+            handleRegionExit(clr)
 
         case .unknown:
-            // TODO: forward to the delegate.
             break
+        }
+
+        if clr is CLBeaconRegion {
+            guard let beacon = LocalStorage.monitoredBeacons.first(where: { $0.id == clr.identifier }) else {
+                NotificareLogger.debug("Received an event (didDetermineState) for non-cached beacon '\(clr.identifier)'.")
+                return
+            }
+
+            delegate?.notificare(self, didDetermineState: state, for: beacon)
+        } else {
+            guard let region = LocalStorage.monitoredRegions.first(where: { $0.id == clr.identifier }) else {
+                NotificareLogger.debug("Received an event (didDetermineState) for non-cached region '\(clr.identifier)'.")
+                return
+            }
+
+            delegate?.notificare(self, didDetermineState: state, for: region)
         }
     }
 
@@ -1273,17 +1349,26 @@ public class NotificareGeo: NSObject, NotificareModule, CLLocationManagerDelegat
             switch result {
             case .success:
                 NotificareLogger.debug("Visit event successfully registered.")
-            // TODO: forward to the delegate.
             case let .failure(error):
                 NotificareLogger.error("Failed to register a visit event.\n\(error)")
             }
         }
+
+        delegate?.notificare(self, didVisit: visit)
     }
 
     public func locationManager(_: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
-        _ = newHeading
+        let heading = NotificareHeading(
+            magneticHeading: newHeading.magneticHeading,
+            trueHeading: newHeading.trueHeading,
+            headingAccuracy: newHeading.headingAccuracy,
+            x: newHeading.x,
+            y: newHeading.y,
+            z: newHeading.z,
+            timestamp: newHeading.timestamp
+        )
 
-        // TODO: forward to the delegate.
+        delegate?.notificare(self, didUpdateHeading: heading)
     }
 
     // MARK: - Internals
