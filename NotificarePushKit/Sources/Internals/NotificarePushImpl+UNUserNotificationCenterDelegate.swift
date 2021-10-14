@@ -2,11 +2,12 @@
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
+import Foundation
 import NotificareKit
 import UserNotifications
 
-extension NotificarePush: UNUserNotificationCenterDelegate {
-    public func userNotificationCenter(_: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+extension NotificarePushImpl: UNUserNotificationCenterDelegate {
+    func userNotificationCenter(_: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         let userInfo = response.notification.request.content.userInfo
 
         if isNotificareNotification(userInfo) {
@@ -83,7 +84,7 @@ extension NotificarePush: UNUserNotificationCenterDelegate {
         }
     }
 
-    public func userNotificationCenter(_: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+    func userNotificationCenter(_: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         let userInfo = notification.request.content.userInfo
 
         if isNotificareNotification(userInfo) {
@@ -120,7 +121,7 @@ extension NotificarePush: UNUserNotificationCenterDelegate {
         }
     }
 
-    public func userNotificationCenter(_: UNUserNotificationCenter, openSettingsFor notification: UNNotification?) {
+    func userNotificationCenter(_: UNUserNotificationCenter, openSettingsFor notification: UNNotification?) {
         guard let notification = notification else {
             delegate?.notificare(self, shouldOpenSettings: nil)
             return

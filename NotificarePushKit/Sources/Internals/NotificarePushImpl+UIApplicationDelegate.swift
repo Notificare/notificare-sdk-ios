@@ -2,10 +2,11 @@
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
+import Foundation
 import NotificareKit
 import UIKit
 
-public extension NotificarePush {
+extension NotificarePushImpl: NotificareAppDelegateInterceptor {
     func application(_: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken token: Data) {
         guard Notificare.shared.isConfigured else {
             NotificareLogger.warning("Notificare is not yet ready. Skipping...")
