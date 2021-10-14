@@ -26,13 +26,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Notificare.shared.useAdvancedLogging = true
 
         if #available(iOS 14.0, *) {
-            NotificarePush.shared.presentationOptions = [.banner, .badge, .sound]
+            Notificare.shared.push().presentationOptions = [.banner, .badge, .sound]
         } else {
-            NotificarePush.shared.presentationOptions = [.alert, .badge, .sound]
+            Notificare.shared.push().presentationOptions = [.alert, .badge, .sound]
         }
 
         Notificare.shared.delegate = self
-        NotificarePush.shared.delegate = self
+        Notificare.shared.push().delegate = self
         NotificarePushUI.shared.delegate = self
         NotificareInbox.shared.delegate = self
         NotificareLoyalty.shared.delegate = self
@@ -75,8 +75,8 @@ extension AppDelegate: NotificareDelegate {
     func notificare(_: Notificare, onReady _: NotificareApplication) {
         print("-----> Notificare is ready.")
 
-        if NotificarePush.shared.isRemoteNotificationsEnabled {
-            NotificarePush.shared.enableRemoteNotifications { _ in }
+        if Notificare.shared.push().isRemoteNotificationsEnabled {
+            Notificare.shared.push().enableRemoteNotifications { _ in }
         }
 
         if NotificareGeo.shared.locationServicesEnabled {

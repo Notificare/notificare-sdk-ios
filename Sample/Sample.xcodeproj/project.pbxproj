@@ -21,7 +21,6 @@
 		F25E630025CAB29A007C1202 /* NotificareServices.plist in Resources */ = {isa = PBXBuildFile; fileRef = F25E62FF25CAB29A007C1202 /* NotificareServices.plist */; };
 		F2696AAC26C2843F002EA653 /* NotificareGeoKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2696AAB26C2843F002EA653 /* NotificareGeoKit.framework */; };
 		F2696AAD26C2843F002EA653 /* NotificareGeoKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F2696AAB26C2843F002EA653 /* NotificareGeoKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F28622DA250FA37500E7D800 /* Notificare.plist in Resources */ = {isa = PBXBuildFile; fileRef = F28622D9250FA37500E7D800 /* Notificare.plist */; };
 		F289F56525B85EC20091AB97 /* NotificareInboxKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F289F56425B85EC20091AB97 /* NotificareInboxKit.framework */; };
 		F289F56625B85EC20091AB97 /* NotificareInboxKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F289F56425B85EC20091AB97 /* NotificareInboxKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F29B17FC25A4911C007ED6F9 /* NotificarePushUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F29B17FB25A4911C007ED6F9 /* NotificarePushUIKit.framework */; };
@@ -123,7 +122,6 @@
 		F25E62FF25CAB29A007C1202 /* NotificareServices.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = NotificareServices.plist; sourceTree = "<group>"; };
 		F2696AAB26C2843F002EA653 /* NotificareGeoKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareGeoKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F28553C7258BA18C006674C1 /* Sample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Sample.entitlements; sourceTree = "<group>"; };
-		F28622D9250FA37500E7D800 /* Notificare.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Notificare.plist; sourceTree = "<group>"; };
 		F289F56425B85EC20091AB97 /* NotificareInboxKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareInboxKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F29B17FB25A4911C007ED6F9 /* NotificarePushUIKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificarePushUIKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F29FD1F424CB1FE1004B166D /* Sample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sample.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -274,7 +272,6 @@
 				F29FD20024CB1FE3004B166D /* Assets.xcassets */,
 				F29FD20224CB1FE3004B166D /* LaunchScreen.storyboard */,
 				F29FD20524CB1FE3004B166D /* Info.plist */,
-				F28622D9250FA37500E7D800 /* Notificare.plist */,
 				F25E62FF25CAB29A007C1202 /* NotificareServices.plist */,
 			);
 			path = Sample;
@@ -384,7 +381,6 @@
 				F29FD20424CB1FE3004B166D /* LaunchScreen.storyboard in Resources */,
 				F29FD20124CB1FE3004B166D /* Assets.xcassets in Resources */,
 				F25E630025CAB29A007C1202 /* NotificareServices.plist in Resources */,
-				F28622DA250FA37500E7D800 /* Notificare.plist in Resources */,
 				F29FD1FF24CB1FE1004B166D /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

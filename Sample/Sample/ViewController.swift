@@ -31,7 +31,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction private func onEnableRemoteNotificationsClick(_: Any) {
-        NotificarePush.shared.enableRemoteNotifications { result in
+        Notificare.shared.push().enableRemoteNotifications { result in
             switch result {
             case let .success(granted):
                 print("-----> User allowed notifications: \(granted)")
@@ -42,7 +42,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction func onDisableRemoteNotificationsClick(_: Any) {
-        NotificarePush.shared.disableRemoteNotifications()
+        Notificare.shared.push().disableRemoteNotifications()
     }
 
     @IBAction func onSendCustomEventClick(_: Any) {
