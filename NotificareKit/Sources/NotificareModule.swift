@@ -9,11 +9,21 @@ public protocol NotificareModule {
 
     static func configure()
 
-    static func launch(_ completion: @escaping (Result<Void, Error>) -> Void)
+    static func launch(_ completion: @escaping NotificareCallback<Void>)
 
-    static func unlaunch(_ completion: @escaping (Result<Void, Error>) -> Void)
+    static func unlaunch(_ completion: @escaping NotificareCallback<Void>)
 }
 
 public extension NotificareModule {
     static func migrate() {}
+
+    static func configure() {}
+
+    static func launch(_ completion: @escaping NotificareCallback<Void>) {
+        completion(.success(()))
+    }
+
+    static func unlaunch(_ completion: @escaping NotificareCallback<Void>) {
+        completion(.success(()))
+    }
 }
