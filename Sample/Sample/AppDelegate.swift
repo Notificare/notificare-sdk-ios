@@ -34,7 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Notificare.shared.delegate = self
         Notificare.shared.push().delegate = self
         NotificarePushUI.shared.delegate = self
-        NotificareInbox.shared.delegate = self
+        Notificare.shared.inbox().delegate = self
         NotificareLoyalty.shared.delegate = self
         NotificareGeo.shared.delegate = self
 

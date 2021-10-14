@@ -16,7 +16,7 @@
 		F226509B258B6B900004F833 /* NotificarePush.swift in Sources */ = {isa = PBXBuildFile; fileRef = F226509A258B6B900004F833 /* NotificarePush.swift */; };
 		F22650B9258B6E560004F833 /* NotificareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F22650B8258B6E560004F833 /* NotificareKit.framework */; };
 		F22650BA258B6E560004F833 /* NotificareKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F22650B8258B6E560004F833 /* NotificareKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F23A5569259C7D6D00B57CF1 /* NotificarePush+EventsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F23A5568259C7D6D00B57CF1 /* NotificarePush+EventsManager.swift */; };
+		F23A5569259C7D6D00B57CF1 /* NotificarePush+Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = F23A5568259C7D6D00B57CF1 /* NotificarePush+Events.swift */; };
 		F258DD9E24BC4EE2006F9ABD /* NotificarePushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F258DD9424BC4EE2006F9ABD /* NotificarePushKit.framework */; };
 		F258DDA324BC4EE2006F9ABD /* PushTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DDA224BC4EE2006F9ABD /* PushTests.swift */; };
 		F258DDA524BC4EE2006F9ABD /* NotificarePushKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F258DD9724BC4EE2006F9ABD /* NotificarePushKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -59,7 +59,7 @@
 		F21DD9E8271844B200C88D7B /* NotificarePushImpl+UNUserNotificationCenterDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificarePushImpl+UNUserNotificationCenterDelegate.swift"; sourceTree = "<group>"; };
 		F226509A258B6B900004F833 /* NotificarePush.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificarePush.swift; sourceTree = "<group>"; };
 		F22650B8258B6E560004F833 /* NotificareKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F23A5568259C7D6D00B57CF1 /* NotificarePush+EventsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificarePush+EventsManager.swift"; sourceTree = "<group>"; };
+		F23A5568259C7D6D00B57CF1 /* NotificarePush+Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificarePush+Events.swift"; sourceTree = "<group>"; };
 		F258DD9424BC4EE2006F9ABD /* NotificarePushKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NotificarePushKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F258DD9724BC4EE2006F9ABD /* NotificarePushKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificarePushKit.h; sourceTree = "<group>"; };
 		F258DD9824BC4EE2006F9ABD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -130,11 +130,11 @@
 				F2E9221B2641A4C8005279C0 /* Internals */,
 				F2128F002594E3E300F7F68F /* Models */,
 				F258DD9824BC4EE2006F9ABD /* Info.plist */,
-				F258DD9724BC4EE2006F9ABD /* NotificarePushKit.h */,
 				F21DD9DE2717384800C88D7B /* Notificare+Push.swift */,
+				F258DD9724BC4EE2006F9ABD /* NotificarePushKit.h */,
 				F226509A258B6B900004F833 /* NotificarePush.swift */,
 				F28553C4258B8848006674C1 /* NotificarePushDelegate.swift */,
-				F23A5568259C7D6D00B57CF1 /* NotificarePush+EventsManager.swift */,
+				F23A5568259C7D6D00B57CF1 /* NotificarePush+Events.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -332,7 +332,7 @@
 				F21DD9DF2717384800C88D7B /* Notificare+Push.swift in Sources */,
 				F2D3893E266542F200EAEF44 /* PushAPI+Payloads.swift in Sources */,
 				F21DD9E9271844B200C88D7B /* NotificarePushImpl+UNUserNotificationCenterDelegate.swift in Sources */,
-				F23A5569259C7D6D00B57CF1 /* NotificarePush+EventsManager.swift in Sources */,
+				F23A5569259C7D6D00B57CF1 /* NotificarePush+Events.swift in Sources */,
 				F21DD9E72718449800C88D7B /* NotificarePushImpl+UIApplicationDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

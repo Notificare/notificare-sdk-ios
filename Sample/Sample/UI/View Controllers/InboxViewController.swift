@@ -3,6 +3,7 @@
 //
 
 import NotificareInboxKit
+import NotificareKit
 import NotificarePushUIKit
 import UIKit
 
@@ -12,7 +13,7 @@ class InboxViewController: UITableViewController {
 
     override func viewDidLoad() {
         // Listen to inbox updates.
-        NotificareInbox.shared.delegate = self
+        Notificare.shared.inbox().delegate = self
 
         // Handle long press to show item options.
         let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(onTableViewLongPress(_:)))
@@ -24,7 +25,7 @@ class InboxViewController: UITableViewController {
     }
 
     override func viewWillAppear(_: Bool) {
-        data = NotificareInbox.shared.items
+        data = Notificare.shared.inbox().items
         tableView.reloadData()
     }
 
@@ -45,7 +46,7 @@ class InboxViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item = data[indexPath.row]
-        NotificareInbox.shared.open(item) { result in
+        Notificare.shared.inbox().open(item) { result in
             switch result {
             case let .success(notification):
                 if let splitViewController = self.splitViewController {
@@ -65,11 +66,11 @@ class InboxViewController: UITableViewController {
     }
 
     @IBAction func onMarkAllAsReadClicked(_: Any) {
-        NotificareInbox.shared.markAllAsRead { _ in }
+        Notificare.shared.inbox().markAllAsRead { _ in }
     }
 
     @IBAction func onClearClicked(_: Any) {
-        NotificareInbox.shared.clear { _ in }
+        Notificare.shared.inbox().clear { _ in }
     }
 
     @objc private func onTableViewLongPress(_ gestureRecognizer: UILongPressGestureRecognizer) {
@@ -88,7 +89,7 @@ class InboxViewController: UITableViewController {
             alert.addAction(UIAlertAction(title: "Open",
                                           style: .default,
                                           handler: { _ in
-                                              NotificareInbox.shared.open(item) { result in
+                                              Notificare.shared.inbox().open(item) { result in
                                                   switch result {
                                                   case let .success(notification):
                                                       if let splitViewController = self.splitViewController {
@@ -108,13 +109,13 @@ class InboxViewController: UITableViewController {
             alert.addAction(UIAlertAction(title: "Mark as read",
                                           style: .default,
                                           handler: { _ in
-                                              NotificareInbox.shared.markAsRead(item) { _ in }
+                                              Notificare.shared.inbox().markAsRead(item) { _ in }
                                           }))
 
             alert.addAction(UIAlertAction(title: "Delete",
                                           style: .destructive,
                                           handler: { _ in
-                                              NotificareInbox.shared.remove(item) { _ in }
+                                              Notificare.shared.inbox().remove(item) { _ in }
                                           }))
 
             alert.addAction(UIAlertAction(title: "Cancel",
@@ -134,7 +135,7 @@ class InboxViewController: UITableViewController {
         }
     }
 
-    private func updateBadge(_ badge: Int = NotificareInbox.shared.badge) {
+    private func updateBadge(_ badge: Int = Notificare.shared.inbox().badge) {
         navigationItem.setTitle("Inbox", subtitle: "\(badge) unread")
     }
 }

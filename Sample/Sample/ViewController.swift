@@ -92,11 +92,11 @@ class ViewController: UIViewController {
 
     @IBAction func onListInboxItemsClick(_: Any) {
         print("-----> Inbox items")
-        print(NotificareInbox.shared.items)
+        print(Notificare.shared.inbox().items)
     }
 
     @IBAction func onRefreshBadgeClick(_: Any) {
-        NotificareInbox.shared.refreshBadge { result in
+        Notificare.shared.inbox().refreshBadge { result in
             switch result {
             case let .success(badge):
                 print("-----> Badge: \(badge)")

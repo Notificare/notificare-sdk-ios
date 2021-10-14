@@ -319,7 +319,7 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
                         self.allowedUI = allowedUI
 
                         // Notify the delegate.
-                        // self.delegate?.notificare(self, didChangeNotificationSettings: allowedUI)
+                        self.delegate?.notificare(self, didChangeNotificationSettings: allowedUI)
 
                         completion(.success(()))
                     case let .failure(error):
