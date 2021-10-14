@@ -23,7 +23,7 @@ public enum NotificareDefinitions {
     }
 
     public enum Modules: String, CaseIterable {
-        case push = "NotificarePushKit.NotificarePush"
+        case push = "NotificarePushKit.NotificarePushImpl"
         case pushUI = "NotificarePushUIKit.NotificarePushUI"
         case inbox = "NotificareInboxKit.NotificareInbox"
         case loyalty = "NotificareLoyaltyKit.NotificareLoyalty"
