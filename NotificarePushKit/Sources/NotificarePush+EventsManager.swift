@@ -2,9 +2,10 @@
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
+import Foundation
 import NotificareKit
 
-extension NotificareEventsModule {
+public extension NotificareEventsModule {
     func logNotificationReceived(_ notification: NotificareNotification, _ completion: NotificareCallback<Void>? = nil) {
         log("re.notifica.event.notification.Receive", data: nil, for: notification.id, completion)
     }
