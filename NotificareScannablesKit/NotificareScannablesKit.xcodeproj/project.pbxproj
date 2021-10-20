@@ -113,7 +113,6 @@
 			isa = PBXGroup;
 			children = (
 				F2E801D9269D946700582DB8 /* Internals */,
-				F2E801D3269D93AA00582DB8 /* NotificareScannablesImpl.swift */,
 				F2E801D8269D946200582DB8 /* Models */,
 				F2E801EA269F19AB00582DB8 /* UI */,
 				F258DE2824BC4FAD006F9ABD /* Info.plist */,
@@ -158,6 +157,7 @@
 			isa = PBXGroup;
 			children = (
 				F2E801DA269D946D00582DB8 /* Network */,
+				F2E801D3269D93AA00582DB8 /* NotificareScannablesImpl.swift */,
 			);
 			path = Internals;
 			sourceTree = "<group>";

@@ -106,7 +106,6 @@
 			isa = PBXGroup;
 			children = (
 				F2ABF341269C575900401D3F /* Internals */,
-				F2ABF33B269C43AB00401D3F /* NotificareAssetsImpl.swift */,
 				F2ABF33D269C456F00401D3F /* Models */,
 				F258DDBC24BC4F09006F9ABD /* Info.plist */,
 				F258DDBB24BC4F09006F9ABD /* NotificareAssetsKit.h */,
@@ -157,6 +156,7 @@
 			isa = PBXGroup;
 			children = (
 				F2ABF342269C575F00401D3F /* Network */,
+				F2ABF33B269C43AB00401D3F /* NotificareAssetsImpl.swift */,
 			);
 			path = Internals;
 			sourceTree = "<group>";

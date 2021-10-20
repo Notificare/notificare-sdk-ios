@@ -133,12 +133,11 @@
 			isa = PBXGroup;
 			children = (
 				F2F697CE26B95C0800AB663E /* Internals */,
-				F2F697C926B9473F00AB663E /* NotificareAuthenticationImpl.swift */,
-				F2F697D326B95DF600AB663E /* NotificareAuthentication+Events.swift */,
 				F2F697BC26B943EF00AB663E /* Models */,
 				F2F697A426B9412D00AB663E /* NotificareAuthentication.h */,
 				F2DAB396271F0CD6002B5F27 /* NotificareAuthentication.swift */,
 				F2DAB398271F0E82002B5F27 /* NotificareAuthentication+Augment.swift */,
+				F2F697D326B95DF600AB663E /* NotificareAuthentication+Events.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -177,6 +176,7 @@
 				F2F697CF26B95C1300AB663E /* Network */,
 				F2F697D526B95EDB00AB663E /* OAuth */,
 				F2F697DA26B9883B00AB663E /* Storage */,
+				F2F697C926B9473F00AB663E /* NotificareAuthenticationImpl.swift */,
 			);
 			path = Internals;
 			sourceTree = "<group>";
