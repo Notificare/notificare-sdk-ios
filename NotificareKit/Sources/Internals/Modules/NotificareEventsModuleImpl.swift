@@ -15,10 +15,15 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
     // MARK: - Notificare Module
 
     static func configure() {
-        _ = NotificareSwizzler.addInterceptor(instance)
-
+        // Listen to application did become active events.
         NotificationCenter.default.addObserver(instance,
-                                               selector: #selector(reachabilityChanged(notification:)),
+                                               selector: #selector(onApplicationDidBecomeActiveNotification(_:)),
+                                               name: UIApplication.didBecomeActiveNotification,
+                                               object: nil)
+
+        // Listen to reachability changed events.
+        NotificationCenter.default.addObserver(instance,
+                                               selector: #selector(onReachabilityChanged(_:)),
                                                name: .reachabilityChanged,
                                                object: nil)
     }
@@ -110,14 +115,6 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
                     }
                 }
             }
-    }
-}
-
-// MARK: - NotificareAppDelegateInterceptor
-
-extension NotificareEventsModuleImpl: NotificareAppDelegateInterceptor {
-    public func applicationDidBecomeActive(_: UIApplication) {
-        processStoredEvents()
     }
 
     private func processStoredEvents() {
@@ -240,12 +237,12 @@ extension NotificareEventsModuleImpl: NotificareAppDelegateInterceptor {
         // Wait until the request finishes.
         group.wait()
     }
-}
 
-// MARK: - Reachability
+    @objc private func onApplicationDidBecomeActiveNotification(_: Notification) {
+        processStoredEvents()
+    }
 
-extension NotificareEventsModuleImpl {
-    @objc private func reachabilityChanged(notification _: Notification) {
+    @objc private func onReachabilityChanged(_: Notification) {
         guard let reachability = Notificare.shared.reachability else {
             NotificareLogger.debug("Reachbility module not configure.")
             return
