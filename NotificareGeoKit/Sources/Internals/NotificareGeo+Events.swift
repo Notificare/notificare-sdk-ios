@@ -6,7 +6,7 @@ import Foundation
 import NotificareKit
 
 internal extension NotificareEventsModule {
-    func logRegionSession(_ session: NotificareRegionSession, _ completion: NotificareCallback<Void>) {
+    func logRegionSession(_ session: NotificareRegionSession, _ completion: @escaping NotificareCallback<Void>) {
         let sessionEnd = session.end ?? Date()
         let length = sessionEnd.timeIntervalSince(session.start)
 
@@ -39,7 +39,7 @@ internal extension NotificareEventsModule {
         this.log("re.notifica.event.region.Session", data: data, completion)
     }
 
-    func logBeaconSession(_ session: NotificareBeaconSession, _ completion: NotificareCallback<Void>) {
+    func logBeaconSession(_ session: NotificareBeaconSession, _ completion: @escaping NotificareCallback<Void>) {
         let sessionEnd = session.end ?? Date()
         let length = sessionEnd.timeIntervalSince(session.start)
 

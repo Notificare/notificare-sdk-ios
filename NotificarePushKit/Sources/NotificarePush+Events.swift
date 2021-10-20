@@ -6,12 +6,12 @@ import Foundation
 import NotificareKit
 
 public extension NotificareEventsModule {
-    func logNotificationReceived(_ id: String, _ completion: NotificareCallback<Void>) {
+    func logNotificationReceived(_ id: String, _ completion: @escaping NotificareCallback<Void>) {
         let this = self as! NotificareInternalEventsModule
         this.log("re.notifica.event.notification.Receive", data: nil, for: id, completion)
     }
 
-    func logNotificationInfluenced(_ id: String, _ completion: NotificareCallback<Void>) {
+    func logNotificationInfluenced(_ id: String, _ completion: @escaping NotificareCallback<Void>) {
         let this = self as! NotificareInternalEventsModule
         this.log("re.notifica.event.notification.Influenced", data: nil, for: id, completion)
     }

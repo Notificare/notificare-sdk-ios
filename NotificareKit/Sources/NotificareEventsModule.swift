@@ -29,11 +29,11 @@ public extension NotificareEventsModule {
 }
 
 public protocol NotificareInternalEventsModule {
-    func log(_ event: String, data: NotificareEventData?, for notification: String?, _ completion: NotificareCallback<Void>)
+    func log(_ event: String, data: NotificareEventData?, for notification: String?, _ completion: @escaping NotificareCallback<Void>)
 }
 
 public extension NotificareInternalEventsModule {
-    func log(_ event: String, data: NotificareEventData? = nil, for notification: String? = nil, _ completion: NotificareCallback<Void>) {
+    func log(_ event: String, data: NotificareEventData? = nil, for notification: String? = nil, _ completion: @escaping NotificareCallback<Void>) {
         log(event, data: data, for: notification, completion)
     }
 }

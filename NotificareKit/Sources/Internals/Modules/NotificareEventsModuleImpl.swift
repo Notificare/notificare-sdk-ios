@@ -7,7 +7,7 @@ import UIKit
 private let MAX_RETRIES = 5
 private let UPLOAD_TASK_NAME = "re.notifica.tasks.events.Upload"
 
-internal class NotificareEventsModuleImpl: NSObject, NotificareModule, NotificareEventsModule {
+internal class NotificareEventsModuleImpl: NSObject, NotificareModule, NotificareEventsModule, NotificareInternalEventsModule {
     internal static let instance = NotificareEventsModuleImpl()
 
     private let discardableEvents = [String]()
@@ -64,9 +64,9 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
         log("re.notifica.event.custom.\(event)", data: data, completion)
     }
 
-    // MARK: - NotificareInternalEvents
+    // MARK: - Notificare Internal Events
 
-    func log(_ event: String, data: NotificareEventData? = nil, for notification: String? = nil, _ completion: NotificareCallback<Void>? = nil) {
+    func log(_ event: String, data: NotificareEventData?, for notification: String?, _ completion: @escaping NotificareCallback<Void>) {
         guard let device = Notificare.shared.device().currentDevice else {
             NotificareLogger.warning("Cannot send an event before a device is registered.")
             return

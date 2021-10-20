@@ -6,47 +6,47 @@ import Foundation
 import NotificareKit
 
 internal extension NotificareEventsModule {
-    func logUserLogin(_ completion: NotificareCallback<Void>) {
+    func logUserLogin(_ completion: @escaping NotificareCallback<Void>) {
         let this = self as! NotificareInternalEventsModule
         this.log("re.notifica.event.oauth2.Signin", completion)
     }
 
-    func logUserLogout(_ completion: NotificareCallback<Void>) {
+    func logUserLogout(_ completion: @escaping NotificareCallback<Void>) {
         let this = self as! NotificareInternalEventsModule
         this.log("re.notifica.event.oauth2.Signout", completion)
     }
 
-    func logCreateUserAccount(_ completion: NotificareCallback<Void>) {
+    func logCreateUserAccount(_ completion: @escaping NotificareCallback<Void>) {
         let this = self as! NotificareInternalEventsModule
         this.log("re.notifica.event.oauth2.Signup", completion)
     }
 
-    func logSendPasswordReset(_ completion: NotificareCallback<Void>) {
+    func logSendPasswordReset(_ completion: @escaping NotificareCallback<Void>) {
         let this = self as! NotificareInternalEventsModule
         this.log("re.notifica.event.oauth2.SendPassword", completion)
     }
 
-    func logResetPassword(_ completion: NotificareCallback<Void>) {
+    func logResetPassword(_ completion: @escaping NotificareCallback<Void>) {
         let this = self as! NotificareInternalEventsModule
         this.log("re.notifica.event.oauth2.ResetPassword", completion)
     }
 
-    func logChangePassword(_ completion: NotificareCallback<Void>) {
+    func logChangePassword(_ completion: @escaping NotificareCallback<Void>) {
         let this = self as! NotificareInternalEventsModule
         this.log("re.notifica.event.oauth2.NewPassword", completion)
     }
 
-    func logValidateUser(_ completion: NotificareCallback<Void>) {
+    func logValidateUser(_ completion: @escaping NotificareCallback<Void>) {
         let this = self as! NotificareInternalEventsModule
         this.log("re.notifica.event.oauth2.Validate", completion)
     }
 
-    func logFetchUserDetails(_ completion: NotificareCallback<Void>) {
+    func logFetchUserDetails(_ completion: @escaping NotificareCallback<Void>) {
         let this = self as! NotificareInternalEventsModule
         this.log("re.notifica.event.oauth2.Account", completion)
     }
 
-    func logGeneratePushEmailAddress(_ completion: NotificareCallback<Void>) {
+    func logGeneratePushEmailAddress(_ completion: @escaping NotificareCallback<Void>) {
         let this = self as! NotificareInternalEventsModule
         this.log("re.notifica.event.oauth2.AccessToken", completion)
     }
