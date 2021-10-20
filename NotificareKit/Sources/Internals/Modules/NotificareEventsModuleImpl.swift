@@ -119,7 +119,7 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
 
     private func processStoredEvents() {
         // Check that Notificare is ready to process the events.
-        guard Notificare.shared.state >= .ready else {
+        guard Notificare.shared.state >= .configured else {
             NotificareLogger.debug("Notificare is not ready yet. Skipping...")
             return
         }
@@ -239,6 +239,8 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
     }
 
     @objc private func onApplicationDidBecomeActiveNotification(_: Notification) {
+        guard Notificare.shared.isReady else { return }
+
         processStoredEvents()
     }
 
@@ -247,6 +249,8 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
             NotificareLogger.debug("Reachbility module not configure.")
             return
         }
+
+        guard Notificare.shared.isReady else { return }
 
         switch reachability.connection {
         case .unavailable:
