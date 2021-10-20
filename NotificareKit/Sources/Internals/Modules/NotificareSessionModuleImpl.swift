@@ -2,9 +2,12 @@
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
+import Foundation
 import UIKit
 
-class NotificareSessionManager {
+internal class NotificareSessionModuleImpl: NSObject, NotificareModule {
+    internal static let instance = NotificareSessionModuleImpl()
+
     internal private(set) var sessionId: String?
     private var sessionStart: Date?
     private var sessionEnd: Date?
@@ -18,21 +21,23 @@ class NotificareSessionManager {
         return formatter
     }()
 
-    func configure() {
+    // MARK: - Notificare Module
+
+    static func configure() {
         // Listen to 'application did become active'
-        NotificationCenter.default.addObserver(self,
+        NotificationCenter.default.addObserver(instance,
                                                selector: #selector(applicationDidBecomeActive),
                                                name: UIApplication.didBecomeActiveNotification,
                                                object: nil)
 
         // Listen to 'application will resign active'
-        NotificationCenter.default.addObserver(self,
+        NotificationCenter.default.addObserver(instance,
                                                selector: #selector(applicationWillResignActive),
                                                name: UIApplication.willResignActiveNotification,
                                                object: nil)
     }
 
-    func launch() {}
+    // MARK: - Internal API
 
     @objc private func applicationDidBecomeActive() {
         guard UIApplication.shared.applicationState == .active else {
@@ -56,7 +61,7 @@ class NotificareSessionManager {
         sessionEnd = nil
 
         NotificareLogger.debug("Session '\(sessionId)' started at \(dateFormatter.string(from: sessionStart))")
-        Notificare.shared.eventsManager.logApplicationOpen()
+        Notificare.shared.events().logApplicationOpen { _ in }
     }
 
     @objc private func applicationWillResignActive() {
@@ -105,7 +110,7 @@ class NotificareSessionManager {
 
             let length = sessionEnd.timeIntervalSince(sessionStart)
             NotificareLogger.info("Application closed event registered for session '\(sessionId)' with a length of \(length) seconds.")
-            Notificare.shared.eventsManager.logApplicationClose(length: length)
+            Notificare.shared.events().logApplicationClose(sessionLength: length) { _ in }
 
             // Reset the session.
             self.sessionId = nil

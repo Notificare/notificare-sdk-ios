@@ -15,8 +15,8 @@ internal extension NotificareInternals.PushAPI.Payloads {
         let course: Double?
         let country: String?
         let floor: Int?
-        let locationServicesAuthStatus: NotificareGeo.AuthorizationMode?
-        let locationServicesAccuracyAuth: NotificareGeo.AccuracyMode?
+        let locationServicesAuthStatus: NotificareGeoImpl.AuthorizationMode?
+        let locationServicesAccuracyAuth: NotificareGeoImpl.AccuracyMode?
 
         private enum CodingKeys: String, CodingKey {
             case latitude

@@ -6,57 +6,62 @@ import UIKit
 
 private let maxRetries = 5
 
-public class NotificareEventsModule {
+internal class NotificareEventsModuleImpl: NSObject, NotificareModule, NotificareEventsModule {
+    internal static let instance = NotificareEventsModuleImpl()
+
     private let discardableEvents = [String]()
     private var processEventsTaskIdentifier: UIBackgroundTaskIdentifier?
 
-    func configure() {
-        _ = NotificareSwizzler.addInterceptor(self)
+    // MARK: - Notificare Module
 
-        NotificationCenter.default.addObserver(self,
+    static func configure() {
+        _ = NotificareSwizzler.addInterceptor(instance)
+
+        NotificationCenter.default.addObserver(instance,
                                                selector: #selector(reachabilityChanged(notification:)),
                                                name: .reachabilityChanged,
                                                object: nil)
     }
 
-    func launch() {
-        processStoredEvents()
+    static func launch(_ completion: @escaping NotificareCallback<Void>) {
+        instance.processStoredEvents()
+        completion(.success(()))
     }
 
-    public func logApplicationInstall(_ completion: NotificareCallback<Void>? = nil) {
+    // MARK: - Notificare Events
+
+    func logApplicationInstall(_ completion: @escaping NotificareCallback<Void>) {
         log(NotificareDefinitions.Events.applicationInstall, completion)
     }
 
-    public func logApplicationRegistration(_ completion: NotificareCallback<Void>? = nil) {
+    func logApplicationRegistration(_ completion: @escaping NotificareCallback<Void>) {
         log(NotificareDefinitions.Events.applicationRegistration, completion)
     }
 
-    public func logApplicationUpgrade(_ completion: NotificareCallback<Void>? = nil) {
+    func logApplicationUpgrade(_ completion: @escaping NotificareCallback<Void>) {
         log(NotificareDefinitions.Events.applicationUpgrade, completion)
     }
 
-    public func logApplicationOpen(_ completion: NotificareCallback<Void>? = nil) {
+    func logApplicationOpen(_ completion: @escaping NotificareCallback<Void>) {
         log(NotificareDefinitions.Events.applicationOpen, completion)
     }
 
-    public func logApplicationClose(length: TimeInterval, _ completion: NotificareCallback<Void>? = nil) {
-        log(NotificareDefinitions.Events.applicationClose, data: ["length": String(length)], completion)
+    func logApplicationClose(sessionLength: Double, _ completion: @escaping NotificareCallback<Void>) {
+        log(NotificareDefinitions.Events.applicationClose, data: ["length": String(sessionLength)], completion)
     }
 
-    public func logNotificationOpen(_ notification: NotificareNotification, _ completion: NotificareCallback<Void>? = nil) {
-        logNotificationOpen(notification.id, completion)
+    func logNotificationOpen(_ id: String, _ completion: @escaping NotificareCallback<Void>) {
+        log(NotificareDefinitions.Events.notificationOpen, data: nil, for: id, completion)
     }
 
-    public func logNotificationOpen(_ notificationId: String, _ completion: NotificareCallback<Void>? = nil) {
-        log(NotificareDefinitions.Events.notificationOpen, data: nil, for: notificationId, completion)
-    }
-
-    public func logCustom(_ event: String, data: NotificareEventData? = nil, _ completion: @escaping NotificareCallback<Void>) {
+    func logCustom(_ event: String, data: NotificareEventData?, _ completion: @escaping NotificareCallback<Void>) {
         log("re.notifica.event.custom.\(event)", data: data, completion)
     }
 
-    public func log(_ event: String, data: NotificareEventData? = nil, for notification: String? = nil, _ completion: NotificareCallback<Void>? = nil) {
-        guard let device = Notificare.shared.deviceManager.currentDevice else {
+    // MARK: - NotificareInternalEvents
+
+    func log(_ event: String, data: NotificareEventData? = nil, for notification: String? = nil, _ completion: NotificareCallback<Void>? = nil) {
+        guard let device = Notificare.shared.device().currentDevice else {
             NotificareLogger.warning("Cannot send an event before a device is registered.")
             return
         }
@@ -69,7 +74,7 @@ public class NotificareEventsModule {
             type: type,
             timestamp: Int64(Date().timeIntervalSince1970 * 1000),
             deviceId: device.id,
-            sessionId: Notificare.shared.sessionManager.sessionId,
+            sessionId: Notificare.shared.session().sessionId,
             notificationId: notification,
             userId: device.userId,
             data: data
@@ -77,6 +82,8 @@ public class NotificareEventsModule {
 
         log(event, completion)
     }
+
+    // MARK: - Internal API
 
     private func log(_ event: NotificareEvent, _ completion: NotificareCallback<Void>?) {
         NotificareRequest.Builder()
@@ -108,7 +115,7 @@ public class NotificareEventsModule {
 
 // MARK: - NotificareAppDelegateInterceptor
 
-extension NotificareEventsModule: NotificareAppDelegateInterceptor {
+extension NotificareEventsModuleImpl: NotificareAppDelegateInterceptor {
     public func applicationDidBecomeActive(_: UIApplication) {
         processStoredEvents()
     }
@@ -237,7 +244,7 @@ extension NotificareEventsModule: NotificareAppDelegateInterceptor {
 
 // MARK: - Reachability
 
-extension NotificareEventsModule {
+extension NotificareEventsModuleImpl {
     @objc private func reachabilityChanged(notification _: Notification) {
         guard let reachability = Notificare.shared.reachability else {
             NotificareLogger.debug("Reachbility module not configure.")

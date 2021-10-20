@@ -14,12 +14,12 @@ public class NotificareAppActionHandler: NotificareBaseActionHandler {
         {
             DispatchQueue.main.async {
                 UIApplication.shared.open(url, options: [:]) { _ in
-                    NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didExecuteAction: self.action, for: self.notification)
+                    Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didExecuteAction: self.action, for: self.notification)
                     Notificare.shared.createNotificationReply(notification: self.notification, action: self.action) { _ in }
                 }
             }
         } else {
-            NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFailToExecuteAction: action, for: notification, error: ActionError.unsupportedUrlScheme)
+            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToExecuteAction: action, for: notification, error: ActionError.unsupportedUrlScheme)
         }
     }
 }

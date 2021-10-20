@@ -136,7 +136,7 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
     }
 
     @objc private func onCloseClicked() {
-        NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didNotExecuteAction: action, for: notification)
+        Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didNotExecuteAction: action, for: notification)
         dismiss()
     }
 
@@ -152,7 +152,7 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
                     self.mediaMimeType = "image/jpeg"
                     self.send()
                 case let .failure(error):
-                    NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFailToExecuteAction: self.action, for: self.notification, error: error)
+                    Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToExecuteAction: self.action, for: self.notification, error: error)
                     self.dismiss()
                 }
             }
@@ -164,7 +164,7 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
                     self.mediaMimeType = "video/quicktime"
                     self.send()
                 case let .failure(error):
-                    NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFailToExecuteAction: self.action, for: self.notification, error: error)
+                    Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToExecuteAction: self.action, for: self.notification, error: error)
                     self.dismiss()
                 }
             }
@@ -195,7 +195,7 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
 
         imagePickerController.delegate = self
 
-        NotificarePushUI.shared.presentController(imagePickerController, in: sourceViewController)
+        sourceViewController.presentOrPush(imagePickerController)
     }
 
     private func openKeyboard() {
@@ -227,7 +227,7 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
 
         viewController.view = placeholderView
 
-        NotificarePushUI.shared.presentController(navigationController, in: sourceViewController)
+        sourceViewController.presentOrPush(navigationController)
     }
 
     private func showMedia(_ image: UIImage?) {
@@ -273,7 +273,7 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
 
         viewController.view = placeholderView
 
-        NotificarePushUI.shared.presentController(navigationController, in: sourceViewController)
+        sourceViewController.presentOrPush(navigationController)
     }
 
     @objc private func keyboardWillShow(_ notification: Notification) {
@@ -314,7 +314,7 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
         dismiss()
 
         guard let target = action.target, let url = URL(string: target), url.scheme != nil, url.host != nil else {
-            NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didExecuteAction: action, for: notification)
+            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didExecuteAction: action, for: notification)
             logAction()
 
             return
@@ -347,7 +347,7 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
         do {
             data = try NotificareUtils.jsonEncoder.encode(params)
         } catch {
-            NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFailToExecuteAction: action, for: notification, error: error)
+            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToExecuteAction: action, for: notification, error: error)
             return
         }
 
@@ -358,9 +358,9 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
         URLSession.shared.perform(request) { result in
             switch result {
             case .success:
-                NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didExecuteAction: self.action, for: self.notification)
+                Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didExecuteAction: self.action, for: self.notification)
             case let .failure(error):
-                NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFailToExecuteAction: self.action, for: self.notification, error: error)
+                Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToExecuteAction: self.action, for: self.notification, error: error)
             }
 
             self.logAction()
@@ -396,7 +396,7 @@ extension NotificareCallbackActionHandler: UIImagePickerControllerDelegate {
     }
 
     public func imagePickerControllerDidCancel(_: UIImagePickerController) {
-        NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didNotExecuteAction: action, for: notification)
+        Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didNotExecuteAction: action, for: notification)
         dismiss()
     }
 }

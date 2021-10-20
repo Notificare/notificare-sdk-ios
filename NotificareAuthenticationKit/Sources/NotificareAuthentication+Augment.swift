@@ -6,7 +6,7 @@ import Foundation
 import NotificareKit
 
 public extension Notificare {
-    func push() -> NotificarePush {
-        NotificarePushImpl.instance
+    func authentication() -> NotificareAuthentication {
+        NotificareAuthenticationImpl.instance
     }
 }

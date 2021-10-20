@@ -51,10 +51,10 @@ class InboxViewController: UITableViewController {
             case let .success(notification):
                 if let splitViewController = self.splitViewController {
                     if let detailViewController = splitViewController.viewControllers.last as? UINavigationController {
-                        NotificarePushUI.shared.presentNotification(notification, in: detailViewController)
+                        Notificare.shared.pushUI().presentNotification(notification, in: detailViewController)
                     }
                 } else if let navigationController = self.navigationController {
-                    NotificarePushUI.shared.presentNotification(notification, in: navigationController)
+                    Notificare.shared.pushUI().presentNotification(notification, in: navigationController)
                 }
 
             case .failure:
@@ -94,10 +94,10 @@ class InboxViewController: UITableViewController {
                                                   case let .success(notification):
                                                       if let splitViewController = self.splitViewController {
                                                           if let detailViewController = splitViewController.viewControllers.last as? UINavigationController {
-                                                              NotificarePushUI.shared.presentNotification(notification, in: detailViewController)
+                                                              Notificare.shared.pushUI().presentNotification(notification, in: detailViewController)
                                                           }
                                                       } else if let navigationController = self.navigationController {
-                                                          NotificarePushUI.shared.presentNotification(notification, in: navigationController)
+                                                          Notificare.shared.pushUI().presentNotification(notification, in: navigationController)
                                                       }
 
                                                   case .failure:

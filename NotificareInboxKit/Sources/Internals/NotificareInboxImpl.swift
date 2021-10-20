@@ -111,7 +111,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
         completion(.success(()))
     }
 
-    public static func unlaunch(_ completion: @escaping (Result<Void, Error>) -> Void) {
+    public static func unlaunch(_ completion: @escaping NotificareCallback<Void>) {
         instance.clearLocalInbox()
         completion(.success(()))
     }
@@ -134,7 +134,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
 
     public func refreshBadge(_ completion: @escaping NotificareCallback<Int>) {
         guard let application = Notificare.shared.application,
-              let device = Notificare.shared.deviceManager.currentDevice
+              let device = Notificare.shared.device().currentDevice
         else {
             NotificareLogger.warning("Notificare application not yet available.")
             completion(.failure(NotificareError.notReady))
@@ -241,7 +241,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
         }
 
         // Send an event to mark the notification as read in the remote inbox.
-        Notificare.shared.eventsManager.logNotificationOpen(item.notification.id) { result in
+        Notificare.shared.events().logNotificationOpen(item.notification.id) { result in
             switch result {
             case .success:
                 // Mark entities as read.
@@ -274,7 +274,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
 
     public func markAllAsRead(_ completion: @escaping NotificareCallback<Void>) {
         guard let application = Notificare.shared.application,
-              let device = Notificare.shared.deviceManager.currentDevice
+              let device = Notificare.shared.device().currentDevice
         else {
             NotificareLogger.warning("Notificare application not yet available.")
             completion(.failure(NotificareError.notReady))
@@ -363,7 +363,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
 
     public func clear(_ completion: @escaping NotificareCallback<Void>) {
         guard let application = Notificare.shared.application,
-              let device = Notificare.shared.deviceManager.currentDevice
+              let device = Notificare.shared.device().currentDevice
         else {
             NotificareLogger.warning("Notificare application not yet available.")
             completion(.failure(NotificareError.notReady))
@@ -399,7 +399,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
     // MARK: - Internal API
 
     private func sync() {
-        guard let device = Notificare.shared.deviceManager.currentDevice else {
+        guard let device = Notificare.shared.device().currentDevice else {
             NotificareLogger.warning("Notificare has not been configured yet.")
             return
         }
@@ -508,7 +508,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
     }
 
     private func requestRemoteInboxItems(step: Int = 0) {
-        guard let device = Notificare.shared.deviceManager.currentDevice else {
+        guard let device = Notificare.shared.device().currentDevice else {
             NotificareLogger.warning("Notificare has not been configured yet.")
             return
         }
@@ -612,7 +612,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
             // Clear expired items from the notification center.
             self.removeExpiredItemsFromNotificationCenter()
 
-            guard let device = Notificare.shared.deviceManager.currentDevice else {
+            guard let device = Notificare.shared.device().currentDevice else {
                 NotificareLogger.warning("Notificare has not been configured yet.")
                 return
             }

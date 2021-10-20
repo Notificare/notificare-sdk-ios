@@ -18,7 +18,7 @@ public class NotificareWebViewController: NotificareBaseNotificationViewControll
 
     override public func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFinishPresentingNotification: notification)
+        Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFinishPresentingNotification: notification)
     }
 
     private func configureWebView() {
@@ -48,14 +48,14 @@ public class NotificareWebViewController: NotificareBaseNotificationViewControll
 
     private func setupContent() {
         guard let content = notification.content.first else {
-            NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFailToPresentNotification: notification)
+            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToPresentNotification: notification)
             return
         }
 
         let html = content.data as! String
         webView.loadHTMLString(html, baseURL: URL(string: ""))
 
-        NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didPresentNotification: notification)
+        Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didPresentNotification: notification)
 
         // Check if we should show any possible actions
         if html.contains("notificareOpenAction") || html.contains("notificareOpenActions") {
@@ -66,7 +66,7 @@ public class NotificareWebViewController: NotificareBaseNotificationViewControll
 
 extension NotificareWebViewController: WKNavigationDelegate, WKUIDelegate {
     public func webView(_: WKWebView, didFail _: WKNavigation!, withError _: Error) {
-        NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFailToPresentNotification: notification)
+        Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToPresentNotification: notification)
     }
 
     public func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
@@ -77,7 +77,7 @@ extension NotificareWebViewController: WKNavigationDelegate, WKUIDelegate {
 
         if let scheme = url.scheme, Notificare.shared.options!.urlSchemes.contains(scheme) {
             handleNotificareQueryParameters(for: url)
-            NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didClickURL: url, in: notification)
+            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didClickURL: url, in: notification)
             decisionHandler(.cancel)
         } else if navigationAction.targetFrame == nil {
             webView.load(navigationAction.request)
@@ -171,6 +171,6 @@ extension NotificareWebViewController: WKNavigationDelegate, WKUIDelegate {
 
 extension NotificareWebViewController: NotificareNotificationPresenter {
     func present(in controller: UIViewController) {
-        NotificarePushUI.shared.presentController(self, in: controller)
+        controller.presentOrPush(self)
     }
 }

@@ -49,7 +49,7 @@ public enum NotificareLogger {
         if let fileName = URL(fileURLWithPath: file).pathComponents.last,
            let tag = fileName.split(separator: ".").first
         {
-            log(message, level: level, tag: String(tag))
+            log(message, level: level, tag: String(tag).removingSuffix("ModuleImpl").removingSuffix("Impl"))
         } else {
             log(message, level: level, tag: file)
         }

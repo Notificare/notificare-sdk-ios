@@ -16,7 +16,7 @@ class NotificareUrlSchemeController: NotificareNotificationPresenter {
         guard let content = notification.content.first,
               let urlStr = content.data as? String
         else {
-            NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFailToPresentNotification: notification)
+            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToPresentNotification: notification)
             return
         }
 
@@ -26,39 +26,39 @@ class NotificareUrlSchemeController: NotificareNotificationPresenter {
                 switch result {
                 case let .success(link):
                     guard let url = URL(string: link.target) else {
-                        NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFailToPresentNotification: self.notification)
+                        Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToPresentNotification: self.notification)
                         return
                     }
 
-                    NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didPresentNotification: self.notification)
+                    Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didPresentNotification: self.notification)
 
                     DispatchQueue.main.async {
                         UIApplication.shared.open(url, options: [:]) { _ in
-                            NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFinishPresentingNotification: self.notification)
+                            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFinishPresentingNotification: self.notification)
                         }
                     }
                 case .failure:
-                    NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFailToPresentNotification: self.notification)
+                    Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToPresentNotification: self.notification)
                 }
             }
         } else {
             // It's a non-universal link from Notificare, let's just try and open it.
             guard let url = URL(string: urlStr), let urlScheme = url.scheme else {
-                NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFailToPresentNotification: notification)
+                Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToPresentNotification: notification)
                 return
             }
 
             guard NotificareUtils.getSupportedUrlSchemes().contains(urlScheme) else {
                 NotificareLogger.warning("Cannot open a deep link that's not supported by the application.")
-                NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFailToPresentNotification: notification)
+                Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToPresentNotification: notification)
                 return
             }
 
-            NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didPresentNotification: notification)
+            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didPresentNotification: notification)
 
             DispatchQueue.main.async {
                 UIApplication.shared.open(url, options: [:]) { _ in
-                    NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFinishPresentingNotification: self.notification)
+                    Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFinishPresentingNotification: self.notification)
                 }
             }
         }

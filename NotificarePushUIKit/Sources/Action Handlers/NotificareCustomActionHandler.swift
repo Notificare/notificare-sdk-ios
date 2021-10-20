@@ -7,11 +7,11 @@ import NotificareKit
 public class NotificareCustomActionHandler: NotificareBaseActionHandler {
     override func execute() {
         if let target = action.target, let url = URL(string: target) {
-            NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didReceiveCustomAction: url, in: action, for: notification)
-            NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didExecuteAction: action, for: notification)
+            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didReceiveCustomAction: url, in: action, for: notification)
+            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didExecuteAction: action, for: notification)
             Notificare.shared.createNotificationReply(notification: notification, action: action) { _ in }
         } else {
-            NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFailToExecuteAction: action, for: notification, error: ActionError.invalidUrl)
+            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToExecuteAction: action, for: notification, error: ActionError.invalidUrl)
         }
     }
 }

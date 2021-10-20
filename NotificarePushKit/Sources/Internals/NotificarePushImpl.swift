@@ -44,7 +44,7 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
     }
 
     public static func launch(_ completion: @escaping NotificareCallback<Void>) {
-        if Notificare.shared.deviceManager.currentDevice?.transport == .notificare {
+        if Notificare.shared.device().currentDevice?.transport == .notificare {
             instance.updateNotificationSettings()
         }
 
@@ -115,7 +115,7 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
         // Keep track of the status in local storage.
         LocalStorage.remoteNotificationsEnabled = false
 
-        Notificare.shared.deviceManager.registerTemporary { result in
+        Notificare.shared.deviceInternal().registerTemporary { result in
             switch result {
             case .success:
                 // Unregister from APNS
@@ -298,7 +298,7 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
     }
 
     private func handleNotificationSettings(_ allowedUI: Bool, _ completion: @escaping NotificareCallback<Void>) {
-        guard let device = Notificare.shared.deviceManager.currentDevice else {
+        guard let device = Notificare.shared.device().currentDevice else {
             completion(.failure(NotificareError.notReady))
             return
         }

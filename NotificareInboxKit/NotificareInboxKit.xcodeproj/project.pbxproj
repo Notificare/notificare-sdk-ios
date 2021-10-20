@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F21DD9EB27184CE500C88D7B /* Notificare+Inbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21DD9EA27184CE500C88D7B /* Notificare+Inbox.swift */; };
+		F21DD9EB27184CE500C88D7B /* NotificareInbox+Augment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21DD9EA27184CE500C88D7B /* NotificareInbox+Augment.swift */; };
 		F21DD9ED27185C4B00C88D7B /* NotificareInbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21DD9EC27185C4B00C88D7B /* NotificareInbox.swift */; };
 		F27DB1A0262F2B5C000C024D /* PushAPI+Responses.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27DB19F262F2B5C000C024D /* PushAPI+Responses.swift */; };
 		F27DB1A3262F2B94000C024D /* PushAPI+Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27DB1A2262F2B94000C024D /* PushAPI+Models.swift */; };
@@ -19,9 +19,9 @@
 		F289F5ED25B8651F0091AB97 /* NotificareInboxDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F289F5EC25B8651F0091AB97 /* NotificareInboxDelegate.swift */; };
 		F289F5F125B884EC0091AB97 /* NotificareInboxItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F289F5F025B884EC0091AB97 /* NotificareInboxItem.swift */; };
 		F28E583B25C0401800C83537 /* InboxDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28E583A25C0401800C83537 /* InboxDatabase.swift */; };
-		F28E584625C040A500C83537 /* NotificareInboxDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F28E584325C040A500C83537 /* NotificareInboxDataModel.xcdatamodeld */; };
 		F28E584A25C041C900C83537 /* InboxItemEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28E584925C041C900C83537 /* InboxItemEntity.swift */; };
 		F293E2EA2630491E008C2010 /* LocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F293E2E92630491E008C2010 /* LocalStorage.swift */; };
+		F2DAB3AB271F18E1002B5F27 /* NotificareInboxDatabase.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F2DAB3A9271F18E1002B5F27 /* NotificareInboxDatabase.xcdatamodeld */; };
 		F2F311FA25C1962D007E4B01 /* NotificareInboxError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F311F925C1962D007E4B01 /* NotificareInboxError.swift */; };
 /* End PBXBuildFile section */
 
@@ -50,7 +50,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		F21DD9EA27184CE500C88D7B /* Notificare+Inbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notificare+Inbox.swift"; sourceTree = "<group>"; };
+		F21DD9EA27184CE500C88D7B /* NotificareInbox+Augment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificareInbox+Augment.swift"; sourceTree = "<group>"; };
 		F21DD9EC27185C4B00C88D7B /* NotificareInbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareInbox.swift; sourceTree = "<group>"; };
 		F27DB19F262F2B5C000C024D /* PushAPI+Responses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PushAPI+Responses.swift"; sourceTree = "<group>"; };
 		F27DB1A2262F2B94000C024D /* PushAPI+Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PushAPI+Models.swift"; sourceTree = "<group>"; };
@@ -66,9 +66,9 @@
 		F289F5EC25B8651F0091AB97 /* NotificareInboxDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareInboxDelegate.swift; sourceTree = "<group>"; };
 		F289F5F025B884EC0091AB97 /* NotificareInboxItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareInboxItem.swift; sourceTree = "<group>"; };
 		F28E583A25C0401800C83537 /* InboxDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxDatabase.swift; sourceTree = "<group>"; };
-		F28E584425C040A500C83537 /* NotificareInboxDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = NotificareInboxDataModel.xcdatamodel; sourceTree = "<group>"; };
 		F28E584925C041C900C83537 /* InboxItemEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxItemEntity.swift; sourceTree = "<group>"; };
 		F293E2E92630491E008C2010 /* LocalStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorage.swift; sourceTree = "<group>"; };
+		F2DAB3AA271F18E1002B5F27 /* NotificareInboxDatabase.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = NotificareInboxDatabase.xcdatamodel; sourceTree = "<group>"; };
 		F2F311F925C1962D007E4B01 /* NotificareInboxError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareInboxError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -126,11 +126,11 @@
 				F28E583925C0400A00C83537 /* Internals */,
 				F289F5EF25B884E00091AB97 /* Models */,
 				F289F53925B85E020091AB97 /* Info.plist */,
-				F21DD9EA27184CE500C88D7B /* Notificare+Inbox.swift */,
 				F289F5EB25B864A90091AB97 /* NotificareInboxKit.h */,
 				F21DD9EC27185C4B00C88D7B /* NotificareInbox.swift */,
+				F21DD9EA27184CE500C88D7B /* NotificareInbox+Augment.swift */,
 				F289F5EC25B8651F0091AB97 /* NotificareInboxDelegate.swift */,
-				F28E584325C040A500C83537 /* NotificareInboxDataModel.xcdatamodeld */,
+				F2DAB3A9271F18E1002B5F27 /* NotificareInboxDatabase.xcdatamodeld */,
 				F2F311F925C1962D007E4B01 /* NotificareInboxError.swift */,
 			);
 			path = Sources;
@@ -324,14 +324,14 @@
 			files = (
 				F21DD9ED27185C4B00C88D7B /* NotificareInbox.swift in Sources */,
 				F289F5F125B884EC0091AB97 /* NotificareInboxItem.swift in Sources */,
-				F21DD9EB27184CE500C88D7B /* Notificare+Inbox.swift in Sources */,
-				F28E584625C040A500C83537 /* NotificareInboxDataModel.xcdatamodeld in Sources */,
+				F21DD9EB27184CE500C88D7B /* NotificareInbox+Augment.swift in Sources */,
 				F28E584A25C041C900C83537 /* InboxItemEntity.swift in Sources */,
 				F289F5E825B8643A0091AB97 /* NotificareInboxImpl.swift in Sources */,
 				F27DB1A3262F2B94000C024D /* PushAPI+Models.swift in Sources */,
 				F289F5ED25B8651F0091AB97 /* NotificareInboxDelegate.swift in Sources */,
 				F27DB1A0262F2B5C000C024D /* PushAPI+Responses.swift in Sources */,
 				F293E2EA2630491E008C2010 /* LocalStorage.swift in Sources */,
+				F2DAB3AB271F18E1002B5F27 /* NotificareInboxDatabase.xcdatamodeld in Sources */,
 				F2F311FA25C1962D007E4B01 /* NotificareInboxError.swift in Sources */,
 				F28E583B25C0401800C83537 /* InboxDatabase.swift in Sources */,
 			);
@@ -606,13 +606,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		F28E584325C040A500C83537 /* NotificareInboxDataModel.xcdatamodeld */ = {
+		F2DAB3A9271F18E1002B5F27 /* NotificareInboxDatabase.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				F28E584425C040A500C83537 /* NotificareInboxDataModel.xcdatamodel */,
+				F2DAB3AA271F18E1002B5F27 /* NotificareInboxDatabase.xcdatamodel */,
 			);
-			currentVersion = F28E584425C040A500C83537 /* NotificareInboxDataModel.xcdatamodel */;
-			path = NotificareInboxDataModel.xcdatamodeld;
+			currentVersion = F2DAB3AA271F18E1002B5F27 /* NotificareInboxDatabase.xcdatamodel */;
+			path = NotificareInboxDatabase.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

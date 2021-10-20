@@ -23,14 +23,21 @@ public enum NotificareDefinitions {
     }
 
     public enum Modules: String, CaseIterable {
+        // Embedded modules
+        case device = "NotificareKit.NotificareDeviceModuleImpl"
+        case events = "NotificareKit.NotificareEventsModuleImpl"
+        case session = "NotificareKit.NotificareSessionModuleImpl"
+        case crashReporter = "NotificareKit.NotificareCrashReporterModuleImpl"
+
+        // Peer modules
         case push = "NotificarePushKit.NotificarePushImpl"
-        case pushUI = "NotificarePushUIKit.NotificarePushUI"
+        case pushUI = "NotificarePushUIKit.NotificarePushUIImpl"
         case inbox = "NotificareInboxKit.NotificareInboxImpl"
-        case loyalty = "NotificareLoyaltyKit.NotificareLoyalty"
-        case assets = "NotificareAssetsKit.NotificareAssets"
-        case scannables = "NotificareScannablesKit.NotificareScannables"
-        case authentication = "NotificareAuthenticationKit.NotificareAuthentication"
-        case geo = "NotificareGeoKit.NotificareGeo"
+        case loyalty = "NotificareLoyaltyKit.NotificareLoyaltyImpl"
+        case assets = "NotificareAssetsKit.NotificareAssetsImpl"
+        case scannables = "NotificareScannablesKit.NotificareScannablesImpl"
+        case authentication = "NotificareAuthenticationKit.NotificareAuthenticationImpl"
+        case geo = "NotificareGeoKit.NotificareGeoImpl"
 
         public var isAvailable: Bool {
             NSClassFromString(rawValue) != nil

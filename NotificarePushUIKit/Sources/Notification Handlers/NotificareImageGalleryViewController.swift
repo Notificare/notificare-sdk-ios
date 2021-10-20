@@ -23,7 +23,7 @@ public class NotificareImageGalleryViewController: NotificareBaseNotificationVie
 
     override public func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFinishPresentingNotification: notification)
+        Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFinishPresentingNotification: notification)
     }
 
     private func setupViews() {
@@ -73,7 +73,7 @@ public class NotificareImageGalleryViewController: NotificareBaseNotificationVie
 
     private func setupContent() {
         guard !notification.content.isEmpty else {
-            NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFailToPresentNotification: notification)
+            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToPresentNotification: notification)
             return
         }
 
@@ -99,7 +99,7 @@ public class NotificareImageGalleryViewController: NotificareBaseNotificationVie
             }.resume()
         }
 
-        NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didPresentNotification: notification)
+        Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didPresentNotification: notification)
     }
 
     private func openSharingActionSheet(for image: UIImage) {
@@ -153,6 +153,6 @@ extension NotificareImageGalleryViewController: UICollectionViewDelegate, UIColl
 
 extension NotificareImageGalleryViewController: NotificareNotificationPresenter {
     func present(in controller: UIViewController) {
-        NotificarePushUI.shared.presentController(self, in: controller)
+        controller.presentOrPush(self)
     }
 }

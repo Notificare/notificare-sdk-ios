@@ -26,7 +26,7 @@ extension NotificarePushImpl: UNUserNotificationCenterDelegate {
             Notificare.shared.fetchNotification(id) { result in
                 switch result {
                 case let .success(notification):
-                    Notificare.shared.eventsManager.logNotificationOpen(notification) { result in
+                    Notificare.shared.events().logNotificationOpen(id) { result in
                         switch result {
                         case .success:
                             if response.actionIdentifier != UNNotificationDefaultActionIdentifier, response.actionIdentifier != UNNotificationDismissActionIdentifier {
@@ -156,7 +156,7 @@ extension NotificarePushImpl: UNUserNotificationCenterDelegate {
 
     private func handleQuickResponse(userInfo: [AnyHashable: Any], notification: NotificareNotification, action: NotificareNotification.Action, responseText: String?) {
         // Log the notification open event.
-        Notificare.shared.eventsManager.logNotificationOpen(notification.id)
+        Notificare.shared.events().logNotificationOpen(notification.id) { _ in }
 
         sendQuickResponse(notification: notification, action: action, responseText: responseText) { _ in
             // Remove the notification from the notification center.

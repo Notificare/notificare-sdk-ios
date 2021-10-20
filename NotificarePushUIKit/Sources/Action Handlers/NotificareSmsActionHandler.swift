@@ -16,7 +16,7 @@ public class NotificareSmsActionHandler: NotificareBaseActionHandler {
 
     override func execute() {
         guard let target = action.target, MFMessageComposeViewController.canSendText() else {
-            NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFailToExecuteAction: action, for: notification, error: ActionError.notSupported)
+            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToExecuteAction: action, for: notification, error: ActionError.notSupported)
             return
         }
 
@@ -27,7 +27,7 @@ public class NotificareSmsActionHandler: NotificareBaseActionHandler {
         composer.recipients = recipients
         composer.body = ""
 
-        NotificarePushUI.shared.presentController(composer, in: sourceViewController)
+        sourceViewController.presentOrPush(composer)
     }
 
     private func dismiss() {
@@ -49,17 +49,17 @@ extension NotificareSmsActionHandler: MFMessageComposeViewControllerDelegate {
     public func messageComposeViewController(_: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
         switch result {
         case .sent:
-            NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didExecuteAction: action, for: notification)
+            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didExecuteAction: action, for: notification)
             Notificare.shared.createNotificationReply(notification: notification, action: action) { _ in }
 
         case .cancelled:
-            NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didNotExecuteAction: action, for: notification)
+            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didNotExecuteAction: action, for: notification)
 
         case .failed:
-            NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFailToExecuteAction: action, for: notification, error: ActionError.failed)
+            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToExecuteAction: action, for: notification, error: ActionError.failed)
 
         default:
-            NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFailToExecuteAction: action, for: notification, error: ActionError.failed)
+            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToExecuteAction: action, for: notification, error: ActionError.failed)
         }
 
         dismiss()

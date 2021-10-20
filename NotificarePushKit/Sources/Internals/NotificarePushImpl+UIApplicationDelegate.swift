@@ -13,7 +13,7 @@ extension NotificarePushImpl: NotificareAppDelegateInterceptor {
             return
         }
 
-        Notificare.shared.deviceManager.registerAPNS(token: token.toHexString()) { result in
+        Notificare.shared.deviceInternal().registerAPNS(token: token.toHexString()) { result in
             switch result {
             case .success:
                 NotificareLogger.debug("Registered the device with an APNS token.")
@@ -105,7 +105,7 @@ extension NotificarePushImpl: NotificareAppDelegateInterceptor {
             return
         }
 
-        Notificare.shared.eventsManager.logNotificationReceived(id)
+        Notificare.shared.events().logNotificationReceived(id) { _ in }
 
         Notificare.shared.fetchNotification(id) { result in
             switch result {

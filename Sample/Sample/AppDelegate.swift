@@ -33,10 +33,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         Notificare.shared.delegate = self
         Notificare.shared.push().delegate = self
-        NotificarePushUI.shared.delegate = self
+        Notificare.shared.pushUI().delegate = self
         Notificare.shared.inbox().delegate = self
-        NotificareLoyalty.shared.delegate = self
-        NotificareGeo.shared.delegate = self
+        Notificare.shared.loyalty().delegate = self
+        Notificare.shared.geo().delegate = self
 
         Notificare.shared.launch()
 
@@ -48,12 +48,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return true
         }
 
-        if let token = NotificareAuthentication.shared.parsePasswordResetToken(url) {
+        if let token = Notificare.shared.authentication().parsePasswordResetToken(url) {
             print("---> Password reset token = \(token)")
             return true
         }
 
-        if let token = NotificareAuthentication.shared.parseValidateUserToken(url) {
+        if let token = Notificare.shared.authentication().parseValidateUserToken(url) {
             print("---> Validate user token = \(token)")
             return true
         }
@@ -79,8 +79,8 @@ extension AppDelegate: NotificareDelegate {
             Notificare.shared.push().enableRemoteNotifications { _ in }
         }
 
-        if NotificareGeo.shared.locationServicesEnabled {
-            NotificareGeo.shared.enableLocationUpdates()
+        if Notificare.shared.geo().locationServicesEnabled {
+            Notificare.shared.geo().enableLocationUpdates()
         }
     }
 
@@ -130,7 +130,7 @@ extension AppDelegate: NotificarePushDelegate {
 //            return
 //        }
 
-        NotificarePushUI.shared.presentNotification(notification, in: rootViewController)
+        Notificare.shared.pushUI().presentNotification(notification, in: rootViewController)
     }
 
     func notificare(_: NotificarePush, didOpenAction action: NotificareNotification.Action, for notification: NotificareNotification) {
@@ -145,7 +145,7 @@ extension AppDelegate: NotificarePushDelegate {
 //            return
 //        }
 
-        NotificarePushUI.shared.presentAction(action, for: notification, in: rootViewController)
+        Notificare.shared.pushUI().presentAction(action, for: notification, in: rootViewController)
     }
 }
 
@@ -207,7 +207,7 @@ extension AppDelegate: NotificareLoyaltyDelegate {
             return
         }
 
-        NotificareLoyalty.shared.present(notification, in: rootViewController)
+        Notificare.shared.loyalty().present(notification, in: rootViewController)
     }
 }
 

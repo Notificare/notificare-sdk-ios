@@ -5,8 +5,8 @@
 import Foundation
 import NotificareKit
 
-extension NotificareEventsModule {
-    func logRegionSession(_ session: NotificareRegionSession, _ completion: NotificareCallback<Void>? = nil) {
+internal extension NotificareEventsModule {
+    func logRegionSession(_ session: NotificareRegionSession, _ completion: NotificareCallback<Void>) {
         let sessionEnd = session.end ?? Date()
         let length = sessionEnd.timeIntervalSince(session.start)
 
@@ -35,10 +35,11 @@ extension NotificareEventsModule {
             },
         ]
 
-        log("re.notifica.event.region.Session", data: data, completion)
+        let this = self as! NotificareInternalEventsModule
+        this.log("re.notifica.event.region.Session", data: data, completion)
     }
 
-    func logBeaconSession(_ session: NotificareBeaconSession, _ completion: NotificareCallback<Void>? = nil) {
+    func logBeaconSession(_ session: NotificareBeaconSession, _ completion: NotificareCallback<Void>) {
         let sessionEnd = session.end ?? Date()
         let length = sessionEnd.timeIntervalSince(session.start)
 
@@ -66,7 +67,8 @@ extension NotificareEventsModule {
             },
         ]
 
-        log("re.notifica.event.beacon.Session", data: data, completion)
+        let this = self as! NotificareInternalEventsModule
+        this.log("re.notifica.event.beacon.Session", data: data, completion)
     }
 
     func logVisit(_ visit: NotificareVisit, _ completion: @escaping NotificareCallback<Void>) {
@@ -77,6 +79,7 @@ extension NotificareEventsModule {
             "longitude": visit.longitude,
         ]
 
-        log("re.notifica.event.location.Visit", data: data, completion)
+        let this = self as! NotificareInternalEventsModule
+        this.log("re.notifica.event.location.Visit", data: data, completion)
     }
 }
