@@ -74,7 +74,7 @@ internal class NotificarePushUIImpl: NotificareModule, NotificarePushUI {
             latestPresentableNotificationHandler = notificationController
 
         case .passbook:
-            if NotificareDefinitions.Modules.loyalty.isAvailable {
+            if NotificareInternals.Module.loyalty.isAvailable {
                 LoyaltyIntegration.onPassReceived(in: notification)
                 return
             }

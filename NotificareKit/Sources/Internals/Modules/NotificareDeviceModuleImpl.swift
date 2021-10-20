@@ -498,7 +498,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
                 platform: "iOS",
                 transport: transport,
                 osVersion: NotificareUtils.osVersion,
-                sdkVersion: NotificareDefinitions.sdkVersion,
+                sdkVersion: Notificare.SDK_VERSION,
                 appVersion: NotificareUtils.applicationVersion,
                 deviceString: NotificareUtils.deviceString,
                 timeZoneOffset: NotificareUtils.timeZoneOffset,
@@ -598,7 +598,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
             changed = true
         }
 
-        if device.sdkVersion != NotificareDefinitions.sdkVersion {
+        if device.sdkVersion != Notificare.SDK_VERSION {
             NotificareLogger.debug("Registration check: sdk version changed")
             changed = true
         }

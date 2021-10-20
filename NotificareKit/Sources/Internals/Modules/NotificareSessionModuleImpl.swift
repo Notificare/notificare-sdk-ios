@@ -5,6 +5,8 @@
 import Foundation
 import UIKit
 
+private let SESSION_CLOSE_TASK_NAME = "re.notifica.tasks.session.Close"
+
 internal class NotificareSessionModuleImpl: NSObject, NotificareModule {
     internal static let instance = NotificareSessionModuleImpl()
 
@@ -60,7 +62,7 @@ internal class NotificareSessionModuleImpl: NSObject, NotificareModule {
         self.sessionStart = sessionStart
         sessionEnd = nil
 
-        NotificareLogger.debug("Session '\(sessionId)' started at \(dateFormatter.string(from: sessionStart))")
+        NotificareLogger.debug("Session '\(sessionId)' started at \(dateFormatter.string(from: sessionStart)).")
         Notificare.shared.events().logApplicationOpen { _ in }
     }
 
@@ -78,11 +80,11 @@ internal class NotificareSessionModuleImpl: NSObject, NotificareModule {
         let sessionEnd = Date()
         self.sessionEnd = sessionEnd
 
-        NotificareLogger.debug("Session '\(sessionId)' stopped at \(dateFormatter.string(from: sessionEnd))")
+        NotificareLogger.debug("Session '\(sessionId)' stopped at \(dateFormatter.string(from: sessionEnd)).")
 
         // Wait a few seconds before sending a close event.
         // This prevents quick app swaps, navigation pulls, etc.
-        backgroundTask = UIApplication.shared.beginBackgroundTask(withName: NotificareDefinitions.Tasks.applicationClose) { [weak self] in
+        backgroundTask = UIApplication.shared.beginBackgroundTask(withName: SESSION_CLOSE_TASK_NAME) { [weak self] in
             NotificareLogger.debug("Background task expiration handler triggered.")
             guard let self = self else {
                 return

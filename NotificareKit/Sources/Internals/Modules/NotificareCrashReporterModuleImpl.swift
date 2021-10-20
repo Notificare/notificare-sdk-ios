@@ -67,7 +67,7 @@ internal class NotificareCrashReporterModuleImpl: NSObject, NotificareModule {
         let timestamp = Int64(Date().timeIntervalSince1970 * 1000)
 
         LocalStorage.crashReport = NotificareEvent(
-            type: NotificareDefinitions.Events.applicationException,
+            type: "re.notifica.event.application.Exception",
             timestamp: timestamp,
             deviceId: Notificare.shared.device().currentDevice?.id,
             sessionId: Notificare.shared.session().sessionId,
@@ -77,7 +77,7 @@ internal class NotificareCrashReporterModuleImpl: NSObject, NotificareModule {
                 "platform": "iOS",
                 "osVersion": NotificareUtils.osVersion,
                 "deviceString": NotificareUtils.deviceString,
-                "sdkVersion": NotificareDefinitions.sdkVersion,
+                "sdkVersion": Notificare.SDK_VERSION,
                 "appVersion": NotificareUtils.applicationVersion,
                 "timestamp": timestamp,
                 "name": exception.name.rawValue,
@@ -110,7 +110,7 @@ internal class NotificareCrashReporterModuleImpl: NSObject, NotificareModule {
         }
 
         LocalStorage.crashReport = NotificareEvent(
-            type: NotificareDefinitions.Events.applicationException,
+            type: "re.notifica.event.application.Exception",
             timestamp: timestamp,
             deviceId: Notificare.shared.device().currentDevice?.id,
             sessionId: Notificare.shared.session().sessionId,
@@ -120,7 +120,7 @@ internal class NotificareCrashReporterModuleImpl: NSObject, NotificareModule {
                 "platform": "iOS",
                 "osVersion": NotificareUtils.osVersion,
                 "deviceString": NotificareUtils.deviceString,
-                "sdkVersion": NotificareDefinitions.sdkVersion,
+                "sdkVersion": Notificare.SDK_VERSION,
                 "appVersion": NotificareUtils.applicationVersion,
                 "timestamp": timestamp,
                 "name": name,

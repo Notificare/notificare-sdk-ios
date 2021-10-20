@@ -9,6 +9,13 @@ public typealias NotificareCallback<T> = (Result<T, Error>) -> Void
 public class Notificare {
     public static let shared = Notificare()
 
+    public static var SDK_VERSION: String {
+        let bundle = Bundle(for: Self.self)
+        let version = bundle.infoDictionary?["CFBundleShortVersionString"] as? String
+
+        return version ?? ""
+    }
+
     // Internal modules
     internal let database = NotificareDatabase()
     internal private(set) var reachability: NotificareReachability?
@@ -83,7 +90,7 @@ public class Notificare {
             var swizzleApns = false
 
             // Check if the Push module is loaded.
-            if NotificareDefinitions.Modules.push.isAvailable {
+            if NotificareInternals.Module.push.isAvailable {
                 swizzleApns = true
             }
 
@@ -99,7 +106,7 @@ public class Notificare {
         NotificareLogger.debug("Configuring available modules.")
         database.configure()
 
-        NotificareDefinitions.Modules.allCases.forEach { module in
+        NotificareInternals.Module.allCases.forEach { module in
             if let instance = module.instance {
                 NotificareLogger.debug("Configuring module: \(module)")
                 instance.configure()
@@ -144,7 +151,7 @@ public class Notificare {
                 let dispatchGroup = DispatchGroup()
 
                 // Loop all possible modules and launch the available ones.
-                NotificareDefinitions.Modules.allCases.forEach { module in
+                NotificareInternals.Module.allCases.forEach { module in
                     if let instance = module.instance {
                         dispatchGroup.enter()
 
@@ -194,7 +201,7 @@ public class Notificare {
                 let dispatchGroup = DispatchGroup()
 
                 // Loop all possible modules and un-launch the available ones.
-                NotificareDefinitions.Modules.allCases.reversed().forEach { module in
+                NotificareInternals.Module.allCases.reversed().forEach { module in
                     if let instance = module.instance {
                         dispatchGroup.enter()
 
@@ -460,7 +467,7 @@ public class Notificare {
             NotificareLogger.debug("App ID: \(application.id)")
             NotificareLogger.debug("App services: \(enabledServices.joined(separator: ", "))")
             NotificareLogger.debug("/==================================================================================/")
-            NotificareLogger.debug("SDK version: \(NotificareDefinitions.sdkVersion)")
+            NotificareLogger.debug("SDK version: \(Notificare.SDK_VERSION)")
             NotificareLogger.debug("SDK modules: \(enabledModules.joined(separator: ", "))")
             NotificareLogger.debug("/==================================================================================/")
 

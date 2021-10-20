@@ -4,7 +4,8 @@
 
 import UIKit
 
-private let maxRetries = 5
+private let MAX_RETRIES = 5
+private let UPLOAD_TASK_NAME = "re.notifica.tasks.events.Upload"
 
 internal class NotificareEventsModuleImpl: NSObject, NotificareModule, NotificareEventsModule {
     internal static let instance = NotificareEventsModuleImpl()
@@ -36,27 +37,27 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
     // MARK: - Notificare Events
 
     func logApplicationInstall(_ completion: @escaping NotificareCallback<Void>) {
-        log(NotificareDefinitions.Events.applicationInstall, completion)
+        log("re.notifica.event.application.Install", completion)
     }
 
     func logApplicationRegistration(_ completion: @escaping NotificareCallback<Void>) {
-        log(NotificareDefinitions.Events.applicationRegistration, completion)
+        log("re.notifica.event.application.Registration", completion)
     }
 
     func logApplicationUpgrade(_ completion: @escaping NotificareCallback<Void>) {
-        log(NotificareDefinitions.Events.applicationUpgrade, completion)
+        log("re.notifica.event.application.Upgrade", completion)
     }
 
     func logApplicationOpen(_ completion: @escaping NotificareCallback<Void>) {
-        log(NotificareDefinitions.Events.applicationOpen, completion)
+        log("re.notifica.event.application.Open", completion)
     }
 
     func logApplicationClose(sessionLength: Double, _ completion: @escaping NotificareCallback<Void>) {
-        log(NotificareDefinitions.Events.applicationClose, data: ["length": String(sessionLength)], completion)
+        log("re.notifica.event.application.Close", data: ["length": String(sessionLength)], completion)
     }
 
     func logNotificationOpen(_ id: String, _ completion: @escaping NotificareCallback<Void>) {
-        log(NotificareDefinitions.Events.notificationOpen, data: nil, for: id, completion)
+        log("re.notifica.event.notification.Open", data: nil, for: id, completion)
     }
 
     func logCustom(_ event: String, data: NotificareEventData?, _ completion: @escaping NotificareCallback<Void>) {
@@ -133,7 +134,7 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
         // Run the task on a background queue.
         DispatchQueue.global(qos: .background).async {
             // Notify the system about a long running task.
-            self.processEventsTaskIdentifier = UIApplication.shared.beginBackgroundTask(withName: NotificareDefinitions.Tasks.processEvents) {
+            self.processEventsTaskIdentifier = UIApplication.shared.beginBackgroundTask(withName: UPLOAD_TASK_NAME) {
                 // Check the task is still running.
                 guard let taskId = self.processEventsTaskIdentifier else {
                     return
@@ -218,7 +219,7 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
                         // Increase the attempts counter.
                         managedEvent.retries += 1
 
-                        if managedEvent.retries < maxRetries {
+                        if managedEvent.retries < MAX_RETRIES {
                             // Persist the attempts counter.
                             Notificare.shared.database.saveChanges()
                         } else {

@@ -80,11 +80,8 @@ public enum NotificareUtils {
     // MARK: - Modules
 
     public static func getEnabledPeerModules() -> [String] {
-        let embeddedModules: [NotificareDefinitions.Modules] = [.device, .events, .session, .crashReporter]
-
-        return NotificareDefinitions.Modules.allCases
-            .filter { !embeddedModules.contains($0) }
-            .filter(\.isAvailable)
+        NotificareInternals.Module.allCases
+            .filter { $0.isPeer && $0.isAvailable }
             .map { "\($0)" }
     }
 
