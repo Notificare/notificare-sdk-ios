@@ -8,6 +8,10 @@ open class NotificareAbstractDatabase {
     private let name: String
     private let rebuildOnVersionChange: Bool
 
+    private var databaseVersionKey: String {
+        "re.notifica.database_version.\(name)"
+    }
+
     public lazy var persistentContainer: NSPersistentContainer = {
         let bundle = Bundle(for: type(of: self))
 
@@ -34,24 +38,13 @@ open class NotificareAbstractDatabase {
         // Force the container to be loaded.
         _ = persistentContainer
 
-//        if let currentVersion = NotificareUserDefaults.currentDatabaseVersion,
-//           currentVersion != NotificareDefinitions.databaseVersion
-//        {
-//            NotificareLogger.debug("Local database version mismatch. Migration required.")
-//            rebuildStore(completion)
-//        } else {
-        NotificareLogger.debug("Loading local database.")
-        loadStore { result in
-            switch result {
-            case .success:
-                break
-
-            case let .failure(error):
-                NotificareLogger.error("Failed to load CoreData store '\(self.name)': \(error)")
-                fatalError("Failed to load CoreData store.")
-            }
+        if let currentVersion = UserDefaults.standard.string(forKey: databaseVersionKey), currentVersion != Notificare.SDK_VERSION {
+            NotificareLogger.debug("Database version mismatch. Recreating...")
+            removeStore()
         }
-//        }
+
+        NotificareLogger.debug("Loading database: \(name)")
+        loadStore()
     }
 
     public func saveChanges() {
@@ -67,34 +60,32 @@ open class NotificareAbstractDatabase {
         }
     }
 
-    private func loadStore(_ completion: @escaping (Result<Void, Error>) -> Void) {
+    private func loadStore() {
         persistentContainer.loadPersistentStores { _, error in
             if let error = error {
-                completion(.failure(error))
-                return
+                NotificareLogger.error("Failed to load CoreData store '\(self.name)': \(error)")
+                fatalError("Failed to load CoreData store.")
             }
 
-//            NotificareUserDefaults.currentDatabaseVersion = NotificareDefinitions.databaseVersion
-            completion(.success(()))
+            // Update the database version in local storage.
+            UserDefaults.standard.set(Notificare.SDK_VERSION, forKey: self.databaseVersionKey)
         }
     }
 
-    private func rebuildStore(_ completion: @escaping (Result<Void, Error>) -> Void) {
-        if let url = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)
-            .first?.appendingPathComponent("\(name).sqlite"),
+    private func removeStore() {
+        guard
+            let url = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first?.appendingPathComponent("\(name).sqlite"),
             FileManager.default.fileExists(atPath: url.path)
-        {
-            NotificareLogger.debug("Removing local database.")
-            do {
-                try persistentContainer.persistentStoreCoordinator.destroyPersistentStore(at: url, ofType: "sqlite")
-                NotificareLogger.debug("Local database removed.")
-            } catch {
-                NotificareLogger.debug("Failed to remove local database.")
-            }
-        } else {
-            NotificareLogger.debug("Local database file not found.")
+        else {
+            NotificareLogger.debug("Database file not found.")
+            return
         }
 
-        loadStore(completion)
+        do {
+            try persistentContainer.persistentStoreCoordinator.destroyPersistentStore(at: url, ofType: "sqlite")
+            NotificareLogger.debug("Database removed.")
+        } catch {
+            NotificareLogger.debug("Failed to remove database.")
+        }
     }
 }
