@@ -35,7 +35,7 @@ enum LocalStorage {
                 let decoder = NotificareUtils.jsonDecoder
                 return try decoder.decode(NotificareApplication.self, from: data)
             } catch {
-                NotificareLogger.warning("Failed to decode the stored device.\n\(error)")
+                NotificareLogger.warning("Failed to decode the stored device.", error: error)
 
                 // Remove the corrupted application from local storage.
                 UserDefaults.standard.removeObject(forKey: Keys.application.rawValue)
@@ -57,7 +57,7 @@ enum LocalStorage {
                 UserDefaults.standard.set(data, forKey: Keys.application.rawValue)
                 UserDefaults.standard.synchronize()
             } catch {
-                NotificareLogger.warning("Failed to encode the stored application.\n\(error)")
+                NotificareLogger.warning("Failed to encode the stored application.", error: error)
             }
         }
     }
@@ -73,7 +73,7 @@ enum LocalStorage {
                 let decoder = NotificareUtils.jsonDecoder
                 return try decoder.decode(NotificareDevice.self, from: data)
             } catch {
-                NotificareLogger.warning("Failed to decode the stored device.\n\(error)")
+                NotificareLogger.warning("Failed to decode the stored device.", error: error)
 
                 // Remove the corrupted device from local storage.
                 settings.removeObject(forKey: Keys.device.rawValue)
@@ -96,7 +96,7 @@ enum LocalStorage {
                 settings.set(data, forKey: Keys.device.rawValue)
                 settings.synchronize()
             } catch {
-                NotificareLogger.warning("Failed to encode the stored device.\n\(error)")
+                NotificareLogger.warning("Failed to encode the stored device.", error: error)
             }
         }
     }
@@ -130,7 +130,7 @@ enum LocalStorage {
             do {
                 return try NotificareUtils.jsonDecoder.decode(NotificareEvent.self, from: data)
             } catch {
-                NotificareLogger.warning("Failed to decode the stored crash report.\n\(error)")
+                NotificareLogger.warning("Failed to decode the stored crash report.", error: error)
 
                 // Remove the corrupted crash report from local storage.
                 UserDefaults.standard.removeObject(forKey: Keys.crashReport.rawValue)
@@ -151,7 +151,7 @@ enum LocalStorage {
                 UserDefaults.standard.set(data, forKey: Keys.crashReport.rawValue)
                 UserDefaults.standard.synchronize()
             } catch {
-                NotificareLogger.warning("Failed to encode the stored crash report.\n\(error)")
+                NotificareLogger.warning("Failed to encode the stored crash report.", error: error)
             }
         }
     }

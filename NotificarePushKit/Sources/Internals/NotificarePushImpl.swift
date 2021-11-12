@@ -127,12 +127,11 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
                     case .success:
                         NotificareLogger.info("Unregistered from APNS.")
                     case let .failure(error):
-                        NotificareLogger.error("Failed to update the notification settings.\n\(error)")
+                        NotificareLogger.error("Failed to update the notification settings.", error: error)
                     }
                 }
             case let .failure(error):
-                NotificareLogger.error("Failed to register a temporary device and unregister from APNS.")
-                NotificareLogger.debug("\(error)")
+                NotificareLogger.error("Failed to register a temporary device and unregister from APNS.", error: error)
             }
         }
     }

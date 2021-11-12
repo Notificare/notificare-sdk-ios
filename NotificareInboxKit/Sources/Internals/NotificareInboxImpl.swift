@@ -167,7 +167,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
 
                 completion(.success(response.unread))
             case let .failure(error):
-                NotificareLogger.error("Failed to refresh the badge: \(error)")
+                NotificareLogger.error("Failed to refresh the badge.", error: error)
                 completion(.failure(error))
             }
         }
@@ -264,9 +264,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
                 completion(.success(()))
 
             case let .failure(error):
-                NotificareLogger.warning("Failed to mark item as read.")
-                NotificareLogger.debug("\(error)")
-
+                NotificareLogger.warning("Failed to mark item as read.", error: error)
                 completion(.failure(error))
             }
         }
@@ -434,7 +432,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
                     }
                 }
 
-                NotificareLogger.error("Failed to fetch the remote inbox: \(error)")
+                NotificareLogger.error("Failed to fetch the remote inbox.", error: error)
             }
         }
     }
@@ -449,7 +447,8 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
             let entities = try database.find()
             cachedEntities = entities
         } catch {
-            fatalError("Failed to query the local database: \(error)")
+            NotificareLogger.error("Failed to query the local database.", error: error)
+            fatalError("Failed to query the local database.")
         }
     }
 
@@ -475,7 +474,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
             try database.clear()
             cachedEntities.removeAll()
         } catch {
-            NotificareLogger.error("Failed to clear the local inbox: \(error)")
+            NotificareLogger.error("Failed to clear the local inbox.", error: error)
         }
     }
 
@@ -534,8 +533,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
                     self.refreshBadge { _ in }
                 }
             case let .failure(error):
-                NotificareLogger.error("Failed to fetch inbox items.")
-                NotificareLogger.debug("\(error)")
+                NotificareLogger.error("Failed to fetch inbox items.", error: error)
             }
         }
     }

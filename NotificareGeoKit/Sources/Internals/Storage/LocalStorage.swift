@@ -63,7 +63,7 @@ internal enum LocalStorage {
                 let decoder = NotificareUtils.jsonDecoder
                 return try decoder.decode([NotificareRegion].self, from: data)
             } catch {
-                NotificareLogger.warning("Failed to decode the monitored regions.\n\(error)")
+                NotificareLogger.warning("Failed to decode the monitored regions.", error: error)
 
                 // Remove the corrupted application from local storage.
                 UserDefaults.standard.removeObject(forKey: KEY_MONITORED_REGIONS)
@@ -80,7 +80,7 @@ internal enum LocalStorage {
                 UserDefaults.standard.set(data, forKey: KEY_MONITORED_REGIONS)
                 UserDefaults.standard.synchronize()
             } catch {
-                NotificareLogger.warning("Failed to encode the monitored regions.\n\(error)")
+                NotificareLogger.warning("Failed to encode the monitored regions.", error: error)
             }
         }
     }
@@ -96,7 +96,7 @@ internal enum LocalStorage {
                 let arr = try decoder.decode([NotificareBeacon].self, from: data)
                 return Set(arr)
             } catch {
-                NotificareLogger.warning("Failed to decode the monitored beacons.\n\(error)")
+                NotificareLogger.warning("Failed to decode the monitored beacons.", error: error)
 
                 // Remove the corrupted beacons from local storage.
                 UserDefaults.standard.removeObject(forKey: KEY_MONITORED_BEACONS)
@@ -113,7 +113,7 @@ internal enum LocalStorage {
                 UserDefaults.standard.set(data, forKey: KEY_MONITORED_BEACONS)
                 UserDefaults.standard.synchronize()
             } catch {
-                NotificareLogger.warning("Failed to encode the monitored beacons.\n\(error)")
+                NotificareLogger.warning("Failed to encode the monitored beacons.", error: error)
             }
         }
     }
@@ -128,7 +128,7 @@ internal enum LocalStorage {
                 let decoder = NotificareUtils.jsonDecoder
                 return try decoder.decode([NotificareRegionSession].self, from: data)
             } catch {
-                NotificareLogger.warning("Failed to decode the region sessions.\n\(error)")
+                NotificareLogger.warning("Failed to decode the region sessions.", error: error)
 
                 // Remove the corrupted application from local storage.
                 UserDefaults.standard.removeObject(forKey: KEY_REGION_SESSIONS)
@@ -145,7 +145,7 @@ internal enum LocalStorage {
                 UserDefaults.standard.set(data, forKey: KEY_REGION_SESSIONS)
                 UserDefaults.standard.synchronize()
             } catch {
-                NotificareLogger.warning("Failed to encode the region sessions.\n\(error)")
+                NotificareLogger.warning("Failed to encode the region sessions.", error: error)
             }
         }
     }
@@ -160,7 +160,7 @@ internal enum LocalStorage {
                 let decoder = NotificareUtils.jsonDecoder
                 return try decoder.decode([NotificareBeaconSession].self, from: data)
             } catch {
-                NotificareLogger.warning("Failed to decode the beacon sessions.\n\(error)")
+                NotificareLogger.warning("Failed to decode the beacon sessions.", error: error)
 
                 // Remove the corrupted beacon sessions from local storage.
                 UserDefaults.standard.removeObject(forKey: KEY_BEACON_SESSIONS)
@@ -177,7 +177,7 @@ internal enum LocalStorage {
                 UserDefaults.standard.set(data, forKey: KEY_BEACON_SESSIONS)
                 UserDefaults.standard.synchronize()
             } catch {
-                NotificareLogger.warning("Failed to encode the beacon sessions.\n\(error)")
+                NotificareLogger.warning("Failed to encode the beacon sessions.", error: error)
             }
         }
     }

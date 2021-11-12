@@ -102,8 +102,7 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
                         completion(.success(()))
                     }
                 case let .failure(error):
-                    NotificareLogger.warning("Failed to send the event: \(event.type).")
-                    NotificareLogger.debug("\(error)")
+                    NotificareLogger.warning("Failed to send the event '\(event.type)'.", error: error)
 
                     if let completion = completion {
                         completion(.failure(error))

@@ -69,7 +69,7 @@ extension NotificareNetworkError: LocalizedError {
             return urlError.localizedDescription
 
         case .invalidResponseType, .noResponse:
-            return NSLocalizedString("Internal error", comment: "")
+            return NSLocalizedString("Internal error.", comment: "")
 
         case .noResponseData:
             return nil
@@ -79,10 +79,10 @@ extension NotificareNetworkError: LocalizedError {
             return str
 
         case .inaccessible:
-            return NSLocalizedString("Service is not accessible", comment: "")
+            return NSLocalizedString("Service is not accessible.", comment: "")
 
         case .validationError:
-            return NSLocalizedString("Invalid response code", comment: "")
+            return NSLocalizedString("Invalid response code.", comment: "")
         }
     }
 

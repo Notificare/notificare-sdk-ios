@@ -18,7 +18,7 @@ internal enum LocalStorage {
             } catch KeychainError.itemNotFound {
                 return nil
             } catch {
-                NotificareLogger.warning("Failed to decode the stored credentials.\n\(error)")
+                NotificareLogger.warning("Failed to decode the stored credentials.", error: error)
                 return nil
             }
         }

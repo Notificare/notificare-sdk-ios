@@ -53,8 +53,7 @@ internal class NotificareCrashReporterModuleImpl: NSObject, NotificareModule {
                     // Clean up the stored crash report
                     LocalStorage.crashReport = nil
                 case let .failure(error):
-                    NotificareLogger.error("Failed to process a crash report.")
-                    NotificareLogger.debug("\(error)")
+                    NotificareLogger.error("Failed to process a crash report.", error: error)
                 }
             }
 

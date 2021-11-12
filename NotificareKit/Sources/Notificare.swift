@@ -131,8 +131,8 @@ public class Notificare {
             NotificareLogger.debug("Start listening to reachability events.")
             try reachability!.startNotifier()
         } catch {
-            NotificareLogger.error("Failed to start listening to reachability events: \(error)")
-            fatalError("Failed to start listening to reachability events: \(error)")
+            NotificareLogger.error("Failed to start listening to reachability events.", error: error)
+            fatalError("Failed to start listening to reachability events.")
         }
 
         // Fetch the application info.
@@ -153,7 +153,7 @@ public class Notificare {
                         NotificareLogger.debug("Launching module: \(module)")
                         instance.launch { result in
                             if case let .failure(error) = result {
-                                NotificareLogger.debug("Failed to launch '\(module)': \(error)")
+                                NotificareLogger.debug("Failed to launch '\(module)'.", error: error)
                                 latestPluginLaunchError = error
                             }
 
@@ -170,7 +170,7 @@ public class Notificare {
                     }
                 }
             case let .failure(error):
-                NotificareLogger.error("Failed to load the application info: \(error)")
+                NotificareLogger.error("Failed to load the application info.")
                 self.handleLaunchResult(.failure(error))
             }
         }
@@ -203,7 +203,7 @@ public class Notificare {
                         NotificareLogger.debug("Un-launching module: \(module.rawValue)")
                         instance.unlaunch { result in
                             if case let .failure(error) = result {
-                                NotificareLogger.debug("Failed to un-launch '\(module.rawValue)': \(error)")
+                                NotificareLogger.debug("Failed to un-launch '\(module.rawValue)'.", error: error)
                                 latestPluginUnlaunchError = error
                             }
 
@@ -228,19 +228,19 @@ public class Notificare {
                                         self.state = .configured
 
                                     case let .failure(error):
-                                        NotificareLogger.error("Failed to delete device: \(error)")
+                                        NotificareLogger.error("Failed to delete device.", error: error)
                                     }
                                 }
 
                             case let .failure(error):
-                                NotificareLogger.error("Failed to clear device tags: \(error)")
+                                NotificareLogger.error("Failed to clear device tags.", error: error)
                             }
                         }
                     }
                 }
 
             case let .failure(error):
-                NotificareLogger.error("Failed to register temporary device: \(error)")
+                NotificareLogger.error("Failed to register temporary device.", error: error)
             }
         }
     }
@@ -390,7 +390,7 @@ public class Notificare {
             case .success:
                 NotificareLogger.info("Device registered for testing.")
             case let .failure(error):
-                NotificareLogger.error("Failed to register the device for testing.\n\(error)")
+                NotificareLogger.error("Failed to register the device for testing.", error: error)
             }
         }
 
@@ -419,7 +419,7 @@ public class Notificare {
                     }
                 }
             case let .failure(error):
-                NotificareLogger.warning("Failed to fetch the dynamic link.\n\(error)")
+                NotificareLogger.warning("Failed to fetch the dynamic link.", error: error)
             }
         }
 
@@ -465,8 +465,8 @@ public class Notificare {
 
             // We're done launching. Notify the delegate.
             delegate?.notificare(self, onReady: application)
-        case .failure:
-            NotificareLogger.error("Failed to launch Notificare.")
+        case let .failure(error):
+            NotificareLogger.error("Failed to launch Notificare.", error: error)
             state = .configured
         }
     }

@@ -18,13 +18,13 @@ extension NotificarePushImpl: NotificareAppDelegateInterceptor {
             case .success:
                 NotificareLogger.debug("Registered the device with an APNS token.")
             case let .failure(error):
-                NotificareLogger.debug("Failed to register the device with an APNS token: \(error)")
+                NotificareLogger.debug("Failed to register the device with an APNS token.", error: error)
             }
         }
     }
 
     func application(_: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        NotificareLogger.error("Failed to register for remote notifications: \(error)")
+        NotificareLogger.error("Failed to register for remote notifications.", error: error)
         delegate?.notificare(self, didFailToRegisterForRemoteNotificationsWithError: error)
     }
 
@@ -121,8 +121,7 @@ extension NotificarePushImpl: NotificareAppDelegateInterceptor {
 
                 completion(.success(()))
             case let .failure(error):
-                NotificareLogger.error("Failed to fetch notification.")
-                NotificareLogger.debug("\(error)")
+                NotificareLogger.error("Failed to fetch notification.", error: error)
 
                 // Put the notification in the inbox, if appropriate.
                 if let notification = NotificareNotification(apnsDictionary: userInfo) {

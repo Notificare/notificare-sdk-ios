@@ -213,7 +213,7 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
                 case .success:
                     NotificareLogger.debug("Device location cleared.")
                 case let .failure(error):
-                    NotificareLogger.error("Failed to clear the device location.\n\(error)")
+                    NotificareLogger.error("Failed to clear the device location.", error: error)
                 }
             }
     }
@@ -244,7 +244,7 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
         let geocoder = CLGeocoder()
         geocoder.reverseGeocodeLocation(location) { placemarks, error in
             if let error = error {
-                NotificareLogger.warning("Failed to reverse geocode location.\n\(error)")
+                NotificareLogger.warning("Failed to reverse geocode location.", error: error)
                 completion()
                 return
             }
@@ -274,9 +274,9 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
                 .response { result in
                     switch result {
                     case .success:
-                        NotificareLogger.info("Updated location to \(placemark.name ?? "---").")
+                        NotificareLogger.info("Updated location to '\(placemark.name ?? "unknown")'.")
                     case let .failure(error):
-                        NotificareLogger.error("Failed to save location to \(placemark.name ?? "---").\n\(error)")
+                        NotificareLogger.error("Failed to save location to '\(placemark.name ?? "unknown")'.", error: error)
                     }
 
                     completion()
@@ -296,7 +296,7 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
 
                     self.monitorRegions(regions)
                 case let .failure(error):
-                    NotificareLogger.error("Failed to load nearest regions.\n\(error)")
+                    NotificareLogger.error("Failed to load nearest regions.", error: error)
                 }
 
                 completion()
@@ -535,7 +535,7 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
 
                     NotificareLogger.debug("Triggered region enter.")
                 case let .failure(error):
-                    NotificareLogger.error("Failed to trigger a region enter.\n\(error)")
+                    NotificareLogger.error("Failed to trigger a region enter.", error: error)
                 }
             }
     }
@@ -560,7 +560,7 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
 
                     NotificareLogger.debug("Triggered region exit.")
                 case let .failure(error):
-                    NotificareLogger.error("Failed to trigger a region exit.\n\(error)")
+                    NotificareLogger.error("Failed to trigger a region exit.", error: error)
                 }
             }
     }
@@ -585,7 +585,7 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
 
                     NotificareLogger.debug("Triggered beacon enter.")
                 case let .failure(error):
-                    NotificareLogger.error("Failed to trigger a beacon enter.\n\(error)")
+                    NotificareLogger.error("Failed to trigger a beacon enter.", error: error)
                 }
             }
     }
@@ -610,7 +610,7 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
 
                     NotificareLogger.debug("Triggered beacon exit.")
                 case let .failure(error):
-                    NotificareLogger.error("Failed to trigger a beacon exit.\n\(error)")
+                    NotificareLogger.error("Failed to trigger a beacon exit.", error: error)
                 }
             }
     }
@@ -678,7 +678,7 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
                 sessions.removeAll(where: { $0.regionId == region.id })
                 LocalStorage.regionSessions = sessions
             case let .failure(error):
-                NotificareLogger.error("Failed to log the region session.\n\(error)")
+                NotificareLogger.error("Failed to log the region session.", error: error)
             }
         }
     }
@@ -762,7 +762,7 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
                 // Remove the session from local storage.
                 LocalStorage.beaconSessions = LocalStorage.beaconSessions.filter { $0.regionId != region.id }
             case let .failure(error):
-                NotificareLogger.error("Failed to log the beacon session.\n\(error)")
+                NotificareLogger.error("Failed to log the beacon session.", error: error)
             }
         }
     }
@@ -820,7 +820,7 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
 
                     NotificareLogger.debug("Started monitoring \(beacons.count) individual beacons.")
                 case let .failure(error):
-                    NotificareLogger.error("Failed to fetch beacons for region '\(region.name)'.\n\(error)")
+                    NotificareLogger.error("Failed to fetch beacons for region '\(region.name)'.", error: error)
                 }
             }
     }
@@ -1036,7 +1036,7 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
                         self.hasBluetoothEnabled = enabled
 
                     case let .failure(error):
-                        NotificareLogger.error("Failed to update the bluetooth state.\n\(error)")
+                        NotificareLogger.error("Failed to update the bluetooth state.", error: error)
                     }
                 }
         } else {
@@ -1342,7 +1342,7 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
             case .success:
                 NotificareLogger.debug("Visit event successfully registered.")
             case let .failure(error):
-                NotificareLogger.error("Failed to register a visit event.\n\(error)")
+                NotificareLogger.error("Failed to register a visit event.", error: error)
             }
         }
 

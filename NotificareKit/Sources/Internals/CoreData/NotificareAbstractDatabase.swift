@@ -55,15 +55,14 @@ open class NotificareAbstractDatabase {
         do {
             try context.save()
         } catch {
-            NotificareLogger.error("Failed to persist changes to CoreData.")
-            NotificareLogger.debug("\(error)")
+            NotificareLogger.error("Failed to persist changes to CoreData.", error: error)
         }
     }
 
     private func loadStore() {
         persistentContainer.loadPersistentStores { _, error in
             if let error = error {
-                NotificareLogger.error("Failed to load CoreData store '\(self.name)': \(error)")
+                NotificareLogger.error("Failed to load CoreData store '\(self.name)'.", error: error)
                 fatalError("Failed to load CoreData store.")
             }
 

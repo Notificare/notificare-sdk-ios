@@ -42,7 +42,7 @@ internal class NotificareLoyaltyImpl: NSObject, NotificareModule, NotificareLoya
 
             present(pass, in: controller)
         } catch {
-            NotificareLogger.error("Failed to create PKPass from URL.\n\(error)")
+            NotificareLogger.error("Failed to create PKPass from URL.", error: error)
         }
     }
 

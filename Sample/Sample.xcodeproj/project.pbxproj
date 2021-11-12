@@ -608,7 +608,7 @@
 				);
 				MARKETING_VERSION = 3.0.0;
 				NOTIFICARE_APPLICATION_ID = 585702253cad4414df0e3b20;
-				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.sample;
+				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -632,7 +632,7 @@
 				);
 				MARKETING_VERSION = 3.0.0;
 				NOTIFICARE_APPLICATION_ID = 585702253cad4414df0e3b20;
-				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.sample;
+				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -652,7 +652,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 3.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.sample.NotificationService;
+				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.demo.NotificationService;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
@@ -673,7 +673,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 3.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.sample.NotificationService;
+				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.demo.NotificationService;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;

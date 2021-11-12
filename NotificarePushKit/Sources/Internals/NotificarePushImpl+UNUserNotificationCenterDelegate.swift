@@ -55,15 +55,13 @@ extension NotificarePushImpl: UNUserNotificationCenterDelegate {
                             }
 
                         case let .failure(error):
-                            NotificareLogger.error("Failed to log the notification as open.")
-                            NotificareLogger.debug("\(error)")
+                            NotificareLogger.error("Failed to log the notification as open.", error: error)
                             completionHandler()
                         }
                     }
 
                 case let .failure(error):
-                    NotificareLogger.error("Failed to fetch notification with id '\(id)'.")
-                    NotificareLogger.debug("\(error)")
+                    NotificareLogger.error("Failed to fetch notification with id '\(id)'.", error: error)
                     completionHandler()
                 }
             }
@@ -189,7 +187,7 @@ extension NotificarePushImpl: UNUserNotificationCenterDelegate {
 
         Notificare.shared.callNotificationReplyWebhook(url: url, data: params) { result in
             if case let .failure(error) = result {
-                NotificareLogger.debug("Failed to call the notification reply webhook.\n\(error)")
+                NotificareLogger.debug("Failed to call the notification reply webhook.", error: error)
             }
 
             self.sendQuickResponseAction(notification: notification, action: action, responseText: responseText, completion)
@@ -199,7 +197,7 @@ extension NotificarePushImpl: UNUserNotificationCenterDelegate {
     private func sendQuickResponseAction(notification: NotificareNotification, action: NotificareNotification.Action, responseText: String?, _ completion: @escaping NotificareCallback<Void>) {
         Notificare.shared.createNotificationReply(notification: notification, action: action, message: responseText, media: nil, mimeType: nil) { result in
             if case let .failure(error) = result {
-                NotificareLogger.debug("Failed to create a notification reply.\n\(error)")
+                NotificareLogger.debug("Failed to create a notification reply.", error: error)
             }
 
             completion(result)

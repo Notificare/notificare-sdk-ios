@@ -49,7 +49,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
                 case .success:
                     completion(.success(()))
                 case let .failure(error):
-                    NotificareLogger.warning("Failed to register device: \(error)")
+                    NotificareLogger.warning("Failed to register device.", error: error)
                     completion(.failure(error))
                 }
             }
@@ -68,7 +68,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
 
                     completion(.success(()))
                 case let .failure(error):
-                    NotificareLogger.warning("Failed to register temporary device: \(error)")
+                    NotificareLogger.warning("Failed to register temporary device.", error: error)
                     completion(.failure(error))
                 }
             }
@@ -520,7 +520,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
 
                         completion(.success(()))
                     case let .failure(error):
-                        NotificareLogger.error("Failed to register device: \(error)")
+                        NotificareLogger.error("Failed to register device.", error: error)
                         completion(.failure(error))
                     }
                 }

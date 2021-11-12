@@ -56,7 +56,7 @@ internal class NotificareQrCodeScannerViewController: UIViewController {
         do {
             input = try AVCaptureDeviceInput(device: device)
         } catch {
-            NotificareLogger.warning("Failed to get input device for video.\n\(error)")
+            NotificareLogger.warning("Failed to get input device for video.", error: error)
             return
         }
 

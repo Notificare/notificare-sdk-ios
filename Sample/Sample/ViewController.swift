@@ -57,9 +57,9 @@ class ViewController: UIViewController {
         Notificare.shared.device().register(userId: "d09f8b8e-2c10-4ae9-82e5-44f1bf627d89", userName: "John Doe") { result in
             switch result {
             case .success:
-                print("Device registered with user.")
+                print("-----> Device registered with user.")
             case let .failure(error):
-                print("Failed to register device with user: \(error)")
+                print("-----> Failed to register device with user: \(error)")
             }
         }
     }
@@ -68,9 +68,9 @@ class ViewController: UIViewController {
         Notificare.shared.device().register(userId: nil, userName: nil) { result in
             switch result {
             case .success:
-                print("Device registered anonymously.")
+                print("-----> Device registered anonymously.")
             case let .failure(error):
-                print("Failed to register device anonymously: \(error)")
+                print("-----> Failed to register device anonymously: \(error)")
             }
         }
     }
@@ -79,10 +79,10 @@ class ViewController: UIViewController {
         Notificare.shared.device().fetchUserData { result in
             switch result {
             case let .success(userData):
-                NotificareLogger.info("User data = \(userData)")
+                print("-----> User data = \(userData)")
 
             case let .failure(error):
-                NotificareLogger.error("Failed to fetch user data.\n\(error)")
+                print("-----> Failed to fetch user data.\n\(error)")
             }
         }
     }

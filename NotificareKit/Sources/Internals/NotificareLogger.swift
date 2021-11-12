@@ -15,58 +15,54 @@ public enum NotificareLogger {
         Notificare.shared.options?.debugLoggingEnabled ?? false
     }
 
-    public static func debug(_ message: String, file: String = #file) {
-        log(message, level: .debug, file: file)
+    public static func debug(_ message: String, error: Error? = nil, file: String = #file) {
+        log(level: .debug, message: message, error: error, file: file)
     }
 
-    public static func debug(_ message: String, tag: String?) {
-        log(message, level: .debug, tag: tag)
+    public static func info(_ message: String, error: Error? = nil, file: String = #file) {
+        log(level: .info, message: message, error: error, file: file)
     }
 
-    public static func info(_ message: String, file: String = #file) {
-        log(message, level: .info, file: file)
+    public static func warning(_ message: String, error: Error? = nil, file: String = #file) {
+        log(level: .warning, message: message, error: error, file: file)
     }
 
-    public static func info(_ message: String, tag: String?) {
-        log(message, level: .info, tag: tag)
+    public static func error(_ message: String, error: Error? = nil, file: String = #file) {
+        log(level: .error, message: message, error: error, file: file)
     }
 
-    public static func warning(_ message: String, file: String = #file) {
-        log(message, level: .warning, file: file)
-    }
+    private static func log(level: Level, message: String, error: Error?, file: String = #file) {
+        let tag: String
 
-    public static func warning(_ message: String, tag: String?) {
-        log(message, level: .warning, tag: tag)
-    }
-
-    public static func error(_ message: String, file: String = #file) {
-        log(message, level: .error, file: file)
-    }
-
-    public static func error(_ message: String, tag: String?) {
-        log(message, level: .error, tag: tag)
-    }
-
-    private static func log(_ message: String, level: Level, file: String = #file) {
-        if let fileName = URL(fileURLWithPath: file).pathComponents.last,
-           let tag = fileName.split(separator: ".").first
+        if let fullFileName = URL(fileURLWithPath: file).pathComponents.last,
+           let fileName = fullFileName.split(separator: ".").first
         {
-            log(message, level: level, tag: String(tag).removingSuffix("ModuleImpl").removingSuffix("Impl"))
+            tag = String(fileName).removingSuffix("ModuleImpl").removingSuffix("Impl")
         } else {
-            log(message, level: level, tag: file)
+            tag = file
         }
+
+        log(level: level, tag: tag, message: message, error: error)
     }
 
-    private static func log(_ message: String, level: Level, tag: String?) {
+    private static func log(level: Level, tag: String?, message: String, error: Error?) {
         guard level != .debug || hasDebugLoggingEnabled else {
             return
         }
 
-        let combined: String
-        if let tag = tag, tag != "Notificare" {
+        var combined: String
+        if let tag = tag, tag != "Notificare", hasDebugLoggingEnabled {
             combined = "[\(tag)] \(message)"
         } else {
             combined = message
+        }
+
+        if let error = error {
+            if hasDebugLoggingEnabled {
+                combined = "\(combined)\n\(error)"
+            } else {
+                combined = "\(combined) \(error.localizedDescription)"
+            }
         }
 
         if #available(iOS 14, *) {
