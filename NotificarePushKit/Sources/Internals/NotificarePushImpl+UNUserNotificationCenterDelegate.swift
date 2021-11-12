@@ -105,7 +105,11 @@ extension NotificarePushImpl: UNUserNotificationCenterDelegate {
 
                     // Check if we should force-set the presentation options.
                     if let presentation = userInfo["presentation"] as? Bool, presentation {
-                        completionHandler([.alert, .badge, .sound])
+                        if #available(iOS 14.0, *) {
+                            completionHandler([.banner, .badge, .sound])
+                        } else {
+                            completionHandler([.alert, .badge, .sound])
+                        }
                     } else {
                         completionHandler(self.presentationOptions)
                     }
