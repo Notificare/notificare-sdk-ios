@@ -11,7 +11,9 @@ public enum NotificareLogger {
 
     private static let osLog = OSLog(subsystem: "re.notifica", category: "Notificare")
 
-    internal static var hasDebugLoggingEnabled = false
+    private static var hasDebugLoggingEnabled: Bool {
+        Notificare.shared.options?.debugLoggingEnabled ?? false
+    }
 
     public static func debug(_ message: String, file: String = #file) {
         log(message, level: .debug, file: file)

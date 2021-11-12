@@ -8,6 +8,7 @@ public struct NotificareOptions {
     internal static let fileName = "NotificareOptions"
     internal static let fileExtension = "plist"
 
+    public let debugLoggingEnabled: Bool
     public let autoConfig: Bool
     public let swizzlingEnabled: Bool
     public let userNotificationCenterDelegateEnabled: Bool
@@ -40,17 +41,20 @@ public struct NotificareOptions {
 
 extension NotificareOptions: Decodable {
     public init() {
-        self.init(autoConfig: true,
-                  swizzlingEnabled: true,
-                  userNotificationCenterDelegateEnabled: true,
-                  crashReportsEnabled: true,
-                  headingApiEnabled: false,
-                  visitsApiEnabled: false,
-                  urlSchemes: [],
-                  closeWindowQueryParameter: nil,
-                  imageSharingEnabled: true,
-                  safariDismissButtonStyle: nil,
-                  themes: nil)
+        self.init(
+            debugLoggingEnabled: false,
+            autoConfig: true,
+            swizzlingEnabled: true,
+            userNotificationCenterDelegateEnabled: true,
+            crashReportsEnabled: true,
+            headingApiEnabled: false,
+            visitsApiEnabled: false,
+            urlSchemes: [],
+            closeWindowQueryParameter: nil,
+            imageSharingEnabled: true,
+            safariDismissButtonStyle: nil,
+            themes: nil
+        )
     }
 
     public init?(contentsOfFile plistPath: String) {
@@ -60,6 +64,7 @@ extension NotificareOptions: Decodable {
             let decoder = PropertyListDecoder()
             let decoded = try decoder.decode(NotificareOptions.self, from: data)
 
+            debugLoggingEnabled = decoded.debugLoggingEnabled
             autoConfig = decoded.autoConfig
             swizzlingEnabled = decoded.swizzlingEnabled
             userNotificationCenterDelegateEnabled = decoded.userNotificationCenterDelegateEnabled
@@ -79,6 +84,7 @@ extension NotificareOptions: Decodable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
+        debugLoggingEnabled = try container.decodeIfPresent(Bool.self, forKey: .debugLoggingEnabled) ?? false
         autoConfig = try container.decodeIfPresent(Bool.self, forKey: .autoConfig) ?? true
         swizzlingEnabled = try container.decodeIfPresent(Bool.self, forKey: .swizzlingEnabled) ?? true
         userNotificationCenterDelegateEnabled = try container.decodeIfPresent(Bool.self, forKey: .userNotificationCenterDelegateEnabled) ?? true
@@ -93,6 +99,7 @@ extension NotificareOptions: Decodable {
     }
 
     enum CodingKeys: String, CodingKey {
+        case debugLoggingEnabled = "DEBUG_LOGGING_ENABLED"
         case autoConfig = "AUTO_CONFIG"
         case swizzlingEnabled = "SWIZZLING_ENABLED"
         case userNotificationCenterDelegateEnabled = "USER_NOTIFICATION_CENTER_DELEGATE_ENABLED"

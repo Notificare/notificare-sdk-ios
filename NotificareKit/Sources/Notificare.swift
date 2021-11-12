@@ -38,11 +38,6 @@ public class Notificare {
 
     public weak var delegate: NotificareDelegate?
 
-    public var hasDebugLoggingEnabled: Bool {
-        get { NotificareLogger.hasDebugLoggingEnabled }
-        set { NotificareLogger.hasDebugLoggingEnabled = newValue }
-    }
-
     private init() {}
 
     // MARK: - Public API
@@ -119,7 +114,7 @@ public class Notificare {
 
     public func launch() {
         if state == .none {
-            NotificareLogger.warning("Notificare wasn't configured. Configuring before launching.")
+            NotificareLogger.debug("Notificare wasn't configured. Configuring before launching.")
             configure()
         }
 

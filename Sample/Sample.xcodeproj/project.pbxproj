@@ -19,6 +19,7 @@
 		F25B6DCD25CAC67E007BC2C8 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = F25B6DCC25CAC67E007BC2C8 /* SDWebImage */; };
 		F25B6DD025CAEC04007BC2C8 /* NavigationItem+Subtitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F25B6DCF25CAEC04007BC2C8 /* NavigationItem+Subtitle.swift */; };
 		F25E630025CAB29A007C1202 /* NotificareServices.plist in Resources */ = {isa = PBXBuildFile; fileRef = F25E62FF25CAB29A007C1202 /* NotificareServices.plist */; };
+		F267DA4A273E7CA900448A8F /* NotificareOptions.plist in Resources */ = {isa = PBXBuildFile; fileRef = F267DA49273E7CA900448A8F /* NotificareOptions.plist */; };
 		F2696AAC26C2843F002EA653 /* NotificareGeoKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2696AAB26C2843F002EA653 /* NotificareGeoKit.framework */; };
 		F2696AAD26C2843F002EA653 /* NotificareGeoKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F2696AAB26C2843F002EA653 /* NotificareGeoKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F289F56525B85EC20091AB97 /* NotificareInboxKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F289F56425B85EC20091AB97 /* NotificareInboxKit.framework */; };
@@ -120,6 +121,7 @@
 		F25B6DC925CAC5A4007BC2C8 /* Date+TimeAgo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+TimeAgo.swift"; sourceTree = "<group>"; };
 		F25B6DCF25CAEC04007BC2C8 /* NavigationItem+Subtitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NavigationItem+Subtitle.swift"; sourceTree = "<group>"; };
 		F25E62FF25CAB29A007C1202 /* NotificareServices.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = NotificareServices.plist; sourceTree = "<group>"; };
+		F267DA49273E7CA900448A8F /* NotificareOptions.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = NotificareOptions.plist; sourceTree = "<group>"; };
 		F2696AAB26C2843F002EA653 /* NotificareGeoKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareGeoKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F28553C7258BA18C006674C1 /* Sample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Sample.entitlements; sourceTree = "<group>"; };
 		F289F56425B85EC20091AB97 /* NotificareInboxKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareInboxKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -273,6 +275,7 @@
 				F29FD20224CB1FE3004B166D /* LaunchScreen.storyboard */,
 				F29FD20524CB1FE3004B166D /* Info.plist */,
 				F25E62FF25CAB29A007C1202 /* NotificareServices.plist */,
+				F267DA49273E7CA900448A8F /* NotificareOptions.plist */,
 			);
 			path = Sample;
 			sourceTree = "<group>";
@@ -382,6 +385,7 @@
 				F29FD20124CB1FE3004B166D /* Assets.xcassets in Resources */,
 				F25E630025CAB29A007C1202 /* NotificareServices.plist in Resources */,
 				F29FD1FF24CB1FE1004B166D /* Main.storyboard in Resources */,
+				F267DA4A273E7CA900448A8F /* NotificareOptions.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

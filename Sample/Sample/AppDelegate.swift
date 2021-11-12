@@ -23,8 +23,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Enable Proxyman debugging.
         Atlantis.start()
 
-        Notificare.shared.hasDebugLoggingEnabled = true
-
         if #available(iOS 14.0, *) {
             Notificare.shared.push().presentationOptions = [.banner, .badge, .sound]
         } else {
