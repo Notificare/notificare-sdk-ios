@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Enable Proxyman debugging.
         Atlantis.start()
 
-        Notificare.shared.useAdvancedLogging = true
+        Notificare.shared.hasDebugLoggingEnabled = true
 
         if #available(iOS 14.0, *) {
             Notificare.shared.push().presentationOptions = [.banner, .badge, .sound]
@@ -75,11 +75,11 @@ extension AppDelegate: NotificareDelegate {
     func notificare(_: Notificare, onReady _: NotificareApplication) {
         print("-----> Notificare is ready.")
 
-        if Notificare.shared.push().isRemoteNotificationsEnabled {
+        if Notificare.shared.push().hasRemoteNotificationsEnabled {
             Notificare.shared.push().enableRemoteNotifications { _ in }
         }
 
-        if Notificare.shared.geo().locationServicesEnabled {
+        if Notificare.shared.geo().hasLocationServicesEnabled {
             Notificare.shared.geo().enableLocationUpdates()
         }
     }

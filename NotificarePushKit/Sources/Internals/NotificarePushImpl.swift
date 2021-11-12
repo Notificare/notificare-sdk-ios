@@ -69,7 +69,7 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
 
     public var presentationOptions: UNNotificationPresentationOptions = []
 
-    public var isRemoteNotificationsEnabled: Bool {
+    public var hasRemoteNotificationsEnabled: Bool {
         LocalStorage.remoteNotificationsEnabled
     }
 

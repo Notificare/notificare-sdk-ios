@@ -38,9 +38,9 @@ public class Notificare {
 
     public weak var delegate: NotificareDelegate?
 
-    public var useAdvancedLogging: Bool {
-        get { NotificareLogger.useAdvancedLogging }
-        set { NotificareLogger.useAdvancedLogging = newValue }
+    public var hasDebugLoggingEnabled: Bool {
+        get { NotificareLogger.hasDebugLoggingEnabled }
+        set { NotificareLogger.hasDebugLoggingEnabled = newValue }
     }
 
     private init() {}
@@ -155,7 +155,7 @@ public class Notificare {
                     if let instance = module.instance {
                         dispatchGroup.enter()
 
-                        NotificareLogger.debug("Launching module: '\(module)'")
+                        NotificareLogger.debug("Launching module: \(module)")
                         instance.launch { result in
                             if case let .failure(error) = result {
                                 NotificareLogger.debug("Failed to launch '\(module)': \(error)")
@@ -205,12 +205,9 @@ public class Notificare {
                     if let instance = module.instance {
                         dispatchGroup.enter()
 
-                        NotificareLogger.debug("Un-launching '\(module.rawValue)' plugin.")
+                        NotificareLogger.debug("Un-launching module: \(module.rawValue)")
                         instance.unlaunch { result in
-                            switch result {
-                            case .success:
-                                NotificareLogger.debug("Un-launched '\(module.rawValue)' successfully.")
-                            case let .failure(error):
+                            if case let .failure(error) = result {
                                 NotificareLogger.debug("Failed to un-launch '\(module.rawValue)': \(error)")
                                 latestPluginUnlaunchError = error
                             }

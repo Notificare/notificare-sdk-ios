@@ -18,7 +18,7 @@ public protocol NotificarePush: AnyObject, NotificarePushUIApplicationDelegate, 
 
     var presentationOptions: UNNotificationPresentationOptions { get set }
 
-    var isRemoteNotificationsEnabled: Bool { get }
+    var hasRemoteNotificationsEnabled: Bool { get }
 
     var allowedUI: Bool { get }
 

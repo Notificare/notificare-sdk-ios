@@ -10,9 +10,9 @@ public protocol NotificareGeo: AnyObject {
 
     var delegate: NotificareGeoDelegate? { get set }
 
-    var locationServicesEnabled: Bool { get }
+    var hasLocationServicesEnabled: Bool { get }
 
-    var bluetoothEnabled: Bool { get }
+    var hasBluetoothEnabled: Bool { get }
 
     // MARK: Methods
 

@@ -12,9 +12,10 @@ public struct NotificareBeacon: Codable, Hashable {
     public let major: Int
     public let minor: Int?
     public let triggers: Bool
-    public internal(set) var proximity: Proximity?
+    public internal(set) var proximity: Proximity = .unknown
 
     public enum Proximity: String, Codable {
+        case unknown
         case immediate
         case near
         case far

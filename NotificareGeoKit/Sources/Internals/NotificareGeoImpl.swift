@@ -15,13 +15,6 @@ private let FAKE_BEACON_IDENTIFIER = "NotificareFakeBeacon"
 internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLLocationManagerDelegate {
     internal static let instance = NotificareGeoImpl()
 
-    public weak var delegate: NotificareGeoDelegate?
-
-    public var bluetoothEnabled: Bool {
-        get { LocalStorage.bluetoothEnabled && LocalStorage.locationServicesEnabled }
-        set { LocalStorage.bluetoothEnabled = newValue }
-    }
-
     private var locationManager: CLLocationManager!
     private var processingLocationUpdate = false
     private let fakeBeaconUUID = UUID()
@@ -80,7 +73,14 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
 
     // MARK: - Notificare Geo
 
-    var locationServicesEnabled: Bool {
+    public weak var delegate: NotificareGeoDelegate?
+
+    public private(set) var hasBluetoothEnabled: Bool {
+        get { LocalStorage.bluetoothEnabled && LocalStorage.locationServicesEnabled }
+        set { LocalStorage.bluetoothEnabled = newValue }
+    }
+
+    var hasLocationServicesEnabled: Bool {
         LocalStorage.locationServicesEnabled && CLLocationManager.locationServicesEnabled()
     }
 
@@ -958,7 +958,7 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
             .forEach { clb in
                 if var beacon = LocalStorage.monitoredBeacons.first(where: { $0.major == clb.major.intValue && $0.minor == clb.minor.intValue }) {
                     // Expose the proximity for the developers.
-                    beacon.proximity = NotificareBeacon.Proximity(clb.proximity)
+                    beacon.proximity = NotificareBeacon.Proximity(clb.proximity) ?? .unknown
                     beacons.append(beacon)
 
                     // Update beacon session.
@@ -1022,7 +1022,7 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
             return
         }
 
-        if bluetoothEnabled != enabled {
+        if hasBluetoothEnabled != enabled {
             let payload = NotificareInternals.PushAPI.Payloads.BluetoothStateUpdate(
                 bluetoothEnabled: enabled
             )
@@ -1033,7 +1033,7 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
                     switch result {
                     case .success:
                         NotificareLogger.debug("Bluetooth state updated.")
-                        self.bluetoothEnabled = enabled
+                        self.hasBluetoothEnabled = enabled
 
                     case let .failure(error):
                         NotificareLogger.error("Failed to update the bluetooth state.\n\(error)")
@@ -1047,7 +1047,7 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
     // MARK: - NotificationCenter events
 
     @objc private func onApplicationDidBecomeActiveNotification(_: Notification) {
-        guard locationServicesEnabled else { return }
+        guard hasLocationServicesEnabled else { return }
 
         do {
             try checkPrerequisites()
@@ -1078,7 +1078,7 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
     }
 
     @objc private func onApplicationWillResignActiveNotification(_: Notification) {
-        guard locationServicesEnabled else { return }
+        guard hasLocationServicesEnabled else { return }
 
         do {
             try checkPrerequisites()
