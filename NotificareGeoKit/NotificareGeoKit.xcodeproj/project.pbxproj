@@ -280,7 +280,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1150;
-				LastUpgradeCheck = 1300;
+				LastUpgradeCheck = 1310;
 				ORGANIZATIONNAME = Notificare;
 				TargetAttributes = {
 					F258DD6F24BC4E95006F9ABD = {
