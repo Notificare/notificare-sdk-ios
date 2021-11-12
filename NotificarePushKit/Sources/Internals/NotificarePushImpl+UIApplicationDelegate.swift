@@ -56,6 +56,7 @@ extension NotificarePushImpl: NotificareAppDelegateInterceptor {
 
             switch type {
             case "re.notifica.notification.system.Application":
+                NotificareLogger.debug("Processing application system notification.")
                 Notificare.shared.fetchApplication { result in
                     switch result {
                     case .success:
@@ -68,15 +69,17 @@ extension NotificarePushImpl: NotificareAppDelegateInterceptor {
                 }
 
             case "re.notifica.notification.system.Wallet":
-                // TODO: handle Wallet system notifications
-                break
+                // TODO: reserved for future implementation of in-app wallet
+                NotificareLogger.debug("Processing wallet system notification.")
+                completion(.success(()))
 
             case "re.notifica.notification.system.Products":
+                NotificareLogger.debug("Processing products system notification.")
                 // TODO: handle Products system notifications
-                break
+                completion(.success(()))
 
             case "re.notifica.notification.system.Inbox":
-                // Notify the inbox to reload itself.
+                NotificareLogger.debug("Processing inbox system notification.")
                 InboxIntegration.reloadInbox()
 
                 completion(.success(()))
