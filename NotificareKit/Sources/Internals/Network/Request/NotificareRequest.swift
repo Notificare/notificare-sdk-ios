@@ -222,7 +222,7 @@ public struct NotificareRequest {
             }
 
             // Ensure the standard Notificare headers are added.
-            request.setValue(NotificareDefinitions.sdkVersion, forHTTPHeaderField: "X-Notificare-SDK-Version")
+            request.setValue(Notificare.SDK_VERSION, forHTTPHeaderField: "X-Notificare-SDK-Version")
             request.setValue(NotificareUtils.applicationVersion, forHTTPHeaderField: "X-Notificare-App-Version")
 
             // Add application authentication when available

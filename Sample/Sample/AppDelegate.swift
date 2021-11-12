@@ -2,8 +2,10 @@
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
-// import Atlantis
+import Atlantis
+import CoreLocation
 import NotificareAuthenticationKit
+import NotificareGeoKit
 import NotificareInboxKit
 import NotificareKit
 import NotificareLoyaltyKit
@@ -19,21 +21,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
 
         // Enable Proxyman debugging.
-        // Atlantis.start()
+        Atlantis.start()
 
-        Notificare.shared.useAdvancedLogging = true
+        Notificare.shared.hasDebugLoggingEnabled = true
 
         if #available(iOS 14.0, *) {
-            NotificarePush.shared.presentationOptions = [.banner, .badge, .sound]
+            Notificare.shared.push().presentationOptions = [.banner, .badge, .sound]
         } else {
-            NotificarePush.shared.presentationOptions = [.alert, .badge, .sound]
+            Notificare.shared.push().presentationOptions = [.alert, .badge, .sound]
         }
 
         Notificare.shared.delegate = self
-        NotificarePush.shared.delegate = self
-        NotificarePushUI.shared.delegate = self
-        NotificareInbox.shared.delegate = self
-        NotificareLoyalty.shared.delegate = self
+        Notificare.shared.push().delegate = self
+        Notificare.shared.pushUI().delegate = self
+        Notificare.shared.inbox().delegate = self
+        Notificare.shared.loyalty().delegate = self
+        Notificare.shared.geo().delegate = self
 
         Notificare.shared.launch()
 
@@ -45,12 +48,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return true
         }
 
-        if let token = NotificareAuthentication.shared.parsePasswordResetToken(url) {
+        if let token = Notificare.shared.authentication().parsePasswordResetToken(url) {
             print("---> Password reset token = \(token)")
             return true
         }
 
-        if let token = NotificareAuthentication.shared.parseValidateUserToken(url) {
+        if let token = Notificare.shared.authentication().parseValidateUserToken(url) {
             print("---> Validate user token = \(token)")
             return true
         }
@@ -71,6 +74,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 extension AppDelegate: NotificareDelegate {
     func notificare(_: Notificare, onReady _: NotificareApplication) {
         print("-----> Notificare is ready.")
+
+        if Notificare.shared.push().hasRemoteNotificationsEnabled {
+            Notificare.shared.push().enableRemoteNotifications { _ in }
+        }
+
+        if Notificare.shared.geo().hasLocationServicesEnabled {
+            Notificare.shared.geo().enableLocationUpdates()
+        }
     }
 
     func notificare(_: Notificare, didRegisterDevice device: NotificareDevice) {
@@ -119,7 +130,7 @@ extension AppDelegate: NotificarePushDelegate {
 //            return
 //        }
 
-        NotificarePushUI.shared.presentNotification(notification, in: rootViewController)
+        Notificare.shared.pushUI().presentNotification(notification, in: rootViewController)
     }
 
     func notificare(_: NotificarePush, didOpenAction action: NotificareNotification.Action, for notification: NotificareNotification) {
@@ -134,7 +145,7 @@ extension AppDelegate: NotificarePushDelegate {
 //            return
 //        }
 
-        NotificarePushUI.shared.presentAction(action, for: notification, in: rootViewController)
+        Notificare.shared.pushUI().presentAction(action, for: notification, in: rootViewController)
     }
 }
 
@@ -196,6 +207,99 @@ extension AppDelegate: NotificareLoyaltyDelegate {
             return
         }
 
-        NotificareLoyalty.shared.present(notification, in: rootViewController)
+        Notificare.shared.loyalty().present(notification, in: rootViewController)
+    }
+}
+
+extension AppDelegate: NotificareGeoDelegate {
+    func notificare(_: NotificareGeo, didUpdateLocations locations: [NotificareLocation]) {
+        print("-----> Locations updated = \(locations)")
+    }
+
+    func notificare(_: NotificareGeo, didFailWith error: Error) {
+        print("-----> Location services failed = \(error)")
+    }
+
+    func notificare(_: NotificareGeo, didStartMonitoringFor region: NotificareRegion) {
+        print("-----> Started monitoring region = \(region.name)")
+    }
+
+    func notificare(_: NotificareGeo, didStartMonitoringFor beacon: NotificareBeacon) {
+        print("-----> Started monitoring beacon = \(beacon.name)")
+    }
+
+    func notificare(_: NotificareGeo, monitoringDidFailFor region: NotificareRegion, with error: Error) {
+        print("-----> Failed to monitor region = \(region.name)\n\(error)")
+    }
+
+    func notificare(_: NotificareGeo, monitoringDidFailFor beacon: NotificareBeacon, with error: Error) {
+        print("-----> Failed to monitor beacon = \(beacon.name)\n\(error)")
+    }
+
+    func notificare(_: NotificareGeo, didDetermineState state: CLRegionState, for region: NotificareRegion) {
+        let stateStr: String
+        switch state {
+        case .inside:
+            stateStr = "inside"
+        case .outside:
+            stateStr = "outside"
+        case .unknown:
+            stateStr = "unknown"
+        }
+
+        print("-----> State for region '\(region.name)' = \(stateStr)")
+    }
+
+    func notificare(_: NotificareGeo, didDetermineState state: CLRegionState, for beacon: NotificareBeacon) {
+        let stateStr: String
+        switch state {
+        case .inside:
+            stateStr = "inside"
+        case .outside:
+            stateStr = "outside"
+        case .unknown:
+            stateStr = "unknown"
+        }
+
+        print("-----> State for beacon '\(beacon.name)' = \(stateStr)")
+    }
+
+    func notificare(_: NotificareGeo, didEnter region: NotificareRegion) {
+        print("-----> On region enter = \(region.name)")
+    }
+
+    func notificare(_: NotificareGeo, didEnter beacon: NotificareBeacon) {
+        print("-----> On beacon enter = \(beacon.name)")
+    }
+
+    func notificare(_: NotificareGeo, didExit region: NotificareRegion) {
+        print("-----> On region exit = \(region.name)")
+    }
+
+    func notificare(_: NotificareGeo, didExit beacon: NotificareBeacon) {
+        print("-----> On beacon enter = \(beacon.name)")
+    }
+
+    func notificare(_: NotificareGeo, didVisit visit: NotificareVisit) {
+        print("-----> On visit = \(visit)")
+    }
+
+    func notificare(_: NotificareGeo, didUpdateHeading heading: NotificareHeading) {
+        print("-----> On heading updated = \(heading)")
+    }
+
+    func notificare(_: NotificareGeo, didRange beacons: [NotificareBeacon], in region: NotificareRegion) {
+        NotificationCenter.default.post(
+            name: .RangingBeacons,
+            object: nil,
+            userInfo: [
+                "region": region,
+                "beacons": beacons,
+            ]
+        )
+    }
+
+    func notificare(_: NotificareGeo, didFailRangingFor region: NotificareRegion, with _: Error) {
+        print("-----> Failed to range beacons for region = \(region.name)")
     }
 }

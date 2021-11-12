@@ -2,29 +2,19 @@
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
+import Foundation
 import UIKit
 
-public class NotificareDeviceManager {
-    public private(set) var currentDevice: NotificareDevice? {
-        get {
-            LocalStorage.device
-        }
-        set {
-            LocalStorage.device = newValue
-        }
-    }
+internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, NotificareDeviceModule, NotificareInternalDeviceModule {
+    internal static let instance = NotificareDeviceModuleImpl()
 
-    public var preferredLanguage: String? {
-        guard let preferredLanguage = LocalStorage.preferredLanguage,
-              let preferredRegion = LocalStorage.preferredRegion
-        else {
-            return nil
-        }
+    // MARK: - Notificare Module
 
-        return "\(preferredLanguage)-\(preferredRegion)"
-    }
+//    static func migrate() {
+//
+//    }
 
-    func configure() {
+    static func configure() {
         // TODO: handle migration
 
         // Listen to timezone changes
@@ -46,15 +36,15 @@ public class NotificareDeviceManager {
                                                object: nil)
     }
 
-    func launch(_ completion: @escaping NotificareCallback<Void>) {
-        if let device = currentDevice {
+    static func launch(_ completion: @escaping NotificareCallback<Void>) {
+        if let device = instance.currentDevice {
             if device.appVersion != NotificareUtils.applicationVersion {
                 // It's not the same version, let's log it as an upgrade.
                 NotificareLogger.debug("New version detected")
-                Notificare.shared.eventsManager.logApplicationUpgrade()
+                Notificare.shared.events().logApplicationUpgrade { _ in }
             }
 
-            register(transport: device.transport, token: device.id, userId: device.userId, userName: device.userName) { result in
+            instance.register(transport: device.transport, token: device.id, userId: device.userId, userName: device.userName) { result in
                 switch result {
                 case .success:
                     completion(.success(()))
@@ -69,12 +59,12 @@ public class NotificareDeviceManager {
             // Let's logout the user in case there's an account in the keychain
             // TODO: [[NotificareAuth shared] logoutAccount]
 
-            registerTemporary { result in
+            instance.registerTemporary { result in
                 switch result {
                 case .success:
                     // We will log the Install & Registration events here since this will execute only one time at the start.
-                    Notificare.shared.eventsManager.logApplicationInstall()
-                    Notificare.shared.eventsManager.logApplicationRegistration()
+                    Notificare.shared.events().logApplicationInstall { _ in }
+                    Notificare.shared.events().logApplicationRegistration { _ in }
 
                     completion(.success(()))
                 case let .failure(error):
@@ -85,7 +75,30 @@ public class NotificareDeviceManager {
         }
     }
 
-    // MARK: - Public API
+//    static func unlaunch(_ completion: @escaping NotificareCallback<Void>) {
+//
+//    }
+
+    // MARK: - Notificare Device Module
+
+    public private(set) var currentDevice: NotificareDevice? {
+        get {
+            LocalStorage.device
+        }
+        set {
+            LocalStorage.device = newValue
+        }
+    }
+
+    public var preferredLanguage: String? {
+        guard let preferredLanguage = LocalStorage.preferredLanguage,
+              let preferredRegion = LocalStorage.preferredRegion
+        else {
+            return nil
+        }
+
+        return "\(preferredLanguage)-\(preferredRegion)"
+    }
 
     public func register(userId: String?, userName: String?, _ completion: @escaping NotificareCallback<Void>) {
         guard Notificare.shared.isReady,
@@ -98,7 +111,7 @@ public class NotificareDeviceManager {
         register(transport: device.transport, token: device.id, userId: userId, userName: userName, completion)
     }
 
-    public func updatePreferredLanguage(_ preferredLanguage: String?, _ completion: @escaping NotificareCallback<String?>) {
+    public func updatePreferredLanguage(_ preferredLanguage: String?, _ completion: @escaping NotificareCallback<Void>) {
         guard Notificare.shared.isReady else {
             completion(.failure(NotificareError.notReady))
             return
@@ -119,7 +132,7 @@ public class NotificareDeviceManager {
 
             // Only update if the value is not the same.
             guard language != LocalStorage.preferredLanguage, region != LocalStorage.preferredRegion else {
-                completion(.success("\(language)-\(region)"))
+                completion(.success(()))
                 return
             }
 
@@ -129,7 +142,7 @@ public class NotificareDeviceManager {
             updateLanguage { result in
                 switch result {
                 case .success:
-                    completion(.success("\(language)-\(region)"))
+                    completion(.success(()))
                 case let .failure(error):
                     completion(.failure(error))
                 }
@@ -141,7 +154,7 @@ public class NotificareDeviceManager {
             updateLanguage { result in
                 switch result {
                 case .success:
-                    completion(.success(nil))
+                    completion(.success(()))
                 case let .failure(error):
                     completion(.failure(error))
                 }
@@ -336,6 +349,39 @@ public class NotificareDeviceManager {
             }
     }
 
+    // MARK: - Notificare Internal Device Module
+
+    public func registerTemporary(_ completion: @escaping NotificareCallback<Void>) {
+        var token = withUnsafePointer(to: UUID().uuid) {
+            Data(bytes: $0, count: 16)
+        }.toHexString()
+
+        // NOTE: keep the same token if available and only when not changing transport providers.
+        if let device = currentDevice, device.transport == .notificare {
+            token = device.id
+        }
+
+        register(
+            transport: .notificare,
+            token: token,
+            userId: currentDevice?.userId,
+            userName: currentDevice?.userName,
+            completion
+        )
+    }
+
+    public func registerAPNS(token: String, _ completion: @escaping NotificareCallback<Void>) {
+        register(
+            transport: .apns,
+            token: token,
+            userId: currentDevice?.userId,
+            userName: currentDevice?.userName,
+            completion
+        )
+    }
+
+    // MARK: - Internal API
+
     internal func delete(_ completion: @escaping NotificareCallback<Void>) {
         guard Notificare.shared.isReady, let device = currentDevice else {
             completion(.failure(NotificareError.notReady))
@@ -357,9 +403,7 @@ public class NotificareDeviceManager {
             }
     }
 
-    // MARK: - Internal API
-
-    func updateTimezone(_ completion: @escaping NotificareCallback<Void>) {
+    internal func updateTimezone(_ completion: @escaping NotificareCallback<Void>) {
         guard Notificare.shared.isReady, let device = currentDevice else {
             completion(.failure(NotificareError.notReady))
             return
@@ -386,7 +430,7 @@ public class NotificareDeviceManager {
             }
     }
 
-    func updateLanguage(_ completion: @escaping NotificareCallback<Void>) {
+    internal func updateLanguage(_ completion: @escaping NotificareCallback<Void>) {
         guard Notificare.shared.isReady, let device = currentDevice else {
             completion(.failure(NotificareError.notReady))
             return
@@ -413,7 +457,7 @@ public class NotificareDeviceManager {
             }
     }
 
-    func updateBackgroundAppRefresh(_ completion: @escaping NotificareCallback<Void>) {
+    internal func updateBackgroundAppRefresh(_ completion: @escaping NotificareCallback<Void>) {
         guard Notificare.shared.isReady, let device = currentDevice else {
             completion(.failure(NotificareError.notReady))
             return
@@ -440,10 +484,6 @@ public class NotificareDeviceManager {
             }
     }
 
-    // func updateBluetoothState(bluetoothEnabled _: Bool, _: @escaping DeviceCallback) {}
-
-    // MARK: - Private API
-
     private func register(transport: NotificareTransport, token: String, userId: String?, userName: String?, _ completion: @escaping NotificareCallback<Void>) {
         if registrationChanged(token: token, userId: userId, userName: userName) {
             let oldDeviceId = currentDevice?.id != nil && currentDevice?.id != token ? currentDevice?.id : nil
@@ -458,7 +498,7 @@ public class NotificareDeviceManager {
                 platform: "iOS",
                 transport: transport,
                 osVersion: NotificareUtils.osVersion,
-                sdkVersion: NotificareDefinitions.sdkVersion,
+                sdkVersion: Notificare.SDK_VERSION,
                 appVersion: NotificareUtils.applicationVersion,
                 deviceString: NotificareUtils.deviceString,
                 timeZoneOffset: NotificareUtils.timeZoneOffset,
@@ -491,33 +531,26 @@ public class NotificareDeviceManager {
         }
     }
 
-    public func registerTemporary(_ completion: @escaping NotificareCallback<Void>) {
-        var token = withUnsafePointer(to: UUID().uuid) {
-            Data(bytes: $0, count: 16)
-        }.toHexString()
-
-        // NOTE: keep the same token if available and only when not changing transport providers.
-        if let device = currentDevice, device.transport == .notificare {
-            token = device.id
+    internal func registerTestDevice(nonce: String, _ completion: @escaping NotificareCallback<Void>) {
+        guard let device = currentDevice else {
+            completion(.failure(NotificareError.notReady))
+            return
         }
 
-        register(
-            transport: .notificare,
-            token: token,
-            userId: currentDevice?.userId,
-            userName: currentDevice?.userName,
-            completion
+        let payload = NotificareInternals.PushAPI.Payloads.TestDeviceRegistration(
+            deviceID: device.id
         )
-    }
 
-    public func registerAPNS(token: String, _ completion: @escaping NotificareCallback<Void>) {
-        register(
-            transport: .apns,
-            token: token,
-            userId: currentDevice?.userId,
-            userName: currentDevice?.userName,
-            completion
-        )
+        NotificareRequest.Builder()
+            .put("/support/testdevice/\(nonce)", body: payload)
+            .response { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
     }
 
     private func registrationChanged(token: String, userId: String?, userName: String?) -> Bool {
@@ -565,7 +598,7 @@ public class NotificareDeviceManager {
             changed = true
         }
 
-        if device.sdkVersion != NotificareDefinitions.sdkVersion {
+        if device.sdkVersion != Notificare.SDK_VERSION {
             NotificareLogger.debug("Registration check: sdk version changed")
             changed = true
         }
@@ -594,28 +627,6 @@ public class NotificareDeviceManager {
 
     private func getRegion() -> String {
         LocalStorage.preferredRegion ?? NotificareUtils.deviceRegion
-    }
-
-    internal func registerTestDevice(nonce: String, _ completion: @escaping NotificareCallback<Void>) {
-        guard let device = currentDevice else {
-            completion(.failure(NotificareError.notReady))
-            return
-        }
-
-        let payload = NotificareInternals.PushAPI.Payloads.TestDeviceRegistration(
-            deviceID: device.id
-        )
-
-        NotificareRequest.Builder()
-            .put("/support/testdevice/\(nonce)", body: payload)
-            .response { result in
-                switch result {
-                case .success:
-                    completion(.success(()))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
     }
 
     // MARK: - Notification Center listeners

@@ -20,3 +20,11 @@ internal extension String {
         return regex.firstMatch(in: self, options: [], range: range) != nil
     }
 }
+
+internal extension String {
+    func removingSuffix(_ suffix: String) -> String {
+        guard hasSuffix(suffix) else { return self }
+
+        return String(dropLast(suffix.count))
+    }
+}

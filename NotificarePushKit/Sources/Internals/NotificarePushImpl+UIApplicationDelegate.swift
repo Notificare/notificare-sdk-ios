@@ -2,17 +2,18 @@
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
+import Foundation
 import NotificareKit
 import UIKit
 
-public extension NotificarePush {
+extension NotificarePushImpl: NotificareAppDelegateInterceptor {
     func application(_: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken token: Data) {
         guard Notificare.shared.isConfigured else {
             NotificareLogger.warning("Notificare is not yet ready. Skipping...")
             return
         }
 
-        Notificare.shared.deviceManager.registerAPNS(token: token.toHexString()) { result in
+        Notificare.shared.deviceInternal().registerAPNS(token: token.toHexString()) { result in
             switch result {
             case .success:
                 NotificareLogger.debug("Registered the device with an APNS token.")
@@ -104,7 +105,7 @@ public extension NotificarePush {
             return
         }
 
-        Notificare.shared.eventsManager.logNotificationReceived(id)
+        Notificare.shared.events().logNotificationReceived(id) { _ in }
 
         Notificare.shared.fetchNotification(id) { result in
             switch result {

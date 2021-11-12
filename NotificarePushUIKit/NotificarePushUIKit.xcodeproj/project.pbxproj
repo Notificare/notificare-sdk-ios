@@ -28,7 +28,7 @@
 		F29B17D525A48BF0007ED6F9 /* NotificarePushUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F29B17CB25A48BEF007ED6F9 /* NotificarePushUIKit.framework */; };
 		F29B17DA25A48BF0007ED6F9 /* NotificarePushUIKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29B17D925A48BF0007ED6F9 /* NotificarePushUIKitTests.swift */; };
 		F29B17DC25A48BF0007ED6F9 /* NotificarePushUIKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F29B17CE25A48BEF007ED6F9 /* NotificarePushUIKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F29B17F325A48CAF007ED6F9 /* NotificarePushUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29B17F225A48CAF007ED6F9 /* NotificarePushUI.swift */; };
+		F29B17F325A48CAF007ED6F9 /* NotificarePushUIImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29B17F225A48CAF007ED6F9 /* NotificarePushUIImpl.swift */; };
 		F29C96E725ACBE2500620E9B /* NotificareImageGalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29C96E625ACBE2500620E9B /* NotificareImageGalleryViewController.swift */; };
 		F29C96EA25ACBE5D00620E9B /* NotificareBaseNotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29C96E925ACBE5D00620E9B /* NotificareBaseNotificationViewController.swift */; };
 		F2B1817925BAF4F800384991 /* NotificareWebViewActionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B1817825BAF4F800384991 /* NotificareWebViewActionHandler.swift */; };
@@ -36,6 +36,9 @@
 		F2B181AF25BB224400384991 /* NotificareKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F2B181AD25BB224300384991 /* NotificareKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F2B8C51725A5DD9400FFBE0C /* NotificareWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B8C51625A5DD9400FFBE0C /* NotificareWebViewController.swift */; };
 		F2CB6F5C25AEFD0600FC994E /* NotificareMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2CB6F5B25AEFD0600FC994E /* NotificareMapViewController.swift */; };
+		F2DAB3A1271F1325002B5F27 /* NotificarePushUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2DAB3A0271F1325002B5F27 /* NotificarePushUI.swift */; };
+		F2DAB3A3271F138D002B5F27 /* NotificarePushUI+Augment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2DAB3A2271F138D002B5F27 /* NotificarePushUI+Augment.swift */; };
+		F2DAB3A5271F14D3002B5F27 /* UIKitExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2DAB3A4271F14D3002B5F27 /* UIKitExtensions.swift */; };
 		F2E9D41E25ADE98D00FF7827 /* NotificareVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E9D41D25ADE98D00FF7827 /* NotificareVideoViewController.swift */; };
 		F2E9D45825AE1D4500FF7827 /* NotificareUrlViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E9D45725AE1D4500FF7827 /* NotificareUrlViewController.swift */; };
 /* End PBXBuildFile section */
@@ -90,7 +93,7 @@
 		F29B17D925A48BF0007ED6F9 /* NotificarePushUIKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificarePushUIKitTests.swift; sourceTree = "<group>"; };
 		F29B17DB25A48BF0007ED6F9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F29B17EE25A48C9B007ED6F9 /* NotificarePushKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificarePushKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F29B17F225A48CAF007ED6F9 /* NotificarePushUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificarePushUI.swift; sourceTree = "<group>"; };
+		F29B17F225A48CAF007ED6F9 /* NotificarePushUIImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificarePushUIImpl.swift; sourceTree = "<group>"; };
 		F29C96E625ACBE2500620E9B /* NotificareImageGalleryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareImageGalleryViewController.swift; sourceTree = "<group>"; };
 		F29C96E925ACBE5D00620E9B /* NotificareBaseNotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareBaseNotificationViewController.swift; sourceTree = "<group>"; };
 		F2B1817825BAF4F800384991 /* NotificareWebViewActionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareWebViewActionHandler.swift; sourceTree = "<group>"; };
@@ -98,6 +101,9 @@
 		F2B8C51625A5DD9400FFBE0C /* NotificareWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareWebViewController.swift; sourceTree = "<group>"; };
 		F2B8C56025A6173F00FFBE0C /* NotificareCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2CB6F5B25AEFD0600FC994E /* NotificareMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareMapViewController.swift; sourceTree = "<group>"; };
+		F2DAB3A0271F1325002B5F27 /* NotificarePushUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificarePushUI.swift; sourceTree = "<group>"; };
+		F2DAB3A2271F138D002B5F27 /* NotificarePushUI+Augment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificarePushUI+Augment.swift"; sourceTree = "<group>"; };
+		F2DAB3A4271F14D3002B5F27 /* UIKitExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitExtensions.swift; sourceTree = "<group>"; };
 		F2E9D41D25ADE98D00FF7827 /* NotificareVideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareVideoViewController.swift; sourceTree = "<group>"; };
 		F2E9D45725AE1D4500FF7827 /* NotificareUrlViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareUrlViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -141,8 +147,10 @@
 		F293E2E42630488B008C2010 /* Internals */ = {
 			isa = PBXGroup;
 			children = (
+				F29B17F225A48CAF007ED6F9 /* NotificarePushUIImpl.swift */,
 				F293E2E5263048A1008C2010 /* LocalStorage.swift */,
 				F216F0B926A839FC00F9EF56 /* LoyaltyIntegration.swift */,
+				F2DAB3A4271F14D3002B5F27 /* UIKitExtensions.swift */,
 			);
 			path = Internals;
 			sourceTree = "<group>";
@@ -174,9 +182,10 @@
 				F2B8C51525A5DD8300FFBE0C /* Notification Handlers */,
 				F29B17CF25A48BEF007ED6F9 /* Info.plist */,
 				F29B17CE25A48BEF007ED6F9 /* NotificarePushUIKit.h */,
-				F29B17F225A48CAF007ED6F9 /* NotificarePushUI.swift */,
-				F28085A525B5EB4900D3AD50 /* NotificarePushUIDelegate.swift */,
+				F2DAB3A0271F1325002B5F27 /* NotificarePushUI.swift */,
+				F2DAB3A2271F138D002B5F27 /* NotificarePushUI+Augment.swift */,
 				F28C95062640478100D6EF32 /* NotificarePushUI+NotificareNotification.swift */,
+				F28085A525B5EB4900D3AD50 /* NotificarePushUIDelegate.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -359,8 +368,9 @@
 				F2CB6F5C25AEFD0600FC994E /* NotificareMapViewController.swift in Sources */,
 				F289F52325B838DE0091AB97 /* NotificareAlertController.swift in Sources */,
 				F277EABD25B0A10C0026225C /* NotificareTelephoneActionHandler.swift in Sources */,
-				F29B17F325A48CAF007ED6F9 /* NotificarePushUI.swift in Sources */,
+				F29B17F325A48CAF007ED6F9 /* NotificarePushUIImpl.swift in Sources */,
 				F28C95072640478100D6EF32 /* NotificarePushUI+NotificareNotification.swift in Sources */,
+				F2DAB3A1271F1325002B5F27 /* NotificarePushUI.swift in Sources */,
 				F216F0BA26A839FC00F9EF56 /* LoyaltyIntegration.swift in Sources */,
 				F216F0BC26A84B2100F9EF56 /* NotificareWebPassViewController.swift in Sources */,
 				F289F52625B8395B0091AB97 /* NotificareUrlSchemeController.swift in Sources */,
@@ -371,9 +381,11 @@
 				F2E9D45825AE1D4500FF7827 /* NotificareUrlViewController.swift in Sources */,
 				F289F52925B839B70091AB97 /* NotificareRateController.swift in Sources */,
 				F2B8C51725A5DD9400FFBE0C /* NotificareWebViewController.swift in Sources */,
+				F2DAB3A5271F14D3002B5F27 /* UIKitExtensions.swift in Sources */,
 				F2B1817925BAF4F800384991 /* NotificareWebViewActionHandler.swift in Sources */,
 				F277EAC725B0A7680026225C /* NotificareCallbackActionHandler.swift in Sources */,
 				F277EAC025B0A1150026225C /* NotificareBrowserActionHandler.swift in Sources */,
+				F2DAB3A3271F138D002B5F27 /* NotificarePushUI+Augment.swift in Sources */,
 				F277EAB925B0A0FF0026225C /* NotificareSmsActionHandler.swift in Sources */,
 				F293E2E6263048A1008C2010 /* LocalStorage.swift in Sources */,
 				F277EAB325B085740026225C /* NotificareMailActionHandler.swift in Sources */,

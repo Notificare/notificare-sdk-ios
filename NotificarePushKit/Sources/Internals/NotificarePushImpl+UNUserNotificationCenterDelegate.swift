@@ -2,11 +2,12 @@
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
+import Foundation
 import NotificareKit
 import UserNotifications
 
-extension NotificarePush: UNUserNotificationCenterDelegate {
-    public func userNotificationCenter(_: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+extension NotificarePushImpl: UNUserNotificationCenterDelegate {
+    func userNotificationCenter(_: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         let userInfo = response.notification.request.content.userInfo
 
         if isNotificareNotification(userInfo) {
@@ -25,7 +26,7 @@ extension NotificarePush: UNUserNotificationCenterDelegate {
             Notificare.shared.fetchNotification(id) { result in
                 switch result {
                 case let .success(notification):
-                    Notificare.shared.eventsManager.logNotificationOpen(notification) { result in
+                    Notificare.shared.events().logNotificationOpen(id) { result in
                         switch result {
                         case .success:
                             if response.actionIdentifier != UNNotificationDefaultActionIdentifier, response.actionIdentifier != UNNotificationDismissActionIdentifier {
@@ -83,7 +84,7 @@ extension NotificarePush: UNUserNotificationCenterDelegate {
         }
     }
 
-    public func userNotificationCenter(_: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+    func userNotificationCenter(_: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         let userInfo = notification.request.content.userInfo
 
         if isNotificareNotification(userInfo) {
@@ -104,7 +105,11 @@ extension NotificarePush: UNUserNotificationCenterDelegate {
 
                     // Check if we should force-set the presentation options.
                     if let presentation = userInfo["presentation"] as? Bool, presentation {
-                        completionHandler([.alert, .badge, .sound])
+                        if #available(iOS 14.0, *) {
+                            completionHandler([.banner, .badge, .sound])
+                        } else {
+                            completionHandler([.alert, .badge, .sound])
+                        }
                     } else {
                         completionHandler(self.presentationOptions)
                     }
@@ -120,7 +125,7 @@ extension NotificarePush: UNUserNotificationCenterDelegate {
         }
     }
 
-    public func userNotificationCenter(_: UNUserNotificationCenter, openSettingsFor notification: UNNotification?) {
+    func userNotificationCenter(_: UNUserNotificationCenter, openSettingsFor notification: UNNotification?) {
         guard let notification = notification else {
             delegate?.notificare(self, shouldOpenSettings: nil)
             return
@@ -155,7 +160,7 @@ extension NotificarePush: UNUserNotificationCenterDelegate {
 
     private func handleQuickResponse(userInfo: [AnyHashable: Any], notification: NotificareNotification, action: NotificareNotification.Action, responseText: String?) {
         // Log the notification open event.
-        Notificare.shared.eventsManager.logNotificationOpen(notification.id)
+        Notificare.shared.events().logNotificationOpen(notification.id) { _ in }
 
         sendQuickResponse(notification: notification, action: action, responseText: responseText) { _ in
             // Remove the notification from the notification center.

@@ -22,9 +22,9 @@ class NotificareAlertController: NotificareNotificationPresenter {
                 UIAlertAction(title: NotificareLocalizable.string(resource: action.label, fallback: action.label),
                               style: .default,
                               handler: { _ in
-                                  NotificarePushUI.shared.presentAction(action, for: self.notification, in: controller)
+                                  Notificare.shared.pushUI().presentAction(action, for: self.notification, in: controller)
 
-                                  NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFinishPresentingNotification: self.notification)
+                                  Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFinishPresentingNotification: self.notification)
                               })
             )
         }
@@ -33,11 +33,11 @@ class NotificareAlertController: NotificareNotificationPresenter {
         alert.addAction(UIAlertAction(title: NotificareLocalizable.string(resource: useCancelButton ? .cancel : .ok),
                                       style: useCancelButton ? .cancel : .default,
                                       handler: { _ in
-                                          NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFinishPresentingNotification: self.notification)
+                                          Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFinishPresentingNotification: self.notification)
                                       }))
 
-        NotificarePushUI.shared.presentController(alert, in: controller) {
-            NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didPresentNotification: self.notification)
+        controller.presentOrPush(alert) {
+            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didPresentNotification: self.notification)
         }
     }
 }

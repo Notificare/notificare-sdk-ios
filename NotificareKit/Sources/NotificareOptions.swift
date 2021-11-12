@@ -12,6 +12,8 @@ public struct NotificareOptions {
     public let swizzlingEnabled: Bool
     public let userNotificationCenterDelegateEnabled: Bool
     public let crashReportsEnabled: Bool
+    public let headingApiEnabled: Bool
+    public let visitsApiEnabled: Bool
     public let urlSchemes: [String]
     public let closeWindowQueryParameter: String?
     public let imageSharingEnabled: Bool
@@ -42,6 +44,8 @@ extension NotificareOptions: Decodable {
                   swizzlingEnabled: true,
                   userNotificationCenterDelegateEnabled: true,
                   crashReportsEnabled: true,
+                  headingApiEnabled: false,
+                  visitsApiEnabled: false,
                   urlSchemes: [],
                   closeWindowQueryParameter: nil,
                   imageSharingEnabled: true,
@@ -60,6 +64,8 @@ extension NotificareOptions: Decodable {
             swizzlingEnabled = decoded.swizzlingEnabled
             userNotificationCenterDelegateEnabled = decoded.userNotificationCenterDelegateEnabled
             crashReportsEnabled = decoded.crashReportsEnabled
+            headingApiEnabled = decoded.headingApiEnabled
+            visitsApiEnabled = decoded.visitsApiEnabled
             urlSchemes = decoded.urlSchemes
             closeWindowQueryParameter = decoded.closeWindowQueryParameter
             imageSharingEnabled = decoded.imageSharingEnabled
@@ -77,6 +83,8 @@ extension NotificareOptions: Decodable {
         swizzlingEnabled = try container.decodeIfPresent(Bool.self, forKey: .swizzlingEnabled) ?? true
         userNotificationCenterDelegateEnabled = try container.decodeIfPresent(Bool.self, forKey: .userNotificationCenterDelegateEnabled) ?? true
         crashReportsEnabled = try container.decodeIfPresent(Bool.self, forKey: .crashReportsEnabled) ?? true
+        headingApiEnabled = try container.decodeIfPresent(Bool.self, forKey: .headingApiEnabled) ?? false
+        visitsApiEnabled = try container.decodeIfPresent(Bool.self, forKey: .visitsApiEnabled) ?? false
         urlSchemes = try container.decodeIfPresent([String].self, forKey: .urlSchemes) ?? []
         closeWindowQueryParameter = try container.decodeIfPresent(String.self, forKey: .closeWindowQueryParameter)
         imageSharingEnabled = try container.decodeIfPresent(Bool.self, forKey: .imageSharingEnabled) ?? true
@@ -89,6 +97,8 @@ extension NotificareOptions: Decodable {
         case swizzlingEnabled = "SWIZZLING_ENABLED"
         case userNotificationCenterDelegateEnabled = "USER_NOTIFICATION_CENTER_DELEGATE_ENABLED"
         case crashReportsEnabled = "CRASH_REPORTING_ENABLED"
+        case headingApiEnabled = "HEADING_API_ENABLED"
+        case visitsApiEnabled = "VISITS_API_ENABLED"
         case urlSchemes = "URL_SCHEMES"
         case closeWindowQueryParameter = "CLOSE_WINDOW_QUERY_PARAMETER"
         case imageSharingEnabled = "IMAGE_SHARING_ENABLED"

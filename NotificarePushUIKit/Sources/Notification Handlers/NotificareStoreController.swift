@@ -14,12 +14,12 @@ class NotificareStoreController: NSObject, SKStoreProductViewControllerDelegate,
 
     func present(in controller: UIViewController) {
         guard let content = notification.content.first, content.type == "re.notifica.content.AppStore" else {
-            NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFailToPresentNotification: notification)
+            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToPresentNotification: notification)
             return
         }
 
         guard let data = content.data as? [String: Any], let identifier = data["identifier"] else {
-            NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFailToPresentNotification: notification)
+            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToPresentNotification: notification)
             return
         }
 
@@ -46,18 +46,18 @@ class NotificareStoreController: NSObject, SKStoreProductViewControllerDelegate,
 
         storeController.loadProduct(withParameters: parameters) { success, error in
             if !success || error != nil {
-                NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFailToPresentNotification: self.notification)
+                Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToPresentNotification: self.notification)
             } else {
-                NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didPresentNotification: self.notification)
+                Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didPresentNotification: self.notification)
             }
         }
 
-        NotificarePushUI.shared.presentController(storeController, in: controller)
+        controller.presentOrPush(storeController)
     }
 
     public func productViewControllerDidFinish(_: SKStoreProductViewController) {
         UIApplication.shared.keyWindow?.rootViewController?.dismiss(animated: true, completion: {
-            NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFinishPresentingNotification: self.notification)
+            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFinishPresentingNotification: self.notification)
         })
     }
 }

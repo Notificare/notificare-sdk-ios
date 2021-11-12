@@ -79,16 +79,10 @@ public enum NotificareUtils {
 
     // MARK: - Modules
 
-    public static func getLoadedModules() -> [String] {
-        var modules = [String]()
-
-        NotificareDefinitions.Modules.allCases.forEach { module in
-            if module.isAvailable {
-                modules.append("\(module)")
-            }
-        }
-
-        return modules
+    public static func getEnabledPeerModules() -> [String] {
+        NotificareInternals.Module.allCases
+            .filter { $0.isPeer && $0.isAvailable }
+            .map { "\($0)" }
     }
 
     // MARK: - JSON encoding

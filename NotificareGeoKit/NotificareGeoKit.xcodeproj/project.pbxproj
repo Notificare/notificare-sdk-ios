@@ -7,11 +7,31 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F2422E4926CC0FD800D035AD /* NotificareBeacon.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2422E4826CC0FD800D035AD /* NotificareBeacon.swift */; };
+		F24FF2F426D3DF1D00BB7B1C /* NotificareBeaconSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24FF2F326D3DF1D00BB7B1C /* NotificareBeaconSession.swift */; };
+		F24FF2F626D3FFFA00BB7B1C /* NotificareBeacon+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24FF2F526D3FFFA00BB7B1C /* NotificareBeacon+Extensions.swift */; };
+		F24FF2F826D4018E00BB7B1C /* NotificareGeoDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24FF2F726D4018E00BB7B1C /* NotificareGeoDelegate.swift */; };
 		F258DD7A24BC4E95006F9ABD /* NotificareGeoKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F258DD7024BC4E95006F9ABD /* NotificareGeoKit.framework */; };
 		F258DD7F24BC4E95006F9ABD /* LocationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DD7E24BC4E95006F9ABD /* LocationTests.swift */; };
 		F258DD8124BC4E95006F9ABD /* NotificareGeoKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F258DD7324BC4E95006F9ABD /* NotificareGeoKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F2696AAA26C275C5002EA653 /* NotificareGeoImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2696AA926C275C5002EA653 /* NotificareGeoImpl.swift */; };
+		F2696AB326C2B43C002EA653 /* PushAPI+Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2696AB226C2B43C002EA653 /* PushAPI+Models.swift */; };
+		F2696AB526C2B446002EA653 /* PushAPI+Payloads.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2696AB426C2B446002EA653 /* PushAPI+Payloads.swift */; };
+		F2696AB726C2B44F002EA653 /* PushAPI+Responses.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2696AB626C2B44F002EA653 /* PushAPI+Responses.swift */; };
+		F26E6DCF26C44BE500FA67CB /* NotificareRegion+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26E6DCE26C44BE500FA67CB /* NotificareRegion+Extensions.swift */; };
+		F26E6DD126C44C4A00FA67CB /* NotificareRegion.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26E6DD026C44C4A00FA67CB /* NotificareRegion.swift */; };
+		F288C1F826C407D600B6C83C /* LocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F288C1F726C407D600B6C83C /* LocalStorage.swift */; };
 		F289F5D425B8614B0091AB97 /* NotificareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F289F5D125B8614B0091AB97 /* NotificareKit.framework */; };
 		F289F5D525B8614B0091AB97 /* NotificareKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F289F5D125B8614B0091AB97 /* NotificareKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F29FCFDA26C5688200A2C7E1 /* Collections+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29FCFD926C5688200A2C7E1 /* Collections+Extensions.swift */; };
+		F2CC441C26DD15A400740C06 /* NotificareHeading.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2CC441B26DD15A400740C06 /* NotificareHeading.swift */; };
+		F2CC441E26DD18E100740C06 /* NotificareLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2CC441D26DD18E100740C06 /* NotificareLocation.swift */; };
+		F2CDE01A26C672F200CC4867 /* MapKit+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2CDE01926C672F200CC4867 /* MapKit+Extensions.swift */; };
+		F2CDE01C26C6AB7C00CC4867 /* NotificareGeo+Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2CDE01B26C6AB7C00CC4867 /* NotificareGeo+Events.swift */; };
+		F2CDE01E26C6B0BB00CC4867 /* NotificareRegionSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2CDE01D26C6B0BB00CC4867 /* NotificareRegionSession.swift */; };
+		F2DAB395271F0C46002B5F27 /* NotificareGeo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2DAB394271F0C46002B5F27 /* NotificareGeo.swift */; };
+		F2DAB39B271F0FCB002B5F27 /* NotificareGeo+Augment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2DAB39A271F0FCB002B5F27 /* NotificareGeo+Augment.swift */; };
+		F2FC8BE126D67CE400089F1B /* NotificareVisit.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2FC8BE026D67CE400089F1B /* NotificareVisit.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,6 +59,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		F2422E4826CC0FD800D035AD /* NotificareBeacon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareBeacon.swift; sourceTree = "<group>"; };
+		F24FF2F326D3DF1D00BB7B1C /* NotificareBeaconSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareBeaconSession.swift; sourceTree = "<group>"; };
+		F24FF2F526D3FFFA00BB7B1C /* NotificareBeacon+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificareBeacon+Extensions.swift"; sourceTree = "<group>"; };
+		F24FF2F726D4018E00BB7B1C /* NotificareGeoDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareGeoDelegate.swift; sourceTree = "<group>"; };
 		F258DD7024BC4E95006F9ABD /* NotificareGeoKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NotificareGeoKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F258DD7324BC4E95006F9ABD /* NotificareGeoKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificareGeoKit.h; sourceTree = "<group>"; };
 		F258DD7424BC4E95006F9ABD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -47,9 +71,25 @@
 		F258DD8024BC4E95006F9ABD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F258DE8224BC8419006F9ABD /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F258DE8D24BC8AA1006F9ABD /* Notificare.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Notificare.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F2696AA926C275C5002EA653 /* NotificareGeoImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareGeoImpl.swift; sourceTree = "<group>"; };
+		F2696AB226C2B43C002EA653 /* PushAPI+Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PushAPI+Models.swift"; sourceTree = "<group>"; };
+		F2696AB426C2B446002EA653 /* PushAPI+Payloads.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PushAPI+Payloads.swift"; sourceTree = "<group>"; };
+		F2696AB626C2B44F002EA653 /* PushAPI+Responses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PushAPI+Responses.swift"; sourceTree = "<group>"; };
+		F26E6DCE26C44BE500FA67CB /* NotificareRegion+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificareRegion+Extensions.swift"; sourceTree = "<group>"; };
+		F26E6DD026C44C4A00FA67CB /* NotificareRegion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareRegion.swift; sourceTree = "<group>"; };
+		F288C1F726C407D600B6C83C /* LocalStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorage.swift; sourceTree = "<group>"; };
 		F289F5D025B8614B0091AB97 /* NotificareCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F289F5D125B8614B0091AB97 /* NotificareKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F29FCFD926C5688200A2C7E1 /* Collections+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collections+Extensions.swift"; sourceTree = "<group>"; };
 		F2AAAF7C251D01A000465EC5 /* NotificareSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F2CC441B26DD15A400740C06 /* NotificareHeading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareHeading.swift; sourceTree = "<group>"; };
+		F2CC441D26DD18E100740C06 /* NotificareLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareLocation.swift; sourceTree = "<group>"; };
+		F2CDE01926C672F200CC4867 /* MapKit+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapKit+Extensions.swift"; sourceTree = "<group>"; };
+		F2CDE01B26C6AB7C00CC4867 /* NotificareGeo+Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificareGeo+Events.swift"; sourceTree = "<group>"; };
+		F2CDE01D26C6B0BB00CC4867 /* NotificareRegionSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareRegionSession.swift; sourceTree = "<group>"; };
+		F2DAB394271F0C46002B5F27 /* NotificareGeo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareGeo.swift; sourceTree = "<group>"; };
+		F2DAB39A271F0FCB002B5F27 /* NotificareGeo+Augment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificareGeo+Augment.swift"; sourceTree = "<group>"; };
+		F2FC8BE026D67CE400089F1B /* NotificareVisit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareVisit.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,8 +134,13 @@
 		F258DD7224BC4E95006F9ABD /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				F2696AAF26C2B420002EA653 /* Internals */,
+				F2696AAE26C2B41B002EA653 /* Models */,
 				F258DD7424BC4E95006F9ABD /* Info.plist */,
 				F258DD7324BC4E95006F9ABD /* NotificareGeoKit.h */,
+				F2DAB394271F0C46002B5F27 /* NotificareGeo.swift */,
+				F2DAB39A271F0FCB002B5F27 /* NotificareGeo+Augment.swift */,
+				F24FF2F726D4018E00BB7B1C /* NotificareGeoDelegate.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -119,6 +164,61 @@
 				F258DE8224BC8419006F9ABD /* Core.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F2696AAE26C2B41B002EA653 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F2CC441D26DD18E100740C06 /* NotificareLocation.swift */,
+				F2422E4826CC0FD800D035AD /* NotificareBeacon.swift */,
+				F24FF2F326D3DF1D00BB7B1C /* NotificareBeaconSession.swift */,
+				F26E6DD026C44C4A00FA67CB /* NotificareRegion.swift */,
+				F2CDE01D26C6B0BB00CC4867 /* NotificareRegionSession.swift */,
+				F2CC441B26DD15A400740C06 /* NotificareHeading.swift */,
+				F2FC8BE026D67CE400089F1B /* NotificareVisit.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		F2696AAF26C2B420002EA653 /* Internals */ = {
+			isa = PBXGroup;
+			children = (
+				F2696AB026C2B426002EA653 /* Network */,
+				F288C1F626C407BE00B6C83C /* Storage */,
+				F24FF2F526D3FFFA00BB7B1C /* NotificareBeacon+Extensions.swift */,
+				F26E6DCE26C44BE500FA67CB /* NotificareRegion+Extensions.swift */,
+				F29FCFD926C5688200A2C7E1 /* Collections+Extensions.swift */,
+				F2CDE01926C672F200CC4867 /* MapKit+Extensions.swift */,
+				F2696AA926C275C5002EA653 /* NotificareGeoImpl.swift */,
+				F2CDE01B26C6AB7C00CC4867 /* NotificareGeo+Events.swift */,
+			);
+			path = Internals;
+			sourceTree = "<group>";
+		};
+		F2696AB026C2B426002EA653 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				F2696AB126C2B431002EA653 /* Push API */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		F2696AB126C2B431002EA653 /* Push API */ = {
+			isa = PBXGroup;
+			children = (
+				F2696AB226C2B43C002EA653 /* PushAPI+Models.swift */,
+				F2696AB426C2B446002EA653 /* PushAPI+Payloads.swift */,
+				F2696AB626C2B44F002EA653 /* PushAPI+Responses.swift */,
+			);
+			path = "Push API";
+			sourceTree = "<group>";
+		};
+		F288C1F626C407BE00B6C83C /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				F288C1F726C407D600B6C83C /* LocalStorage.swift */,
+			);
+			path = Storage;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -185,7 +285,7 @@
 				TargetAttributes = {
 					F258DD6F24BC4E95006F9ABD = {
 						CreatedOnToolsVersion = 11.5;
-						LastSwiftMigration = 1150;
+						LastSwiftMigration = 1300;
 					};
 					F258DD7824BC4E95006F9ABD = {
 						CreatedOnToolsVersion = 11.5;
@@ -254,6 +354,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F2CDE01C26C6AB7C00CC4867 /* NotificareGeo+Events.swift in Sources */,
+				F2DAB39B271F0FCB002B5F27 /* NotificareGeo+Augment.swift in Sources */,
+				F2422E4926CC0FD800D035AD /* NotificareBeacon.swift in Sources */,
+				F26E6DD126C44C4A00FA67CB /* NotificareRegion.swift in Sources */,
+				F2CC441C26DD15A400740C06 /* NotificareHeading.swift in Sources */,
+				F2FC8BE126D67CE400089F1B /* NotificareVisit.swift in Sources */,
+				F2CDE01E26C6B0BB00CC4867 /* NotificareRegionSession.swift in Sources */,
+				F24FF2F626D3FFFA00BB7B1C /* NotificareBeacon+Extensions.swift in Sources */,
+				F2DAB395271F0C46002B5F27 /* NotificareGeo.swift in Sources */,
+				F29FCFDA26C5688200A2C7E1 /* Collections+Extensions.swift in Sources */,
+				F24FF2F826D4018E00BB7B1C /* NotificareGeoDelegate.swift in Sources */,
+				F2CDE01A26C672F200CC4867 /* MapKit+Extensions.swift in Sources */,
+				F2696AB326C2B43C002EA653 /* PushAPI+Models.swift in Sources */,
+				F288C1F826C407D600B6C83C /* LocalStorage.swift in Sources */,
+				F2CC441E26DD18E100740C06 /* NotificareLocation.swift in Sources */,
+				F24FF2F426D3DF1D00BB7B1C /* NotificareBeaconSession.swift in Sources */,
+				F2696AB726C2B44F002EA653 /* PushAPI+Responses.swift in Sources */,
+				F26E6DCF26C44BE500FA67CB /* NotificareRegion+Extensions.swift in Sources */,
+				F2696AB526C2B446002EA653 /* PushAPI+Payloads.swift in Sources */,
+				F2696AAA26C275C5002EA653 /* NotificareGeoImpl.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -416,7 +536,7 @@
 					"@loader_path/Frameworks",
 				);
 				MARKETING_VERSION = 3.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.location;
+				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.geo;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
@@ -444,7 +564,7 @@
 					"@loader_path/Frameworks",
 				);
 				MARKETING_VERSION = 3.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.location;
+				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.geo;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
@@ -456,6 +576,7 @@
 		F258DD8824BC4E95006F9ABD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y47BY73NFN;
 				INFOPLIST_FILE = Tests/Info.plist;
@@ -474,6 +595,7 @@
 		F258DD8924BC4E95006F9ABD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y47BY73NFN;
 				INFOPLIST_FILE = Tests/Info.plist;

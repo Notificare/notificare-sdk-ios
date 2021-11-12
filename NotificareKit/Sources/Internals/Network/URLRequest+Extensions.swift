@@ -16,7 +16,7 @@ public extension URLRequest {
 //    }
 
     mutating func setNotificareHeaders() {
-        setValue(NotificareDefinitions.sdkVersion, forHTTPHeaderField: "X-Notificare-SDK-Version")
+        setValue(Notificare.SDK_VERSION, forHTTPHeaderField: "X-Notificare-SDK-Version")
         setValue(NotificareUtils.applicationVersion, forHTTPHeaderField: "X-Notificare-App-Version")
     }
 

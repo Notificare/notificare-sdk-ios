@@ -2,8 +2,10 @@
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
+import CoreLocation
 import NotificareAssetsKit
 import NotificareAuthenticationKit
+import NotificareGeoKit
 import NotificareInboxKit
 import NotificareKit
 import NotificareLoyaltyKit
@@ -17,7 +19,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
 
-        NotificareScannables.shared.delegate = self
+        Notificare.shared.scannables().delegate = self
     }
 
     @IBAction func onLaunchClicked(_: Any) {
@@ -29,7 +31,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction private func onEnableRemoteNotificationsClick(_: Any) {
-        NotificarePush.shared.enableRemoteNotifications { result in
+        Notificare.shared.push().enableRemoteNotifications { result in
             switch result {
             case let .success(granted):
                 print("-----> User allowed notifications: \(granted)")
@@ -40,7 +42,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction func onDisableRemoteNotificationsClick(_: Any) {
-        NotificarePush.shared.disableRemoteNotifications()
+        Notificare.shared.push().disableRemoteNotifications()
     }
 
     @IBAction func onSendCustomEventClick(_: Any) {
@@ -48,12 +50,11 @@ class ViewController: UIViewController {
             "color": "blue",
         ]
 
-        Notificare.shared.eventsManager.logCustom("test", data: data) { _ in
-        }
+        Notificare.shared.events().logCustom("test", data: data) { _ in }
     }
 
     @IBAction func onRegisterWithUserClick(_: Any) {
-        Notificare.shared.deviceManager.register(userId: "d09f8b8e-2c10-4ae9-82e5-44f1bf627d89", userName: "John Doe") { result in
+        Notificare.shared.device().register(userId: "d09f8b8e-2c10-4ae9-82e5-44f1bf627d89", userName: "John Doe") { result in
             switch result {
             case .success:
                 print("Device registered with user.")
@@ -64,7 +65,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction func onRegisterAnonymousClick(_: Any) {
-        Notificare.shared.deviceManager.register(userId: nil, userName: nil) { result in
+        Notificare.shared.device().register(userId: nil, userName: nil) { result in
             switch result {
             case .success:
                 print("Device registered anonymously.")
@@ -75,7 +76,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction func onFetchUserDataClick(_: Any) {
-        Notificare.shared.deviceManager.fetchUserData { result in
+        Notificare.shared.device().fetchUserData { result in
             switch result {
             case let .success(userData):
                 NotificareLogger.info("User data = \(userData)")
@@ -86,13 +87,15 @@ class ViewController: UIViewController {
         }
     }
 
+    // MARK: - Inbox
+
     @IBAction func onListInboxItemsClick(_: Any) {
         print("-----> Inbox items")
-        print(NotificareInbox.shared.items)
+        print(Notificare.shared.inbox().items)
     }
 
     @IBAction func onRefreshBadgeClick(_: Any) {
-        NotificareInbox.shared.refreshBadge { result in
+        Notificare.shared.inbox().refreshBadge { result in
             switch result {
             case let .success(badge):
                 print("-----> Badge: \(badge)")
@@ -102,8 +105,36 @@ class ViewController: UIViewController {
         }
     }
 
+    // MARK: - Geo
+
+    @IBAction func onEnableLocationUpdatesClicked(_: Any) {
+        let authorizationStatus = CLLocationManager.authorizationStatus()
+
+        guard authorizationStatus == .authorizedWhenInUse || authorizationStatus == .authorizedAlways else {
+            let locationManager = CLLocationManager()
+            locationManager.requestWhenInUseAuthorization()
+
+            return
+        }
+
+        guard authorizationStatus == .authorizedAlways else {
+            let locationManager = CLLocationManager()
+            locationManager.requestAlwaysAuthorization()
+
+            return
+        }
+
+        Notificare.shared.geo().enableLocationUpdates()
+    }
+
+    @IBAction func onDisableLocationUpdatesClicked(_: Any) {
+        Notificare.shared.geo().disableLocationUpdates()
+    }
+
+    // MARK: - Assets
+
     @IBAction func onFetchAssetsClick(_: Any) {
-        NotificareAssets.shared.fetchAssets(for: "LANDSCAPES") { result in
+        Notificare.shared.assets().fetch(group: "LANDSCAPES") { result in
             switch result {
             case let .success(assets):
                 print("Assets = \(assets)")
@@ -113,16 +144,20 @@ class ViewController: UIViewController {
         }
     }
 
+    // MARK: - Scannables
+
     @IBAction func onStartScannableSessionClick(_: Any) {
-        if NotificareScannables.shared.canStartNfcScannableSession {
-            NotificareScannables.shared.startNfcScannableSession()
+        if Notificare.shared.scannables().canStartNfcScannableSession {
+            Notificare.shared.scannables().startNfcScannableSession()
         } else {
-            NotificareScannables.shared.startQrCodeScannableSession(controller: navigationController!, modal: true)
+            Notificare.shared.scannables().startQrCodeScannableSession(controller: navigationController!, modal: true)
         }
     }
 
+    // MARK: - Loyalty
+
     @IBAction func onFetchPassClick(_: Any) {
-        NotificareLoyalty.shared.fetchPass(serial: "2e5cdf49-83f8-4029-b5bb-dc478ff309b9") { result in
+        Notificare.shared.loyalty().fetchPass(serial: "2e5cdf49-83f8-4029-b5bb-dc478ff309b9") { result in
             switch result {
             case let .success(pass):
                 print("Pass = \(pass)")
@@ -141,8 +176,10 @@ class ViewController: UIViewController {
 //        }
     }
 
+    // MARK: - Authentication
+
     @IBAction func onLoginClicked(_: Any) {
-        NotificareAuthentication.shared.login(
+        Notificare.shared.authentication().login(
             email: "helder@notifica.re",
             password: "123456"
         ) { result in
@@ -156,7 +193,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction func onLogoutClicked(_: Any) {
-        NotificareAuthentication.shared.logout { result in
+        Notificare.shared.authentication().logout { result in
             switch result {
             case .success:
                 print("Done.")
@@ -167,7 +204,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction func onFetchUserDetailsClicked(_: Any) {
-        NotificareAuthentication.shared.fetchUserDetails { result in
+        Notificare.shared.authentication().fetchUserDetails { result in
             switch result {
             case let .success(user):
                 print("User details = \(user)")
@@ -176,7 +213,7 @@ class ViewController: UIViewController {
             }
         }
 
-        NotificareAuthentication.shared.fetchUserDetails { result in
+        Notificare.shared.authentication().fetchUserDetails { result in
             switch result {
             case let .success(user):
                 print("User details = \(user)")
@@ -185,7 +222,7 @@ class ViewController: UIViewController {
             }
         }
 
-        NotificareAuthentication.shared.fetchUserDetails { result in
+        Notificare.shared.authentication().fetchUserDetails { result in
             switch result {
             case let .success(user):
                 print("User details = \(user)")
@@ -194,7 +231,7 @@ class ViewController: UIViewController {
             }
         }
 
-        NotificareAuthentication.shared.fetchUserDetails { result in
+        Notificare.shared.authentication().fetchUserDetails { result in
             switch result {
             case let .success(user):
                 print("User details = \(user)")
@@ -203,7 +240,7 @@ class ViewController: UIViewController {
             }
         }
 
-        NotificareAuthentication.shared.fetchUserDetails { result in
+        Notificare.shared.authentication().fetchUserDetails { result in
             switch result {
             case let .success(user):
                 print("User details = \(user)")
@@ -214,7 +251,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction func onFetchUserPreferencesClicked(_: Any) {
-        NotificareAuthentication.shared.fetchUserPreferences { result in
+        Notificare.shared.authentication().fetchUserPreferences { result in
             switch result {
             case let .success(preferences):
                 print("User preferences = \(preferences)")
@@ -225,7 +262,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction func onFetchUserSegmentsClicked(_: Any) {
-        NotificareAuthentication.shared.fetchUserSegments { result in
+        Notificare.shared.authentication().fetchUserSegments { result in
             switch result {
             case let .success(segments):
                 print("User segments = \(segments)")
@@ -236,7 +273,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction func onSendPasswordResetClicked(_: Any) {
-        NotificareAuthentication.shared.sendPasswordReset(email: "helder@notifica.re") { result in
+        Notificare.shared.authentication().sendPasswordReset(email: "helder@notifica.re") { result in
             switch result {
             case .success:
                 print("Done.")
@@ -247,7 +284,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction func onResetPasswordClicked(_: Any) {
-        NotificareAuthentication.shared.resetPassword("123456", token: "---") { result in
+        Notificare.shared.authentication().resetPassword("123456", token: "---") { result in
             switch result {
             case .success:
                 print("Done.")
@@ -258,7 +295,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction func onChangePasswordClicked(_: Any) {
-        NotificareAuthentication.shared.changePassword("123456") { result in
+        Notificare.shared.authentication().changePassword("123456") { result in
             switch result {
             case .success:
                 print("Done.")
@@ -269,7 +306,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction func onValidateUserClicked(_: Any) {
-        NotificareAuthentication.shared.validateUser(token: "---") { result in
+        Notificare.shared.authentication().validateUser(token: "---") { result in
             switch result {
             case .success:
                 print("Done.")
@@ -280,7 +317,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction func onGeneratePushEmailClicked(_: Any) {
-        NotificareAuthentication.shared.generatePushEmailAddress { result in
+        Notificare.shared.authentication().generatePushEmailAddress { result in
             switch result {
             case let .success(user):
                 print("User = \(user)")
@@ -291,12 +328,12 @@ class ViewController: UIViewController {
     }
 
     @IBAction func onAddUserSegmentClicked(_: Any) {
-        NotificareAuthentication.shared.fetchUserSegments { result in
+        Notificare.shared.authentication().fetchUserSegments { result in
             switch result {
             case let .success(segments):
                 let segment = segments.first!
 
-                NotificareAuthentication.shared.addUserSegment(segment) { result in
+                Notificare.shared.authentication().addUserSegment(segment) { result in
                     switch result {
                     case .success:
                         print("Done.")
@@ -311,12 +348,12 @@ class ViewController: UIViewController {
     }
 
     @IBAction func onRemoveUserSegmentClicked(_: Any) {
-        NotificareAuthentication.shared.fetchUserSegments { result in
+        Notificare.shared.authentication().fetchUserSegments { result in
             switch result {
             case let .success(segments):
                 let segment = segments.first!
 
-                NotificareAuthentication.shared.removeUserSegment(segment) { result in
+                Notificare.shared.authentication().removeUserSegment(segment) { result in
                     switch result {
                     case .success:
                         print("Done.")
@@ -331,13 +368,13 @@ class ViewController: UIViewController {
     }
 
     @IBAction func onAddUserSegmentToPreferenceClicked(_: Any) {
-        NotificareAuthentication.shared.fetchUserPreferences { result in
+        Notificare.shared.authentication().fetchUserPreferences { result in
             switch result {
             case let .success(preferences):
                 let preference = preferences.first!
                 let option = preference.options.first!
 
-                NotificareAuthentication.shared.addUserSegmentToPreference(option: option, to: preference) { result in
+                Notificare.shared.authentication().addUserSegmentToPreference(option: option, to: preference) { result in
                     switch result {
                     case .success:
                         print("Done.")
@@ -352,13 +389,13 @@ class ViewController: UIViewController {
     }
 
     @IBAction func onRemoveUserSegmentFromPreferenceClicked(_: Any) {
-        NotificareAuthentication.shared.fetchUserPreferences { result in
+        Notificare.shared.authentication().fetchUserPreferences { result in
             switch result {
             case let .success(preferences):
                 let preference = preferences.first!
                 let option = preference.options.first!
 
-                NotificareAuthentication.shared.removeUserSegmentFromPreference(option: option, from: preference) { result in
+                Notificare.shared.authentication().removeUserSegmentFromPreference(option: option, from: preference) { result in
                     switch result {
                     case .success:
                         print("Done.")
@@ -393,7 +430,7 @@ extension ViewController: NotificareScannablesDelegate {
             return
         }
 
-        NotificarePushUI.shared.presentNotification(notification, in: navigationController!)
+        Notificare.shared.pushUI().presentNotification(notification, in: navigationController!)
     }
 
     func notificare(_: NotificareScannables, didInvalidateScannerSession error: Error) {
@@ -411,5 +448,36 @@ extension ViewController: NotificareScannablesDelegate {
         )
 
         present(alert, animated: true)
+    }
+}
+
+extension ViewController: CLLocationManagerDelegate {
+    func locationManagerDidChangeAuthorization(_: CLLocationManager) {
+        handleLocationAuthorizationChanges()
+    }
+
+    func locationManager(_: CLLocationManager, didChangeAuthorization _: CLAuthorizationStatus) {
+        handleLocationAuthorizationChanges()
+    }
+
+    private func handleLocationAuthorizationChanges() {
+        let status = CLLocationManager.authorizationStatus()
+
+        switch status {
+        case .notDetermined:
+            print("---> Authorization status = not determined")
+        case .restricted:
+            print("---> Authorization status = restricted")
+        case .denied:
+            print("---> Authorization status = denied")
+        case .authorizedWhenInUse:
+            print("---> Authorization status = when in use")
+            Notificare.shared.geo().enableLocationUpdates()
+        case .authorizedAlways:
+            print("---> Authorization status = always")
+            Notificare.shared.geo().enableLocationUpdates()
+        default:
+            print("---> Unhandled authorization status: \(status.rawValue)")
+        }
     }
 }

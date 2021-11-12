@@ -11,7 +11,7 @@ public enum NotificareLogger {
 
     private static let osLog = OSLog(subsystem: "re.notifica", category: "Notificare")
 
-    public static var useAdvancedLogging = false
+    internal static var hasDebugLoggingEnabled = false
 
     public static func debug(_ message: String, file: String = #file) {
         log(message, level: .debug, file: file)
@@ -49,14 +49,14 @@ public enum NotificareLogger {
         if let fileName = URL(fileURLWithPath: file).pathComponents.last,
            let tag = fileName.split(separator: ".").first
         {
-            log(message, level: level, tag: String(tag))
+            log(message, level: level, tag: String(tag).removingSuffix("ModuleImpl").removingSuffix("Impl"))
         } else {
             log(message, level: level, tag: file)
         }
     }
 
     private static func log(_ message: String, level: Level, tag: String?) {
-        guard level != .debug || useAdvancedLogging else {
+        guard level != .debug || hasDebugLoggingEnabled else {
             return
         }
 

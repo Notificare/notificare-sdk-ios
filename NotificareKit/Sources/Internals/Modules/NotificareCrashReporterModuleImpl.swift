@@ -4,8 +4,12 @@
 
 import Foundation
 
-struct NotificareCrashReporter {
-    func configure() {
+internal class NotificareCrashReporterModuleImpl: NSObject, NotificareModule {
+    internal static let instance = NotificareCrashReporterModuleImpl()
+
+    // MARK: - Notificare Module
+
+    static func configure() {
         let crashReportsEnabled = Notificare.shared.options!.crashReportsEnabled
 
         guard crashReportsEnabled else {
@@ -14,27 +18,28 @@ struct NotificareCrashReporter {
         }
 
         // Catch NSExceptions
-        NSSetUncaughtExceptionHandler(uncaughtExceptionHandler)
+        NSSetUncaughtExceptionHandler(instance.uncaughtExceptionHandler)
 
         // Catch Swift exceptions
-        signal(SIGQUIT, signalReceiver)
-        signal(SIGILL, signalReceiver)
-        signal(SIGTRAP, signalReceiver)
-        signal(SIGABRT, signalReceiver)
-        signal(SIGEMT, signalReceiver)
-        signal(SIGFPE, signalReceiver)
-        signal(SIGBUS, signalReceiver)
-        signal(SIGSEGV, signalReceiver)
-        signal(SIGSYS, signalReceiver)
-        signal(SIGPIPE, signalReceiver)
-        signal(SIGALRM, signalReceiver)
-        signal(SIGXCPU, signalReceiver)
-        signal(SIGXFSZ, signalReceiver)
+        signal(SIGQUIT, instance.signalReceiver)
+        signal(SIGILL, instance.signalReceiver)
+        signal(SIGTRAP, instance.signalReceiver)
+        signal(SIGABRT, instance.signalReceiver)
+        signal(SIGEMT, instance.signalReceiver)
+        signal(SIGFPE, instance.signalReceiver)
+        signal(SIGBUS, instance.signalReceiver)
+        signal(SIGSEGV, instance.signalReceiver)
+        signal(SIGSYS, instance.signalReceiver)
+        signal(SIGPIPE, instance.signalReceiver)
+        signal(SIGALRM, instance.signalReceiver)
+        signal(SIGXCPU, instance.signalReceiver)
+        signal(SIGXFSZ, instance.signalReceiver)
     }
 
-    func launch() {
+    static func launch(_ completion: @escaping NotificareCallback<Void>) {
         guard let event = LocalStorage.crashReport else {
             NotificareLogger.debug("No crash report to process.")
+            completion(.success(()))
             return
         }
 
@@ -52,23 +57,27 @@ struct NotificareCrashReporter {
                     NotificareLogger.debug("\(error)")
                 }
             }
+
+        completion(.success(()))
     }
+
+    // MARK: - Internal API
 
     private let uncaughtExceptionHandler: @convention(c) (NSException) -> Void = { exception in
         let timestamp = Int64(Date().timeIntervalSince1970 * 1000)
 
         LocalStorage.crashReport = NotificareEvent(
-            type: NotificareDefinitions.Events.applicationException,
+            type: "re.notifica.event.application.Exception",
             timestamp: timestamp,
-            deviceId: Notificare.shared.deviceManager.currentDevice?.id,
-            sessionId: Notificare.shared.sessionManager.sessionId,
+            deviceId: Notificare.shared.device().currentDevice?.id,
+            sessionId: Notificare.shared.session().sessionId,
             notificationId: nil,
-            userId: Notificare.shared.deviceManager.currentDevice?.userId,
+            userId: Notificare.shared.device().currentDevice?.userId,
             data: [
                 "platform": "iOS",
                 "osVersion": NotificareUtils.osVersion,
                 "deviceString": NotificareUtils.deviceString,
-                "sdkVersion": NotificareDefinitions.sdkVersion,
+                "sdkVersion": Notificare.SDK_VERSION,
                 "appVersion": NotificareUtils.applicationVersion,
                 "timestamp": timestamp,
                 "name": exception.name.rawValue,
@@ -101,17 +110,17 @@ struct NotificareCrashReporter {
         }
 
         LocalStorage.crashReport = NotificareEvent(
-            type: NotificareDefinitions.Events.applicationException,
+            type: "re.notifica.event.application.Exception",
             timestamp: timestamp,
-            deviceId: Notificare.shared.deviceManager.currentDevice?.id,
-            sessionId: Notificare.shared.sessionManager.sessionId,
+            deviceId: Notificare.shared.device().currentDevice?.id,
+            sessionId: Notificare.shared.session().sessionId,
             notificationId: nil,
-            userId: Notificare.shared.deviceManager.currentDevice?.userId,
+            userId: Notificare.shared.device().currentDevice?.userId,
             data: [
                 "platform": "iOS",
                 "osVersion": NotificareUtils.osVersion,
                 "deviceString": NotificareUtils.deviceString,
-                "sdkVersion": NotificareDefinitions.sdkVersion,
+                "sdkVersion": Notificare.SDK_VERSION,
                 "appVersion": NotificareUtils.applicationVersion,
                 "timestamp": timestamp,
                 "name": name,

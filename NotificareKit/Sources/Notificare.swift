@@ -9,15 +9,16 @@ public typealias NotificareCallback<T> = (Result<T, Error>) -> Void
 public class Notificare {
     public static let shared = Notificare()
 
+    public static var SDK_VERSION: String {
+        let bundle = Bundle(for: Self.self)
+        let version = bundle.infoDictionary?["CFBundleShortVersionString"] as? String
+
+        return version ?? ""
+    }
+
     // Internal modules
-    internal let crashReporter = NotificareCrashReporter()
-    internal let sessionManager = NotificareSessionManager()
     internal let database = NotificareDatabase()
     internal private(set) var reachability: NotificareReachability?
-
-    // Consumer modules
-    public let eventsManager = NotificareEventsModule()
-    public let deviceManager = NotificareDeviceManager()
 
     // Configuration variables
     public private(set) var servicesInfo: NotificareServicesInfo?
@@ -37,9 +38,9 @@ public class Notificare {
 
     public weak var delegate: NotificareDelegate?
 
-    public var useAdvancedLogging: Bool {
-        get { NotificareLogger.useAdvancedLogging }
-        set { NotificareLogger.useAdvancedLogging = newValue }
+    public var hasDebugLoggingEnabled: Bool {
+        get { NotificareLogger.hasDebugLoggingEnabled }
+        set { NotificareLogger.hasDebugLoggingEnabled = newValue }
     }
 
     private init() {}
@@ -89,7 +90,7 @@ public class Notificare {
             var swizzleApns = false
 
             // Check if the Push module is loaded.
-            if NotificareDefinitions.Modules.push.isAvailable {
+            if NotificareInternals.Module.push.isAvailable {
                 swizzleApns = true
             }
 
@@ -103,15 +104,11 @@ public class Notificare {
         }
 
         NotificareLogger.debug("Configuring available modules.")
-        sessionManager.configure()
-        crashReporter.configure()
         database.configure()
-        eventsManager.configure()
-        deviceManager.configure()
 
-        NotificareDefinitions.Modules.allCases.forEach { module in
+        NotificareInternals.Module.allCases.forEach { module in
             if let instance = module.instance {
-                NotificareLogger.debug("Configuring plugin: \(module.rawValue)")
+                NotificareLogger.debug("Configuring module: \(module)")
                 instance.configure()
             }
         }
@@ -134,8 +131,6 @@ public class Notificare {
         NotificareLogger.info("Launching Notificare.")
         state = .launching
 
-        sessionManager.launch()
-
         do {
             // Start listening for reachability events.
             NotificareLogger.debug("Start listening to reachability events.")
@@ -149,51 +144,39 @@ public class Notificare {
         fetchApplication { result in
             switch result {
             case let .success(application):
-                // Launch the device manager: registration.
-                self.deviceManager.launch { _ in
-                    // Ignore the error if device registration fails.
+                // Keep a reference to a possible failure during the launch of the plugins.
+                var latestPluginLaunchError: Error?
 
-                    // Launch the event logger
-                    self.eventsManager.launch()
-                    self.crashReporter.launch()
+                // Keep track of launchables and handle the outcome once they have all finished launching.
+                let dispatchGroup = DispatchGroup()
 
-                    // Keep a reference to a possible failure during the launch of the plugins.
-                    var latestPluginLaunchError: Error?
+                // Loop all possible modules and launch the available ones.
+                NotificareInternals.Module.allCases.forEach { module in
+                    if let instance = module.instance {
+                        dispatchGroup.enter()
 
-                    // Keep track of launchables and handle the outcome once they have all finished launching.
-                    let dispatchGroup = DispatchGroup()
-
-                    // Loop all possible modules and launch the available ones.
-                    NotificareDefinitions.Modules.allCases.forEach { module in
-                        if let instance = module.instance {
-                            dispatchGroup.enter()
-
-                            NotificareLogger.debug("Launching '\(module.rawValue)' plugin.")
-                            instance.launch { result in
-                                switch result {
-                                case .success:
-                                    NotificareLogger.debug("Launched '\(module.rawValue)' successfully.")
-                                case let .failure(error):
-                                    NotificareLogger.debug("Failed to launch '\(module.rawValue)': \(error)")
-                                    latestPluginLaunchError = error
-                                }
-
-                                dispatchGroup.leave()
+                        NotificareLogger.debug("Launching module: \(module)")
+                        instance.launch { result in
+                            if case let .failure(error) = result {
+                                NotificareLogger.debug("Failed to launch '\(module)': \(error)")
+                                latestPluginLaunchError = error
                             }
+
+                            dispatchGroup.leave()
                         }
                     }
+                }
 
-                    dispatchGroup.notify(queue: .main) {
-                        if let error = latestPluginLaunchError {
-                            self.launchResult(.failure(error))
-                        } else {
-                            self.launchResult(.success(application))
-                        }
+                dispatchGroup.notify(queue: .main) {
+                    if let error = latestPluginLaunchError {
+                        self.handleLaunchResult(.failure(error))
+                    } else {
+                        self.handleLaunchResult(.success(application))
                     }
                 }
             case let .failure(error):
                 NotificareLogger.error("Failed to load the application info: \(error)")
-                self.launchResult(.failure(error))
+                self.handleLaunchResult(.failure(error))
             }
         }
     }
@@ -206,7 +189,7 @@ public class Notificare {
 
         NotificareLogger.info("Un-launching Notificare.")
 
-        deviceManager.registerTemporary { result in
+        deviceImplementation().registerTemporary { result in
             switch result {
             case .success:
                 NotificareLogger.debug("Registered device as temporary.")
@@ -218,16 +201,13 @@ public class Notificare {
                 let dispatchGroup = DispatchGroup()
 
                 // Loop all possible modules and un-launch the available ones.
-                NotificareDefinitions.Modules.allCases.reversed().forEach { module in
+                NotificareInternals.Module.allCases.reversed().forEach { module in
                     if let instance = module.instance {
                         dispatchGroup.enter()
 
-                        NotificareLogger.debug("Un-launching '\(module.rawValue)' plugin.")
+                        NotificareLogger.debug("Un-launching module: \(module.rawValue)")
                         instance.unlaunch { result in
-                            switch result {
-                            case .success:
-                                NotificareLogger.debug("Un-launched '\(module.rawValue)' successfully.")
-                            case let .failure(error):
+                            if case let .failure(error) = result {
                                 NotificareLogger.debug("Failed to un-launch '\(module.rawValue)': \(error)")
                                 latestPluginUnlaunchError = error
                             }
@@ -239,12 +219,12 @@ public class Notificare {
 
                 dispatchGroup.notify(queue: .main) {
                     if latestPluginUnlaunchError == nil {
-                        self.deviceManager.clearTags { result in
+                        self.device().clearTags { result in
                             switch result {
                             case .success:
                                 NotificareLogger.debug("Removed all device tags.")
 
-                                self.deviceManager.delete { result in
+                                self.deviceImplementation().delete { result in
                                     switch result {
                                     case .success:
                                         NotificareLogger.debug("Removed the device.")
@@ -292,8 +272,8 @@ public class Notificare {
         NotificareRequest.Builder()
             .get("/link/dynamic/\(urlEncodedLink)")
             .query(name: "platform", value: "iOS")
-            .query(name: "deviceID", value: Notificare.shared.deviceManager.currentDevice?.id)
-            .query(name: "userID", value: Notificare.shared.deviceManager.currentDevice?.userId)
+            .query(name: "deviceID", value: Notificare.shared.device().currentDevice?.id)
+            .query(name: "userID", value: Notificare.shared.device().currentDevice?.userId)
             .responseDecodable(NotificareInternals.PushAPI.Responses.DynamicLink.self) { result in
                 switch result {
                 case let .success(response):
@@ -320,7 +300,7 @@ public class Notificare {
     }
 
     public func createNotificationReply(notification: NotificareNotification, action: NotificareNotification.Action, message: String? = nil, media: String? = nil, mimeType: String? = nil, _ completion: @escaping NotificareCallback<Void>) {
-        guard isReady, let device = deviceManager.currentDevice else {
+        guard isReady, let device = device().currentDevice else {
             completion(.failure(NotificareError.notReady))
             return
         }
@@ -363,8 +343,8 @@ public class Notificare {
         }
 
         // Add our standard properties.
-        params["userID"] = deviceManager.currentDevice?.userId
-        params["deviceID"] = deviceManager.currentDevice?.id
+        params["userID"] = device().currentDevice?.userId
+        params["deviceID"] = device().currentDevice?.id
 
         // Add all the items passed via data.
         data.forEach { params[$0.key] = $0.value }
@@ -410,7 +390,7 @@ public class Notificare {
             return false
         }
 
-        deviceManager.registerTestDevice(nonce: nonce) { result in
+        deviceImplementation().registerTestDevice(nonce: nonce) { result in
             switch result {
             case .success:
                 NotificareLogger.info("Device registered for testing.")
@@ -470,13 +450,13 @@ public class Notificare {
         }
     }
 
-    private func launchResult(_ result: Result<NotificareApplication, Error>) {
+    private func handleLaunchResult(_ result: Result<NotificareApplication, Error>) {
         switch result {
         case let .success(application):
             state = .ready
 
             let enabledServices = application.services.filter(\.value).map(\.key)
-            let enabledModules = NotificareUtils.getLoadedModules()
+            let enabledModules = NotificareUtils.getEnabledPeerModules()
 
             NotificareLogger.debug("/==================================================================================/")
             NotificareLogger.debug("Notificare SDK is ready to use for application")
@@ -484,7 +464,7 @@ public class Notificare {
             NotificareLogger.debug("App ID: \(application.id)")
             NotificareLogger.debug("App services: \(enabledServices.joined(separator: ", "))")
             NotificareLogger.debug("/==================================================================================/")
-            NotificareLogger.debug("SDK version: \(NotificareDefinitions.sdkVersion)")
+            NotificareLogger.debug("SDK version: \(Notificare.SDK_VERSION)")
             NotificareLogger.debug("SDK modules: \(enabledModules.joined(separator: ", "))")
             NotificareLogger.debug("/==================================================================================/")
 

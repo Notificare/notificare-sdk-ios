@@ -49,10 +49,10 @@ public class NotificareWebViewActionHandler: NotificareBaseActionHandler {
                     }
                 }
 
-                NotificarePushUI.shared.presentController(safariViewController, in: self.sourceViewController)
+                self.sourceViewController.presentOrPush(safariViewController)
             }
         } else {
-            NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFailToExecuteAction: action, for: notification, error: ActionError.invalidUrl)
+            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToExecuteAction: action, for: notification, error: ActionError.invalidUrl)
         }
     }
 }
@@ -60,10 +60,10 @@ public class NotificareWebViewActionHandler: NotificareBaseActionHandler {
 extension NotificareWebViewActionHandler: SFSafariViewControllerDelegate {
     public func safariViewController(_: SFSafariViewController, didCompleteInitialLoad successfully: Bool) {
         if successfully {
-            NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didExecuteAction: action, for: notification)
+            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didExecuteAction: action, for: notification)
             Notificare.shared.createNotificationReply(notification: notification, action: action) { _ in }
         } else {
-            NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFailToExecuteAction: action, for: notification, error: nil)
+            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToExecuteAction: action, for: notification, error: nil)
         }
     }
 }

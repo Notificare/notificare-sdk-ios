@@ -4,59 +4,70 @@
 
 import UIKit
 
-private let maxRetries = 5
+private let MAX_RETRIES = 5
+private let UPLOAD_TASK_NAME = "re.notifica.tasks.events.Upload"
 
-public class NotificareEventsModule {
+internal class NotificareEventsModuleImpl: NSObject, NotificareModule, NotificareEventsModule, NotificareInternalEventsModule {
+    internal static let instance = NotificareEventsModuleImpl()
+
     private let discardableEvents = [String]()
     private var processEventsTaskIdentifier: UIBackgroundTaskIdentifier?
 
-    func configure() {
-        _ = NotificareSwizzler.addInterceptor(self)
+    // MARK: - Notificare Module
 
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(reachabilityChanged(notification:)),
+    static func configure() {
+        // Listen to application did become active events.
+        NotificationCenter.default.addObserver(instance,
+                                               selector: #selector(onApplicationDidBecomeActiveNotification(_:)),
+                                               name: UIApplication.didBecomeActiveNotification,
+                                               object: nil)
+
+        // Listen to reachability changed events.
+        NotificationCenter.default.addObserver(instance,
+                                               selector: #selector(onReachabilityChanged(_:)),
                                                name: .reachabilityChanged,
                                                object: nil)
     }
 
-    func launch() {
-        processStoredEvents()
+    static func launch(_ completion: @escaping NotificareCallback<Void>) {
+        instance.processStoredEvents()
+        completion(.success(()))
     }
 
-    public func logApplicationInstall(_ completion: NotificareCallback<Void>? = nil) {
-        log(NotificareDefinitions.Events.applicationInstall, completion)
+    // MARK: - Notificare Events
+
+    func logApplicationInstall(_ completion: @escaping NotificareCallback<Void>) {
+        log("re.notifica.event.application.Install", completion)
     }
 
-    public func logApplicationRegistration(_ completion: NotificareCallback<Void>? = nil) {
-        log(NotificareDefinitions.Events.applicationRegistration, completion)
+    func logApplicationRegistration(_ completion: @escaping NotificareCallback<Void>) {
+        log("re.notifica.event.application.Registration", completion)
     }
 
-    public func logApplicationUpgrade(_ completion: NotificareCallback<Void>? = nil) {
-        log(NotificareDefinitions.Events.applicationUpgrade, completion)
+    func logApplicationUpgrade(_ completion: @escaping NotificareCallback<Void>) {
+        log("re.notifica.event.application.Upgrade", completion)
     }
 
-    public func logApplicationOpen(_ completion: NotificareCallback<Void>? = nil) {
-        log(NotificareDefinitions.Events.applicationOpen, completion)
+    func logApplicationOpen(_ completion: @escaping NotificareCallback<Void>) {
+        log("re.notifica.event.application.Open", completion)
     }
 
-    public func logApplicationClose(length: TimeInterval, _ completion: NotificareCallback<Void>? = nil) {
-        log(NotificareDefinitions.Events.applicationClose, data: ["length": String(length)], completion)
+    func logApplicationClose(sessionLength: Double, _ completion: @escaping NotificareCallback<Void>) {
+        log("re.notifica.event.application.Close", data: ["length": String(sessionLength)], completion)
     }
 
-    public func logNotificationOpen(_ notification: NotificareNotification, _ completion: NotificareCallback<Void>? = nil) {
-        logNotificationOpen(notification.id, completion)
+    func logNotificationOpen(_ id: String, _ completion: @escaping NotificareCallback<Void>) {
+        log("re.notifica.event.notification.Open", data: nil, for: id, completion)
     }
 
-    public func logNotificationOpen(_ notificationId: String, _ completion: NotificareCallback<Void>? = nil) {
-        log(NotificareDefinitions.Events.notificationOpen, data: nil, for: notificationId, completion)
-    }
-
-    public func logCustom(_ event: String, data: NotificareEventData? = nil, _ completion: @escaping NotificareCallback<Void>) {
+    func logCustom(_ event: String, data: NotificareEventData?, _ completion: @escaping NotificareCallback<Void>) {
         log("re.notifica.event.custom.\(event)", data: data, completion)
     }
 
-    public func log(_ event: String, data: NotificareEventData? = nil, for notification: String? = nil, _ completion: NotificareCallback<Void>? = nil) {
-        guard let device = Notificare.shared.deviceManager.currentDevice else {
+    // MARK: - Notificare Internal Events
+
+    func log(_ event: String, data: NotificareEventData?, for notification: String?, _ completion: @escaping NotificareCallback<Void>) {
+        guard let device = Notificare.shared.device().currentDevice else {
             NotificareLogger.warning("Cannot send an event before a device is registered.")
             return
         }
@@ -69,7 +80,7 @@ public class NotificareEventsModule {
             type: type,
             timestamp: Int64(Date().timeIntervalSince1970 * 1000),
             deviceId: device.id,
-            sessionId: Notificare.shared.sessionManager.sessionId,
+            sessionId: Notificare.shared.session().sessionId,
             notificationId: notification,
             userId: device.userId,
             data: data
@@ -77,6 +88,8 @@ public class NotificareEventsModule {
 
         log(event, completion)
     }
+
+    // MARK: - Internal API
 
     private func log(_ event: NotificareEvent, _ completion: NotificareCallback<Void>?) {
         NotificareRequest.Builder()
@@ -104,18 +117,10 @@ public class NotificareEventsModule {
                 }
             }
     }
-}
-
-// MARK: - NotificareAppDelegateInterceptor
-
-extension NotificareEventsModule: NotificareAppDelegateInterceptor {
-    public func applicationDidBecomeActive(_: UIApplication) {
-        processStoredEvents()
-    }
 
     private func processStoredEvents() {
         // Check that Notificare is ready to process the events.
-        guard Notificare.shared.state >= .ready else {
+        guard Notificare.shared.state >= .configured else {
             NotificareLogger.debug("Notificare is not ready yet. Skipping...")
             return
         }
@@ -129,7 +134,7 @@ extension NotificareEventsModule: NotificareAppDelegateInterceptor {
         // Run the task on a background queue.
         DispatchQueue.global(qos: .background).async {
             // Notify the system about a long running task.
-            self.processEventsTaskIdentifier = UIApplication.shared.beginBackgroundTask(withName: NotificareDefinitions.Tasks.processEvents) {
+            self.processEventsTaskIdentifier = UIApplication.shared.beginBackgroundTask(withName: UPLOAD_TASK_NAME) {
                 // Check the task is still running.
                 guard let taskId = self.processEventsTaskIdentifier else {
                     return
@@ -214,7 +219,7 @@ extension NotificareEventsModule: NotificareAppDelegateInterceptor {
                         // Increase the attempts counter.
                         managedEvent.retries += 1
 
-                        if managedEvent.retries < maxRetries {
+                        if managedEvent.retries < MAX_RETRIES {
                             // Persist the attempts counter.
                             Notificare.shared.database.saveChanges()
                         } else {
@@ -233,16 +238,20 @@ extension NotificareEventsModule: NotificareAppDelegateInterceptor {
         // Wait until the request finishes.
         group.wait()
     }
-}
 
-// MARK: - Reachability
+    @objc private func onApplicationDidBecomeActiveNotification(_: Notification) {
+        guard Notificare.shared.isReady else { return }
 
-extension NotificareEventsModule {
-    @objc private func reachabilityChanged(notification _: Notification) {
+        processStoredEvents()
+    }
+
+    @objc private func onReachabilityChanged(_: Notification) {
         guard let reachability = Notificare.shared.reachability else {
             NotificareLogger.debug("Reachbility module not configure.")
             return
         }
+
+        guard Notificare.shared.isReady else { return }
 
         switch reachability.connection {
         case .unavailable:

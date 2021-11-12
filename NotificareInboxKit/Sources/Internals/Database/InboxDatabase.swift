@@ -8,7 +8,7 @@ import NotificareKit
 
 class InboxDatabase: NotificareAbstractDatabase {
     init() {
-        super.init(name: "NotificareInboxDataModel", rebuildOnVersionChange: true)
+        super.init(name: "NotificareInboxDatabase", rebuildOnVersionChange: true)
     }
 
     func add(_ item: NotificareInboxItem) -> InboxItemEntity {

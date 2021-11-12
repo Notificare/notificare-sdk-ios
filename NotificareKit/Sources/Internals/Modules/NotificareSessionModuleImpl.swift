@@ -2,9 +2,14 @@
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
+import Foundation
 import UIKit
 
-class NotificareSessionManager {
+private let SESSION_CLOSE_TASK_NAME = "re.notifica.tasks.session.Close"
+
+internal class NotificareSessionModuleImpl: NSObject, NotificareModule {
+    internal static let instance = NotificareSessionModuleImpl()
+
     internal private(set) var sessionId: String?
     private var sessionStart: Date?
     private var sessionEnd: Date?
@@ -18,21 +23,23 @@ class NotificareSessionManager {
         return formatter
     }()
 
-    func configure() {
+    // MARK: - Notificare Module
+
+    static func configure() {
         // Listen to 'application did become active'
-        NotificationCenter.default.addObserver(self,
+        NotificationCenter.default.addObserver(instance,
                                                selector: #selector(applicationDidBecomeActive),
                                                name: UIApplication.didBecomeActiveNotification,
                                                object: nil)
 
         // Listen to 'application will resign active'
-        NotificationCenter.default.addObserver(self,
+        NotificationCenter.default.addObserver(instance,
                                                selector: #selector(applicationWillResignActive),
                                                name: UIApplication.willResignActiveNotification,
                                                object: nil)
     }
 
-    func launch() {}
+    // MARK: - Internal API
 
     @objc private func applicationDidBecomeActive() {
         guard UIApplication.shared.applicationState == .active else {
@@ -55,8 +62,8 @@ class NotificareSessionManager {
         self.sessionStart = sessionStart
         sessionEnd = nil
 
-        NotificareLogger.debug("Session '\(sessionId)' started at \(dateFormatter.string(from: sessionStart))")
-        Notificare.shared.eventsManager.logApplicationOpen()
+        NotificareLogger.debug("Session '\(sessionId)' started at \(dateFormatter.string(from: sessionStart)).")
+        Notificare.shared.events().logApplicationOpen { _ in }
     }
 
     @objc private func applicationWillResignActive() {
@@ -73,11 +80,11 @@ class NotificareSessionManager {
         let sessionEnd = Date()
         self.sessionEnd = sessionEnd
 
-        NotificareLogger.debug("Session '\(sessionId)' stopped at \(dateFormatter.string(from: sessionEnd))")
+        NotificareLogger.debug("Session '\(sessionId)' stopped at \(dateFormatter.string(from: sessionEnd)).")
 
         // Wait a few seconds before sending a close event.
         // This prevents quick app swaps, navigation pulls, etc.
-        backgroundTask = UIApplication.shared.beginBackgroundTask(withName: NotificareDefinitions.Tasks.applicationClose) { [weak self] in
+        backgroundTask = UIApplication.shared.beginBackgroundTask(withName: SESSION_CLOSE_TASK_NAME) { [weak self] in
             NotificareLogger.debug("Background task expiration handler triggered.")
             guard let self = self else {
                 return
@@ -105,7 +112,7 @@ class NotificareSessionManager {
 
             let length = sessionEnd.timeIntervalSince(sessionStart)
             NotificareLogger.info("Application closed event registered for session '\(sessionId)' with a length of \(length) seconds.")
-            Notificare.shared.eventsManager.logApplicationClose(length: length)
+            Notificare.shared.events().logApplicationClose(sessionLength: length) { _ in }
 
             // Reset the session.
             self.sessionId = nil

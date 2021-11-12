@@ -4,8 +4,8 @@
 
 import UIKit
 
-private typealias ApplicationDidBecomeActive = @convention(c) (Any, Selector, UIApplication) -> Void
-private typealias ApplicationWillResignActive = @convention(c) (Any, Selector, UIApplication) -> Void
+// private typealias ApplicationDidBecomeActive = @convention(c) (Any, Selector, UIApplication) -> Void
+// private typealias ApplicationWillResignActive = @convention(c) (Any, Selector, UIApplication) -> Void
 private typealias ApplicationDidRegisterForRemoteNotificationsWithDeviceToken = @convention(c) (Any, Selector, UIApplication, Data) -> Void
 private typealias ApplicationDidFailToRegisterForRemoteNotificationsWithError = @convention(c) (Any, Selector, UIApplication, Error) -> Void
 private typealias ApplicationDidReceiveRemoteNotification = @convention(c) (Any, Selector, UIApplication, [AnyHashable: Any], @escaping (UIBackgroundFetchResult) -> Void) -> Void
@@ -157,25 +157,25 @@ public class NotificareSwizzler: NSProxy {
         let originalClass = type(of: originalDelegate)
         var originalImplementationsStore: [String: NSValue] = [:]
 
-        // For applicationDidBecomeActive:
-        proxyInstanceMethod(
-            toClass: subClass,
-            withSelector: #selector(applicationDidBecomeActive(_:)),
-            fromClass: NotificareSwizzler.self,
-            fromSelector: #selector(applicationDidBecomeActive(_:)),
-            withOriginalClass: originalClass,
-            storeOriginalImplementationInto: &originalImplementationsStore
-        )
-
-        // For applicationWillResignActive:
-        proxyInstanceMethod(
-            toClass: subClass,
-            withSelector: #selector(applicationWillResignActive(_:)),
-            fromClass: NotificareSwizzler.self,
-            fromSelector: #selector(applicationWillResignActive(_:)),
-            withOriginalClass: originalClass,
-            storeOriginalImplementationInto: &originalImplementationsStore
-        )
+//        // For applicationDidBecomeActive:
+//        proxyInstanceMethod(
+//            toClass: subClass,
+//            withSelector: #selector(applicationDidBecomeActive(_:)),
+//            fromClass: NotificareSwizzler.self,
+//            fromSelector: #selector(applicationDidBecomeActive(_:)),
+//            withOriginalClass: originalClass,
+//            storeOriginalImplementationInto: &originalImplementationsStore
+//        )
+//
+//        // For applicationWillResignActive:
+//        proxyInstanceMethod(
+//            toClass: subClass,
+//            withSelector: #selector(applicationWillResignActive(_:)),
+//            fromClass: NotificareSwizzler.self,
+//            fromSelector: #selector(applicationWillResignActive(_:)),
+//            withOriginalClass: originalClass,
+//            storeOriginalImplementationInto: &originalImplementationsStore
+//        )
 
         // For application(_:open:options:)
         proxyInstanceMethod(
@@ -345,33 +345,33 @@ public class NotificareSwizzler: NSProxy {
 }
 
 extension NotificareSwizzler {
-    @objc private func applicationDidBecomeActive(_ application: UIApplication) {
-        NotificareSwizzler.interceptors.forEach { _, interceptor in
-            interceptor.applicationDidBecomeActive?(application)
-        }
-
-        let selector = #selector(applicationDidBecomeActive)
-        let originalImplementation: ApplicationDidBecomeActive? = NotificareSwizzler.originalMethodImplementation(
-            for: selector,
-            object: self
-        )
-
-        originalImplementation?(self, selector, application)
-    }
-
-    @objc private func applicationWillResignActive(_ application: UIApplication) {
-        NotificareSwizzler.interceptors.forEach { _, interceptor in
-            interceptor.applicationWillResignActive?(application)
-        }
-
-        let selector = #selector(applicationWillResignActive)
-        let originalImplementation: ApplicationWillResignActive? = NotificareSwizzler.originalMethodImplementation(
-            for: selector,
-            object: self
-        )
-
-        originalImplementation?(self, selector, application)
-    }
+//    @objc private func applicationDidBecomeActive(_ application: UIApplication) {
+//        NotificareSwizzler.interceptors.forEach { _, interceptor in
+//            interceptor.applicationDidBecomeActive?(application)
+//        }
+//
+//        let selector = #selector(applicationDidBecomeActive)
+//        let originalImplementation: ApplicationDidBecomeActive? = NotificareSwizzler.originalMethodImplementation(
+//            for: selector,
+//            object: self
+//        )
+//
+//        originalImplementation?(self, selector, application)
+//    }
+//
+//    @objc private func applicationWillResignActive(_ application: UIApplication) {
+//        NotificareSwizzler.interceptors.forEach { _, interceptor in
+//            interceptor.applicationWillResignActive?(application)
+//        }
+//
+//        let selector = #selector(applicationWillResignActive)
+//        let originalImplementation: ApplicationWillResignActive? = NotificareSwizzler.originalMethodImplementation(
+//            for: selector,
+//            object: self
+//        )
+//
+//        originalImplementation?(self, selector, application)
+//    }
 
     @objc private func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         NotificareSwizzler.interceptors.forEach { _, interceptor in
