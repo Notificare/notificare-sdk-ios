@@ -86,7 +86,7 @@ public class NotificareWebPassViewController: NotificareBaseNotificationViewCont
         let id = components[components.count - 1]
 
         guard let url = URL(string: "\(host)/pass/web/\(id)?showWebVersion=1") else {
-            NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFailToPresentNotification: notification)
+            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToPresentNotification: notification)
             return
         }
 
