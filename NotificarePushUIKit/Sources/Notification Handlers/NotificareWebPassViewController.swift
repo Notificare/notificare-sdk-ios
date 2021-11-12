@@ -76,8 +76,7 @@ public class NotificareWebPassViewController: NotificareBaseNotificationViewCont
     private func setupContent() {
         guard let content = notification.content.first,
               let passUrlStr = content.data as? String,
-              let host = Notificare.shared.servicesInfo?.services.webPassHost,
-              let application = Notificare.shared.application
+              let host = Notificare.shared.servicesInfo?.services.pushHost
         else {
             Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToPresentNotification: notification)
             return
@@ -86,8 +85,8 @@ public class NotificareWebPassViewController: NotificareBaseNotificationViewCont
         let components = passUrlStr.components(separatedBy: "/")
         let id = components[components.count - 1]
 
-        guard let url = URL(string: "\(host)/#/\(application.id)/\(id)") else {
-            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToPresentNotification: notification)
+        guard let url = URL(string: "\(host)/pass/web/\(id)?showWebVersion=1") else {
+            NotificarePushUI.shared.delegate?.notificare(NotificarePushUI.shared, didFailToPresentNotification: notification)
             return
         }
 
@@ -105,9 +104,23 @@ public class NotificareWebPassViewController: NotificareBaseNotificationViewCont
 }
 
 extension NotificareWebPassViewController: WKNavigationDelegate, WKUIDelegate {
-//    public func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-//
-//    }
+    public func webView(_: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        if navigationAction.targetFrame == nil, let url = navigationAction.request.url {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            decisionHandler(.cancel)
+        } else {
+            decisionHandler(.allow)
+        }
+    }
+
+    public func webView(_: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
+        if navigationResponse.response.mimeType == "application/vnd.apple.pkpass", let url = navigationResponse.response.url {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            decisionHandler(.cancel)
+        } else {
+            decisionHandler(.allow)
+        }
+    }
 
     public func webView(_: WKWebView, didFail _: WKNavigation!, withError _: Error) {
         Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToPresentNotification: notification)
