@@ -163,9 +163,9 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
             throw NotificareError.applicationUnavailable
         }
 
-        guard application.services["locationServices"] == true else {
+        guard application.services[NotificareApplication.ServiceKey.locationServices.rawValue] == true else {
             NotificareLogger.warning("Notificare location functionality is not enabled.")
-            throw NotificareError.serviceUnavailable(module: "locationServices")
+            throw NotificareError.serviceUnavailable(service: NotificareApplication.ServiceKey.locationServices.rawValue)
         }
     }
 
@@ -180,7 +180,7 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
             NotificareLogger.warning("Please add a text explaning why you need location updates in \"NSLocationAlwaysAndWhenInUseUsageDescription\", \"NSLocationAlwaysUsageDescription\" and \"NSLocationWhenInUseUsageDescription\" entries of your app's Info.plist before proceeding.")
             NotificareLogger.warning("/==================================================================================/")
 
-            throw NotificareGeoError.missingPlistEntries
+            throw NotificareGeoError.permissionEntriesMissing
         }
     }
 
@@ -1375,8 +1375,4 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
         case reduced
         case full
     }
-}
-
-public enum NotificareGeoError: Error {
-    case missingPlistEntries
 }

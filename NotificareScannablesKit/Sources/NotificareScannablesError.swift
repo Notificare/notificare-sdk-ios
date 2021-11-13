@@ -4,6 +4,6 @@
 
 import Foundation
 
-public enum NotificareInboxError: Error {
-    case autoBadgeUnavailable
+public enum NotificareScannablesError: Error {
+    case unsupportedScannable
 }

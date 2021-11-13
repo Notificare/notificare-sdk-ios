@@ -209,7 +209,7 @@ public struct NotificareRequest {
             let url = try computeCompleteUrl()
 
             guard let method = method else {
-                throw NotificareError.generic(message: "Please provide the HTTP method for the request.")
+                throw NotificareError.invalidArgument(message: "Provide the HTTP method for the request.")
             }
 
             var request = URLRequest(url: url)
@@ -257,12 +257,12 @@ public struct NotificareRequest {
 
         private func computeCompleteUrl() throws -> URL {
             guard var urlStr = url else {
-                throw NotificareError.generic(message: "Please provide the URL for the request.")
+                throw NotificareError.invalidArgument(message: "Provide a URL for the request.")
             }
 
             if !urlStr.starts(with: "http://"), !urlStr.starts(with: "https://") {
                 guard let baseUrl = baseUrl ?? Notificare.shared.servicesInfo?.services.pushHost else {
-                    throw NotificareError.generic(message: "Unable to determine the base url for the request.")
+                    throw NotificareError.invalidArgument(message: "Unable to determine the base url for the request.")
                 }
 
                 urlStr = !baseUrl.hasSuffix("/") && !urlStr.hasPrefix("/")
@@ -271,7 +271,7 @@ public struct NotificareRequest {
             }
 
             guard var url = URL(string: urlStr) else {
-                throw NotificareError.generic(message: "Unable to parse url string '\(urlStr)'.")
+                throw NotificareError.invalidArgument(message: "Invalid url '\(urlStr)'.")
             }
 
             if !queryItems.isEmpty {

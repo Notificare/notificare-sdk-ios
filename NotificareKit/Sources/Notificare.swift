@@ -262,6 +262,11 @@ public class Notificare {
     }
 
     public func fetchDynamicLink(_ link: String, _ completion: @escaping NotificareCallback<NotificareDynamicLink>) {
+        guard isConfigured else {
+            completion(.failure(NotificareError.notConfigured))
+            return
+        }
+
         let urlEncodedLink = link.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
 
         NotificareRequest.Builder()
@@ -281,6 +286,11 @@ public class Notificare {
     }
 
     public func fetchNotification(_ id: String, _ completion: @escaping NotificareCallback<NotificareNotification>) {
+        guard isConfigured else {
+            completion(.failure(NotificareError.notConfigured))
+            return
+        }
+
         NotificareRequest.Builder()
             .get("/notification/\(id)")
             .responseDecodable(NotificareInternals.PushAPI.Responses.Notification.self) { result in
@@ -295,8 +305,13 @@ public class Notificare {
     }
 
     public func createNotificationReply(notification: NotificareNotification, action: NotificareNotification.Action, message: String? = nil, media: String? = nil, mimeType: String? = nil, _ completion: @escaping NotificareCallback<Void>) {
-        guard isReady, let device = device().currentDevice else {
-            completion(.failure(NotificareError.notReady))
+        guard isConfigured else {
+            completion(.failure(NotificareError.notConfigured))
+            return
+        }
+
+        guard let device = device().currentDevice else {
+            completion(.failure(NotificareError.deviceUnavailable))
             return
         }
 
@@ -357,6 +372,11 @@ public class Notificare {
     }
 
     public func uploadNotificationReplyAsset(_ data: Data, contentType: String, _ completion: @escaping NotificareCallback<String>) {
+        guard isConfigured else {
+            completion(.failure(NotificareError.notConfigured))
+            return
+        }
+
         NotificareRequest.Builder()
             .post("/upload/reply", body: data, contentType: contentType)
             .responseDecodable(NotificareInternals.PushAPI.Responses.UploadAsset.self) { result in

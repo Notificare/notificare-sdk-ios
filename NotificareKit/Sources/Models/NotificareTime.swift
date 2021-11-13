@@ -13,7 +13,7 @@ public struct NotificareTime {
             self.hours = hours
             self.minutes = minutes
         } else {
-            throw NotificareError.invalidArgument
+            throw NotificareError.invalidArgument(message: "Invalid time '\(hours):\(minutes)'.")
         }
     }
 
@@ -24,7 +24,7 @@ public struct NotificareTime {
               let hours = Int(parts[0]),
               let minutes = Int(parts[1])
         else {
-            throw NotificareError.invalidArgument
+            throw NotificareError.invalidArgument(message: "Invalid time '\(string)'.")
         }
 
         try self.init(hours: hours, minutes: minutes)

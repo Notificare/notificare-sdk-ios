@@ -62,15 +62,10 @@ internal class NotificareLoyaltyImpl: NSObject, NotificareModule, NotificareLoya
     }
 
     public func fetchPass(serial: String, _ completion: @escaping NotificareCallback<NotificarePass>) {
-        guard let application = Notificare.shared.application else {
-            NotificareLogger.warning("Notificare application is not yet available.")
-            completion(.failure(NotificareError.applicationUnavailable))
-            return
-        }
-
-        guard application.services["storage"] == true else {
-            NotificareLogger.warning("Notificare storage functionality is not enabled.")
-            completion(.failure(NotificareError.serviceUnavailable(module: "storage")))
+        do {
+            try checkPrerequisites()
+        } catch {
+            completion(.failure(error))
             return
         }
 
@@ -87,15 +82,10 @@ internal class NotificareLoyaltyImpl: NSObject, NotificareModule, NotificareLoya
     }
 
     public func fetchPass(barcode: String, _ completion: @escaping NotificareCallback<NotificarePass>) {
-        guard let application = Notificare.shared.application else {
-            NotificareLogger.warning("Notificare application is not yet available.")
-            completion(.failure(NotificareError.applicationUnavailable))
-            return
-        }
-
-        guard application.services["storage"] == true else {
-            NotificareLogger.warning("Notificare storage functionality is not enabled.")
-            completion(.failure(NotificareError.serviceUnavailable(module: "storage")))
+        do {
+            try checkPrerequisites()
+        } catch {
+            completion(.failure(error))
             return
         }
 
@@ -109,6 +99,30 @@ internal class NotificareLoyaltyImpl: NSObject, NotificareModule, NotificareLoya
                     completion(.failure(error))
                 }
             }
+    }
+
+    // MARK: - Internal API
+
+    private func checkPrerequisites() throws {
+        if !Notificare.shared.isReady {
+            NotificareLogger.warning("Notificare is not ready yet.")
+            throw NotificareError.notReady
+        }
+
+        if Notificare.shared.device().currentDevice == nil {
+            NotificareLogger.warning("Notificare device is not yet available.")
+            throw NotificareError.deviceUnavailable
+        }
+
+        guard let application = Notificare.shared.application else {
+            NotificareLogger.warning("Notificare application is not yet available.")
+            throw NotificareError.applicationUnavailable
+        }
+
+        guard application.services[NotificareApplication.ServiceKey.passbook.rawValue] == true else {
+            NotificareLogger.warning("Notificare loyalty functionality is not enabled.")
+            throw NotificareError.serviceUnavailable(service: NotificareApplication.ServiceKey.passbook.rawValue)
+        }
     }
 
     // MARK: - NotificationCenter events

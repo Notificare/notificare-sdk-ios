@@ -10,15 +10,10 @@ internal class NotificareAssetsImpl: NSObject, NotificareModule, NotificareAsset
     // MARK: - Notificare Assets
 
     func fetch(group: String, _ completion: @escaping NotificareCallback<[NotificareAsset]>) {
-        guard let application = Notificare.shared.application else {
-            NotificareLogger.warning("Notificare application is not yet available.")
-            completion(.failure(NotificareAssetsError.applicationNotAvailable))
-            return
-        }
-
-        guard application.services["storage"] == true else {
-            NotificareLogger.warning("Notificare storage functionality is not enabled.")
-            completion(.failure(NotificareAssetsError.storageNotEnabled))
+        do {
+            try checkPrerequisites()
+        } catch {
+            completion(.failure(error))
             return
         }
 
@@ -37,9 +32,23 @@ internal class NotificareAssetsImpl: NSObject, NotificareModule, NotificareAsset
                 }
             }
     }
-}
 
-public enum NotificareAssetsError: Error {
-    case applicationNotAvailable
-    case storageNotEnabled
+    // MARK: - Internal API
+
+    private func checkPrerequisites() throws {
+        if !Notificare.shared.isReady {
+            NotificareLogger.warning("Notificare is not ready yet.")
+            throw NotificareError.notReady
+        }
+
+        guard let application = Notificare.shared.application else {
+            NotificareLogger.warning("Notificare application is not yet available.")
+            throw NotificareError.applicationUnavailable
+        }
+
+        if application.services[NotificareApplication.ServiceKey.storage.rawValue] != true {
+            NotificareLogger.warning("Notificare storage functionality is not enabled.")
+            throw NotificareError.serviceUnavailable(service: NotificareApplication.ServiceKey.storage.rawValue)
+        }
+    }
 }

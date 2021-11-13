@@ -25,6 +25,21 @@ public struct NotificareApplication: Codable {
 }
 
 public extension NotificareApplication {
+    enum ServiceKey: String {
+        case oauth2
+        case richPush
+        case locationServices
+        case apns
+        case gcm
+        case websockets
+        case passbook
+        case inAppPurchase
+        case inbox
+        case storage
+    }
+}
+
+public extension NotificareApplication {
     struct InboxConfig: Codable {
         public let useInbox: Bool
         public let autoBadge: Bool

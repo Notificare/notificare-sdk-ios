@@ -133,21 +133,19 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
     }
 
     public func refreshBadge(_ completion: @escaping NotificareCallback<Int>) {
-        guard let application = Notificare.shared.application,
-              let device = Notificare.shared.device().currentDevice
-        else {
-            NotificareLogger.warning("Notificare application not yet available.")
-            completion(.failure(NotificareError.notReady))
+        do {
+            try checkPrerequisites()
+        } catch {
+            completion(.failure(error))
             return
         }
 
-        guard application.inboxConfig?.useInbox == true else {
-            NotificareLogger.warning("Notificare inbox functionality is not enabled.")
-            completion(.failure(NotificareInboxError.inboxUnavailable))
+        guard let device = Notificare.shared.device().currentDevice else {
+            completion(.failure(NotificareError.deviceUnavailable))
             return
         }
 
-        guard application.inboxConfig?.autoBadge == true else {
+        guard Notificare.shared.application?.inboxConfig?.autoBadge == true else {
             NotificareLogger.warning("Notificare auto badge functionality is not enabled.")
             completion(.failure(NotificareInboxError.autoBadgeUnavailable))
             return
@@ -174,15 +172,10 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
     }
 
     public func open(_ item: NotificareInboxItem, _ completion: @escaping NotificareCallback<NotificareNotification>) {
-        guard let application = Notificare.shared.application else {
-            NotificareLogger.warning("Notificare application not yet available.")
-            completion(.failure(NotificareError.notReady))
-            return
-        }
-
-        guard application.inboxConfig?.useInbox == true else {
-            NotificareLogger.warning("Notificare inbox functionality is not enabled.")
-            completion(.failure(NotificareInboxError.inboxUnavailable))
+        do {
+            try checkPrerequisites()
+        } catch {
+            completion(.failure(error))
             return
         }
 
@@ -229,14 +222,10 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
     }
 
     public func markAsRead(_ item: NotificareInboxItem, _ completion: @escaping NotificareCallback<Void>) {
-        guard let application = Notificare.shared.application else {
-            NotificareLogger.warning("Notificare application not yet available.")
-            // TODO: we should use completion handler to report a failure.
-            return
-        }
-
-        guard application.inboxConfig?.useInbox == true else {
-            NotificareLogger.warning("Notificare inbox functionality is not enabled.")
+        do {
+            try checkPrerequisites()
+        } catch {
+            completion(.failure(error))
             return
         }
 
@@ -271,17 +260,15 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
     }
 
     public func markAllAsRead(_ completion: @escaping NotificareCallback<Void>) {
-        guard let application = Notificare.shared.application,
-              let device = Notificare.shared.device().currentDevice
-        else {
-            NotificareLogger.warning("Notificare application not yet available.")
-            completion(.failure(NotificareError.notReady))
+        do {
+            try checkPrerequisites()
+        } catch {
+            completion(.failure(error))
             return
         }
 
-        guard application.inboxConfig?.useInbox == true else {
-            NotificareLogger.warning("Notificare inbox functionality is not enabled.")
-            completion(.failure(NotificareInboxError.inboxUnavailable))
+        guard let device = Notificare.shared.device().currentDevice else {
+            completion(.failure(NotificareError.deviceUnavailable))
             return
         }
 
@@ -320,15 +307,10 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
     }
 
     public func remove(_ item: NotificareInboxItem, _ completion: @escaping NotificareCallback<Void>) {
-        guard let application = Notificare.shared.application else {
-            NotificareLogger.warning("Notificare application not yet available.")
-            completion(.failure(NotificareError.notReady))
-            return
-        }
-
-        guard application.inboxConfig?.useInbox == true else {
-            NotificareLogger.warning("Notificare inbox functionality is not enabled.")
-            completion(.failure(NotificareInboxError.inboxUnavailable))
+        do {
+            try checkPrerequisites()
+        } catch {
+            completion(.failure(error))
             return
         }
 
@@ -360,17 +342,15 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
     }
 
     public func clear(_ completion: @escaping NotificareCallback<Void>) {
-        guard let application = Notificare.shared.application,
-              let device = Notificare.shared.device().currentDevice
-        else {
-            NotificareLogger.warning("Notificare application not yet available.")
-            completion(.failure(NotificareError.notReady))
+        do {
+            try checkPrerequisites()
+        } catch {
+            completion(.failure(error))
             return
         }
 
-        guard application.inboxConfig?.useInbox == true else {
-            NotificareLogger.warning("Notificare inbox functionality is not enabled.")
-            completion(.failure(NotificareInboxError.inboxUnavailable))
+        guard let device = Notificare.shared.device().currentDevice else {
+            completion(.failure(NotificareError.deviceUnavailable))
             return
         }
 
@@ -395,6 +375,28 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
     }
 
     // MARK: - Internal API
+
+    private func checkPrerequisites() throws {
+        guard Notificare.shared.isReady else {
+            NotificareLogger.warning("Notificare is not ready yet.")
+            throw NotificareError.notReady
+        }
+
+        guard let application = Notificare.shared.application else {
+            NotificareLogger.warning("Notificare application is not yet available.")
+            throw NotificareError.applicationUnavailable
+        }
+
+        guard application.services[NotificareApplication.ServiceKey.inbox.rawValue] == true else {
+            NotificareLogger.warning("Notificare inbox functionality is not enabled.")
+            throw NotificareError.serviceUnavailable(service: NotificareApplication.ServiceKey.inbox.rawValue)
+        }
+
+        guard application.inboxConfig?.useInbox == true else {
+            NotificareLogger.warning("Notificare inbox functionality is not enabled.")
+            throw NotificareError.serviceUnavailable(service: NotificareApplication.ServiceKey.inbox.rawValue)
+        }
+    }
 
     private func sync() {
         guard let device = Notificare.shared.device().currentDevice else {

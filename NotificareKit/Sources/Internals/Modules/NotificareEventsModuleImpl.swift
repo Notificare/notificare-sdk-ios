@@ -108,7 +108,7 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
                         completion(.failure(error))
                     }
 
-                    if !self.discardableEvents.contains(event.type), let error = error as? NotificareError, error.recoverable {
+                    if !self.discardableEvents.contains(event.type), let error = error as? NotificareNetworkError, error.recoverable {
                         NotificareLogger.info("Queuing event to be sent whenever possible.")
 
                         Notificare.shared.database.add(event)
@@ -212,7 +212,7 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
                     NotificareLogger.debug("Event processed. Removing from storage...")
                     Notificare.shared.database.remove(managedEvent)
                 case let .failure(error):
-                    if let error = error as? NotificareError, error.recoverable {
+                    if let error = error as? NotificareNetworkError, error.recoverable {
                         NotificareLogger.debug("Failed to process event.")
 
                         // Increase the attempts counter.
@@ -271,19 +271,15 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
 
 // MARK: - Recoverable NotificareError
 
-private extension NotificareError {
+private extension NotificareNetworkError {
     var recoverable: Bool {
-        if case let .networkFailure(cause) = self {
-            switch cause {
-            case .genericError,
-                 .inaccessible,
-                 .urlError:
-                return true
-            default:
-                return false
-            }
+        switch self {
+        case .genericError,
+             .inaccessible,
+             .urlError:
+            return true
+        default:
+            return false
         }
-
-        return false
     }
 }

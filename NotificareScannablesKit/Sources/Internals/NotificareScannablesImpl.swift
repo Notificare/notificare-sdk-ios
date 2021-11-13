@@ -183,7 +183,7 @@ extension NotificareScannablesImpl: NFCNDEFReaderSessionDelegate {
                 {
                     handleScannableTag(tag)
                 } else {
-                    self.delegate?.notificare(self, didInvalidateScannerSession: NotificareScannablesError.scannableNotSupported)
+                    self.delegate?.notificare(self, didInvalidateScannerSession: NotificareScannablesError.unsupportedScannable)
                 }
             }
         }
@@ -200,8 +200,4 @@ extension NotificareScannablesImpl: NFCNDEFReaderSessionDelegate {
             self.delegate?.notificare(self, didInvalidateScannerSession: error)
         }
     }
-}
-
-public enum NotificareScannablesError: Error {
-    case scannableNotSupported
 }

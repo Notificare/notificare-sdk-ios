@@ -298,7 +298,7 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
 
     private func handleNotificationSettings(_ allowedUI: Bool, _ completion: @escaping NotificareCallback<Void>) {
         guard let device = Notificare.shared.device().currentDevice else {
-            completion(.failure(NotificareError.notReady))
+            completion(.failure(NotificareError.deviceUnavailable))
             return
         }
 
@@ -336,14 +336,13 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
               let uri = attachment["uri"] as? String
         else {
             NotificareLogger.warning("Could not find an attachment URI. Please ensure you're calling this method with the correct payload.")
-            // TODO: create proper error
-            completion(.failure(NotificareError.invalidArgument))
+            completion(.failure(NotificareError.invalidArgument(message: "Notification request has no attachment URI.")))
             return
         }
 
         guard let url = URL(string: uri) else {
             NotificareLogger.warning("Invalid attachment URI. Please ensure it's a valid URL.")
-            completion(.failure(NotificareError.invalidArgument))
+            completion(.failure(NotificareError.invalidArgument(message: "Invalid attachment URI.")))
             return
         }
 
@@ -358,16 +357,14 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
             let filePath = URL(fileURLWithPath: documentsPath).appendingPathComponent(fileName)
 
             guard let data = data, let response = response else {
-                // TODO: create proper error
-                completion(.failure(NotificareError.invalidArgument))
+                completion(.failure(NotificareError.invalidArgument(message: "Failed to download attachment from the provided URI.")))
                 return
             }
 
             do {
                 try data.write(to: filePath, options: .atomic)
             } catch {
-                // TODO: create proper error
-                completion(.failure(NotificareError.invalidArgument))
+                completion(.failure(NotificareError.invalidArgument(message: "Failed to download attachment from the provided URI.")))
                 return
             }
 
@@ -385,8 +382,7 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
                 let attachment = try UNNotificationAttachment(identifier: "file_\(fileName)", url: filePath, options: options)
                 completion(.success(attachment))
             } catch {
-                // TODO: create proper error
-                completion(.failure(NotificareError.invalidArgument))
+                completion(.failure(NotificareError.invalidArgument(message: "Failed to download attachment from the provided URI.")))
                 return
             }
         }.resume()

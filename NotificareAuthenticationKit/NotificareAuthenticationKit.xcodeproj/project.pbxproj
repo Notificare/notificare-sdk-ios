@@ -11,6 +11,7 @@
 		F24372DD26BC20E800188153 /* NotificareNXOAuth2Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24372DC26BC20E800188153 /* NotificareNXOAuth2Account.swift */; };
 		F24372E126BC210300188153 /* NotificareNXOAuth2AccessToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24372E026BC210300188153 /* NotificareNXOAuth2AccessToken.swift */; };
 		F24372E326BD74DE00188153 /* AuthenticationRenewal.swift in Sources */ = {isa = PBXBuildFile; fileRef = F24372E226BD74DE00188153 /* AuthenticationRenewal.swift */; };
+		F267DA4E273EBED600448A8F /* NotificareAuthenticationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F267DA4D273EBED600448A8F /* NotificareAuthenticationError.swift */; };
 		F2DAB397271F0CD6002B5F27 /* NotificareAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2DAB396271F0CD6002B5F27 /* NotificareAuthentication.swift */; };
 		F2DAB399271F0E82002B5F27 /* NotificareAuthentication+Augment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2DAB398271F0E82002B5F27 /* NotificareAuthentication+Augment.swift */; };
 		F2F697AA26B9412D00AB663E /* NotificareAuthenticationKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2F697A126B9412D00AB663E /* NotificareAuthenticationKit.framework */; };
@@ -60,6 +61,7 @@
 		F24372DC26BC20E800188153 /* NotificareNXOAuth2Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareNXOAuth2Account.swift; sourceTree = "<group>"; };
 		F24372E026BC210300188153 /* NotificareNXOAuth2AccessToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareNXOAuth2AccessToken.swift; sourceTree = "<group>"; };
 		F24372E226BD74DE00188153 /* AuthenticationRenewal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationRenewal.swift; sourceTree = "<group>"; };
+		F267DA4D273EBED600448A8F /* NotificareAuthenticationError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareAuthenticationError.swift; sourceTree = "<group>"; };
 		F2DAB396271F0CD6002B5F27 /* NotificareAuthentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareAuthentication.swift; sourceTree = "<group>"; };
 		F2DAB398271F0E82002B5F27 /* NotificareAuthentication+Augment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificareAuthentication+Augment.swift"; sourceTree = "<group>"; };
 		F2F697A126B9412D00AB663E /* NotificareAuthenticationKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NotificareAuthenticationKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -138,6 +140,7 @@
 				F2DAB396271F0CD6002B5F27 /* NotificareAuthentication.swift */,
 				F2DAB398271F0E82002B5F27 /* NotificareAuthentication+Augment.swift */,
 				F2F697D326B95DF600AB663E /* NotificareAuthentication+Events.swift */,
+				F267DA4D273EBED600448A8F /* NotificareAuthenticationError.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -364,6 +367,7 @@
 				F2F697DE26BA92C800AB663E /* PushAPI+Payloads.swift in Sources */,
 				F2F697D926B97AF700AB663E /* PushAPI+Models.swift in Sources */,
 				F2F697C226B944DF00AB663E /* NotificareUserSegment.swift in Sources */,
+				F267DA4E273EBED600448A8F /* NotificareAuthenticationError.swift in Sources */,
 				F24372DD26BC20E800188153 /* NotificareNXOAuth2Account.swift in Sources */,
 				F24372E326BD74DE00188153 /* AuthenticationRenewal.swift in Sources */,
 				F23D14EA26C17733000E8D0F /* MigrationUtils.swift in Sources */,

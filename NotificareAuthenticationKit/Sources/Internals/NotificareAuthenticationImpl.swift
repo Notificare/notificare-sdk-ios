@@ -24,16 +24,6 @@ internal class NotificareAuthenticationImpl: NSObject, NotificareModule, Notific
         }
     }
 
-    static func configure() {}
-
-    static func launch(_ completion: @escaping (Result<Void, Error>) -> Void) {
-        completion(.success(()))
-    }
-
-    static func unlaunch(_ completion: @escaping (Result<Void, Error>) -> Void) {
-        completion(.success(()))
-    }
-
     // MARK: - Notificare Authentication
 
     var isLoggedIn: Bool {
@@ -475,9 +465,9 @@ internal class NotificareAuthenticationImpl: NSObject, NotificareModule, Notific
             throw NotificareError.applicationUnavailable
         }
 
-        guard application.services["oauth2"] == true else {
+        guard application.services[NotificareApplication.ServiceKey.oauth2.rawValue] == true else {
             NotificareLogger.warning("Notificare authentication functionality is not enabled.")
-            throw NotificareError.serviceUnavailable(module: "oauth2")
+            throw NotificareError.serviceUnavailable(service: NotificareApplication.ServiceKey.oauth2.rawValue)
         }
     }
 
@@ -547,9 +537,4 @@ internal class NotificareAuthenticationImpl: NSObject, NotificareModule, Notific
                 }
             }
     }
-}
-
-public enum NotificareAuthenticationError: Error {
-    case userNotLoggedIn
-    case invalidPreferenceSegment
 }

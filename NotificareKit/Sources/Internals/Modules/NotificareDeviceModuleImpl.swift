@@ -123,7 +123,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
             // TODO: improve language validator
             guard parts.count == 2 else {
                 NotificareLogger.error("Not a valid preferred language. Use a ISO 639-1 language code and a ISO 3166-2 region code (e.g. en-US).")
-                completion(.failure(NotificareError.invalidLanguageCode))
+                completion(.failure(NotificareError.invalidArgument(message: "Invalid preferred language value '\(preferredLanguage)'.")))
                 return
             }
 
