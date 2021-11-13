@@ -157,9 +157,8 @@ public extension NotificareNotification {
         public let type: String
         public let label: String
         public let target: String?
-        public let camera: Bool
         public let keyboard: Bool
-        public let destructive: Bool
+        public let camera: Bool
 
         public func toJson() throws -> [String: Any] {
             let data = try NotificareUtils.jsonEncoder.encode(self)
