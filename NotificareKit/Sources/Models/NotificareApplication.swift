@@ -92,10 +92,10 @@ public extension NotificareApplication {
 
 public extension NotificareApplication {
     struct ActionCategory: Codable {
+        public let type: String
         public let name: String
         public let description: String?
-        public let type: String
-        public let actions: [Action]
+        public let actions: [NotificareNotification.Action]
 
         public func toJson() throws -> [String: Any] {
             let data = try NotificareUtils.jsonEncoder.encode(self)
@@ -105,27 +105,6 @@ public extension NotificareApplication {
         public static func fromJson(json: [String: Any]) throws -> ActionCategory {
             let data = try JSONSerialization.data(withJSONObject: json, options: [])
             return try NotificareUtils.jsonDecoder.decode(ActionCategory.self, from: data)
-        }
-    }
-}
-
-public extension NotificareApplication.ActionCategory {
-    struct Action: Codable {
-        public let type: String
-        public let label: String
-        public let target: String?
-        public let camera: Bool
-        public let keyboard: Bool
-        public let destructive: Bool
-
-        public func toJson() throws -> [String: Any] {
-            let data = try NotificareUtils.jsonEncoder.encode(self)
-            return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
-        }
-
-        public static func fromJson(json: [String: Any]) throws -> Action {
-            let data = try JSONSerialization.data(withJSONObject: json, options: [])
-            return try NotificareUtils.jsonDecoder.decode(Action.self, from: data)
         }
     }
 }
