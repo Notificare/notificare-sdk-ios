@@ -213,43 +213,21 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
         Notificare.shared.application?.actionCategories.forEach { category in
             let actions = category.actions.map { action -> UNNotificationAction in
                 if action.destructive {
-                    return UNNotificationAction(
-                        identifier: action.label,
-                        title: NotificareLocalizable.string(resource: action.label, fallback: action.label),
-                        options: .destructive
-                    )
+                    return buildNotificationAction(action, options: .destructive)
                 } else if action.type == "re.notifica.action.Callback" {
                     // Check if needs camera or keyboard, if it does we will need to open the app.
                     if action.camera {
                         // Yeah let's set it to open the app.
-                        return UNNotificationAction(
-                            identifier: action.label,
-                            title: NotificareLocalizable.string(resource: action.label, fallback: action.label),
-                            options: [.foreground, .authenticationRequired]
-                        )
+                        return buildNotificationAction(action, options: [.foreground, .authenticationRequired])
                     } else if action.keyboard {
-                        return UNTextInputNotificationAction(
-                            identifier: action.label,
-                            title: NotificareLocalizable.string(resource: action.label, fallback: action.label),
-                            options: [],
-                            textInputButtonTitle: NotificareLocalizable.string(resource: .actionsSend),
-                            textInputPlaceholder: NotificareLocalizable.string(resource: .actionsInputPlaceholder)
-                        )
+                        return buildTextInputNotificationAction(action, options: [])
                     } else {
                         // No need to open the app. Let's set it to be executed in the background and with no authentication required.
                         // This is mostly a Response or a Webhook request.
-                        return UNNotificationAction(
-                            identifier: action.label,
-                            title: NotificareLocalizable.string(resource: action.label, fallback: action.label),
-                            options: []
-                        )
+                        return buildNotificationAction(action, options: [])
                     }
                 } else {
-                    return UNNotificationAction(
-                        identifier: action.label,
-                        title: NotificareLocalizable.string(resource: action.label, fallback: action.label),
-                        options: [.foreground, .authenticationRequired]
-                    )
+                    return buildNotificationAction(action, options: [.foreground, .authenticationRequired])
                 }
             }
 
@@ -276,6 +254,44 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
         }
 
         return categories
+    }
+
+    private func buildNotificationAction(_ action: NotificareApplication.ActionCategory.Action, options: UNNotificationActionOptions) -> UNNotificationAction {
+        if #available(iOS 15.0, *), let icon = action.icon?.ios {
+            return UNNotificationAction(
+                identifier: action.label,
+                title: NotificareLocalizable.string(resource: action.label, fallback: action.label),
+                options: options,
+                icon: UNNotificationActionIcon(systemImageName: icon)
+            )
+        }
+
+        return UNNotificationAction(
+            identifier: action.label,
+            title: NotificareLocalizable.string(resource: action.label, fallback: action.label),
+            options: options
+        )
+    }
+
+    private func buildTextInputNotificationAction(_ action: NotificareApplication.ActionCategory.Action, options: UNNotificationActionOptions) -> UNTextInputNotificationAction {
+        if #available(iOS 15.0, *), let icon = action.icon?.ios {
+            return UNTextInputNotificationAction(
+                identifier: action.label,
+                title: NotificareLocalizable.string(resource: action.label, fallback: action.label),
+                options: options,
+                icon: UNNotificationActionIcon(systemImageName: icon),
+                textInputButtonTitle: NotificareLocalizable.string(resource: .actionsSend),
+                textInputPlaceholder: NotificareLocalizable.string(resource: .actionsInputPlaceholder)
+            )
+        }
+
+        return UNTextInputNotificationAction(
+            identifier: action.label,
+            title: NotificareLocalizable.string(resource: action.label, fallback: action.label),
+            options: options,
+            textInputButtonTitle: NotificareLocalizable.string(resource: .actionsSend),
+            textInputPlaceholder: NotificareLocalizable.string(resource: .actionsInputPlaceholder)
+        )
     }
 
     @objc private func updateNotificationSettings() {

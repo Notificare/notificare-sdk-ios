@@ -117,6 +117,7 @@ public extension NotificareApplication.ActionCategory {
         public let camera: Bool
         public let keyboard: Bool
         public let destructive: Bool
+        public let icon: Icon?
 
         public func toJson() throws -> [String: Any] {
             let data = try NotificareUtils.jsonEncoder.encode(self)
@@ -127,5 +128,13 @@ public extension NotificareApplication.ActionCategory {
             let data = try JSONSerialization.data(withJSONObject: json, options: [])
             return try NotificareUtils.jsonDecoder.decode(Action.self, from: data)
         }
+    }
+}
+
+public extension NotificareApplication.ActionCategory.Action {
+    struct Icon: Codable {
+        public let android: String?
+        public let ios: String?
+        public let web: String?
     }
 }
