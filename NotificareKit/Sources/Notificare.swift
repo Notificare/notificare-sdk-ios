@@ -516,7 +516,7 @@ public class Notificare {
     }
 
     private func parseTestDeviceNonce(url: URL) -> String? {
-        guard let application = self.application else { return nil }
+        guard let application = application else { return nil }
         guard let scheme = url.scheme else { return nil }
 
         // deep link: test.nc{applicationId}/notifica.re/testdevice/{nonce}

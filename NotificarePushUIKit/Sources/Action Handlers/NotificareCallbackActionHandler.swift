@@ -410,7 +410,7 @@ extension UIImage {
             return copy() as? UIImage
         }
 
-        guard let cgImage = self.cgImage,
+        guard let cgImage = cgImage,
               let colorSpace = cgImage.colorSpace,
               let context = CGContext(data: nil,
                                       width: Int(size.width),
