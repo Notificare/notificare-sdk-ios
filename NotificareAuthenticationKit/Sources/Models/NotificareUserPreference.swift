@@ -17,9 +17,9 @@ public struct NotificareUserPreference: Codable {
         return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
     }
 
-    public static func fromJson(json: [String: Any]) throws -> NotificareUser {
+    public static func fromJson(json: [String: Any]) throws -> NotificareUserPreference {
         let data = try JSONSerialization.data(withJSONObject: json, options: [])
-        return try NotificareUtils.jsonDecoder.decode(NotificareUser.self, from: data)
+        return try NotificareUtils.jsonDecoder.decode(NotificareUserPreference.self, from: data)
     }
 }
 
