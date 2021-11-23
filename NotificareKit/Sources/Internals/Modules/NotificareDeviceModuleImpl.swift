@@ -18,19 +18,19 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         // TODO: handle migration
 
         // Listen to timezone changes
-        NotificationCenter.default.addObserver(self,
+        NotificationCenter.default.addObserver(instance,
                                                selector: #selector(updateDeviceTimezone),
                                                name: UIApplication.significantTimeChangeNotification,
                                                object: nil)
 
         // Listen to language changes
-        NotificationCenter.default.addObserver(self,
+        NotificationCenter.default.addObserver(instance,
                                                selector: #selector(updateDeviceLanguage),
                                                name: NSLocale.currentLocaleDidChangeNotification,
                                                object: nil)
 
         // Listen to 'background refresh status' changes
-        NotificationCenter.default.addObserver(self,
+        NotificationCenter.default.addObserver(instance,
                                                selector: #selector(updateDeviceBackgroundAppRefresh),
                                                name: UIApplication.backgroundRefreshStatusDidChangeNotification,
                                                object: nil)
