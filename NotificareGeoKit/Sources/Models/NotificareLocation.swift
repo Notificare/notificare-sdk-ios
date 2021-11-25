@@ -31,3 +31,16 @@ internal extension NotificareLocation {
         timestamp = location.timestamp
     }
 }
+
+// JSON: NotificareLocation
+public extension NotificareLocation {
+    func toJson() throws -> [String: Any] {
+        let data = try NotificareUtils.jsonEncoder.encode(self)
+        return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
+    }
+
+    static func fromJson(json: [String: Any]) throws -> NotificareLocation {
+        let data = try JSONSerialization.data(withJSONObject: json, options: [])
+        return try NotificareUtils.jsonDecoder.decode(NotificareLocation.self, from: data)
+    }
+}
