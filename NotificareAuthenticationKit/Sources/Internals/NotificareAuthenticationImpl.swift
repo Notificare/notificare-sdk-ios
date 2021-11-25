@@ -69,6 +69,7 @@ internal class NotificareAuthenticationImpl: NSObject, NotificareModule, Notific
                             )
 
                             Notificare.shared.events().logUserLogin { _ in }
+                            completion(.success(()))
 
                         case let .failure(error):
                             completion(.failure(error))
