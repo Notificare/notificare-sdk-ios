@@ -21,6 +21,14 @@ internal class NotificareScannablesImpl: NSObject, NotificareModule, NotificareS
         return false
     }
 
+    func startScannableSession(controller: UIViewController) {
+        if canStartNfcScannableSession {
+            startNfcScannableSession()
+        } else {
+            startQrCodeScannableSession(controller: controller)
+        }
+    }
+
     func startNfcScannableSession() {
         if #available(iOS 11.0, *), canStartNfcScannableSession {
             let session = NFCNDEFReaderSession(delegate: self, queue: nil, invalidateAfterFirstRead: true)
@@ -56,6 +64,25 @@ internal class NotificareScannablesImpl: NSObject, NotificareModule, NotificareS
                 controller.present(qrCodeScanner, animated: true)
             }
         }
+    }
+
+    func fetch(tag: String, _ completion: @escaping NotificareCallback<NotificareScannable>) {
+        let encodedTag = tag.addingPercentEncoding(withAllowedCharacters: .urlUserAllowed)!
+
+        NotificareRequest.Builder()
+            .get("/scannable/tag/\(encodedTag)")
+            .query(name: "deviceID", value: Notificare.shared.device().currentDevice?.id)
+            .query(name: "userID", value: Notificare.shared.device().currentDevice?.userId)
+            .responseDecodable(NotificareInternals.PushAPI.Responses.Scannable.self) { result in
+                switch result {
+                case let .success(response):
+                    let scannable = response.scannable.toModel()
+                    completion(.success(scannable))
+
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
     }
 
     // MARK: - Private API
@@ -152,22 +179,15 @@ internal class NotificareScannablesImpl: NSObject, NotificareModule, NotificareS
     }
 
     private func handleScannableTag(_ tag: String) {
-        let encodedTag = tag.addingPercentEncoding(withAllowedCharacters: .urlUserAllowed)!
+        fetch(tag: tag) { result in
+            switch result {
+            case let .success(scannable):
+                self.delegate?.notificare(self, didDetectScannable: scannable)
 
-        NotificareRequest.Builder()
-            .get("/scannable/tag/\(encodedTag)")
-            .query(name: "deviceID", value: Notificare.shared.device().currentDevice?.id)
-            .query(name: "userID", value: Notificare.shared.device().currentDevice?.userId)
-            .responseDecodable(NotificareInternals.PushAPI.Responses.Scannable.self) { result in
-                switch result {
-                case let .success(response):
-                    let scannable = response.scannable.toModel()
-                    self.delegate?.notificare(self, didDetectScannable: scannable)
-
-                case let .failure(error):
-                    self.delegate?.notificare(self, didInvalidateScannerSession: error)
-                }
+            case let .failure(error):
+                self.delegate?.notificare(self, didInvalidateScannerSession: error)
             }
+        }
     }
 }
 

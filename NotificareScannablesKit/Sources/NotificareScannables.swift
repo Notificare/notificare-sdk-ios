@@ -15,9 +15,13 @@ public protocol NotificareScannables: AnyObject {
 
     // MARK: Methods
 
+    func startScannableSession(controller: UIViewController)
+
     func startNfcScannableSession()
 
     func startQrCodeScannableSession(controller: UIViewController, modal: Bool)
+
+    func fetch(tag: String, _ completion: @escaping NotificareCallback<NotificareScannable>)
 }
 
 public extension NotificareScannables {
