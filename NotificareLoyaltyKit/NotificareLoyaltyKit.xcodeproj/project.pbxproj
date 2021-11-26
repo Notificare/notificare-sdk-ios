@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		F216F0B126A825F700F9EF56 /* NotificareLoyaltyImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F216F0B026A825F700F9EF56 /* NotificareLoyaltyImpl.swift */; };
 		F216F0B626A8266700F9EF56 /* PassKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F216F0B526A8266700F9EF56 /* PassKit.framework */; };
-		F216F0B826A8369900F9EF56 /* NotificareLoyaltyDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F216F0B726A8369900F9EF56 /* NotificareLoyaltyDelegate.swift */; };
 		F258DDE624BC4F32006F9ABD /* NotificareLoyaltyKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F258DDDC24BC4F31006F9ABD /* NotificareLoyaltyKit.framework */; };
 		F258DDEB24BC4F32006F9ABD /* LoyaltyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DDEA24BC4F32006F9ABD /* LoyaltyTests.swift */; };
 		F258DDED24BC4F32006F9ABD /* NotificareLoyaltyKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F258DDDF24BC4F31006F9ABD /* NotificareLoyaltyKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -49,7 +48,6 @@
 /* Begin PBXFileReference section */
 		F216F0B026A825F700F9EF56 /* NotificareLoyaltyImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareLoyaltyImpl.swift; sourceTree = "<group>"; };
 		F216F0B526A8266700F9EF56 /* PassKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PassKit.framework; path = System/Library/Frameworks/PassKit.framework; sourceTree = SDKROOT; };
-		F216F0B726A8369900F9EF56 /* NotificareLoyaltyDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareLoyaltyDelegate.swift; sourceTree = "<group>"; };
 		F258DDDC24BC4F31006F9ABD /* NotificareLoyaltyKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NotificareLoyaltyKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F258DDDF24BC4F31006F9ABD /* NotificareLoyaltyKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificareLoyaltyKit.h; sourceTree = "<group>"; };
 		F258DDE024BC4F31006F9ABD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -116,7 +114,6 @@
 				F258DDDF24BC4F31006F9ABD /* NotificareLoyaltyKit.h */,
 				F2DAB390271F0ADB002B5F27 /* NotificareLoyalty.swift */,
 				F2DAB392271F0B88002B5F27 /* NotificareLoyalty+Augment.swift */,
-				F216F0B726A8369900F9EF56 /* NotificareLoyaltyDelegate.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -312,7 +309,6 @@
 				F216F0B126A825F700F9EF56 /* NotificareLoyaltyImpl.swift in Sources */,
 				F2BB224926A870D500B20BF3 /* PushAPI+Responses.swift in Sources */,
 				F2DAB391271F0ADB002B5F27 /* NotificareLoyalty.swift in Sources */,
-				F216F0B826A8369900F9EF56 /* NotificareLoyaltyDelegate.swift in Sources */,
 				F2DAB393271F0B88002B5F27 /* NotificareLoyalty+Augment.swift in Sources */,
 				F2BB224426A867AF00B20BF3 /* NotificarePass.swift in Sources */,
 				F2BB224B26A8710300B20BF3 /* PushAPI+Models.swift in Sources */,

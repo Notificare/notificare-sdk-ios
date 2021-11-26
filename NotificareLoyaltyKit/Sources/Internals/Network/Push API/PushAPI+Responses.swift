@@ -9,4 +9,8 @@ internal extension NotificareInternals.PushAPI.Responses {
     struct Pass: Decodable {
         let pass: NotificareInternals.PushAPI.Models.Pass
     }
+
+    struct FetchPassbookTemplate: Decodable {
+        let passbook: NotificareInternals.PushAPI.Models.Passbook
+    }
 }

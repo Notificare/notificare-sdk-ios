@@ -8,15 +8,9 @@ import PassKit
 import UIKit
 
 public protocol NotificareLoyalty: AnyObject {
-    // MARK: Properties
-
-    var delegate: NotificareLoyaltyDelegate? { get set }
-
     // MARK: Methods
 
-    func present(_ notification: NotificareNotification, in controller: UIViewController)
-
-    func present(_ pass: PKPass, in controller: UIViewController)
+    func present(pass: NotificarePass, in controller: UIViewController)
 
     func fetchPass(serial: String, _ completion: @escaping NotificareCallback<NotificarePass>)
 

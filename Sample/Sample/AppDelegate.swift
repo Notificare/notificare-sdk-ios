@@ -33,7 +33,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Notificare.shared.push().delegate = self
         Notificare.shared.pushUI().delegate = self
         Notificare.shared.inbox().delegate = self
-        Notificare.shared.loyalty().delegate = self
         Notificare.shared.geo().delegate = self
 
         Notificare.shared.launch()
@@ -196,16 +195,6 @@ extension AppDelegate: NotificareInboxDelegate {
 
     func notificare(_: NotificareInbox, didUpdateBadge badge: Int) {
         print("-----> Badge update. Unread = \(badge)")
-    }
-}
-
-extension AppDelegate: NotificareLoyaltyDelegate {
-    func notificare(_: NotificareLoyalty, didReceivePass _: URL, in notification: NotificareNotification) {
-        guard let rootViewController = window?.rootViewController else {
-            return
-        }
-
-        Notificare.shared.loyalty().present(notification, in: rootViewController)
     }
 }
 

@@ -161,6 +161,7 @@ class ViewController: UIViewController {
             switch result {
             case let .success(pass):
                 print("Pass = \(pass)")
+                Notificare.shared.loyalty().present(pass: pass, in: self)
             case let .failure(error):
                 print("Failed to fetch pass.\n\(error)")
             }

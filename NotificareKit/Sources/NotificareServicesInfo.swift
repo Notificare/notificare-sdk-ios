@@ -76,5 +76,12 @@ public struct NotificareServicesInfo: Decodable {
             case .production: return "ntc.re"
             }
         }
+
+        public var pkPassHost: String {
+            switch self {
+            case .test: return "https://push-test.notifica.re/pass/pkpass"
+            case .production: return "https://push.notifica.re/pass/pkpass"
+            }
+        }
     }
 }
