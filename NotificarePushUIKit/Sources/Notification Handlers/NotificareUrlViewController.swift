@@ -45,14 +45,20 @@ public class NotificareUrlViewController: NotificareBaseNotificationViewControll
         configuration.userContentController.add(self, name: "notificareWebViewLoading")
 
         // View setup.
-        webView = WKWebView(frame: view.frame, configuration: configuration)
-        webView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-
+        webView = WKWebView(frame: .zero, configuration: configuration)
+        webView.translatesAutoresizingMaskIntoConstraints = false
         webView.scrollView.bounces = false
         webView.navigationDelegate = self
         webView.uiDelegate = self
-
         view.addSubview(webView)
+
+        // WebView constraints
+        NSLayoutConstraint.activate([
+            webView.leadingAnchor.constraint(equalTo: view.ncSafeAreaLayoutGuide.leadingAnchor),
+            webView.trailingAnchor.constraint(equalTo: view.ncSafeAreaLayoutGuide.trailingAnchor),
+            webView.topAnchor.constraint(equalTo: view.ncSafeAreaLayoutGuide.topAnchor),
+            webView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+        ])
 
         // Clear cache.
         WKWebsiteDataStore.default().removeData(ofTypes: [WKWebsiteDataTypeDiskCache, WKWebsiteDataTypeMemoryCache],
@@ -60,7 +66,16 @@ public class NotificareUrlViewController: NotificareBaseNotificationViewControll
                                                 completionHandler: {})
 
         loadingView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height))
-        loadingView.backgroundColor = UIColor.white
+        if let colorStr = theme?.backgroundColor {
+            loadingView.backgroundColor = UIColor(hexString: colorStr)
+        } else {
+            if #available(iOS 13.0, *) {
+                loadingView.backgroundColor = .systemBackground
+            } else {
+                loadingView.backgroundColor = .white
+            }
+        }
+
         view.addSubview(loadingView)
 
         progressView = UIProgressView(progressViewStyle: .default)
