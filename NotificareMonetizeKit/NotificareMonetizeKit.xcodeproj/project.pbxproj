@@ -10,9 +10,7 @@
 		F258DE0A24BC4F89006F9ABD /* NotificareMonetizeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F258DE0024BC4F89006F9ABD /* NotificareMonetizeKit.framework */; };
 		F258DE0F24BC4F89006F9ABD /* MonetizeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DE0E24BC4F89006F9ABD /* MonetizeTests.swift */; };
 		F258DE1124BC4F89006F9ABD /* NotificareMonetizeKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F258DE0324BC4F89006F9ABD /* NotificareMonetizeKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F289F5C225B8611B0091AB97 /* NotificareCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F289F5C025B8611B0091AB97 /* NotificareCore.framework */; };
 		F289F5C425B8611B0091AB97 /* NotificareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F289F5C125B8611B0091AB97 /* NotificareKit.framework */; };
-		F289F5C525B8611B0091AB97 /* NotificareKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F289F5C125B8611B0091AB97 /* NotificareKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -24,20 +22,6 @@
 			remoteInfo = Monetize;
 		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		F289F5C625B8611B0091AB97 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				F289F5C525B8611B0091AB97 /* NotificareKit.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		F258DE0024BC4F89006F9ABD /* NotificareMonetizeKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NotificareMonetizeKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -57,7 +41,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F289F5C225B8611B0091AB97 /* NotificareCore.framework in Frameworks */,
 				F289F5C425B8611B0091AB97 /* NotificareKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -143,7 +126,6 @@
 				F258DDFC24BC4F89006F9ABD /* Sources */,
 				F258DDFD24BC4F89006F9ABD /* Frameworks */,
 				F258DDFE24BC4F89006F9ABD /* Resources */,
-				F289F5C625B8611B0091AB97 /* Embed Frameworks */,
 				F289F5C725B861200091AB97 /* SwiftFormat */,
 			);
 			buildRules = (

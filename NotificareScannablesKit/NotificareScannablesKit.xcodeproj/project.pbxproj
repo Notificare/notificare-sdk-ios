@@ -12,7 +12,6 @@
 		F258DE3524BC4FAD006F9ABD /* NotificareScannablesKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F258DE2724BC4FAD006F9ABD /* NotificareScannablesKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F267DA50273EC00200448A8F /* NotificareScannablesError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F267DA4F273EC00200448A8F /* NotificareScannablesError.swift */; };
 		F289F5BD25B860E90091AB97 /* NotificareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F22650B0258B6E410004F833 /* NotificareKit.framework */; };
-		F289F5BE25B860E90091AB97 /* NotificareKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F22650B0258B6E410004F833 /* NotificareKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F2DAB39D271F109E002B5F27 /* NotificareScannables.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2DAB39C271F109E002B5F27 /* NotificareScannables.swift */; };
 		F2DAB39F271F1115002B5F27 /* NotificareScannables+Augment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2DAB39E271F1115002B5F27 /* NotificareScannables+Augment.swift */; };
 		F2E801D4269D93AA00582DB8 /* NotificareScannablesImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E801D3269D93AA00582DB8 /* NotificareScannablesImpl.swift */; };
@@ -33,20 +32,6 @@
 			remoteInfo = Scannable;
 		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		F289F5BC25B860E10091AB97 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				F289F5BE25B860E90091AB97 /* NotificareKit.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		F22650B0258B6E410004F833 /* NotificareKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -212,7 +197,6 @@
 				F258DE2024BC4FAD006F9ABD /* Sources */,
 				F258DE2124BC4FAD006F9ABD /* Frameworks */,
 				F258DE2224BC4FAD006F9ABD /* Resources */,
-				F289F5BC25B860E10091AB97 /* Embed Frameworks */,
 				F289F5BF25B860F00091AB97 /* SwiftFormat */,
 			);
 			buildRules = (

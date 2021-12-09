@@ -10,6 +10,7 @@
 		F216F0BA26A839FC00F9EF56 /* LoyaltyIntegration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F216F0B926A839FC00F9EF56 /* LoyaltyIntegration.swift */; };
 		F216F0BC26A84B2100F9EF56 /* NotificareWebPassViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F216F0BB26A84B2100F9EF56 /* NotificareWebPassViewController.swift */; };
 		F21CBCB025AF1F5000495F7A /* NotificareStoreController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21CBCAF25AF1F5000495F7A /* NotificareStoreController.swift */; };
+		F2770B3A276266BE00450FF8 /* NotificareImageGalleryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2770B39276266BE00450FF8 /* NotificareImageGalleryCollectionViewCell.swift */; };
 		F277EAAF25B084860026225C /* NotificareBaseActionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F277EAAE25B084860026225C /* NotificareBaseActionHandler.swift */; };
 		F277EAB325B085740026225C /* NotificareMailActionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F277EAB225B085740026225C /* NotificareMailActionHandler.swift */; };
 		F277EAB625B0A04F0026225C /* NotificareAppActionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F277EAB525B0A04F0026225C /* NotificareAppActionHandler.swift */; };
@@ -33,7 +34,6 @@
 		F29C96EA25ACBE5D00620E9B /* NotificareBaseNotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29C96E925ACBE5D00620E9B /* NotificareBaseNotificationViewController.swift */; };
 		F2B1817925BAF4F800384991 /* NotificareWebViewActionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B1817825BAF4F800384991 /* NotificareWebViewActionHandler.swift */; };
 		F2B181AE25BB224400384991 /* NotificareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2B181AD25BB224300384991 /* NotificareKit.framework */; };
-		F2B181AF25BB224400384991 /* NotificareKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F2B181AD25BB224300384991 /* NotificareKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F2B8C51725A5DD9400FFBE0C /* NotificareWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B8C51625A5DD9400FFBE0C /* NotificareWebViewController.swift */; };
 		F2CB6F5C25AEFD0600FC994E /* NotificareMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2CB6F5B25AEFD0600FC994E /* NotificareMapViewController.swift */; };
 		F2DAB3A1271F1325002B5F27 /* NotificarePushUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2DAB3A0271F1325002B5F27 /* NotificarePushUI.swift */; };
@@ -53,24 +53,11 @@
 		};
 /* End PBXContainerItemProxy section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		F29B17F125A48C9B007ED6F9 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				F2B181AF25BB224400384991 /* NotificareKit.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
 		F216F0B926A839FC00F9EF56 /* LoyaltyIntegration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoyaltyIntegration.swift; sourceTree = "<group>"; };
 		F216F0BB26A84B2100F9EF56 /* NotificareWebPassViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareWebPassViewController.swift; sourceTree = "<group>"; };
 		F21CBCAF25AF1F5000495F7A /* NotificareStoreController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareStoreController.swift; sourceTree = "<group>"; };
+		F2770B39276266BE00450FF8 /* NotificareImageGalleryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareImageGalleryCollectionViewCell.swift; sourceTree = "<group>"; };
 		F277EAAE25B084860026225C /* NotificareBaseActionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareBaseActionHandler.swift; sourceTree = "<group>"; };
 		F277EAB225B085740026225C /* NotificareMailActionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareMailActionHandler.swift; sourceTree = "<group>"; };
 		F277EAB525B0A04F0026225C /* NotificareAppActionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareAppActionHandler.swift; sourceTree = "<group>"; };
@@ -128,6 +115,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F2770B38276266A000450FF8 /* View Cells */ = {
+			isa = PBXGroup;
+			children = (
+				F2770B39276266BE00450FF8 /* NotificareImageGalleryCollectionViewCell.swift */,
+			);
+			path = "View Cells";
+			sourceTree = "<group>";
+		};
 		F277EAAD25B084740026225C /* Action Handlers */ = {
 			isa = PBXGroup;
 			children = (
@@ -180,6 +175,7 @@
 				F293E2E42630488B008C2010 /* Internals */,
 				F277EAAD25B084740026225C /* Action Handlers */,
 				F2B8C51525A5DD8300FFBE0C /* Notification Handlers */,
+				F2770B38276266A000450FF8 /* View Cells */,
 				F29B17CF25A48BEF007ED6F9 /* Info.plist */,
 				F29B17CE25A48BEF007ED6F9 /* NotificarePushUIKit.h */,
 				F2DAB3A0271F1325002B5F27 /* NotificarePushUI.swift */,
@@ -250,7 +246,6 @@
 				F29B17C725A48BEF007ED6F9 /* Sources */,
 				F29B17C825A48BEF007ED6F9 /* Frameworks */,
 				F29B17C925A48BEF007ED6F9 /* Resources */,
-				F29B17F125A48C9B007ED6F9 /* Embed Frameworks */,
 				F29B17F525A48CE4007ED6F9 /* SwiftFormat */,
 			);
 			buildRules = (
@@ -370,6 +365,7 @@
 				F277EABD25B0A10C0026225C /* NotificareTelephoneActionHandler.swift in Sources */,
 				F29B17F325A48CAF007ED6F9 /* NotificarePushUIImpl.swift in Sources */,
 				F28C95072640478100D6EF32 /* NotificarePushUI+NotificareNotification.swift in Sources */,
+				F2770B3A276266BE00450FF8 /* NotificareImageGalleryCollectionViewCell.swift in Sources */,
 				F2DAB3A1271F1325002B5F27 /* NotificarePushUI.swift in Sources */,
 				F216F0BA26A839FC00F9EF56 /* LoyaltyIntegration.swift in Sources */,
 				F216F0BC26A84B2100F9EF56 /* NotificareWebPassViewController.swift in Sources */,

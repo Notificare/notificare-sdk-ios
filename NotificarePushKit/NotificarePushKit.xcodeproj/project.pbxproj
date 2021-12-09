@@ -15,7 +15,6 @@
 		F21DD9E9271844B200C88D7B /* NotificarePushImpl+UNUserNotificationCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21DD9E8271844B200C88D7B /* NotificarePushImpl+UNUserNotificationCenterDelegate.swift */; };
 		F226509B258B6B900004F833 /* NotificarePush.swift in Sources */ = {isa = PBXBuildFile; fileRef = F226509A258B6B900004F833 /* NotificarePush.swift */; };
 		F22650B9258B6E560004F833 /* NotificareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F22650B8258B6E560004F833 /* NotificareKit.framework */; };
-		F22650BA258B6E560004F833 /* NotificareKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F22650B8258B6E560004F833 /* NotificareKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F23A5569259C7D6D00B57CF1 /* NotificarePush+Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = F23A5568259C7D6D00B57CF1 /* NotificarePush+Events.swift */; };
 		F258DD9E24BC4EE2006F9ABD /* NotificarePushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F258DD9424BC4EE2006F9ABD /* NotificarePushKit.framework */; };
 		F258DDA324BC4EE2006F9ABD /* PushTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DDA224BC4EE2006F9ABD /* PushTests.swift */; };
@@ -35,20 +34,6 @@
 			remoteInfo = Push;
 		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		F22650BB258B6E560004F833 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				F22650BA258B6E560004F833 /* NotificareKit.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		F2128F012594E47700F7F68F /* NotificareSystemNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareSystemNotification.swift; sourceTree = "<group>"; };
@@ -211,7 +196,6 @@
 				F258DD9024BC4EE2006F9ABD /* Sources */,
 				F258DD9124BC4EE2006F9ABD /* Frameworks */,
 				F258DD9224BC4EE2006F9ABD /* Resources */,
-				F22650BB258B6E560004F833 /* Embed Frameworks */,
 				F240E08F259272EE00DBC25F /* SwiftFormat */,
 			);
 			buildRules = (

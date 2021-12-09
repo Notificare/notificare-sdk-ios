@@ -13,7 +13,6 @@
 		F258DDEB24BC4F32006F9ABD /* LoyaltyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DDEA24BC4F32006F9ABD /* LoyaltyTests.swift */; };
 		F258DDED24BC4F32006F9ABD /* NotificareLoyaltyKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F258DDDF24BC4F31006F9ABD /* NotificareLoyaltyKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F289F5CC25B861320091AB97 /* NotificareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F289F5C925B861320091AB97 /* NotificareKit.framework */; };
-		F289F5CD25B861320091AB97 /* NotificareKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F289F5C925B861320091AB97 /* NotificareKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F2BB224426A867AF00B20BF3 /* NotificarePass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2BB224326A867AF00B20BF3 /* NotificarePass.swift */; };
 		F2BB224926A870D500B20BF3 /* PushAPI+Responses.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2BB224826A870D500B20BF3 /* PushAPI+Responses.swift */; };
 		F2BB224B26A8710300B20BF3 /* PushAPI+Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2BB224A26A8710300B20BF3 /* PushAPI+Models.swift */; };
@@ -30,20 +29,6 @@
 			remoteInfo = Loyalty;
 		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		F289F5CE25B861320091AB97 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				F289F5CD25B861320091AB97 /* NotificareKit.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		F216F0B026A825F700F9EF56 /* NotificareLoyaltyImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareLoyaltyImpl.swift; sourceTree = "<group>"; };
@@ -195,7 +180,6 @@
 				F258DDD824BC4F31006F9ABD /* Sources */,
 				F258DDD924BC4F31006F9ABD /* Frameworks */,
 				F258DDDA24BC4F31006F9ABD /* Resources */,
-				F289F5CE25B861320091AB97 /* Embed Frameworks */,
 				F289F5CF25B861370091AB97 /* SwiftFormat */,
 			);
 			buildRules = (

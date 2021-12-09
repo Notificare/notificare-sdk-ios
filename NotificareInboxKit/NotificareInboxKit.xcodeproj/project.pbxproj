@@ -14,7 +14,6 @@
 		F289F53F25B85E020091AB97 /* NotificareInboxKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F289F53525B85E020091AB97 /* NotificareInboxKit.framework */; };
 		F289F54425B85E020091AB97 /* NotificareInboxKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F289F54325B85E020091AB97 /* NotificareInboxKitTests.swift */; };
 		F289F56125B85EAF0091AB97 /* NotificareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F289F56025B85EAF0091AB97 /* NotificareKit.framework */; };
-		F289F56225B85EAF0091AB97 /* NotificareKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F289F56025B85EAF0091AB97 /* NotificareKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F289F5E825B8643A0091AB97 /* NotificareInboxImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F289F5E725B8643A0091AB97 /* NotificareInboxImpl.swift */; };
 		F289F5ED25B8651F0091AB97 /* NotificareInboxDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F289F5EC25B8651F0091AB97 /* NotificareInboxDelegate.swift */; };
 		F289F5F125B884EC0091AB97 /* NotificareInboxItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F289F5F025B884EC0091AB97 /* NotificareInboxItem.swift */; };
@@ -34,20 +33,6 @@
 			remoteInfo = NotificareInboxKit;
 		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		F289F55F25B85EA80091AB97 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				F289F56225B85EAF0091AB97 /* NotificareKit.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		F21DD9EA27184CE500C88D7B /* NotificareInbox+Augment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificareInbox+Augment.swift"; sourceTree = "<group>"; };
@@ -211,7 +196,6 @@
 				F289F53125B85E020091AB97 /* Sources */,
 				F289F53225B85E020091AB97 /* Frameworks */,
 				F289F53325B85E020091AB97 /* Resources */,
-				F289F55F25B85EA80091AB97 /* Embed Frameworks */,
 				F289F56725B85ED40091AB97 /* SwiftFormat */,
 			);
 			buildRules = (

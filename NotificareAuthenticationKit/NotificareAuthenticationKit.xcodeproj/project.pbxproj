@@ -21,7 +21,6 @@
 		F2F697C026B944D500AB663E /* NotificareUserPreference.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F697BF26B944D500AB663E /* NotificareUserPreference.swift */; };
 		F2F697C226B944DF00AB663E /* NotificareUserSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F697C126B944DF00AB663E /* NotificareUserSegment.swift */; };
 		F2F697C526B9450000AB663E /* NotificareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2F697C426B9450000AB663E /* NotificareKit.framework */; };
-		F2F697C626B9450000AB663E /* NotificareKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F2F697C426B9450000AB663E /* NotificareKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F2F697CA26B9473F00AB663E /* NotificareAuthenticationImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F697C926B9473F00AB663E /* NotificareAuthenticationImpl.swift */; };
 		F2F697D226B95C2800AB663E /* PushAPI+Responses.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F697D126B95C2800AB663E /* PushAPI+Responses.swift */; };
 		F2F697D426B95DF600AB663E /* NotificareAuthentication+Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F697D326B95DF600AB663E /* NotificareAuthentication+Events.swift */; };
@@ -41,20 +40,6 @@
 			remoteInfo = NotificareAuthentication;
 		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		F2F697C726B9450000AB663E /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				F2F697C626B9450000AB663E /* NotificareKit.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		F23D14E926C17733000E8D0F /* MigrationUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationUtils.swift; sourceTree = "<group>"; };
@@ -249,7 +234,6 @@
 				F2F6979D26B9412D00AB663E /* Sources */,
 				F2F6979E26B9412D00AB663E /* Frameworks */,
 				F2F6979F26B9412D00AB663E /* Resources */,
-				F2F697C726B9450000AB663E /* Embed Frameworks */,
 				F2F697C826B9455600AB663E /* SwiftFormat */,
 			);
 			buildRules = (
