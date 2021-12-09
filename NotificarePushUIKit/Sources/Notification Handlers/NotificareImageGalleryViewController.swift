@@ -10,12 +10,10 @@ public class NotificareImageGalleryViewController: NotificareBaseNotificationVie
     private(set) var collectionView: UICollectionView!
     private(set) var pageControl: UIPageControl!
 
-    private var theme: NotificareOptions.Theme?
-    private var imageViews = [UIImageView]()
+    private var images = [UIImage?]()
 
     override public func viewDidLoad() {
         super.viewDidLoad()
-        theme = Notificare.shared.options!.theme(for: self)
 
         setupViews()
         setupContent()
@@ -28,46 +26,52 @@ public class NotificareImageGalleryViewController: NotificareBaseNotificationVie
 
     private func setupViews() {
         let collectionViewLayout = UICollectionViewFlowLayout()
+        collectionViewLayout.minimumInteritemSpacing = 0
+        collectionViewLayout.minimumLineSpacing = 0
         collectionViewLayout.scrollDirection = .horizontal
         collectionViewLayout.sectionInset = .zero
 
         collectionView = UICollectionView(frame: view.frame, collectionViewLayout: collectionViewLayout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.scrollIndicatorInsets = .zero
+        if #available(iOS 11.0, *) {
+            collectionView.contentInsetAdjustmentBehavior = .never
+        }
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.isPagingEnabled = true
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cellIdentifier")
+        collectionView.register(NotificareImageGalleryCollectionViewCell.self, forCellWithReuseIdentifier: "standard")
         if let colorStr = theme?.backgroundColor {
             collectionView.backgroundColor = UIColor(hexString: colorStr)
+        } else {
+            if #available(iOS 13.0, *) {
+                collectionView.backgroundColor = .systemBackground
+            } else {
+                collectionView.backgroundColor = .white
+            }
         }
 
         pageControl = UIPageControl()
         pageControl.translatesAutoresizingMaskIntoConstraints = false
         pageControl.numberOfPages = notification.content.count
-        pageControl.currentPage = 1
+        pageControl.hidesForSinglePage = true
+        pageControl.currentPage = 0
 
         view.addSubview(collectionView)
         view.addSubview(pageControl)
 
-        let guide: UILayoutGuide
-        if #available(iOS 11.0, *) {
-            guide = view.safeAreaLayoutGuide
-        } else {
-            guide = view.layoutMarginsGuide
-        }
-
         // Constrain the collection view.
         NSLayoutConstraint.activate([
-            guide.trailingAnchor.constraint(equalTo: collectionView.trailingAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
-            collectionView.topAnchor.constraint(equalTo: guide.topAnchor),
-            guide.bottomAnchor.constraint(equalTo: collectionView.bottomAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.ncSafeAreaLayoutGuide.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.ncSafeAreaLayoutGuide.trailingAnchor),
+            collectionView.topAnchor.constraint(equalTo: view.ncSafeAreaLayoutGuide.topAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
 
         // Constraint the page control.
         NSLayoutConstraint.activate([
-            pageControl.centerXAnchor.constraint(equalTo: guide.centerXAnchor),
-            pageControl.bottomAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: -50),
+            pageControl.centerXAnchor.constraint(equalTo: view.ncSafeAreaLayoutGuide.centerXAnchor),
+            pageControl.bottomAnchor.constraint(equalTo: view.ncSafeAreaLayoutGuide.bottomAnchor, constant: -48),
         ])
     }
 
@@ -77,22 +81,15 @@ public class NotificareImageGalleryViewController: NotificareBaseNotificationVie
             return
         }
 
-        notification.content.forEach { content in
-            var bottomPadding: CGFloat = 64.0
-            if #available(iOS 11.0, *) {
-                bottomPadding += UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0.0
-            }
+        // Prepare the array with empty images.
+        images = .init(repeating: nil, count: notification.content.count)
 
-            let imageView = UIImageView(frame: CGRect(x: 0.0, y: 0.0, width: collectionView.bounds.width, height: collectionView.bounds.height - bottomPadding))
-            imageView.translatesAutoresizingMaskIntoConstraints = false
-            imageView.contentMode = .scaleAspectFit
-            imageViews.append(imageView)
-
+        notification.content.enumerated().forEach { index, content in
             let url = URL(string: content.data as! String)!
             URLSession.shared.dataTask(with: url) { data, _, _ in
                 if let data = data {
                     DispatchQueue.main.async {
-                        imageView.image = UIImage(data: data)
+                        self.images[index] = UIImage(data: data)
                         self.collectionView.reloadData()
                     }
                 }
@@ -118,22 +115,18 @@ extension NotificareImageGalleryViewController: UICollectionViewDelegate, UIColl
     }
 
     public func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
-        imageViews.count
+        images.count
+    }
+
+    public func collectionView(_ collectionView: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
+        collectionView.frame.size
     }
 
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellIdentifier", for: indexPath)
-        cell.contentView.addSubview(imageViews[indexPath.row])
-
-        if let colorStr = theme?.backgroundColor {
-            cell.backgroundColor = UIColor(hexString: colorStr)
-        }
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "standard", for: indexPath) as! NotificareImageGalleryCollectionViewCell
+        cell.imageView.image = images[indexPath.row]
 
         return cell
-    }
-
-    public func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
-        CGSize(width: view.frame.size.width, height: view.frame.size.height)
     }
 
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -145,8 +138,8 @@ extension NotificareImageGalleryViewController: UICollectionViewDelegate, UIColl
     }
 
     public func collectionView(_: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if Notificare.shared.options!.imageSharingEnabled == true {
-            openSharingActionSheet(for: imageViews[indexPath.row].image!)
+        if Notificare.shared.options!.imageSharingEnabled == true, let image = images[indexPath.row] {
+            openSharingActionSheet(for: image)
         }
     }
 }
