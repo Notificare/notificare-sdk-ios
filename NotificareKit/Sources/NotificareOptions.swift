@@ -119,7 +119,7 @@ public extension NotificareOptions {
         var theme = themes?.light
 
         if #available(iOS 13.0, *) {
-            if controller.overrideUserInterfaceStyle == .dark, let darkTheme = self.themes?.dark {
+            if controller.traitCollection.userInterfaceStyle == .dark, let darkTheme = self.themes?.dark {
                 theme = darkTheme
             }
         }
