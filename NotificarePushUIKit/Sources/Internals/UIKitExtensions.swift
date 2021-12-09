@@ -29,3 +29,13 @@ internal extension UIViewController {
         }
     }
 }
+
+internal extension UIView {
+    var ncSafeAreaLayoutGuide: UILayoutGuide {
+        if #available(iOS 11.0, *) {
+            return safeAreaLayoutGuide
+        }
+
+        return layoutMarginsGuide
+    }
+}
