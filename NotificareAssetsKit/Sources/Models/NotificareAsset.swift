@@ -5,6 +5,7 @@
 import NotificareKit
 
 public struct NotificareAsset {
+    public let id: String
     public let title: String
     public let description: String?
     public let key: String?
@@ -26,6 +27,7 @@ public struct NotificareAsset {
 
 extension NotificareAsset: Codable {
     enum CodingKeys: String, CodingKey {
+        case id
         case title
         case description
         case key
@@ -38,6 +40,7 @@ extension NotificareAsset: Codable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
+        id = try container.decode(String.self, forKey: .id)
         title = try container.decode(String.self, forKey: .title)
         description = try container.decodeIfPresent(String.self, forKey: .description)
         key = try container.decodeIfPresent(String.self, forKey: .key)
@@ -55,6 +58,7 @@ extension NotificareAsset: Codable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
+        try container.encode(id, forKey: .id)
         try container.encode(title, forKey: .title)
         try container.encode(description, forKey: .description)
         try container.encode(key, forKey: .key)
@@ -103,6 +107,7 @@ public extension NotificareAsset {
 // NotificareAsset.init(PushAPI.Models.Asset)
 internal extension NotificareAsset {
     init(asset: NotificareInternals.PushAPI.Models.Asset) {
+        id = asset._id
         title = asset.title
         description = asset.description
         key = asset.key
