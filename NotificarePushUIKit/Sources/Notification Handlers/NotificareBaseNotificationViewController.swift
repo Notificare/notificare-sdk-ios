@@ -8,7 +8,7 @@ import UIKit
 public class NotificareBaseNotificationViewController: UIViewController {
     var notification: NotificareNotification!
 
-    private var theme: NotificareOptions.Theme?
+    public private(set) var theme: NotificareOptions.Theme?
 
     private(set) var actionsButton: UIBarButtonItem?
 
@@ -48,6 +48,16 @@ public class NotificareBaseNotificationViewController: UIViewController {
 
         // Check if we should show any possible actions
         isActionsButtonEnabled = !notification.actions.isEmpty
+
+        if let colorStr = theme?.backgroundColor {
+            view.backgroundColor = UIColor(hexString: colorStr)
+        } else {
+            if #available(iOS 13.0, *) {
+                view.backgroundColor = .systemBackground
+            } else {
+                view.backgroundColor = .white
+            }
+        }
     }
 
     @objc func showActions() {
