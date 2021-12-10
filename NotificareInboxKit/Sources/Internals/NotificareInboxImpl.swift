@@ -71,6 +71,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
 
     public static func configure() {
         instance.database.configure()
+        instance.loadCachedItems()
 
         // Listen to inbox addition requests.
         NotificationCenter.default.addObserver(instance,
@@ -104,10 +105,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
     }
 
     public static func launch(_ completion: @escaping NotificareCallback<Void>) {
-        if UIApplication.shared.applicationState == .active {
-            instance.sync()
-        }
-
+        instance.sync()
         completion(.success(()))
     }
 
@@ -400,11 +398,9 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
 
     private func sync() {
         guard let device = Notificare.shared.device().currentDevice else {
-            NotificareLogger.warning("Notificare has not been configured yet.")
+            NotificareLogger.warning("No device registered yet. Skipping...")
             return
         }
-
-        loadCachedItems()
 
         guard let firstItem = cachedEntities.first else {
             NotificareLogger.debug("The local inbox contains no items. Checking remotely.")
