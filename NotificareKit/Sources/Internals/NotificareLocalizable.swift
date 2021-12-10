@@ -26,13 +26,14 @@ public class NotificareLocalizable {
     }
 
     public enum StringResource: String {
-        case ok = "notificare_ok"
-        case cancel = "notificare_cancel"
-        case actions = "notificare_actions"
+        case okButton = "notificare_ok_button"
+        case cancelButton = "notificare_cancel_button"
+        case closeButton = "notificare_close_button"
+        case sendButton = "notificare_send_button"
+        case actionsButton = "notificare_actions_button"
 
         case pushDefaultCategory = "notificare_push_default_category"
 
-        case actionsSend = "notificare_actions_send"
         case actionsInputPlaceholder = "notificare_actions_input_placeholder"
         case actionsShareImageTextPlaceholder = "notification_actions_share_image_text_placeholder"
 
@@ -43,9 +44,6 @@ public class NotificareLocalizable {
 
         case actionMailSubject = "notificare_action_mail_subject"
         case actionMailBody = "notificare_action_mail_body"
-
-        case closeButton = "notificare_close_button"
-        case sendButton = "notificare_send_button"
     }
 
     public enum ImageResource: String {

@@ -118,7 +118,7 @@ extension NotificareWebViewController: WKNavigationDelegate, WKUIDelegate {
                                       preferredStyle: .alert)
 
         alert.addAction(
-            UIAlertAction(title: NotificareLocalizable.string(resource: .ok), style: .default, handler: { _ in
+            UIAlertAction(title: NotificareLocalizable.string(resource: .okButton), style: .default, handler: { _ in
                 completionHandler()
             })
         )
@@ -132,13 +132,13 @@ extension NotificareWebViewController: WKNavigationDelegate, WKUIDelegate {
                                       preferredStyle: .alert)
 
         alert.addAction(
-            UIAlertAction(title: NotificareLocalizable.string(resource: .ok), style: .default, handler: { _ in
+            UIAlertAction(title: NotificareLocalizable.string(resource: .okButton), style: .default, handler: { _ in
                 completionHandler(true)
             })
         )
 
         alert.addAction(
-            UIAlertAction(title: NotificareLocalizable.string(resource: .cancel), style: .cancel, handler: { _ in
+            UIAlertAction(title: NotificareLocalizable.string(resource: .cancelButton), style: .cancel, handler: { _ in
                 completionHandler(false)
             })
         )
@@ -156,7 +156,7 @@ extension NotificareWebViewController: WKNavigationDelegate, WKUIDelegate {
         }
 
         alert.addAction(
-            UIAlertAction(title: NotificareLocalizable.string(resource: .ok), style: .default, handler: { _ in
+            UIAlertAction(title: NotificareLocalizable.string(resource: .okButton), style: .default, handler: { _ in
                 if let text = alert.textFields?.first?.text, !text.isEmpty {
                     completionHandler(text)
                 } else {
@@ -166,7 +166,7 @@ extension NotificareWebViewController: WKNavigationDelegate, WKUIDelegate {
         )
 
         alert.addAction(
-            UIAlertAction(title: NotificareLocalizable.string(resource: .cancel), style: .cancel, handler: { _ in
+            UIAlertAction(title: NotificareLocalizable.string(resource: .cancelButton), style: .cancel, handler: { _ in
                 completionHandler(nil)
             })
         )

@@ -30,7 +30,7 @@ class NotificareAlertController: NotificareNotificationPresenter {
         }
 
         let useCancelButton = !notification.actions.isEmpty
-        alert.addAction(UIAlertAction(title: NotificareLocalizable.string(resource: useCancelButton ? .cancel : .ok),
+        alert.addAction(UIAlertAction(title: NotificareLocalizable.string(resource: useCancelButton ? .cancelButton : .okButton),
                                       style: useCancelButton ? .cancel : .default,
                                       handler: { _ in
                                           Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFinishPresentingNotification: self.notification)

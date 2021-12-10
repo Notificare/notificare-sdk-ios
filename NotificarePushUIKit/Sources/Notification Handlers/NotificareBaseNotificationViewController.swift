@@ -25,7 +25,7 @@ public class NotificareBaseNotificationViewController: UIViewController {
                                                 target: self,
                                                 action: #selector(showActions))
             } else {
-                actionsButton = UIBarButtonItem(title: NotificareLocalizable.string(resource: .actions),
+                actionsButton = UIBarButtonItem(title: NotificareLocalizable.string(resource: .actionsButton),
                                                 style: .plain,
                                                 target: self,
                                                 action: #selector(showActions))
@@ -74,7 +74,7 @@ public class NotificareBaseNotificationViewController: UIViewController {
         }
 
         alert.addAction(
-            UIAlertAction(title: NotificareLocalizable.string(resource: .cancel),
+            UIAlertAction(title: NotificareLocalizable.string(resource: .cancelButton),
                           style: .cancel,
                           handler: nil)
         )

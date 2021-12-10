@@ -280,7 +280,7 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
                 title: NotificareLocalizable.string(resource: action.label, fallback: action.label),
                 options: options,
                 icon: UNNotificationActionIcon(systemImageName: icon),
-                textInputButtonTitle: NotificareLocalizable.string(resource: .actionsSend),
+                textInputButtonTitle: NotificareLocalizable.string(resource: .sendButton),
                 textInputPlaceholder: NotificareLocalizable.string(resource: .actionsInputPlaceholder)
             )
         }
@@ -289,7 +289,7 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
             identifier: action.label,
             title: NotificareLocalizable.string(resource: action.label, fallback: action.label),
             options: options,
-            textInputButtonTitle: NotificareLocalizable.string(resource: .actionsSend),
+            textInputButtonTitle: NotificareLocalizable.string(resource: .sendButton),
             textInputPlaceholder: NotificareLocalizable.string(resource: .actionsInputPlaceholder)
         )
     }

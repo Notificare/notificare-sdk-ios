@@ -6,16 +6,18 @@
   Copyright © 2021 Notificare. All rights reserved.
 */
 
-"notificare_ok" = "OK";
-"notificare_cancel" = "Cancel";
-"notificare_actions" = "Actions";
+"notificare_ok_button" = "OK";
+"notificare_cancel_button" = "Cancel";
+"notificare_close_button" = "Close";
+"notificare_send_button" = "Send";
+"notificare_actions_button" = "Actions";
 
 "notificare_push_default_category" = "Default category";
 
-"notificare_actions_send" = "Send";
-"notificare_actions_input_placeholder" = "Type here";
+"notificare_actions_input_placeholder" = "Type something here";
 
-"notification_actions_share_image_text_placeholder" = "Write something here";
+// Optional text
+// "notification_actions_share_image_text_placeholder" = "";
 
 "notificare_rate_alert_yes_button" = "Yes, I'll rate now";
 "notificare_rate_alert_no_button" = "No, thanks";
@@ -24,6 +26,3 @@
 
 "notificare_action_mail_subject" = "Your subject";
 "notificare_action_mail_body" = "Your message";
-
-"notificare_close_button" = "Close";
-"notificare_send_button" = "Send";

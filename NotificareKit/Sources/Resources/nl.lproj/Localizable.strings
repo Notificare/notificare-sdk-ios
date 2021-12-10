@@ -5,3 +5,24 @@
   Created by Helder Pinhal on 07/01/2021.
   Copyright © 2021 Notificare. All rights reserved.
 */
+
+"notificare_ok_button" = "Oke";
+"notificare_cancel_button" = "Annuleren";
+"notificare_close_button" = "Sluiten";
+"notificare_send_button" = "Stuur";
+"notificare_actions_button" = "Acties";
+
+"notificare_push_default_category" = "Standaard categorie";
+
+"notificare_actions_input_placeholder" = "Type een tekst";
+
+// Optional text
+// "notification_actions_share_image_text_placeholder" = "";
+
+"notificare_rate_alert_yes_button" = "Ja, ik zal nu beoordelen";
+"notificare_rate_alert_no_button" = "Nee, dank u wel";
+
+"notificare_map_unknown_title_marker" = "Onbekend";
+
+"notificare_action_mail_subject" = "Jouw onderwerp";
+"notificare_action_mail_body" = "Jouw bericht";
