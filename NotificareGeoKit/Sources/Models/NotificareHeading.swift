@@ -13,6 +13,16 @@ public struct NotificareHeading: Codable {
     public let y: Double
     public let z: Double
     public let timestamp: Date
+
+    public init(magneticHeading: Double, trueHeading: Double, headingAccuracy: Double, x: Double, y: Double, z: Double, timestamp: Date) {
+        self.magneticHeading = magneticHeading
+        self.trueHeading = trueHeading
+        self.headingAccuracy = headingAccuracy
+        self.x = x
+        self.y = y
+        self.z = z
+        self.timestamp = timestamp
+    }
 }
 
 // JSON: NotificareHeading

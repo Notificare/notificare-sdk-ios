@@ -14,6 +14,15 @@ public struct NotificareBeacon: Codable, Hashable {
     public let triggers: Bool
     public internal(set) var proximity: Proximity = .unknown
 
+    public init(id: String, name: String, major: Int, minor: Int?, triggers: Bool, proximity: NotificareBeacon.Proximity = .unknown) {
+        self.id = id
+        self.name = name
+        self.major = major
+        self.minor = minor
+        self.triggers = triggers
+        self.proximity = proximity
+    }
+
     public enum Proximity: String, Codable {
         case unknown
         case immediate

@@ -4,7 +4,7 @@
 
 import NotificareKit
 
-extension NotificareNotification {
+internal extension NotificareNotification {
     init?(apnsDictionary: [AnyHashable: Any]) {
         let aps = apnsDictionary["aps"] as? [String: Any]
         let alert = aps?["alert"] as? [String: Any] ?? apnsDictionary["alert"] as? [String: Any]

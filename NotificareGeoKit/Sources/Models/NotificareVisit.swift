@@ -10,6 +10,13 @@ public struct NotificareVisit: Codable {
     public let arrivalDate: Date
     public let latitude: Double
     public let longitude: Double
+
+    public init(departureDate: Date, arrivalDate: Date, latitude: Double, longitude: Double) {
+        self.departureDate = departureDate
+        self.arrivalDate = arrivalDate
+        self.latitude = latitude
+        self.longitude = longitude
+    }
 }
 
 // JSON: NotificareVisit

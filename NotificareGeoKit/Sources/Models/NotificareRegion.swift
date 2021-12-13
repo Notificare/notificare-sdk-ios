@@ -17,19 +17,47 @@ public struct NotificareRegion: Codable {
     public let timeZone: String
     public let timeZoneOffset: Int
 
+    public init(id: String, name: String, description: String?, referenceKey: String?, geometry: NotificareRegion.Geometry, advancedGeometry: NotificareRegion.AdvancedGeometry?, major: Int?, distance: Double, timeZone: String, timeZoneOffset: Int) {
+        self.id = id
+        self.name = name
+        self.description = description
+        self.referenceKey = referenceKey
+        self.geometry = geometry
+        self.advancedGeometry = advancedGeometry
+        self.major = major
+        self.distance = distance
+        self.timeZone = timeZone
+        self.timeZoneOffset = timeZoneOffset
+    }
+
     public struct Geometry: Codable {
         public let type: String
         public let coordinate: Coordinate
+
+        public init(type: String, coordinate: NotificareRegion.Coordinate) {
+            self.type = type
+            self.coordinate = coordinate
+        }
     }
 
     public struct AdvancedGeometry: Codable {
         public let type: String
         public let coordinates: [Coordinate]
+
+        public init(type: String, coordinates: [NotificareRegion.Coordinate]) {
+            self.type = type
+            self.coordinates = coordinates
+        }
     }
 
     public struct Coordinate: Codable {
         public let latitude: Double
         public let longitude: Double
+
+        public init(latitude: Double, longitude: Double) {
+            self.latitude = latitude
+            self.longitude = longitude
+        }
     }
 }
 

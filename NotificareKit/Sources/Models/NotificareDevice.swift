@@ -21,18 +21,40 @@ public struct NotificareDevice: Codable {
     public internal(set) var lastRegistered: Date
     public internal(set) var backgroundAppRefresh: Bool
 
-    public func toJson() throws -> [String: Any] {
+    public init(id: String, userId: String? = nil, userName: String? = nil, timeZoneOffset: Float, osVersion: String, sdkVersion: String, appVersion: String, deviceString: String, language: String, region: String, transport: NotificareTransport, dnd: NotificareDoNotDisturb? = nil, userData: NotificareUserData, lastRegistered: Date, backgroundAppRefresh: Bool) {
+        self.id = id
+        self.userId = userId
+        self.userName = userName
+        self.timeZoneOffset = timeZoneOffset
+        self.osVersion = osVersion
+        self.sdkVersion = sdkVersion
+        self.appVersion = appVersion
+        self.deviceString = deviceString
+        self.language = language
+        self.region = region
+        self.transport = transport
+        self.dnd = dnd
+        self.userData = userData
+        self.lastRegistered = lastRegistered
+        self.backgroundAppRefresh = backgroundAppRefresh
+    }
+}
+
+// JSON: NotificareDevice
+public extension NotificareDevice {
+    func toJson() throws -> [String: Any] {
         let data = try NotificareUtils.jsonEncoder.encode(self)
         return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
     }
 
-    public static func fromJson(json: [String: Any]) throws -> NotificareDevice {
+    static func fromJson(json: [String: Any]) throws -> NotificareDevice {
         let data = try JSONSerialization.data(withJSONObject: json, options: [])
         return try NotificareUtils.jsonDecoder.decode(NotificareDevice.self, from: data)
     }
 }
 
-extension NotificareDevice {
+// Rolling registration
+internal extension NotificareDevice {
     init(from registration: NotificareInternals.PushAPI.Payloads.Device.Registration, previous: NotificareDevice?) {
         id = registration.deviceID
         userId = registration.userID

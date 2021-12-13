@@ -19,41 +19,18 @@ public struct NotificareInboxItem: Codable {
 
         return false
     }
-}
 
-// NotificareInboxItem.init(remote:)
-extension NotificareInboxItem {
-    init(remote: NotificareInternals.PushAPI.Models.RemoteInboxItem) {
-        let attachments: [NotificareNotification.Attachment]
-        if let attachment = remote.attachment {
-            attachments = [attachment]
-        } else {
-            attachments = []
-        }
-
-        id = remote._id
-        notification = NotificareNotification(
-            partial: true,
-            id: remote._id,
-            type: remote.type,
-            time: remote.time,
-            title: remote.title,
-            subtitle: remote.subtitle,
-            message: remote.message,
-            content: [],
-            actions: [],
-            attachments: attachments,
-            extra: remote.extra,
-            targetContentIdentifier: nil
-        )
-        time = remote.time
-        opened = remote.opened
-        visible = remote.visible
-        expires = remote.expires
+    public init(id: String, notification: NotificareNotification, time: Date, opened: Bool, visible: Bool, expires: Date?) {
+        self.id = id
+        self.notification = notification
+        self.time = time
+        self.opened = opened
+        self.visible = visible
+        self.expires = expires
     }
 }
 
-// NotificareInboxItem JSON
+// JSON: NotificareInboxItem
 public extension NotificareInboxItem {
     func toJson() throws -> [String: Any] {
         let data = try NotificareUtils.jsonEncoder.encode(self)

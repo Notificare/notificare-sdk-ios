@@ -16,6 +16,18 @@ public struct NotificareLocation: Codable {
     public let horizontalAccuracy: Double
     public let verticalAccuracy: Double
     public let timestamp: Date
+
+    public init(latitude: Double, longitude: Double, altitude: Double, course: Double, speed: Double, floor: Int?, horizontalAccuracy: Double, verticalAccuracy: Double, timestamp: Date) {
+        self.latitude = latitude
+        self.longitude = longitude
+        self.altitude = altitude
+        self.course = course
+        self.speed = speed
+        self.floor = floor
+        self.horizontalAccuracy = horizontalAccuracy
+        self.verticalAccuracy = verticalAccuracy
+        self.timestamp = timestamp
+    }
 }
 
 internal extension NotificareLocation {

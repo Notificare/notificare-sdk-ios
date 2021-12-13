@@ -24,7 +24,7 @@ internal class NotificareAssetsImpl: NSObject, NotificareModule, NotificareAsset
             .responseDecodable(NotificareInternals.PushAPI.Responses.Assets.self) { result in
                 switch result {
                 case let .success(response):
-                    let assets = response.assets.map { NotificareAsset(asset: $0) }
+                    let assets = response.assets.map { $0.toModel() }
                     completion(.success(assets))
 
                 case let .failure(error):

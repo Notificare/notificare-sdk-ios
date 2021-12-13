@@ -50,5 +50,29 @@ internal extension NotificareInternals.PushAPI.Models {
             case visible
             case expires
         }
+
+        func toModel() -> NotificareInboxItem {
+            NotificareInboxItem(
+                id: _id,
+                notification: NotificareNotification(
+                    partial: true,
+                    id: _id,
+                    type: type,
+                    time: time,
+                    title: title,
+                    subtitle: subtitle,
+                    message: message,
+                    content: [],
+                    actions: [],
+                    attachments: attachment.map { [$0] } ?? [],
+                    extra: extra,
+                    targetContentIdentifier: nil
+                ),
+                time: time,
+                opened: opened,
+                visible: visible,
+                expires: expires
+            )
+        }
     }
 }

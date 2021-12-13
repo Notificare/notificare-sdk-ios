@@ -21,6 +21,22 @@ public struct NotificarePass: Codable {
     public let date: Date
     // public let googlePaySaveLink: String?
 
+    public init(id: String, type: NotificarePass.PassType?, version: Int, passbook: String?, template: String?, serial: String, barcode: String, redeem: NotificarePass.Redeem, redeemHistory: [NotificarePass.Redemption], limit: Int, token: String, data: [String: Any], date: Date) {
+        self.id = id
+        self.type = type
+        self.version = version
+        self.passbook = passbook
+        self.template = template
+        self.serial = serial
+        self.barcode = barcode
+        self.redeem = redeem
+        self.redeemHistory = redeemHistory
+        self.limit = limit
+        self.token = token
+        self.data = data
+        self.date = date
+    }
+
     public enum PassType: String, Codable {
         case boarding
         case coupon
@@ -38,6 +54,24 @@ public struct NotificarePass: Codable {
     public struct Redemption: Codable {
         public let comments: String?
         public let date: Date
+
+        public init(comments: String?, date: Date) {
+            self.comments = comments
+            self.date = date
+        }
+    }
+}
+
+// JSON: NotificarePass
+public extension NotificarePass {
+    func toJson() throws -> [String: Any] {
+        let data = try NotificareUtils.jsonEncoder.encode(self)
+        return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
+    }
+
+    static func fromJson(json: [String: Any]) throws -> NotificarePass {
+        let data = try JSONSerialization.data(withJSONObject: json, options: [])
+        return try NotificareUtils.jsonDecoder.decode(NotificarePass.self, from: data)
     }
 }
 
@@ -93,19 +127,6 @@ public extension NotificarePass {
         try container.encode(token, forKey: .token)
         try container.encode(AnyCodable(data), forKey: .data)
         try container.encode(date, forKey: .date)
-    }
-}
-
-// JSON: NotificarePass
-public extension NotificarePass {
-    func toJson() throws -> [String: Any] {
-        let data = try NotificareUtils.jsonEncoder.encode(self)
-        return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
-    }
-
-    static func fromJson(json: [String: Any]) throws -> NotificarePass {
-        let data = try JSONSerialization.data(withJSONObject: json, options: [])
-        return try NotificareUtils.jsonDecoder.decode(NotificarePass.self, from: data)
     }
 }
 

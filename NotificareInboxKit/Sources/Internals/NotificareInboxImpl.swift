@@ -515,7 +515,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
             case let .success(response):
                 // Add all items to the database.
                 response.inboxItems.forEach { item in
-                    self.addToLocalInbox(NotificareInboxItem(remote: item))
+                    self.addToLocalInbox(item.toModel())
                 }
 
                 if response.count > (step + 1) * 100 {

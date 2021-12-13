@@ -4,12 +4,18 @@
 
 import NotificareKit
 
-public struct NotificareSystemNotification {
+public struct NotificareSystemNotification: Codable {
     public let id: String
     public let type: String
     public let extra: [String: Any]
 
-    init(userInfo: [AnyHashable: Any]) {
+    public init(id: String, type: String, extra: [String: Any]) {
+        self.id = id
+        self.type = type
+        self.extra = extra
+    }
+
+    internal init(userInfo: [AnyHashable: Any]) {
         id = userInfo["id"] as! String
         type = userInfo["systemType"] as! String
 
@@ -18,26 +24,30 @@ public struct NotificareSystemNotification {
 
         extra = stringKeyedUserInfo.filter { !ignoreKeys.contains($0.key) }
     }
+}
 
-    public func toJson() throws -> [String: Any] {
+// JSON: NotificareSystemNotification
+public extension NotificareSystemNotification {
+    func toJson() throws -> [String: Any] {
         let data = try NotificareUtils.jsonEncoder.encode(self)
         return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
     }
 
-    public static func fromJson(json: [String: Any]) throws -> NotificareSystemNotification {
+    static func fromJson(json: [String: Any]) throws -> NotificareSystemNotification {
         let data = try JSONSerialization.data(withJSONObject: json, options: [])
         return try NotificareUtils.jsonDecoder.decode(NotificareSystemNotification.self, from: data)
     }
 }
 
-extension NotificareSystemNotification: Codable {
-    enum CodingKeys: String, CodingKey {
+// Codable: NotificareSystemNotification
+public extension NotificareSystemNotification {
+    internal enum CodingKeys: String, CodingKey {
         case id
         case type
         case extra
     }
 
-    public init(from decoder: Decoder) throws {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         id = try container.decode(String.self, forKey: .id)
@@ -47,7 +57,7 @@ extension NotificareSystemNotification: Codable {
         extra = decodedExtra.value as! [String: Any]
     }
 
-    public func encode(to encoder: Encoder) throws {
+    func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(id, forKey: .id)
