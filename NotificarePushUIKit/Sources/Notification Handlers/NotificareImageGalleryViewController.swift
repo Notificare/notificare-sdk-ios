@@ -100,7 +100,10 @@ public class NotificareImageGalleryViewController: NotificareBaseNotificationVie
     }
 
     private func openSharingActionSheet(for image: UIImage) {
-        let items: [Any] = [image, NotificareLocalizable.string(resource: .actionsShareImageTextPlaceholder)]
+        let placeholderText = NotificareLocalizable.string(resource: .actionsShareImageTextPlaceholder)
+        let items: [Any] = placeholderText == NotificareLocalizable.StringResource.actionsShareImageTextPlaceholder.rawValue
+            ? [image]
+            : [image, placeholderText]
 
         let controller = UIActivityViewController(activityItems: items, applicationActivities: nil)
         controller.excludedActivityTypes = [.postToWeibo, .assignToContact, .message, .mail]
