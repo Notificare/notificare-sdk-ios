@@ -16,7 +16,6 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
 
     private var navigationController: UINavigationController!
     private var viewController: UIViewController!
-    private var placeholderView: UIView!
     private var imageView: UIImageView!
     private var activityIndicatorView: UIActivityIndicatorView!
     private var toolbar: UIToolbar!
@@ -26,7 +25,7 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
     private var messageView: UITextView?
     private var messageField: UITextField?
 
-    private var keyboardHeight: CGFloat = 0.0
+    private var toolbarBottomConstraint: NSLayoutConstraint?
 
     private var imageData: Data?
     private var videoData: Data?
@@ -44,20 +43,28 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
 
         viewController = UIViewController()
         navigationController = UINavigationController(rootViewController: viewController)
+
         theme = Notificare.shared.options!.theme(for: viewController)
-
-        placeholderView = UIView(frame: CGRect(x: 0, y: 0, width: viewController.view.frame.width, height: viewController.view.frame.height))
-        placeholderView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         if let colorStr = theme?.backgroundColor {
-            placeholderView.backgroundColor = UIColor(hexString: colorStr)
+            viewController.view.backgroundColor = UIColor(hexString: colorStr)
+        } else {
+            if #available(iOS 13.0, *) {
+                viewController.view.backgroundColor = .systemBackground
+            } else {
+                viewController.view.backgroundColor = .white
+            }
         }
 
-        imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: viewController.view.frame.width, height: viewController.view.frame.height))
-        imageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        if let colorStr = theme?.backgroundColor {
-            imageView.tintColor = UIColor(hexString: colorStr)
-        }
+        viewController.title = notification.title ?? NotificareUtils.applicationName
+        setupNavigationActions()
 
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow(_:)),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+    }
+
+    private func setupNavigationActions() {
         if let image = NotificareLocalizable.image(resource: .close) {
             closeButton = UIBarButtonItem(image: image,
                                           style: .plain,
@@ -104,14 +111,8 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
             activityIndicatorView.tintColor = UIColor(hexString: colorStr)
         }
 
-        viewController.title = notification.title ?? NotificareUtils.applicationName
         viewController.navigationItem.leftBarButtonItem = closeButton
         viewController.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: activityIndicatorView)
-
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillShow(_:)),
-                                               name: UIResponder.keyboardWillShowNotification,
-                                               object: nil)
     }
 
     override func execute() {
@@ -199,7 +200,8 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
     }
 
     private func openKeyboard() {
-        let messageView = UITextView(frame: CGRect(x: 0, y: 0, width: viewController.view.frame.width, height: viewController.view.frame.height - keyboardHeight))
+        let messageView = UITextView()
+        messageView.translatesAutoresizingMaskIntoConstraints = false
         messageView.font = UIFont.systemFont(ofSize: 16)
         messageView.autocorrectionType = .default
         messageView.keyboardType = .default
@@ -213,32 +215,58 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
             messageView.textColor = UIColor(hexString: colorStr)
         }
 
-        toolbar = UIToolbar(frame: CGRect(x: 0, y: viewController.view.frame.height - keyboardHeight, width: viewController.view.frame.width, height: 42))
+        toolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: viewController.view.frame.width, height: 44))
+        toolbar.translatesAutoresizingMaskIntoConstraints = false
+        toolbar.setContentCompressionResistancePriority(UILayoutPriority(rawValue: 751), for: .vertical)
+        toolbar.setContentHuggingPriority(UILayoutPriority(rawValue: 751), for: .vertical)
         if let colorStr = theme?.toolbarBackgroundColor {
             toolbar.barTintColor = UIColor(hexString: colorStr)
         }
 
-        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        toolbar.setItems([flexibleSpace, sendButton], animated: false)
+        toolbar.setItems(
+            [
+                UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+                sendButton,
+            ],
+            animated: false
+        )
 
-        placeholderView.addSubview(messageView)
-        placeholderView.addSubview(toolbar)
+        viewController.view.addSubview(messageView)
+        viewController.view.addSubview(toolbar)
+
+        let toolbarBottomConstraint = toolbar.bottomAnchor.constraint(equalTo: viewController.view.bottomAnchor)
+        self.toolbarBottomConstraint = toolbarBottomConstraint
+
+        NSLayoutConstraint.activate([
+            // Message view
+            messageView.topAnchor.constraint(equalTo: viewController.view.ncSafeAreaLayoutGuide.topAnchor),
+            messageView.bottomAnchor.constraint(equalTo: toolbar.topAnchor),
+            messageView.leadingAnchor.constraint(equalTo: viewController.view.leadingAnchor),
+            messageView.trailingAnchor.constraint(equalTo: viewController.view.trailingAnchor),
+            // Toolbar
+            toolbar.topAnchor.constraint(equalTo: messageView.bottomAnchor),
+            toolbarBottomConstraint,
+            toolbar.leadingAnchor.constraint(equalTo: viewController.view.leadingAnchor),
+            toolbar.trailingAnchor.constraint(equalTo: viewController.view.trailingAnchor),
+        ])
+
         messageView.becomeFirstResponder()
-
-        viewController.view = placeholderView
 
         sourceViewController.presentOrPush(navigationController)
     }
 
     private func showMedia(_ image: UIImage?) {
         // Use a square to display the image, this makes sure the image is in the right ratio.
-        imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: viewController.view.frame.width, height: viewController.view.frame.width))
+        imageView = UIImageView(frame: .zero)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
         imageView.image = image
-        placeholderView.addSubview(imageView)
+        viewController.view.addSubview(imageView)
 
         if action.keyboard {
-            let messageField = UITextField(frame: CGRect(x: 10, y: 10, width: viewController.view.frame.width - 65, height: 32))
+            let messageField = UITextField()
+            messageField.translatesAutoresizingMaskIntoConstraints = false
             messageField.placeholder = NotificareLocalizable.string(resource: .actionsInputPlaceholder)
             messageField.borderStyle = .none
             if let colorStr = theme?.textFieldBackgroundColor {
@@ -257,21 +285,58 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
 
             self.messageField = messageField
 
-            toolbar = UIToolbar(frame: CGRect(x: 0, y: viewController.view.frame.height - keyboardHeight, width: viewController.view.frame.width, height: 52))
+            toolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: viewController.view.frame.width, height: 44))
+            toolbar.translatesAutoresizingMaskIntoConstraints = false
+            toolbar.setContentCompressionResistancePriority(UILayoutPriority(rawValue: 751), for: .vertical)
+            toolbar.setContentHuggingPriority(UILayoutPriority(rawValue: 751), for: .vertical)
             if let colorStr = theme?.toolbarBackgroundColor {
                 toolbar.barTintColor = UIColor(hexString: colorStr)
             }
 
-            let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-            toolbar.setItems([flexibleSpace, sendButton], animated: false)
-            toolbar.addSubview(messageField)
+            toolbar.setItems(
+                [
+                    UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+                    sendButton,
+                ],
+                animated: false
+            )
 
-            placeholderView.addSubview(toolbar)
+            toolbar.addSubview(messageField)
+            NSLayoutConstraint.activate([
+                messageField.topAnchor.constraint(equalTo: toolbar.topAnchor),
+                messageField.bottomAnchor.constraint(equalTo: toolbar.bottomAnchor),
+                messageField.leadingAnchor.constraint(equalTo: toolbar.leadingAnchor, constant: 16),
+                messageField.trailingAnchor.constraint(equalTo: toolbar.trailingAnchor, constant: -16 - 44),
+            ])
+
+            let toolbarBottomConstraint = toolbar.bottomAnchor.constraint(equalTo: viewController.view.bottomAnchor)
+            self.toolbarBottomConstraint = toolbarBottomConstraint
+
+            viewController.view.addSubview(toolbar)
+            NSLayoutConstraint.activate([
+                // Image view: available space
+                imageView.topAnchor.constraint(equalTo: viewController.view.ncSafeAreaLayoutGuide.topAnchor),
+                imageView.bottomAnchor.constraint(equalTo: toolbar.topAnchor),
+                imageView.leadingAnchor.constraint(equalTo: viewController.view.ncSafeAreaLayoutGuide.leadingAnchor),
+                imageView.trailingAnchor.constraint(equalTo: viewController.view.ncSafeAreaLayoutGuide.trailingAnchor),
+                // Toolbar
+                toolbar.topAnchor.constraint(equalTo: imageView.bottomAnchor),
+                toolbarBottomConstraint,
+                toolbar.leadingAnchor.constraint(equalTo: viewController.view.leadingAnchor),
+                toolbar.trailingAnchor.constraint(equalTo: viewController.view.trailingAnchor),
+            ])
         } else {
+            NSLayoutConstraint.activate([
+                // Image view: square
+                imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor),
+                imageView.topAnchor.constraint(equalTo: viewController.view.ncSafeAreaLayoutGuide.topAnchor),
+                imageView.bottomAnchor.constraint(lessThanOrEqualTo: viewController.view.ncSafeAreaLayoutGuide.bottomAnchor),
+                imageView.leadingAnchor.constraint(equalTo: viewController.view.ncSafeAreaLayoutGuide.leadingAnchor),
+                imageView.trailingAnchor.constraint(equalTo: viewController.view.ncSafeAreaLayoutGuide.trailingAnchor),
+            ])
+
             viewController.navigationItem.rightBarButtonItem = sendButton
         }
-
-        viewController.view = placeholderView
 
         sourceViewController.presentOrPush(navigationController)
     }
@@ -283,17 +348,7 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
             return
         }
 
-        keyboardHeight = keyboardRect.height + toolbar.bounds.height
-
-        toolbar.frame = CGRect(x: 0,
-                               y: viewController.view.frame.height - keyboardHeight,
-                               width: viewController.view.frame.width,
-                               height: toolbar.bounds.height)
-
-        imageView.frame = CGRect(x: 0,
-                                 y: 0,
-                                 width: viewController.view.frame.width,
-                                 height: viewController.view.frame.height - keyboardHeight)
+        toolbarBottomConstraint?.constant = -keyboardRect.height
     }
 
     private func dismiss() {
