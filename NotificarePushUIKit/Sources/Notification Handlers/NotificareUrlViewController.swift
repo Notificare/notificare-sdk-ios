@@ -27,6 +27,14 @@ public class NotificareUrlViewController: NotificareBaseNotificationViewControll
         webView.addObserver(self, forKeyPath: NSStringFromSelector(#selector(getter: WKWebView.estimatedProgress)), options: .new, context: nil)
     }
 
+    override public func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        // NOTE: Loading a blank view to prevent the videos from continuing
+        // playing after dismissing the view controller.
+        webView.load(URLRequest(url: URL(string: "about:blank")!))
+    }
+
     override public func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         webView.removeObserver(self, forKeyPath: NSStringFromSelector(#selector(getter: WKWebView.estimatedProgress)))
