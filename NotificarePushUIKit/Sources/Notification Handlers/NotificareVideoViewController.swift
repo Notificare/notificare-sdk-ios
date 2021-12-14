@@ -13,7 +13,24 @@ public class NotificareVideoViewController: NotificareBaseNotificationViewContro
         super.viewDidLoad()
 
         setupWebView()
+        // setupContent()
+    }
+
+    override public func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        // NOTE: we're setting up the content when the view loads because,
+        // at the moment, we need the correct height of the safe area.
+        // We should improve the HTML template to be responsive.
         setupContent()
+    }
+
+    override public func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        // NOTE: Loading a blank view to prevent the videos from continuing
+        // playing after dismissing the view controller.
+        webView.load(URLRequest(url: URL(string: "about:blank")!))
     }
 
     override public func viewDidDisappear(_ animated: Bool) {
@@ -31,14 +48,21 @@ public class NotificareVideoViewController: NotificareBaseNotificationViewContro
         configuration.userContentController.addUserScript(metaScript)
 
         // View setup.
-        webView = WKWebView(frame: view.frame, configuration: configuration)
-        webView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-
+        webView = WKWebView(frame: .zero, configuration: configuration)
+        webView.translatesAutoresizingMaskIntoConstraints = false
+        webView.isOpaque = false
+        webView.backgroundColor = .clear
         webView.scrollView.bounces = false
         webView.navigationDelegate = self
         webView.uiDelegate = self
 
         view.addSubview(webView)
+        NSLayoutConstraint.activate([
+            webView.topAnchor.constraint(equalTo: view.ncSafeAreaLayoutGuide.topAnchor),
+            webView.bottomAnchor.constraint(equalTo: view.ncSafeAreaLayoutGuide.bottomAnchor),
+            webView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            webView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+        ])
 
         // Clear cache.
         WKWebsiteDataStore.default().removeData(ofTypes: [WKWebsiteDataTypeDiskCache, WKWebsiteDataTypeMemoryCache],
@@ -52,24 +76,27 @@ public class NotificareVideoViewController: NotificareBaseNotificationViewContro
             return
         }
 
+        let width = view.ncSafeAreaLayoutGuide.layoutFrame.width
+        let height = view.ncSafeAreaLayoutGuide.layoutFrame.height
+
         switch content.type {
         case "re.notifica.content.YouTube":
             let htmlTemplate = "<!DOCTYPE html><html><head><style>body{margin:0px 0px 0px 0px;}</style></head> <body> <div id=\"player\"></div> <script> var tag = document.createElement('script'); tag.src = \"https://www.youtube.com/player_api\"; var firstScriptTag = document.getElementsByTagName('script')[0]; firstScriptTag.parentNode.insertBefore(tag, firstScriptTag); var player; function onYouTubePlayerAPIReady() { player = new YT.Player('player', { autoplay: 1, width:'%0.0f', height:'%0.0f', videoId:'%@', events: { 'onReady': onPlayerReady } }); } function onPlayerReady(event) { event.target.playVideo(); } </script> </body> </html>"
 
-            let htmlStr = String(format: htmlTemplate, view.frame.width, view.frame.height, content.data as! String)
+            let htmlStr = String(format: htmlTemplate, width, height, content.data as! String)
             webView.loadHTMLString(htmlStr, baseURL: Bundle.main.resourceURL)
             NotificareLogger.warning("done loading html")
 
         case "re.notifica.content.Vimeo":
             let htmlTemplate = "<!DOCTYPE html><html><head><style>body{margin:0px 0px 0px 0px;}</style></head><body><iframe src='https://player.vimeo.com/video/%@?autoplay=1' width='%0.0f' height='%0.0f' frameborder='0' webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></body> </html>"
 
-            let htmlStr = String(format: htmlTemplate, content.data as! String, view.frame.width, view.frame.height)
+            let htmlStr = String(format: htmlTemplate, content.data as! String, width, height)
             webView.loadHTMLString(htmlStr, baseURL: Bundle.main.resourceURL)
 
         case "re.notifica.content.HTML5Video":
             let htmlTemplate = "<!DOCTYPE html><html><head><style>body{margin:0px 0px 0px 0px;}</style></head><body><video id='html5player' width='%0.0f' height='%0.0f' autoplay controls preload><source src='%@' type='video/mp4'></video></body></html>"
 
-            let htmlStr = String(format: htmlTemplate, view.frame.width, view.frame.height, content.data as! String)
+            let htmlStr = String(format: htmlTemplate, width, height, content.data as! String)
             webView.loadHTMLString(htmlStr, baseURL: Bundle.main.resourceURL)
 
         default:
