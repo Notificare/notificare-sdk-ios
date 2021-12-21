@@ -382,7 +382,8 @@ public class Notificare {
             .responseDecodable(NotificareInternals.PushAPI.Responses.UploadAsset.self) { result in
                 switch result {
                 case let .success(response):
-                    completion(.success("https://push.notifica.re/upload\(response.filename)"))
+                    let host = Notificare.shared.servicesInfo!.services.pushHost
+                    completion(.success("\(host)/upload\(response.filename)"))
                 case let .failure(error):
                     completion(.failure(error))
                 }
