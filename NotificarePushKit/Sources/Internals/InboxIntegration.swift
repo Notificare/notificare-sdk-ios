@@ -40,10 +40,8 @@ internal class InboxIntegration {
             "inboxItemVisible": userInfo["inboxItemVisible"] as? Bool ?? false,
         ]
 
-        if let expiresStr = userInfo["inboxItemExpires"] as? String,
-           let inboxItemExpires = NotificareIsoDateUtils.parse(expiresStr)
-        {
-            content["inboxItemExpires"] = inboxItemExpires
+        if let expiresMillis = userInfo["inboxItemExpires"] as? Double {
+            content["inboxItemExpires"] = Date(timeIntervalSince1970: expiresMillis / 1000)
         }
 
         // Notify the inbox to add this item.
