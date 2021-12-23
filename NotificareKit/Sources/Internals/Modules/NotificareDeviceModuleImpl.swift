@@ -10,13 +10,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
 
     // MARK: - Notificare Module
 
-//    static func migrate() {
-//
-//    }
-
     static func configure() {
-        // TODO: handle migration
-
         // Listen to timezone changes
         NotificationCenter.default.addObserver(instance,
                                                selector: #selector(updateDeviceTimezone),
