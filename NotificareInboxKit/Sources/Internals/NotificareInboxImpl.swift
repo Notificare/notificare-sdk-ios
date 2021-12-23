@@ -177,9 +177,6 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
             return
         }
 
-        // Remove the item from the notification center.
-        Notificare.shared.removeNotificationFromNotificationCenter(item.notification)
-
         if item.notification.partial {
             Notificare.shared.fetchNotification(item.notification.id) { result in
                 switch result {
