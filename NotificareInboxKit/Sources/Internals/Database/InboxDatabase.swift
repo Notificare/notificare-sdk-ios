@@ -11,8 +11,8 @@ class InboxDatabase: NotificareAbstractDatabase {
         super.init(name: "NotificareInboxDatabase", rebuildOnVersionChange: true)
     }
 
-    func add(_ item: NotificareInboxItem) -> InboxItemEntity {
-        let entity = InboxItemEntity(from: item, context: context)
+    func add(_ item: NotificareInboxItem, visible: Bool) -> InboxItemEntity {
+        let entity = InboxItemEntity(from: item, visible: visible, context: context)
         saveChanges()
 
         return entity

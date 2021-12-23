@@ -53,7 +53,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         guard let url = userActivity.webpageURL else {
             return false
         }
-        
+
         if let token = Notificare.shared.authentication().parsePasswordResetToken(url) {
             print("---> Password reset token = \(token)")
             return true

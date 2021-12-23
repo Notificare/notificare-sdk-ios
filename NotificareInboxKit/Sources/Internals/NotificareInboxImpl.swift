@@ -26,7 +26,9 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
             return []
         }
 
-        return visibleItems
+        return cachedEntities
+            .filter { $0.visible && !$0.expired }
+            .map { $0.toModel() }
     }
 
     public var badge: Int {
@@ -59,12 +61,6 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
                 lhs.time!.compare(rhs.time!) == .orderedDescending
             })
         }
-    }
-
-    private var visibleItems: [NotificareInboxItem] {
-        cachedEntities
-            .map { $0.toModel() }
-            .filter { $0.visible && !$0.expired }
     }
 
     // MARK: - Notificare Module
@@ -240,7 +236,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
                 Notificare.shared.removeNotificationFromNotificationCenter(item.notification)
 
                 // Notify the delegate.
-                self.delegate?.notificare(self, didUpdateInbox: self.visibleItems)
+                self.delegate?.notificare(self, didUpdateInbox: self.items)
 
                 // Refresh the badge if applicable.
                 self.refreshBadge { _ in }
@@ -289,7 +285,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
                     self.clearNotificationCenter()
 
                     // Notify the delegate.
-                    self.delegate?.notificare(self, didUpdateInbox: self.visibleItems)
+                    self.delegate?.notificare(self, didUpdateInbox: self.items)
 
                     // Refresh the badge if applicable.
                     self.refreshBadge { _ in
@@ -324,7 +320,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
                     }
 
                     // Notify the delegate.
-                    self.delegate?.notificare(self, didUpdateInbox: self.visibleItems)
+                    self.delegate?.notificare(self, didUpdateInbox: self.items)
 
                     // Refresh the badge if applicable.
                     self.refreshBadge { _ in
@@ -358,7 +354,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
                     self.clearNotificationCenter()
 
                     // Notify the delegate.
-                    self.delegate?.notificare(self, didUpdateInbox: self.visibleItems)
+                    self.delegate?.notificare(self, didUpdateInbox: self.items)
 
                     self.refreshBadge { _ in
                         completion(.success(()))
@@ -420,7 +416,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
                     if response.statusCode == 304 {
                         NotificareLogger.debug("The inbox has not been modified. Proceeding with locally stored data.")
                         self.refreshBadge { _ in
-                            self.delegate?.notificare(self, didUpdateInbox: self.visibleItems)
+                            self.delegate?.notificare(self, didUpdateInbox: self.items)
                         }
 
                         return
@@ -447,7 +443,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
         }
     }
 
-    private func addToLocalInbox(_ item: NotificareInboxItem) {
+    private func addToLocalInbox(_ item: NotificareInboxItem, visible: Bool) {
         // NOTE: Remove duplicates for a given notification before adding the item to the inbox.
         // When receiving a triggered notification, we may receive it more than once.
         cachedEntities
@@ -460,7 +456,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
                 }
             }
 
-        let entity = database.add(item)
+        let entity = database.add(item, visible: visible)
         cachedEntities.append(entity)
     }
 
@@ -474,13 +470,12 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
     }
 
     private func removeExpiredItemsFromNotificationCenter() {
-        cachedEntities
-            .map { $0.toModel() }
-            .forEach { item in
-                if item.expired {
-                    Notificare.shared.removeNotificationFromNotificationCenter(item.notification)
-                }
+        cachedEntities.forEach { entity in
+            if entity.expired {
+                let item = entity.toModel()
+                Notificare.shared.removeNotificationFromNotificationCenter(item.notification)
             }
+        }
     }
 
     private func clearNotificationCenter() {
@@ -512,7 +507,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
             case let .success(response):
                 // Add all items to the database.
                 response.inboxItems.forEach { item in
-                    self.addToLocalInbox(item.toModel())
+                    self.addToLocalInbox(item.toModel(), visible: item.visible)
                 }
 
                 if response.count > (step + 1) * 100 {
@@ -522,7 +517,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
                     NotificareLogger.debug("Done loading inbox items.")
 
                     // Notify the delegate.
-                    self.delegate?.notificare(self, didUpdateInbox: self.visibleItems)
+                    self.delegate?.notificare(self, didUpdateInbox: self.items)
 
                     // Refresh the badge if applicable.
                     self.refreshBadge { _ in }
@@ -553,13 +548,13 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
                 notification: notification,
                 time: Date(),
                 opened: false,
-                visible: inboxItemVisible,
                 expires: userInfo["inboxItemExpires"] as? Date
-            )
+            ),
+            visible: inboxItemVisible
         )
 
         refreshBadge { _ in
-            self.delegate?.notificare(self, didUpdateInbox: self.visibleItems)
+            self.delegate?.notificare(self, didUpdateInbox: self.items)
         }
     }
 
@@ -580,7 +575,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
         database.saveChanges()
 
         refreshBadge { _ in
-            self.delegate?.notificare(self, didUpdateInbox: self.visibleItems)
+            self.delegate?.notificare(self, didUpdateInbox: self.items)
         }
     }
 
@@ -618,8 +613,8 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
             self.fetchRemoteInbox(for: device.id, skip: 0, limit: 1) { result in
                 switch result {
                 case let .success(response):
-                    let total = self.visibleItems.count
-                    let unread = self.visibleItems.filter { !$0.opened }.count
+                    let total = self.items.count
+                    let unread = self.items.filter { !$0.opened }.count
 
                     if response.count != total || response.unread != unread {
                         NotificareLogger.debug("The inbox needs an update. The count/unread don't match with the local data.")

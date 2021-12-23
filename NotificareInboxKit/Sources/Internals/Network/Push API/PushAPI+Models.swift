@@ -70,7 +70,6 @@ internal extension NotificareInternals.PushAPI.Models {
                 ),
                 time: time,
                 opened: opened,
-                visible: visible,
                 expires: expires
             )
         }

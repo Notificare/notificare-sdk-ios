@@ -5,8 +5,16 @@
 import CoreData
 import NotificareKit
 
-extension InboxItemEntity {
-    convenience init(from model: NotificareInboxItem, context: NSManagedObjectContext) {
+internal extension InboxItemEntity {
+    var expired: Bool {
+        if let expiresAt = expires {
+            return expiresAt <= Date()
+        }
+
+        return false
+    }
+
+    convenience init(from model: NotificareInboxItem, visible: Bool, context: NSManagedObjectContext) {
         let encoder = NotificareUtils.jsonEncoder
 
         self.init(context: context)
@@ -15,7 +23,7 @@ extension InboxItemEntity {
         notification = try! encoder.encode(model.notification)
         time = model.time
         opened = model.opened
-        visible = model.visible
+        self.visible = visible
         expires = model.expires
     }
 
@@ -32,7 +40,6 @@ extension InboxItemEntity {
             notification: try! decoder.decode(NotificareNotification.self, from: notification!),
             time: time!,
             opened: opened,
-            visible: visible,
             expires: expires
         )
     }

@@ -6,26 +6,16 @@ import NotificareKit
 
 public struct NotificareInboxItem: Codable {
     public let id: String
-    public private(set) var notification: NotificareNotification
+    public let notification: NotificareNotification
     public let time: Date
-    public private(set) var opened: Bool
-    internal let visible: Bool
+    public let opened: Bool
     public let expires: Date?
 
-    internal var expired: Bool {
-        if let expiresAt = expires {
-            return expiresAt <= Date()
-        }
-
-        return false
-    }
-
-    public init(id: String, notification: NotificareNotification, time: Date, opened: Bool, visible: Bool, expires: Date?) {
+    public init(id: String, notification: NotificareNotification, time: Date, opened: Bool, expires: Date?) {
         self.id = id
         self.notification = notification
         self.time = time
         self.opened = opened
-        self.visible = visible
         self.expires = expires
     }
 }
