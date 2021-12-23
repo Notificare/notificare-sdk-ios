@@ -212,7 +212,7 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
         // Loop over all the application info actionCategories list of Rich Push templates created for this application.
         Notificare.shared.application?.actionCategories.forEach { category in
             let actions = category.actions.map { action -> UNNotificationAction in
-                if action.destructive {
+                if action.destructive == true {
                     return buildNotificationAction(action, options: .destructive)
                 } else if action.type == "re.notifica.action.Callback" {
                     // Check if needs camera or keyboard, if it does we will need to open the app.
@@ -256,7 +256,7 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
         return categories
     }
 
-    private func buildNotificationAction(_ action: NotificareApplication.ActionCategory.Action, options: UNNotificationActionOptions) -> UNNotificationAction {
+    private func buildNotificationAction(_ action: NotificareNotification.Action, options: UNNotificationActionOptions) -> UNNotificationAction {
         if #available(iOS 15.0, *), let icon = action.icon?.ios {
             return UNNotificationAction(
                 identifier: action.label,
@@ -273,7 +273,7 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
         )
     }
 
-    private func buildTextInputNotificationAction(_ action: NotificareApplication.ActionCategory.Action, options: UNNotificationActionOptions) -> UNTextInputNotificationAction {
+    private func buildTextInputNotificationAction(_ action: NotificareNotification.Action, options: UNNotificationActionOptions) -> UNTextInputNotificationAction {
         if #available(iOS 15.0, *), let icon = action.icon?.ios {
             return UNTextInputNotificationAction(
                 identifier: action.label,

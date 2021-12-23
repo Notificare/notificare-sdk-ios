@@ -72,45 +72,13 @@ public struct NotificareApplication: Codable {
         public let name: String
         public let description: String?
         public let type: String
-        public let actions: [Action]
+        public let actions: [NotificareNotification.Action]
 
-        public init(name: String, description: String?, type: String, actions: [NotificareApplication.ActionCategory.Action]) {
+        public init(name: String, description: String?, type: String, actions: [NotificareNotification.Action]) {
             self.name = name
             self.description = description
             self.type = type
             self.actions = actions
-        }
-
-        public struct Action: Codable {
-            public let type: String
-            public let label: String
-            public let target: String?
-            public let camera: Bool
-            public let keyboard: Bool
-            public let destructive: Bool
-            public let icon: Icon?
-
-            public init(type: String, label: String, target: String?, camera: Bool, keyboard: Bool, destructive: Bool, icon: NotificareApplication.ActionCategory.Action.Icon?) {
-                self.type = type
-                self.label = label
-                self.target = target
-                self.camera = camera
-                self.keyboard = keyboard
-                self.destructive = destructive
-                self.icon = icon
-            }
-
-            public struct Icon: Codable {
-                public let android: String?
-                public let ios: String?
-                public let web: String?
-
-                public init(android: String?, ios: String?, web: String?) {
-                    self.android = android
-                    self.ios = ios
-                    self.web = web
-                }
-            }
         }
     }
 }
@@ -177,31 +145,5 @@ public extension NotificareApplication.ActionCategory {
     static func fromJson(json: [String: Any]) throws -> NotificareApplication.ActionCategory {
         let data = try JSONSerialization.data(withJSONObject: json, options: [])
         return try NotificareUtils.jsonDecoder.decode(NotificareApplication.ActionCategory.self, from: data)
-    }
-}
-
-// JSON: NotificareApplication.ActionCategory.Action
-public extension NotificareApplication.ActionCategory.Action {
-    func toJson() throws -> [String: Any] {
-        let data = try NotificareUtils.jsonEncoder.encode(self)
-        return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
-    }
-
-    static func fromJson(json: [String: Any]) throws -> NotificareApplication.ActionCategory.Action {
-        let data = try JSONSerialization.data(withJSONObject: json, options: [])
-        return try NotificareUtils.jsonDecoder.decode(NotificareApplication.ActionCategory.Action.self, from: data)
-    }
-}
-
-// JSON: NotificareApplication.ActionCategory.Action.Icon
-public extension NotificareApplication.ActionCategory.Action.Icon {
-    func toJson() throws -> [String: Any] {
-        let data = try NotificareUtils.jsonEncoder.encode(self)
-        return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
-    }
-
-    static func fromJson(json: [String: Any]) throws -> NotificareApplication.ActionCategory.Action.Icon {
-        let data = try JSONSerialization.data(withJSONObject: json, options: [])
-        return try NotificareUtils.jsonDecoder.decode(NotificareApplication.ActionCategory.Action.Icon.self, from: data)
     }
 }

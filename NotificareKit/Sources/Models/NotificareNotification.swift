@@ -61,13 +61,17 @@ public struct NotificareNotification: Codable {
         public let target: String?
         public let keyboard: Bool
         public let camera: Bool
+        public let destructive: Bool?
+        public let icon: Icon?
 
-        public init(type: String, label: String, target: String?, keyboard: Bool, camera: Bool) {
+        public init(type: String, label: String, target: String?, keyboard: Bool, camera: Bool, destructive: Bool?, icon: NotificareNotification.Action.Icon?) {
             self.type = type
             self.label = label
             self.target = target
             self.keyboard = keyboard
             self.camera = camera
+            self.destructive = destructive
+            self.icon = icon
         }
 
         public enum ActionType: String {
@@ -79,6 +83,18 @@ public struct NotificareNotification: Codable {
             case sms = "re.notifica.action.SMS"
             case telephone = "re.notifica.action.Telephone"
             case webView = "re.notifica.action.WebView"
+        }
+
+        public struct Icon: Codable {
+            public let android: String?
+            public let ios: String?
+            public let web: String?
+
+            public init(android: String?, ios: String?, web: String?) {
+                self.android = android
+                self.ios = ios
+                self.web = web
+            }
         }
     }
 
@@ -207,6 +223,19 @@ public extension NotificareNotification.Action {
     static func fromJson(json: [String: Any]) throws -> NotificareNotification.Action {
         let data = try JSONSerialization.data(withJSONObject: json, options: [])
         return try NotificareUtils.jsonDecoder.decode(NotificareNotification.Action.self, from: data)
+    }
+}
+
+// JSON: NotificareNotification.Action.Icon
+public extension NotificareNotification.Action.Icon {
+    func toJson() throws -> [String: Any] {
+        let data = try NotificareUtils.jsonEncoder.encode(self)
+        return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
+    }
+
+    static func fromJson(json: [String: Any]) throws -> NotificareNotification.Action.Icon {
+        let data = try JSONSerialization.data(withJSONObject: json, options: [])
+        return try NotificareUtils.jsonDecoder.decode(NotificareNotification.Action.Icon.self, from: data)
     }
 }
 
