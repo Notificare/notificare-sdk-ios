@@ -45,6 +45,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return true
         }
 
+        print("-----> Received deep link: \(url.absoluteString)")
+        return true
+    }
+
+    func application(_: UIApplication, continue userActivity: NSUserActivity, restorationHandler _: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+        guard let url = userActivity.webpageURL else {
+            return false
+        }
+        
         if let token = Notificare.shared.authentication().parsePasswordResetToken(url) {
             print("---> Password reset token = \(token)")
             return true
@@ -53,15 +62,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let token = Notificare.shared.authentication().parseValidateUserToken(url) {
             print("---> Validate user token = \(token)")
             return true
-        }
-
-        print("-----> Received deep link: \(url.absoluteString)")
-        return true
-    }
-
-    func application(_: UIApplication, continue userActivity: NSUserActivity, restorationHandler _: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
-        guard let url = userActivity.webpageURL else {
-            return false
         }
 
         return Notificare.shared.handleDynamicLinkUrl(url)

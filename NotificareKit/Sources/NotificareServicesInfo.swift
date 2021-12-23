@@ -77,6 +77,13 @@ public struct NotificareServicesInfo: Decodable {
             }
         }
 
+        public var appLinksDomain: String {
+            switch self {
+            case .test: return "applinks-test.notifica.re"
+            case .production: return "applinks.notifica.re"
+            }
+        }
+
         public var pkPassHost: String {
             switch self {
             case .test: return "https://push-test.notifica.re/pass/pkpass"
