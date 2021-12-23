@@ -34,15 +34,6 @@ class InboxDatabase: NotificareAbstractDatabase {
         return result
     }
 
-    func findDuplicates(of notificationId: String) throws -> [InboxItemEntity] {
-        let request = NSFetchRequest<InboxItemEntity>(entityName: "InboxItemEntity")
-        request.predicate = NSPredicate(format: "notificationId = %@", notificationId)
-
-        let result = try context.fetch(request)
-
-        return result
-    }
-
     func remove(_ item: InboxItemEntity) {
         context.delete(item)
         saveChanges()
