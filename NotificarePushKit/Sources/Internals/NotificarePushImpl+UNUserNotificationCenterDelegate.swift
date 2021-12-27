@@ -13,14 +13,16 @@ extension NotificarePushImpl: UNUserNotificationCenterDelegate {
         if isNotificareNotification(userInfo) {
             guard let id = userInfo["id"] as? String else {
                 NotificareLogger.warning("Missing 'id' property in notification payload.")
-                completionHandler()
-                return
+                return completionHandler()
             }
 
             guard Notificare.shared.isConfigured else {
                 NotificareLogger.warning("Notificare has not been configured.")
-                completionHandler()
-                return
+                return completionHandler()
+            }
+
+            guard response.actionIdentifier != UNNotificationDismissActionIdentifier else {
+                return completionHandler()
             }
 
             Notificare.shared.fetchNotification(id) { result in
@@ -29,16 +31,29 @@ extension NotificarePushImpl: UNUserNotificationCenterDelegate {
                     Notificare.shared.events().logNotificationOpen(id) { result in
                         switch result {
                         case .success:
-                            if response.actionIdentifier != UNNotificationDefaultActionIdentifier, response.actionIdentifier != UNNotificationDismissActionIdentifier {
+                            if response.actionIdentifier != UNNotificationDefaultActionIdentifier {
                                 if let clickedAction = notification.actions.first(where: { $0.label == response.actionIdentifier }) {
                                     let responseText = (response as? UNTextInputNotificationResponse)?.userText
 
                                     if clickedAction.type == NotificareNotification.Action.ActionType.callback.rawValue, !clickedAction.camera, !clickedAction.keyboard || responseText != nil {
                                         NotificareLogger.debug("Handling a notification action without UI.")
                                         self.handleQuickResponse(userInfo: userInfo, notification: notification, action: clickedAction, responseText: responseText)
-                                    } else {
-                                        self.delegate?.notificare(self, didOpenAction: clickedAction, for: notification)
+                                        return completionHandler()
                                     }
+
+                                    Notificare.shared.events().logNotificationInfluenced(id) { result in
+                                        switch result {
+                                        case .success:
+                                            InboxIntegration.markItemAsRead(userInfo: userInfo)
+                                            self.delegate?.notificare(self, didOpenAction: clickedAction, for: notification)
+                                        case let .failure(error):
+                                            NotificareLogger.error("Failed to log the notification influenced open.", error: error)
+                                        }
+
+                                        completionHandler()
+                                    }
+
+                                    return
                                 }
 
                                 // Notify the inbox to update the badge.
@@ -46,12 +61,17 @@ extension NotificarePushImpl: UNUserNotificationCenterDelegate {
 
                                 completionHandler()
                             } else {
-                                self.delegate?.notificare(self, didOpenNotification: notification)
+                                Notificare.shared.events().logNotificationInfluenced(id) { result in
+                                    switch result {
+                                    case .success:
+                                        InboxIntegration.markItemAsRead(userInfo: userInfo)
+                                        self.delegate?.notificare(self, didOpenNotification: notification)
+                                    case let .failure(error):
+                                        NotificareLogger.error("Failed to log the notification influenced open.", error: error)
+                                    }
 
-                                // Notify the inbox to mark this as read.
-                                InboxIntegration.markItemAsRead(userInfo: userInfo)
-
-                                completionHandler()
+                                    completionHandler()
+                                }
                             }
 
                         case let .failure(error):
