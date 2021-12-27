@@ -24,13 +24,27 @@ For support please use: http://support.notifica.re
     subspec.vendored_frameworks = "Notificare/NotificareKit.xcframework"
   end
 
+  spec.subspec 'NotificareAssetsKit' do |subspec|
+    subspec.vendored_frameworks = "Notificare/NotificareAssetsKit.xcframework"
+  end
+
+  spec.subspec 'NotificareAuthenticationKit' do |subspec|
+    subspec.vendored_frameworks = "Notificare/NotificareAuthenticationKit.xcframework"
+  end
+
+  spec.subspec 'NotificareGeoKit' do |subspec|
+    subspec.vendored_frameworks = "Notificare/NotificareGeoKit.xcframework"
+  end
+
   spec.subspec 'NotificareInboxKit' do |subspec|
     subspec.vendored_frameworks = "Notificare/NotificareInboxKit.xcframework"
   end
 
-  spec.subspec 'NotificareAssetsKit' do |subspec|
-    subspec.vendored_frameworks = "Notificare/NotificareAssetsKit.xcframework"
+  spec.subspec 'NotificareLoyaltyKit' do |subspec|
+    subspec.vendored_frameworks = "Notificare/NotificareLoyaltyKit.xcframework"
   end
+
+  # Monetize
 
   spec.subspec 'NotificarePushKit' do |subspec|
     subspec.vendored_frameworks = "Notificare/NotificarePushKit.xcframework"
@@ -38,6 +52,10 @@ For support please use: http://support.notifica.re
 
   spec.subspec 'NotificarePushUIKit' do |subspec|
     subspec.vendored_frameworks = "Notificare/NotificarePushUIKit.xcframework"
+  end
+
+  spec.subspec 'NotificareScannablesKit' do |subspec|
+    subspec.vendored_frameworks = "Notificare/NotificareScannablesKit.xcframework"
   end
 
 end
