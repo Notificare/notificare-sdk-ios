@@ -2,12 +2,15 @@
 
 require 'fileutils'
 
-Bob.new.work
-
 # Builder service to automate the whole build process.
 class Bob
+  attr_reader :version
+
   def initialize
-    return unless ARGV.empty?
+    unless ARGV.empty?
+      @version = ARGV[0]
+      return
+    end
 
     puts <<~DESC
       Missing version argument.
@@ -16,7 +19,7 @@ class Bob
       ruby build.rb 3.0.0
     DESC
 
-    exit
+    exit 1
   end
 
   def work
@@ -40,10 +43,6 @@ class Bob
   end
 
   private
-
-  def version
-    ARGV[0]
-  end
 
   def prepare_environment
     FileUtils.rm_rf '.build'
@@ -253,3 +252,8 @@ class Cocoapods
             output: '../outputs/cocoapods.zip')
   end
 end
+
+#
+# Do the work. 🛠️
+#
+Bob.new.work
