@@ -24,6 +24,8 @@
 		F2696AAD26C2843F002EA653 /* NotificareGeoKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F2696AAB26C2843F002EA653 /* NotificareGeoKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F289F56525B85EC20091AB97 /* NotificareInboxKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F289F56425B85EC20091AB97 /* NotificareInboxKit.framework */; };
 		F289F56625B85EC20091AB97 /* NotificareInboxKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F289F56425B85EC20091AB97 /* NotificareInboxKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F28B88C6278F38E800549CA3 /* NotificareNotificationServiceExtensionKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F28B88C5278F38E800549CA3 /* NotificareNotificationServiceExtensionKit.framework */; };
+		F28B88C7278F38E800549CA3 /* NotificareNotificationServiceExtensionKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F28B88C5278F38E800549CA3 /* NotificareNotificationServiceExtensionKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F29B17FC25A4911C007ED6F9 /* NotificarePushUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F29B17FB25A4911C007ED6F9 /* NotificarePushUIKit.framework */; };
 		F29B17FD25A4911C007ED6F9 /* NotificarePushUIKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F29B17FB25A4911C007ED6F9 /* NotificarePushUIKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F29FD1F824CB1FE1004B166D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29FD1F724CB1FE1004B166D /* AppDelegate.swift */; };
@@ -41,10 +43,6 @@
 		F2F41D4A25CC0CE20010260B /* InboxDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F41D4925CC0CE20010260B /* InboxDetailViewController.swift */; };
 		F2F41D7825CD651D0010260B /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F41D7725CD651D0010260B /* NotificationService.swift */; };
 		F2F41D7C25CD651D0010260B /* NotificationService.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = F2F41D7525CD651D0010260B /* NotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		F2F41D8425CD67830010260B /* NotificarePushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F22650C9258B6E900004F833 /* NotificarePushKit.framework */; };
-		F2F41D8525CD67830010260B /* NotificarePushKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F22650C9258B6E900004F833 /* NotificarePushKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F2F41D8725CD67980010260B /* NotificareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F22650C5258B6E890004F833 /* NotificareKit.framework */; };
-		F2F41D8825CD67980010260B /* NotificareKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F22650C5258B6E890004F833 /* NotificareKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F2F6977226B93D1A00AB663E /* Atlantis in Frameworks */ = {isa = PBXBuildFile; productRef = F2F6977126B93D1A00AB663E /* Atlantis */; };
 		F2F697CC26B9541D00AB663E /* NotificareAuthenticationKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2F697CB26B9541D00AB663E /* NotificareAuthenticationKit.framework */; };
 		F2F697CD26B9541D00AB663E /* NotificareAuthenticationKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F2F697CB26B9541D00AB663E /* NotificareAuthenticationKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -97,8 +95,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				F2F41D8525CD67830010260B /* NotificarePushKit.framework in Embed Frameworks */,
-				F2F41D8825CD67980010260B /* NotificareKit.framework in Embed Frameworks */,
+				F28B88C7278F38E800549CA3 /* NotificareNotificationServiceExtensionKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -125,6 +122,7 @@
 		F2696AAB26C2843F002EA653 /* NotificareGeoKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareGeoKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F28553C7258BA18C006674C1 /* Sample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Sample.entitlements; sourceTree = "<group>"; };
 		F289F56425B85EC20091AB97 /* NotificareInboxKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareInboxKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F28B88C5278F38E800549CA3 /* NotificareNotificationServiceExtensionKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareNotificationServiceExtensionKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F29B17FB25A4911C007ED6F9 /* NotificarePushUIKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificarePushUIKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F29FD1F424CB1FE1004B166D /* Sample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F29FD1F724CB1FE1004B166D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -171,8 +169,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F2F41D8425CD67830010260B /* NotificarePushKit.framework in Frameworks */,
-				F2F41D8725CD67980010260B /* NotificareKit.framework in Frameworks */,
+				F28B88C6278F38E800549CA3 /* NotificareNotificationServiceExtensionKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -182,6 +179,7 @@
 		F251694324D4077D0025B51F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F28B88C5278F38E800549CA3 /* NotificareNotificationServiceExtensionKit.framework */,
 				F2696AAB26C2843F002EA653 /* NotificareGeoKit.framework */,
 				F2F697CB26B9541D00AB663E /* NotificareAuthenticationKit.framework */,
 				F2F697B926B9432D00AB663E /* NotificareAuthentication.framework */,

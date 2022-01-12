@@ -2,13 +2,12 @@
 // Copyright (c) 2021 Notificare. All rights reserved.
 //
 
-import NotificareKit
-import NotificarePushKit
+import NotificareNotificationServiceExtensionKit
 import UserNotifications
 
 class NotificationService: UNNotificationServiceExtension {
     override func didReceive(_ request: UNNotificationRequest, withContentHandler contentHandler: @escaping (UNNotificationContent) -> Void) {
-        Notificare.shared.push().handleNotificationRequest(request) { result in
+        NotificareNotificationServiceExtension.handleNotificationRequest(request) { result in
             switch result {
             case let .success(content):
                 contentHandler(content)
