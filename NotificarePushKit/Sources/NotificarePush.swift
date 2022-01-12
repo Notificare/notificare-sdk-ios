@@ -30,6 +30,7 @@ public protocol NotificarePush: AnyObject, NotificarePushUIApplicationDelegate, 
 
     func isNotificareNotification(_ userInfo: [AnyHashable: Any]) -> Bool
 
+    @available(*, deprecated, message: "Include the NotificareNotificationServiceExtensionKit and use NotificareNotificationServiceExtension.handleNotificationRequest() instead.")
     func handleNotificationRequest(_ request: UNNotificationRequest, _ completion: @escaping NotificareCallback<UNNotificationContent>)
 }
 
