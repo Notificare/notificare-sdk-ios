@@ -23,6 +23,9 @@
       location = "group:NotificareMonetizeKit/NotificareMonetizeKit.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:NotificareNotificationServiceExtensionKit/NotificareNotificationServiceExtensionKit.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:NotificarePushKit/NotificarePushKit.xcodeproj">
    </FileRef>
    <FileRef
