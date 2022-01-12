@@ -11,7 +11,7 @@ public extension NotificareNotification {
         }
 
         switch type {
-        case .none, .passbook, .rate, .urlScheme:
+        case .none, .passbook, .alert, .rate, .urlScheme:
             return false
         default:
             return true
