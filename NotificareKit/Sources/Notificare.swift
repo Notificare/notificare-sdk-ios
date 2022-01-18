@@ -517,6 +517,24 @@ public class Notificare {
     }
 
     private func parseTestDeviceNonce(url: URL) -> String? {
+        if let nonce = parseTestDeviceNonceLegacy(url: url) {
+            return nonce
+        }
+
+        guard
+            let application = Notificare.shared.application,
+            let appLinksDomain = Notificare.shared.servicesInfo?.services.appLinksDomain,
+            url.host == "\(application.id).\(appLinksDomain)",
+            url.pathComponents.count >= 3,
+            url.pathComponents[1] == "testdevice"
+        else {
+            return nil
+        }
+
+        return url.pathComponents[2]
+    }
+
+    private func parseTestDeviceNonceLegacy(url: URL) -> String? {
         guard let application = application else { return nil }
         guard let scheme = url.scheme else { return nil }
 
