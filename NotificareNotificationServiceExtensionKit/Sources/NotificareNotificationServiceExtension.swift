@@ -3,8 +3,8 @@
 //
 
 import CoreGraphics
-import CoreServices
 import Foundation
+import MobileCoreServices
 import UserNotifications
 
 public class NotificareNotificationServiceExtension {
