@@ -74,7 +74,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 extension AppDelegate: NotificareDelegate {
     func notificare(_: Notificare, onReady _: NotificareApplication) {
-        print("-----> Notificare is ready.")
+        print("-----> Notificare finished launching.")
 
         if Notificare.shared.push().hasRemoteNotificationsEnabled {
             Notificare.shared.push().enableRemoteNotifications { _ in }
@@ -83,6 +83,10 @@ extension AppDelegate: NotificareDelegate {
         if Notificare.shared.geo().hasLocationServicesEnabled {
             Notificare.shared.geo().enableLocationUpdates()
         }
+    }
+
+    func notificareDidUnlaunch(_: Notificare) {
+        print("-----> Notificare finished un-launching.")
     }
 
     func notificare(_: Notificare, didRegisterDevice device: NotificareDevice) {
