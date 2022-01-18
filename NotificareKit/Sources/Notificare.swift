@@ -227,6 +227,8 @@ public class Notificare {
                                         NotificareLogger.info("Un-launched Notificare.")
                                         self.state = .configured
 
+                                        self.delegate?.notificareDidUnlaunch(self)
+
                                     case let .failure(error):
                                         NotificareLogger.error("Failed to delete device.", error: error)
                                     }
