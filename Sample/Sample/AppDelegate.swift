@@ -54,6 +54,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return false
         }
 
+        if Notificare.shared.handleTestDeviceUrl(url) {
+            return true
+        }
+
         if let token = Notificare.shared.authentication().parsePasswordResetToken(url) {
             print("---> Password reset token = \(token)")
             return true

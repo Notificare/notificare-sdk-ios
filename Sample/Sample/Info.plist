@@ -19,13 +19,13 @@
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
 			<key>CFBundleURLName</key>
 			<string>re.notifica.demo</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>re.notifica</string>
-				<string>test.nc$(NOTIFICARE_APPLICATION_ID)</string>
-				<string>nc$(NOTIFICARE_APPLICATION_ID)</string>
 			</array>
 		</dict>
 	</array>
