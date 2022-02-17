@@ -18,8 +18,15 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
     // MARK: Notificare Module
 
     public static func migrate() {
-        LocalStorage.allowedUI = UserDefaults.standard.bool(forKey: "notificareAllowedUI")
+        let allowedUI = UserDefaults.standard.bool(forKey: "notificareAllowedUI")
+
+        LocalStorage.allowedUI = allowedUI
         LocalStorage.remoteNotificationsEnabled = UserDefaults.standard.bool(forKey: "notificareRegisteredForNotifications")
+
+        if allowedUI {
+            // Prevent the lib from sending the push registration event for existing devices.
+            LocalStorage.firstRegistration = false
+        }
     }
 
     public static func configure() {
