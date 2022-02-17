@@ -15,4 +15,9 @@ public extension NotificareEventsModule {
         let this = self as! NotificareInternalEventsModule
         this.log("re.notifica.event.notification.Influenced", data: nil, for: id, completion)
     }
+
+    func logPushRegistration(_ completion: @escaping NotificareCallback<Void>) {
+        let this = self as! NotificareInternalEventsModule
+        this.log("re.notifica.event.push.Registration", data: nil, for: nil, completion)
+    }
 }
