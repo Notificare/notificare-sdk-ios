@@ -46,7 +46,10 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
 
     // MARK: - Notificare Module
 
-    static func migrate() {}
+    static func migrate() {
+        LocalStorage.locationServicesEnabled = UserDefaults.standard.bool(forKey: "notificareAllowedLocationServices")
+        LocalStorage.bluetoothEnabled = UserDefaults.standard.bool(forKey: "notificareBluetoothON")
+    }
 
     static func configure() {
         instance.locationManager = CLLocationManager()
