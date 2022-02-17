@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F20C9C3A27AD33DB00486217 /* NotificareNotificationServiceExtensionKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F20C9C3927AD33DB00486217 /* NotificareNotificationServiceExtensionKit.framework */; };
+		F20C9C3B27AD33DB00486217 /* NotificareNotificationServiceExtensionKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F20C9C3927AD33DB00486217 /* NotificareNotificationServiceExtensionKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F216F0B326A8265500F9EF56 /* NotificareLoyaltyKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F216F0B226A8265500F9EF56 /* NotificareLoyaltyKit.framework */; };
 		F216F0B426A8265500F9EF56 /* NotificareLoyaltyKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F216F0B226A8265500F9EF56 /* NotificareLoyaltyKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F22650C6258B6E890004F833 /* NotificareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F22650C5258B6E890004F833 /* NotificareKit.framework */; };
@@ -24,8 +26,6 @@
 		F2696AAD26C2843F002EA653 /* NotificareGeoKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F2696AAB26C2843F002EA653 /* NotificareGeoKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F289F56525B85EC20091AB97 /* NotificareInboxKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F289F56425B85EC20091AB97 /* NotificareInboxKit.framework */; };
 		F289F56625B85EC20091AB97 /* NotificareInboxKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F289F56425B85EC20091AB97 /* NotificareInboxKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F28B88C6278F38E800549CA3 /* NotificareNotificationServiceExtensionKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F28B88C5278F38E800549CA3 /* NotificareNotificationServiceExtensionKit.framework */; };
-		F28B88C7278F38E800549CA3 /* NotificareNotificationServiceExtensionKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F28B88C5278F38E800549CA3 /* NotificareNotificationServiceExtensionKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F29B17FC25A4911C007ED6F9 /* NotificarePushUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F29B17FB25A4911C007ED6F9 /* NotificarePushUIKit.framework */; };
 		F29B17FD25A4911C007ED6F9 /* NotificarePushUIKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F29B17FB25A4911C007ED6F9 /* NotificarePushUIKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F29FD1F824CB1FE1004B166D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29FD1F724CB1FE1004B166D /* AppDelegate.swift */; };
@@ -46,6 +46,7 @@
 		F2F6977226B93D1A00AB663E /* Atlantis in Frameworks */ = {isa = PBXBuildFile; productRef = F2F6977126B93D1A00AB663E /* Atlantis */; };
 		F2F697CC26B9541D00AB663E /* NotificareAuthenticationKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2F697CB26B9541D00AB663E /* NotificareAuthenticationKit.framework */; };
 		F2F697CD26B9541D00AB663E /* NotificareAuthenticationKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F2F697CB26B9541D00AB663E /* NotificareAuthenticationKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F2FB40DC27BE891700CD9792 /* NotificareNotificationServiceExtensionKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F28B88C5278F38E800549CA3 /* NotificareNotificationServiceExtensionKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +72,7 @@
 				F2696AAD26C2843F002EA653 /* NotificareGeoKit.framework in Embed Frameworks */,
 				F216F0B426A8265500F9EF56 /* NotificareLoyaltyKit.framework in Embed Frameworks */,
 				F2ABF34B269CA32500401D3F /* NotificareAssetsKit.framework in Embed Frameworks */,
+				F20C9C3B27AD33DB00486217 /* NotificareNotificationServiceExtensionKit.framework in Embed Frameworks */,
 				F2F697CD26B9541D00AB663E /* NotificareAuthenticationKit.framework in Embed Frameworks */,
 				F22650CB258B6E900004F833 /* NotificarePushKit.framework in Embed Frameworks */,
 				F2E801D7269D93C300582DB8 /* NotificareScannablesKit.framework in Embed Frameworks */,
@@ -89,20 +91,11 @@
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F2F41D8625CD67830010260B /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				F28B88C7278F38E800549CA3 /* NotificareNotificationServiceExtensionKit.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		F20C9C3927AD33DB00486217 /* NotificareNotificationServiceExtensionKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareNotificationServiceExtensionKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F20C9C3C27AD347800486217 /* NotificareNotificationServiceExtensionKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareNotificationServiceExtensionKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F216F0B226A8265500F9EF56 /* NotificareLoyaltyKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareLoyaltyKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F22650C5258B6E890004F833 /* NotificareKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F22650C9258B6E900004F833 /* NotificarePushKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificarePushKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -155,6 +148,7 @@
 				F2F697CC26B9541D00AB663E /* NotificareAuthenticationKit.framework in Frameworks */,
 				F289F56525B85EC20091AB97 /* NotificareInboxKit.framework in Frameworks */,
 				F25B6DCD25CAC67E007BC2C8 /* SDWebImage in Frameworks */,
+				F20C9C3A27AD33DB00486217 /* NotificareNotificationServiceExtensionKit.framework in Frameworks */,
 				F2ABF34A269CA32500401D3F /* NotificareAssetsKit.framework in Frameworks */,
 				F22650CA258B6E900004F833 /* NotificarePushKit.framework in Frameworks */,
 				F22650C6258B6E890004F833 /* NotificareKit.framework in Frameworks */,
@@ -169,7 +163,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F28B88C6278F38E800549CA3 /* NotificareNotificationServiceExtensionKit.framework in Frameworks */,
+				F2FB40DC27BE891700CD9792 /* NotificareNotificationServiceExtensionKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -179,6 +173,8 @@
 		F251694324D4077D0025B51F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F20C9C3C27AD347800486217 /* NotificareNotificationServiceExtensionKit.framework */,
+				F20C9C3927AD33DB00486217 /* NotificareNotificationServiceExtensionKit.framework */,
 				F28B88C5278F38E800549CA3 /* NotificareNotificationServiceExtensionKit.framework */,
 				F2696AAB26C2843F002EA653 /* NotificareGeoKit.framework */,
 				F2F697CB26B9541D00AB663E /* NotificareAuthenticationKit.framework */,
@@ -322,7 +318,6 @@
 				F2F41D7125CD651D0010260B /* Sources */,
 				F2F41D7225CD651D0010260B /* Frameworks */,
 				F2F41D7325CD651D0010260B /* Resources */,
-				F2F41D8625CD67830010260B /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
