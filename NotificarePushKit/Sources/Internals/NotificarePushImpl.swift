@@ -95,6 +95,20 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
             self.handleNotificationSettings(granted) { result in
                 switch result {
                 case .success:
+                    if granted, LocalStorage.firstRegistration {
+                        Notificare.shared.events().logPushRegistration { result in
+                            switch result {
+                            case .success:
+                                LocalStorage.firstRegistration = true
+                                completion(.success(granted))
+                            case let .failure(error):
+                                completion(.failure(error))
+                            }
+                        }
+
+                        return
+                    }
+
                     completion(.success(granted))
                 case let .failure(error):
                     completion(.failure(error))
