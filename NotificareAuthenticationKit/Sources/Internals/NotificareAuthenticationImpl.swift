@@ -81,6 +81,15 @@ internal class NotificareAuthenticationImpl: NSObject, NotificareModule, Notific
             }
     }
 
+    @available(iOS 13.0, *)
+    func login(email: String, password: String) async throws {
+        try await withCheckedThrowingContinuation { continuation in
+            login(email: email, password: password) { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+
     func logout(_ completion: @escaping NotificareCallback<Void>) {
         do {
             try checkPrerequisites()
@@ -119,6 +128,15 @@ internal class NotificareAuthenticationImpl: NSObject, NotificareModule, Notific
             }
     }
 
+    @available(iOS 13.0, *)
+    func logout() async throws {
+        try await withCheckedThrowingContinuation { continuation in
+            logout { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+
     func fetchUserDetails(_ completion: @escaping NotificareCallback<NotificareUser>) {
         do {
             try checkPrerequisites()
@@ -143,6 +161,15 @@ internal class NotificareAuthenticationImpl: NSObject, NotificareModule, Notific
                     completion(.failure(error))
                 }
             }
+    }
+
+    @available(iOS 13.0, *)
+    func fetchUserDetails() async throws -> NotificareUser {
+        try await withCheckedThrowingContinuation { continuation in
+            fetchUserDetails { result in
+                continuation.resume(with: result)
+            }
+        }
     }
 
     func changePassword(_ password: String, _ completion: @escaping NotificareCallback<Void>) {
@@ -174,6 +201,15 @@ internal class NotificareAuthenticationImpl: NSObject, NotificareModule, Notific
             }
     }
 
+    @available(iOS 13.0, *)
+    func changePassword(_ password: String) async throws {
+        try await withCheckedThrowingContinuation { continuation in
+            changePassword(password) { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+
     func generatePushEmailAddress(_ completion: @escaping NotificareCallback<NotificareUser>) {
         do {
             try checkPrerequisites()
@@ -198,6 +234,15 @@ internal class NotificareAuthenticationImpl: NSObject, NotificareModule, Notific
                     completion(.failure(error))
                 }
             }
+    }
+
+    @available(iOS 13.0, *)
+    func generatePushEmailAddress() async throws -> NotificareUser {
+        try await withCheckedThrowingContinuation { continuation in
+            generatePushEmailAddress { result in
+                continuation.resume(with: result)
+            }
+        }
     }
 
     func createAccount(email: String, password: String, name: String? = nil, _ completion: @escaping NotificareCallback<Void>) {
@@ -227,6 +272,15 @@ internal class NotificareAuthenticationImpl: NSObject, NotificareModule, Notific
             }
     }
 
+    @available(iOS 13.0, *)
+    func createAccount(email: String, password: String, name: String?) async throws {
+        try await withCheckedThrowingContinuation { continuation in
+            createAccount(email: email, password: password, name: name) { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+
     func validateUser(token: String, _ completion: @escaping NotificareCallback<Void>) {
         do {
             try checkPrerequisites()
@@ -246,6 +300,15 @@ internal class NotificareAuthenticationImpl: NSObject, NotificareModule, Notific
                     completion(.failure(error))
                 }
             }
+    }
+
+    @available(iOS 13.0, *)
+    func validateUser(token: String) async throws {
+        try await withCheckedThrowingContinuation { continuation in
+            validateUser(token: token) { result in
+                continuation.resume(with: result)
+            }
+        }
     }
 
     func sendPasswordReset(email: String, _ completion: @escaping NotificareCallback<Void>) {
@@ -273,6 +336,15 @@ internal class NotificareAuthenticationImpl: NSObject, NotificareModule, Notific
             }
     }
 
+    @available(iOS 13.0, *)
+    func sendPasswordReset(email: String) async throws {
+        try await withCheckedThrowingContinuation { continuation in
+            sendPasswordReset(email: email) { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+
     func resetPassword(_ password: String, token: String, _ completion: @escaping NotificareCallback<Void>) {
         do {
             try checkPrerequisites()
@@ -296,6 +368,15 @@ internal class NotificareAuthenticationImpl: NSObject, NotificareModule, Notific
                     completion(.failure(error))
                 }
             }
+    }
+
+    @available(iOS 13.0, *)
+    func resetPassword(_ password: String, token: String) async throws {
+        try await withCheckedThrowingContinuation { continuation in
+            resetPassword(password, token: token) { result in
+                continuation.resume(with: result)
+            }
+        }
     }
 
     func fetchUserPreferences(_ completion: @escaping NotificareCallback<[NotificareUserPreference]>) {
@@ -331,6 +412,15 @@ internal class NotificareAuthenticationImpl: NSObject, NotificareModule, Notific
         }
     }
 
+    @available(iOS 13.0, *)
+    func fetchUserPreferences() async throws -> [NotificareUserPreference] {
+        try await withCheckedThrowingContinuation { continuation in
+            fetchUserPreferences { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+
     func fetchUserSegments(_ completion: @escaping NotificareCallback<[NotificareUserSegment]>) {
         do {
             try checkPrerequisites()
@@ -353,6 +443,15 @@ internal class NotificareAuthenticationImpl: NSObject, NotificareModule, Notific
                     completion(.failure(error))
                 }
             }
+    }
+
+    @available(iOS 13.0, *)
+    func fetchUserSegments() async throws -> [NotificareUserSegment] {
+        try await withCheckedThrowingContinuation { continuation in
+            fetchUserSegments { result in
+                continuation.resume(with: result)
+            }
+        }
     }
 
     func addUserSegment(_ segment: NotificareUserSegment, _ completion: @escaping NotificareCallback<Void>) {
@@ -380,6 +479,15 @@ internal class NotificareAuthenticationImpl: NSObject, NotificareModule, Notific
             }
     }
 
+    @available(iOS 13.0, *)
+    func addUserSegment(_ segment: NotificareUserSegment) async throws {
+        try await withCheckedThrowingContinuation { continuation in
+            addUserSegment(segment) { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+
     func removeUserSegment(_ segment: NotificareUserSegment, _ completion: @escaping NotificareCallback<Void>) {
         do {
             try checkPrerequisites()
@@ -405,20 +513,65 @@ internal class NotificareAuthenticationImpl: NSObject, NotificareModule, Notific
             }
     }
 
+    @available(iOS 13.0, *)
+    func removeUserSegment(_ segment: NotificareUserSegment) async throws {
+        try await withCheckedThrowingContinuation { continuation in
+            removeUserSegment(segment) { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+
     func addUserSegmentToPreference(_ segment: NotificareUserSegment, to preference: NotificareUserPreference, _ completion: @escaping NotificareCallback<Void>) {
         addUserSegmentToPreference(segmentId: segment.id, to: preference, completion)
+    }
+
+    @available(iOS 13.0, *)
+    func addUserSegmentToPreference(_ segment: NotificareUserSegment, to preference: NotificareUserPreference) async throws {
+        try await withCheckedThrowingContinuation { continuation in
+            addUserSegmentToPreference(segment, to: preference) { result in
+                continuation.resume(with: result)
+            }
+        }
     }
 
     func addUserSegmentToPreference(option: NotificareUserPreference.Option, to preference: NotificareUserPreference, _ completion: @escaping NotificareCallback<Void>) {
         addUserSegmentToPreference(segmentId: option.segmentId, to: preference, completion)
     }
 
+    @available(iOS 13.0, *)
+    func addUserSegmentToPreference(option: NotificareUserPreference.Option, to preference: NotificareUserPreference) async throws {
+        try await withCheckedThrowingContinuation { continuation in
+            addUserSegmentToPreference(option: option, to: preference) { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+
     func removeUserSegmentFromPreference(_ segment: NotificareUserSegment, from preference: NotificareUserPreference, _ completion: @escaping NotificareCallback<Void>) {
         removeUserSegmentFromPreference(segmentId: segment.id, from: preference, completion)
     }
 
+    @available(iOS 13.0, *)
+    func removeUserSegmentFromPreference(_ segment: NotificareUserSegment, from preference: NotificareUserPreference) async throws {
+        try await withCheckedThrowingContinuation { continuation in
+            removeUserSegmentFromPreference(segment, from: preference) { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+
     func removeUserSegmentFromPreference(option: NotificareUserPreference.Option, from preference: NotificareUserPreference, _ completion: @escaping NotificareCallback<Void>) {
         removeUserSegmentFromPreference(segmentId: option.segmentId, from: preference, completion)
+    }
+
+    @available(iOS 13.0, *)
+    func removeUserSegmentFromPreference(option: NotificareUserPreference.Option, from preference: NotificareUserPreference) async throws {
+        try await withCheckedThrowingContinuation { continuation in
+            removeUserSegmentFromPreference(option: option, from: preference) { result in
+                continuation.resume(with: result)
+            }
+        }
     }
 
     func parsePasswordResetToken(_ url: URL) -> String? {
