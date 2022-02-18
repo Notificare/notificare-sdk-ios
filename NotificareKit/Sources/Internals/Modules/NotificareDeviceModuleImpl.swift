@@ -105,6 +105,15 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         register(transport: device.transport, token: device.id, userId: userId, userName: userName, completion)
     }
 
+    @available(iOS 13.0, *)
+    func register(userId: String?, userName: String?) async throws {
+        try await withCheckedThrowingContinuation { continuation in
+            register(userId: userId, userName: userName) { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+
     public func updatePreferredLanguage(_ preferredLanguage: String?, _ completion: @escaping NotificareCallback<Void>) {
         guard Notificare.shared.isReady else {
             completion(.failure(NotificareError.notReady))
@@ -156,6 +165,15 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         }
     }
 
+    @available(iOS 13.0, *)
+    func updatePreferredLanguage(_ preferredLanguage: String?) async throws {
+        try await withCheckedThrowingContinuation { continuation in
+            updatePreferredLanguage(preferredLanguage) { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+
     public func fetchTags(_ completion: @escaping NotificareCallback<[String]>) {
         guard Notificare.shared.isReady, let device = currentDevice else {
             completion(.failure(NotificareError.notReady))
@@ -174,8 +192,26 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
             }
     }
 
+    @available(iOS 13.0, *)
+    func fetchTags() async throws -> [String] {
+        try await withCheckedThrowingContinuation { continuation in
+            fetchTags { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+
     public func addTag(_ tag: String, _ completion: @escaping NotificareCallback<Void>) {
         addTags([tag], completion)
+    }
+
+    @available(iOS 13.0, *)
+    func addTag(_ tag: String) async throws {
+        try await withCheckedThrowingContinuation { continuation in
+            addTag(tag) { result in
+                continuation.resume(with: result)
+            }
+        }
     }
 
     public func addTags(_ tags: [String], _ completion: @escaping NotificareCallback<Void>) {
@@ -196,8 +232,26 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
             }
     }
 
+    @available(iOS 13.0, *)
+    func addTags(_ tags: [String]) async throws {
+        try await withCheckedThrowingContinuation { continuation in
+            addTags(tags) { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+
     public func removeTag(_ tag: String, _ completion: @escaping NotificareCallback<Void>) {
         removeTags([tag], completion)
+    }
+
+    @available(iOS 13.0, *)
+    func removeTag(_ tag: String) async throws {
+        try await withCheckedThrowingContinuation { continuation in
+            removeTag(tag) { result in
+                continuation.resume(with: result)
+            }
+        }
     }
 
     public func removeTags(_ tags: [String], _ completion: @escaping NotificareCallback<Void>) {
@@ -218,6 +272,15 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
             }
     }
 
+    @available(iOS 13.0, *)
+    func removeTags(_ tags: [String]) async throws {
+        try await withCheckedThrowingContinuation { continuation in
+            removeTags(tags) { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+
     public func clearTags(_ completion: @escaping NotificareCallback<Void>) {
         guard Notificare.shared.isReady, let device = currentDevice else {
             completion(.failure(NotificareError.notReady))
@@ -234,6 +297,15 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
                     completion(.failure(error))
                 }
             }
+    }
+
+    @available(iOS 13.0, *)
+    func clearTags() async throws {
+        try await withCheckedThrowingContinuation { continuation in
+            clearTags { result in
+                continuation.resume(with: result)
+            }
+        }
     }
 
     public func fetchDoNotDisturb(_ completion: @escaping NotificareCallback<NotificareDoNotDisturb?>) {
@@ -257,6 +329,15 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
             }
     }
 
+    @available(iOS 13.0, *)
+    func fetchDoNotDisturb() async throws -> NotificareDoNotDisturb? {
+        try await withCheckedThrowingContinuation { continuation in
+            fetchDoNotDisturb { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+
     public func updateDoNotDisturb(_ dnd: NotificareDoNotDisturb, _ completion: @escaping NotificareCallback<Void>) {
         guard Notificare.shared.isReady, let device = currentDevice else {
             completion(.failure(NotificareError.notReady))
@@ -278,6 +359,15 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
             }
     }
 
+    @available(iOS 13.0, *)
+    func updateDoNotDisturb(_ dnd: NotificareDoNotDisturb) async throws {
+        try await withCheckedThrowingContinuation { continuation in
+            updateDoNotDisturb(dnd) { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+
     public func clearDoNotDisturb(_ completion: @escaping NotificareCallback<Void>) {
         guard Notificare.shared.isReady, let device = currentDevice else {
             completion(.failure(NotificareError.notReady))
@@ -297,6 +387,15 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
                     completion(.failure(error))
                 }
             }
+    }
+
+    @available(iOS 13.0, *)
+    func clearDoNotDisturb() async throws {
+        try await withCheckedThrowingContinuation { continuation in
+            clearDoNotDisturb { result in
+                continuation.resume(with: result)
+            }
+        }
     }
 
     public func fetchUserData(_ completion: @escaping NotificareCallback<NotificareUserData>) {
@@ -322,6 +421,15 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
             }
     }
 
+    @available(iOS 13.0, *)
+    func fetchUserData() async throws -> NotificareUserData {
+        try await withCheckedThrowingContinuation { continuation in
+            fetchUserData { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+
     public func updateUserData(_ userData: NotificareUserData, _ completion: @escaping NotificareCallback<Void>) {
         guard Notificare.shared.isReady, let device = currentDevice else {
             completion(.failure(NotificareError.notReady))
@@ -341,6 +449,15 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
                     completion(.failure(error))
                 }
             }
+    }
+
+    @available(iOS 13.0, *)
+    func updateUserData(_ userData: NotificareUserData) async throws {
+        try await withCheckedThrowingContinuation { continuation in
+            updateUserData(userData) { result in
+                continuation.resume(with: result)
+            }
+        }
     }
 
     // MARK: - Notificare Internal Device Module

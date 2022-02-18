@@ -263,6 +263,15 @@ public class Notificare {
             }
     }
 
+    @available(iOS 13.0, *)
+    public func fetchApplication() async throws -> NotificareApplication {
+        try await withCheckedThrowingContinuation { continuation in
+            fetchApplication { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+
     public func fetchDynamicLink(_ link: String, _ completion: @escaping NotificareCallback<NotificareDynamicLink>) {
         guard isConfigured else {
             completion(.failure(NotificareError.notConfigured))
@@ -287,6 +296,15 @@ public class Notificare {
             }
     }
 
+    @available(iOS 13.0, *)
+    public func fetchDynamicLink(_ link: String) async throws -> NotificareDynamicLink {
+        try await withCheckedThrowingContinuation { continuation in
+            fetchDynamicLink(link) { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+
     public func fetchNotification(_ id: String, _ completion: @escaping NotificareCallback<NotificareNotification>) {
         guard isConfigured else {
             completion(.failure(NotificareError.notConfigured))
@@ -304,6 +322,15 @@ public class Notificare {
                     completion(.failure(error))
                 }
             }
+    }
+
+    @available(iOS 13.0, *)
+    public func fetchNotification(_ id: String) async throws -> NotificareNotification {
+        try await withCheckedThrowingContinuation { continuation in
+            fetchNotification(id) { result in
+                continuation.resume(with: result)
+            }
+        }
     }
 
     public func createNotificationReply(notification: NotificareNotification, action: NotificareNotification.Action, message: String? = nil, media: String? = nil, mimeType: String? = nil, _ completion: @escaping NotificareCallback<Void>) {
@@ -342,6 +369,15 @@ public class Notificare {
             }
     }
 
+    @available(iOS 13.0, *)
+    public func createNotificationReply(notification: NotificareNotification, action: NotificareNotification.Action, message: String? = nil, media: String? = nil, mimeType: String? = nil) async throws {
+        try await withCheckedThrowingContinuation { continuation in
+            createNotificationReply(notification: notification, action: action, message: message, media: media, mimeType: mimeType) { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+
     public func callNotificationReplyWebhook(url: URL, data: [String: String], _ completion: @escaping NotificareCallback<Void>) {
         var params = [String: String]()
 
@@ -373,6 +409,15 @@ public class Notificare {
             }
     }
 
+    @available(iOS 13.0, *)
+    public func callNotificationReplyWebhook(url: URL, data: [String: String]) async throws {
+        try await withCheckedThrowingContinuation { continuation in
+            callNotificationReplyWebhook(url: url, data: data) { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+
     public func uploadNotificationReplyAsset(_ data: Data, contentType: String, _ completion: @escaping NotificareCallback<String>) {
         guard isConfigured else {
             completion(.failure(NotificareError.notConfigured))
@@ -390,6 +435,15 @@ public class Notificare {
                     completion(.failure(error))
                 }
             }
+    }
+
+    @available(iOS 13.0, *)
+    public func uploadNotificationReplyAsset(_ data: Data, contentType: String) async throws -> String {
+        try await withCheckedThrowingContinuation { continuation in
+            uploadNotificationReplyAsset(data, contentType: contentType) { result in
+                continuation.resume(with: result)
+            }
+        }
     }
 
     public func removeNotificationFromNotificationCenter(_ notification: NotificareNotification) {

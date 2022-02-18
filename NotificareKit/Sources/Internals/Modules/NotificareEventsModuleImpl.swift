@@ -40,28 +40,91 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
         log("re.notifica.event.application.Install", completion)
     }
 
+    @available(iOS 13.0, *)
+    func logApplicationInstall() async throws {
+        try await withCheckedThrowingContinuation { continuation in
+            logApplicationInstall { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+
     func logApplicationRegistration(_ completion: @escaping NotificareCallback<Void>) {
         log("re.notifica.event.application.Registration", completion)
+    }
+
+    @available(iOS 13.0, *)
+    func logApplicationRegistration() async throws {
+        try await withCheckedThrowingContinuation { continuation in
+            logApplicationRegistration { result in
+                continuation.resume(with: result)
+            }
+        }
     }
 
     func logApplicationUpgrade(_ completion: @escaping NotificareCallback<Void>) {
         log("re.notifica.event.application.Upgrade", completion)
     }
 
+    @available(iOS 13.0, *)
+    func logApplicationUpgrade() async throws {
+        try await withCheckedThrowingContinuation { continuation in
+            logApplicationUpgrade { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+
     func logApplicationOpen(_ completion: @escaping NotificareCallback<Void>) {
         log("re.notifica.event.application.Open", completion)
+    }
+
+    @available(iOS 13.0, *)
+    func logApplicationOpen() async throws {
+        try await withCheckedThrowingContinuation { continuation in
+            logApplicationOpen { result in
+                continuation.resume(with: result)
+            }
+        }
     }
 
     func logApplicationClose(sessionLength: Double, _ completion: @escaping NotificareCallback<Void>) {
         log("re.notifica.event.application.Close", data: ["length": String(sessionLength)], completion)
     }
 
+    @available(iOS 13.0, *)
+    func logApplicationClose(sessionLength: Double) async throws {
+        try await withCheckedThrowingContinuation { continuation in
+            logApplicationClose(sessionLength: sessionLength) { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+
     func logNotificationOpen(_ id: String, _ completion: @escaping NotificareCallback<Void>) {
         log("re.notifica.event.notification.Open", data: nil, for: id, completion)
     }
 
+    @available(iOS 13.0, *)
+    func logNotificationOpen(_ id: String) async throws {
+        try await withCheckedThrowingContinuation { continuation in
+            logNotificationOpen(id) { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+
     func logCustom(_ event: String, data: NotificareEventData?, _ completion: @escaping NotificareCallback<Void>) {
         log("re.notifica.event.custom.\(event)", data: data, completion)
+    }
+
+    @available(iOS 13.0, *)
+    func logCustom(_ event: String, data: NotificareEventData?) async throws {
+        try await withCheckedThrowingContinuation { continuation in
+            logCustom(event, data: data) { result in
+                continuation.resume(with: result)
+            }
+        }
     }
 
     // MARK: - Notificare Internal Events
