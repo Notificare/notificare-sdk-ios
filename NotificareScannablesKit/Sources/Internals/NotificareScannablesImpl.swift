@@ -85,6 +85,15 @@ internal class NotificareScannablesImpl: NSObject, NotificareModule, NotificareS
             }
     }
 
+    @available(iOS 13.0, *)
+    func fetch(tag: String) async throws -> NotificareScannable {
+        try await withCheckedThrowingContinuation { continuation in
+            fetch(tag: tag) { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+
     // MARK: - Private API
 
     @available(iOS 11.0, *)
