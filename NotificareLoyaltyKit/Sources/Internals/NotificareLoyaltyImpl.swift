@@ -43,6 +43,15 @@ internal class NotificareLoyaltyImpl: NSObject, NotificareModule, NotificareLoya
             }
     }
 
+    @available(iOS 13.0, *)
+    func fetchPass(serial: String) async throws -> NotificarePass {
+        try await withCheckedThrowingContinuation { continuation in
+            fetchPass(serial: serial) { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+
     func fetchPass(barcode: String, _ completion: @escaping NotificareCallback<NotificarePass>) {
         do {
             try checkPrerequisites()
@@ -61,6 +70,15 @@ internal class NotificareLoyaltyImpl: NSObject, NotificareModule, NotificareLoya
                     completion(.failure(error))
                 }
             }
+    }
+
+    @available(iOS 13.0, *)
+    func fetchPass(barcode: String) async throws -> NotificarePass {
+        try await withCheckedThrowingContinuation { continuation in
+            fetchPass(barcode: barcode) { result in
+                continuation.resume(with: result)
+            }
+        }
     }
 
     func present(pass: NotificarePass, in controller: UIViewController) {
