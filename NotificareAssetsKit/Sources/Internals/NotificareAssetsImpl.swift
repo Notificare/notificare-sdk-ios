@@ -33,6 +33,15 @@ internal class NotificareAssetsImpl: NSObject, NotificareModule, NotificareAsset
             }
     }
 
+    @available(iOS 13.0, *)
+    func fetch(group: String) async throws -> [NotificareAsset] {
+        try await withCheckedThrowingContinuation { continuation in
+            fetch(group: group) { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+
     // MARK: - Internal API
 
     private func checkPrerequisites() throws {
