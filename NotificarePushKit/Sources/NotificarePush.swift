@@ -26,6 +26,9 @@ public protocol NotificarePush: AnyObject, NotificarePushUIApplicationDelegate, 
 
     func enableRemoteNotifications(_ completion: @escaping NotificareCallback<Bool>)
 
+    @available(iOS 13.0, *)
+    func enableRemoteNotifications() async throws -> Bool
+
     func disableRemoteNotifications()
 
     func isNotificareNotification(_ userInfo: [AnyHashable: Any]) -> Bool

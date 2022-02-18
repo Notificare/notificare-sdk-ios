@@ -132,6 +132,15 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
         LocalStorage.remoteNotificationsEnabled = true
     }
 
+    @available(iOS 13.0, *)
+    public func enableRemoteNotifications() async throws -> Bool {
+        try await withCheckedThrowingContinuation { continuation in
+            enableRemoteNotifications { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+
     public func disableRemoteNotifications() {
         // Keep track of the status in local storage.
         LocalStorage.remoteNotificationsEnabled = false
