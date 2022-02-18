@@ -49,6 +49,15 @@ public class NotificareNotificationServiceExtension {
         }
     }
 
+    @available(iOS 13.0, *)
+    public static func handleNotificationRequest(_ request: UNNotificationRequest) async throws -> UNNotificationContent {
+        try await withCheckedThrowingContinuation { continuation in
+            handleNotificationRequest(request) { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+
     private static func fetchAttachment(for request: UNNotificationRequest, _ completion: @escaping (Result<UNNotificationAttachment?, Swift.Error>) -> Void) {
         guard let attachment = request.content.userInfo["attachment"] as? [String: Any],
               let uri = attachment["uri"] as? String
