@@ -165,6 +165,15 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
         }
     }
 
+    @available(iOS 13.0, *)
+    func refreshBadge() async throws -> Int {
+        try await withCheckedThrowingContinuation { continuation in
+            refreshBadge { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+
     public func open(_ item: NotificareInboxItem, _ completion: @escaping NotificareCallback<NotificareNotification>) {
         do {
             try checkPrerequisites()
@@ -212,6 +221,15 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
         }
     }
 
+    @available(iOS 13.0, *)
+    func open(_ item: NotificareInboxItem) async throws -> NotificareNotification {
+        try await withCheckedThrowingContinuation { continuation in
+            open(item) { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+
     public func markAsRead(_ item: NotificareInboxItem, _ completion: @escaping NotificareCallback<Void>) {
         do {
             try checkPrerequisites()
@@ -246,6 +264,15 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
             case let .failure(error):
                 NotificareLogger.warning("Failed to mark item as read.", error: error)
                 completion(.failure(error))
+            }
+        }
+    }
+
+    @available(iOS 13.0, *)
+    func markAsRead(_ item: NotificareInboxItem) async throws {
+        try await withCheckedThrowingContinuation { continuation in
+            markAsRead(item) { result in
+                continuation.resume(with: result)
             }
         }
     }
@@ -297,6 +324,15 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
             }
     }
 
+    @available(iOS 13.0, *)
+    func markAllAsRead() async throws {
+        try await withCheckedThrowingContinuation { continuation in
+            markAllAsRead { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+
     public func remove(_ item: NotificareInboxItem, _ completion: @escaping NotificareCallback<Void>) {
         do {
             try checkPrerequisites()
@@ -332,6 +368,15 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
             }
     }
 
+    @available(iOS 13.0, *)
+    func remove(_ item: NotificareInboxItem) async throws {
+        try await withCheckedThrowingContinuation { continuation in
+            remove(item) { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+
     public func clear(_ completion: @escaping NotificareCallback<Void>) {
         do {
             try checkPrerequisites()
@@ -363,6 +408,15 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
                     completion(.failure(error))
                 }
             }
+    }
+
+    @available(iOS 13.0, *)
+    func clear() async throws {
+        try await withCheckedThrowingContinuation { continuation in
+            clear { result in
+                continuation.resume(with: result)
+            }
+        }
     }
 
     // MARK: - Internal API
