@@ -106,7 +106,7 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
                         Notificare.shared.events().logPushRegistration { result in
                             switch result {
                             case .success:
-                                LocalStorage.firstRegistration = true
+                                LocalStorage.firstRegistration = false
                                 completion(.success(granted))
                             case let .failure(error):
                                 completion(.failure(error))
