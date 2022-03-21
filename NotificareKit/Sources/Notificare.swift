@@ -10,10 +10,7 @@ public class Notificare {
     public static let shared = Notificare()
 
     public static var SDK_VERSION: String {
-        let bundle = Bundle(for: Self.self)
-        let version = bundle.infoDictionary?["CFBundleShortVersionString"] as? String
-
-        return version ?? ""
+        NOTIFICARE_VERSION
     }
 
     // Internal modules
