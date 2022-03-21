@@ -31,8 +31,13 @@ internal class NotificareLoyaltyImpl: NSObject, NotificareModule, NotificareLoya
             return
         }
 
+        guard let urlEncodedSerial = serial.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else {
+            completion(.failure(NotificareError.invalidArgument(message: "Invalid serial value.")))
+            return
+        }
+
         NotificareRequest.Builder()
-            .get("/pass/forserial/\(serial)")
+            .get("/pass/forserial/\(urlEncodedSerial)")
             .responseDecodable(NotificareInternals.PushAPI.Responses.Pass.self) { result in
                 switch result {
                 case let .success(response):
@@ -60,8 +65,13 @@ internal class NotificareLoyaltyImpl: NSObject, NotificareModule, NotificareLoya
             return
         }
 
+        guard let urlEncodedBarcode = barcode.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else {
+            completion(.failure(NotificareError.invalidArgument(message: "Invalid barcode value.")))
+            return
+        }
+
         NotificareRequest.Builder()
-            .get("/pass/forbarcode/\(barcode)")
+            .get("/pass/forbarcode/\(urlEncodedBarcode)")
             .responseDecodable(NotificareInternals.PushAPI.Responses.Pass.self) { result in
                 switch result {
                 case let .success(response):

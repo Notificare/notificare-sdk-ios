@@ -17,8 +17,13 @@ internal class NotificareAssetsImpl: NSObject, NotificareModule, NotificareAsset
             return
         }
 
+        guard let urlEncodedGroup = group.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else {
+            completion(.failure(NotificareError.invalidArgument(message: "Invalid group value.")))
+            return
+        }
+
         NotificareRequest.Builder()
-            .get("/asset/forgroup/\(group)")
+            .get("/asset/forgroup/\(urlEncodedGroup)")
             .query(name: "deviceID", value: Notificare.shared.device().currentDevice?.id)
             .query(name: "userID", value: Notificare.shared.device().currentDevice?.userId)
             .responseDecodable(NotificareInternals.PushAPI.Responses.Assets.self) { result in

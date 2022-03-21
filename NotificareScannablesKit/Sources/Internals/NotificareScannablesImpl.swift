@@ -67,7 +67,10 @@ internal class NotificareScannablesImpl: NSObject, NotificareModule, NotificareS
     }
 
     func fetch(tag: String, _ completion: @escaping NotificareCallback<NotificareScannable>) {
-        let encodedTag = tag.addingPercentEncoding(withAllowedCharacters: .urlUserAllowed)!
+        guard let encodedTag = tag.addingPercentEncoding(withAllowedCharacters: .urlUserAllowed) else {
+            completion(.failure(NotificareError.invalidArgument(message: "Invalid tag value.")))
+            return
+        }
 
         NotificareRequest.Builder()
             .get("/scannable/tag/\(encodedTag)")

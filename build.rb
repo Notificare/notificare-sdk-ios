@@ -161,10 +161,17 @@ class Xcode
     end
 
     def create_xcframework(framework)
+      symbol_maps = Dir[".build/archives/#{framework.scheme}-iOS.xcarchive/BCSymbolMaps/*.bcsymbolmap"]
+        .map { |path| "-debug-symbols \"#{File.expand_path(path)}\"" }
+        .join(" ")
+
       command = <<~COMMAND
         xcodebuild -create-xcframework \\
           -framework ".build/archives/#{framework.scheme}-iOS.xcarchive/Products/Library/Frameworks/#{framework.scheme}.framework" \\
+          -debug-symbols #{File.expand_path(".build/archives/#{framework.scheme}-iOS.xcarchive/dSYMs/#{framework.scheme}.framework.dSYM")} \\
+          #{symbol_maps} \\
           -framework ".build/archives/#{framework.scheme}-iOS-simulator.xcarchive/Products/Library/Frameworks/#{framework.scheme}.framework" \\
+          -debug-symbols #{File.expand_path(".build/archives/#{framework.scheme}-iOS-simulator.xcarchive/dSYMs/#{framework.scheme}.framework.dSYM")} \\
           -output ".build/intermediates/#{framework.scheme}.xcframework"
       COMMAND
 

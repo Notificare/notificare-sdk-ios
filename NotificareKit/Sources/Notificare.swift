@@ -10,10 +10,7 @@ public class Notificare {
     public static let shared = Notificare()
 
     public static var SDK_VERSION: String {
-        let bundle = Bundle(for: Self.self)
-        let version = bundle.infoDictionary?["CFBundleShortVersionString"] as? String
-
-        return version ?? ""
+        NOTIFICARE_VERSION
     }
 
     // Internal modules
@@ -278,7 +275,10 @@ public class Notificare {
             return
         }
 
-        let urlEncodedLink = link.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
+        guard let urlEncodedLink = link.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else {
+            completion(.failure(NotificareError.invalidArgument(message: "Invalid link value.")))
+            return
+        }
 
         NotificareRequest.Builder()
             .get("/link/dynamic/\(urlEncodedLink)")
@@ -311,8 +311,13 @@ public class Notificare {
             return
         }
 
+        guard let urlEncodedId = id.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else {
+            completion(.failure(NotificareError.invalidArgument(message: "Invalid id value.")))
+            return
+        }
+
         NotificareRequest.Builder()
-            .get("/notification/\(id)")
+            .get("/notification/\(urlEncodedId)")
             .responseDecodable(NotificareInternals.PushAPI.Responses.Notification.self) { result in
                 switch result {
                 case let .success(response):
