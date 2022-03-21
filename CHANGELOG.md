@@ -1,6 +1,6 @@
 # CHANGELOG
 
-##
+## 3.0.1
 
 - Include debug symbols in distributed XCFrameworks
 - Prevent multiple push registration events
