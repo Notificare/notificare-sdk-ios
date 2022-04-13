@@ -5,7 +5,7 @@
 import UIKit
 
 public enum NotificareUtils {
-    public static var applicationName: String? {
+    public static var applicationName: String {
         if let bundleDisplayName = Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String {
             return bundleDisplayName
         } else if let bundleName = Bundle.main.infoDictionary?["CFBundleName"] as? String {
@@ -75,6 +75,10 @@ public enum NotificareUtils {
 
     public static var timeZoneOffset: Float {
         Float(TimeZone.current.secondsFromGMT()) / 3600.0
+    }
+
+    public static var userAgent: String {
+        "\(applicationName)/\(applicationVersion) Notificare/\(Notificare.SDK_VERSION) iOS/\(osVersion)"
     }
 
     // MARK: - Modules
