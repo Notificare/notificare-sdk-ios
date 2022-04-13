@@ -221,7 +221,12 @@ public struct NotificareRequest {
                 request.setValue(value, forHTTPHeaderField: header)
             }
 
+            let language = Notificare.shared.device().preferredLanguage
+                ?? "\(NotificareUtils.deviceLanguage)-\(NotificareUtils.deviceRegion)"
+
             // Ensure the standard Notificare headers are added.
+            request.setValue(language, forHTTPHeaderField: "Accept-Language")
+            request.setValue(NotificareUtils.userAgent, forHTTPHeaderField: "User-Agent")
             request.setValue(Notificare.SDK_VERSION, forHTTPHeaderField: "X-Notificare-SDK-Version")
             request.setValue(NotificareUtils.applicationVersion, forHTTPHeaderField: "X-Notificare-App-Version")
 
