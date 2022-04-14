@@ -21,6 +21,7 @@ internal extension NotificareInternals.PushAPI.Payloads {
             let deviceString: String
             let timeZoneOffset: Float
             let backgroundAppRefresh: Bool
+            let allowedUI: Bool?
         }
 
         struct UpdateTimeZone: Encodable {

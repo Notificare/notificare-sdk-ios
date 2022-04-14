@@ -613,7 +613,11 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
                 appVersion: NotificareUtils.applicationVersion,
                 deviceString: NotificareUtils.deviceString,
                 timeZoneOffset: NotificareUtils.timeZoneOffset,
-                backgroundAppRefresh: UIApplication.shared.backgroundRefreshStatus == .available
+                backgroundAppRefresh: UIApplication.shared.backgroundRefreshStatus == .available,
+
+                // Submit a value when registering a temporary to prevent
+                // otherwise let the push module take over and update the setting accordingly.
+                allowedUI: transport == .notificare ? false : nil
             )
 
             NotificareRequest.Builder()
