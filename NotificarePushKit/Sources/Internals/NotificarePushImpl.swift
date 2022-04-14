@@ -45,17 +45,14 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
 
         // Listen to 'application did become active'.
         NotificationCenter.default.addObserver(instance,
-                                               selector: #selector(updateNotificationSettings),
+                                               selector: #selector(onApplicationForeground),
                                                name: UIApplication.didBecomeActiveNotification,
                                                object: nil)
     }
 
     public static func launch(_ completion: @escaping NotificareCallback<Void>) {
-        if Notificare.shared.device().currentDevice?.transport == .notificare {
-            instance.updateNotificationSettings()
-        }
-
-        completion(.success(()))
+        // Ensure the definitive allowedUI value has been communicated to the API.
+        instance.updateNotificationSettings(completion)
     }
 
     // TODO: confirm we do not need unlaunch
@@ -151,15 +148,11 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
                 // Unregister from APNS
                 UIApplication.shared.unregisterForRemoteNotifications()
 
-                // Update notification settings
-                self.handleNotificationSettings(false) { result in
-                    switch result {
-                    case .success:
-                        NotificareLogger.info("Unregistered from APNS.")
-                    case let .failure(error):
-                        NotificareLogger.error("Failed to update the notification settings.", error: error)
-                    }
-                }
+                // Update the local notification settings.
+                // Registering a temporary device automatically reports the allowedUI to the API.
+                LocalStorage.allowedUI = false
+
+                NotificareLogger.info("Unregistered from APNS.")
             case let .failure(error):
                 NotificareLogger.error("Failed to register a temporary device and unregister from APNS.", error: error)
             }
@@ -324,11 +317,15 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
         )
     }
 
-    @objc private func updateNotificationSettings() {
+    @objc private func onApplicationForeground() {
         guard Notificare.shared.isReady else {
             return
         }
 
+        updateNotificationSettings { _ in }
+    }
+
+    private func updateNotificationSettings(_ completion: @escaping NotificareCallback<Void>) {
         notificationCenter.getNotificationSettings { settings in
             var allowedUI = settings.authorizationStatus == .authorized
 
@@ -338,15 +335,23 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
                 }
             }
 
-            self.handleNotificationSettings(allowedUI) { _ in }
+            self.handleNotificationSettings(allowedUI, completion)
         }
     }
 
-    private func handleNotificationSettings(_ allowedUI: Bool, _ completion: @escaping NotificareCallback<Void>) {
+    private func handleNotificationSettings(_ granted: Bool, _ completion: @escaping NotificareCallback<Void>) {
+        guard Notificare.shared.isConfigured else {
+            completion(.failure(NotificareError.notConfigured))
+            return
+        }
+
         guard let device = Notificare.shared.device().currentDevice else {
             completion(.failure(NotificareError.deviceUnavailable))
             return
         }
+
+        // The allowedUI is only true when the device has push capabilities and the user accepted the permission.
+        let allowedUI = device.transport != .notificare && granted
 
         if self.allowedUI != allowedUI {
             let payload = NotificareInternals.PushAPI.Payloads.UpdateNotificationSettings(
