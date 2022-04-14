@@ -39,7 +39,7 @@ extension NotificareEvent: Codable {
         notificationId = try container.decodeIfPresent(String.self, forKey: .notificationId)
         userId = try container.decodeIfPresent(String.self, forKey: .userId)
 
-        if let data = try container.decodeIfPresent(AnyCodable.self, forKey: .data) {
+        if let data = try container.decodeIfPresent(NotificareAnyCodable.self, forKey: .data) {
             self.data = data.value as? NotificareEventData
         } else {
             data = nil
@@ -57,7 +57,7 @@ extension NotificareEvent: Codable {
         try container.encodeIfPresent(userId, forKey: .userId)
 
         if let data = data {
-            try container.encode(AnyCodable(data), forKey: .data)
+            try container.encode(NotificareAnyCodable(data), forKey: .data)
         }
     }
 }

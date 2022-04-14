@@ -85,7 +85,7 @@ public extension NotificareAsset {
         button = try container.decodeIfPresent(Button.self, forKey: .button)
         metaData = try container.decodeIfPresent(MetaData.self, forKey: .metaData)
 
-        if let extra = try container.decodeIfPresent(AnyCodable.self, forKey: .extra) {
+        if let extra = try container.decodeIfPresent(NotificareAnyCodable.self, forKey: .extra) {
             self.extra = extra.value as! [String: Any]
         } else {
             extra = [:]
@@ -102,7 +102,7 @@ public extension NotificareAsset {
         try container.encode(url, forKey: .url)
         try container.encode(button, forKey: .button)
         try container.encode(metaData, forKey: .metaData)
-        try container.encode(AnyCodable(extra), forKey: .extra)
+        try container.encode(NotificareAnyCodable(extra), forKey: .extra)
     }
 }
 

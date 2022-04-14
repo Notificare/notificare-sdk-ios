@@ -87,7 +87,7 @@ public extension NotificareInternals.PushAPI.Models {
             }
 
             if container.contains(.extra) {
-                let decoded = try container.decode(AnyCodable.self, forKey: .extra)
+                let decoded = try container.decode(NotificareAnyCodable.self, forKey: .extra)
                 extra = decoded.value as! [String: Any]
             } else {
                 extra = [:]

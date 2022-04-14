@@ -1,15 +1,15 @@
 /**
  A type-erased `Codable` value.
- The `AnyCodable` type forwards encoding and decoding responsibilities
+ The `NotificareAnyCodable` type forwards encoding and decoding responsibilities
  to an underlying value, hiding its specific underlying type.
  You can encode or decode mixed-type values in dictionaries
  and other collections that require `Encodable` or `Decodable` conformance
- by declaring their contained type to be `AnyCodable`.
- - SeeAlso: `AnyEncodable`
- - SeeAlso: `AnyDecodable`
+ by declaring their contained type to be `NotificareAnyCodable`.
+ - SeeAlso: `NotificareAnyEncodable`
+ - SeeAlso: `NotificareAnyDecodable`
  */
 #if swift(>=5.1)
-    @frozen public struct AnyCodable: Codable {
+    @frozen public struct NotificareAnyCodable: Codable {
         public let value: Any
 
         public init<T>(_ value: T?) {
@@ -17,7 +17,7 @@
         }
     }
 #else
-    public struct AnyCodable: Codable {
+    public struct NotificareAnyCodable: Codable {
         public let value: Any
 
         public init<T>(_ value: T?) {
@@ -26,10 +26,10 @@
     }
 #endif
 
-extension AnyCodable: _AnyEncodable, _AnyDecodable {}
+extension NotificareAnyCodable: _NotificareAnyEncodable, _NotificareAnyDecodable {}
 
-extension AnyCodable: Equatable {
-    public static func == (lhs: AnyCodable, rhs: AnyCodable) -> Bool {
+extension NotificareAnyCodable: Equatable {
+    public static func == (lhs: NotificareAnyCodable, rhs: NotificareAnyCodable) -> Bool {
         switch (lhs.value, rhs.value) {
         case is (Void, Void):
             return true
@@ -61,9 +61,9 @@ extension AnyCodable: Equatable {
             return lhs == rhs
         case let (lhs as String, rhs as String):
             return lhs == rhs
-        case let (lhs as [String: AnyCodable], rhs as [String: AnyCodable]):
+        case let (lhs as [String: NotificareAnyCodable], rhs as [String: NotificareAnyCodable]):
             return lhs == rhs
-        case let (lhs as [AnyCodable], rhs as [AnyCodable]):
+        case let (lhs as [NotificareAnyCodable], rhs as [NotificareAnyCodable]):
             return lhs == rhs
         default:
             return false
@@ -71,7 +71,7 @@ extension AnyCodable: Equatable {
     }
 }
 
-extension AnyCodable: CustomStringConvertible {
+extension NotificareAnyCodable: CustomStringConvertible {
     public var description: String {
         switch value {
         case is Void:
@@ -84,21 +84,21 @@ extension AnyCodable: CustomStringConvertible {
     }
 }
 
-extension AnyCodable: CustomDebugStringConvertible {
+extension NotificareAnyCodable: CustomDebugStringConvertible {
     public var debugDescription: String {
         switch value {
         case let value as CustomDebugStringConvertible:
-            return "AnyCodable(\(value.debugDescription))"
+            return "NotificareAnyCodable(\(value.debugDescription))"
         default:
-            return "AnyCodable(\(description))"
+            return "NotificareAnyCodable(\(description))"
         }
     }
 }
 
-extension AnyCodable: ExpressibleByNilLiteral {}
-extension AnyCodable: ExpressibleByBooleanLiteral {}
-extension AnyCodable: ExpressibleByIntegerLiteral {}
-extension AnyCodable: ExpressibleByFloatLiteral {}
-extension AnyCodable: ExpressibleByStringLiteral {}
-extension AnyCodable: ExpressibleByArrayLiteral {}
-extension AnyCodable: ExpressibleByDictionaryLiteral {}
+extension NotificareAnyCodable: ExpressibleByNilLiteral {}
+extension NotificareAnyCodable: ExpressibleByBooleanLiteral {}
+extension NotificareAnyCodable: ExpressibleByIntegerLiteral {}
+extension NotificareAnyCodable: ExpressibleByFloatLiteral {}
+extension NotificareAnyCodable: ExpressibleByStringLiteral {}
+extension NotificareAnyCodable: ExpressibleByArrayLiteral {}
+extension NotificareAnyCodable: ExpressibleByDictionaryLiteral {}

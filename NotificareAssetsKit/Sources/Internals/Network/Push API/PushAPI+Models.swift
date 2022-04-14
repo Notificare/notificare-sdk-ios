@@ -10,7 +10,7 @@ internal extension NotificareInternals.PushAPI.Models {
         let key: String?
         let title: String
         let description: String?
-        let extra: AnyCodable?
+        let extra: NotificareAnyCodable?
         let button: Button?
         let metaData: MetaData?
 

@@ -17,7 +17,7 @@ internal extension NotificareInternals.PushAPI.Models {
         let redeemHistory: [NotificarePass.Redemption]
         let limit: Int
         let token: String
-        let data: AnyCodable?
+        let data: NotificareAnyCodable?
         let date: Date
     }
 

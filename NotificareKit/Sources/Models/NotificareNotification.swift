@@ -153,7 +153,7 @@ public extension NotificareNotification {
         actions = try container.decode([Action].self, forKey: .actions)
         attachments = try container.decode([Attachment].self, forKey: .attachments)
 
-        let decodedExtra = try container.decode(AnyCodable.self, forKey: .extra)
+        let decodedExtra = try container.decode(NotificareAnyCodable.self, forKey: .extra)
         extra = decodedExtra.value as! [String: Any]
 
         targetContentIdentifier = try container.decodeIfPresent(String.self, forKey: .targetContentIdentifier)
@@ -172,7 +172,7 @@ public extension NotificareNotification {
         try container.encode(content, forKey: .content)
         try container.encode(actions, forKey: .actions)
         try container.encode(attachments, forKey: .attachments)
-        try container.encode(AnyCodable(extra), forKey: .extra)
+        try container.encode(NotificareAnyCodable(extra), forKey: .extra)
         try container.encode(targetContentIdentifier, forKey: .targetContentIdentifier)
     }
 }
@@ -201,7 +201,7 @@ public extension NotificareNotification.Content {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         type = try container.decode(String.self, forKey: .type)
 
-        let decoded = try container.decode(AnyCodable.self, forKey: .data)
+        let decoded = try container.decode(NotificareAnyCodable.self, forKey: .data)
         data = decoded.value
     }
 
@@ -209,7 +209,7 @@ public extension NotificareNotification.Content {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(type, forKey: .type)
-        try container.encode(AnyCodable(data), forKey: .data)
+        try container.encode(NotificareAnyCodable(data), forKey: .data)
     }
 }
 
