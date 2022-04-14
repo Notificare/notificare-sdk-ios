@@ -53,7 +53,7 @@ public extension NotificareSystemNotification {
         id = try container.decode(String.self, forKey: .id)
         type = try container.decode(String.self, forKey: .type)
 
-        let decodedExtra = try container.decode(AnyCodable.self, forKey: .extra)
+        let decodedExtra = try container.decode(NotificareAnyCodable.self, forKey: .extra)
         extra = decodedExtra.value as! [String: Any]
     }
 
@@ -62,6 +62,6 @@ public extension NotificareSystemNotification {
 
         try container.encode(id, forKey: .id)
         try container.encode(type, forKey: .type)
-        try container.encode(AnyCodable(extra), forKey: .extra)
+        try container.encode(NotificareAnyCodable(extra), forKey: .extra)
     }
 }

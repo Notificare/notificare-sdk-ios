@@ -46,9 +46,9 @@
 		F293E28526302C70008C2010 /* NotificareLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = F293E28426302C70008C2010 /* NotificareLogger.swift */; };
 		F293E28A26302C76008C2010 /* NotificareLocalizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F293E28926302C76008C2010 /* NotificareLocalizable.swift */; };
 		F293E2B226303008008C2010 /* NotificareAbstractDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F293E2B126303008008C2010 /* NotificareAbstractDatabase.swift */; };
-		F293E2B826303034008C2010 /* AnyEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F293E2B526303034008C2010 /* AnyEncodable.swift */; };
-		F293E2B926303034008C2010 /* AnyCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F293E2B626303034008C2010 /* AnyCodable.swift */; };
-		F293E2BA26303034008C2010 /* AnyDecodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F293E2B726303034008C2010 /* AnyDecodable.swift */; };
+		F293E2B826303034008C2010 /* NotificareAnyEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F293E2B526303034008C2010 /* NotificareAnyEncodable.swift */; };
+		F293E2B926303034008C2010 /* NotificareAnyCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F293E2B626303034008C2010 /* NotificareAnyCodable.swift */; };
+		F293E2BA26303034008C2010 /* NotificareAnyDecodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F293E2B726303034008C2010 /* NotificareAnyDecodable.swift */; };
 		F293E2BF26303056008C2010 /* NotificareSwizzler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F293E2BD26303055008C2010 /* NotificareSwizzler.swift */; };
 		F293E2C026303056008C2010 /* NotificareAppDelegateInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F293E2BE26303056008C2010 /* NotificareAppDelegateInterceptor.swift */; };
 		F293E2C926303073008C2010 /* JSON_Decode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F293E2C526303073008C2010 /* JSON_Decode.swift */; };
@@ -126,9 +126,9 @@
 		F293E28426302C70008C2010 /* NotificareLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareLogger.swift; sourceTree = "<group>"; };
 		F293E28926302C76008C2010 /* NotificareLocalizable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareLocalizable.swift; sourceTree = "<group>"; };
 		F293E2B126303008008C2010 /* NotificareAbstractDatabase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareAbstractDatabase.swift; sourceTree = "<group>"; };
-		F293E2B526303034008C2010 /* AnyEncodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyEncodable.swift; sourceTree = "<group>"; };
-		F293E2B626303034008C2010 /* AnyCodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyCodable.swift; sourceTree = "<group>"; };
-		F293E2B726303034008C2010 /* AnyDecodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyDecodable.swift; sourceTree = "<group>"; };
+		F293E2B526303034008C2010 /* NotificareAnyEncodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareAnyEncodable.swift; sourceTree = "<group>"; };
+		F293E2B626303034008C2010 /* NotificareAnyCodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareAnyCodable.swift; sourceTree = "<group>"; };
+		F293E2B726303034008C2010 /* NotificareAnyDecodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareAnyDecodable.swift; sourceTree = "<group>"; };
 		F293E2BD26303055008C2010 /* NotificareSwizzler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareSwizzler.swift; sourceTree = "<group>"; };
 		F293E2BE26303056008C2010 /* NotificareAppDelegateInterceptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareAppDelegateInterceptor.swift; sourceTree = "<group>"; };
 		F293E2C526303073008C2010 /* JSON_Decode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSON_Decode.swift; sourceTree = "<group>"; };
@@ -289,9 +289,9 @@
 		F293E27526302BDA008C2010 /* AnyCodable */ = {
 			isa = PBXGroup;
 			children = (
-				F293E2B626303034008C2010 /* AnyCodable.swift */,
-				F293E2B726303034008C2010 /* AnyDecodable.swift */,
-				F293E2B526303034008C2010 /* AnyEncodable.swift */,
+				F293E2B626303034008C2010 /* NotificareAnyCodable.swift */,
+				F293E2B726303034008C2010 /* NotificareAnyDecodable.swift */,
+				F293E2B526303034008C2010 /* NotificareAnyEncodable.swift */,
 			);
 			path = AnyCodable;
 			sourceTree = "<group>";
@@ -566,7 +566,7 @@
 				42A20F5A817E461AD741CEF0 /* NotificareAutoConfig.swift in Sources */,
 				F2B1817C25BAFDFE00384991 /* NotificareNotification.swift in Sources */,
 				F27DB180262EDAA5000C024D /* PushAPI+Responses.swift in Sources */,
-				F293E2B826303034008C2010 /* AnyEncodable.swift in Sources */,
+				F293E2B826303034008C2010 /* NotificareAnyEncodable.swift in Sources */,
 				F29DA38325024753004CCB8F /* NotificareEvent+CoreData.swift in Sources */,
 				F2E07E7A2534B5DD00AF0C14 /* NotificareTime.swift in Sources */,
 				42A207D529B7F7770917822D /* NotificareDevice.swift in Sources */,
@@ -579,9 +579,9 @@
 				42A20A18C4B0AD218F0B7E70 /* NotificareTransport.swift in Sources */,
 				F21DD9F427187BC000C88D7B /* NotificareDeviceModule.swift in Sources */,
 				42A20F732AE3E8130EA533BF /* NotificareReachability.swift in Sources */,
-				F293E2B926303034008C2010 /* AnyCodable.swift in Sources */,
+				F293E2B926303034008C2010 /* NotificareAnyCodable.swift in Sources */,
 				F2E07E5F25344D0700AF0C14 /* NotificareDoNotDisturb.swift in Sources */,
-				F293E2BA26303034008C2010 /* AnyDecodable.swift in Sources */,
+				F293E2BA26303034008C2010 /* NotificareAnyDecodable.swift in Sources */,
 				42A20AD28857EBCB0A86A104 /* NotificareLaunchState.swift in Sources */,
 				42A20BCDB5A9B47688D37655 /* URLRequest+Extensions.swift in Sources */,
 				42A20330821EAB78A0A5EB13 /* URLSession+Retry.swift in Sources */,

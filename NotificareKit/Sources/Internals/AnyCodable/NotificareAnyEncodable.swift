@@ -4,12 +4,12 @@
 
 /**
  A type-erased `Encodable` value.
- The `AnyEncodable` type forwards encoding responsibilities
+ The `NotificareAnyEncodable` type forwards encoding responsibilities
  to an underlying value, hiding its specific underlying type.
  You can encode mixed-type values in dictionaries
  and other collections that require `Encodable` conformance
- by declaring their contained type to be `AnyEncodable`:
-     let dictionary: [String: AnyEncodable] = [
+ by declaring their contained type to be `NotificareAnyEncodable`:
+     let dictionary: [String: NotificareAnyEncodable] = [
          "boolean": true,
          "integer": 42,
          "double": 3.141592653589793,
@@ -25,7 +25,7 @@
      let json = try! encoder.encode(dictionary)
  */
 #if swift(>=5.1)
-    @frozen public struct AnyEncodable: Encodable {
+    @frozen public struct NotificareAnyEncodable: Encodable {
         public let value: Any
 
         public init<T>(_ value: T?) {
@@ -33,7 +33,7 @@
         }
     }
 #else
-    public struct AnyEncodable: Encodable {
+    public struct NotificareAnyEncodable: Encodable {
         public let value: Any
 
         public init<T>(_ value: T?) {
@@ -44,22 +44,22 @@
 
 #if swift(>=4.2)
     @usableFromInline
-    protocol _AnyEncodable {
+    protocol _NotificareAnyEncodable {
         var value: Any { get }
         init<T>(_ value: T?)
     }
 #else
-    protocol _AnyEncodable {
+    protocol _NotificareAnyEncodable {
         var value: Any { get }
         init<T>(_ value: T?)
     }
 #endif
 
-extension AnyEncodable: _AnyEncodable {}
+extension NotificareAnyEncodable: _NotificareAnyEncodable {}
 
 // MARK: - Encodable
 
-extension _AnyEncodable {
+extension _NotificareAnyEncodable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
 
@@ -109,11 +109,11 @@ extension _AnyEncodable {
                 try container.encode(url)
         #endif
         case let array as [Any?]:
-            try container.encode(array.map { AnyEncodable($0) })
+            try container.encode(array.map { NotificareAnyEncodable($0) })
         case let dictionary as [String: Any?]:
-            try container.encode(dictionary.mapValues { AnyEncodable($0) })
+            try container.encode(dictionary.mapValues { NotificareAnyEncodable($0) })
         default:
-            let context = EncodingError.Context(codingPath: container.codingPath, debugDescription: "AnyEncodable value cannot be encoded")
+            let context = EncodingError.Context(codingPath: container.codingPath, debugDescription: "NotificareAnyEncodable value cannot be encoded")
             throw EncodingError.invalidValue(value, context)
         }
     }
@@ -153,8 +153,8 @@ extension _AnyEncodable {
     #endif
 }
 
-extension AnyEncodable: Equatable {
-    public static func == (lhs: AnyEncodable, rhs: AnyEncodable) -> Bool {
+extension NotificareAnyEncodable: Equatable {
+    public static func == (lhs: NotificareAnyEncodable, rhs: NotificareAnyEncodable) -> Bool {
         switch (lhs.value, rhs.value) {
         case is (Void, Void):
             return true
@@ -186,9 +186,9 @@ extension AnyEncodable: Equatable {
             return lhs == rhs
         case let (lhs as String, rhs as String):
             return lhs == rhs
-        case let (lhs as [String: AnyEncodable], rhs as [String: AnyEncodable]):
+        case let (lhs as [String: NotificareAnyEncodable], rhs as [String: NotificareAnyEncodable]):
             return lhs == rhs
-        case let (lhs as [AnyEncodable], rhs as [AnyEncodable]):
+        case let (lhs as [NotificareAnyEncodable], rhs as [NotificareAnyEncodable]):
             return lhs == rhs
         default:
             return false
@@ -196,7 +196,7 @@ extension AnyEncodable: Equatable {
     }
 }
 
-extension AnyEncodable: CustomStringConvertible {
+extension NotificareAnyEncodable: CustomStringConvertible {
     public var description: String {
         switch value {
         case is Void:
@@ -209,30 +209,30 @@ extension AnyEncodable: CustomStringConvertible {
     }
 }
 
-extension AnyEncodable: CustomDebugStringConvertible {
+extension NotificareAnyEncodable: CustomDebugStringConvertible {
     public var debugDescription: String {
         switch value {
         case let value as CustomDebugStringConvertible:
-            return "AnyEncodable(\(value.debugDescription))"
+            return "NotificareAnyEncodable(\(value.debugDescription))"
         default:
-            return "AnyEncodable(\(description))"
+            return "NotificareAnyEncodable(\(description))"
         }
     }
 }
 
-extension AnyEncodable: ExpressibleByNilLiteral {}
-extension AnyEncodable: ExpressibleByBooleanLiteral {}
-extension AnyEncodable: ExpressibleByIntegerLiteral {}
-extension AnyEncodable: ExpressibleByFloatLiteral {}
-extension AnyEncodable: ExpressibleByStringLiteral {}
+extension NotificareAnyEncodable: ExpressibleByNilLiteral {}
+extension NotificareAnyEncodable: ExpressibleByBooleanLiteral {}
+extension NotificareAnyEncodable: ExpressibleByIntegerLiteral {}
+extension NotificareAnyEncodable: ExpressibleByFloatLiteral {}
+extension NotificareAnyEncodable: ExpressibleByStringLiteral {}
 #if swift(>=5.0)
-    extension AnyEncodable: ExpressibleByStringInterpolation {}
+    extension NotificareAnyEncodable: ExpressibleByStringInterpolation {}
 #endif
-extension AnyEncodable: ExpressibleByArrayLiteral {}
-extension AnyEncodable: ExpressibleByDictionaryLiteral {}
+extension NotificareAnyEncodable: ExpressibleByArrayLiteral {}
+extension NotificareAnyEncodable: ExpressibleByDictionaryLiteral {}
 
 // swiftformat:disable extensionAccessControl
-extension _AnyEncodable {
+extension _NotificareAnyEncodable {
     public init(nilLiteral _: ()) {
         self.init(nil as Any?)
     }

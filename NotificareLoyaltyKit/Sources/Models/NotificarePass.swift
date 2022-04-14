@@ -107,7 +107,7 @@ public extension NotificarePass {
         redeemHistory = try container.decode([Redemption].self, forKey: .redeemHistory)
         limit = try container.decode(Int.self, forKey: .limit)
         token = try container.decode(String.self, forKey: .token)
-        data = try container.decodeIfPresent(AnyCodable.self, forKey: .token)?.value as? [String: Any] ?? [:]
+        data = try container.decodeIfPresent(NotificareAnyCodable.self, forKey: .token)?.value as? [String: Any] ?? [:]
         date = try container.decode(Date.self, forKey: .date)
     }
 
@@ -125,7 +125,7 @@ public extension NotificarePass {
         try container.encode(redeemHistory, forKey: .redeemHistory)
         try container.encode(limit, forKey: .limit)
         try container.encode(token, forKey: .token)
-        try container.encode(AnyCodable(data), forKey: .data)
+        try container.encode(NotificareAnyCodable(data), forKey: .data)
         try container.encode(date, forKey: .date)
     }
 }

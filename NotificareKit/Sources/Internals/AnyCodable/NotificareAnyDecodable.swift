@@ -4,11 +4,11 @@
 
 /**
  A type-erased `Decodable` value.
- The `AnyDecodable` type forwards decoding responsibilities
+ The `NotificareAnyDecodable` type forwards decoding responsibilities
  to an underlying value, hiding its specific underlying type.
  You can decode mixed-type values in dictionaries
  and other collections that require `Decodable` conformance
- by declaring their contained type to be `AnyDecodable`:
+ by declaring their contained type to be `NotificareAnyDecodable`:
      let json = """
      {
          "boolean": true,
@@ -24,10 +24,10 @@
      }
      """.data(using: .utf8)!
      let decoder = JSONDecoder()
-     let dictionary = try! decoder.decode([String: AnyDecodable].self, from: json)
+     let dictionary = try! decoder.decode([String: NotificareAnyDecodable].self, from: json)
  */
 #if swift(>=5.1)
-    @frozen public struct AnyDecodable: Decodable {
+    @frozen public struct NotificareAnyDecodable: Decodable {
         public let value: Any
 
         public init<T>(_ value: T?) {
@@ -35,7 +35,7 @@
         }
     }
 #else
-    public struct AnyDecodable: Decodable {
+    public struct NotificareAnyDecodable: Decodable {
         public let value: Any
 
         public init<T>(_ value: T?) {
@@ -46,21 +46,21 @@
 
 #if swift(>=4.2)
     @usableFromInline
-    protocol _AnyDecodable {
+    protocol _NotificareAnyDecodable {
         var value: Any { get }
         init<T>(_ value: T?)
     }
 #else
-    protocol _AnyDecodable {
+    protocol _NotificareAnyDecodable {
         var value: Any { get }
         init<T>(_ value: T?)
     }
 #endif
 
-extension AnyDecodable: _AnyDecodable {}
+extension NotificareAnyDecodable: _NotificareAnyDecodable {}
 
 // swiftformat:disable extensionAccessControl
-extension _AnyDecodable {
+extension _NotificareAnyDecodable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
 
@@ -80,18 +80,18 @@ extension _AnyDecodable {
             self.init(double)
         } else if let string = try? container.decode(String.self) {
             self.init(string)
-        } else if let array = try? container.decode([AnyDecodable].self) {
+        } else if let array = try? container.decode([NotificareAnyDecodable].self) {
             self.init(array.map(\.value))
-        } else if let dictionary = try? container.decode([String: AnyDecodable].self) {
+        } else if let dictionary = try? container.decode([String: NotificareAnyDecodable].self) {
             self.init(dictionary.mapValues { $0.value })
         } else {
-            throw DecodingError.dataCorruptedError(in: container, debugDescription: "AnyDecodable value cannot be decoded")
+            throw DecodingError.dataCorruptedError(in: container, debugDescription: "NotificareAnyDecodable value cannot be decoded")
         }
     }
 }
 
-extension AnyDecodable: Equatable {
-    public static func == (lhs: AnyDecodable, rhs: AnyDecodable) -> Bool {
+extension NotificareAnyDecodable: Equatable {
+    public static func == (lhs: NotificareAnyDecodable, rhs: NotificareAnyDecodable) -> Bool {
         switch (lhs.value, rhs.value) {
         #if canImport(Foundation)
             case is (NSNull, NSNull), is (Void, Void):
@@ -125,9 +125,9 @@ extension AnyDecodable: Equatable {
             return lhs == rhs
         case let (lhs as String, rhs as String):
             return lhs == rhs
-        case let (lhs as [String: AnyDecodable], rhs as [String: AnyDecodable]):
+        case let (lhs as [String: NotificareAnyDecodable], rhs as [String: NotificareAnyDecodable]):
             return lhs == rhs
-        case let (lhs as [AnyDecodable], rhs as [AnyDecodable]):
+        case let (lhs as [NotificareAnyDecodable], rhs as [NotificareAnyDecodable]):
             return lhs == rhs
         default:
             return false
@@ -135,7 +135,7 @@ extension AnyDecodable: Equatable {
     }
 }
 
-extension AnyDecodable: CustomStringConvertible {
+extension NotificareAnyDecodable: CustomStringConvertible {
     public var description: String {
         switch value {
         case is Void:
@@ -148,13 +148,13 @@ extension AnyDecodable: CustomStringConvertible {
     }
 }
 
-extension AnyDecodable: CustomDebugStringConvertible {
+extension NotificareAnyDecodable: CustomDebugStringConvertible {
     public var debugDescription: String {
         switch value {
         case let value as CustomDebugStringConvertible:
-            return "AnyDecodable(\(value.debugDescription))"
+            return "NotificareAnyDecodable(\(value.debugDescription))"
         default:
-            return "AnyDecodable(\(description))"
+            return "NotificareAnyDecodable(\(description))"
         }
     }
 }
