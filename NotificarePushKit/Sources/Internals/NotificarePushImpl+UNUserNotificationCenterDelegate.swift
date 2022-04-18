@@ -119,7 +119,7 @@ extension NotificarePushImpl: UNUserNotificationCenterDelegate {
         } else {
             // Unrecognizable notification
             delegate?.notificare(self, didReceiveUnknownNotification: userInfo)
-            completionHandler([])
+            completionHandler(self.presentationOptions)
         }
     }
 
