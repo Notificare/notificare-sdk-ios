@@ -106,35 +106,15 @@ extension NotificarePushImpl: UNUserNotificationCenterDelegate {
         let userInfo = notification.request.content.userInfo
 
         if isNotificareNotification(userInfo) {
-            guard let id = userInfo["id"] as? String else {
-                NotificareLogger.warning("Missing 'id' property in notification payload.")
-                return
-            }
-
-            guard Notificare.shared.isConfigured else {
-                NotificareLogger.warning("Notificare has not been configured.")
-                return
-            }
-
-            Notificare.shared.fetchNotification(id) { result in
-                switch result {
-                case let .success(notification):
-                    // TODO: log notification open?
-
-                    // Check if we should force-set the presentation options.
-                    if let presentation = userInfo["presentation"] as? Bool, presentation {
-                        if #available(iOS 14.0, *) {
-                            completionHandler([.banner, .badge, .sound])
-                        } else {
-                            completionHandler([.alert, .badge, .sound])
-                        }
-                    } else {
-                        completionHandler(self.presentationOptions)
-                    }
-                case .failure:
-                    NotificareLogger.error("Failed to fetch notification with id '\(id)'.")
-                    completionHandler([])
+            // Check if we should force-set the presentation options.
+            if let presentation = userInfo["presentation"] as? Bool, presentation {
+                if #available(iOS 14.0, *) {
+                    completionHandler([.banner, .badge, .sound])
+                } else {
+                    completionHandler([.alert, .badge, .sound])
                 }
+            } else {
+                completionHandler(self.presentationOptions)
             }
         } else {
             // Unrecognizable notification
