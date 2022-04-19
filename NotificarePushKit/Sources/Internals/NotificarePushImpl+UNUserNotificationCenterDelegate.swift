@@ -10,6 +10,11 @@ extension NotificarePushImpl: UNUserNotificationCenterDelegate {
     func userNotificationCenter(_: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         let userInfo = response.notification.request.content.userInfo
 
+        guard response.actionIdentifier != UNNotificationDismissActionIdentifier else {
+            completionHandler()
+            return
+        }
+
         if isNotificareNotification(userInfo) {
             guard let id = userInfo["id"] as? String else {
                 NotificareLogger.warning("Missing 'id' property in notification payload.")
@@ -18,10 +23,6 @@ extension NotificarePushImpl: UNUserNotificationCenterDelegate {
 
             guard Notificare.shared.isConfigured else {
                 NotificareLogger.warning("Notificare has not been configured.")
-                return completionHandler()
-            }
-
-            guard response.actionIdentifier != UNNotificationDismissActionIdentifier else {
                 return completionHandler()
             }
 
@@ -87,15 +88,15 @@ extension NotificarePushImpl: UNUserNotificationCenterDelegate {
             }
         } else {
             // Unrecognizable notification
-            if response.actionIdentifier != UNNotificationDefaultActionIdentifier, response.actionIdentifier != UNNotificationDismissActionIdentifier {
+            if response.actionIdentifier != UNNotificationDefaultActionIdentifier {
                 var responseText: String?
                 if let response = response as? UNTextInputNotificationResponse {
                     responseText = response.userText
                 }
 
-                delegate?.notificare(self, didReceiveUnknownAction: response.actionIdentifier, for: userInfo, responseText: responseText)
+                delegate?.notificare(self, didOpenUnknownAction: response.actionIdentifier, for: userInfo, responseText: responseText)
             } else {
-                delegate?.notificare(self, didReceiveUnknownNotification: userInfo)
+                delegate?.notificare(self, didOpenUnknownNotification: userInfo)
             }
 
             completionHandler()
@@ -106,40 +107,19 @@ extension NotificarePushImpl: UNUserNotificationCenterDelegate {
         let userInfo = notification.request.content.userInfo
 
         if isNotificareNotification(userInfo) {
-            guard let id = userInfo["id"] as? String else {
-                NotificareLogger.warning("Missing 'id' property in notification payload.")
-                return
-            }
-
-            guard Notificare.shared.isConfigured else {
-                NotificareLogger.warning("Notificare has not been configured.")
-                return
-            }
-
-            Notificare.shared.fetchNotification(id) { result in
-                switch result {
-                case let .success(notification):
-                    // TODO: log notification open?
-
-                    // Check if we should force-set the presentation options.
-                    if let presentation = userInfo["presentation"] as? Bool, presentation {
-                        if #available(iOS 14.0, *) {
-                            completionHandler([.banner, .badge, .sound])
-                        } else {
-                            completionHandler([.alert, .badge, .sound])
-                        }
-                    } else {
-                        completionHandler(self.presentationOptions)
-                    }
-                case .failure:
-                    NotificareLogger.error("Failed to fetch notification with id '\(id)'.")
-                    completionHandler([])
+            // Check if we should force-set the presentation options.
+            if let presentation = userInfo["presentation"] as? Bool, presentation {
+                if #available(iOS 14.0, *) {
+                    completionHandler([.banner, .badge, .sound])
+                } else {
+                    completionHandler([.alert, .badge, .sound])
                 }
+            } else {
+                completionHandler(presentationOptions)
             }
         } else {
             // Unrecognizable notification
-            delegate?.notificare(self, didReceiveUnknownNotification: userInfo)
-            completionHandler([])
+            completionHandler(presentationOptions)
         }
     }
 

@@ -119,10 +119,6 @@ extension AppDelegate: NotificarePushDelegate {
         print("-----> Notificare: should open notification settings")
     }
 
-    func notificare(_: NotificarePush, didReceiveUnknownAction action: [AnyHashable: Any], for _: [AnyHashable: Any]) {
-        print("-----> Notificare: received an unknown action: \(action)")
-    }
-
     func notificare(_: NotificarePush, didOpenNotification notification: NotificareNotification) {
         guard let rootViewController = window?.rootViewController else {
             return
@@ -151,6 +147,14 @@ extension AppDelegate: NotificarePushDelegate {
 //        }
 
         Notificare.shared.pushUI().presentAction(action, for: notification, in: rootViewController)
+    }
+
+    func notificare(_: NotificarePush, didOpenUnknownNotification _: [AnyHashable: Any]) {
+        print("-----> Notificare: opened unknown notification")
+    }
+
+    func notificare(_: NotificarePush, didOpenUnknownAction _: String, for _: [AnyHashable: Any], responseText _: String?) {
+        print("-----> Notificare: opened unknown action")
     }
 }
 
