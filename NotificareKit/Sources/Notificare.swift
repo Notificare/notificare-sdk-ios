@@ -136,36 +136,25 @@ public class Notificare {
         fetchApplication { result in
             switch result {
             case let .success(application):
-                // Keep a reference to a possible failure during the launch of the plugins.
-                var latestPluginLaunchError: Error?
-
-                // Keep track of launchables and handle the outcome once they have all finished launching.
-                let dispatchGroup = DispatchGroup()
-
                 // Loop all possible modules and launch the available ones.
-                NotificareInternals.Module.allCases.forEach { module in
-                    if let instance = module.instance {
-                        dispatchGroup.enter()
-
+                LaunchSequence(NotificareInternals.Module.allCases)
+                    .run { module, instance, completion in
                         NotificareLogger.debug("Launching module: \(module)")
                         instance.launch { result in
                             if case let .failure(error) = result {
                                 NotificareLogger.debug("Failed to launch '\(module)'.", error: error)
-                                latestPluginLaunchError = error
                             }
 
-                            dispatchGroup.leave()
+                            completion(result)
+                        }
+                    } onDone: { result in
+                        switch result {
+                        case .success:
+                            self.handleLaunchResult(.success(application))
+                        case let .failure(error):
+                            self.handleLaunchResult(.failure(error))
                         }
                     }
-                }
-
-                dispatchGroup.notify(queue: .main) {
-                    if let error = latestPluginLaunchError {
-                        self.handleLaunchResult(.failure(error))
-                    } else {
-                        self.handleLaunchResult(.success(application))
-                    }
-                }
             case let .failure(error):
                 NotificareLogger.error("Failed to load the application info.")
                 self.handleLaunchResult(.failure(error))
@@ -186,58 +175,47 @@ public class Notificare {
             case .success:
                 NotificareLogger.debug("Registered device as temporary.")
 
-                // Keep a reference to a possible failure during the launch of the plugins.
-                var latestPluginUnlaunchError: Error?
-
-                // Keep track of launchables and handle the outcome once they have all finished launching.
-                let dispatchGroup = DispatchGroup()
-
                 // Loop all possible modules and un-launch the available ones.
-                NotificareInternals.Module.allCases.reversed().forEach { module in
-                    if let instance = module.instance {
-                        dispatchGroup.enter()
-
-                        NotificareLogger.debug("Un-launching module: \(module.rawValue)")
+                LaunchSequence(NotificareInternals.Module.allCases.reversed())
+                    .run { module, instance, completion in
+                        NotificareLogger.debug("Un-launching module: \(module)")
                         instance.unlaunch { result in
                             if case let .failure(error) = result {
-                                NotificareLogger.debug("Failed to un-launch '\(module.rawValue)'.", error: error)
-                                latestPluginUnlaunchError = error
+                                NotificareLogger.debug("Failed to un-launch '\(module)'.", error: error)
                             }
 
-                            dispatchGroup.leave()
+                            completion(result)
                         }
-                    }
-                }
+                    } onDone: { result in
+                        switch result {
+                        case .success:
+                            self.device().clearTags { result in
+                                switch result {
+                                case .success:
+                                    NotificareLogger.debug("Removed all device tags.")
 
-                dispatchGroup.notify(queue: .main) {
-                    if latestPluginUnlaunchError == nil {
-                        self.device().clearTags { result in
-                            switch result {
-                            case .success:
-                                NotificareLogger.debug("Removed all device tags.")
+                                    self.deviceImplementation().delete { result in
+                                        switch result {
+                                        case .success:
+                                            NotificareLogger.debug("Removed the device.")
 
-                                self.deviceImplementation().delete { result in
-                                    switch result {
-                                    case .success:
-                                        NotificareLogger.debug("Removed the device.")
+                                            NotificareLogger.info("Un-launched Notificare.")
+                                            self.state = .configured
 
-                                        NotificareLogger.info("Un-launched Notificare.")
-                                        self.state = .configured
+                                            self.delegate?.notificareDidUnlaunch(self)
 
-                                        self.delegate?.notificareDidUnlaunch(self)
-
-                                    case let .failure(error):
-                                        NotificareLogger.error("Failed to delete device.", error: error)
+                                        case let .failure(error):
+                                            NotificareLogger.error("Failed to delete device.", error: error)
+                                        }
                                     }
+                                case let .failure(error):
+                                    NotificareLogger.error("Failed to clear device tags.", error: error)
                                 }
-
-                            case let .failure(error):
-                                NotificareLogger.error("Failed to clear device tags.", error: error)
                             }
+                        case let .failure(error):
+                            NotificareLogger.error("Failed to un-launch a peer module.", error: error)
                         }
                     }
-                }
-
             case let .failure(error):
                 NotificareLogger.error("Failed to register temporary device.", error: error)
             }
