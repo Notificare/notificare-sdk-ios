@@ -103,12 +103,17 @@ extension NotificarePushImpl: NotificareAppDelegateInterceptor {
             return
         }
 
+        guard let notificationId = userInfo["notificationId"] as? String else {
+            NotificareLogger.warning("Missing 'notificationId' property in notification payload.")
+            return
+        }
+
         guard Notificare.shared.isConfigured else {
             NotificareLogger.warning("Notificare has not been configured.")
             return
         }
 
-        Notificare.shared.events().logNotificationReceived(id) { _ in }
+        Notificare.shared.events().logNotificationReceived(notificationId) { _ in }
 
         Notificare.shared.fetchNotification(id) { result in
             switch result {
