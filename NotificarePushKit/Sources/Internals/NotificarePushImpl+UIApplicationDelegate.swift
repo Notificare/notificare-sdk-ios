@@ -100,16 +100,19 @@ extension NotificarePushImpl: NotificareAppDelegateInterceptor {
     private func handleNotification(_ userInfo: [AnyHashable: Any], _ completion: @escaping NotificareCallback<Void>) {
         guard let id = userInfo["id"] as? String else {
             NotificareLogger.warning("Missing 'id' property in notification payload.")
+            completion(.failure(NotificareError.invalidArgument(message: "Missing 'id' property in notification payload.")))
             return
         }
 
         guard let notificationId = userInfo["notificationId"] as? String else {
             NotificareLogger.warning("Missing 'notificationId' property in notification payload.")
+            completion(.failure(NotificareError.invalidArgument(message: "Missing 'notificationId' property in notification payload.")))
             return
         }
 
         guard Notificare.shared.isConfigured else {
             NotificareLogger.warning("Notificare has not been configured.")
+            completion(.failure(NotificareError.notConfigured))
             return
         }
 
