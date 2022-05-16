@@ -183,7 +183,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
         }
 
         if item.notification.partial {
-            Notificare.shared.fetchNotification(item.notification.id) { result in
+            Notificare.shared.fetchNotification(item.id) { result in
                 switch result {
                 case let .success(notification):
                     // Update the entity in the database.
