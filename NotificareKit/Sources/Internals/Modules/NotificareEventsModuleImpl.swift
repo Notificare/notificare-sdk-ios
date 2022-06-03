@@ -169,6 +169,7 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
                         NotificareLogger.info("Queuing event to be sent whenever possible.")
 
                         Notificare.shared.database.add(event)
+                        self.processStoredEvents()
 
                         completion(.success(()))
                         return
