@@ -56,7 +56,7 @@ internal extension NotificareInternals.PushAPI.Models {
                 id: _id,
                 notification: NotificareNotification(
                     partial: true,
-                    id: _id,
+                    id: notification,
                     type: type,
                     time: time,
                     title: title,
