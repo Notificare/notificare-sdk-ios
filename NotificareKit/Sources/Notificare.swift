@@ -430,14 +430,8 @@ public class Notificare {
     }
 
     public func removeNotificationFromNotificationCenter(_ notification: NotificareNotification) {
-        UNUserNotificationCenter.current().getDeliveredNotifications { notifications in
-            notifications.forEach {
-                if let id = $0.request.content.userInfo["id"] as? String, id == notification.id {
-                    NotificareLogger.debug("Removing notification '\(notification.id)' from the notification center.")
-                    UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [$0.request.identifier])
-                }
-            }
-        }
+        NotificareLogger.debug("Removing notification '\(notification.id)' from the notification center.")
+        UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [notification.id])
     }
 
     public func handleTestDeviceUrl(_ url: URL) -> Bool {
