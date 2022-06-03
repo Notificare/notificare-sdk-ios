@@ -154,28 +154,27 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
 
     // MARK: - Internal API
 
-    private func log(_ event: NotificareEvent, _ completion: NotificareCallback<Void>?) {
+    private func log(_ event: NotificareEvent, _ completion: @escaping NotificareCallback<Void>) {
         NotificareRequest.Builder()
             .post("/event", body: event)
             .response { result in
                 switch result {
                 case .success:
                     NotificareLogger.info("Event '\(event.type)' sent successfully.")
-                    if let completion = completion {
-                        completion(.success(()))
-                    }
+                    completion(.success(()))
                 case let .failure(error):
                     NotificareLogger.warning("Failed to send the event '\(event.type)'.", error: error)
-
-                    if let completion = completion {
-                        completion(.failure(error))
-                    }
 
                     if !self.discardableEvents.contains(event.type), let error = error as? NotificareNetworkError, error.recoverable {
                         NotificareLogger.info("Queuing event to be sent whenever possible.")
 
                         Notificare.shared.database.add(event)
+
+                        completion(.success(()))
+                        return
                     }
+
+                    completion(.failure(error))
                 }
             }
     }
