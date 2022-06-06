@@ -5,31 +5,6 @@
 import Foundation
 
 public protocol NotificareEventsModule: AnyObject {
-    func logApplicationInstall(_ completion: @escaping NotificareCallback<Void>)
-
-    @available(iOS 13.0, *)
-    func logApplicationInstall() async throws
-
-    func logApplicationRegistration(_ completion: @escaping NotificareCallback<Void>)
-
-    @available(iOS 13.0, *)
-    func logApplicationRegistration() async throws
-
-    func logApplicationUpgrade(_ completion: @escaping NotificareCallback<Void>)
-
-    @available(iOS 13.0, *)
-    func logApplicationUpgrade() async throws
-
-    func logApplicationOpen(_ completion: @escaping NotificareCallback<Void>)
-
-    @available(iOS 13.0, *)
-    func logApplicationOpen() async throws
-
-    func logApplicationClose(sessionLength: Double, _ completion: @escaping NotificareCallback<Void>)
-
-    @available(iOS 13.0, *)
-    func logApplicationClose(sessionLength: Double) async throws
-
     // func logApplicationException(_ error: Error, _ completion: @escaping NotificareCallback<Void>)
 
     func logNotificationOpen(_ id: String, _ completion: @escaping NotificareCallback<Void>)

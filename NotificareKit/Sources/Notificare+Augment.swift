@@ -19,6 +19,10 @@ internal extension Notificare {
         NotificareDeviceModuleImpl.instance
     }
 
+    func eventsImplementation() -> NotificareEventsModuleImpl {
+        NotificareEventsModuleImpl.instance
+    }
+
     func session() -> NotificareSessionModuleImpl {
         NotificareSessionModuleImpl.instance
     }
