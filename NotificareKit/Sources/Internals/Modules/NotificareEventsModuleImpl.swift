@@ -65,22 +65,13 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
     // MARK: - Notificare Internal Events
 
     func log(_ event: String, data: NotificareEventData?, sessionId: String?, notificationId: String?, _ completion: @escaping NotificareCallback<Void>) {
-        guard let device = Notificare.shared.device().currentDevice else {
-            NotificareLogger.warning("Cannot send an event before a device is registered.")
-            return
-        }
-
-        let type = event.hasPrefix("re.notifica.event.")
-            ? event
-            : "re.notifica.event.custom.\(event)"
-
         let event = NotificareEvent(
-            type: type,
+            type: event,
             timestamp: Int64(Date().timeIntervalSince1970 * 1000),
-            deviceId: device.id,
+            deviceId: Notificare.shared.device().currentDevice?.id,
             sessionId: sessionId ?? Notificare.shared.session().sessionId,
             notificationId: notificationId,
-            userId: device.userId,
+            userId: Notificare.shared.device().currentDevice?.userId,
             data: data
         )
 
@@ -110,6 +101,12 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
     }
 
     private func log(_ event: NotificareEvent, _ completion: @escaping NotificareCallback<Void>) {
+        guard Notificare.shared.isConfigured else {
+            NotificareLogger.debug("Notificare is not configured. Cannot log the event.")
+            completion(.failure(NotificareError.notConfigured))
+            return
+        }
+
         NotificareRequest.Builder()
             .post("/event", body: event)
             .response { result in
