@@ -37,7 +37,7 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
     // MARK: - Notificare Events
 
     func logNotificationOpen(_ id: String, _ completion: @escaping NotificareCallback<Void>) {
-        log("re.notifica.event.notification.Open", data: nil, for: id, completion)
+        log("re.notifica.event.notification.Open", data: nil, notificationId: id, completion)
     }
 
     @available(iOS 13.0, *)
@@ -64,7 +64,7 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
 
     // MARK: - Notificare Internal Events
 
-    func log(_ event: String, data: NotificareEventData?, for notification: String?, _ completion: @escaping NotificareCallback<Void>) {
+    func log(_ event: String, data: NotificareEventData?, sessionId: String?, notificationId: String?, _ completion: @escaping NotificareCallback<Void>) {
         guard let device = Notificare.shared.device().currentDevice else {
             NotificareLogger.warning("Cannot send an event before a device is registered.")
             return
@@ -78,8 +78,8 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
             type: type,
             timestamp: Int64(Date().timeIntervalSince1970 * 1000),
             deviceId: device.id,
-            sessionId: Notificare.shared.session().sessionId,
-            notificationId: notification,
+            sessionId: sessionId ?? Notificare.shared.session().sessionId,
+            notificationId: notificationId,
             userId: device.userId,
             data: data
         )
