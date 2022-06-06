@@ -43,6 +43,9 @@ internal class NotificarePushUIImpl: NotificareModule, NotificarePushUI {
         case .alert:
             latestPresentableNotificationHandler = NotificareAlertController(notification: notification)
 
+        case .inAppBrowser:
+            latestPresentableNotificationHandler = NotificareInAppBrowserController(notification: notification)
+
         case .webView:
             let notificationController = NotificareWebViewController()
             notificationController.notification = notification

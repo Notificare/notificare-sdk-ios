@@ -34,6 +34,7 @@ public struct NotificareNotification: Codable {
     public enum NotificationType: String {
         case none = "re.notifica.notification.None"
         case alert = "re.notifica.notification.Alert"
+        case inAppBrowser = "re.notifica.notification.InAppBrowser"
         case webView = "re.notifica.notification.WebView"
         case url = "re.notifica.notification.URL"
         case urlScheme = "re.notifica.notification.URLScheme"
