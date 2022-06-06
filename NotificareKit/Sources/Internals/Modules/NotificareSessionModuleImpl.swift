@@ -63,7 +63,7 @@ internal class NotificareSessionModuleImpl: NSObject, NotificareModule {
         sessionEnd = nil
 
         NotificareLogger.debug("Session '\(sessionId)' started at \(dateFormatter.string(from: sessionStart)).")
-        Notificare.shared.eventsImplementation().logApplicationOpen { _ in }
+        Notificare.shared.eventsImplementation().logApplicationOpen(sessionId: sessionId) { _ in }
     }
 
     @objc private func applicationWillResignActive() {
@@ -112,7 +112,7 @@ internal class NotificareSessionModuleImpl: NSObject, NotificareModule {
 
             let length = sessionEnd.timeIntervalSince(sessionStart)
             NotificareLogger.info("Application closed event registered for session '\(sessionId)' with a length of \(length) seconds.")
-            Notificare.shared.eventsImplementation().logApplicationClose(sessionLength: length) { _ in }
+            Notificare.shared.eventsImplementation().logApplicationClose(sessionId: sessionId, sessionLength: length) { _ in }
 
             // Reset the session.
             self.sessionId = nil

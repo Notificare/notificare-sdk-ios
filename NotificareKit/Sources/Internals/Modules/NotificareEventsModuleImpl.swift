@@ -101,12 +101,12 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
         log("re.notifica.event.application.Upgrade", completion)
     }
 
-    internal func logApplicationOpen(_ completion: @escaping NotificareCallback<Void>) {
-        log("re.notifica.event.application.Open", completion)
+    internal func logApplicationOpen(sessionId: String, _ completion: @escaping NotificareCallback<Void>) {
+        log("re.notifica.event.application.Open", sessionId: sessionId, completion)
     }
 
-    internal func logApplicationClose(sessionLength: Double, _ completion: @escaping NotificareCallback<Void>) {
-        log("re.notifica.event.application.Close", data: ["length": String(sessionLength)], completion)
+    internal func logApplicationClose(sessionId: String, sessionLength: Double, _ completion: @escaping NotificareCallback<Void>) {
+        log("re.notifica.event.application.Close", data: ["length": String(sessionLength)], sessionId: sessionId, completion)
     }
 
     private func log(_ event: NotificareEvent, _ completion: @escaping NotificareCallback<Void>) {
