@@ -32,7 +32,7 @@
 		F29B17F325A48CAF007ED6F9 /* NotificarePushUIImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29B17F225A48CAF007ED6F9 /* NotificarePushUIImpl.swift */; };
 		F29C96E725ACBE2500620E9B /* NotificareImageGalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29C96E625ACBE2500620E9B /* NotificareImageGalleryViewController.swift */; };
 		F29C96EA25ACBE5D00620E9B /* NotificareBaseNotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29C96E925ACBE5D00620E9B /* NotificareBaseNotificationViewController.swift */; };
-		F2B1817925BAF4F800384991 /* NotificareWebViewActionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B1817825BAF4F800384991 /* NotificareWebViewActionHandler.swift */; };
+		F2B1817925BAF4F800384991 /* NotificareInAppBrowserActionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B1817825BAF4F800384991 /* NotificareInAppBrowserActionHandler.swift */; };
 		F2B181AE25BB224400384991 /* NotificareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2B181AD25BB224300384991 /* NotificareKit.framework */; };
 		F2B8C51725A5DD9400FFBE0C /* NotificareWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B8C51625A5DD9400FFBE0C /* NotificareWebViewController.swift */; };
 		F2CB6F5C25AEFD0600FC994E /* NotificareMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2CB6F5B25AEFD0600FC994E /* NotificareMapViewController.swift */; };
@@ -83,7 +83,7 @@
 		F29B17F225A48CAF007ED6F9 /* NotificarePushUIImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificarePushUIImpl.swift; sourceTree = "<group>"; };
 		F29C96E625ACBE2500620E9B /* NotificareImageGalleryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareImageGalleryViewController.swift; sourceTree = "<group>"; };
 		F29C96E925ACBE5D00620E9B /* NotificareBaseNotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareBaseNotificationViewController.swift; sourceTree = "<group>"; };
-		F2B1817825BAF4F800384991 /* NotificareWebViewActionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareWebViewActionHandler.swift; sourceTree = "<group>"; };
+		F2B1817825BAF4F800384991 /* NotificareInAppBrowserActionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareInAppBrowserActionHandler.swift; sourceTree = "<group>"; };
 		F2B181AD25BB224300384991 /* NotificareKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2B8C51625A5DD9400FFBE0C /* NotificareWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareWebViewController.swift; sourceTree = "<group>"; };
 		F2B8C56025A6173F00FFBE0C /* NotificareCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -134,7 +134,7 @@
 				F277EAB225B085740026225C /* NotificareMailActionHandler.swift */,
 				F277EAB825B0A0FF0026225C /* NotificareSmsActionHandler.swift */,
 				F277EABC25B0A10C0026225C /* NotificareTelephoneActionHandler.swift */,
-				F2B1817825BAF4F800384991 /* NotificareWebViewActionHandler.swift */,
+				F2B1817825BAF4F800384991 /* NotificareInAppBrowserActionHandler.swift */,
 			);
 			path = "Action Handlers";
 			sourceTree = "<group>";
@@ -378,7 +378,7 @@
 				F289F52925B839B70091AB97 /* NotificareRateController.swift in Sources */,
 				F2B8C51725A5DD9400FFBE0C /* NotificareWebViewController.swift in Sources */,
 				F2DAB3A5271F14D3002B5F27 /* UIKitExtensions.swift in Sources */,
-				F2B1817925BAF4F800384991 /* NotificareWebViewActionHandler.swift in Sources */,
+				F2B1817925BAF4F800384991 /* NotificareInAppBrowserActionHandler.swift in Sources */,
 				F277EAC725B0A7680026225C /* NotificareCallbackActionHandler.swift in Sources */,
 				F277EAC025B0A1150026225C /* NotificareBrowserActionHandler.swift in Sources */,
 				F2DAB3A3271F138D002B5F27 /* NotificarePushUI+Augment.swift in Sources */,

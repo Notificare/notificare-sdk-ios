@@ -6,7 +6,7 @@ import NotificareKit
 import SafariServices
 import UIKit
 
-public class NotificareWebViewActionHandler: NotificareBaseActionHandler {
+public class NotificareInAppBrowserActionHandler: NotificareBaseActionHandler {
     private let sourceViewController: UIViewController
 
     init(notification: NotificareNotification, action: NotificareNotification.Action, sourceViewController: UIViewController) {
@@ -18,36 +18,9 @@ public class NotificareWebViewActionHandler: NotificareBaseActionHandler {
     override func execute() {
         if let target = action.target, let url = URL(string: target) {
             DispatchQueue.main.async {
-                let safariViewController: SFSafariViewController
-
-                if #available(iOS 11.0, *) {
-                    let configuration = SFSafariViewController.Configuration()
-                    configuration.entersReaderIfAvailable = true
-
-                    safariViewController = SFSafariViewController(url: url, configuration: configuration)
-                } else {
-                    safariViewController = SFSafariViewController(url: url)
-                }
-
+                let theme = Notificare.shared.options?.theme(for: self.sourceViewController)
+                let safariViewController = Notificare.shared.pushUIImplementation().createSafariViewController(url: url, theme: theme)
                 safariViewController.delegate = self
-
-                if let theme = Notificare.shared.options!.theme(for: self.sourceViewController) {
-                    if let colorStr = theme.safariBarTintColor {
-                        safariViewController.preferredBarTintColor = UIColor(hexString: colorStr)
-                    }
-
-                    if let colorStr = theme.safariControlsTintColor {
-                        safariViewController.preferredControlTintColor = UIColor(hexString: colorStr)
-                    }
-
-                    if #available(iOS 11.0, *) {
-                        if let styleInt = Notificare.shared.options!.safariDismissButtonStyle,
-                           let style = SFSafariViewController.DismissButtonStyle(rawValue: styleInt)
-                        {
-                            safariViewController.dismissButtonStyle = style
-                        }
-                    }
-                }
 
                 self.sourceViewController.presentOrPush(safariViewController)
             }
@@ -57,7 +30,7 @@ public class NotificareWebViewActionHandler: NotificareBaseActionHandler {
     }
 }
 
-extension NotificareWebViewActionHandler: SFSafariViewControllerDelegate {
+extension NotificareInAppBrowserActionHandler: SFSafariViewControllerDelegate {
     public func safariViewController(_: SFSafariViewController, didCompleteInitialLoad successfully: Bool) {
         if successfully {
             Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didExecuteAction: action, for: notification)
@@ -68,7 +41,7 @@ extension NotificareWebViewActionHandler: SFSafariViewControllerDelegate {
     }
 }
 
-public extension NotificareWebViewActionHandler {
+public extension NotificareInAppBrowserActionHandler {
     enum ActionError: LocalizedError {
         case invalidUrl
 
