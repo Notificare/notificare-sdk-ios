@@ -35,7 +35,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
             if device.appVersion != NotificareUtils.applicationVersion {
                 // It's not the same version, let's log it as an upgrade.
                 NotificareLogger.debug("New version detected")
-                Notificare.shared.events().logApplicationUpgrade { _ in }
+                Notificare.shared.eventsImplementation().logApplicationUpgrade { _ in }
             }
 
             instance.register(transport: device.transport, token: device.id, userId: device.userId, userName: device.userName) { result in
@@ -57,8 +57,8 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
                 switch result {
                 case .success:
                     // We will log the Install & Registration events here since this will execute only one time at the start.
-                    Notificare.shared.events().logApplicationInstall { _ in }
-                    Notificare.shared.events().logApplicationRegistration { _ in }
+                    Notificare.shared.eventsImplementation().logApplicationInstall { _ in }
+                    Notificare.shared.eventsImplementation().logApplicationRegistration { _ in }
 
                     completion(.success(()))
                 case let .failure(error):

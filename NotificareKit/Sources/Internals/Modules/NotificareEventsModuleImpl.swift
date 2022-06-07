@@ -36,73 +36,8 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
 
     // MARK: - Notificare Events
 
-    func logApplicationInstall(_ completion: @escaping NotificareCallback<Void>) {
-        log("re.notifica.event.application.Install", completion)
-    }
-
-    @available(iOS 13.0, *)
-    func logApplicationInstall() async throws {
-        try await withCheckedThrowingContinuation { continuation in
-            logApplicationInstall { result in
-                continuation.resume(with: result)
-            }
-        }
-    }
-
-    func logApplicationRegistration(_ completion: @escaping NotificareCallback<Void>) {
-        log("re.notifica.event.application.Registration", completion)
-    }
-
-    @available(iOS 13.0, *)
-    func logApplicationRegistration() async throws {
-        try await withCheckedThrowingContinuation { continuation in
-            logApplicationRegistration { result in
-                continuation.resume(with: result)
-            }
-        }
-    }
-
-    func logApplicationUpgrade(_ completion: @escaping NotificareCallback<Void>) {
-        log("re.notifica.event.application.Upgrade", completion)
-    }
-
-    @available(iOS 13.0, *)
-    func logApplicationUpgrade() async throws {
-        try await withCheckedThrowingContinuation { continuation in
-            logApplicationUpgrade { result in
-                continuation.resume(with: result)
-            }
-        }
-    }
-
-    func logApplicationOpen(_ completion: @escaping NotificareCallback<Void>) {
-        log("re.notifica.event.application.Open", completion)
-    }
-
-    @available(iOS 13.0, *)
-    func logApplicationOpen() async throws {
-        try await withCheckedThrowingContinuation { continuation in
-            logApplicationOpen { result in
-                continuation.resume(with: result)
-            }
-        }
-    }
-
-    func logApplicationClose(sessionLength: Double, _ completion: @escaping NotificareCallback<Void>) {
-        log("re.notifica.event.application.Close", data: ["length": String(sessionLength)], completion)
-    }
-
-    @available(iOS 13.0, *)
-    func logApplicationClose(sessionLength: Double) async throws {
-        try await withCheckedThrowingContinuation { continuation in
-            logApplicationClose(sessionLength: sessionLength) { result in
-                continuation.resume(with: result)
-            }
-        }
-    }
-
     func logNotificationOpen(_ id: String, _ completion: @escaping NotificareCallback<Void>) {
-        log("re.notifica.event.notification.Open", data: nil, for: id, completion)
+        log("re.notifica.event.notification.Open", data: nil, notificationId: id, completion)
     }
 
     @available(iOS 13.0, *)
@@ -129,23 +64,14 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
 
     // MARK: - Notificare Internal Events
 
-    func log(_ event: String, data: NotificareEventData?, for notification: String?, _ completion: @escaping NotificareCallback<Void>) {
-        guard let device = Notificare.shared.device().currentDevice else {
-            NotificareLogger.warning("Cannot send an event before a device is registered.")
-            return
-        }
-
-        let type = event.hasPrefix("re.notifica.event.")
-            ? event
-            : "re.notifica.event.custom.\(event)"
-
+    func log(_ event: String, data: NotificareEventData?, sessionId: String?, notificationId: String?, _ completion: @escaping NotificareCallback<Void>) {
         let event = NotificareEvent(
-            type: type,
+            type: event,
             timestamp: Int64(Date().timeIntervalSince1970 * 1000),
-            deviceId: device.id,
-            sessionId: Notificare.shared.session().sessionId,
-            notificationId: notification,
-            userId: device.userId,
+            deviceId: Notificare.shared.device().currentDevice?.id,
+            sessionId: sessionId ?? Notificare.shared.session().sessionId,
+            notificationId: notificationId,
+            userId: Notificare.shared.device().currentDevice?.userId,
             data: data
         )
 
@@ -154,7 +80,33 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
 
     // MARK: - Internal API
 
+    internal func logApplicationInstall(_ completion: @escaping NotificareCallback<Void>) {
+        log("re.notifica.event.application.Install", completion)
+    }
+
+    internal func logApplicationRegistration(_ completion: @escaping NotificareCallback<Void>) {
+        log("re.notifica.event.application.Registration", completion)
+    }
+
+    internal func logApplicationUpgrade(_ completion: @escaping NotificareCallback<Void>) {
+        log("re.notifica.event.application.Upgrade", completion)
+    }
+
+    internal func logApplicationOpen(sessionId: String, _ completion: @escaping NotificareCallback<Void>) {
+        log("re.notifica.event.application.Open", sessionId: sessionId, completion)
+    }
+
+    internal func logApplicationClose(sessionId: String, sessionLength: Double, _ completion: @escaping NotificareCallback<Void>) {
+        log("re.notifica.event.application.Close", data: ["length": String(sessionLength)], sessionId: sessionId, completion)
+    }
+
     private func log(_ event: NotificareEvent, _ completion: @escaping NotificareCallback<Void>) {
+        guard Notificare.shared.isConfigured else {
+            NotificareLogger.debug("Notificare is not configured. Cannot log the event.")
+            completion(.failure(NotificareError.notConfigured))
+            return
+        }
+
         NotificareRequest.Builder()
             .post("/event", body: event)
             .response { result in
