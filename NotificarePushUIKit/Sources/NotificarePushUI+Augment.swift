@@ -10,3 +10,9 @@ public extension Notificare {
         NotificarePushUIImpl.instance
     }
 }
+
+internal extension Notificare {
+    func pushUIImplementation() -> NotificarePushUIImpl {
+        NotificarePushUIImpl.instance
+    }
+}

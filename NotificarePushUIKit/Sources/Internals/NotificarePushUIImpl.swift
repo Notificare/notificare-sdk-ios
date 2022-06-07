@@ -43,6 +43,9 @@ internal class NotificarePushUIImpl: NotificareModule, NotificarePushUI {
         case .alert:
             latestPresentableNotificationHandler = NotificareAlertController(notification: notification)
 
+        case .inAppBrowser:
+            latestPresentableNotificationHandler = NotificareInAppBrowserController(notification: notification)
+
         case .webView:
             let notificationController = NotificareWebViewController()
             notificationController.notification = notification
@@ -131,13 +134,46 @@ internal class NotificarePushUIImpl: NotificareModule, NotificarePushUI {
         case .telephone:
             latestPresentableActionHandler = NotificareTelephoneActionHandler(notification: notification,
                                                                               action: action)
-        case .webView:
-            latestPresentableActionHandler = NotificareWebViewActionHandler(notification: notification,
-                                                                            action: action,
-                                                                            sourceViewController: controller)
+        case .webView, .inAppBrowser:
+            latestPresentableActionHandler = NotificareInAppBrowserActionHandler(notification: notification,
+                                                                                 action: action,
+                                                                                 sourceViewController: controller)
         }
 
         Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), willExecuteAction: action, for: notification)
         latestPresentableActionHandler?.execute()
+    }
+
+    internal func createSafariViewController(url: URL, theme: NotificareOptions.Theme?) -> SFSafariViewController {
+        let safariViewController: SFSafariViewController
+
+        if #available(iOS 11.0, *) {
+            let configuration = SFSafariViewController.Configuration()
+            configuration.entersReaderIfAvailable = true
+
+            safariViewController = SFSafariViewController(url: url, configuration: configuration)
+        } else {
+            safariViewController = SFSafariViewController(url: url)
+        }
+
+        if let theme = theme {
+            if let colorStr = theme.safariBarTintColor {
+                safariViewController.preferredBarTintColor = UIColor(hexString: colorStr)
+            }
+
+            if let colorStr = theme.safariControlsTintColor {
+                safariViewController.preferredControlTintColor = UIColor(hexString: colorStr)
+            }
+
+            if #available(iOS 11.0, *) {
+                if let styleInt = Notificare.shared.options!.safariDismissButtonStyle,
+                   let style = SFSafariViewController.DismissButtonStyle(rawValue: styleInt)
+                {
+                    safariViewController.dismissButtonStyle = style
+                }
+            }
+        }
+
+        return safariViewController
     }
 }

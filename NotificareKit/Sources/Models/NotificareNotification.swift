@@ -34,6 +34,7 @@ public struct NotificareNotification: Codable {
     public enum NotificationType: String {
         case none = "re.notifica.notification.None"
         case alert = "re.notifica.notification.Alert"
+        case inAppBrowser = "re.notifica.notification.InAppBrowser"
         case webView = "re.notifica.notification.WebView"
         case url = "re.notifica.notification.URL"
         case urlScheme = "re.notifica.notification.URLScheme"
@@ -82,6 +83,9 @@ public struct NotificareNotification: Codable {
             case mail = "re.notifica.action.Mail"
             case sms = "re.notifica.action.SMS"
             case telephone = "re.notifica.action.Telephone"
+            case inAppBrowser = "re.notifica.action.InAppBrowser"
+
+            @available(*, deprecated, message: "The WebView action type becomes a backwards compatible alias. Use the InAppBrowser action type instead.", renamed: "inAppBrowser")
             case webView = "re.notifica.action.WebView"
         }
 
