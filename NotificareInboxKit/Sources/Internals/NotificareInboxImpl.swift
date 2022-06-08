@@ -300,9 +300,6 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
                         .forEach { entity in
                             // Mark entity as read.
                             entity.opened = true
-
-                            // No need to keep the item in the notification center.
-                            Notificare.shared.removeNotificationFromNotificationCenter(entity.toModel().notification)
                         }
 
                     // Persist the changes to the database.
