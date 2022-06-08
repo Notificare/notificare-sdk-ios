@@ -12,8 +12,8 @@ class InboxDatabase: NotificareAbstractDatabase {
         context.mergePolicy = NSOverwriteMergePolicy
     }
 
-    func add(_ item: NotificareInboxItem, visible: Bool) -> InboxItemEntity {
-        let entity = InboxItemEntity(from: item, visible: visible, context: context)
+    func add(_ item: NotificareInboxItem, visible: Bool) throws -> InboxItemEntity {
+        let entity = try InboxItemEntity(from: item, visible: visible, context: context)
         saveChanges()
 
         return entity

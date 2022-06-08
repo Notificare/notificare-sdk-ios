@@ -430,8 +430,12 @@ public class Notificare {
     }
 
     public func removeNotificationFromNotificationCenter(_ notification: NotificareNotification) {
-        NotificareLogger.debug("Removing notification '\(notification.id)' from the notification center.")
-        UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [notification.id])
+        removeNotificationFromNotificationCenter(notification.id)
+    }
+
+    public func removeNotificationFromNotificationCenter(_ notificationId: String) {
+        NotificareLogger.debug("Removing notification '\(notificationId)' from the notification center.")
+        UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [notificationId])
     }
 
     public func handleTestDeviceUrl(_ url: URL) -> Bool {
