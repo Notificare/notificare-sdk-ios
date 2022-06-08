@@ -1,25 +1,23 @@
 {
-  "object": {
-    "pins": [
-      {
-        "package": "Atlantis",
-        "repositoryURL": "https://github.com/ProxymanApp/atlantis",
-        "state": {
-          "branch": null,
-          "revision": "2ee37f1da01b438d67012cc1405617e158f358a1",
-          "version": "1.11.2"
-        }
-      },
-      {
-        "package": "SDWebImage",
-        "repositoryURL": "https://github.com/SDWebImage/SDWebImage",
-        "state": {
-          "branch": null,
-          "revision": "a6b6e44eadf0d39250c10a7cc0e3b91d0bdb0e94",
-          "version": "5.10.4"
-        }
+  "pins" : [
+    {
+      "identity" : "atlantis",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ProxymanApp/atlantis",
+      "state" : {
+        "revision" : "2ee37f1da01b438d67012cc1405617e158f358a1",
+        "version" : "1.11.2"
       }
-    ]
-  },
-  "version": 1
+    },
+    {
+      "identity" : "sdwebimage",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SDWebImage/SDWebImage",
+      "state" : {
+        "revision" : "a6b6e44eadf0d39250c10a7cc0e3b91d0bdb0e94",
+        "version" : "5.10.4"
+      }
+    }
+  ],
+  "version" : 2
 }
