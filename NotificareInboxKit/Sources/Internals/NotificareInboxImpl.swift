@@ -195,8 +195,12 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
                 case let .success(notification):
                     // Update the entity in the database.
                     if let entity = self.cachedEntities.first(where: { $0.id == item.id }) {
-                        entity.setNotification(notification)
-                        self.database.saveChanges()
+                        do {
+                            try entity.setNotification(notification)
+                            self.database.saveChanges()
+                        } catch {
+                            NotificareLogger.warning("Unable to encode updated inbox item '\(item.id)' into the database.", error: error)
+                        }
                     }
 
                     // Mark the item as read & send a notification open event.
@@ -514,8 +518,12 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
                 }
             }
 
-        let entity = database.add(item, visible: visible)
-        cachedEntities.append(entity)
+        do {
+            let entity = try database.add(item, visible: visible)
+            cachedEntities.append(entity)
+        } catch {
+            NotificareLogger.warning("Unable to encode inbox item '\(item.id)' into the database.", error: error)
+        }
     }
 
     private func clearLocalInbox() {

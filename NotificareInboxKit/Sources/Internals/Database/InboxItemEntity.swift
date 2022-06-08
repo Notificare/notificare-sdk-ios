@@ -14,22 +14,33 @@ internal extension InboxItemEntity {
         return false
     }
 
-    convenience init(from model: NotificareInboxItem, visible: Bool, context: NSManagedObjectContext) {
+    convenience init(from model: NotificareInboxItem, visible: Bool, context: NSManagedObjectContext) throws {
         let encoder = NotificareUtils.jsonEncoder
 
         self.init(context: context)
         id = model.id
         notificationId = model.notification.id
-        notification = try! encoder.encode(model.notification)
+
+        do {
+            notification = try encoder.encode(model.notification)
+        } catch {
+            throw InboxDatabaseError.invalidArgument("notification", cause: error)
+        }
+
         time = model.time
         opened = model.opened
         self.visible = visible
         expires = model.expires
     }
 
-    func setNotification(_ notification: NotificareNotification) {
+    func setNotification(_ notification: NotificareNotification) throws {
         let encoder = NotificareUtils.jsonEncoder
-        self.notification = try! encoder.encode(notification)
+
+        do {
+            self.notification = try encoder.encode(notification)
+        } catch {
+            throw InboxDatabaseError.invalidArgument("notification", cause: error)
+        }
     }
 
     func toModel() throws -> NotificareInboxItem {
