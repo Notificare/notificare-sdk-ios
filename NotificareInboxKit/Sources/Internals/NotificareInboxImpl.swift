@@ -28,7 +28,14 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
 
         return cachedEntities
             .filter { $0.visible && !$0.expired }
-            .map { $0.toModel() }
+            .compactMap { entity in
+                do {
+                    return try entity.toModel()
+                } catch {
+                    NotificareLogger.warning("Unable to decode inbox item '\(entity.id ?? "")' from the database.", error: error)
+                    return nil
+                }
+            }
     }
 
     public var badge: Int {
@@ -522,9 +529,8 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
 
     private func removeExpiredItemsFromNotificationCenter() {
         cachedEntities.forEach { entity in
-            if entity.expired {
-                let item = entity.toModel()
-                Notificare.shared.removeNotificationFromNotificationCenter(item.notification)
+            if entity.expired, let notificationId = entity.notificationId {
+                Notificare.shared.removeNotificationFromNotificationCenter(notificationId)
             }
         }
     }

@@ -32,13 +32,33 @@ internal extension InboxItemEntity {
         self.notification = try! encoder.encode(notification)
     }
 
-    func toModel() -> NotificareInboxItem {
+    func toModel() throws -> NotificareInboxItem {
         let decoder = NotificareUtils.jsonDecoder
 
+        guard let id = id else {
+            throw InboxDatabaseError.invalidArgument("id", cause: nil)
+        }
+
+        guard let notificationData = notification else {
+            throw InboxDatabaseError.invalidArgument("notification", cause: nil)
+        }
+
+        let notification: NotificareNotification
+
+        do {
+            notification = try decoder.decode(NotificareNotification.self, from: notificationData)
+        } catch {
+            throw InboxDatabaseError.invalidArgument("notification", cause: error)
+        }
+
+        guard let time = time else {
+            throw InboxDatabaseError.invalidArgument("time", cause: nil)
+        }
+
         return NotificareInboxItem(
-            id: id!,
-            notification: try! decoder.decode(NotificareNotification.self, from: notification!),
-            time: time!,
+            id: id,
+            notification: notification,
+            time: time,
             opened: opened,
             expires: expires
         )
