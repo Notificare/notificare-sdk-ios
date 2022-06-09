@@ -35,7 +35,10 @@ public class NotificareVideoViewController: NotificareBaseNotificationViewContro
 
     override public func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFinishPresentingNotification: notification)
+
+        DispatchQueue.main.async {
+            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFinishPresentingNotification: self.notification)
+        }
     }
 
     private func setupWebView() {
@@ -72,7 +75,10 @@ public class NotificareVideoViewController: NotificareBaseNotificationViewContro
 
     private func setupContent() {
         guard let content = notification.content.first else {
-            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToPresentNotification: notification)
+            DispatchQueue.main.async {
+                Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToPresentNotification: self.notification)
+            }
+
             return
         }
 
@@ -100,11 +106,16 @@ public class NotificareVideoViewController: NotificareBaseNotificationViewContro
             webView.loadHTMLString(htmlStr, baseURL: Bundle.main.resourceURL)
 
         default:
-            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToPresentNotification: notification)
+            DispatchQueue.main.async {
+                Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToPresentNotification: self.notification)
+            }
+
             return
         }
 
-        Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didPresentNotification: notification)
+        DispatchQueue.main.async {
+            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didPresentNotification: self.notification)
+        }
     }
 }
 
@@ -114,7 +125,10 @@ extension NotificareVideoViewController: WKNavigationDelegate, WKUIDelegate {
            let scheme = url.scheme,
            Notificare.shared.options!.urlSchemes.contains(scheme)
         {
-            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didClickURL: url, in: notification)
+            DispatchQueue.main.async {
+                Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didClickURL: url, in: self.notification)
+            }
+
             decisionHandler(.cancel)
         } else {
             decisionHandler(.allow)
@@ -122,7 +136,9 @@ extension NotificareVideoViewController: WKNavigationDelegate, WKUIDelegate {
     }
 
     public func webView(_: WKWebView, didFail _: WKNavigation!, withError _: Error) {
-        Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToPresentNotification: notification)
+        DispatchQueue.main.async {
+            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToPresentNotification: self.notification)
+        }
     }
 }
 

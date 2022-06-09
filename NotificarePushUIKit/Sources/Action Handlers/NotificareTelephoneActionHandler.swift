@@ -13,12 +13,17 @@ public class NotificareTelephoneActionHandler: NotificareBaseActionHandler {
         {
             DispatchQueue.main.async {
                 UIApplication.shared.open(url, options: [:]) { _ in
-                    Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didExecuteAction: self.action, for: self.notification)
+                    DispatchQueue.main.async {
+                        Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didExecuteAction: self.action, for: self.notification)
+                    }
+
                     Notificare.shared.createNotificationReply(notification: self.notification, action: self.action) { _ in }
                 }
             }
         } else {
-            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToExecuteAction: action, for: notification, error: ActionError.notSupported)
+            DispatchQueue.main.async {
+                Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToExecuteAction: self.action, for: self.notification, error: ActionError.notSupported)
+            }
         }
     }
 }

@@ -21,7 +21,9 @@ public class NotificareMapViewController: NotificareBaseNotificationViewControll
     override public func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
 
-        Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFinishPresentingNotification: notification)
+        DispatchQueue.main.async {
+            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFinishPresentingNotification: self.notification)
+        }
     }
 
     private func setupViews() {
@@ -145,7 +147,9 @@ extension NotificareMapViewController: MKMapViewDelegate {
 extension NotificareMapViewController: NotificareNotificationPresenter {
     func present(in controller: UIViewController) {
         controller.presentOrPush(self) {
-            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didPresentNotification: self.notification)
+            DispatchQueue.main.async {
+                Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didPresentNotification: self.notification)
+            }
         }
     }
 }

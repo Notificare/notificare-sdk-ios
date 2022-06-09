@@ -41,7 +41,9 @@ class NotificareRateController: NotificareNotificationPresenter {
                 }
             }
 
-            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFinishPresentingNotification: self.notification)
+            DispatchQueue.main.async {
+                Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFinishPresentingNotification: self.notification)
+            }
         }))
 
         // Cancel action
@@ -49,12 +51,16 @@ class NotificareRateController: NotificareNotificationPresenter {
             UIAlertAction(title: NotificareLocalizable.string(resource: .rateAlertNoButton),
                           style: .default,
                           handler: { _ in
-                              Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFinishPresentingNotification: self.notification)
+                              DispatchQueue.main.async {
+                                  Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFinishPresentingNotification: self.notification)
+                              }
                           })
         )
 
         controller.presentOrPush(alert) {
-            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didPresentNotification: self.notification)
+            DispatchQueue.main.async {
+                Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didPresentNotification: self.notification)
+            }
         }
     }
 }
