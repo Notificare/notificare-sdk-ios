@@ -161,8 +161,10 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
                 // Update the application badge.
                 UIApplication.shared.applicationIconBadgeNumber = response.unread
 
-                // Notify the delegate.
-                self.delegate?.notificare(self, didUpdateBadge: response.unread)
+                DispatchQueue.main.async {
+                    // Notify the delegate.
+                    self.delegate?.notificare(self, didUpdateBadge: response.unread)
+                }
 
                 completion(.success(response.unread))
             case let .failure(error):
@@ -264,8 +266,10 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
                 // No need to keep the item in the notification center.
                 Notificare.shared.removeNotificationFromNotificationCenter(item.notification)
 
-                // Notify the delegate.
-                self.delegate?.notificare(self, didUpdateInbox: self.items)
+                DispatchQueue.main.async {
+                    // Notify the delegate.
+                    self.delegate?.notificare(self, didUpdateInbox: self.items)
+                }
 
                 // Refresh the badge if applicable.
                 self.refreshBadge { _ in }
@@ -319,8 +323,10 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
                     // Clear all items from the notification center.
                     self.clearNotificationCenter()
 
-                    // Notify the delegate.
-                    self.delegate?.notificare(self, didUpdateInbox: self.items)
+                    DispatchQueue.main.async {
+                        // Notify the delegate.
+                        self.delegate?.notificare(self, didUpdateInbox: self.items)
+                    }
 
                     // Refresh the badge if applicable.
                     self.refreshBadge { _ in
@@ -363,8 +369,10 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
                         Notificare.shared.removeNotificationFromNotificationCenter(item.notification)
                     }
 
-                    // Notify the delegate.
-                    self.delegate?.notificare(self, didUpdateInbox: self.items)
+                    DispatchQueue.main.async {
+                        // Notify the delegate.
+                        self.delegate?.notificare(self, didUpdateInbox: self.items)
+                    }
 
                     // Refresh the badge if applicable.
                     self.refreshBadge { _ in
@@ -406,8 +414,10 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
                     self.clearLocalInbox()
                     self.clearNotificationCenter()
 
-                    // Notify the delegate.
-                    self.delegate?.notificare(self, didUpdateInbox: self.items)
+                    DispatchQueue.main.async {
+                        // Notify the delegate.
+                        self.delegate?.notificare(self, didUpdateInbox: self.items)
+                    }
 
                     self.refreshBadge { _ in
                         completion(.success(()))
@@ -478,7 +488,9 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
                     if response.statusCode == 304 {
                         NotificareLogger.debug("The inbox has not been modified. Proceeding with locally stored data.")
                         self.refreshBadge { _ in
-                            self.delegate?.notificare(self, didUpdateInbox: self.items)
+                            DispatchQueue.main.async {
+                                self.delegate?.notificare(self, didUpdateInbox: self.items)
+                            }
                         }
 
                         return
@@ -581,8 +593,10 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
                 } else {
                     NotificareLogger.debug("Done loading inbox items.")
 
-                    // Notify the delegate.
-                    self.delegate?.notificare(self, didUpdateInbox: self.items)
+                    DispatchQueue.main.async {
+                        // Notify the delegate.
+                        self.delegate?.notificare(self, didUpdateInbox: self.items)
+                    }
 
                     // Refresh the badge if applicable.
                     self.refreshBadge { _ in }
@@ -619,7 +633,9 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
         )
 
         refreshBadge { _ in
-            self.delegate?.notificare(self, didUpdateInbox: self.items)
+            DispatchQueue.main.async {
+                self.delegate?.notificare(self, didUpdateInbox: self.items)
+            }
         }
     }
 
@@ -640,7 +656,9 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
         database.saveChanges()
 
         refreshBadge { _ in
-            self.delegate?.notificare(self, didUpdateInbox: self.items)
+            DispatchQueue.main.async {
+                self.delegate?.notificare(self, didUpdateInbox: self.items)
+            }
         }
     }
 
