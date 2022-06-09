@@ -969,8 +969,10 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
                 }
             }
 
-        // Notify the delegate.
-        delegate?.notificare(self, didRange: beacons, in: region)
+        DispatchQueue.main.async {
+            // Notify the delegate.
+            self.delegate?.notificare(self, didRange: beacons, in: region)
+        }
     }
 
     private func handleRangingBeaconsError(_ error: Error, for clr: CLBeaconRegion) {
@@ -980,7 +982,10 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
                 return
             }
 
-            delegate?.notificare(self, didFailRangingFor: region, with: error)
+            DispatchQueue.main.async {
+                self.delegate?.notificare(self, didFailRangingFor: region, with: error)
+            }
+
             return
         }
 
@@ -1121,8 +1126,10 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
 
     public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard !processingLocationUpdate, let location = locations.last else {
-            // Notify the delegate regardless of the decision to process the location.
-            delegate?.notificare(self, didUpdateLocations: locations.map { NotificareLocation(cl: $0) })
+            DispatchQueue.main.async {
+                // Notify the delegate regardless of the decision to process the location.
+                self.delegate?.notificare(self, didUpdateLocations: locations.map { NotificareLocation(cl: $0) })
+            }
 
             return
         }
@@ -1151,7 +1158,9 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
             }
         }
 
-        delegate?.notificare(self, didUpdateLocations: locations.map { NotificareLocation(cl: $0) })
+        DispatchQueue.main.async {
+            self.delegate?.notificare(self, didUpdateLocations: locations.map { NotificareLocation(cl: $0) })
+        }
     }
 
     public func locationManager(_: CLLocationManager, didFailWithError error: Error) {
@@ -1161,7 +1170,9 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
             }
         }
 
-        delegate?.notificare(self, didFailWith: error)
+        DispatchQueue.main.async {
+            self.delegate?.notificare(self, didFailWith: error)
+        }
     }
 
     public func locationManager(_: CLLocationManager, didStartMonitoringFor clr: CLRegion) {
@@ -1189,14 +1200,18 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
                 return
             }
 
-            delegate?.notificare(self, didStartMonitoringFor: beacon)
+            DispatchQueue.main.async {
+                self.delegate?.notificare(self, didStartMonitoringFor: beacon)
+            }
         } else {
             guard let region = LocalStorage.monitoredRegions.first(where: { $0.id == clr.identifier }) else {
                 NotificareLogger.debug("Received an event (didStartMonitoringFor) for non-cached region '\(clr.identifier)'.")
                 return
             }
 
-            delegate?.notificare(self, didStartMonitoringFor: region)
+            DispatchQueue.main.async {
+                self.delegate?.notificare(self, didStartMonitoringFor: region)
+            }
         }
     }
 
@@ -1214,14 +1229,18 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
                 return
             }
 
-            delegate?.notificare(self, monitoringDidFailFor: beacon, with: error)
+            DispatchQueue.main.async {
+                self.delegate?.notificare(self, monitoringDidFailFor: beacon, with: error)
+            }
         } else {
             guard let region = LocalStorage.monitoredRegions.first(where: { $0.id == clr.identifier }) else {
                 NotificareLogger.debug("Received an event (monitoringDidFailFor) for non-cached region '\(clr.identifier)'.")
                 return
             }
 
-            delegate?.notificare(self, monitoringDidFailFor: region, with: error)
+            DispatchQueue.main.async {
+                self.delegate?.notificare(self, monitoringDidFailFor: region, with: error)
+            }
         }
     }
 
@@ -1232,7 +1251,9 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
                 return
             }
 
-            delegate?.notificare(self, didEnter: beacon)
+            DispatchQueue.main.async {
+                self.delegate?.notificare(self, didEnter: beacon)
+            }
         } else {
             guard let region = LocalStorage.monitoredRegions.first(where: { $0.id == clr.identifier }) else {
                 NotificareLogger.debug("Received an event (didEnterRegion) for non-cached region '\(clr.identifier)'.")
@@ -1246,7 +1267,9 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
                 manager.requestLocation()
             }
 
-            delegate?.notificare(self, didEnter: region)
+            DispatchQueue.main.async {
+                self.delegate?.notificare(self, didEnter: region)
+            }
         }
     }
 
@@ -1257,7 +1280,9 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
                 return
             }
 
-            delegate?.notificare(self, didExit: beacon)
+            DispatchQueue.main.async {
+                self.delegate?.notificare(self, didExit: beacon)
+            }
         } else {
             // Trigger a location update in order to update the loaded fences as a side effect.
             manager.requestLocation()
@@ -1267,7 +1292,9 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
                 return
             }
 
-            delegate?.notificare(self, didExit: region)
+            DispatchQueue.main.async {
+                self.delegate?.notificare(self, didExit: region)
+            }
         }
     }
 
@@ -1289,14 +1316,18 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
                 return
             }
 
-            delegate?.notificare(self, didDetermineState: state, for: beacon)
+            DispatchQueue.main.async {
+                self.delegate?.notificare(self, didDetermineState: state, for: beacon)
+            }
         } else {
             guard let region = LocalStorage.monitoredRegions.first(where: { $0.id == clr.identifier }) else {
                 NotificareLogger.debug("Received an event (didDetermineState) for non-cached region '\(clr.identifier)'.")
                 return
             }
 
-            delegate?.notificare(self, didDetermineState: state, for: region)
+            DispatchQueue.main.async {
+                self.delegate?.notificare(self, didDetermineState: state, for: region)
+            }
         }
     }
 
@@ -1349,7 +1380,9 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
             }
         }
 
-        delegate?.notificare(self, didVisit: visit)
+        DispatchQueue.main.async {
+            self.delegate?.notificare(self, didVisit: visit)
+        }
     }
 
     public func locationManager(_: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
@@ -1363,7 +1396,9 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
             timestamp: newHeading.timestamp
         )
 
-        delegate?.notificare(self, didUpdateHeading: heading)
+        DispatchQueue.main.async {
+            self.delegate?.notificare(self, didUpdateHeading: heading)
+        }
     }
 
     // MARK: - Internals
