@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name               = "Notificare"
-  spec.version            = "3.1.0"
+  spec.version            = "3.2.0"
   spec.summary            = "Notificare Library for iOS apps"
   spec.description        = <<-DESC
 The Notificare iOS Library implements the power of smart notifications, location services, contextual marketing and powerful loyalty solutions provided by the Notificare platform in iOS applications.
