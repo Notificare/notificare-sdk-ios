@@ -46,7 +46,10 @@ extension NotificarePushImpl: UNUserNotificationCenterDelegate {
                                         switch result {
                                         case .success:
                                             InboxIntegration.markItemAsRead(userInfo: userInfo)
-                                            self.delegate?.notificare(self, didOpenAction: clickedAction, for: notification)
+
+                                            DispatchQueue.main.async {
+                                                self.delegate?.notificare(self, didOpenAction: clickedAction, for: notification)
+                                            }
                                         case let .failure(error):
                                             NotificareLogger.error("Failed to log the notification influenced open.", error: error)
                                         }
@@ -66,7 +69,10 @@ extension NotificarePushImpl: UNUserNotificationCenterDelegate {
                                     switch result {
                                     case .success:
                                         InboxIntegration.markItemAsRead(userInfo: userInfo)
-                                        self.delegate?.notificare(self, didOpenNotification: notification)
+
+                                        DispatchQueue.main.async {
+                                            self.delegate?.notificare(self, didOpenNotification: notification)
+                                        }
                                     case let .failure(error):
                                         NotificareLogger.error("Failed to log the notification influenced open.", error: error)
                                     }
@@ -94,9 +100,13 @@ extension NotificarePushImpl: UNUserNotificationCenterDelegate {
                     responseText = response.userText
                 }
 
-                delegate?.notificare(self, didOpenUnknownAction: response.actionIdentifier, for: userInfo, responseText: responseText)
+                DispatchQueue.main.async {
+                    self.delegate?.notificare(self, didOpenUnknownAction: response.actionIdentifier, for: userInfo, responseText: responseText)
+                }
             } else {
-                delegate?.notificare(self, didOpenUnknownNotification: userInfo)
+                DispatchQueue.main.async {
+                    self.delegate?.notificare(self, didOpenUnknownNotification: userInfo)
+                }
             }
 
             completionHandler()
@@ -125,7 +135,10 @@ extension NotificarePushImpl: UNUserNotificationCenterDelegate {
 
     func userNotificationCenter(_: UNUserNotificationCenter, openSettingsFor notification: UNNotification?) {
         guard let notification = notification else {
-            delegate?.notificare(self, shouldOpenSettings: nil)
+            DispatchQueue.main.async {
+                self.delegate?.notificare(self, shouldOpenSettings: nil)
+            }
+
             return
         }
 
@@ -149,7 +162,9 @@ extension NotificarePushImpl: UNUserNotificationCenterDelegate {
         Notificare.shared.fetchNotification(id) { result in
             switch result {
             case let .success(notification):
-                self.delegate?.notificare(self, shouldOpenSettings: notification)
+                DispatchQueue.main.async {
+                    self.delegate?.notificare(self, shouldOpenSettings: notification)
+                }
             case .failure:
                 NotificareLogger.error("Failed to fetch notification with id '\(id)' for notification settings.")
             }

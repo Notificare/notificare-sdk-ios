@@ -194,10 +194,14 @@ internal class NotificareScannablesImpl: NSObject, NotificareModule, NotificareS
         fetch(tag: tag) { result in
             switch result {
             case let .success(scannable):
-                self.delegate?.notificare(self, didDetectScannable: scannable)
+                DispatchQueue.main.async {
+                    self.delegate?.notificare(self, didDetectScannable: scannable)
+                }
 
             case let .failure(error):
-                self.delegate?.notificare(self, didInvalidateScannerSession: error)
+                DispatchQueue.main.async {
+                    self.delegate?.notificare(self, didInvalidateScannerSession: error)
+                }
             }
         }
     }
@@ -215,7 +219,9 @@ extension NotificareScannablesImpl: NFCNDEFReaderSessionDelegate {
                 {
                     handleScannableTag(tag)
                 } else {
-                    self.delegate?.notificare(self, didInvalidateScannerSession: NotificareScannablesError.unsupportedScannable)
+                    DispatchQueue.main.async {
+                        self.delegate?.notificare(self, didInvalidateScannerSession: NotificareScannablesError.unsupportedScannable)
+                    }
                 }
             }
         }

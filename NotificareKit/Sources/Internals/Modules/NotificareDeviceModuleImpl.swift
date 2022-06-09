@@ -630,8 +630,10 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
                         // Update and store the cached device.
                         self.currentDevice = device
 
-                        // Notify delegate.
-                        Notificare.shared.delegate?.notificare(Notificare.shared, didRegisterDevice: device)
+                        DispatchQueue.main.async {
+                            // Notify delegate.
+                            Notificare.shared.delegate?.notificare(Notificare.shared, didRegisterDevice: device)
+                        }
 
                         completion(.success(()))
                     case let .failure(error):
@@ -641,7 +643,11 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
                 }
         } else {
             NotificareLogger.info("Skipping device registration, nothing changed.")
-            Notificare.shared.delegate?.notificare(Notificare.shared, didRegisterDevice: currentDevice!)
+
+            DispatchQueue.main.async {
+                Notificare.shared.delegate?.notificare(Notificare.shared, didRegisterDevice: self.currentDevice!)
+            }
+
             completion(.success(()))
         }
     }

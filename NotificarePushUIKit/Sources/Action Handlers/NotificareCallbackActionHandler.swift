@@ -137,7 +137,10 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
     }
 
     @objc private func onCloseClicked() {
-        Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didNotExecuteAction: action, for: notification)
+        DispatchQueue.main.async {
+            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didNotExecuteAction: self.action, for: self.notification)
+        }
+
         dismiss()
     }
 
@@ -153,7 +156,10 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
                     self.mediaMimeType = "image/jpeg"
                     self.send()
                 case let .failure(error):
-                    Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToExecuteAction: self.action, for: self.notification, error: error)
+                    DispatchQueue.main.async {
+                        Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToExecuteAction: self.action, for: self.notification, error: error)
+                    }
+
                     self.dismiss()
                 }
             }
@@ -165,7 +171,10 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
                     self.mediaMimeType = "video/quicktime"
                     self.send()
                 case let .failure(error):
-                    Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToExecuteAction: self.action, for: self.notification, error: error)
+                    DispatchQueue.main.async {
+                        Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToExecuteAction: self.action, for: self.notification, error: error)
+                    }
+
                     self.dismiss()
                 }
             }
@@ -369,7 +378,10 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
         dismiss()
 
         guard let target = action.target, let url = URL(string: target), url.scheme != nil, url.host != nil else {
-            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didExecuteAction: action, for: notification)
+            DispatchQueue.main.async {
+                Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didExecuteAction: self.action, for: self.notification)
+            }
+
             logAction()
 
             return
@@ -402,7 +414,10 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
         do {
             data = try NotificareUtils.jsonEncoder.encode(params)
         } catch {
-            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToExecuteAction: action, for: notification, error: error)
+            DispatchQueue.main.async {
+                Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToExecuteAction: self.action, for: self.notification, error: error)
+            }
+
             return
         }
 
@@ -413,9 +428,13 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
         URLSession.shared.perform(request) { result in
             switch result {
             case .success:
-                Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didExecuteAction: self.action, for: self.notification)
+                DispatchQueue.main.async {
+                    Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didExecuteAction: self.action, for: self.notification)
+                }
             case let .failure(error):
-                Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToExecuteAction: self.action, for: self.notification, error: error)
+                DispatchQueue.main.async {
+                    Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToExecuteAction: self.action, for: self.notification, error: error)
+                }
             }
 
             self.logAction()
@@ -451,7 +470,10 @@ extension NotificareCallbackActionHandler: UIImagePickerControllerDelegate {
     }
 
     public func imagePickerControllerDidCancel(_: UIImagePickerController) {
-        Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didNotExecuteAction: action, for: notification)
+        DispatchQueue.main.async {
+            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didNotExecuteAction: self.action, for: self.notification)
+        }
+
         dismiss()
     }
 }

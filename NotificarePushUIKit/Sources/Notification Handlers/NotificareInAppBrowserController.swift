@@ -18,7 +18,10 @@ class NotificareInAppBrowserController: NSObject, NotificareNotificationPresente
               let urlStr = content.data as? String,
               let url = URL(string: urlStr)
         else {
-            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToPresentNotification: notification)
+            DispatchQueue.main.async {
+                Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToPresentNotification: self.notification)
+            }
+
             return
         }
 
@@ -32,14 +35,18 @@ class NotificareInAppBrowserController: NSObject, NotificareNotificationPresente
 
 extension NotificareInAppBrowserController: SFSafariViewControllerDelegate {
     public func safariViewController(_: SFSafariViewController, didCompleteInitialLoad successfully: Bool) {
-        if successfully {
-            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didPresentNotification: notification)
-        } else {
-            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToPresentNotification: notification)
+        DispatchQueue.main.async {
+            if successfully {
+                Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didPresentNotification: self.notification)
+            } else {
+                Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToPresentNotification: self.notification)
+            }
         }
     }
 
     public func safariViewControllerDidFinish(_: SFSafariViewController) {
-        Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFinishPresentingNotification: notification)
+        DispatchQueue.main.async {
+            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFinishPresentingNotification: self.notification)
+        }
     }
 }

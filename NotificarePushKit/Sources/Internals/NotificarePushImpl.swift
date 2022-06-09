@@ -327,15 +327,17 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
 
     private func updateNotificationSettings(_ completion: @escaping NotificareCallback<Void>) {
         notificationCenter.getNotificationSettings { settings in
-            var allowedUI = settings.authorizationStatus == .authorized
+            DispatchQueue.main.async {
+                var allowedUI = settings.authorizationStatus == .authorized
 
-            if #available(iOS 12.0, *) {
-                if settings.authorizationStatus == .provisional {
-                    allowedUI = true
+                if #available(iOS 12.0, *) {
+                    if settings.authorizationStatus == .provisional {
+                        allowedUI = true
+                    }
                 }
-            }
 
-            self.handleNotificationSettings(allowedUI, completion)
+                self.handleNotificationSettings(allowedUI, completion)
+            }
         }
     }
 
@@ -368,8 +370,10 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
                         // Update current stored property.
                         self.allowedUI = allowedUI
 
-                        // Notify the delegate.
-                        self.delegate?.notificare(self, didChangeNotificationSettings: allowedUI)
+                        DispatchQueue.main.async {
+                            // Notify the delegate.
+                            self.delegate?.notificare(self, didChangeNotificationSettings: allowedUI)
+                        }
 
                         completion(.success(()))
                     case let .failure(error):

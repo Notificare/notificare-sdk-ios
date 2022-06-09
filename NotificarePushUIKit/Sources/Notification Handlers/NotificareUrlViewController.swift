@@ -39,7 +39,9 @@ public class NotificareUrlViewController: NotificareBaseNotificationViewControll
         super.viewDidDisappear(animated)
         webView.removeObserver(self, forKeyPath: NSStringFromSelector(#selector(getter: WKWebView.estimatedProgress)))
 
-        Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFinishPresentingNotification: notification)
+        DispatchQueue.main.async {
+            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFinishPresentingNotification: self.notification)
+        }
     }
 
     private func setupViews() {
@@ -103,7 +105,10 @@ public class NotificareUrlViewController: NotificareBaseNotificationViewControll
         guard let content = notification.content.first,
               let url = URL(string: content.data as! String)
         else {
-            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToPresentNotification: notification)
+            DispatchQueue.main.async {
+                Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToPresentNotification: self.notification)
+            }
+
             return
         }
 
@@ -142,7 +147,11 @@ extension NotificareUrlViewController: WKNavigationDelegate, WKUIDelegate {
 
         if let scheme = url.scheme, Notificare.shared.options!.urlSchemes.contains(scheme) {
             handleNotificareQueryParameters(for: url)
-            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didClickURL: url, in: notification)
+
+            DispatchQueue.main.async {
+                Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didClickURL: url, in: self.notification)
+            }
+
             decisionHandler(.cancel)
         } else if navigationAction.targetFrame == nil {
             webView.load(navigationAction.request)
@@ -172,21 +181,27 @@ extension NotificareUrlViewController: WKNavigationDelegate, WKUIDelegate {
     }
 
     public func webView(_: WKWebView, didFail _: WKNavigation!, withError _: Error) {
-        Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToPresentNotification: notification)
+        DispatchQueue.main.async {
+            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToPresentNotification: self.notification)
+        }
 
         loadingView.removeFromSuperview()
         progressView.removeFromSuperview()
     }
 
     public func webView(_: WKWebView, didFailProvisionalNavigation _: WKNavigation!, withError _: Error) {
-        Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToPresentNotification: notification)
+        DispatchQueue.main.async {
+            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToPresentNotification: self.notification)
+        }
 
         loadingView.removeFromSuperview()
         progressView.removeFromSuperview()
     }
 
     public func webView(_: WKWebView, didFinish _: WKNavigation!) {
-        Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didPresentNotification: notification)
+        DispatchQueue.main.async {
+            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didPresentNotification: self.notification)
+        }
 
         loadingView.removeFromSuperview()
         progressView.removeFromSuperview()

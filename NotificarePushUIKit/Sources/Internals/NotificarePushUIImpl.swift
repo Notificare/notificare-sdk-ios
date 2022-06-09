@@ -97,7 +97,10 @@ internal class NotificarePushUIImpl: NotificareModule, NotificarePushUI {
             latestPresentableNotificationHandler = notificationController
         }
 
-        Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), willPresentNotification: notification)
+        DispatchQueue.main.async {
+            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), willPresentNotification: notification)
+        }
+
         latestPresentableNotificationHandler?.present(in: controller)
     }
 
@@ -140,7 +143,10 @@ internal class NotificarePushUIImpl: NotificareModule, NotificarePushUI {
                                                                                  sourceViewController: controller)
         }
 
-        Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), willExecuteAction: action, for: notification)
+        DispatchQueue.main.async {
+            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), willExecuteAction: action, for: notification)
+        }
+
         latestPresentableActionHandler?.execute()
     }
 
