@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## Upcoming release
+## 3.2.0
 
 - Fix notification content when opening partial inbox items
 - Fix marking partial items as read
