@@ -202,7 +202,9 @@ public class Notificare {
                                             NotificareLogger.info("Un-launched Notificare.")
                                             self.state = .configured
 
-                                            self.delegate?.notificareDidUnlaunch(self)
+                                            DispatchQueue.main.async {
+                                                self.delegate?.notificareDidUnlaunch(self)
+                                            }
 
                                         case let .failure(error):
                                             NotificareLogger.error("Failed to delete device.", error: error)
@@ -521,8 +523,10 @@ public class Notificare {
             NotificareLogger.debug("SDK modules: \(enabledModules.joined(separator: ", "))")
             NotificareLogger.debug("/==================================================================================/")
 
-            // We're done launching. Notify the delegate.
-            delegate?.notificare(self, onReady: application)
+            DispatchQueue.main.async {
+                // We're done launching. Notify the delegate.
+                self.delegate?.notificare(self, onReady: application)
+            }
         case let .failure(error):
             NotificareLogger.error("Failed to launch Notificare.", error: error)
             state = .configured
