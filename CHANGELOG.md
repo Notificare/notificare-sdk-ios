@@ -3,6 +3,14 @@
 ## Upcoming release
 
 - Fix notification content when opening partial inbox items
+- Fix marking partial items as read
+- Improve ISO date parser
+- Add safeguards and warnings for corrupted items in the inbox database
+- Log events methods correctly throw when failures are not recoverable
+- Improve session control mechanism
+- Add `InAppBrowser` notification type
+- Aliased `WebView` action into `InAppBrowser`, aligning with the notification type
+- Ensure delegate methods are called on the main thread
 
 ## 3.1.0
 
