@@ -52,53 +52,53 @@ let package = Package(
     targets: [
         .binaryTarget(
             name: "NotificareKit",
-            url: "https://github.com/notificare/notificare-sdk-ios/releases/download/3.1.0/spm-notificare.zip",
-            checksum: "5d0d6f5172fba587984e89ffc78b0a9df4183dc4ccaa81d3154ef82e3b2da554"
+            url: "https://github.com/notificare/notificare-sdk-ios/releases/download/3.2.0/spm-notificare.zip",
+            checksum: "49d948e4bd01024393276f9b1e752c97924fb2b4d3476fc8c179ecba2df02cc7"
         ),
         .binaryTarget(
             name: "NotificareAssetsKit",
-            url: "https://github.com/notificare/notificare-sdk-ios/releases/download/3.1.0/spm-notificare-assets.zip",
-            checksum: "53565c2adc206620323340e4115ccb17bac409f4e3f69856b5dfe6a83415d7e1"
+            url: "https://github.com/notificare/notificare-sdk-ios/releases/download/3.2.0/spm-notificare-assets.zip",
+            checksum: "da1570873a7b254f687a24b3fee7921c83ab7de4ca0a10b7f67e7d0a43cf14f8"
         ),
         .binaryTarget(
             name: "NotificareAuthenticationKit",
-            url: "https://github.com/notificare/notificare-sdk-ios/releases/download/3.1.0/spm-notificare-authentication.zip",
-            checksum: "c36f3b5c5bbce929d6b68f5d40546a21f3b23a86d377277041d66015b512ac1a"
+            url: "https://github.com/notificare/notificare-sdk-ios/releases/download/3.2.0/spm-notificare-authentication.zip",
+            checksum: "bb75fa282d9dcbf5500815b0ef44c4bc261f096cbb5a090a32036c6937aac6e8"
         ),
         .binaryTarget(
             name: "NotificareGeoKit",
-            url: "https://github.com/notificare/notificare-sdk-ios/releases/download/3.1.0/spm-notificare-geo.zip",
-            checksum: "c760181382726ffa92b35822f90d7c4f03b5b2b00ebb1f41f3630451eb42212b"
+            url: "https://github.com/notificare/notificare-sdk-ios/releases/download/3.2.0/spm-notificare-geo.zip",
+            checksum: "63ec4bf585659401ca3cd1b2ad35028b711f2c0ba9d376bdf185d19e506bfaaa"
         ),
         .binaryTarget(
             name: "NotificareInboxKit",
-            url: "https://github.com/notificare/notificare-sdk-ios/releases/download/3.1.0/spm-notificare-inbox.zip",
-            checksum: "d0b305f3f49623d089a2bbc8b61b4a4461779b2e30cf24f4b2909d23ff1da92e"
+            url: "https://github.com/notificare/notificare-sdk-ios/releases/download/3.2.0/spm-notificare-inbox.zip",
+            checksum: "2511e799427d4f58cc4f9de480b71c53fd45a42f14cc7b8d785d809323aedaed"
         ),
         .binaryTarget(
             name: "NotificareLoyaltyKit",
-            url: "https://github.com/notificare/notificare-sdk-ios/releases/download/3.1.0/spm-notificare-loyalty.zip",
-            checksum: "b8cb23387187e4ed82ce690e6b4778148a0e2e5b769efaeafdfc7635a578637b"
+            url: "https://github.com/notificare/notificare-sdk-ios/releases/download/3.2.0/spm-notificare-loyalty.zip",
+            checksum: "ee427c11c6e05e85ca3cacbffc5bb1082f3a0a9a3ee9cb9226bb32cb98928b17"
         ),
         .binaryTarget(
             name: "NotificarePushKit",
-            url: "https://github.com/notificare/notificare-sdk-ios/releases/download/3.1.0/spm-notificare-push.zip",
-            checksum: "cfc7dace5f62ee03d63bdcf2f04f91bb19f635864416622c741b720a0b907fe8"
+            url: "https://github.com/notificare/notificare-sdk-ios/releases/download/3.2.0/spm-notificare-push.zip",
+            checksum: "84fb5d37d0f319628b0f34e993b4e85b487baa499b6a58fc5d40e9048bc04df0"
         ),
         .binaryTarget(
             name: "NotificareNotificationServiceExtensionKit",
-            url: "https://github.com/notificare/notificare-sdk-ios/releases/download/3.1.0/spm-notificare-notification-service-extension.zip",
-            checksum: "449d345da67d6e05813650fa5a875684cc0767ed400d6c590d287a98747a4b6f"
+            url: "https://github.com/notificare/notificare-sdk-ios/releases/download/3.2.0/spm-notificare-notification-service-extension.zip",
+            checksum: "8a3bce5d071d48d8114a55ad9ed14c3acb62f2ef12c7c533b82439dfc9008f15"
         ),
         .binaryTarget(
             name: "NotificarePushUIKit",
-            url: "https://github.com/notificare/notificare-sdk-ios/releases/download/3.1.0/spm-notificare-push-ui.zip",
-            checksum: "f2f0f21cd81e54fc8be9a7a56e1519245ccb77e733174817577623357103313d"
+            url: "https://github.com/notificare/notificare-sdk-ios/releases/download/3.2.0/spm-notificare-push-ui.zip",
+            checksum: "e8ee85e0e1fdf397e90bab4616b33392bc6d067c1757d233dbafd6c20f3af5c6"
         ),
         .binaryTarget(
             name: "NotificareScannablesKit",
-            url: "https://github.com/notificare/notificare-sdk-ios/releases/download/3.1.0/spm-notificare-scannables.zip",
-            checksum: "8b959483217a58f277a2324d48a397b4c7d649253f0c4e2fe040ff54a405db4e"
+            url: "https://github.com/notificare/notificare-sdk-ios/releases/download/3.2.0/spm-notificare-scannables.zip",
+            checksum: "1ae430d0f85fa1fc89f3ecc4b9452e8a5d0f192901a959d0bd8da215343d3295"
         ),
     ]
 )
