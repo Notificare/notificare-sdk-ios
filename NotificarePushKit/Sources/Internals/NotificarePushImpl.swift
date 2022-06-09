@@ -370,8 +370,10 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
                         // Update current stored property.
                         self.allowedUI = allowedUI
 
-                        // Notify the delegate.
-                        self.delegate?.notificare(self, didChangeNotificationSettings: allowedUI)
+                        DispatchQueue.main.async {
+                            // Notify the delegate.
+                            self.delegate?.notificare(self, didChangeNotificationSettings: allowedUI)
+                        }
 
                         completion(.success(()))
                     case let .failure(error):

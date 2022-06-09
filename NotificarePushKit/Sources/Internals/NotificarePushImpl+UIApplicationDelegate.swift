@@ -24,8 +24,10 @@ extension NotificarePushImpl: NotificareAppDelegateInterceptor {
     }
 
     func application(_: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        NotificareLogger.error("Failed to register for remote notifications.", error: error)
-        delegate?.notificare(self, didFailToRegisterForRemoteNotificationsWithError: error)
+        DispatchQueue.main.async {
+            NotificareLogger.error("Failed to register for remote notifications.", error: error)
+            self.delegate?.notificare(self, didFailToRegisterForRemoteNotificationsWithError: error)
+        }
     }
 
     func application(_: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
@@ -44,8 +46,11 @@ extension NotificarePushImpl: NotificareAppDelegateInterceptor {
                 }
             }
         } else {
-            NotificareLogger.info("Received an unknown notification from APNS.")
-            delegate?.notificare(self, didReceiveUnknownNotification: userInfo)
+            DispatchQueue.main.async {
+                NotificareLogger.info("Received an unknown notification from APNS.")
+                self.delegate?.notificare(self, didReceiveUnknownNotification: userInfo)
+            }
+
             completionHandler(.newData)
         }
     }
@@ -91,7 +96,10 @@ extension NotificarePushImpl: NotificareAppDelegateInterceptor {
             NotificareLogger.info("Processing custom system notification.")
 
             let notification = NotificareSystemNotification(userInfo: userInfo)
-            delegate?.notificare(self, didReceiveSystemNotification: notification)
+
+            DispatchQueue.main.async {
+                self.delegate?.notificare(self, didReceiveSystemNotification: notification)
+            }
 
             completion(.success(()))
         }
@@ -124,8 +132,10 @@ extension NotificarePushImpl: NotificareAppDelegateInterceptor {
                 // Put the notification in the inbox, if appropriate.
                 InboxIntegration.addItemToInbox(userInfo: userInfo, notification: notification)
 
-                // Notify the delegate.
-                self.delegate?.notificare(self, didReceiveNotification: notification)
+                DispatchQueue.main.async {
+                    // Notify the delegate.
+                    self.delegate?.notificare(self, didReceiveNotification: notification)
+                }
 
                 completion(.success(()))
             case let .failure(error):
@@ -136,8 +146,10 @@ extension NotificarePushImpl: NotificareAppDelegateInterceptor {
                     // Put the notification in the inbox, if appropriate.
                     InboxIntegration.addItemToInbox(userInfo: userInfo, notification: notification)
 
-                    // Notify the delegate.
-                    self.delegate?.notificare(self, didReceiveNotification: notification)
+                    DispatchQueue.main.async {
+                        // Notify the delegate.
+                        self.delegate?.notificare(self, didReceiveNotification: notification)
+                    }
 
                     completion(.success(()))
                 } else {
