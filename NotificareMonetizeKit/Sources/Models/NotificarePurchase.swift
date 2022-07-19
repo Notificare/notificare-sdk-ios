@@ -9,11 +9,13 @@ public struct NotificarePurchase: Codable {
     public let id: String
     public let productIdentifier: String
     public let time: Date
+    public let receipt: String
 
-    public init(id: String, productIdentifier: String, time: Date) {
+    public init(id: String, productIdentifier: String, time: Date, receipt: String) {
         self.id = id
         self.productIdentifier = productIdentifier
         self.time = time
+        self.receipt = receipt
     }
 }
 

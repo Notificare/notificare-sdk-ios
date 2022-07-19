@@ -11,20 +11,35 @@ private typealias ProductRequestCallback = NotificareCallback<[SKProduct]>
 internal class NotificareMonetizeImpl: NSObject, NotificareModule, NotificareMonetize {
     internal static let instance = NotificareMonetizeImpl()
 
+    private let database = MonetizeDatabase()
+
     private var productsRequest: SKProductsRequest?
     private var productsRequestCallback: ProductRequestCallback?
 
-    private var productsMap: [String: NotificareProduct] = [:]
-    private var productDetailsMap: [String: SKProduct] = [:]
+    private var productsMap: [String: NotificareProduct] = [:]      // where K is the Apple product identifier
+    private var productDetailsMap: [String: SKProduct] = [:]        // where K is the Apple product identifier
+    private var purchaseEntities: [String: PurchaseEntity] = [:]    // where K is the Apple transaction identifier
 
     // MARK: Notificare module
 
     static func configure() {
+        instance.database.configure()
         SKPaymentQueue.default().add(instance)
     }
 
     static func launch(_ completion: @escaping NotificareCallback<Void>) {
         instance.refresh { _ in }
+
+        do {
+            let entities = try instance.database.find()
+            instance.purchaseEntities = entities.compactAssociateBy { $0.id }
+
+            DispatchQueue.main.async {
+                instance.delegate?.notificare(instance, didUpdatePurchases: instance.purchases)
+            }
+        } catch {
+            NotificareLogger.error("Failed to query the local database.", error: error)
+        }
 
         completion(.success(()))
     }
@@ -42,7 +57,14 @@ internal class NotificareMonetizeImpl: NSObject, NotificareModule, NotificareMon
     }
 
     var purchases: [NotificarePurchase] {
-        [] // TODO: implement purchases
+        purchaseEntities.values.compactMap { entity in
+            do {
+                return try entity.toModel()
+            } catch {
+                NotificareLogger.warning("Failed to decode purchase entity.", error: error)
+                return nil
+            }
+        }
     }
 
     func refresh(_ completion: @escaping NotificareCallback<Void>) {
@@ -64,8 +86,16 @@ internal class NotificareMonetizeImpl: NSObject, NotificareModule, NotificareMon
                         self.productsMap = models.associateBy { $0.identifier }
                         self.productDetailsMap = productDetails.associateBy { $0.productIdentifier }
 
+                        do {
+                            let entities = try self.database.find()
+                            self.purchaseEntities = entities.compactAssociateBy { $0.id }
+                        } catch {
+                            NotificareLogger.error("Failed to query the local database.", error: error)
+                        }
+
                         DispatchQueue.main.async {
-                            self.delegate?.notificare(self, didUpdateProducts: models)
+                            self.delegate?.notificare(self, didUpdateProducts: self.products)
+                            self.delegate?.notificare(self, didUpdatePurchases: self.purchases)
                         }
 
                         completion(.success(()))
@@ -124,15 +154,122 @@ internal class NotificareMonetizeImpl: NSObject, NotificareModule, NotificareMon
         productsRequest!.start()
     }
 
-    private func processPurchase(_ transaction: SKPaymentTransaction) {
+    private func processPurchases(_ transactions: [SKPaymentTransaction]) {
+        guard let transaction = transactions.first else {
+            NotificareLogger.debug("Finished processing the transactions.")
+            return
+        }
+
+        switch transaction.transactionState {
+        case .purchased, .restored:
+            if transaction.transactionState == .purchased, transaction.original == nil {
+                NotificareLogger.debug("Processing transaction (purchased).")
+            } else {
+                NotificareLogger.debug("Processing transaction (restored).")
+            }
+
+            processPurchase(transaction) { result in
+                switch result {
+                case let .success(receipt):
+                    if let transactionIdentifier = transaction.original?.transactionIdentifier ?? transaction.transactionIdentifier,
+                       let transactionDate = transaction.original?.transactionDate ?? transaction.transactionDate
+                    {
+                        let productIdentifier = transaction.original?.payment.productIdentifier ?? transaction.payment.productIdentifier
+
+                        let purchase = NotificarePurchase(
+                            id: transactionIdentifier,
+                            productIdentifier: productIdentifier,
+                            time: transactionDate,
+                            receipt: receipt
+                        )
+
+                        if transaction.transactionState == .restored || transaction.original != nil {
+                            DispatchQueue.main.async {
+                                self.delegate?.notificare(self, didRestorePurchase: purchase)
+                            }
+                        } else {
+                            DispatchQueue.main.async {
+                                self.delegate?.notificare(self, didFinishPurchase: purchase)
+                            }
+                        }
+
+                        do {
+                            NotificareLogger.debug("Saving the purchase into the database.")
+                            let entity = try self.database.add(purchase)
+
+                            if let id = entity.id {
+                                self.purchaseEntities[id] = entity
+                            } else {
+                                NotificareLogger.warning("Purchase entity created without an identifier.")
+                            }
+                        } catch {
+                            NotificareLogger.error("Failed to save the purchase into the database.", error: error)
+                        }
+
+                        DispatchQueue.main.async {
+                            self.delegate?.notificare(self, didUpdatePurchases: self.purchases)
+                        }
+
+                        NotificareLogger.info("Purchase successfully finished.")
+                    } else {
+                        NotificareLogger.warning("Unable to process transaction with missing information.")
+                    }
+
+                    SKPaymentQueue.default().finishTransaction(transaction)
+
+                case let .failure(error):
+                    DispatchQueue.main.async {
+                        self.delegate?.notificare(self, didFailToPurchase: error)
+                    }
+                }
+
+                SKPaymentQueue.default().finishTransaction(transaction)
+
+                DispatchQueue.main.async {
+                    self.delegate?.notificare(self, processTransaction: transaction)
+                }
+
+                // Recursivelly call processPurchases until there are no more items in the list.
+                self.processPurchases(Array(transactions.dropFirst()))
+            }
+
+            return
+        case .failed:
+            NotificareLogger.debug("Processing transaction (failed).")
+            SKPaymentQueue.default().finishTransaction(transaction)
+
+            if let error = transaction.error {
+                DispatchQueue.main.async {
+                    self.delegate?.notificare(self, didFailToPurchase: error)
+                }
+            }
+        case .deferred:
+            break
+        case .purchasing:
+            break
+        @unknown default:
+            NotificareLogger.warning("Unhandled transaction state '\(transaction.transactionState)'.")
+        }
+
+        DispatchQueue.main.async {
+            self.delegate?.notificare(self, processTransaction: transaction)
+        }
+
+        // Recursivelly call processPurchases until there are no more items in the list.
+        processPurchases(Array(transactions.dropFirst()))
+    }
+
+    private func processPurchase(_ transaction: SKPaymentTransaction, _ completion: @escaping NotificareCallback<String>) {
         guard let details = productDetailsMap[transaction.payment.productIdentifier] else {
             NotificareLogger.warning("Unable to process a purchase when the product is not cached.")
-            return // TODO: completion handler
+            completion(.failure(NotificareMonetizeError.missingProduct))
+            return
         }
 
         guard let receiptUrl = Bundle.main.appStoreReceiptURL else {
             NotificareLogger.warning("Unable to process a purchase without its receipt.")
-            return // TODO: completion handler
+            completion(.failure(NotificareMonetizeError.missingReceipt))
+            return
         }
 
         let receipt: String
@@ -142,7 +279,8 @@ internal class NotificareMonetizeImpl: NSObject, NotificareModule, NotificareMon
             receipt = data.base64EncodedString()
         } catch {
             NotificareLogger.warning("Failed to parse the purchase receipt.")
-            return // TODO: completion handler
+            completion(.failure(error))
+            return
         }
 
         let purchaseVerification = NotificareInternals.PushAPI.Payloads.PurchaseVerification(
@@ -154,28 +292,11 @@ internal class NotificareMonetizeImpl: NSObject, NotificareModule, NotificareMon
         verifyPurchase(purchaseVerification) { result in
             switch result {
             case .success:
-                if !transaction.downloads.isEmpty {
-                    // TODO: start the downloads
-                }
-
-                if transaction.transactionState == .restored {
-                    // TODO: handle restored transaction
-                }
-
-                SKPaymentQueue.default().finishTransaction(transaction)
-                NotificareLogger.info("Purchase successfully finished.")
+                completion(.success(receipt))
             case let .failure(error):
-                _ = error
-                // TODO: completion handler
+                NotificareLogger.error("Failed to verify the purchase.", error: error)
+                completion(.failure(error))
             }
-        }
-    }
-
-    private func processPurchaseFailure(_ transaction: SKPaymentTransaction) {
-        SKPaymentQueue.default().finishTransaction(transaction)
-
-        if let error = transaction.error {
-            // TODO: notify the listeners
         }
     }
 
@@ -225,24 +346,6 @@ extension NotificareMonetizeImpl: SKPaymentTransactionObserver {
         NotificareLogger.debug("\(transactions.filter { $0.transactionState == .deferred }.count) deferred transactions.")
         NotificareLogger.debug("\(transactions.filter { $0.transactionState == .purchasing }.count) purchasing transactions.")
 
-        for transaction in transactions {
-            switch transaction.transactionState {
-            case .purchased:
-                NotificareLogger.debug("Processing transaction (purchased).")
-                processPurchase(transaction)
-            case .restored:
-                NotificareLogger.debug("Processing transaction (restored).")
-                processPurchase(transaction)
-            case .failed:
-                NotificareLogger.debug("Processing transaction (failed).")
-                processPurchaseFailure(transaction)
-            case .deferred:
-                break
-            case .purchasing:
-                break
-            @unknown default:
-                NotificareLogger.warning("Unhandled transaction state '\(transaction.transactionState)'.")
-            }
-        }
+        processPurchases(transactions)
     }
 }

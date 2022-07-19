@@ -8,7 +8,7 @@ import NotificareKit
 public protocol NotificareMonetize: AnyObject {
     // MARK: Properties
 
-    var delegate: NotificareMonetizeDelegate? { get }
+    var delegate: NotificareMonetizeDelegate? { get set }
 
     var hasPurchasingCapabilitiesAvailable: Bool { get }
 

@@ -35,4 +35,16 @@ internal extension Sequence {
             })
         )
     }
+
+    func compactAssociateBy<Key>(_ keySelector: @escaping (Element) -> Key?) -> [Key: Element] {
+        Dictionary(
+            compactMap { element in
+                guard let key = keySelector(element) else { return nil }
+                return (key, element)
+            },
+            uniquingKeysWith: ({ _, second in
+                second
+            })
+        )
+    }
 }
