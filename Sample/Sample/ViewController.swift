@@ -9,15 +9,21 @@ import NotificareGeoKit
 import NotificareInboxKit
 import NotificareKit
 import NotificareLoyaltyKit
+import NotificareMonetizeKit
 import NotificarePushKit
 import NotificarePushUIKit
 import NotificareScannablesKit
 import UIKit
 
 class ViewController: UIViewController {
+    private var locationManager: CLLocationManager!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+
+        locationManager = CLLocationManager()
+        locationManager.delegate = self
 
         Notificare.shared.scannables().delegate = self
     }
@@ -111,14 +117,12 @@ class ViewController: UIViewController {
         let authorizationStatus = CLLocationManager.authorizationStatus()
 
         guard authorizationStatus == .authorizedWhenInUse || authorizationStatus == .authorizedAlways else {
-            let locationManager = CLLocationManager()
             locationManager.requestWhenInUseAuthorization()
 
             return
         }
 
         guard authorizationStatus == .authorizedAlways else {
-            let locationManager = CLLocationManager()
             locationManager.requestAlwaysAuthorization()
 
             return
@@ -409,6 +413,17 @@ class ViewController: UIViewController {
             }
         }
     }
+
+    @IBAction func onRefreshClicked(_: Any) {
+        Notificare.shared.monetize().refresh { result in
+            switch result {
+            case .success:
+                print("Done.")
+            case let .failure(error):
+                print("Failed.\n\(error)")
+            }
+        }
+    }
 }
 
 extension ViewController: NotificareScannablesDelegate {
@@ -473,12 +488,12 @@ extension ViewController: CLLocationManagerDelegate {
             print("---> Authorization status = denied")
         case .authorizedWhenInUse:
             print("---> Authorization status = when in use")
-            Notificare.shared.geo().enableLocationUpdates()
         case .authorizedAlways:
             print("---> Authorization status = always")
-            Notificare.shared.geo().enableLocationUpdates()
         default:
             print("---> Unhandled authorization status: \(status.rawValue)")
         }
+
+        Notificare.shared.geo().enableLocationUpdates()
     }
 }
