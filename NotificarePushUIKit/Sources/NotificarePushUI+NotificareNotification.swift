@@ -11,7 +11,7 @@ public extension NotificareNotification {
         }
 
         switch type {
-        case .none, .passbook, .alert, .rate, .urlScheme:
+        case .none, .passbook, .alert, .rate, .urlScheme, .inAppBrowser:
             return false
         default:
             return true
