@@ -9,8 +9,10 @@ import NotificareGeoKit
 import NotificareInboxKit
 import NotificareKit
 import NotificareLoyaltyKit
+import NotificareMonetizeKit
 import NotificarePushKit
 import NotificarePushUIKit
+import StoreKit
 import UIKit
 
 @UIApplicationMain
@@ -34,6 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Notificare.shared.pushUI().delegate = self
         Notificare.shared.inbox().delegate = self
         Notificare.shared.geo().delegate = self
+        Notificare.shared.monetize().delegate = self
 
         Notificare.shared.launch()
 
@@ -300,5 +303,36 @@ extension AppDelegate: NotificareGeoDelegate {
 
     func notificare(_: NotificareGeo, didFailRangingFor region: NotificareRegion, with _: Error) {
         print("-----> Failed to range beacons for region = \(region.name)")
+    }
+}
+
+extension AppDelegate: NotificareMonetizeDelegate {
+    func notificare(_: NotificareMonetize, didUpdateProducts products: [NotificareProduct]) {
+        print("-----> products updated = \(products)")
+        print("-----> products event == cached products : \(products.count == Notificare.shared.monetize().products.count)")
+    }
+
+    func notificare(_: NotificareMonetize, didUpdatePurchases purchases: [NotificarePurchase]) {
+        print("-----> purchases updated = \(purchases)")
+    }
+
+    func notificare(_: NotificareMonetize, didFinishPurchase purchase: NotificarePurchase) {
+        print("-----> purchase finished = \(purchase)")
+    }
+
+    func notificare(_: NotificareMonetize, didRestorePurchase purchase: NotificarePurchase) {
+        print("-----> purchase restored = \(purchase)")
+    }
+
+    func notificareDidCancelPurchase(_: NotificareMonetize) {
+        print("-----> purchase canceled")
+    }
+
+    func notificare(_: NotificareMonetize, didFailToPurchase error: Error) {
+        print("-----> purchase failed = \(error)")
+    }
+
+    func notificare(_: NotificareMonetize, processTransaction transaction: SKPaymentTransaction) {
+        print("-----> process transaction: identifier=\(transaction.transactionIdentifier ?? "") state=\(transaction.transactionState)")
     }
 }

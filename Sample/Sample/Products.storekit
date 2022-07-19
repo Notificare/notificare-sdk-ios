@@ -1,0 +1,48 @@
+{
+  "identifier" : "825D57AB",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+    {
+      "displayPrice" : "0.99",
+      "familyShareable" : false,
+      "internalID" : "61153509",
+      "localizations" : [
+        {
+          "description" : "A ficcional piece of bubble gum.",
+          "displayName" : "Bubble gum",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "bubble_gum",
+      "referenceName" : "Bubble gum",
+      "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "5.00",
+      "familyShareable" : false,
+      "internalID" : "F085E5E5",
+      "localizations" : [
+        {
+          "description" : "This is just for testing purposes.",
+          "displayName" : "Premium tier",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "premium_tier",
+      "referenceName" : "Premium tier",
+      "type" : "NonConsumable"
+    }
+  ],
+  "settings" : {
+
+  },
+  "subscriptionGroups" : [
+
+  ],
+  "version" : {
+    "major" : 1,
+    "minor" : 2
+  }
+}
