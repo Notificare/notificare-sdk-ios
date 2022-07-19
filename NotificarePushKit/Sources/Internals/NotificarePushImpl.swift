@@ -377,6 +377,7 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
 
                         completion(.success(()))
                     case let .failure(error):
+                        NotificareLogger.error("Failed to update the remote notification settings.", error: error)
                         completion(.failure(error))
                     }
                 }
