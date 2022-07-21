@@ -13,28 +13,6 @@ public class NotificareNotificationServiceExtension {
     public static func handleNotificationRequest(_ request: UNNotificationRequest, _ completion: @escaping (Result<UNNotificationContent, Swift.Error>) -> Void) {
         let content = request.content.mutableCopy() as! UNMutableNotificationContent
 
-        if #available(iOS 15.0, *) {
-            if let interruptionLevel = request.content.userInfo["interruptionLevel"] as? String {
-                switch interruptionLevel {
-                case "active":
-                    content.interruptionLevel = .active
-                case "passive":
-                    content.interruptionLevel = .passive
-                case "timeSensitive":
-                    content.interruptionLevel = .timeSensitive
-                case "critical":
-                    content.interruptionLevel = .critical
-                default:
-                    // NotificareLogger.warning("Unexpected interruption level '\(interruptionLevel)' in notification payload.")
-                    break
-                }
-            }
-
-            if let relevanceScore = request.content.userInfo["relevanceScore"] as? Double, 0 ... 1 ~= relevanceScore {
-                content.relevanceScore = relevanceScore
-            }
-        }
-
         fetchAttachment(for: request) { result in
             switch result {
             case let .success(attachment):
