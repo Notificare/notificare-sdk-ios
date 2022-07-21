@@ -279,7 +279,7 @@ extension AppDelegate: NotificareGeoDelegate {
     }
 
     func notificare(_: NotificareGeo, didExit beacon: NotificareBeacon) {
-        print("-----> On beacon enter = \(beacon.name)")
+        print("-----> On beacon exit = \(beacon.name)")
     }
 
     func notificare(_: NotificareGeo, didVisit visit: NotificareVisit) {
@@ -291,6 +291,10 @@ extension AppDelegate: NotificareGeoDelegate {
     }
 
     func notificare(_: NotificareGeo, didRange beacons: [NotificareBeacon], in region: NotificareRegion) {
+        if !beacons.isEmpty {
+            print("-----> On ranging beacons: \(beacons.map(\.name).joined(separator: " "))")
+        }
+
         NotificationCenter.default.post(
             name: .RangingBeacons,
             object: nil,
