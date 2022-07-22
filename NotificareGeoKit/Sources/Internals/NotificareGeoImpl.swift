@@ -1251,6 +1251,9 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
                 return
             }
 
+            // Prevent calling the delegate method for the main region.
+            guard beacon.minor != nil else { return }
+
             DispatchQueue.main.async {
                 self.delegate?.notificare(self, didEnter: beacon)
             }
@@ -1279,6 +1282,9 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
                 NotificareLogger.debug("Received an event (didExitRegion) for non-cached beacon '\(clr.identifier)'.")
                 return
             }
+
+            // Prevent calling the delegate method for the main region.
+            guard beacon.minor != nil else { return }
 
             DispatchQueue.main.async {
                 self.delegate?.notificare(self, didExit: beacon)
@@ -1315,6 +1321,9 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
                 NotificareLogger.debug("Received an event (didDetermineState) for non-cached beacon '\(clr.identifier)'.")
                 return
             }
+
+            // Prevent calling the delegate method for the main region.
+            guard beacon.minor != nil else { return }
 
             DispatchQueue.main.async {
                 self.delegate?.notificare(self, didDetermineState: state, for: beacon)

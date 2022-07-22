@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 3.3.0
+
+- Monetise module
+- Prevent internal _main beacon region_ from triggering events
+- Remove interruption level & relevance score from notification service extension
+
 ## 3.2.0
 
 - Fix notification content when opening partial inbox items

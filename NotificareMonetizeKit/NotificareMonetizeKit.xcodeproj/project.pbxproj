@@ -7,6 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F20792A628817B3A0081E11F /* NotificarePurchase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20792A528817B3A0081E11F /* NotificarePurchase.swift */; };
+		F20792A828817DDE0081E11F /* NotificareMonetizeDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20792A728817DDE0081E11F /* NotificareMonetizeDelegate.swift */; };
+		F20792AA2881A3520081E11F /* NotificareMonetizeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20792A92881A3520081E11F /* NotificareMonetizeError.swift */; };
+		F20792B02886BC780081E11F /* MonetizeDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20792AF2886BC780081E11F /* MonetizeDatabase.swift */; };
+		F20792B22886BD7D0081E11F /* MonetizeDatabase+Entities.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20792B12886BD7D0081E11F /* MonetizeDatabase+Entities.swift */; };
+		F20792B72886EAD90081E11F /* NotificareMonetizeDatabase.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F20792B52886EAD90081E11F /* NotificareMonetizeDatabase.xcdatamodeld */; };
+		F20792B92886F29D0081E11F /* MonetizeDatabaseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20792B82886F29D0081E11F /* MonetizeDatabaseError.swift */; };
+		F22443D2286CB33C0015CBD6 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F22443D1286CB33C0015CBD6 /* StoreKit.framework */; };
+		F22443DE286D9F4C0015CBD6 /* NotificareMonetize.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22443DD286D9F4C0015CBD6 /* NotificareMonetize.swift */; };
+		F22443E0286D9F580015CBD6 /* NotificareMonetize+Augment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22443DF286D9F580015CBD6 /* NotificareMonetize+Augment.swift */; };
+		F22443E2286D9FB00015CBD6 /* NotificareMonetizeImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22443E1286D9FB00015CBD6 /* NotificareMonetizeImpl.swift */; };
+		F22443E4286DD7A10015CBD6 /* NotificareProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22443E3286DD7A10015CBD6 /* NotificareProduct.swift */; };
+		F22443E6286DD8750015CBD6 /* PushAPI+Responses.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22443E5286DD8750015CBD6 /* PushAPI+Responses.swift */; };
+		F22443E8286DD87B0015CBD6 /* PushAPI+Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22443E7286DD87B0015CBD6 /* PushAPI+Models.swift */; };
+		F22443EA286DE2290015CBD6 /* NotificareMonetize+Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22443E9286DE2290015CBD6 /* NotificareMonetize+Utilities.swift */; };
+		F2367093286DFDC70095D02A /* PushAPI+Payloads.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2367092286DFDC70095D02A /* PushAPI+Payloads.swift */; };
 		F258DE0A24BC4F89006F9ABD /* NotificareMonetizeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F258DE0024BC4F89006F9ABD /* NotificareMonetizeKit.framework */; };
 		F258DE0F24BC4F89006F9ABD /* MonetizeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DE0E24BC4F89006F9ABD /* MonetizeTests.swift */; };
 		F258DE1124BC4F89006F9ABD /* NotificareMonetizeKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F258DE0324BC4F89006F9ABD /* NotificareMonetizeKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -24,6 +40,22 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F20792A528817B3A0081E11F /* NotificarePurchase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificarePurchase.swift; sourceTree = "<group>"; };
+		F20792A728817DDE0081E11F /* NotificareMonetizeDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareMonetizeDelegate.swift; sourceTree = "<group>"; };
+		F20792A92881A3520081E11F /* NotificareMonetizeError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareMonetizeError.swift; sourceTree = "<group>"; };
+		F20792AF2886BC780081E11F /* MonetizeDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonetizeDatabase.swift; sourceTree = "<group>"; };
+		F20792B12886BD7D0081E11F /* MonetizeDatabase+Entities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MonetizeDatabase+Entities.swift"; sourceTree = "<group>"; };
+		F20792B62886EAD90081E11F /* NotificareMonetizeDatabase.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = NotificareMonetizeDatabase.xcdatamodel; sourceTree = "<group>"; };
+		F20792B82886F29D0081E11F /* MonetizeDatabaseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonetizeDatabaseError.swift; sourceTree = "<group>"; };
+		F22443D1286CB33C0015CBD6 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		F22443DD286D9F4C0015CBD6 /* NotificareMonetize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareMonetize.swift; sourceTree = "<group>"; };
+		F22443DF286D9F580015CBD6 /* NotificareMonetize+Augment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificareMonetize+Augment.swift"; sourceTree = "<group>"; };
+		F22443E1286D9FB00015CBD6 /* NotificareMonetizeImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareMonetizeImpl.swift; sourceTree = "<group>"; };
+		F22443E3286DD7A10015CBD6 /* NotificareProduct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareProduct.swift; sourceTree = "<group>"; };
+		F22443E5286DD8750015CBD6 /* PushAPI+Responses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PushAPI+Responses.swift"; sourceTree = "<group>"; };
+		F22443E7286DD87B0015CBD6 /* PushAPI+Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PushAPI+Models.swift"; sourceTree = "<group>"; };
+		F22443E9286DE2290015CBD6 /* NotificareMonetize+Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificareMonetize+Utilities.swift"; sourceTree = "<group>"; };
+		F2367092286DFDC70095D02A /* PushAPI+Payloads.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PushAPI+Payloads.swift"; sourceTree = "<group>"; };
 		F258DE0024BC4F89006F9ABD /* NotificareMonetizeKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NotificareMonetizeKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F258DE0324BC4F89006F9ABD /* NotificareMonetizeKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificareMonetizeKit.h; sourceTree = "<group>"; };
 		F258DE0424BC4F89006F9ABD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -42,6 +74,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F289F5C425B8611B0091AB97 /* NotificareKit.framework in Frameworks */,
+				F22443D2286CB33C0015CBD6 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,6 +89,54 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F20792AE2886BC650081E11F /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				F20792AF2886BC780081E11F /* MonetizeDatabase.swift */,
+				F20792B82886F29D0081E11F /* MonetizeDatabaseError.swift */,
+				F20792B12886BD7D0081E11F /* MonetizeDatabase+Entities.swift */,
+			);
+			path = Database;
+			sourceTree = "<group>";
+		};
+		F22443D9286D9F150015CBD6 /* Internals */ = {
+			isa = PBXGroup;
+			children = (
+				F20792AE2886BC650081E11F /* Database */,
+				F22443DA286D9F240015CBD6 /* Network */,
+				F22443E1286D9FB00015CBD6 /* NotificareMonetizeImpl.swift */,
+				F22443E9286DE2290015CBD6 /* NotificareMonetize+Utilities.swift */,
+			);
+			path = Internals;
+			sourceTree = "<group>";
+		};
+		F22443DA286D9F240015CBD6 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				F22443DB286D9F2B0015CBD6 /* Push API */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		F22443DB286D9F2B0015CBD6 /* Push API */ = {
+			isa = PBXGroup;
+			children = (
+				F22443E7286DD87B0015CBD6 /* PushAPI+Models.swift */,
+				F22443E5286DD8750015CBD6 /* PushAPI+Responses.swift */,
+				F2367092286DFDC70095D02A /* PushAPI+Payloads.swift */,
+			);
+			path = "Push API";
+			sourceTree = "<group>";
+		};
+		F22443DC286D9F360015CBD6 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F22443E3286DD7A10015CBD6 /* NotificareProduct.swift */,
+				F20792A528817B3A0081E11F /* NotificarePurchase.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		F258DDF624BC4F89006F9ABD = {
 			isa = PBXGroup;
 			children = (
@@ -78,8 +159,15 @@
 		F258DE0224BC4F89006F9ABD /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				F22443D9286D9F150015CBD6 /* Internals */,
+				F22443DC286D9F360015CBD6 /* Models */,
 				F258DE0424BC4F89006F9ABD /* Info.plist */,
 				F258DE0324BC4F89006F9ABD /* NotificareMonetizeKit.h */,
+				F22443DD286D9F4C0015CBD6 /* NotificareMonetize.swift */,
+				F22443DF286D9F580015CBD6 /* NotificareMonetize+Augment.swift */,
+				F20792A728817DDE0081E11F /* NotificareMonetizeDelegate.swift */,
+				F20792B52886EAD90081E11F /* NotificareMonetizeDatabase.xcdatamodeld */,
+				F20792A92881A3520081E11F /* NotificareMonetizeError.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -96,6 +184,7 @@
 		F258DEA024BC96D6006F9ABD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F22443D1286CB33C0015CBD6 /* StoreKit.framework */,
 				F289F5C025B8611B0091AB97 /* NotificareCore.framework */,
 				F289F5C125B8611B0091AB97 /* NotificareKit.framework */,
 				F2AAAF84251D01AE00465EC5 /* NotificareSDK.framework */,
@@ -167,6 +256,7 @@
 				TargetAttributes = {
 					F258DDFF24BC4F89006F9ABD = {
 						CreatedOnToolsVersion = 11.5;
+						LastSwiftMigration = 1340;
 					};
 					F258DE0824BC4F89006F9ABD = {
 						CreatedOnToolsVersion = 11.5;
@@ -235,6 +325,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F20792A628817B3A0081E11F /* NotificarePurchase.swift in Sources */,
+				F22443E2286D9FB00015CBD6 /* NotificareMonetizeImpl.swift in Sources */,
+				F22443E0286D9F580015CBD6 /* NotificareMonetize+Augment.swift in Sources */,
+				F20792B72886EAD90081E11F /* NotificareMonetizeDatabase.xcdatamodeld in Sources */,
+				F22443E8286DD87B0015CBD6 /* PushAPI+Models.swift in Sources */,
+				F20792B22886BD7D0081E11F /* MonetizeDatabase+Entities.swift in Sources */,
+				F20792A828817DDE0081E11F /* NotificareMonetizeDelegate.swift in Sources */,
+				F2367093286DFDC70095D02A /* PushAPI+Payloads.swift in Sources */,
+				F20792B92886F29D0081E11F /* MonetizeDatabaseError.swift in Sources */,
+				F22443E6286DD8750015CBD6 /* PushAPI+Responses.swift in Sources */,
+				F20792B02886BC780081E11F /* MonetizeDatabase.swift in Sources */,
+				F22443EA286DE2290015CBD6 /* NotificareMonetize+Utilities.swift in Sources */,
+				F22443DE286D9F4C0015CBD6 /* NotificareMonetize.swift in Sources */,
+				F22443E4286DD7A10015CBD6 /* NotificareProduct.swift in Sources */,
+				F20792AA2881A3520081E11F /* NotificareMonetizeError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -382,6 +487,7 @@
 		F258DE1524BC4F89006F9ABD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -395,11 +501,12 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.2.0;
+				MARKETING_VERSION = 3.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.monetize;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -408,6 +515,7 @@
 		F258DE1624BC4F89006F9ABD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -421,7 +529,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.2.0;
+				MARKETING_VERSION = 3.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.monetize;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -434,6 +542,7 @@
 		F258DE1824BC4F89006F9ABD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y47BY73NFN;
 				INFOPLIST_FILE = Tests/Info.plist;
@@ -452,6 +561,7 @@
 		F258DE1924BC4F89006F9ABD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y47BY73NFN;
 				INFOPLIST_FILE = Tests/Info.plist;
@@ -498,6 +608,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		F20792B52886EAD90081E11F /* NotificareMonetizeDatabase.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				F20792B62886EAD90081E11F /* NotificareMonetizeDatabase.xcdatamodel */,
+			);
+			currentVersion = F20792B62886EAD90081E11F /* NotificareMonetizeDatabase.xcdatamodel */;
+			path = NotificareMonetizeDatabase.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = F258DDF724BC4F89006F9ABD /* Project object */;
 }
