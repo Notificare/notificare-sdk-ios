@@ -44,7 +44,9 @@ For support please use: http://support.notifica.re
     subspec.vendored_frameworks = "Notificare/NotificareLoyaltyKit.xcframework"
   end
 
-  # Monetize
+  spec.subspec 'NotificareMonetizeKit' do |subspec|
+    subspec.vendored_frameworks = "Notificare/NotificareMonetizeKit.xcframework"
+  end
 
   spec.subspec 'NotificareNotificationServiceExtensionKit' do |subspec|
     subspec.vendored_frameworks = "Notificare/NotificareNotificationServiceExtensionKit.xcframework"
