@@ -16,9 +16,9 @@ internal class NotificareMonetizeImpl: NSObject, NotificareModule, NotificareMon
     private var productsRequest: SKProductsRequest?
     private var productsRequestCallback: ProductRequestCallback?
 
-    private var productsMap: [String: NotificareProduct] = [:]      // where K is the Apple product identifier
-    private var productDetailsMap: [String: SKProduct] = [:]        // where K is the Apple product identifier
-    private var purchaseEntities: [String: PurchaseEntity] = [:]    // where K is the Apple transaction identifier
+    private var productsMap: [String: NotificareProduct] = [:] // where K is the Apple product identifier
+    private var productDetailsMap: [String: SKProduct] = [:] // where K is the Apple product identifier
+    private var purchaseEntities: [String: PurchaseEntity] = [:] // where K is the Apple transaction identifier
 
     // MARK: Notificare module
 
