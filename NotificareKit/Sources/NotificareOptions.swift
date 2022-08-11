@@ -16,6 +16,7 @@ public struct NotificareOptions: Decodable {
     public static let DEFAULT_HEADING_API_ENABLED = false
     public static let DEFAULT_VISITS_API_ENABLED = false
     public static let DEFAULT_IMAGE_SHARING_ENABLED = true
+    public static let DEFAULT_IAM_BACKGROUND_GRACE_PERIOD_MILLIS = 5 * 60 * 1000
 
     public let debugLoggingEnabled: Bool
     public let autoConfig: Bool
@@ -29,6 +30,7 @@ public struct NotificareOptions: Decodable {
     public let imageSharingEnabled: Bool
     public let safariDismissButtonStyle: Int?
     public let themes: Themes?
+    public let backgroundGracePeriodMillis: Int
 
     public init(
         debugLoggingEnabled: Bool = DEFAULT_DEBUG_LOGGING_ENABLED,
@@ -42,7 +44,8 @@ public struct NotificareOptions: Decodable {
         closeWindowQueryParameter: String? = nil,
         imageSharingEnabled: Bool = DEFAULT_IMAGE_SHARING_ENABLED,
         safariDismissButtonStyle: Int? = nil,
-        themes: NotificareOptions.Themes? = nil
+        themes: NotificareOptions.Themes? = nil,
+        backgroundGracePeriodMillis: Int = DEFAULT_IAM_BACKGROUND_GRACE_PERIOD_MILLIS
     ) {
         self.debugLoggingEnabled = debugLoggingEnabled
         self.autoConfig = autoConfig
@@ -56,6 +59,7 @@ public struct NotificareOptions: Decodable {
         self.imageSharingEnabled = imageSharingEnabled
         self.safariDismissButtonStyle = safariDismissButtonStyle
         self.themes = themes
+        self.backgroundGracePeriodMillis = backgroundGracePeriodMillis
     }
 
     public struct Themes: Decodable {
@@ -114,6 +118,7 @@ public extension NotificareOptions {
             imageSharingEnabled = decoded.imageSharingEnabled
             safariDismissButtonStyle = decoded.safariDismissButtonStyle
             themes = decoded.themes
+            backgroundGracePeriodMillis = decoded.backgroundGracePeriodMillis
         } catch {
             return nil
         }
@@ -135,6 +140,7 @@ public extension NotificareOptions {
         case imageSharingEnabled = "IMAGE_SHARING_ENABLED"
         case safariDismissButtonStyle = "SAFARI_DISMISS_BUTTON_STYLE"
         case themes = "THEMES"
+        case backgroundGracePeriodMillis = "IAM_BACKGROUND_GRACE_PERIOD_MILLIS"
     }
 
     init(from decoder: Decoder) throws {
@@ -152,6 +158,7 @@ public extension NotificareOptions {
         imageSharingEnabled = try container.decodeIfPresent(Bool.self, forKey: .imageSharingEnabled) ?? NotificareOptions.DEFAULT_IMAGE_SHARING_ENABLED
         safariDismissButtonStyle = try container.decodeIfPresent(Int.self, forKey: .safariDismissButtonStyle)
         themes = try container.decodeIfPresent(Themes.self, forKey: .themes)
+        backgroundGracePeriodMillis = try container.decodeIfPresent(Int.self, forKey: .backgroundGracePeriodMillis) ?? NotificareOptions.DEFAULT_IAM_BACKGROUND_GRACE_PERIOD_MILLIS
     }
 }
 
