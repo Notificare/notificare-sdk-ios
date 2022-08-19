@@ -18,15 +18,15 @@ internal extension NotificareInternals.PushAPI.Models {
         let delaySeconds: Int
         let primaryAction: Action?
         let secondaryAction: Action?
-        
+
         struct Action: Decodable {
             let label: String?
             let destructive: Bool
             let url: String?
         }
-        
+
         func toModel() -> NotificareInAppMessage {
-            return NotificareInAppMessage(
+            NotificareInAppMessage(
                 id: _id,
                 name: name,
                 type: type,
@@ -69,10 +69,10 @@ internal extension NotificareInternals.PushAPI.Models.Message {
         case primaryAction
         case secondaryAction
     }
-    
+
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        
+
         _id = try container.decode(String.self, forKey: ._id)
         name = try container.decode(String.self, forKey: .name)
         type = try container.decode(String.self, forKey: .type)

@@ -16,7 +16,7 @@ public struct NotificareInAppMessage: Codable {
     public let delaySeconds: Int
     public let primaryAction: Action?
     public let secondaryAction: Action?
-    
+
     public init(id: String, name: String, type: String, context: [String], title: String?, message: String?, image: String?, landscapeImage: String?, delaySeconds: Int, primaryAction: NotificareInAppMessage.Action?, secondaryAction: NotificareInAppMessage.Action?) {
         self.id = id
         self.name = name
@@ -30,19 +30,19 @@ public struct NotificareInAppMessage: Codable {
         self.primaryAction = primaryAction
         self.secondaryAction = secondaryAction
     }
-    
+
     public struct Action: Codable {
         public let label: String?
         public let destructive: Bool
         public let url: String?
-        
+
         public init(label: String?, destructive: Bool, url: String?) {
             self.label = label
             self.destructive = destructive
             self.url = url
         }
     }
-    
+
     public enum ActionType: String {
         case primary
         case secondary

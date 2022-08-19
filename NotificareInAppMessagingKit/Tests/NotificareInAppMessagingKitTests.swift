@@ -2,11 +2,10 @@
 // Copyright (c) 2022 Notificare. All rights reserved.
 //
 
-import XCTest
 @testable import NotificareInAppMessagingKit
+import XCTest
 
 class NotificareInAppMessagingKitTests: XCTestCase {
-
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
@@ -25,9 +24,8 @@ class NotificareInAppMessagingKitTests: XCTestCase {
 
     func testPerformanceExample() throws {
         // This is an example of a performance test case.
-        self.measure {
+        measure {
             // Put the code you want to measure the time of here.
         }
     }
-
 }

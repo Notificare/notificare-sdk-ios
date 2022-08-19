@@ -4,6 +4,4 @@
 
 import Foundation
 
-public protocol NotificareInAppMessaging: AnyObject {
-    
-}
+public protocol NotificareInAppMessaging: AnyObject {}
