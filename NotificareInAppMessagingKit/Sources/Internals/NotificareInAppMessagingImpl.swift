@@ -35,6 +35,10 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
 
     // MARK: - Notificare In-App Messaging
 
+    weak var delegate: NotificareInAppMessagingDelegate?
+
+    var hasMessagesSuppressed: Bool = false
+
     // MARK: - Private API
 
     private func evaluateContext(_ context: ApplicationContext) {
@@ -211,24 +215,5 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
             messageWorkItem?.cancel()
             messageWorkItem = nil
         }
-    }
-    private func fetchInAppMessage(for context: ApplicationContext, _ completion: @escaping NotificareCallback<NotificareInAppMessage>) {
-        guard let device = Notificare.shared.device().currentDevice else {
-            completion(.failure(NotificareError.deviceUnavailable))
-            return
-        }
-
-        NotificareRequest.Builder()
-            .get("/inappmessage/forcontext/\(context.rawValue)")
-            .query(name: "deviceID", value: device.id)
-            .responseDecodable(NotificareInternals.PushAPI.Responses.InAppMessage.self) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.message.toModel()))
-
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
     }
 }

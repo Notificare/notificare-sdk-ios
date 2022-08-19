@@ -4,4 +4,10 @@
 
 import Foundation
 
-public protocol NotificareInAppMessaging: AnyObject {}
+public protocol NotificareInAppMessaging: AnyObject {
+    // MARK: Properties
+
+    var delegate: NotificareInAppMessagingDelegate? { get set }
+
+    var hasMessagesSuppressed: Bool { get set }
+}
