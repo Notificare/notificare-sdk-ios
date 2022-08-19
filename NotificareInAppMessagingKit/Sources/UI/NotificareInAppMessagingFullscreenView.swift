@@ -120,6 +120,8 @@ public class NotificareInAppMessagingFullscreenView: UIView {
             }.resume()
         }
 
+        footerView.isHidden = message.title == nil && message.message == nil
+
         titleView.isHidden = message.title == nil
         titleView.text = message.title
 
