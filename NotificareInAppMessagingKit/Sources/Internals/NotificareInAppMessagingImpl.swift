@@ -73,6 +73,7 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
 
             let workItem = DispatchWorkItem {
                 self.present(message)
+                self.messageWorkItem = nil
             }
 
             // Keep a reference to the work item to cancel it when
