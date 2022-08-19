@@ -43,6 +43,17 @@ public struct NotificareInAppMessage: Codable {
         }
     }
 
+    public enum MessageType: String {
+        case banner = "re.notifica.inappmessage.Banner"
+        case card = "re.notifica.inappmessage.Card"
+        case fullscreen = "re.notifica.inappmessage.Fullscreen"
+    }
+
+    public enum ContextType: String {
+        case launch
+        case foreground
+    }
+
     public enum ActionType: String {
         case primary
         case secondary
