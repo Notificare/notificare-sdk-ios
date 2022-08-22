@@ -6,8 +6,9 @@ import Foundation
 import NotificareKit
 import UIKit
 
-public class NotificareInAppMessagingBannerView: UIView {
-    private let message: NotificareInAppMessage
+public class NotificareInAppMessagingBannerView: UIView, NotificareInAppMessagingView {
+    public let message: NotificareInAppMessage
+    public weak var delegate: NotificareInAppMessagingViewDelegate?
 
     // MARK: - UI views
 
@@ -173,11 +174,9 @@ public class NotificareInAppMessagingBannerView: UIView {
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onRootViewClicked)))
     }
 
-    private func dismiss() {
-        removeFromSuperview()
+    @objc private func onCardViewClicked() {
+        handleActionClicked(.primary)
     }
-
-    @objc private func onCardViewClicked() {}
 
     @objc private func onRootViewClicked() {
         dismiss()

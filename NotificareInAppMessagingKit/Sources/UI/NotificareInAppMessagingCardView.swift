@@ -6,8 +6,9 @@ import Foundation
 import NotificareKit
 import UIKit
 
-public class NotificareInAppMessagingCardView: UIView {
-    private let message: NotificareInAppMessage
+public class NotificareInAppMessagingCardView: UIView, NotificareInAppMessagingView {
+    public let message: NotificareInAppMessage
+    public weak var delegate: NotificareInAppMessagingViewDelegate?
 
     // MARK: - UI views
 
@@ -368,11 +369,13 @@ public class NotificareInAppMessagingCardView: UIView {
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onRootViewClicked)))
     }
 
-    private func dismiss() {
-        removeFromSuperview()
+    @objc private func onCardViewClicked() {
+        // This empty click listener prevents the root click listener
+        // from being triggered when clicking on the card itself.
+        //
+        // Otherwise, the root click listener will treat clicking on
+        // the card itself as a tap outside.
     }
-
-    @objc private func onCardViewClicked() {}
 
     @objc private func onCloseButtonClicked() {
         dismiss()
@@ -382,7 +385,11 @@ public class NotificareInAppMessagingCardView: UIView {
         dismiss()
     }
 
-    @objc private func onPrimaryActionClicked() {}
+    @objc private func onPrimaryActionClicked() {
+        handleActionClicked(.primary)
+    }
 
-    @objc private func onSecondaryActionClicked() {}
+    @objc private func onSecondaryActionClicked() {
+        handleActionClicked(.secondary)
+    }
 }

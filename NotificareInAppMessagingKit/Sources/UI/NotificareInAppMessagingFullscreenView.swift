@@ -6,8 +6,9 @@ import Foundation
 import NotificareKit
 import UIKit
 
-public class NotificareInAppMessagingFullscreenView: UIView {
-    private let message: NotificareInAppMessage
+public class NotificareInAppMessagingFullscreenView: UIView, NotificareInAppMessagingView {
+    public let message: NotificareInAppMessage
+    public weak var delegate: NotificareInAppMessagingViewDelegate?
 
     // MARK: - UI views
 
@@ -217,11 +218,9 @@ public class NotificareInAppMessagingFullscreenView: UIView {
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onRootViewClicked)))
     }
 
-    private func dismiss() {
-        removeFromSuperview()
+    @objc private func onCardViewClicked() {
+        handleActionClicked(.primary)
     }
-
-    @objc private func onCardViewClicked() {}
 
     @objc private func onCloseButtonClicked() {
         dismiss()

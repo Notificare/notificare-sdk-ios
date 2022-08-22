@@ -6,9 +6,12 @@ import Foundation
 import NotificareKit
 import UIKit
 
+private let DEFAULT_BACKGROUND_GRACE_PERIOD_MILLIS = 5 * 60 * 1000
+
 internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, NotificareInAppMessaging {
     internal static let instance = NotificareInAppMessagingImpl()
 
+    private var presentedView: PresentedView?
     private var messageWorkItem: DispatchWorkItem?
 
     // MARK: - Notificare Module
@@ -88,11 +91,17 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
     }
 
     private func present(_ message: NotificareInAppMessage) {
-//        if (isShowingMessage) {
-//            NotificareLogger.warning("Cannot display an in-app message while another is being presented.")
-//            // TODO: listener?
-//            return
-//        }
+        guard presentedView == nil else {
+            NotificareLogger.warning("Cannot display an in-app message while another is being presented.")
+            // TODO: listener?
+            return
+        }
+
+        guard !hasMessagesSuppressed else {
+            NotificareLogger.debug("Cannot display an in-app message while messages are being suppressed.")
+            // TODO: listener?
+            return
+        }
 
         guard let parentView = findParentView() else {
             NotificareLogger.warning("Cannot display an in-app message without a reference to the parent view.")
@@ -106,15 +115,10 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
             return
         }
 
-        parentView.addSubview(view)
-        parentView.bringSubviewToFront(view)
+        view.delegate = self
+        view.present(in: parentView)
 
-        NSLayoutConstraint.activate([
-            view.topAnchor.constraint(equalTo: parentView.topAnchor),
-            view.leadingAnchor.constraint(equalTo: parentView.leadingAnchor),
-            view.trailingAnchor.constraint(equalTo: parentView.trailingAnchor),
-            view.bottomAnchor.constraint(equalTo: parentView.bottomAnchor),
-        ])
+        presentedView = PresentedView(view: view, timestamp: Date())
     }
 
     private func fetchInAppMessage(for context: ApplicationContext, _ completion: @escaping NotificareCallback<NotificareInAppMessage>) {
@@ -178,7 +182,7 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
         return rootViewController.view
     }
 
-    private func createMessageView(for message: NotificareInAppMessage) -> UIView? {
+    private func createMessageView(for message: NotificareInAppMessage) -> NotificareInAppMessagingView? {
         let type = NotificareInAppMessage.MessageType(rawValue: message.type)
 
         switch type {
@@ -198,14 +202,32 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
     }
 
     @objc private func onApplicationForeground() {
+        if let presentedView = presentedView {
+            let now = Date().timeIntervalSince1970 * 1000
+            let backgroundGracePeriod = Double(Notificare.shared.options?.backgroundGracePeriodMillis ?? DEFAULT_BACKGROUND_GRACE_PERIOD_MILLIS)
+            let expiredAt = presentedView.timestamp.timeIntervalSince1970 * 1000 + backgroundGracePeriod
+
+            if now > expiredAt {
+                NotificareLogger.debug("Dismissing the current in-app message for being in the background for longer than the grace period.")
+                presentedView.view.removeFromSuperview()
+                self.presentedView = nil
+            }
+        }
+
         guard Notificare.shared.isReady else {
             NotificareLogger.debug("Postponing in-app message evaluation until Notificare is launched.")
             return
         }
 
-        // TODO: check if showing
+        guard presentedView == nil else {
+            NotificareLogger.debug("Skipping context evaluation since there is another in-app message being presented.")
+            return
+        }
 
-        // TODO: check if suppressed
+        guard !hasMessagesSuppressed else {
+            NotificareLogger.debug("Skipping context evaluation since in-app messages are being suppressed.")
+            return
+        }
 
         evaluateContext(.foreground)
     }
@@ -216,5 +238,16 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
             messageWorkItem?.cancel()
             messageWorkItem = nil
         }
+    }
+
+    private struct PresentedView {
+        let view: NotificareInAppMessagingView
+        let timestamp: Date
+    }
+}
+
+extension NotificareInAppMessagingImpl: NotificareInAppMessagingViewDelegate {
+    func onViewDismissed() {
+        presentedView = nil
     }
 }
