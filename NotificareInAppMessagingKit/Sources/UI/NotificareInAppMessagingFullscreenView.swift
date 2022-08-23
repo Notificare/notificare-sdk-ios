@@ -192,7 +192,7 @@ public class NotificareInAppMessagingFullscreenView: UIView, NotificareInAppMess
             imageView.topAnchor.constraint(equalTo: cardView.topAnchor),
             imageView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor),
             imageView.trailingAnchor.constraint(equalTo: cardView.trailingAnchor),
-            imageView.bottomAnchor.constraint(lessThanOrEqualTo: cardView.bottomAnchor),
+            imageView.bottomAnchor.constraint(equalTo: cardView.bottomAnchor),
         ])
 
         //
