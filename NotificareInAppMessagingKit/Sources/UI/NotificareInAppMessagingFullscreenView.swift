@@ -82,10 +82,7 @@ public class NotificareInAppMessagingFullscreenView: UIView, NotificareInAppMess
 
     private lazy var gradientLayer: CAGradientLayer = {
         let layer = CAGradientLayer()
-        layer.colors = [
-            UIColor.white.withAlphaComponent(0).cgColor,
-            UIColor.white.cgColor,
-        ]
+        updateGradientColors(in: layer)
 
         return layer
     }()
@@ -133,6 +130,11 @@ public class NotificareInAppMessagingFullscreenView: UIView, NotificareInAppMess
     override public func layoutSublayers(of layer: CALayer) {
         super.layoutSublayers(of: layer)
         gradientLayer.frame = footerView.bounds
+    }
+
+    override public func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        updateGradientColors(in: gradientLayer)
     }
 
     // MARK: - NotificareInAppMessagingView
@@ -246,6 +248,19 @@ public class NotificareInAppMessagingFullscreenView: UIView, NotificareInAppMess
         cardView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onCardViewClicked)))
         closeButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onCloseButtonClicked)))
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onRootViewClicked)))
+    }
+
+    private func updateGradientColors(in layer: CAGradientLayer) {
+        var gradientColor = UIColor.white
+
+        if #available(iOS 12.0, *), traitCollection.userInterfaceStyle == .dark {
+            gradientColor = .black
+        }
+
+        layer.colors = [
+            gradientColor.withAlphaComponent(0).cgColor,
+            gradientColor.cgColor,
+        ]
     }
 
     @objc private func onCardViewClicked() {
