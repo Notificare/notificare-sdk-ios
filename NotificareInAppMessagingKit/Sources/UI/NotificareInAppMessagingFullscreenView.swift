@@ -125,6 +125,10 @@ public class NotificareInAppMessagingFullscreenView: UIView, NotificareInAppMess
 
         messageView.isHidden = message.message == nil
         messageView.text = message.message
+
+        // NOTE: Forcing any pending layout updates otherwise the gradient layer
+        // will render with an out-of-date frame.
+        layoutIfNeeded()
     }
 
     override public func layoutSublayers(of layer: CALayer) {
