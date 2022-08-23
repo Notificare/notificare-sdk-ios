@@ -17,6 +17,10 @@ public protocol NotificareInAppMessagingView: UIView {
 
     func present(in parentView: UIView)
 
+    func animate(transition: NotificareInAppMessagingViewTransition)
+
+    func animate(transition: NotificareInAppMessagingViewTransition, _ completion: @escaping () -> Void)
+
     func dismiss()
 
     func handleActionClicked(_ actionType: NotificareInAppMessage.ActionType)
@@ -34,6 +38,9 @@ public extension NotificareInAppMessagingView {
             bottomAnchor.constraint(equalTo: parentView.bottomAnchor),
         ])
 
+        parentView.layoutIfNeeded()
+        animate(transition: .enter)
+
         NotificareLogger.debug("Tracking in-app message viewed event.")
         Notificare.shared.events().logInAppMessageViewed(message) { result in
             if case let .failure(error) = result {
@@ -42,11 +49,15 @@ public extension NotificareInAppMessagingView {
         }
     }
 
-    func dismiss() {
-        // TODO: animate away before removing.
-        removeFromSuperview()
+    func animate(transition: NotificareInAppMessagingViewTransition) {
+        animate(transition: transition) {}
+    }
 
-        delegate?.onViewDismissed()
+    func dismiss() {
+        animate(transition: .exit) {
+            self.removeFromSuperview()
+            self.delegate?.onViewDismissed()
+        }
     }
 
     func handleActionClicked(_ actionType: NotificareInAppMessage.ActionType) {
@@ -104,4 +115,9 @@ public extension NotificareInAppMessagingView {
 
 public protocol NotificareInAppMessagingViewDelegate: AnyObject {
     func onViewDismissed()
+}
+
+public enum NotificareInAppMessagingViewTransition {
+    case enter
+    case exit
 }

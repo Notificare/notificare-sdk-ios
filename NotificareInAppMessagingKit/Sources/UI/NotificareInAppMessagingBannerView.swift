@@ -113,6 +113,34 @@ public class NotificareInAppMessagingBannerView: UIView, NotificareInAppMessagin
         messageView.text = message.message
     }
 
+    // MARK: - NotificareInAppMessagingView
+
+    public func animate(transition: NotificareInAppMessagingViewTransition, _ completion: @escaping () -> Void) {
+        let animationOffset = -cardView.frame.origin.y - cardView.frame.height
+
+        switch transition {
+        case .enter:
+            cardView.transform = CGAffineTransform(translationX: 0, y: animationOffset)
+        case .exit:
+            cardView.transform = .identity
+        }
+
+        superview?.layoutIfNeeded()
+
+        UIView.animate(withDuration: 0.3, delay: 0, options: []) {
+            switch transition {
+            case .enter:
+                self.cardView.transform = .identity
+            case .exit:
+                self.cardView.transform = CGAffineTransform(translationX: 0, y: animationOffset)
+            }
+
+            self.superview?.layoutIfNeeded()
+        } completion: { _ in
+            completion()
+        }
+    }
+
     // MARK: - Private API
 
     private func setup() {

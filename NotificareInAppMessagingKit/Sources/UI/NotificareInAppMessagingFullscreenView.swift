@@ -135,6 +135,36 @@ public class NotificareInAppMessagingFullscreenView: UIView, NotificareInAppMess
         gradientLayer.frame = footerView.bounds
     }
 
+    // MARK: - NotificareInAppMessagingView
+
+    public func animate(transition: NotificareInAppMessagingViewTransition, _ completion: @escaping () -> Void) {
+        switch transition {
+        case .enter:
+            cardView.transform = CGAffineTransform(scaleX: 0.001, y: 0.001)
+            cardView.alpha = 0
+        case .exit:
+            cardView.transform = .identity
+            cardView.alpha = 1
+        }
+
+        superview?.layoutIfNeeded()
+
+        UIView.animate(withDuration: 0.3, delay: 0, options: []) {
+            switch transition {
+            case .enter:
+                self.cardView.transform = .identity
+                self.cardView.alpha = 1
+            case .exit:
+                self.cardView.transform = CGAffineTransform(scaleX: 0.001, y: 0.001)
+                self.cardView.alpha = 0
+            }
+
+            self.superview?.layoutIfNeeded()
+        } completion: { _ in
+            completion()
+        }
+    }
+
     // MARK: - Private API
 
     private func setup() {
