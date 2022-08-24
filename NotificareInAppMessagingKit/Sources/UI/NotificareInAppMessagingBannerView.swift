@@ -106,10 +106,10 @@ public class NotificareInAppMessagingBannerView: UIView, NotificareInAppMessagin
             }.resume()
         }
 
-        titleView.isHidden = message.title == nil
+        titleView.isHidden = message.title.isNullOrBlank()
         titleView.text = message.title
 
-        messageView.isHidden = message.message == nil
+        messageView.isHidden = message.message.isNullOrBlank()
         messageView.text = message.message
     }
 

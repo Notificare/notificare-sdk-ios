@@ -190,13 +190,13 @@ public class NotificareInAppMessagingCardView: UIView, NotificareInAppMessagingV
             }.resume()
         }
 
-        titleView.isHidden = message.title == nil
+        titleView.isHidden = message.title.isNullOrBlank()
         titleView.text = message.title
 
-        messageView.isHidden = message.message == nil
+        messageView.isHidden = message.message.isNullOrBlank()
         messageView.text = message.message
 
-        primaryActionButton.isHidden = message.primaryAction?.label == nil
+        primaryActionButton.isHidden = message.primaryAction?.label?.isBlank() ?? true
         primaryActionButton.setTitle(message.primaryAction?.label, for: .normal)
 
         if message.primaryAction?.destructive == true {
@@ -209,7 +209,7 @@ public class NotificareInAppMessagingCardView: UIView, NotificareInAppMessagingV
             }
         }
 
-        secondaryActionButton.isHidden = message.secondaryAction?.label == nil
+        secondaryActionButton.isHidden = message.secondaryAction?.label?.isBlank() ?? true
         secondaryActionButton.setTitle(message.secondaryAction?.label, for: .normal)
 
         if message.secondaryAction?.destructive == true {
