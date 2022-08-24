@@ -93,10 +93,9 @@ public class NotificareInAppMessagingBannerView: UIView, NotificareInAppMessagin
     override public func layoutSubviews() {
         super.layoutSubviews()
 
-        let imageUrlStr = message.orientationConstrainedImage
+        if let imageUrlStr = message.orientationConstrainedImage, let imageUrl = URL(string: imageUrlStr) {
+            imageView.isHidden = false
 
-        imageView.isHidden = imageUrlStr == nil
-        if let imageUrlStr = imageUrlStr, let imageUrl = URL(string: imageUrlStr) {
             URLSession.shared.dataTask(with: imageUrl) { data, _, _ in
                 if let data = data {
                     DispatchQueue.main.async { [weak self] in
@@ -104,6 +103,8 @@ public class NotificareInAppMessagingBannerView: UIView, NotificareInAppMessagin
                     }
                 }
             }.resume()
+        } else {
+            imageView.isHidden = true
         }
 
         titleView.isHidden = message.title.isNullOrBlank()

@@ -174,13 +174,11 @@ public class NotificareInAppMessagingCardView: UIView, NotificareInAppMessagingV
         cardViewMaxWidthConstraints.forEach { $0.isActive = isLandscape }
         cardViewFullWidthConstraints.forEach { $0.isActive = !isLandscape }
 
-        let imageUrlStr = message.orientationConstrainedImage
+        if let imageUrlStr = message.orientationConstrainedImage, let imageUrl = URL(string: imageUrlStr) {
+            imageView.isHidden = false
+            imageViewAspectRatioHeightConstraint.isActive = true
+            imageViewCollapsedHeightConstraint.isActive = false
 
-        imageView.isHidden = imageUrlStr == nil
-        imageViewAspectRatioHeightConstraint.isActive = imageUrlStr != nil
-        imageViewCollapsedHeightConstraint.isActive = imageUrlStr == nil
-
-        if let imageUrlStr = imageUrlStr, let imageUrl = URL(string: imageUrlStr) {
             URLSession.shared.dataTask(with: imageUrl) { data, _, _ in
                 if let data = data {
                     DispatchQueue.main.async { [weak self] in
@@ -188,6 +186,10 @@ public class NotificareInAppMessagingCardView: UIView, NotificareInAppMessagingV
                     }
                 }
             }.resume()
+        } else {
+            imageView.isHidden = true
+            imageViewAspectRatioHeightConstraint.isActive = false
+            imageViewCollapsedHeightConstraint.isActive = true
         }
 
         titleView.isHidden = message.title.isNullOrBlank()

@@ -106,9 +106,7 @@ public class NotificareInAppMessagingFullscreenView: UIView, NotificareInAppMess
     override public func layoutSubviews() {
         super.layoutSubviews()
 
-        let imageUrlStr = message.orientationConstrainedImage
-
-        if let imageUrlStr = imageUrlStr, let imageUrl = URL(string: imageUrlStr) {
+        if let imageUrlStr = message.orientationConstrainedImage, let imageUrl = URL(string: imageUrlStr) {
             URLSession.shared.dataTask(with: imageUrl) { data, _, _ in
                 if let data = data {
                     DispatchQueue.main.async { [weak self] in
