@@ -93,25 +93,41 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
     private func present(_ message: NotificareInAppMessage) {
         guard presentedView == nil else {
             NotificareLogger.warning("Cannot display an in-app message while another is being presented.")
-            // TODO: listener?
+
+            DispatchQueue.main.async {
+                self.delegate?.notificare(self, didFailToPresentMessage: message)
+            }
+
             return
         }
 
         guard !hasMessagesSuppressed else {
             NotificareLogger.debug("Cannot display an in-app message while messages are being suppressed.")
-            // TODO: listener?
+
+            DispatchQueue.main.async {
+                self.delegate?.notificare(self, didFailToPresentMessage: message)
+            }
+
             return
         }
 
         guard let parentView = findParentView() else {
             NotificareLogger.warning("Cannot display an in-app message without a reference to the parent view.")
-            // TODO: listener?
+
+            DispatchQueue.main.async {
+                self.delegate?.notificare(self, didFailToPresentMessage: message)
+            }
+
             return
         }
 
         guard let view = createMessageView(for: message) else {
             NotificareLogger.warning("Cannot display an in-app message without a view implementation for the given type.")
-            // TODO: listener?
+
+            DispatchQueue.main.async {
+                self.delegate?.notificare(self, didFailToPresentMessage: message)
+            }
+
             return
         }
 
