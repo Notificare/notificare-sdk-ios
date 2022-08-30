@@ -69,44 +69,56 @@ public extension NotificareInAppMessagingView {
     }
 
     func handleActionClicked(_ actionType: NotificareInAppMessage.ActionType) {
+        let action: NotificareInAppMessage.Action?
+
+        switch actionType {
+        case .primary:
+            action = message.primaryAction
+
+        case .secondary:
+            action = message.secondaryAction
+        }
+
+        guard let action = action else {
+            NotificareLogger.debug("There is no '\(actionType.rawValue)' action to process.")
+            dismiss()
+
+            return
+        }
+
+        guard let urlStr = action.url, let url = URL(string: urlStr) else {
+            NotificareLogger.debug("There is no URL for '\(actionType.rawValue)' action.")
+            dismiss()
+
+            return
+        }
+
         Notificare.shared.events().logInAppMessageActionClicked(message) { result in
             if case let .failure(error) = result {
                 NotificareLogger.error("Failed to log in-app message action.", error: error)
             }
 
-            let action: NotificareInAppMessage.Action?
+            if UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url, options: [:]) { success in
+                    if success {
+                        NotificareLogger.info("In-app message action '\(actionType.rawValue)' successfully processed.")
 
-            switch actionType {
-            case .primary:
-                action = self.message.primaryAction
+                        DispatchQueue.main.async {
+                            Notificare.shared.inAppMessaging().delegate?.notificare(Notificare.shared.inAppMessaging(), didExecuteAction: action, for: self.message)
+                        }
+                    } else {
+                        NotificareLogger.warning("Unable to open the action's URL.")
 
-            case .secondary:
-                action = self.message.secondaryAction
-            }
-
-            if let action = action, let urlStr = action.url, let url = URL(string: urlStr) {
-                if UIApplication.shared.canOpenURL(url) {
-                    UIApplication.shared.open(url, options: [:]) { success in
-                        if success {
-                            NotificareLogger.info("In-app message action '${actionType.rawValue}' successfully processed.")
-
-                            DispatchQueue.main.async {
-                                Notificare.shared.inAppMessaging().delegate?.notificare(Notificare.shared.inAppMessaging(), didExecuteAction: action, for: self.message)
-                            }
-                        } else {
-                            NotificareLogger.warning("Unable to open the action's URL.")
-
-                            DispatchQueue.main.async {
-                                Notificare.shared.inAppMessaging().delegate?.notificare(Notificare.shared.inAppMessaging(), didFailToExecuteAction: action, for: self.message, error: nil)
-                            }
+                        DispatchQueue.main.async {
+                            Notificare.shared.inAppMessaging().delegate?.notificare(Notificare.shared.inAppMessaging(), didFailToExecuteAction: action, for: self.message, error: nil)
                         }
                     }
-                } else {
-                    NotificareLogger.warning("Unable to open the action's URL.")
+                }
+            } else {
+                NotificareLogger.warning("Unable to open the action's URL.")
 
-                    DispatchQueue.main.async {
-                        Notificare.shared.inAppMessaging().delegate?.notificare(Notificare.shared.inAppMessaging(), didFailToExecuteAction: action, for: self.message, error: nil)
-                    }
+                DispatchQueue.main.async {
+                    Notificare.shared.inAppMessaging().delegate?.notificare(Notificare.shared.inAppMessaging(), didFailToExecuteAction: action, for: self.message, error: nil)
                 }
             }
 
