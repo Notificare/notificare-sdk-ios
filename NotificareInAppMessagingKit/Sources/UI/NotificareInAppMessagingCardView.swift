@@ -93,9 +93,13 @@ public class NotificareInAppMessagingCardView: UIView, NotificareInAppMessagingV
         return view
     }()
 
-    private lazy var actionsContentView: UIView = {
-        let view = UIView()
+    private lazy var actionsContentView: UIStackView = {
+        let view = UIStackView()
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.axis = .horizontal
+        view.alignment = .trailing
+        view.distribution = .fill
+        view.spacing = 8
 
         return view
     }()
@@ -198,7 +202,7 @@ public class NotificareInAppMessagingCardView: UIView, NotificareInAppMessagingV
         messageView.isHidden = message.message.isNullOrBlank()
         messageView.text = message.message
 
-        primaryActionButton.isHidden = message.primaryAction?.label?.isBlank() ?? true
+        primaryActionButton.isHidden = !canShowAction(message.primaryAction)
         primaryActionButton.setTitle(message.primaryAction?.label, for: .normal)
 
         if message.primaryAction?.destructive == true {
@@ -211,7 +215,7 @@ public class NotificareInAppMessagingCardView: UIView, NotificareInAppMessagingV
             }
         }
 
-        secondaryActionButton.isHidden = message.secondaryAction?.label?.isBlank() ?? true
+        secondaryActionButton.isHidden = !canShowAction(message.secondaryAction)
         secondaryActionButton.setTitle(message.secondaryAction?.label, for: .normal)
 
         if message.secondaryAction?.destructive == true {
@@ -363,32 +367,17 @@ public class NotificareInAppMessagingCardView: UIView, NotificareInAppMessagingV
         cardView.addSubview(actionsContentView)
         NSLayoutConstraint.activate([
             actionsContentView.topAnchor.constraint(equalTo: textContentStackView.bottomAnchor),
-            actionsContentView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 16),
+            actionsContentView.leadingAnchor.constraint(greaterThanOrEqualTo: cardView.leadingAnchor, constant: 16),
             actionsContentView.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -16),
             actionsContentView.bottomAnchor.constraint(equalTo: cardView.bottomAnchor, constant: -16),
         ])
 
         //
-        // Primary action button
+        // Primary & secondary action buttons
         //
 
-        actionsContentView.addSubview(primaryActionButton)
-        NSLayoutConstraint.activate([
-            primaryActionButton.topAnchor.constraint(equalTo: actionsContentView.topAnchor),
-            primaryActionButton.trailingAnchor.constraint(equalTo: actionsContentView.trailingAnchor),
-            primaryActionButton.bottomAnchor.constraint(equalTo: actionsContentView.bottomAnchor),
-        ])
-
-        //
-        // Secondary action button
-        //
-
-        actionsContentView.addSubview(secondaryActionButton)
-        NSLayoutConstraint.activate([
-            secondaryActionButton.topAnchor.constraint(equalTo: actionsContentView.topAnchor),
-            secondaryActionButton.trailingAnchor.constraint(equalTo: primaryActionButton.leadingAnchor, constant: -8),
-            secondaryActionButton.bottomAnchor.constraint(equalTo: actionsContentView.bottomAnchor),
-        ])
+        actionsContentView.addArrangedSubview(secondaryActionButton)
+        actionsContentView.addArrangedSubview(primaryActionButton)
 
         //
         // Gesture recognizers
@@ -399,6 +388,22 @@ public class NotificareInAppMessagingCardView: UIView, NotificareInAppMessagingV
         primaryActionButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onPrimaryActionClicked)))
         secondaryActionButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onSecondaryActionClicked)))
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onRootViewClicked)))
+    }
+
+    private func canShowAction(_ action: NotificareInAppMessage.Action?) -> Bool {
+        guard let action = action else {
+            return false
+        }
+
+        guard !action.label.isNullOrBlank() else {
+            return false
+        }
+
+        guard let urlStr = action.url, let _ = URL(string: urlStr) else {
+            return false
+        }
+
+        return true
     }
 
     @objc private func onCardViewClicked() {
