@@ -6,12 +6,11 @@ import Foundation
 import NotificareKit
 import UIKit
 
-private let DEFAULT_BACKGROUND_GRACE_PERIOD_MILLIS = 5 * 60 * 1000
-
 internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, NotificareInAppMessaging {
     internal static let instance = NotificareInAppMessagingImpl()
 
-    private var presentedView: PresentedView?
+    private var presentedView: NotificareInAppMessagingView?
+    private var presentedViewBackgroundTimestamp: Date?
     private var messageWorkItem: DispatchWorkItem?
 
     // MARK: - Notificare Module
@@ -134,7 +133,7 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
         view.delegate = self
         view.present(in: parentView)
 
-        presentedView = PresentedView(view: view, timestamp: Date())
+        presentedView = view
     }
 
     private func fetchInAppMessage(for context: ApplicationContext, _ completion: @escaping NotificareCallback<NotificareInAppMessage>) {
@@ -218,15 +217,17 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
     }
 
     @objc private func onApplicationForeground() {
-        if let presentedView = presentedView {
+        if let presentedView = presentedView, let presentedViewBackgroundTimestamp = presentedViewBackgroundTimestamp {
             let now = Date().timeIntervalSince1970 * 1000
-            let backgroundGracePeriod = Double(Notificare.shared.options?.backgroundGracePeriodMillis ?? DEFAULT_BACKGROUND_GRACE_PERIOD_MILLIS)
-            let expiredAt = presentedView.timestamp.timeIntervalSince1970 * 1000 + backgroundGracePeriod
+            let backgroundGracePeriod = Double(Notificare.shared.options?.backgroundGracePeriodMillis ?? NotificareOptions.DEFAULT_IAM_BACKGROUND_GRACE_PERIOD_MILLIS)
+            let expiredAt = presentedViewBackgroundTimestamp.timeIntervalSince1970 * 1000 + backgroundGracePeriod
 
             if now > expiredAt {
                 NotificareLogger.debug("Dismissing the current in-app message for being in the background for longer than the grace period.")
-                presentedView.view.removeFromSuperview()
+                presentedView.removeFromSuperview()
+
                 self.presentedView = nil
+                self.presentedViewBackgroundTimestamp = nil
             }
         }
 
@@ -249,16 +250,13 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
     }
 
     @objc private func onApplicationBackground() {
+        presentedViewBackgroundTimestamp = Date()
+
         if messageWorkItem != nil {
             NotificareLogger.info("Clearing delayed in-app message from being presented when going to the background.")
             messageWorkItem?.cancel()
             messageWorkItem = nil
         }
-    }
-
-    private struct PresentedView {
-        let view: NotificareInAppMessagingView
-        let timestamp: Date
     }
 }
 
