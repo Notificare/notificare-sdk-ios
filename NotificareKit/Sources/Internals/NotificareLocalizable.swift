@@ -51,6 +51,7 @@ public class NotificareLocalizable {
         case mapMarker = "notificare_map_marker"
         case mapMarkerUserLocation = "notificare_map_marker_user_location"
         case close = "notificare_close"
+        case closeCircle = "notificare_close_circle"
         case send = "notificare_send"
     }
 }
