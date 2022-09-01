@@ -14,6 +14,9 @@
       location = "group:NotificareGeoKit/NotificareGeoKit.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:NotificareInAppMessagingKit/NotificareInAppMessagingKit.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:NotificareInboxKit/NotificareInboxKit.xcodeproj">
    </FileRef>
    <FileRef

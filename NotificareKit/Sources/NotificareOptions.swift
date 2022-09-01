@@ -8,6 +8,16 @@ public struct NotificareOptions: Decodable {
     internal static let fileName = "NotificareOptions"
     internal static let fileExtension = "plist"
 
+    public static let DEFAULT_DEBUG_LOGGING_ENABLED = false
+    public static let DEFAULT_AUTO_CONFIG = true
+    public static let DEFAULT_SWIZZLING_ENABLED = true
+    public static let DEFAULT_USER_NOTIFICATION_CENTER_DELEGATE_ENABLED = true
+    public static let DEFAULT_CRASH_REPORTS_ENABLED = true
+    public static let DEFAULT_HEADING_API_ENABLED = false
+    public static let DEFAULT_VISITS_API_ENABLED = false
+    public static let DEFAULT_IMAGE_SHARING_ENABLED = true
+    public static let DEFAULT_IAM_BACKGROUND_GRACE_PERIOD_MILLIS = 5 * 60 * 1000
+
     public let debugLoggingEnabled: Bool
     public let autoConfig: Bool
     public let swizzlingEnabled: Bool
@@ -20,8 +30,23 @@ public struct NotificareOptions: Decodable {
     public let imageSharingEnabled: Bool
     public let safariDismissButtonStyle: Int?
     public let themes: Themes?
+    public let backgroundGracePeriodMillis: Int
 
-    public init(debugLoggingEnabled: Bool, autoConfig: Bool, swizzlingEnabled: Bool, userNotificationCenterDelegateEnabled: Bool, crashReportsEnabled: Bool, headingApiEnabled: Bool, visitsApiEnabled: Bool, urlSchemes: [String], closeWindowQueryParameter: String?, imageSharingEnabled: Bool, safariDismissButtonStyle: Int?, themes: NotificareOptions.Themes?) {
+    public init(
+        debugLoggingEnabled: Bool = DEFAULT_DEBUG_LOGGING_ENABLED,
+        autoConfig: Bool = DEFAULT_AUTO_CONFIG,
+        swizzlingEnabled: Bool = DEFAULT_SWIZZLING_ENABLED,
+        userNotificationCenterDelegateEnabled: Bool = DEFAULT_USER_NOTIFICATION_CENTER_DELEGATE_ENABLED,
+        crashReportsEnabled: Bool = DEFAULT_CRASH_REPORTS_ENABLED,
+        headingApiEnabled: Bool = DEFAULT_HEADING_API_ENABLED,
+        visitsApiEnabled: Bool = DEFAULT_VISITS_API_ENABLED,
+        urlSchemes: [String] = [],
+        closeWindowQueryParameter: String? = nil,
+        imageSharingEnabled: Bool = DEFAULT_IMAGE_SHARING_ENABLED,
+        safariDismissButtonStyle: Int? = nil,
+        themes: NotificareOptions.Themes? = nil,
+        backgroundGracePeriodMillis: Int = DEFAULT_IAM_BACKGROUND_GRACE_PERIOD_MILLIS
+    ) {
         self.debugLoggingEnabled = debugLoggingEnabled
         self.autoConfig = autoConfig
         self.swizzlingEnabled = swizzlingEnabled
@@ -34,6 +59,7 @@ public struct NotificareOptions: Decodable {
         self.imageSharingEnabled = imageSharingEnabled
         self.safariDismissButtonStyle = safariDismissButtonStyle
         self.themes = themes
+        self.backgroundGracePeriodMillis = backgroundGracePeriodMillis
     }
 
     public struct Themes: Decodable {
@@ -71,26 +97,6 @@ public struct NotificareOptions: Decodable {
     }
 }
 
-// Default options
-public extension NotificareOptions {
-    init() {
-        self.init(
-            debugLoggingEnabled: false,
-            autoConfig: true,
-            swizzlingEnabled: true,
-            userNotificationCenterDelegateEnabled: true,
-            crashReportsEnabled: true,
-            headingApiEnabled: false,
-            visitsApiEnabled: false,
-            urlSchemes: [],
-            closeWindowQueryParameter: nil,
-            imageSharingEnabled: true,
-            safariDismissButtonStyle: nil,
-            themes: nil
-        )
-    }
-}
-
 // Load options from a file
 public extension NotificareOptions {
     init?(contentsOfFile plistPath: String) {
@@ -112,6 +118,7 @@ public extension NotificareOptions {
             imageSharingEnabled = decoded.imageSharingEnabled
             safariDismissButtonStyle = decoded.safariDismissButtonStyle
             themes = decoded.themes
+            backgroundGracePeriodMillis = decoded.backgroundGracePeriodMillis
         } catch {
             return nil
         }
@@ -133,23 +140,25 @@ public extension NotificareOptions {
         case imageSharingEnabled = "IMAGE_SHARING_ENABLED"
         case safariDismissButtonStyle = "SAFARI_DISMISS_BUTTON_STYLE"
         case themes = "THEMES"
+        case backgroundGracePeriodMillis = "IAM_BACKGROUND_GRACE_PERIOD_MILLIS"
     }
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        debugLoggingEnabled = try container.decodeIfPresent(Bool.self, forKey: .debugLoggingEnabled) ?? false
-        autoConfig = try container.decodeIfPresent(Bool.self, forKey: .autoConfig) ?? true
-        swizzlingEnabled = try container.decodeIfPresent(Bool.self, forKey: .swizzlingEnabled) ?? true
-        userNotificationCenterDelegateEnabled = try container.decodeIfPresent(Bool.self, forKey: .userNotificationCenterDelegateEnabled) ?? true
-        crashReportsEnabled = try container.decodeIfPresent(Bool.self, forKey: .crashReportsEnabled) ?? true
-        headingApiEnabled = try container.decodeIfPresent(Bool.self, forKey: .headingApiEnabled) ?? false
-        visitsApiEnabled = try container.decodeIfPresent(Bool.self, forKey: .visitsApiEnabled) ?? false
+        debugLoggingEnabled = try container.decodeIfPresent(Bool.self, forKey: .debugLoggingEnabled) ?? NotificareOptions.DEFAULT_DEBUG_LOGGING_ENABLED
+        autoConfig = try container.decodeIfPresent(Bool.self, forKey: .autoConfig) ?? NotificareOptions.DEFAULT_AUTO_CONFIG
+        swizzlingEnabled = try container.decodeIfPresent(Bool.self, forKey: .swizzlingEnabled) ?? NotificareOptions.DEFAULT_SWIZZLING_ENABLED
+        userNotificationCenterDelegateEnabled = try container.decodeIfPresent(Bool.self, forKey: .userNotificationCenterDelegateEnabled) ?? NotificareOptions.DEFAULT_USER_NOTIFICATION_CENTER_DELEGATE_ENABLED
+        crashReportsEnabled = try container.decodeIfPresent(Bool.self, forKey: .crashReportsEnabled) ?? NotificareOptions.DEFAULT_CRASH_REPORTS_ENABLED
+        headingApiEnabled = try container.decodeIfPresent(Bool.self, forKey: .headingApiEnabled) ?? NotificareOptions.DEFAULT_HEADING_API_ENABLED
+        visitsApiEnabled = try container.decodeIfPresent(Bool.self, forKey: .visitsApiEnabled) ?? NotificareOptions.DEFAULT_VISITS_API_ENABLED
         urlSchemes = try container.decodeIfPresent([String].self, forKey: .urlSchemes) ?? []
         closeWindowQueryParameter = try container.decodeIfPresent(String.self, forKey: .closeWindowQueryParameter)
-        imageSharingEnabled = try container.decodeIfPresent(Bool.self, forKey: .imageSharingEnabled) ?? true
+        imageSharingEnabled = try container.decodeIfPresent(Bool.self, forKey: .imageSharingEnabled) ?? NotificareOptions.DEFAULT_IMAGE_SHARING_ENABLED
         safariDismissButtonStyle = try container.decodeIfPresent(Int.self, forKey: .safariDismissButtonStyle)
         themes = try container.decodeIfPresent(Themes.self, forKey: .themes)
+        backgroundGracePeriodMillis = try container.decodeIfPresent(Int.self, forKey: .backgroundGracePeriodMillis) ?? NotificareOptions.DEFAULT_IAM_BACKGROUND_GRACE_PERIOD_MILLIS
     }
 }
 
