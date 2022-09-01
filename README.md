@@ -28,14 +28,15 @@ Table of contents
 
 **Push notifications UI**: Use native screens and elements to display your push notifications and handle its actions with zero effort.
 
+**In-app messaging**: Automatically show relevant in-app content to your users with zero effort.
+
 **Inbox**: Apps with a built-in message inbox enjoy higher conversions due to its nature of keeping messages around that can be opened as many times as users want. The SDK gives you all the tools necessary to build your inbox UI.
 
 **Geo**: Transform your user's location into relevant information, automate how you segment your users based on location behaviour and create truly contextual notifications.
 
 **Loyalty**: Harness the power of digital cards that live beyond your app and are always in your customer’s pocket.
 
-**Monetise**
-> coming soon
+**Monetize**: Quickly support in-app purchases in both the App Store and Google Play.
 
 **Assets**: Add powerful contextual marketing features to your apps. Show the right content to the right users at the right time or location. Maximise the content you're already creating without increasing development costs.
 
