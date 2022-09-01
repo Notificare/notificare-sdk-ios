@@ -25,6 +25,10 @@ let package = Package(
             targets: ["NotificareGeoKit"]
         ),
         .library(
+            name: "NotificareInAppMessagingKit",
+            targets: ["NotificareInAppMessagingKit"]
+        ),
+        .library(
             name: "NotificareInboxKit",
             targets: ["NotificareInboxKit"]
         ),
@@ -73,6 +77,11 @@ let package = Package(
             name: "NotificareGeoKit",
             url: "https://github.com/notificare/notificare-sdk-ios/releases/download/{{VERSION}}/spm-notificare-geo.zip",
             checksum: "{{NOTIFICARE_GEO_CHECKSUM}}"
+        ),
+        .binaryTarget(
+            name: "NotificareInAppMessagingKit",
+            url: "https://github.com/notificare/notificare-sdk-ios/releases/download/{{VERSION}}/spm-notificare-in-app-messaging.zip",
+            checksum: "{{NOTIFICARE_IN_APP_MESSAGING_CHECKSUM}}"
         ),
         .binaryTarget(
             name: "NotificareInboxKit",

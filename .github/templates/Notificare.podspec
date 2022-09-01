@@ -36,6 +36,10 @@ For support please use: http://support.notifica.re
     subspec.vendored_frameworks = "Notificare/NotificareGeoKit.xcframework"
   end
 
+  spec.subspec 'NotificareInAppMessagingKit' do |subspec|
+    subspec.vendored_frameworks = "Notificare/NotificareInAppMessagingKit.xcframework"
+  end
+
   spec.subspec 'NotificareInboxKit' do |subspec|
     subspec.vendored_frameworks = "Notificare/NotificareInboxKit.xcframework"
   end
