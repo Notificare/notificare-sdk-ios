@@ -6,6 +6,7 @@ import Atlantis
 import CoreLocation
 import NotificareAuthenticationKit
 import NotificareGeoKit
+import NotificareInAppMessagingKit
 import NotificareInboxKit
 import NotificareKit
 import NotificareLoyaltyKit
@@ -34,6 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Notificare.shared.delegate = self
         Notificare.shared.push().delegate = self
         Notificare.shared.pushUI().delegate = self
+        Notificare.shared.inAppMessaging().delegate = self
         Notificare.shared.inbox().delegate = self
         Notificare.shared.geo().delegate = self
         Notificare.shared.monetize().delegate = self
@@ -338,5 +340,29 @@ extension AppDelegate: NotificareMonetizeDelegate {
 
     func notificare(_: NotificareMonetize, processTransaction transaction: SKPaymentTransaction) {
         print("-----> process transaction: identifier=\(transaction.transactionIdentifier ?? "") state=\(transaction.transactionState)")
+    }
+}
+
+extension AppDelegate: NotificareInAppMessagingDelegate {
+    func notificare(_: NotificareInAppMessaging, didPresentMessage message: NotificareInAppMessage) {
+        print("-----> in-app message presented = \(message)")
+    }
+
+    func notificare(_: NotificareInAppMessaging, didFinishPresentingMessage message: NotificareInAppMessage) {
+        print("-----> in-app message finished presenting = \(message)")
+    }
+
+    func notificare(_: NotificareInAppMessaging, didFailToPresentMessage message: NotificareInAppMessage) {
+        print("-----> in-app message failed to present = \(message)")
+    }
+
+    func notificare(_: NotificareInAppMessaging, didExecuteAction action: NotificareInAppMessage.Action, for message: NotificareInAppMessage) {
+        print("-----> in-app message action executed = \(action)")
+        print("-----> for message = \(message)")
+    }
+
+    func notificare(_: NotificareInAppMessaging, didFailToExecuteAction action: NotificareInAppMessage.Action, for message: NotificareInAppMessage, error _: Error?) {
+        print("-----> in-app message action failed to execute = \(action)")
+        print("-----> for message = \(message)")
     }
 }
