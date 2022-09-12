@@ -93,7 +93,7 @@ public extension NotificareInAppMessagingView {
             return
         }
 
-        Notificare.shared.events().logInAppMessageActionClicked(message) { result in
+        Notificare.shared.events().logInAppMessageActionClicked(message, action: actionType) { result in
             if case let .failure(error) = result {
                 NotificareLogger.error("Failed to log in-app message action.", error: error)
             }
