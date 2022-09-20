@@ -325,7 +325,7 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
         updateNotificationSettings { _ in }
     }
 
-    private func updateNotificationSettings(_ completion: @escaping NotificareCallback<Void>) {
+    internal func updateNotificationSettings(_ completion: @escaping NotificareCallback<Void>) {
         notificationCenter.getNotificationSettings { settings in
             DispatchQueue.main.async {
                 var allowedUI = settings.authorizationStatus == .authorized
