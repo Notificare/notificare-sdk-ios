@@ -65,8 +65,9 @@ extension NotificarePushImpl: NotificareAppDelegateInterceptor {
                 Notificare.shared.fetchApplication { result in
                     switch result {
                     case .success:
-                        self.reloadActionCategories()
-                        completion(.success(()))
+                        self.reloadActionCategories {
+                            completion(.success(()))
+                        }
 
                     case .failure:
                         completion(.success(()))
