@@ -12,6 +12,7 @@ public struct NotificareOptions: Decodable {
     public static let DEFAULT_AUTO_CONFIG = true
     public static let DEFAULT_SWIZZLING_ENABLED = true
     public static let DEFAULT_USER_NOTIFICATION_CENTER_DELEGATE_ENABLED = true
+    public static let DEFAULT_PRESERVE_EXISTING_NOTIFICATION_CATEGORIES = false
     public static let DEFAULT_CRASH_REPORTS_ENABLED = true
     public static let DEFAULT_HEADING_API_ENABLED = false
     public static let DEFAULT_VISITS_API_ENABLED = false
@@ -22,6 +23,7 @@ public struct NotificareOptions: Decodable {
     public let autoConfig: Bool
     public let swizzlingEnabled: Bool
     public let userNotificationCenterDelegateEnabled: Bool
+    public let preserveExistingNotificationCategories: Bool
     public let crashReportsEnabled: Bool
     public let headingApiEnabled: Bool
     public let visitsApiEnabled: Bool
@@ -37,6 +39,7 @@ public struct NotificareOptions: Decodable {
         autoConfig: Bool = DEFAULT_AUTO_CONFIG,
         swizzlingEnabled: Bool = DEFAULT_SWIZZLING_ENABLED,
         userNotificationCenterDelegateEnabled: Bool = DEFAULT_USER_NOTIFICATION_CENTER_DELEGATE_ENABLED,
+        preserveExistingNotificationCategories: Bool = DEFAULT_PRESERVE_EXISTING_NOTIFICATION_CATEGORIES,
         crashReportsEnabled: Bool = DEFAULT_CRASH_REPORTS_ENABLED,
         headingApiEnabled: Bool = DEFAULT_HEADING_API_ENABLED,
         visitsApiEnabled: Bool = DEFAULT_VISITS_API_ENABLED,
@@ -51,6 +54,7 @@ public struct NotificareOptions: Decodable {
         self.autoConfig = autoConfig
         self.swizzlingEnabled = swizzlingEnabled
         self.userNotificationCenterDelegateEnabled = userNotificationCenterDelegateEnabled
+        self.preserveExistingNotificationCategories = preserveExistingNotificationCategories
         self.crashReportsEnabled = crashReportsEnabled
         self.headingApiEnabled = headingApiEnabled
         self.visitsApiEnabled = visitsApiEnabled
@@ -110,6 +114,7 @@ public extension NotificareOptions {
             autoConfig = decoded.autoConfig
             swizzlingEnabled = decoded.swizzlingEnabled
             userNotificationCenterDelegateEnabled = decoded.userNotificationCenterDelegateEnabled
+            preserveExistingNotificationCategories = decoded.preserveExistingNotificationCategories
             crashReportsEnabled = decoded.crashReportsEnabled
             headingApiEnabled = decoded.headingApiEnabled
             visitsApiEnabled = decoded.visitsApiEnabled
@@ -132,6 +137,7 @@ public extension NotificareOptions {
         case autoConfig = "AUTO_CONFIG"
         case swizzlingEnabled = "SWIZZLING_ENABLED"
         case userNotificationCenterDelegateEnabled = "USER_NOTIFICATION_CENTER_DELEGATE_ENABLED"
+        case preserveExistingNotificationCategories = "PRESERVE_EXISTING_NOTIFICATION_CATEGORIES"
         case crashReportsEnabled = "CRASH_REPORTING_ENABLED"
         case headingApiEnabled = "HEADING_API_ENABLED"
         case visitsApiEnabled = "VISITS_API_ENABLED"
@@ -150,6 +156,7 @@ public extension NotificareOptions {
         autoConfig = try container.decodeIfPresent(Bool.self, forKey: .autoConfig) ?? NotificareOptions.DEFAULT_AUTO_CONFIG
         swizzlingEnabled = try container.decodeIfPresent(Bool.self, forKey: .swizzlingEnabled) ?? NotificareOptions.DEFAULT_SWIZZLING_ENABLED
         userNotificationCenterDelegateEnabled = try container.decodeIfPresent(Bool.self, forKey: .userNotificationCenterDelegateEnabled) ?? NotificareOptions.DEFAULT_USER_NOTIFICATION_CENTER_DELEGATE_ENABLED
+        preserveExistingNotificationCategories = try container.decodeIfPresent(Bool.self, forKey: .preserveExistingNotificationCategories) ?? NotificareOptions.DEFAULT_PRESERVE_EXISTING_NOTIFICATION_CATEGORIES
         crashReportsEnabled = try container.decodeIfPresent(Bool.self, forKey: .crashReportsEnabled) ?? NotificareOptions.DEFAULT_CRASH_REPORTS_ENABLED
         headingApiEnabled = try container.decodeIfPresent(Bool.self, forKey: .headingApiEnabled) ?? NotificareOptions.DEFAULT_HEADING_API_ENABLED
         visitsApiEnabled = try container.decodeIfPresent(Bool.self, forKey: .visitsApiEnabled) ?? NotificareOptions.DEFAULT_VISITS_API_ENABLED
