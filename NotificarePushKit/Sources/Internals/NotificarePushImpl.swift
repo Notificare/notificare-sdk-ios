@@ -90,33 +90,13 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
             NotificareLogger.info("Registered user notification settings.")
 
             if granted {
-                NotificareLogger.info("User granted permission to receive alerts, badge and sounds")
-                self.reloadActionCategories()
+                NotificareLogger.info("User granted permission to receive alerts, badge and sounds.")
+                self.reloadActionCategories {
+                    self.handleEnabledRemoteNotifications(granted, completion)
+                }
             } else {
                 NotificareLogger.info("User did not grant permission to receive alerts, badge and sounds.")
-            }
-
-            self.handleNotificationSettings(granted) { result in
-                switch result {
-                case .success:
-                    if granted, LocalStorage.firstRegistration {
-                        Notificare.shared.events().logPushRegistration { result in
-                            switch result {
-                            case .success:
-                                LocalStorage.firstRegistration = false
-                                completion(.success(granted))
-                            case let .failure(error):
-                                completion(.failure(error))
-                            }
-                        }
-
-                        return
-                    }
-
-                    completion(.success(granted))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
+                self.handleEnabledRemoteNotifications(granted, completion)
             }
         }
 
@@ -201,11 +181,22 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
 
     // MARK: Internal API
 
-    internal func reloadActionCategories() {
+    internal func reloadActionCategories(_ completion: @escaping () -> Void) {
         NotificareLogger.debug("Reloading action categories.")
 
-        let categories = loadAvailableCategories()
-        notificationCenter.setNotificationCategories(categories)
+        if Notificare.shared.options?.preserveExistingNotificationCategories == true {
+            notificationCenter.getNotificationCategories { existingCategories in
+                let categories = existingCategories.union(self.loadAvailableCategories())
+                self.notificationCenter.setNotificationCategories(categories)
+
+                completion()
+            }
+        } else {
+            let categories = loadAvailableCategories()
+            notificationCenter.setNotificationCategories(categories)
+
+            completion()
+        }
     }
 
     private func loadAvailableCategories() -> Set<UNNotificationCategory> {
@@ -384,6 +375,31 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
         } else {
             NotificareLogger.debug("User notification settings update skipped, nothing changed.")
             completion(.success(()))
+        }
+    }
+
+    private func handleEnabledRemoteNotifications(_ granted: Bool, _ completion: @escaping NotificareCallback<Bool>) {
+        handleNotificationSettings(granted) { result in
+            switch result {
+            case .success:
+                if granted, LocalStorage.firstRegistration {
+                    Notificare.shared.events().logPushRegistration { result in
+                        switch result {
+                        case .success:
+                            LocalStorage.firstRegistration = false
+                            completion(.success(granted))
+                        case let .failure(error):
+                            completion(.failure(error))
+                        }
+                    }
+
+                    return
+                }
+
+                completion(.success(granted))
+            case let .failure(error):
+                completion(.failure(error))
+            }
         }
     }
 
