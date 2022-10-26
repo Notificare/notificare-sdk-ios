@@ -47,7 +47,7 @@ Table of contents
 
 ### Requirements
 
-* iOS 10.0 and above
+* iOS 11.0 and above
 * Xcode 12 or later
 
 ### Configuration

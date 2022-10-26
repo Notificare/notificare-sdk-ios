@@ -2,7 +2,7 @@
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
-import Atlantis
+// import Atlantis
 import CoreLocation
 import NotificareAuthenticationKit
 import NotificareGeoKit
@@ -24,7 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
 
         // Enable Proxyman debugging.
-        Atlantis.start()
+        // Atlantis.start()
 
         if #available(iOS 14.0, *) {
             Notificare.shared.push().presentationOptions = [.banner, .badge, .sound]

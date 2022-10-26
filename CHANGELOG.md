@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 3.4.0
+
+#### Important changes since 3.3.0
+
+- In-app messaging module
+- Add option to preserve existing notification categories
+
 ## 3.4.0-beta.3
 
 - Add option to preserve existing notification categories
