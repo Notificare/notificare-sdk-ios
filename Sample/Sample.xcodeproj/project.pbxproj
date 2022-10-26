@@ -48,7 +48,7 @@
 		F2E801D7269D93C300582DB8 /* NotificareScannablesKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F2E801D5269D93C300582DB8 /* NotificareScannablesKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F2F41D4A25CC0CE20010260B /* InboxDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F41D4925CC0CE20010260B /* InboxDetailViewController.swift */; };
 		F2F41D7825CD651D0010260B /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F41D7725CD651D0010260B /* NotificationService.swift */; };
-		F2F41D7C25CD651D0010260B /* NotificationService.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = F2F41D7525CD651D0010260B /* NotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		F2F41D7C25CD651D0010260B /* NotificationService.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = F2F41D7525CD651D0010260B /* NotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		F2F697CC26B9541D00AB663E /* NotificareAuthenticationKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2F697CB26B9541D00AB663E /* NotificareAuthenticationKit.framework */; };
 		F2F697CD26B9541D00AB663E /* NotificareAuthenticationKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F2F697CB26B9541D00AB663E /* NotificareAuthenticationKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F2FB40DC27BE891700CD9792 /* NotificareNotificationServiceExtensionKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F28B88C5278F38E800549CA3 /* NotificareNotificationServiceExtensionKit.framework */; };
@@ -87,15 +87,15 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F2F41D8025CD651D0010260B /* Embed App Extensions */ = {
+		F2F41D8025CD651D0010260B /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				F2F41D7C25CD651D0010260B /* NotificationService.appex in Embed App Extensions */,
+				F2F41D7C25CD651D0010260B /* NotificationService.appex in Embed Foundation Extensions */,
 			);
-			name = "Embed App Extensions";
+			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -315,7 +315,7 @@
 				F29FD1F224CB1FE1004B166D /* Resources */,
 				F22650C8258B6E890004F833 /* Embed Frameworks */,
 				F25B6DCE25CAE859007BC2C8 /* SwiftFormat */,
-				F2F41D8025CD651D0010260B /* Embed App Extensions */,
+				F2F41D8025CD651D0010260B /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
@@ -354,7 +354,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1230;
-				LastUpgradeCheck = 1340;
+				LastUpgradeCheck = 1400;
 				ORGANIZATIONNAME = Notificare;
 				TargetAttributes = {
 					F29FD1F324CB1FE1004B166D = {
