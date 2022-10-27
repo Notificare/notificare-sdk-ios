@@ -6,6 +6,7 @@
 
 - In-app messaging module
 - Add option to preserve existing notification categories
+- Drop support for iOS 10
 
 ## 3.4.0-beta.3
 
