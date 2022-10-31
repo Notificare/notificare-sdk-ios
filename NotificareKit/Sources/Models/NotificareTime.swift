@@ -31,7 +31,7 @@ public struct NotificareTime {
     }
 
     public func format() -> String {
-        String(format: "%02d:%02d", hours, minutes)
+        String(format: "%02d:%02d", locale: Locale(identifier: "en_US"), hours, minutes)
     }
 }
 
