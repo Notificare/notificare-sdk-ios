@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 3.4.1
+
+- Fix locale-sensitive time formatting on `NotificareTime` objects
+
 ## 3.4.0
 
 #### Important changes since 3.3.0
