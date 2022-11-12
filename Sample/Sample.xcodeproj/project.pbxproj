@@ -48,8 +48,7 @@
 		F2E801D7269D93C300582DB8 /* NotificareScannablesKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F2E801D5269D93C300582DB8 /* NotificareScannablesKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F2F41D4A25CC0CE20010260B /* InboxDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F41D4925CC0CE20010260B /* InboxDetailViewController.swift */; };
 		F2F41D7825CD651D0010260B /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F41D7725CD651D0010260B /* NotificationService.swift */; };
-		F2F41D7C25CD651D0010260B /* NotificationService.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = F2F41D7525CD651D0010260B /* NotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		F2F6977226B93D1A00AB663E /* Atlantis in Frameworks */ = {isa = PBXBuildFile; productRef = F2F6977126B93D1A00AB663E /* Atlantis */; };
+		F2F41D7C25CD651D0010260B /* NotificationService.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = F2F41D7525CD651D0010260B /* NotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		F2F697CC26B9541D00AB663E /* NotificareAuthenticationKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2F697CB26B9541D00AB663E /* NotificareAuthenticationKit.framework */; };
 		F2F697CD26B9541D00AB663E /* NotificareAuthenticationKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F2F697CB26B9541D00AB663E /* NotificareAuthenticationKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F2FB40DC27BE891700CD9792 /* NotificareNotificationServiceExtensionKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F28B88C5278F38E800549CA3 /* NotificareNotificationServiceExtensionKit.framework */; };
@@ -88,15 +87,15 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F2F41D8025CD651D0010260B /* Embed App Extensions */ = {
+		F2F41D8025CD651D0010260B /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				F2F41D7C25CD651D0010260B /* NotificationService.appex in Embed App Extensions */,
+				F2F41D7C25CD651D0010260B /* NotificationService.appex in Embed Foundation Extensions */,
 			);
-			name = "Embed App Extensions";
+			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -170,7 +169,6 @@
 				F29B17FC25A4911C007ED6F9 /* NotificarePushUIKit.framework in Frameworks */,
 				F2696AAC26C2843F002EA653 /* NotificareGeoKit.framework in Frameworks */,
 				F22443D7286CBDED0015CBD6 /* NotificareMonetizeKit.framework in Frameworks */,
-				F2F6977226B93D1A00AB663E /* Atlantis in Frameworks */,
 				F216F0B326A8265500F9EF56 /* NotificareLoyaltyKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -317,7 +315,7 @@
 				F29FD1F224CB1FE1004B166D /* Resources */,
 				F22650C8258B6E890004F833 /* Embed Frameworks */,
 				F25B6DCE25CAE859007BC2C8 /* SwiftFormat */,
-				F2F41D8025CD651D0010260B /* Embed App Extensions */,
+				F2F41D8025CD651D0010260B /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
@@ -327,7 +325,6 @@
 			name = Sample;
 			packageProductDependencies = (
 				F25B6DCC25CAC67E007BC2C8 /* SDWebImage */,
-				F2F6977126B93D1A00AB663E /* Atlantis */,
 			);
 			productName = Sample;
 			productReference = F29FD1F424CB1FE1004B166D /* Sample.app */;
@@ -357,7 +354,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1230;
-				LastUpgradeCheck = 1340;
+				LastUpgradeCheck = 1400;
 				ORGANIZATIONNAME = Notificare;
 				TargetAttributes = {
 					F29FD1F324CB1FE1004B166D = {
@@ -379,7 +376,6 @@
 			mainGroup = F29FD1EB24CB1FE1004B166D;
 			packageReferences = (
 				F25B6DCB25CAC67E007BC2C8 /* XCRemoteSwiftPackageReference "SDWebImage" */,
-				F2F6977026B93D1A00AB663E /* XCRemoteSwiftPackageReference "atlantis" */,
 			);
 			productRefGroup = F29FD1F524CB1FE1004B166D /* Products */;
 			projectDirPath = "";
@@ -416,6 +412,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		F25B6DCE25CAE859007BC2C8 /* SwiftFormat */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -543,7 +540,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -598,7 +595,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -662,7 +659,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = E3J9DDFVP4;
 				INFOPLIST_FILE = NotificationService/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -683,7 +680,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = E3J9DDFVP4;
 				INFOPLIST_FILE = NotificationService/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -739,14 +736,6 @@
 				minimumVersion = 5.10.4;
 			};
 		};
-		F2F6977026B93D1A00AB663E /* XCRemoteSwiftPackageReference "atlantis" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ProxymanApp/atlantis";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -754,11 +743,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F25B6DCB25CAC67E007BC2C8 /* XCRemoteSwiftPackageReference "SDWebImage" */;
 			productName = SDWebImage;
-		};
-		F2F6977126B93D1A00AB663E /* Atlantis */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F2F6977026B93D1A00AB663E /* XCRemoteSwiftPackageReference "atlantis" */;
-			productName = Atlantis;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

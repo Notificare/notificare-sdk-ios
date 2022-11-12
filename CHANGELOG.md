@@ -1,5 +1,21 @@
 # CHANGELOG
 
+## 3.4.1
+
+- Fix locale-sensitive time formatting on `NotificareTime` objects
+
+## 3.4.0
+
+#### Important changes since 3.3.0
+
+- In-app messaging module
+- Add option to preserve existing notification categories
+- Drop support for iOS 10
+
+## 3.4.0-beta.3
+
+- Add option to preserve existing notification categories
+
 ## 3.4.0-beta.2
 
 - Fix in-app message action click event
