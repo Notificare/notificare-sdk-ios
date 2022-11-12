@@ -4,7 +4,7 @@
 
 import NotificareKit
 
-public struct NotificareScannable: Codable {
+public struct NotificareScannable: Codable, Identifiable {
     public let id: String
     public let name: String
     public let tag: String

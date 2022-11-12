@@ -2,7 +2,7 @@
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
-public struct NotificareApplication: Codable {
+public struct NotificareApplication: Codable, Identifiable {
     public let id: String
     public let name: String
     public let category: String

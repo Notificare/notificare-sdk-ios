@@ -6,7 +6,7 @@ import CoreLocation
 import Foundation
 import NotificareKit
 
-public struct NotificareBeacon: Codable, Hashable {
+public struct NotificareBeacon: Codable, Hashable, Identifiable {
     public let id: String
     public let name: String
     public let major: Int

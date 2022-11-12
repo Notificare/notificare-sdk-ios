@@ -5,7 +5,7 @@
 import Foundation
 import NotificareKit
 
-public struct NotificareUserPreference: Codable {
+public struct NotificareUserPreference: Codable, Identifiable {
     public let id: String
     public let label: String
     public let type: PreferenceType

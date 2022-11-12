@@ -5,7 +5,7 @@
 import Foundation
 import NotificareKit
 
-public struct NotificareUser: Codable {
+public struct NotificareUser: Codable, Identifiable {
     public let id: String
     public let name: String
     public let pushEmailAddress: String?

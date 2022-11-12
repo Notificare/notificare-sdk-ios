@@ -5,7 +5,7 @@
 import Foundation
 import NotificareKit
 
-public struct NotificarePass: Codable {
+public struct NotificarePass: Codable, Identifiable {
     public let id: String
     public let type: PassType?
     public let version: Int

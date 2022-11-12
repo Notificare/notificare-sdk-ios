@@ -4,7 +4,7 @@
 
 import NotificareKit
 
-public struct NotificareSystemNotification: Codable {
+public struct NotificareSystemNotification: Codable, Identifiable {
     public let id: String
     public let type: String
     public let extra: [String: Any]

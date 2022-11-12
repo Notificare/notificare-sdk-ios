@@ -4,7 +4,7 @@
 
 import NotificareKit
 
-public struct NotificareAsset: Codable {
+public struct NotificareAsset: Codable, Identifiable {
     public let id: String
     public let title: String
     public let description: String?

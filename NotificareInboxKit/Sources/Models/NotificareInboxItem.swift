@@ -4,7 +4,7 @@
 
 import NotificareKit
 
-public struct NotificareInboxItem: Codable {
+public struct NotificareInboxItem: Codable, Identifiable {
     public let id: String
     public let notification: NotificareNotification
     public let time: Date

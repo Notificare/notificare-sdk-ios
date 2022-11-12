@@ -4,7 +4,7 @@
 
 import NotificareKit
 
-public struct NotificareInAppMessage: Codable {
+public struct NotificareInAppMessage: Codable, Identifiable {
     public let id: String
     public let name: String
     public let type: String

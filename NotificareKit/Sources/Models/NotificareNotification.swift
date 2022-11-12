@@ -2,7 +2,7 @@
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
-public struct NotificareNotification: Codable {
+public struct NotificareNotification: Codable, Identifiable {
     public let partial: Bool
     public let id: String
     public let type: String

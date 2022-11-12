@@ -5,7 +5,7 @@
 import Foundation
 import NotificareKit
 
-public struct NotificareRegion: Codable {
+public struct NotificareRegion: Codable, Identifiable {
     public let id: String
     public let name: String
     public let description: String?
