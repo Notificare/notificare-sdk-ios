@@ -4,7 +4,7 @@
 
 public typealias NotificareUserData = [String: String]
 
-public struct NotificareDevice: Codable, Identifiable {
+public struct NotificareDevice: Codable {
     public let id: String
     public internal(set) var userId: String?
     public internal(set) var userName: String?
@@ -39,6 +39,10 @@ public struct NotificareDevice: Codable, Identifiable {
         self.backgroundAppRefresh = backgroundAppRefresh
     }
 }
+
+// Identifiable: NotificareDevice
+@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+extension NotificareDevice: Identifiable {}
 
 // JSON: NotificareDevice
 public extension NotificareDevice {

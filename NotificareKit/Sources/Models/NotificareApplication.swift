@@ -2,7 +2,7 @@
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
-public struct NotificareApplication: Codable, Identifiable {
+public struct NotificareApplication: Codable {
     public let id: String
     public let name: String
     public let category: String
@@ -82,6 +82,10 @@ public struct NotificareApplication: Codable, Identifiable {
         }
     }
 }
+
+// Identifiable: NotificareApplication
+@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+extension NotificareApplication: Identifiable {}
 
 // JSON: NotificareApplication
 public extension NotificareApplication {

@@ -4,7 +4,7 @@
 
 import NotificareKit
 
-public struct NotificareInAppMessage: Codable, Identifiable {
+public struct NotificareInAppMessage: Codable {
     public let id: String
     public let name: String
     public let type: String
@@ -59,6 +59,10 @@ public struct NotificareInAppMessage: Codable, Identifiable {
         case secondary
     }
 }
+
+// Identifiable: NotificareInAppMessage
+@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+extension NotificareInAppMessage: Identifiable {}
 
 // JSON: NotificareInAppMessage
 public extension NotificareInAppMessage {

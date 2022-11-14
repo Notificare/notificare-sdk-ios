@@ -4,7 +4,7 @@
 
 import NotificareKit
 
-public struct NotificareSystemNotification: Codable, Identifiable {
+public struct NotificareSystemNotification: Codable {
     public let id: String
     public let type: String
     public let extra: [String: Any]
@@ -25,6 +25,10 @@ public struct NotificareSystemNotification: Codable, Identifiable {
         extra = stringKeyedUserInfo.filter { !ignoreKeys.contains($0.key) }
     }
 }
+
+// Identifiable: NotificareSystemNotification
+@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+extension NotificareSystemNotification: Identifiable {}
 
 // JSON: NotificareSystemNotification
 public extension NotificareSystemNotification {

@@ -5,7 +5,7 @@
 import Foundation
 import NotificareKit
 
-public struct NotificareUser: Codable, Identifiable {
+public struct NotificareUser: Codable {
     public let id: String
     public let name: String
     public let pushEmailAddress: String?
@@ -22,6 +22,10 @@ public struct NotificareUser: Codable, Identifiable {
         self.lastActive = lastActive
     }
 }
+
+// Identifiable: NotificareUser
+@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+extension NotificareUser: Identifiable {}
 
 // JSON: NotificareUser
 public extension NotificareUser {

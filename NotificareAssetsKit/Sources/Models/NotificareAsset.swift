@@ -4,7 +4,7 @@
 
 import NotificareKit
 
-public struct NotificareAsset: Codable, Identifiable {
+public struct NotificareAsset: Codable {
     public let id: String
     public let title: String
     public let description: String?
@@ -47,6 +47,10 @@ public struct NotificareAsset: Codable, Identifiable {
         }
     }
 }
+
+// Identifiable: NotificareAsset
+@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+extension NotificareAsset: Identifiable {}
 
 // JSON: NotificareAsset
 public extension NotificareAsset {

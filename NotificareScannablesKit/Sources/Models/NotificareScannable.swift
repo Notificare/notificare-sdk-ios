@@ -4,13 +4,17 @@
 
 import NotificareKit
 
-public struct NotificareScannable: Codable, Identifiable {
+public struct NotificareScannable: Codable {
     public let id: String
     public let name: String
     public let tag: String
     public let type: String
     public let notification: NotificareNotification?
 }
+
+// Identifiable: NotificareScannable
+@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+extension NotificareScannable: Identifiable {}
 
 // JSON: NotificareScannable
 public extension NotificareScannable {

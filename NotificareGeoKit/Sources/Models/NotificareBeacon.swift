@@ -6,7 +6,7 @@ import CoreLocation
 import Foundation
 import NotificareKit
 
-public struct NotificareBeacon: Codable, Hashable, Identifiable {
+public struct NotificareBeacon: Codable, Hashable {
     public let id: String
     public let name: String
     public let major: Int
@@ -30,6 +30,10 @@ public struct NotificareBeacon: Codable, Hashable, Identifiable {
         case far
     }
 }
+
+// Identifiable: NotificareBeacon
+@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+extension NotificareBeacon: Identifiable {}
 
 // JSON: NotificareBeacon
 public extension NotificareBeacon {

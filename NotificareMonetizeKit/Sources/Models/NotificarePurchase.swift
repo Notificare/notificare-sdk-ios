@@ -5,7 +5,7 @@
 import Foundation
 import NotificareKit
 
-public struct NotificarePurchase: Codable, Identifiable {
+public struct NotificarePurchase: Codable {
     public let id: String
     public let productIdentifier: String
     public let time: Date
@@ -18,6 +18,10 @@ public struct NotificarePurchase: Codable, Identifiable {
         self.receipt = receipt
     }
 }
+
+// Identifiable: NotificarePurchase
+@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+extension NotificarePurchase: Identifiable {}
 
 // JSON: NotificarePurchase
 public extension NotificarePurchase {

@@ -4,7 +4,7 @@
 
 import NotificareKit
 
-public struct NotificareInboxItem: Codable, Identifiable {
+public struct NotificareInboxItem: Codable {
     public let id: String
     public let notification: NotificareNotification
     public let time: Date
@@ -19,6 +19,10 @@ public struct NotificareInboxItem: Codable, Identifiable {
         self.expires = expires
     }
 }
+
+// Identifiable: NotificareInboxItem
+@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+extension NotificareInboxItem: Identifiable {}
 
 // JSON: NotificareInboxItem
 public extension NotificareInboxItem {

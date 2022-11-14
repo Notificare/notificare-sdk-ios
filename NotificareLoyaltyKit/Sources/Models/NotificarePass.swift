@@ -5,7 +5,7 @@
 import Foundation
 import NotificareKit
 
-public struct NotificarePass: Codable, Identifiable {
+public struct NotificarePass: Codable {
     public let id: String
     public let type: PassType?
     public let version: Int
@@ -61,6 +61,10 @@ public struct NotificarePass: Codable, Identifiable {
         }
     }
 }
+
+// Identifiable: NotificarePass
+@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+extension NotificarePass: Identifiable {}
 
 // JSON: NotificarePass
 public extension NotificarePass {

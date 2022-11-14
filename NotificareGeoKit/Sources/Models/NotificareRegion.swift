@@ -5,7 +5,7 @@
 import Foundation
 import NotificareKit
 
-public struct NotificareRegion: Codable, Identifiable {
+public struct NotificareRegion: Codable {
     public let id: String
     public let name: String
     public let description: String?
@@ -60,6 +60,10 @@ public struct NotificareRegion: Codable, Identifiable {
         }
     }
 }
+
+// Identifiable: NotificareRegion
+@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+extension NotificareRegion: Identifiable {}
 
 // JSON: NotificareRegion
 public extension NotificareRegion {

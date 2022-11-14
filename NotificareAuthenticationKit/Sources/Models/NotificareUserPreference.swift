@@ -5,7 +5,7 @@
 import Foundation
 import NotificareKit
 
-public struct NotificareUserPreference: Codable, Identifiable {
+public struct NotificareUserPreference: Codable {
     public let id: String
     public let label: String
     public let type: PreferenceType
@@ -38,6 +38,10 @@ public struct NotificareUserPreference: Codable, Identifiable {
         }
     }
 }
+
+// Identifiable: NotificareUserPreference
+@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+extension NotificareUserPreference: Identifiable {}
 
 // JSON: NotificareUserPreference
 public extension NotificareUserPreference {
