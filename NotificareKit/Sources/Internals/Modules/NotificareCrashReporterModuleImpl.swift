@@ -5,11 +5,11 @@
 import Foundation
 
 internal class NotificareCrashReporterModuleImpl: NSObject, NotificareModule {
-    internal static let instance = NotificareCrashReporterModuleImpl()
-
     // MARK: - Notificare Module
 
-    static func configure() {
+    static let instance = NotificareCrashReporterModuleImpl()
+
+    func configure() {
         let crashReportsEnabled = Notificare.shared.options!.crashReportsEnabled
 
         guard crashReportsEnabled else {
@@ -18,25 +18,25 @@ internal class NotificareCrashReporterModuleImpl: NSObject, NotificareModule {
         }
 
         // Catch NSExceptions
-        NSSetUncaughtExceptionHandler(instance.uncaughtExceptionHandler)
+        NSSetUncaughtExceptionHandler(uncaughtExceptionHandler)
 
         // Catch Swift exceptions
-        signal(SIGQUIT, instance.signalReceiver)
-        signal(SIGILL, instance.signalReceiver)
-        signal(SIGTRAP, instance.signalReceiver)
-        signal(SIGABRT, instance.signalReceiver)
-        signal(SIGEMT, instance.signalReceiver)
-        signal(SIGFPE, instance.signalReceiver)
-        signal(SIGBUS, instance.signalReceiver)
-        signal(SIGSEGV, instance.signalReceiver)
-        signal(SIGSYS, instance.signalReceiver)
-        signal(SIGPIPE, instance.signalReceiver)
-        signal(SIGALRM, instance.signalReceiver)
-        signal(SIGXCPU, instance.signalReceiver)
-        signal(SIGXFSZ, instance.signalReceiver)
+        signal(SIGQUIT, signalReceiver)
+        signal(SIGILL, signalReceiver)
+        signal(SIGTRAP, signalReceiver)
+        signal(SIGABRT, signalReceiver)
+        signal(SIGEMT, signalReceiver)
+        signal(SIGFPE, signalReceiver)
+        signal(SIGBUS, signalReceiver)
+        signal(SIGSEGV, signalReceiver)
+        signal(SIGSYS, signalReceiver)
+        signal(SIGPIPE, signalReceiver)
+        signal(SIGALRM, signalReceiver)
+        signal(SIGXCPU, signalReceiver)
+        signal(SIGXFSZ, signalReceiver)
     }
 
-    static func launch(_ completion: @escaping NotificareCallback<Void>) {
+    func launch(_ completion: @escaping NotificareCallback<Void>) {
         guard let event = LocalStorage.crashReport else {
             NotificareLogger.debug("No crash report to process.")
             completion(.success(()))

@@ -8,10 +8,12 @@ import StoreKit
 import UIKit
 
 internal class NotificarePushUIImpl: NotificareModule, NotificarePushUI {
-    internal static let instance = NotificarePushUIImpl()
-
     private var latestPresentableNotificationHandler: NotificareNotificationPresenter?
     private var latestPresentableActionHandler: NotificareBaseActionHandler?
+
+    // MARK: - Notificare Module
+
+    static let instance = NotificarePushUIImpl()
 
     // MARK: - Notificare Push UI
 

@@ -7,7 +7,7 @@ import Foundation
 internal class LaunchSequence {
     internal typealias PerformBlock = (
         _ module: NotificareInternals.Module,
-        _ instance: NotificareModule.Type,
+        _ instance: any NotificareModule,
         _ completion: @escaping NotificareCallback<Void>
     ) -> Void
 
@@ -25,7 +25,7 @@ internal class LaunchSequence {
 
         let module = modules.remove(at: 0)
 
-        guard let instance = module.instance else {
+        guard let instance = module.klass?.instance else {
             // Skip unavailable modules.
             run(onEach: perform, onDone: onDone)
             return

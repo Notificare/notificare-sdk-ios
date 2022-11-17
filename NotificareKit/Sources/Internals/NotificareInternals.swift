@@ -28,8 +28,8 @@ public enum NotificareInternals {
             NSClassFromString(rawValue) != nil
         }
 
-        internal var instance: NotificareModule.Type? {
-            NSClassFromString(rawValue) as? NotificareModule.Type
+        public var klass: (any NotificareModule.Type)? {
+            NSClassFromString(rawValue) as? any NotificareModule.Type
         }
 
         internal var isPeer: Bool {
