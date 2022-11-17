@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## 3.4.2
+
+- Fix notification settings update race condition
+- Prevent WebView notifications content from being dimissed while the view is presented
+- Add `Identifiable` compliance to applicable data models
+- Optional CoreNFC framework linking to support older devices
+- Refactor internal modules to keep track of their instances
+- Improve pass-support availability checks
+
 ## 3.4.1
 
 - Fix locale-sensitive time formatting on `NotificareTime` objects
