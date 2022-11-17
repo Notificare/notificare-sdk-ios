@@ -5,7 +5,9 @@
 import NotificareKit
 
 internal class NotificareAssetsImpl: NSObject, NotificareModule, NotificareAssets {
-    internal static let instance = NotificareAssetsImpl()
+    // MARK: - Notificare Module
+
+    static let instance = NotificareAssetsImpl()
 
     // MARK: - Notificare Assets
 

@@ -9,15 +9,15 @@ import UIKit
 import UserNotifications
 
 internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
-    internal static let instance = NotificarePushImpl()
-
     private var notificationCenter: UNUserNotificationCenter {
         UNUserNotificationCenter.current()
     }
 
-    // MARK: Notificare Module
+    // MARK: - Notificare Module
 
-    public static func migrate() {
+    static let instance = NotificarePushImpl()
+
+    func migrate() {
         let allowedUI = UserDefaults.standard.bool(forKey: "notificareAllowedUI")
 
         LocalStorage.allowedUI = allowedUI
@@ -29,10 +29,10 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
         }
     }
 
-    public static func configure() {
+    func configure() {
         if Notificare.shared.options!.userNotificationCenterDelegateEnabled {
             NotificareLogger.debug("Notificare will set itself as the UNUserNotificationCenter delegate.")
-            instance.notificationCenter.delegate = instance
+            notificationCenter.delegate = self
         } else {
             NotificareLogger.warning("""
             Please configure your plist settings to allow Notificare to become the UNUserNotificationCenter delegate. \
@@ -41,18 +41,18 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
         }
 
         // Register interceptor to receive APNS swizzled events.
-        _ = NotificareSwizzler.addInterceptor(instance)
+        _ = NotificareSwizzler.addInterceptor(self)
 
         // Listen to 'application did become active'.
-        NotificationCenter.default.addObserver(instance,
+        NotificationCenter.default.addObserver(self,
                                                selector: #selector(onApplicationForeground),
                                                name: UIApplication.didBecomeActiveNotification,
                                                object: nil)
     }
 
-    public static func launch(_ completion: @escaping NotificareCallback<Void>) {
+    func launch(_ completion: @escaping NotificareCallback<Void>) {
         // Ensure the definitive allowedUI value has been communicated to the API.
-        instance.updateNotificationSettings(completion)
+        updateNotificationSettings(completion)
     }
 
     // TODO: confirm we do not need unlaunch

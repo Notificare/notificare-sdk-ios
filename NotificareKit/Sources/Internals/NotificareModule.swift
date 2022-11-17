@@ -5,25 +5,29 @@
 import Foundation
 
 public protocol NotificareModule {
-    static func migrate()
+    associatedtype Instance: NotificareModule
 
-    static func configure()
+    static var instance: Instance { get }
 
-    static func launch(_ completion: @escaping NotificareCallback<Void>)
+    func migrate()
 
-    static func unlaunch(_ completion: @escaping NotificareCallback<Void>)
+    func configure()
+
+    func launch(_ completion: @escaping NotificareCallback<Void>)
+
+    func unlaunch(_ completion: @escaping NotificareCallback<Void>)
 }
 
 public extension NotificareModule {
-    static func migrate() {}
+    func migrate() {}
 
-    static func configure() {}
+    func configure() {}
 
-    static func launch(_ completion: @escaping NotificareCallback<Void>) {
+    func launch(_ completion: @escaping NotificareCallback<Void>) {
         completion(.success(()))
     }
 
-    static func unlaunch(_ completion: @escaping NotificareCallback<Void>) {
+    func unlaunch(_ completion: @escaping NotificareCallback<Void>) {
         completion(.success(()))
     }
 }

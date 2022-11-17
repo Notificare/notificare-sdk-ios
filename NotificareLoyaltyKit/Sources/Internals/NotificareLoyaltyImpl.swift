@@ -9,13 +9,13 @@ import UIKit
 private let PASS_RECEIVED_NOTIFICATION = NSNotification.Name(rawValue: "NotificareLoyaltyKit.PassReceived")
 
 internal class NotificareLoyaltyImpl: NSObject, NotificareModule, NotificareLoyalty {
-    internal static let instance = NotificareLoyaltyImpl()
+    // MARK: - Notificare Module
 
-    // MARK: Notificare module
+    static let instance = NotificareLoyaltyImpl()
 
-    static func configure() {
+    func configure() {
         // Listen to received pass requests.
-        NotificationCenter.default.addObserver(instance,
+        NotificationCenter.default.addObserver(self,
                                                selector: #selector(onPassReceivedNotification(_:)),
                                                name: PASS_RECEIVED_NOTIFICATION,
                                                object: nil)

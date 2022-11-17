@@ -7,30 +7,30 @@ import NotificareKit
 import UIKit
 
 internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, NotificareInAppMessaging {
-    internal static let instance = NotificareInAppMessagingImpl()
-
     private var presentedView: NotificareInAppMessagingView?
     private var presentedViewBackgroundTimestamp: Date?
     private var messageWorkItem: DispatchWorkItem?
 
     // MARK: - Notificare Module
 
-    static func configure() {
+    static let instance = NotificareInAppMessagingImpl()
+
+    func configure() {
         // Listen to when the application comes into the foreground.
-        NotificationCenter.default.addObserver(instance,
+        NotificationCenter.default.addObserver(self,
                                                selector: #selector(onApplicationForeground),
                                                name: UIApplication.didBecomeActiveNotification,
                                                object: nil)
 
         // Listen to when the application goes into the background.
-        NotificationCenter.default.addObserver(instance,
+        NotificationCenter.default.addObserver(self,
                                                selector: #selector(onApplicationBackground),
                                                name: UIApplication.willResignActiveNotification,
                                                object: nil)
     }
 
-    static func launch(_ completion: @escaping NotificareCallback<Void>) {
-        instance.evaluateContext(.launch)
+    func launch(_ completion: @escaping NotificareCallback<Void>) {
+        evaluateContext(.launch)
 
         completion(.success(()))
     }

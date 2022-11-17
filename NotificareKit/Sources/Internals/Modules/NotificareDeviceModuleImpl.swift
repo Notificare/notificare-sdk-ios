@@ -6,39 +6,39 @@ import Foundation
 import UIKit
 
 internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, NotificareDeviceModule, NotificareInternalDeviceModule {
-    internal static let instance = NotificareDeviceModuleImpl()
-
     // MARK: - Notificare Module
 
-    static func configure() {
+    static let instance = NotificareDeviceModuleImpl()
+
+    func configure() {
         // Listen to timezone changes
-        NotificationCenter.default.addObserver(instance,
+        NotificationCenter.default.addObserver(self,
                                                selector: #selector(updateDeviceTimezone),
                                                name: UIApplication.significantTimeChangeNotification,
                                                object: nil)
 
         // Listen to language changes
-        NotificationCenter.default.addObserver(instance,
+        NotificationCenter.default.addObserver(self,
                                                selector: #selector(updateDeviceLanguage),
                                                name: NSLocale.currentLocaleDidChangeNotification,
                                                object: nil)
 
         // Listen to 'background refresh status' changes
-        NotificationCenter.default.addObserver(instance,
+        NotificationCenter.default.addObserver(self,
                                                selector: #selector(updateDeviceBackgroundAppRefresh),
                                                name: UIApplication.backgroundRefreshStatusDidChangeNotification,
                                                object: nil)
     }
 
-    static func launch(_ completion: @escaping NotificareCallback<Void>) {
-        if let device = instance.currentDevice {
+    func launch(_ completion: @escaping NotificareCallback<Void>) {
+        if let device = currentDevice {
             if device.appVersion != NotificareUtils.applicationVersion {
                 // It's not the same version, let's log it as an upgrade.
                 NotificareLogger.debug("New version detected")
                 Notificare.shared.eventsImplementation().logApplicationUpgrade { _ in }
             }
 
-            instance.register(transport: device.transport, token: device.id, userId: device.userId, userName: device.userName) { result in
+            register(transport: device.transport, token: device.id, userId: device.userId, userName: device.userName) { result in
                 switch result {
                 case .success:
                     completion(.success(()))
@@ -53,7 +53,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
             // Let's logout the user in case there's an account in the keychain
             // TODO: [[NotificareAuth shared] logoutAccount]
 
-            instance.registerTemporary { result in
+            registerTemporary { result in
                 switch result {
                 case .success:
                     // We will log the Install & Registration events here since this will execute only one time at the start.

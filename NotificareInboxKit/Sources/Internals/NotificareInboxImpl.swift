@@ -11,8 +11,6 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
     private static let refreshBadgeNotification = NSNotification.Name(rawValue: "NotificareInboxKit.RefreshBadge")
     private static let reloadInboxNotification = NSNotification.Name(rawValue: "NotificareInboxKit.ReloadInbox")
 
-    internal static let instance = NotificareInboxImpl()
-
     public weak var delegate: NotificareInboxDelegate?
 
     public var items: [NotificareInboxItem] {
@@ -72,48 +70,50 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
 
     // MARK: - Notificare Module
 
-    public static func configure() {
-        instance.database.configure()
-        instance.loadCachedItems()
+    static let instance = NotificareInboxImpl()
+
+    func configure() {
+        database.configure()
+        loadCachedItems()
 
         // Listen to inbox addition requests.
-        NotificationCenter.default.addObserver(instance,
+        NotificationCenter.default.addObserver(self,
                                                selector: #selector(onAddItemNotification(_:)),
-                                               name: addInboxItemNotification,
+                                               name: NotificareInboxImpl.addInboxItemNotification,
                                                object: nil)
 
         // Listen to inbox read requests.
-        NotificationCenter.default.addObserver(instance,
+        NotificationCenter.default.addObserver(self,
                                                selector: #selector(onReadItemNotification(_:)),
-                                               name: readInboxItemNotification,
+                                               name: NotificareInboxImpl.readInboxItemNotification,
                                                object: nil)
 
         // Listen to badge refresh requests.
-        NotificationCenter.default.addObserver(instance,
+        NotificationCenter.default.addObserver(self,
                                                selector: #selector(onRefreshBadgeNotification(_:)),
-                                               name: refreshBadgeNotification,
+                                               name: NotificareInboxImpl.refreshBadgeNotification,
                                                object: nil)
 
         // Listen to inbox reload requests.
-        NotificationCenter.default.addObserver(instance,
+        NotificationCenter.default.addObserver(self,
                                                selector: #selector(onReloadInboxNotification(_:)),
-                                               name: reloadInboxNotification,
+                                               name: NotificareInboxImpl.reloadInboxNotification,
                                                object: nil)
 
         // Listen to application did become active events.
-        NotificationCenter.default.addObserver(instance,
+        NotificationCenter.default.addObserver(self,
                                                selector: #selector(onApplicationDidBecomeActiveNotification(_:)),
                                                name: UIApplication.didBecomeActiveNotification,
                                                object: nil)
     }
 
-    public static func launch(_ completion: @escaping NotificareCallback<Void>) {
-        instance.sync()
+    func launch(_ completion: @escaping NotificareCallback<Void>) {
+        sync()
         completion(.success(()))
     }
 
-    public static func unlaunch(_ completion: @escaping NotificareCallback<Void>) {
-        instance.clearLocalInbox()
+    func unlaunch(_ completion: @escaping NotificareCallback<Void>) {
+        clearLocalInbox()
         completion(.success(()))
     }
 

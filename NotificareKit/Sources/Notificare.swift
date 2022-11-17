@@ -99,7 +99,7 @@ public class Notificare {
         database.configure()
 
         NotificareInternals.Module.allCases.forEach { module in
-            if let instance = module.instance {
+            if let instance = module.klass?.instance {
                 NotificareLogger.debug("Configuring module: \(module)")
                 instance.configure()
             }

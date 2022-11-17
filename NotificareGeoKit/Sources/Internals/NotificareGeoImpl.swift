@@ -13,8 +13,6 @@ private let MAX_MONITORED_BEACONS = 10
 private let FAKE_BEACON_IDENTIFIER = "NotificareFakeBeacon"
 
 internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLLocationManagerDelegate {
-    internal static let instance = NotificareGeoImpl()
-
     private var locationManager: CLLocationManager!
     private var processingLocationUpdate = false
     private let fakeBeaconUUID = UUID()
@@ -45,6 +43,8 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
     }
 
     // MARK: - Notificare Module
+
+    static let instance = NotificareGeoImpl()
 
     static func migrate() {
         LocalStorage.locationServicesEnabled = UserDefaults.standard.bool(forKey: "notificareAllowedLocationServices")

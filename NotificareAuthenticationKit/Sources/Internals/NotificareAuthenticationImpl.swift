@@ -6,13 +6,13 @@ import Foundation
 import NotificareKit
 
 internal class NotificareAuthenticationImpl: NSObject, NotificareModule, NotificareAuthentication {
-    public static let instance = NotificareAuthenticationImpl()
-
     private let authenticationRenewal = AuthenticationRenewal()
 
     // MARK: - Notificare Module
 
-    static func migrate() {
+    static let instance = NotificareAuthenticationImpl()
+
+    func migrate() {
         if let account = MigrationUtils.getLegacyCredentials() {
             LocalStorage.credentials = Credentials(
                 accessToken: account.accessToken.accessToken,
