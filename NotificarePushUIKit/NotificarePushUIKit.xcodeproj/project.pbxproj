@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F216F0BA26A839FC00F9EF56 /* LoyaltyIntegration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F216F0B926A839FC00F9EF56 /* LoyaltyIntegration.swift */; };
 		F216F0BC26A84B2100F9EF56 /* NotificareWebPassViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F216F0BB26A84B2100F9EF56 /* NotificareWebPassViewController.swift */; };
 		F21CBCB025AF1F5000495F7A /* NotificareStoreController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21CBCAF25AF1F5000495F7A /* NotificareStoreController.swift */; };
 		F23ED157284E1B91007BE36C /* NotificareInAppBrowserController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F23ED156284E1B91007BE36C /* NotificareInAppBrowserController.swift */; };
@@ -55,7 +54,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		F216F0B926A839FC00F9EF56 /* LoyaltyIntegration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoyaltyIntegration.swift; sourceTree = "<group>"; };
 		F216F0BB26A84B2100F9EF56 /* NotificareWebPassViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareWebPassViewController.swift; sourceTree = "<group>"; };
 		F21CBCAF25AF1F5000495F7A /* NotificareStoreController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareStoreController.swift; sourceTree = "<group>"; };
 		F23ED156284E1B91007BE36C /* NotificareInAppBrowserController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareInAppBrowserController.swift; sourceTree = "<group>"; };
@@ -146,7 +144,6 @@
 			children = (
 				F29B17F225A48CAF007ED6F9 /* NotificarePushUIImpl.swift */,
 				F293E2E5263048A1008C2010 /* LocalStorage.swift */,
-				F216F0B926A839FC00F9EF56 /* LoyaltyIntegration.swift */,
 				F2DAB3A4271F14D3002B5F27 /* UIKitExtensions.swift */,
 			);
 			path = Internals;
@@ -371,7 +368,6 @@
 				F28C95072640478100D6EF32 /* NotificarePushUI+NotificareNotification.swift in Sources */,
 				F2770B3A276266BE00450FF8 /* NotificareImageGalleryCollectionViewCell.swift in Sources */,
 				F2DAB3A1271F1325002B5F27 /* NotificarePushUI.swift in Sources */,
-				F216F0BA26A839FC00F9EF56 /* LoyaltyIntegration.swift in Sources */,
 				F216F0BC26A84B2100F9EF56 /* NotificareWebPassViewController.swift in Sources */,
 				F289F52625B8395B0091AB97 /* NotificareUrlSchemeController.swift in Sources */,
 				F277EAAF25B084860026225C /* NotificareBaseActionHandler.swift in Sources */,
