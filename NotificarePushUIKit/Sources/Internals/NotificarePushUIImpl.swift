@@ -8,10 +8,12 @@ import StoreKit
 import UIKit
 
 internal class NotificarePushUIImpl: NotificareModule, NotificarePushUI {
-    internal static let instance = NotificarePushUIImpl()
-
     private var latestPresentableNotificationHandler: NotificareNotificationPresenter?
     private var latestPresentableActionHandler: NotificareBaseActionHandler?
+
+    // MARK: - Notificare Module
+
+    static let instance = NotificarePushUIImpl()
 
     // MARK: - Notificare Push UI
 
@@ -77,8 +79,11 @@ internal class NotificarePushUIImpl: NotificareModule, NotificarePushUI {
             latestPresentableNotificationHandler = notificationController
 
         case .passbook:
-            if NotificareInternals.Module.loyalty.isAvailable {
-                LoyaltyIntegration.onPassReceived(in: notification, controller: controller)
+            if NotificareInternals.Module.loyalty.isAvailable,
+               let integration = NotificareInternals.Module.loyalty.klass?.instance as? NotificareLoyaltyIntegration,
+               integration.canPresentPasses
+            {
+                integration.present(notification: notification, in: controller)
                 return
             }
 

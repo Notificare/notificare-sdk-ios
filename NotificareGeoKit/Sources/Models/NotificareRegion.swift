@@ -61,6 +61,10 @@ public struct NotificareRegion: Codable {
     }
 }
 
+// Identifiable: NotificareRegion
+@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+extension NotificareRegion: Identifiable {}
+
 // JSON: NotificareRegion
 public extension NotificareRegion {
     func toJson() throws -> [String: Any] {

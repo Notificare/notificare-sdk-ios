@@ -6,20 +6,10 @@ import NotificareKit
 import PassKit
 import UIKit
 
-private let PASS_RECEIVED_NOTIFICATION = NSNotification.Name(rawValue: "NotificareLoyaltyKit.PassReceived")
+internal class NotificareLoyaltyImpl: NSObject, NotificareModule, NotificareLoyalty, NotificareLoyaltyIntegration {
+    // MARK: - Notificare Module
 
-internal class NotificareLoyaltyImpl: NSObject, NotificareModule, NotificareLoyalty {
-    internal static let instance = NotificareLoyaltyImpl()
-
-    // MARK: Notificare module
-
-    static func configure() {
-        // Listen to received pass requests.
-        NotificationCenter.default.addObserver(instance,
-                                               selector: #selector(onPassReceivedNotification(_:)),
-                                               name: PASS_RECEIVED_NOTIFICATION,
-                                               object: nil)
-    }
+    static let instance = NotificareLoyaltyImpl()
 
     // MARK: - Notificare Loyalty
 
@@ -104,6 +94,31 @@ internal class NotificareLoyaltyImpl: NSObject, NotificareModule, NotificareLoya
             let pass = try PKPass(data: data)
 
             present(pass, in: controller)
+        } catch {
+            NotificareLogger.error("Failed to create PKPass from URL.", error: error)
+        }
+    }
+
+    // MARK: - Notificare Loyalty Integration
+
+    var canPresentPasses: Bool {
+        PKPassLibrary.isPassLibraryAvailable() && PKAddPassesViewController.canAddPasses()
+    }
+
+    func present(notification: NotificareNotification, in viewController: UIViewController) {
+        guard let content = notification.content.first(where: { $0.type == "re.notifica.content.PKPass" }),
+              let urlStr = content.data as? String,
+              let url = URL(string: urlStr)
+        else {
+            NotificareLogger.warning("Trying to present a notification that doesn't contain a pass.")
+            return
+        }
+
+        do {
+            let data = try Data(contentsOf: url)
+            let pass = try PKPass(data: data)
+
+            present(pass, in: viewController)
         } catch {
             NotificareLogger.error("Failed to create PKPass from URL.", error: error)
         }
@@ -195,37 +210,6 @@ internal class NotificareLoyaltyImpl: NSObject, NotificareModule, NotificareLoya
             }
         } else {
             controller.present(passController, animated: true)
-        }
-    }
-
-    // MARK: - NotificationCenter events
-
-    @objc private func onPassReceivedNotification(_ request: Notification) {
-        NotificareLogger.debug("Received a signal to handle a received pass.")
-
-        guard let userInfo = request.userInfo,
-              let notification = userInfo["notification"] as? NotificareNotification,
-              let controller = userInfo["viewController"] as? UIViewController
-        else {
-            NotificareLogger.warning("Unable to handle 'received pass' signal.")
-            return
-        }
-
-        guard let content = notification.content.first(where: { $0.type == "re.notifica.content.PKPass" }),
-              let urlStr = content.data as? String,
-              let url = URL(string: urlStr)
-        else {
-            NotificareLogger.warning("Trying to present a notification that doesn't contain a pass.")
-            return
-        }
-
-        do {
-            let data = try Data(contentsOf: url)
-            let pass = try PKPass(data: data)
-
-            present(pass, in: controller)
-        } catch {
-            NotificareLogger.error("Failed to create PKPass from URL.", error: error)
         }
     }
 }

@@ -9,8 +9,6 @@ import StoreKit
 private typealias ProductRequestCallback = NotificareCallback<[SKProduct]>
 
 internal class NotificareMonetizeImpl: NSObject, NotificareModule, NotificareMonetize {
-    internal static let instance = NotificareMonetizeImpl()
-
     private let database = MonetizeDatabase()
 
     private var productsRequest: SKProductsRequest?
@@ -20,22 +18,24 @@ internal class NotificareMonetizeImpl: NSObject, NotificareModule, NotificareMon
     private var productDetailsMap: [String: SKProduct] = [:] // where K is the Apple product identifier
     private var purchaseEntities: [String: PurchaseEntity] = [:] // where K is the Apple transaction identifier
 
-    // MARK: Notificare module
+    // MARK: - Notificare Module
 
-    static func configure() {
-        instance.database.configure()
-        SKPaymentQueue.default().add(instance)
+    static let instance = NotificareMonetizeImpl()
+
+    func configure() {
+        database.configure()
+        SKPaymentQueue.default().add(self)
     }
 
-    static func launch(_ completion: @escaping NotificareCallback<Void>) {
-        instance.refresh { _ in }
+    func launch(_ completion: @escaping NotificareCallback<Void>) {
+        refresh { _ in }
 
         do {
-            let entities = try instance.database.find()
-            instance.purchaseEntities = entities.compactAssociateBy { $0.id }
+            let entities = try database.find()
+            purchaseEntities = entities.compactAssociateBy { $0.id }
 
             DispatchQueue.main.async {
-                instance.delegate?.notificare(instance, didUpdatePurchases: instance.purchases)
+                self.delegate?.notificare(self, didUpdatePurchases: self.purchases)
             }
         } catch {
             NotificareLogger.error("Failed to query the local database.", error: error)

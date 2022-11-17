@@ -7,7 +7,9 @@ import NotificareKit
 import UIKit
 
 internal class NotificareScannablesImpl: NSObject, NotificareModule, NotificareScannables {
-    internal static let instance = NotificareScannablesImpl()
+    // MARK: - Notificare Module
+
+    static let instance = NotificareScannablesImpl()
 
     // MARK: - Notificare Scannables
 

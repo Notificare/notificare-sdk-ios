@@ -27,17 +27,13 @@ public class NotificareUrlViewController: NotificareBaseNotificationViewControll
         webView.addObserver(self, forKeyPath: NSStringFromSelector(#selector(getter: WKWebView.estimatedProgress)), options: .new, context: nil)
     }
 
-    override public func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
+    override public func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        webView.removeObserver(self, forKeyPath: NSStringFromSelector(#selector(getter: WKWebView.estimatedProgress)))
 
         // NOTE: Loading a blank view to prevent the videos from continuing
         // playing after dismissing the view controller.
         webView.load(URLRequest(url: URL(string: "about:blank")!))
-    }
-
-    override public func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        webView.removeObserver(self, forKeyPath: NSStringFromSelector(#selector(getter: WKWebView.estimatedProgress)))
 
         DispatchQueue.main.async {
             Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFinishPresentingNotification: self.notification)

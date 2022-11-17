@@ -20,6 +20,10 @@ public struct NotificareInboxItem: Codable {
     }
 }
 
+// Identifiable: NotificareInboxItem
+@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+extension NotificareInboxItem: Identifiable {}
+
 // JSON: NotificareInboxItem
 public extension NotificareInboxItem {
     func toJson() throws -> [String: Any] {

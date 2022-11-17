@@ -26,6 +26,10 @@ public struct NotificareSystemNotification: Codable {
     }
 }
 
+// Identifiable: NotificareSystemNotification
+@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+extension NotificareSystemNotification: Identifiable {}
+
 // JSON: NotificareSystemNotification
 public extension NotificareSystemNotification {
     func toJson() throws -> [String: Any] {

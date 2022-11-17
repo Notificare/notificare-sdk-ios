@@ -31,6 +31,10 @@ public struct NotificareBeacon: Codable, Hashable {
     }
 }
 
+// Identifiable: NotificareBeacon
+@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+extension NotificareBeacon: Identifiable {}
+
 // JSON: NotificareBeacon
 public extension NotificareBeacon {
     func toJson() throws -> [String: Any] {
