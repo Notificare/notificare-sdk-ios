@@ -3,7 +3,7 @@
 ## 3.4.2
 
 - Fix notification settings update race condition
-- Prevent WebView notifications content from being dimissed while the view is presented
+- Prevent WebView notifications content from being dismissed while the view is presented
 - Add `Identifiable` compliance to applicable data models
 - Optional CoreNFC framework linking to support older devices
 - Refactor internal modules to keep track of their instances
