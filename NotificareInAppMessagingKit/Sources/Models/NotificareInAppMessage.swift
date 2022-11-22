@@ -60,6 +60,10 @@ public struct NotificareInAppMessage: Codable {
     }
 }
 
+// Identifiable: NotificareInAppMessage
+@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+extension NotificareInAppMessage: Identifiable {}
+
 // JSON: NotificareInAppMessage
 public extension NotificareInAppMessage {
     func toJson() throws -> [String: Any] {

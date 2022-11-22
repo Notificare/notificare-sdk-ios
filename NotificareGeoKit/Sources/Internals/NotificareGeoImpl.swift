@@ -13,8 +13,6 @@ private let MAX_MONITORED_BEACONS = 10
 private let FAKE_BEACON_IDENTIFIER = "NotificareFakeBeacon"
 
 internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLLocationManagerDelegate {
-    internal static let instance = NotificareGeoImpl()
-
     private var locationManager: CLLocationManager!
     private var processingLocationUpdate = false
     private let fakeBeaconUUID = UUID()
@@ -46,29 +44,31 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
 
     // MARK: - Notificare Module
 
-    static func migrate() {
+    static let instance = NotificareGeoImpl()
+
+    func migrate() {
         LocalStorage.locationServicesEnabled = UserDefaults.standard.bool(forKey: "notificareAllowedLocationServices")
         LocalStorage.bluetoothEnabled = UserDefaults.standard.bool(forKey: "notificareBluetoothON")
     }
 
-    static func configure() {
-        instance.locationManager = CLLocationManager()
-        instance.locationManager?.delegate = instance
-        instance.locationManager?.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+    func configure() {
+        locationManager = CLLocationManager()
+        locationManager?.delegate = self
+        locationManager?.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
 
         if let backgroundModes = Bundle.main.infoDictionary?["UIBackgroundModes"] as? [String], backgroundModes.contains("location") {
             NotificareLogger.debug("Using Background Location Updates background mode.")
-            instance.locationManager.allowsBackgroundLocationUpdates = true
+            locationManager.allowsBackgroundLocationUpdates = true
         }
 
         // Listen to application did become active events.
-        NotificationCenter.default.addObserver(instance,
+        NotificationCenter.default.addObserver(self,
                                                selector: #selector(onApplicationDidBecomeActiveNotification(_:)),
                                                name: UIApplication.didBecomeActiveNotification,
                                                object: nil)
 
         // Listen to application will resign active events.
-        NotificationCenter.default.addObserver(instance,
+        NotificationCenter.default.addObserver(self,
                                                selector: #selector(onApplicationWillResignActiveNotification(_:)),
                                                name: UIApplication.willResignActiveNotification,
                                                object: nil)

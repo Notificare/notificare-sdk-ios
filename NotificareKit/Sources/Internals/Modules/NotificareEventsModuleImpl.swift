@@ -8,29 +8,29 @@ private let MAX_RETRIES = 5
 private let UPLOAD_TASK_NAME = "re.notifica.tasks.events.Upload"
 
 internal class NotificareEventsModuleImpl: NSObject, NotificareModule, NotificareEventsModule, NotificareInternalEventsModule {
-    internal static let instance = NotificareEventsModuleImpl()
-
     private let discardableEvents = [String]()
     private var processEventsTaskIdentifier: UIBackgroundTaskIdentifier?
 
     // MARK: - Notificare Module
 
-    static func configure() {
+    static let instance = NotificareEventsModuleImpl()
+
+    func configure() {
         // Listen to application did become active events.
-        NotificationCenter.default.addObserver(instance,
+        NotificationCenter.default.addObserver(self,
                                                selector: #selector(onApplicationDidBecomeActiveNotification(_:)),
                                                name: UIApplication.didBecomeActiveNotification,
                                                object: nil)
 
         // Listen to reachability changed events.
-        NotificationCenter.default.addObserver(instance,
+        NotificationCenter.default.addObserver(self,
                                                selector: #selector(onReachabilityChanged(_:)),
                                                name: .reachabilityChanged,
                                                object: nil)
     }
 
-    static func launch(_ completion: @escaping NotificareCallback<Void>) {
-        instance.processStoredEvents()
+    func launch(_ completion: @escaping NotificareCallback<Void>) {
+        processStoredEvents()
         completion(.success(()))
     }
 

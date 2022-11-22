@@ -12,6 +12,10 @@ public struct NotificareScannable: Codable {
     public let notification: NotificareNotification?
 }
 
+// Identifiable: NotificareScannable
+@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+extension NotificareScannable: Identifiable {}
+
 // JSON: NotificareScannable
 public extension NotificareScannable {
     func toJson() throws -> [String: Any] {

@@ -19,7 +19,7 @@
 		F2E801E1269D94BF00582DB8 /* PushAPI+Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E801E0269D94BF00582DB8 /* PushAPI+Models.swift */; };
 		F2E801E3269D94CA00582DB8 /* PushAPI+Responses.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E801E2269D94CA00582DB8 /* PushAPI+Responses.swift */; };
 		F2E801E5269D957700582DB8 /* NotificareScannablesDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E801E4269D957700582DB8 /* NotificareScannablesDelegate.swift */; };
-		F2E801E7269DC9C600582DB8 /* CoreNFC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2E801E6269DC9C500582DB8 /* CoreNFC.framework */; };
+		F2E801E7269DC9C600582DB8 /* CoreNFC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2E801E6269DC9C500582DB8 /* CoreNFC.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		F2E801EC269F19BC00582DB8 /* NotificareQrCodeScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E801EB269F19BC00582DB8 /* NotificareQrCodeScannerViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -233,7 +233,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1150;
-				LastUpgradeCheck = 1400;
+				LastUpgradeCheck = 1410;
 				ORGANIZATIONNAME = Notificare;
 				TargetAttributes = {
 					F258DE2324BC4FAD006F9ABD = {
@@ -479,7 +479,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.4.1;
+				MARKETING_VERSION = 3.4.2;
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.scannables;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -508,7 +508,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.4.1;
+				MARKETING_VERSION = 3.4.2;
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.scannables;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;

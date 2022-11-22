@@ -17,6 +17,8 @@ extension NotificarePushImpl: NotificareAppDelegateInterceptor {
             switch result {
             case .success:
                 NotificareLogger.debug("Registered the device with an APNS token.")
+
+                self.updateNotificationSettings { _ in }
             case let .failure(error):
                 NotificareLogger.debug("Failed to register the device with an APNS token.", error: error)
             }

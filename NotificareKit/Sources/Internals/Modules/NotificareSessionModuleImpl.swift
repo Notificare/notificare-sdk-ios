@@ -8,8 +8,6 @@ import UIKit
 private let SESSION_CLOSE_TASK_NAME = "re.notifica.tasks.session.Close"
 
 internal class NotificareSessionModuleImpl: NSObject, NotificareModule {
-    internal static let instance = NotificareSessionModuleImpl()
-
     internal private(set) var sessionId: String?
     private var sessionStart: Date?
     private var sessionEnd: Date?
@@ -26,25 +24,27 @@ internal class NotificareSessionModuleImpl: NSObject, NotificareModule {
 
     // MARK: - Notificare Module
 
-    static func configure() {
+    static let instance = NotificareSessionModuleImpl()
+
+    func configure() {
         // Listen to 'application did become active'
-        NotificationCenter.default.addObserver(instance,
+        NotificationCenter.default.addObserver(self,
                                                selector: #selector(applicationDidBecomeActive),
                                                name: UIApplication.didBecomeActiveNotification,
                                                object: nil)
 
         // Listen to 'application will resign active'
-        NotificationCenter.default.addObserver(instance,
+        NotificationCenter.default.addObserver(self,
                                                selector: #selector(applicationWillResignActive),
                                                name: UIApplication.willResignActiveNotification,
                                                object: nil)
     }
 
-    static func launch(_ completion: @escaping NotificareCallback<Void>) {
-        if instance.sessionId == nil, UIApplication.shared.applicationState == .active {
+    func launch(_ completion: @escaping NotificareCallback<Void>) {
+        if sessionId == nil, UIApplication.shared.applicationState == .active {
             // Launch is taking place after the application came to the foreground.
             // Start the application session.
-            instance.startSession { _ in
+            startSession { _ in
                 completion(.success(()))
             }
 
@@ -54,9 +54,9 @@ internal class NotificareSessionModuleImpl: NSObject, NotificareModule {
         completion(.success(()))
     }
 
-    static func unlaunch(_ completion: @escaping NotificareCallback<Void>) {
-        instance.sessionEnd = Date()
-        instance.stopSession { _ in
+    func unlaunch(_ completion: @escaping NotificareCallback<Void>) {
+        sessionEnd = Date()
+        stopSession { _ in
             completion(.success(()))
         }
     }
