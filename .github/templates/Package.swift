@@ -56,6 +56,10 @@ let package = Package(
             name: "NotificareScannablesKit",
             targets: ["NotificareScannablesKit"]
         ),
+        .library(
+            name: "NotificareUserInboxKit",
+            targets: ["NotificareUserInboxKit"]
+        ),
     ],
     targets: [
         .binaryTarget(
