@@ -118,5 +118,10 @@ let package = Package(
             url: "https://github.com/notificare/notificare-sdk-ios/releases/download/{{VERSION}}/spm-notificare-scannables.zip",
             checksum: "{{NOTIFICARE_SCANNABLES_CHECKSUM}}"
         ),
+        .binaryTarget(
+            name: "NotificareUserInboxKit",
+            url: "https://github.com/notificare/notificare-sdk-ios/releases/download/{{VERSION}}/spm-notificare-user-inbox.zip",
+            checksum: "{{NOTIFICARE_USER_INBOX_CHECKSUM}}"
+        ),
     ]
 )

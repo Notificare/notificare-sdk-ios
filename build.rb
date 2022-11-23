@@ -102,6 +102,9 @@ class Framework
         Framework.new(scheme: 'NotificareScannablesKit',
                       spm_zip_filename: 'spm-notificare-scannables.zip',
                       spm_checksum_placeholder: '{{NOTIFICARE_SCANNABLES_CHECKSUM}}'),
+        Framework.new(scheme: 'NotificareUserInboxKit',
+                      spm_zip_filename: 'spm-notificare-user-inbox.zip',
+                      spm_checksum_placeholder: '{{NOTIFICARE_USER_INBOX_CHECKSUM}}'),
       ]
     end
   end
