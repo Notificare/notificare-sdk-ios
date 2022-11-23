@@ -20,7 +20,7 @@ internal class NotificareUserInboxImpl: NotificareModule, NotificareUserInbox {
         return try parseResponse(data: data)
     }
 
-    func parseResponse(json: [String : Any]) throws -> NotificareUserInboxResponse {
+    func parseResponse(json: [String: Any]) throws -> NotificareUserInboxResponse {
         let data = try JSONSerialization.data(withJSONObject: json, options: [])
         return try parseResponse(data: data)
     }
