@@ -7,9 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F28CF5D4292D0FC000F44651 /* ConsumerUserInboxResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28CF5D3292D0FC000F44651 /* ConsumerUserInboxResponse.swift */; };
+		F28CF5D6292D0FF900F44651 /* RawUserInboxResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28CF5D5292D0FF900F44651 /* RawUserInboxResponse.swift */; };
+		F28CF5D8292D143E00F44651 /* NotificareUserInboxError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28CF5D7292D143E00F44651 /* NotificareUserInboxError.swift */; };
+		F28CF5DC292D39B400F44651 /* PushAPI+Responses.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28CF5DB292D39B400F44651 /* PushAPI+Responses.swift */; };
 		F2EA0713291E9BA7009DB7A0 /* NotificareUserInboxKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2EA070A291E9BA7009DB7A0 /* NotificareUserInboxKit.framework */; };
 		F2EA0718291E9BA7009DB7A0 /* NotificareUserInboxKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2EA0717291E9BA7009DB7A0 /* NotificareUserInboxKitTests.swift */; };
 		F2EA0719291E9BA7009DB7A0 /* NotificareUserInboxKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F2EA070D291E9BA7009DB7A0 /* NotificareUserInboxKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F2EA0726291EA89F009DB7A0 /* NotificareUserInbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2EA0725291EA89F009DB7A0 /* NotificareUserInbox.swift */; };
+		F2EA072B291EAD84009DB7A0 /* NotificareUserInboxImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2EA072A291EAD84009DB7A0 /* NotificareUserInboxImpl.swift */; };
+		F2EA072F291EAE10009DB7A0 /* NotificareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2EA072E291EAE10009DB7A0 /* NotificareKit.framework */; };
+		F2EA0733291EAFFD009DB7A0 /* NotificareUserInboxItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2EA0732291EAFFD009DB7A0 /* NotificareUserInboxItem.swift */; };
+		F2EA0735291EB02A009DB7A0 /* NotificareUserInbox+Augment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2EA0734291EB02A009DB7A0 /* NotificareUserInbox+Augment.swift */; };
+		F2EA0737291EB6B0009DB7A0 /* NotificareUserInboxResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2EA0736291EB6B0009DB7A0 /* NotificareUserInboxResponse.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -23,10 +33,20 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F28CF5D3292D0FC000F44651 /* ConsumerUserInboxResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsumerUserInboxResponse.swift; sourceTree = "<group>"; };
+		F28CF5D5292D0FF900F44651 /* RawUserInboxResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawUserInboxResponse.swift; sourceTree = "<group>"; };
+		F28CF5D7292D143E00F44651 /* NotificareUserInboxError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareUserInboxError.swift; sourceTree = "<group>"; };
+		F28CF5DB292D39B400F44651 /* PushAPI+Responses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PushAPI+Responses.swift"; sourceTree = "<group>"; };
 		F2EA070A291E9BA7009DB7A0 /* NotificareUserInboxKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NotificareUserInboxKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2EA070D291E9BA7009DB7A0 /* NotificareUserInboxKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificareUserInboxKit.h; sourceTree = "<group>"; };
 		F2EA0712291E9BA7009DB7A0 /* NotificareUserInboxKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NotificareUserInboxKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2EA0717291E9BA7009DB7A0 /* NotificareUserInboxKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareUserInboxKitTests.swift; sourceTree = "<group>"; };
+		F2EA0725291EA89F009DB7A0 /* NotificareUserInbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareUserInbox.swift; sourceTree = "<group>"; };
+		F2EA072A291EAD84009DB7A0 /* NotificareUserInboxImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareUserInboxImpl.swift; sourceTree = "<group>"; };
+		F2EA072E291EAE10009DB7A0 /* NotificareKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F2EA0732291EAFFD009DB7A0 /* NotificareUserInboxItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareUserInboxItem.swift; sourceTree = "<group>"; };
+		F2EA0734291EB02A009DB7A0 /* NotificareUserInbox+Augment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificareUserInbox+Augment.swift"; sourceTree = "<group>"; };
+		F2EA0736291EB6B0009DB7A0 /* NotificareUserInboxResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareUserInboxResponse.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -34,6 +54,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F2EA072F291EAE10009DB7A0 /* NotificareKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -48,12 +69,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F28CF5D9292D399700F44651 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				F28CF5DA292D39A400F44651 /* Push API */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		F28CF5DA292D39A400F44651 /* Push API */ = {
+			isa = PBXGroup;
+			children = (
+				F28CF5DB292D39B400F44651 /* PushAPI+Responses.swift */,
+			);
+			path = "Push API";
+			sourceTree = "<group>";
+		};
 		F2EA0700291E9BA7009DB7A0 = {
 			isa = PBXGroup;
 			children = (
 				F2EA070C291E9BA7009DB7A0 /* Sources */,
 				F2EA0716291E9BA7009DB7A0 /* Tests */,
 				F2EA070B291E9BA7009DB7A0 /* Products */,
+				F2EA072D291EAE10009DB7A0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -69,7 +107,13 @@
 		F2EA070C291E9BA7009DB7A0 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				F28CF5D9292D399700F44651 /* Network */,
+				F2EA0728291EAD3D009DB7A0 /* Internals */,
+				F2EA0727291EAD32009DB7A0 /* Models */,
 				F2EA070D291E9BA7009DB7A0 /* NotificareUserInboxKit.h */,
+				F2EA0725291EA89F009DB7A0 /* NotificareUserInbox.swift */,
+				F28CF5D7292D143E00F44651 /* NotificareUserInboxError.swift */,
+				F2EA0734291EB02A009DB7A0 /* NotificareUserInbox+Augment.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -80,6 +124,41 @@
 				F2EA0717291E9BA7009DB7A0 /* NotificareUserInboxKitTests.swift */,
 			);
 			path = Tests;
+			sourceTree = "<group>";
+		};
+		F2EA0727291EAD32009DB7A0 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F2EA0732291EAFFD009DB7A0 /* NotificareUserInboxItem.swift */,
+				F2EA0736291EB6B0009DB7A0 /* NotificareUserInboxResponse.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		F2EA0728291EAD3D009DB7A0 /* Internals */ = {
+			isa = PBXGroup;
+			children = (
+				F2EA0729291EAD53009DB7A0 /* Responses */,
+				F2EA072A291EAD84009DB7A0 /* NotificareUserInboxImpl.swift */,
+			);
+			path = Internals;
+			sourceTree = "<group>";
+		};
+		F2EA0729291EAD53009DB7A0 /* Responses */ = {
+			isa = PBXGroup;
+			children = (
+				F28CF5D3292D0FC000F44651 /* ConsumerUserInboxResponse.swift */,
+				F28CF5D5292D0FF900F44651 /* RawUserInboxResponse.swift */,
+			);
+			path = Responses;
+			sourceTree = "<group>";
+		};
+		F2EA072D291EAE10009DB7A0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F2EA072E291EAE10009DB7A0 /* NotificareKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -104,6 +183,7 @@
 				F2EA0706291E9BA7009DB7A0 /* Sources */,
 				F2EA0707291E9BA7009DB7A0 /* Frameworks */,
 				F2EA0708291E9BA7009DB7A0 /* Resources */,
+				F2EA072C291EADC6009DB7A0 /* SwiftFormat */,
 			);
 			buildRules = (
 			);
@@ -145,6 +225,7 @@
 				TargetAttributes = {
 					F2EA0709291E9BA7009DB7A0 = {
 						CreatedOnToolsVersion = 14.1;
+						LastSwiftMigration = 1410;
 					};
 					F2EA0711291E9BA7009DB7A0 = {
 						CreatedOnToolsVersion = 14.1;
@@ -187,11 +268,42 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		F2EA072C291EADC6009DB7A0 /* SwiftFormat */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftFormat;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftformat >/dev/null; then\n  echo \"$(pwd)\"\n  swiftformat .\nelse\n  echo \"warning: SwiftFormat not installed, download from https://github.com/nicklockwood/SwiftFormat\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		F2EA0706291E9BA7009DB7A0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F28CF5D6292D0FF900F44651 /* RawUserInboxResponse.swift in Sources */,
+				F2EA0733291EAFFD009DB7A0 /* NotificareUserInboxItem.swift in Sources */,
+				F2EA0735291EB02A009DB7A0 /* NotificareUserInbox+Augment.swift in Sources */,
+				F28CF5D4292D0FC000F44651 /* ConsumerUserInboxResponse.swift in Sources */,
+				F2EA0726291EA89F009DB7A0 /* NotificareUserInbox.swift in Sources */,
+				F2EA0737291EB6B0009DB7A0 /* NotificareUserInboxResponse.swift in Sources */,
+				F28CF5D8292D143E00F44651 /* NotificareUserInboxError.swift in Sources */,
+				F2EA072B291EAD84009DB7A0 /* NotificareUserInboxImpl.swift in Sources */,
+				F28CF5DC292D39B400F44651 /* PushAPI+Responses.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -337,6 +449,7 @@
 		F2EA071D291E9BA7009DB7A0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -353,9 +466,15 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				MARKETING_VERSION = 3.4.2;
+				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.inbox.user;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -364,6 +483,7 @@
 		F2EA071E291E9BA7009DB7A0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -380,8 +500,13 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				MARKETING_VERSION = 3.4.2;
+				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.inbox.user;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -391,6 +516,7 @@
 		F2EA0720291E9BA7009DB7A0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = E3J9DDFVP4;
@@ -406,6 +532,7 @@
 		F2EA0721291E9BA7009DB7A0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = E3J9DDFVP4;
