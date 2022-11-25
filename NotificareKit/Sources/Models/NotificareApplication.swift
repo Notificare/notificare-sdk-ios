@@ -40,10 +40,12 @@ public struct NotificareApplication: Codable {
 
     public struct InboxConfig: Codable {
         public let useInbox: Bool
+        public let useUserInbox: Bool
         public let autoBadge: Bool
 
-        public init(useInbox: Bool, autoBadge: Bool) {
+        public init(useInbox: Bool, useUserInbox: Bool, autoBadge: Bool) {
             self.useInbox = useInbox
+            self.useUserInbox = useUserInbox
             self.autoBadge = autoBadge
         }
     }

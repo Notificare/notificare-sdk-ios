@@ -23,6 +23,7 @@ public enum NotificareInternals {
         case geo = "NotificareGeoKit.NotificareGeoImpl"
         case monetize = "NotificareMonetizeKit.NotificareMonetizeImpl"
         case inAppMessaging = "NotificareInAppMessagingKit.NotificareInAppMessagingImpl"
+        case userInbox = "NotificareUserInboxKit.NotificareUserInboxImpl"
 
         public var isAvailable: Bool {
             NSClassFromString(rawValue) != nil

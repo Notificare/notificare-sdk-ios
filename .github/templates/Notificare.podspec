@@ -68,4 +68,8 @@ For support please use: http://support.notifica.re
     subspec.vendored_frameworks = "Notificare/NotificareScannablesKit.xcframework"
   end
 
+  spec.subspec 'NotificareUserInboxKit' do |subspec|
+    subspec.vendored_frameworks = "Notificare/NotificareUserInboxKit.xcframework"
+  end
+
 end
