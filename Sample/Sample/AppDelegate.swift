@@ -2,6 +2,7 @@
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
+import ActivityKit
 // import Atlantis
 import CoreLocation
 import NotificareAuthenticationKit
@@ -42,6 +43,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         Notificare.shared.launch()
 
+        if #available(iOS 16.1, *) {
+            monitorLiveActivities()
+            // startLiveActivity()
+        }
+
         return true
     }
 
@@ -74,6 +80,62 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         return Notificare.shared.handleDynamicLinkUrl(url)
+    }
+
+    @available(iOS 16.1, *)
+    private func startLiveActivity() {
+        Task.init {
+            let attributes = SampleActivityAttributes(text: "Hello there")
+            let contentState = SampleActivityAttributes.ContentState(value: 10)
+
+            do {
+                let activity = try Activity.request(attributes: attributes, contentState: contentState, pushType: .token)
+                print("Live activity '\(activity.id)' started.")
+            } catch {
+                print("Failed to start a live activity: \(error)")
+            }
+        }
+    }
+
+    @available(iOS 16.1, *)
+    private func monitorLiveActivities() {
+        Task.init {
+            // Listen to on-going and new Live Activities.
+            for await activity in Activity<SampleActivityAttributes>.activityUpdates {
+                Task.init {
+                    // Listen to state changes of each activity.
+                    for await state in activity.activityStateUpdates {
+                        print("Live activity '\(activity.id)' state = '\(state)'")
+
+                        switch activity.activityState {
+                        case .active:
+                            Task.init {
+                                // Listen to push token updates of each active activity.
+                                for await token in activity.pushTokenUpdates {
+                                    do {
+                                        try await Notificare.shared.push().registerLiveActivity("sample", token: token)
+                                        print("Live activity '\(activity.id)' registered with token '\(token.toHexString())'.")
+                                    } catch {
+                                        print("Failed to register a live activity: \(error)")
+                                    }
+                                }
+                            }
+
+                        case .dismissed, .ended:
+                            do {
+                                try await Notificare.shared.push().endLiveActivity("sample")
+                                print("Live activity '\(activity.id)' ended on Notificare.")
+                            } catch {
+                                print("Failed to end live activity '\(activity.id)' on Notificare: \(error)")
+                            }
+
+                        @unknown default:
+                            print("Live activity '\(activity.id)' unknown state '\(state)'.")
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 

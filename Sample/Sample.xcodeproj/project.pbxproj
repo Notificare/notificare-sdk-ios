@@ -46,6 +46,16 @@
 		F2CEC66C26D51E3B009DB821 /* Notification+Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2CEC66B26D51E3B009DB821 /* Notification+Name.swift */; };
 		F2E801D6269D93C300582DB8 /* NotificareScannablesKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2E801D5269D93C300582DB8 /* NotificareScannablesKit.framework */; };
 		F2E801D7269D93C300582DB8 /* NotificareScannablesKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F2E801D5269D93C300582DB8 /* NotificareScannablesKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F2EA0723291E9C63009DB7A0 /* NotificareUserInboxKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2EA0722291E9C63009DB7A0 /* NotificareUserInboxKit.framework */; };
+		F2EA0724291E9C63009DB7A0 /* NotificareUserInboxKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F2EA0722291E9C63009DB7A0 /* NotificareUserInboxKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F2EB433D293508BF00AFDBD3 /* SampleActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2EB433C293508BF00AFDBD3 /* SampleActivityAttributes.swift */; };
+		F2EB434429350B3600AFDBD3 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2EB43242935044D00AFDBD3 /* WidgetKit.framework */; };
+		F2EB434529350B3600AFDBD3 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2EB43262935044D00AFDBD3 /* SwiftUI.framework */; };
+		F2EB434829350B3600AFDBD3 /* WidgetExtensionBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2EB434729350B3600AFDBD3 /* WidgetExtensionBundle.swift */; };
+		F2EB434A29350B3600AFDBD3 /* SampleLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2EB434929350B3600AFDBD3 /* SampleLiveActivity.swift */; };
+		F2EB434E29350B3700AFDBD3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F2EB434D29350B3700AFDBD3 /* Assets.xcassets */; };
+		F2EB435229350B3700AFDBD3 /* WidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = F2EB434329350B3600AFDBD3 /* WidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		F2EB435629350BD900AFDBD3 /* SampleActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2EB433C293508BF00AFDBD3 /* SampleActivityAttributes.swift */; };
 		F2F41D4A25CC0CE20010260B /* InboxDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F41D4925CC0CE20010260B /* InboxDetailViewController.swift */; };
 		F2F41D7825CD651D0010260B /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F41D7725CD651D0010260B /* NotificationService.swift */; };
 		F2F41D7C25CD651D0010260B /* NotificationService.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = F2F41D7525CD651D0010260B /* NotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -55,6 +65,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		F2EB435029350B3700AFDBD3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F29FD1EC24CB1FE1004B166D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F2EB434229350B3600AFDBD3;
+			remoteInfo = WidgetExtensionExtension;
+		};
 		F2F41D7A25CD651D0010260B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F29FD1EC24CB1FE1004B166D /* Project object */;
@@ -79,6 +96,7 @@
 				F2ABF34B269CA32500401D3F /* NotificareAssetsKit.framework in Embed Frameworks */,
 				F20C9C3B27AD33DB00486217 /* NotificareNotificationServiceExtensionKit.framework in Embed Frameworks */,
 				F2F697CD26B9541D00AB663E /* NotificareAuthenticationKit.framework in Embed Frameworks */,
+				F2EA0724291E9C63009DB7A0 /* NotificareUserInboxKit.framework in Embed Frameworks */,
 				F22443D8286CBDED0015CBD6 /* NotificareMonetizeKit.framework in Embed Frameworks */,
 				F22650CB258B6E900004F833 /* NotificarePushKit.framework in Embed Frameworks */,
 				F2E801D7269D93C300582DB8 /* NotificareScannablesKit.framework in Embed Frameworks */,
@@ -93,6 +111,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				F2EB435229350B3700AFDBD3 /* WidgetExtension.appex in Embed Foundation Extensions */,
 				F2F41D7C25CD651D0010260B /* NotificationService.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
@@ -144,6 +163,15 @@
 		F2CEC66926D4FCAB009DB821 /* RangingBeaconTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RangingBeaconTableViewCell.swift; sourceTree = "<group>"; };
 		F2CEC66B26D51E3B009DB821 /* Notification+Name.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Name.swift"; sourceTree = "<group>"; };
 		F2E801D5269D93C300582DB8 /* NotificareScannablesKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareScannablesKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F2EA0722291E9C63009DB7A0 /* NotificareUserInboxKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareUserInboxKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F2EB43242935044D00AFDBD3 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		F2EB43262935044D00AFDBD3 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		F2EB433C293508BF00AFDBD3 /* SampleActivityAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleActivityAttributes.swift; sourceTree = "<group>"; };
+		F2EB434329350B3600AFDBD3 /* WidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		F2EB434729350B3600AFDBD3 /* WidgetExtensionBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetExtensionBundle.swift; sourceTree = "<group>"; };
+		F2EB434929350B3600AFDBD3 /* SampleLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleLiveActivity.swift; sourceTree = "<group>"; };
+		F2EB434D29350B3700AFDBD3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F2EB434F29350B3700AFDBD3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F2F41D4925CC0CE20010260B /* InboxDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxDetailViewController.swift; sourceTree = "<group>"; };
 		F2F41D7525CD651D0010260B /* NotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2F41D7725CD651D0010260B /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
@@ -163,6 +191,7 @@
 				F25B6DCD25CAC67E007BC2C8 /* SDWebImage in Frameworks */,
 				F20C9C3A27AD33DB00486217 /* NotificareNotificationServiceExtensionKit.framework in Frameworks */,
 				F206D6E928A5366300A35E60 /* NotificareInAppMessagingKit.framework in Frameworks */,
+				F2EA0723291E9C63009DB7A0 /* NotificareUserInboxKit.framework in Frameworks */,
 				F2ABF34A269CA32500401D3F /* NotificareAssetsKit.framework in Frameworks */,
 				F22650CA258B6E900004F833 /* NotificarePushKit.framework in Frameworks */,
 				F22650C6258B6E890004F833 /* NotificareKit.framework in Frameworks */,
@@ -170,6 +199,15 @@
 				F2696AAC26C2843F002EA653 /* NotificareGeoKit.framework in Frameworks */,
 				F22443D7286CBDED0015CBD6 /* NotificareMonetizeKit.framework in Frameworks */,
 				F216F0B326A8265500F9EF56 /* NotificareLoyaltyKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F2EB434029350B3600AFDBD3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F2EB434529350B3600AFDBD3 /* SwiftUI.framework in Frameworks */,
+				F2EB434429350B3600AFDBD3 /* WidgetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -187,6 +225,7 @@
 		F251694324D4077D0025B51F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F2EA0722291E9C63009DB7A0 /* NotificareUserInboxKit.framework */,
 				F206D6E828A5366300A35E60 /* NotificareInAppMessagingKit.framework */,
 				F22443D6286CBDED0015CBD6 /* NotificareMonetizeKit.framework */,
 				F22443D4286CBBBE0015CBD6 /* StoreKit.framework */,
@@ -212,6 +251,8 @@
 				F251694824D4077D0025B51F /* NotificareMonetize.framework */,
 				F251694924D4077D0025B51F /* NotificarePush.framework */,
 				F251694A24D4077D0025B51F /* NotificareScannable.framework */,
+				F2EB43242935044D00AFDBD3 /* WidgetKit.framework */,
+				F2EB43262935044D00AFDBD3 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -261,6 +302,7 @@
 			children = (
 				F29FD1F624CB1FE1004B166D /* Sample */,
 				F2F41D7625CD651D0010260B /* NotificationService */,
+				F2EB434629350B3600AFDBD3 /* WidgetExtension */,
 				F29FD1F524CB1FE1004B166D /* Products */,
 				F251694324D4077D0025B51F /* Frameworks */,
 			);
@@ -271,6 +313,7 @@
 			children = (
 				F29FD1F424CB1FE1004B166D /* Sample.app */,
 				F2F41D7525CD651D0010260B /* NotificationService.appex */,
+				F2EB434329350B3600AFDBD3 /* WidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -278,6 +321,7 @@
 		F29FD1F624CB1FE1004B166D /* Sample */ = {
 			isa = PBXGroup;
 			children = (
+				F2EB433B293508AF00AFDBD3 /* Widgets */,
 				F25B6DC825CAC58C007BC2C8 /* Extensions */,
 				F25B6DC125CABDBF007BC2C8 /* UI */,
 				F28553C7258BA18C006674C1 /* Sample.entitlements */,
@@ -292,6 +336,25 @@
 				F22443D3286CBAFE0015CBD6 /* Products.storekit */,
 			);
 			path = Sample;
+			sourceTree = "<group>";
+		};
+		F2EB433B293508AF00AFDBD3 /* Widgets */ = {
+			isa = PBXGroup;
+			children = (
+				F2EB433C293508BF00AFDBD3 /* SampleActivityAttributes.swift */,
+			);
+			path = Widgets;
+			sourceTree = "<group>";
+		};
+		F2EB434629350B3600AFDBD3 /* WidgetExtension */ = {
+			isa = PBXGroup;
+			children = (
+				F2EB434729350B3600AFDBD3 /* WidgetExtensionBundle.swift */,
+				F2EB434929350B3600AFDBD3 /* SampleLiveActivity.swift */,
+				F2EB434D29350B3700AFDBD3 /* Assets.xcassets */,
+				F2EB434F29350B3700AFDBD3 /* Info.plist */,
+			);
+			path = WidgetExtension;
 			sourceTree = "<group>";
 		};
 		F2F41D7625CD651D0010260B /* NotificationService */ = {
@@ -321,6 +384,7 @@
 			);
 			dependencies = (
 				F2F41D7B25CD651D0010260B /* PBXTargetDependency */,
+				F2EB435129350B3700AFDBD3 /* PBXTargetDependency */,
 			);
 			name = Sample;
 			packageProductDependencies = (
@@ -329,6 +393,23 @@
 			productName = Sample;
 			productReference = F29FD1F424CB1FE1004B166D /* Sample.app */;
 			productType = "com.apple.product-type.application";
+		};
+		F2EB434229350B3600AFDBD3 /* WidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F2EB435329350B3700AFDBD3 /* Build configuration list for PBXNativeTarget "WidgetExtension" */;
+			buildPhases = (
+				F2EB433F29350B3600AFDBD3 /* Sources */,
+				F2EB434029350B3600AFDBD3 /* Frameworks */,
+				F2EB434129350B3600AFDBD3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WidgetExtension;
+			productName = WidgetExtensionExtension;
+			productReference = F2EB434329350B3600AFDBD3 /* WidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 		F2F41D7425CD651D0010260B /* NotificationService */ = {
 			isa = PBXNativeTarget;
@@ -353,12 +434,15 @@
 		F29FD1EC24CB1FE1004B166D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1230;
-				LastUpgradeCheck = 1400;
+				LastSwiftUpdateCheck = 1410;
+				LastUpgradeCheck = 1410;
 				ORGANIZATIONNAME = Notificare;
 				TargetAttributes = {
 					F29FD1F324CB1FE1004B166D = {
 						CreatedOnToolsVersion = 12.0;
+					};
+					F2EB434229350B3600AFDBD3 = {
+						CreatedOnToolsVersion = 14.1;
 					};
 					F2F41D7425CD651D0010260B = {
 						CreatedOnToolsVersion = 12.3;
@@ -383,6 +467,7 @@
 			targets = (
 				F29FD1F324CB1FE1004B166D /* Sample */,
 				F2F41D7425CD651D0010260B /* NotificationService */,
+				F2EB434229350B3600AFDBD3 /* WidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -397,6 +482,14 @@
 				F25E630025CAB29A007C1202 /* NotificareServices.plist in Resources */,
 				F29FD1FF24CB1FE1004B166D /* Main.storyboard in Resources */,
 				F267DA4A273E7CA900448A8F /* NotificareOptions.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F2EB434129350B3600AFDBD3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F2EB434E29350B3700AFDBD3 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -444,10 +537,21 @@
 				F29FD1FC24CB1FE1004B166D /* ViewController.swift in Sources */,
 				F22443EE286DF4E50015CBD6 /* ProductsViewController.swift in Sources */,
 				F29FD1F824CB1FE1004B166D /* AppDelegate.swift in Sources */,
+				F2EB433D293508BF00AFDBD3 /* SampleActivityAttributes.swift in Sources */,
 				F22443EC286DF4070015CBD6 /* ProductTableViewCell.swift in Sources */,
 				F2CEC66C26D51E3B009DB821 /* Notification+Name.swift in Sources */,
 				F25B6DC725CABE11007BC2C8 /* InboxViewController.swift in Sources */,
 				F2F41D4A25CC0CE20010260B /* InboxDetailViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F2EB433F29350B3600AFDBD3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F2EB434A29350B3600AFDBD3 /* SampleLiveActivity.swift in Sources */,
+				F2EB434829350B3600AFDBD3 /* WidgetExtensionBundle.swift in Sources */,
+				F2EB435629350BD900AFDBD3 /* SampleActivityAttributes.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -462,6 +566,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		F2EB435129350B3700AFDBD3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F2EB434229350B3600AFDBD3 /* WidgetExtension */;
+			targetProxy = F2EB435029350B3700AFDBD3 /* PBXContainerItemProxy */;
+		};
 		F2F41D7B25CD651D0010260B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = F2F41D7425CD651D0010260B /* NotificationService */;
@@ -653,6 +762,64 @@
 			};
 			name = Release;
 		};
+		F2EB435429350B3700AFDBD3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = E3J9DDFVP4;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WidgetExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = WidgetExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 Notificare. All rights reserved.";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 3.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.sample.app.WidgetExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		F2EB435529350B3700AFDBD3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = E3J9DDFVP4;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WidgetExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = WidgetExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 Notificare. All rights reserved.";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 3.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.sample.app.WidgetExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		F2F41D7E25CD651D0010260B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -712,6 +879,15 @@
 			buildConfigurations = (
 				F29FD20924CB1FE3004B166D /* Debug */,
 				F29FD20A24CB1FE3004B166D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F2EB435329350B3700AFDBD3 /* Build configuration list for PBXNativeTarget "WidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F2EB435429350B3700AFDBD3 /* Debug */,
+				F2EB435529350B3700AFDBD3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
