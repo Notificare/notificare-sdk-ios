@@ -35,6 +35,40 @@ public protocol NotificarePush: AnyObject, NotificarePushUIApplicationDelegate, 
 
     @available(*, deprecated, message: "Include the NotificareNotificationServiceExtensionKit and use NotificareNotificationServiceExtension.handleNotificationRequest() instead.")
     func handleNotificationRequest(_ request: UNNotificationRequest, _ completion: @escaping NotificareCallback<UNNotificationContent>)
+
+    @available(iOS 16.1, *)
+    func registerLiveActivity(_ activityId: String, token: String, topics: [String], _ completion: @escaping NotificareCallback<Void>)
+
+    @available(iOS 16.1, *)
+    func registerLiveActivity(_ activityId: String, token: String, topics: [String]) async throws
+
+    @available(iOS 16.1, *)
+    func endLiveActivity(_ activityId: String, _ completion: @escaping NotificareCallback<Void>)
+
+    @available(iOS 16.1, *)
+    func endLiveActivity(_ activityId: String) async throws
+}
+
+public extension NotificarePush {
+    @available(iOS 16.1, *)
+    func registerLiveActivity(_ activityId: String, token: String, _ completion: @escaping NotificareCallback<Void>) {
+        registerLiveActivity(activityId, token: token, topics: [], completion)
+    }
+
+    @available(iOS 16.1, *)
+    func registerLiveActivity(_ activityId: String, token: String) async throws {
+        try await registerLiveActivity(activityId, token: token, topics: [])
+    }
+
+    @available(iOS 16.1, *)
+    func registerLiveActivity(_ activityId: String, token: Data, topics: [String] = [], _ completion: @escaping NotificareCallback<Void>) {
+        registerLiveActivity(activityId, token: token.toHexString(), topics: topics, completion)
+    }
+
+    @available(iOS 16.1, *)
+    func registerLiveActivity(_ activityId: String, token: Data, topics: [String] = []) async throws {
+        try await registerLiveActivity(activityId, token: token.toHexString(), topics: topics)
+    }
 }
 
 public protocol NotificarePushUIApplicationDelegate {
