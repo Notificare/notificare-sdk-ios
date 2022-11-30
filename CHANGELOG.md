@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 3.5.0-beta.1
+
+- Add user-level inbox module
+- Add support for live activities
+
 ## 3.4.2
 
 - Fix notification settings update race condition
