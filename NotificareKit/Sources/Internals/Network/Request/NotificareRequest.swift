@@ -250,11 +250,29 @@ public struct NotificareRequest {
             }
         }
 
+        @available(iOS 13.0, *)
+        public func response() async throws -> (response: HTTPURLResponse, data: Data?) {
+            try await withCheckedThrowingContinuation { continuation in
+                response { result in
+                    continuation.resume(with: result)
+                }
+            }
+        }
+
         public func responseDecodable<T: Decodable>(_ type: T.Type, _ completion: @escaping (Result<T, Error>) -> Void) {
             do {
                 try build().responseDecodable(type, completion)
             } catch {
                 completion(.failure(error))
+            }
+        }
+
+        @available(iOS 13.0, *)
+        public func responseDecodable<T: Decodable>(_ type: T.Type) async throws -> T {
+            try await withCheckedThrowingContinuation { continuation in
+                responseDecodable(type) { result in
+                    continuation.resume(with: result)
+                }
             }
         }
 

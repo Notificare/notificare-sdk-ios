@@ -179,6 +179,62 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
         }
     }
 
+    @available(iOS 16.1, *)
+    func registerLiveActivity(_ activityId: String, token: String, topics: [String], _ completion: @escaping NotificareCallback<Void>) {
+        Task.init {
+            do {
+                try await registerLiveActivity(activityId, token: token, topics: topics)
+                completion(.success(()))
+            } catch {
+                completion(.failure(error))
+            }
+        }
+    }
+
+    @available(iOS 16.1, *)
+    func registerLiveActivity(_ activityId: String, token: String, topics: [String]) async throws {
+        guard let device = Notificare.shared.device().currentDevice else {
+            throw NotificareError.deviceUnavailable
+        }
+
+        let payload = NotificareInternals.PushAPI.Payloads.RegisterLiveActivity(
+            activity: activityId,
+            token: token,
+            deviceID: device.id,
+            topics: topics
+        )
+
+        _ = try await NotificareRequest.Builder()
+            .post("/live-activity", body: payload)
+            .response()
+    }
+
+    @available(iOS 16.1, *)
+    func endLiveActivity(_ activityId: String, _ completion: @escaping NotificareCallback<Void>) {
+        Task.init {
+            do {
+                try await endLiveActivity(activityId)
+                completion(.success(()))
+            } catch {
+                completion(.failure(error))
+            }
+        }
+    }
+
+    @available(iOS 16.1, *)
+    func endLiveActivity(_ activityId: String) async throws {
+        guard let device = Notificare.shared.device().currentDevice else {
+            throw NotificareError.deviceUnavailable
+        }
+
+        let encodedActivityId = activityId.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)!
+        let encodedDeviceId = device.id.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)!
+
+        _ = try await NotificareRequest.Builder()
+            .delete("/live-activity/\(encodedActivityId)/\(encodedDeviceId)")
+            .response()
+    }
+
     // MARK: Internal API
 
     internal func reloadActionCategories(_ completion: @escaping () -> Void) {
