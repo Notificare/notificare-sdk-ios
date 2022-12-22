@@ -59,7 +59,7 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
         setupNavigationActions()
 
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillShow(_:)),
+                                               selector: #selector(keyboardWillAppear(_:)),
                                                name: UIResponder.keyboardWillShowNotification,
                                                object: nil)
     }
@@ -350,7 +350,7 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
         sourceViewController.presentOrPush(navigationController)
     }
 
-    @objc private func keyboardWillShow(_ notification: Notification) {
+    @objc private func keyboardWillAppear(_ notification: Notification) {
         guard let userInfo = notification.userInfo,
               let keyboardRect = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect
         else {
