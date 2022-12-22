@@ -41,6 +41,17 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
 
     var hasMessagesSuppressed: Bool = false
 
+    func setMessagesSuppressed(_ suppressed: Bool, evaluateContext: Bool) {
+        let suppressChanged = suppressed != hasMessagesSuppressed
+        let canEvaluate = evaluateContext && suppressChanged && !suppressed
+
+        hasMessagesSuppressed = suppressed
+
+        if canEvaluate {
+            self.evaluateContext(.foreground)
+        }
+    }
+
     // MARK: - Private API
 
     private func evaluateContext(_ context: ApplicationContext) {
