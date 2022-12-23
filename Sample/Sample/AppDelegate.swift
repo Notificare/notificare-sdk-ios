@@ -174,8 +174,9 @@ extension AppDelegate: NotificarePushDelegate {
         print("-----> Notificare: received a system notification: \(notification)")
     }
 
-    func notificare(_: NotificarePush, didReceiveNotification notification: NotificareNotification) {
+    func notificare(_: NotificarePush, didReceiveNotification notification: NotificareNotification, deliveryMechanism: NotificareNotificationDeliveryMechanism) {
         print("-----> Notificare: received a notification: \(notification)")
+        print("-----> Notificare: received notification delivery mechanism: \(deliveryMechanism)")
     }
 
     func notificare(_: NotificarePush, didReceiveUnknownNotification userInfo: [AnyHashable: Any]) {

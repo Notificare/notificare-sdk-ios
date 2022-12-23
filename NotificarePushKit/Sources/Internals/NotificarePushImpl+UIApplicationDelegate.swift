@@ -127,6 +127,8 @@ extension NotificarePushImpl: NotificareAppDelegateInterceptor {
             return
         }
 
+        let deliveryMechanism: NotificareNotificationDeliveryMechanism = containsApsAlert(userInfo) ? .standard : .silent
+
         Notificare.shared.events().logNotificationReceived(notificationId) { _ in }
 
         Notificare.shared.fetchNotification(id) { result in
@@ -137,6 +139,9 @@ extension NotificarePushImpl: NotificareAppDelegateInterceptor {
 
                 DispatchQueue.main.async {
                     // Notify the delegate.
+                    self.delegate?.notificare(self, didReceiveNotification: notification, deliveryMechanism: deliveryMechanism)
+
+                    // Continue notifying the deprecated delegate method to preserve backwards compatibility.
                     self.delegate?.notificare(self, didReceiveNotification: notification)
                 }
 
@@ -151,6 +156,9 @@ extension NotificarePushImpl: NotificareAppDelegateInterceptor {
 
                     DispatchQueue.main.async {
                         // Notify the delegate.
+                        self.delegate?.notificare(self, didReceiveNotification: notification, deliveryMechanism: deliveryMechanism)
+
+                        // Continue notifying the deprecated delegate method to preserve backwards compatibility.
                         self.delegate?.notificare(self, didReceiveNotification: notification)
                     }
 
@@ -161,5 +169,17 @@ extension NotificarePushImpl: NotificareAppDelegateInterceptor {
                 }
             }
         }
+    }
+
+    private func containsApsAlert(_ userInfo: [AnyHashable: Any]) -> Bool {
+        guard let aps = userInfo["aps"] as? [String: Any] else {
+            return false
+        }
+
+        guard aps["alert"] is [String: Any] else {
+            return false
+        }
+
+        return true
     }
 }
