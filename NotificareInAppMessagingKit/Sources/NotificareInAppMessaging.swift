@@ -10,4 +10,6 @@ public protocol NotificareInAppMessaging: AnyObject {
     var delegate: NotificareInAppMessagingDelegate? { get set }
 
     var hasMessagesSuppressed: Bool { get set }
+
+    func setMessagesSuppressed(_ suppressed: Bool, evaluateContext: Bool)
 }
