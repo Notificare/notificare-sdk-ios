@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## 3.5.0
+
+#### Important changes since 3.4.2
+
+- Add user-level inbox module
+- Add support for live activities
+- Allow a context evaluation upon un-suppressing in-app messages
+- Include the delivery mechanism for notification received events
+
 ## 3.5.0-beta.1
 
 - Add user-level inbox module
