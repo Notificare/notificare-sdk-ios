@@ -23,6 +23,7 @@
 		F2B6A34426173F32001CB7DC /* NotificareNotification+APNS.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B6A34326173F32001CB7DC /* NotificareNotification+APNS.swift */; };
 		F2D3893E266542F200EAEF44 /* PushAPI+Payloads.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D3893D266542F200EAEF44 /* PushAPI+Payloads.swift */; };
 		F2E9221D2641A4D8005279C0 /* InboxIntegration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E9221C2641A4D8005279C0 /* InboxIntegration.swift */; };
+		F2FF5CEC2955BAD5007E133E /* NotificareNotificationDeliveryMechanism.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2FF5CEB2955BAD5007E133E /* NotificareNotificationDeliveryMechanism.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,7 @@
 		F2B8C55C25A6173700FFBE0C /* NotificareCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2D3893D266542F200EAEF44 /* PushAPI+Payloads.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PushAPI+Payloads.swift"; sourceTree = "<group>"; };
 		F2E9221C2641A4D8005279C0 /* InboxIntegration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxIntegration.swift; sourceTree = "<group>"; };
+		F2FF5CEB2955BAD5007E133E /* NotificareNotificationDeliveryMechanism.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareNotificationDeliveryMechanism.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,8 +86,9 @@
 		F2128F002594E3E300F7F68F /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				F2128F012594E47700F7F68F /* NotificareSystemNotification.swift */,
 				F2B6A34326173F32001CB7DC /* NotificareNotification+APNS.swift */,
+				F2FF5CEB2955BAD5007E133E /* NotificareNotificationDeliveryMechanism.swift */,
+				F2128F012594E47700F7F68F /* NotificareSystemNotification.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -317,6 +320,7 @@
 				F21DD9DF2717384800C88D7B /* NotificarePush+Augment.swift in Sources */,
 				F2D3893E266542F200EAEF44 /* PushAPI+Payloads.swift in Sources */,
 				F21DD9E9271844B200C88D7B /* NotificarePushImpl+UNUserNotificationCenterDelegate.swift in Sources */,
+				F2FF5CEC2955BAD5007E133E /* NotificareNotificationDeliveryMechanism.swift in Sources */,
 				F23A5569259C7D6D00B57CF1 /* NotificarePush+Events.swift in Sources */,
 				F21DD9E72718449800C88D7B /* NotificarePushImpl+UIApplicationDelegate.swift in Sources */,
 			);
