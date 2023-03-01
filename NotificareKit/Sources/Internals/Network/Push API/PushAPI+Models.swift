@@ -14,7 +14,14 @@ public extension NotificareInternals.PushAPI.Models {
         public let inboxConfig: NotificareApplication.InboxConfig?
         public let regionConfig: NotificareApplication.RegionConfig?
         public let userDataFields: [NotificareApplication.UserDataField]
-        public let actionCategories: [NotificareApplication.ActionCategory]
+        public let actionCategories: [ActionCategory]
+
+        public struct ActionCategory: Decodable {
+            public let name: String
+            public let description: String?
+            public let type: String
+            public let actions: [Notification.Action]
+        }
 
         public func toModel() -> NotificareApplication {
             NotificareApplication(
@@ -26,7 +33,26 @@ public extension NotificareInternals.PushAPI.Models {
                 inboxConfig: inboxConfig,
                 regionConfig: regionConfig,
                 userDataFields: userDataFields,
-                actionCategories: actionCategories
+                actionCategories: actionCategories.map { category in
+                    NotificareApplication.ActionCategory(
+                        name: category.name,
+                        description: category.description,
+                        type: category.type,
+                        actions: category.actions.compactMap { action in
+                            guard let label = action.label else { return nil }
+                            
+                            return NotificareNotification.Action(
+                                type: action.type,
+                                label: label,
+                                target: action.target,
+                                keyboard: action.keyboard,
+                                camera: action.camera,
+                                destructive: action.destructive,
+                                icon: action.icon
+                            )
+                        }
+                    )
+                }
             )
         }
     }
@@ -39,7 +65,7 @@ public extension NotificareInternals.PushAPI.Models {
         public let subtitle: String?
         public let message: String
         public let content: [NotificareNotification.Content]
-        public let actions: [NotificareNotification.Action]
+        public let actions: [Action]
         public let attachments: [NotificareNotification.Attachment]
         public let extra: [String: Any]
         public let targetContentIdentifier: String?
@@ -75,7 +101,7 @@ public extension NotificareInternals.PushAPI.Models {
             }
 
             if container.contains(.actions) {
-                actions = try container.decode([NotificareNotification.Action].self, forKey: .actions)
+                actions = try container.decode([Action].self, forKey: .actions)
             } else {
                 actions = []
             }
@@ -96,6 +122,16 @@ public extension NotificareInternals.PushAPI.Models {
             targetContentIdentifier = try container.decodeIfPresent(String.self, forKey: .targetContentIdentifier)
         }
 
+        public struct Action: Decodable {
+            public let type: String
+            public let label: String?
+            public let target: String?
+            public let keyboard: Bool
+            public let camera: Bool
+            public let destructive: Bool?
+            public let icon: NotificareNotification.Action.Icon?
+        }
+
         public func toModel() -> NotificareNotification {
             NotificareNotification(
                 partial: false,
@@ -106,7 +142,19 @@ public extension NotificareInternals.PushAPI.Models {
                 subtitle: subtitle,
                 message: message,
                 content: content,
-                actions: actions,
+                actions: actions.compactMap { action in
+                    guard let label = action.label else { return nil }
+                    
+                    return NotificareNotification.Action(
+                        type: action.type,
+                        label: label,
+                        target: action.target,
+                        keyboard: action.keyboard,
+                        camera: action.camera,
+                        destructive: action.destructive,
+                        icon: action.icon
+                    )
+                },
                 attachments: attachments,
                 extra: extra,
                 targetContentIdentifier: targetContentIdentifier
