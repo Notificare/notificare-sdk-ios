@@ -38,19 +38,7 @@ public extension NotificareInternals.PushAPI.Models {
                         name: category.name,
                         description: category.description,
                         type: category.type,
-                        actions: category.actions.compactMap { action in
-                            guard let label = action.label else { return nil }
-                            
-                            return NotificareNotification.Action(
-                                type: action.type,
-                                label: label,
-                                target: action.target,
-                                keyboard: action.keyboard,
-                                camera: action.camera,
-                                destructive: action.destructive,
-                                icon: action.icon
-                            )
-                        }
+                        actions: category.actions.compactMap { $0.toModel() }
                     )
                 }
             )
@@ -126,10 +114,24 @@ public extension NotificareInternals.PushAPI.Models {
             public let type: String
             public let label: String?
             public let target: String?
-            public let keyboard: Bool
-            public let camera: Bool
+            public let keyboard: Bool?
+            public let camera: Bool?
             public let destructive: Bool?
             public let icon: NotificareNotification.Action.Icon?
+            
+            public func toModel() -> NotificareNotification.Action? {
+                guard let label = label else { return nil }
+                
+                return NotificareNotification.Action(
+                    type: type,
+                    label: label,
+                    target: target,
+                    keyboard: keyboard ?? false,
+                    camera: camera ?? false,
+                    destructive:destructive,
+                    icon: icon
+                )
+            }
         }
 
         public func toModel() -> NotificareNotification {
@@ -142,19 +144,7 @@ public extension NotificareInternals.PushAPI.Models {
                 subtitle: subtitle,
                 message: message,
                 content: content,
-                actions: actions.compactMap { action in
-                    guard let label = action.label else { return nil }
-                    
-                    return NotificareNotification.Action(
-                        type: action.type,
-                        label: label,
-                        target: action.target,
-                        keyboard: action.keyboard,
-                        camera: action.camera,
-                        destructive: action.destructive,
-                        icon: action.icon
-                    )
-                },
+                actions: actions.compactMap { $0.toModel() },
                 attachments: attachments,
                 extra: extra,
                 targetContentIdentifier: targetContentIdentifier
