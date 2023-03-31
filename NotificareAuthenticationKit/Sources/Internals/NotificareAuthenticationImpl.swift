@@ -290,7 +290,7 @@ internal class NotificareAuthenticationImpl: NSObject, NotificareModule, Notific
         }
 
         NotificareRequest.Builder()
-            .post("/user/validate/\(token)")
+            .put("/user/validate/\(token)")
             .response { result in
                 switch result {
                 case .success:
