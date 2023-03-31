@@ -2,8 +2,9 @@
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
+import Foundation
+import SwiftUI
 import ActivityKit
-// import Atlantis
 import CoreLocation
 import NotificareAuthenticationKit
 import NotificareGeoKit
@@ -14,11 +15,11 @@ import NotificareLoyaltyKit
 import NotificareMonetizeKit
 import NotificarePushKit
 import NotificarePushUIKit
+import NotificareScannablesKit
 import StoreKit
 import UIKit
 
-@UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: NSObject, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_: UIApplication, didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -40,109 +41,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Notificare.shared.inbox().delegate = self
         Notificare.shared.geo().delegate = self
         Notificare.shared.monetize().delegate = self
+        Notificare.shared.scannables().delegate = self
 
         Notificare.shared.launch()
 
         if #available(iOS 16.1, *) {
-            monitorLiveActivities()
-            // startLiveActivity()
+            LiveActivitiesController.shared.startMonitoring()
         }
 
         return true
     }
-
-    func application(_: UIApplication, open url: URL, options _: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
-        if Notificare.shared.handleTestDeviceUrl(url) || Notificare.shared.handleDynamicLinkUrl(url) {
-            return true
-        }
-
-        print("-----> Received deep link: \(url.absoluteString)")
-        return true
-    }
-
-    func application(_: UIApplication, continue userActivity: NSUserActivity, restorationHandler _: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
-        guard let url = userActivity.webpageURL else {
-            return false
-        }
-
-        if Notificare.shared.handleTestDeviceUrl(url) {
-            return true
-        }
-
-        if let token = Notificare.shared.authentication().parsePasswordResetToken(url) {
-            print("---> Password reset token = \(token)")
-            return true
-        }
-
-        if let token = Notificare.shared.authentication().parseValidateUserToken(url) {
-            print("---> Validate user token = \(token)")
-            return true
-        }
-
-        return Notificare.shared.handleDynamicLinkUrl(url)
-    }
-
-    @available(iOS 16.1, *)
-    private func startLiveActivity() {
-        Task.init {
-            let attributes = SampleActivityAttributes(text: "Hello there")
-            let contentState = SampleActivityAttributes.ContentState(value: 10)
-
-            do {
-                let activity = try Activity.request(attributes: attributes, contentState: contentState, pushType: .token)
-                print("Live activity '\(activity.id)' started.")
-            } catch {
-                print("Failed to start a live activity: \(error)")
-            }
-        }
-    }
-
-    @available(iOS 16.1, *)
-    private func monitorLiveActivities() {
-        Task.init {
-            // Listen to on-going and new Live Activities.
-            for await activity in Activity<SampleActivityAttributes>.activityUpdates {
-                Task.init {
-                    // Listen to state changes of each activity.
-                    for await state in activity.activityStateUpdates {
-                        print("Live activity '\(activity.id)' state = '\(state)'")
-
-                        switch activity.activityState {
-                        case .active:
-                            Task.init {
-                                // Listen to push token updates of each active activity.
-                                for await token in activity.pushTokenUpdates {
-                                    do {
-                                        try await Notificare.shared.push().registerLiveActivity("sample", token: token)
-                                        print("Live activity '\(activity.id)' registered with token '\(token.toHexString())'.")
-                                    } catch {
-                                        print("Failed to register a live activity: \(error)")
-                                    }
-                                }
-                            }
-
-                        case .dismissed, .ended:
-                            do {
-                                try await Notificare.shared.push().endLiveActivity("sample")
-                                print("Live activity '\(activity.id)' ended on Notificare.")
-                            } catch {
-                                print("Failed to end live activity '\(activity.id)' on Notificare: \(error)")
-                            }
-
-                        @unknown default:
-                            print("Live activity '\(activity.id)' unknown state '\(state)'.")
-                        }
-                    }
-                }
-            }
-        }
-    }
+    
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {}
+    
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {}
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {}
 }
 
 extension AppDelegate: NotificareDelegate {
     func notificare(_: Notificare, onReady _: NotificareApplication) {
         print("-----> Notificare finished launching.")
-
+        
+        NotificationCenter.default.post(
+            name: .notificareStatus,
+            object: nil,
+            userInfo: ["ready": true]
+        )
+        
         if Notificare.shared.push().hasRemoteNotificationsEnabled {
             Notificare.shared.push().enableRemoteNotifications { _ in }
         }
@@ -154,6 +80,12 @@ extension AppDelegate: NotificareDelegate {
 
     func notificareDidUnlaunch(_: Notificare) {
         print("-----> Notificare finished un-launching.")
+        
+        NotificationCenter.default.post(
+            name: .notificareStatus,
+            object: nil,
+            userInfo: ["ready": false]
+        )
     }
 
     func notificare(_: Notificare, didRegisterDevice device: NotificareDevice) {
@@ -168,6 +100,11 @@ extension AppDelegate: NotificarePushDelegate {
 
     func notificare(_: NotificarePush, didChangeNotificationSettings granted: Bool) {
         print("-----> Notificare: notification settings changed: \(granted)")
+
+        NotificationCenter.default.post(
+            name: .notificationSettingsChanged,
+            object: nil
+        )
     }
 
     func notificare(_: NotificarePush, didReceiveSystemNotification notification: NotificareSystemNotification) {
@@ -188,18 +125,7 @@ extension AppDelegate: NotificarePushDelegate {
     }
 
     func notificare(_: NotificarePush, didOpenNotification notification: NotificareNotification) {
-        guard let rootViewController = window?.rootViewController else {
-            return
-        }
-
-//        guard let scene = UIApplication.shared.connectedScenes.filter({ $0.activationState == .foregroundActive }).first ?? UIApplication.shared.connectedScenes.first,
-//              let window = (scene.delegate as! UIWindowSceneDelegate).window!,
-//              let rootViewController = window.rootViewController
-//        else {
-//            return
-//        }
-
-        Notificare.shared.pushUI().presentNotification(notification, in: rootViewController)
+        UIApplication.shared.present(notification)
     }
 
     func notificare(_: NotificarePush, didOpenAction action: NotificareNotification.Action, for notification: NotificareNotification) {
@@ -271,10 +197,22 @@ extension AppDelegate: NotificarePushUIDelegate {
 extension AppDelegate: NotificareInboxDelegate {
     func notificare(_: NotificareInbox, didUpdateInbox items: [NotificareInboxItem]) {
         print("-----> Inbox has loaded. Total = \(items.count)")
+        
+        NotificationCenter.default.post(
+            name: .inboxUpdated,
+            object: nil,
+            userInfo: ["items": items]
+        )
     }
 
     func notificare(_: NotificareInbox, didUpdateBadge badge: Int) {
         print("-----> Badge update. Unread = \(badge)")
+        
+        NotificationCenter.default.post(
+            name: .badgeUpdated,
+            object: nil,
+            userInfo: ["badge": badge]
+        )
     }
 }
 
@@ -361,7 +299,7 @@ extension AppDelegate: NotificareGeoDelegate {
         }
 
         NotificationCenter.default.post(
-            name: .RangingBeacons,
+            name: .beaconsRanged,
             object: nil,
             userInfo: [
                 "region": region,
@@ -427,5 +365,20 @@ extension AppDelegate: NotificareInAppMessagingDelegate {
     func notificare(_: NotificareInAppMessaging, didFailToExecuteAction action: NotificareInAppMessage.Action, for message: NotificareInAppMessage, error _: Error?) {
         print("-----> in-app message action failed to execute = \(action)")
         print("-----> for message = \(message)")
+    }
+}
+
+extension AppDelegate: NotificareScannablesDelegate {
+    func notificare(_ notificareScannables: NotificareScannables, didDetectScannable scannable: NotificareScannable) {
+        guard let notification = scannable.notification else {
+            print("Cannot present a scannable without a notification.")
+            return
+        }
+        
+        UIApplication.shared.present(notification)
+    }
+    
+    func notificare(_ notificareScannables: NotificareScannables, didInvalidateScannerSession error: Error) {
+        print("Scannable session invalidated: \(error.localizedDescription)")
     }
 }

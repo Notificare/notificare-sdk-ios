@@ -1,0 +1,163 @@
+/* 
+  Localizable.strings
+  Sample
+
+  Created by Yevhenii Smirnov on 21/03/2023.
+*/
+
+"sdk" = "SDK";
+
+"button_register" = "Register";
+"button_search" = "Search";
+"button_add" = "Add";
+"button_remove" = "Remove";
+"button_clean_user" = "Clean User";
+"button_register_user" = "Register User";
+"button_send" = "Send";
+
+"result" = "Result";
+
+"authentication_account" = "Account";
+"authentication_change" = "Change";
+"authentication_current_user" = "Current User";
+"authentication_choose_the_preferece" = "Preference";
+"authentication_choose_the_option" = "Option";
+"authentication_user_segments" = "User Segments";
+"authentication_user_id" = "ID";
+"authentication_email" = "Email";
+"authentication_generate_push_email" = "Generate Push Email";
+"authentication_push_email" = "Push Email";
+"authentication_fetch" = "Fetch";
+"authentication_fetched_segments" = "Fetched Segments";
+"authentication_last_active" = "Last Active";
+"authentication_login" = "Login";
+"authentication_logout" = "Logout";
+"authentication_user_name" = "Name";
+"authentication_no_data_to_show" = "No Data";
+"authentication_password" = "Password";
+"authentication_new_password" = "New Password";
+"authentication_register_new_account" = "Register New Account";
+"authentication_remove" = "Remove";
+"authentication_reset" = "Reset";
+"authentication_registration_date" = "Registration Date";
+"authentication_segments" = "Segments";
+"authentication_send_password_reset" = "Send Password Reset";
+"authentication_token" = "Token";
+"authentication_title" = "Authentication";
+"authentication_user_preferences" = "User Preferences";
+"authentication_user_segments" = "User Segments";
+"authentication_user" = "User";
+"authentication_validate" = "Validate";
+"authentication_validate_user" = "Validate User";
+"authentication_no_segemnts_found" = "No segments found";
+"authentication_not_available_please_login" = "Not available, please login.";
+
+"assets_details_title" = "Asset Details";
+"asset_id" = "ID";
+"asset_title" = "Title";
+"asset_description" = "Description";
+"asset_key" = "Key";
+"asset_url" = "Url";
+"asset_button" = "Button";
+"asset_action" = "Action";
+"asset_original_file_name" = "Original File Name";
+"asset_content_type" = "Content Type";
+"asset_content_length" = "Content Length";
+"asset_meta_data" = "Meta Data";
+"asset_extras" = "Extras";
+
+"assets_title" = "Assets";
+"assets_group_input" = "Enter asset group";
+"assets_fetch" = "Fetch Assets";
+"assets_not_found" = "No assets found!";
+
+"beacons_title" = "Beacons";
+"beacons_not_found" = "No beacons nearby found!";
+"beacons_ranged" = "Ranged Beacons";
+
+"events_title" = "Events";
+"event_add_field" = "Add Field";
+"event_name" = "Event Name";
+"event_register" = "Register Event";
+"event_key" = "Key";
+"event_value" = "Value";
+
+"home_title" = "Sample";
+"home_configured" = "Configured";
+"home_ready" = "Ready";
+"home_launch" = "Launch";
+"home_unlaunch" = "Unlaunch";
+"home_launch_flow" = "Launch Flow";
+"home_notifications" = "Notifications";
+"home_enabled" = "Enabled";
+"home_allowed_ui" = "Allowed UI";
+"home_permission" = "Permission";
+"home_inbox" = "Inbox";
+"home_tags" = "Tags";
+"home_remote_notifications" = "Remote Notifications";
+"home_do_not_disturb" = "Do Not Disturb";
+"home_do_not_disturb_start" = "From";
+"home_do_not_disturb_end" = "To";
+"home_location" = "Location";
+"home_bluetooth_enabled" = "Bluetooth Enabled";
+"home_bluetooth_permission" = "Bluetooth Permission";
+"home_beacons" = "Beacons";
+"home_geo" = "Geo";
+"home_in_app_messaging" = "In App Messaging";
+"home_evaluate_context" = "Evaluate Context";
+"home_suppressed" = "Suppressed";
+"home_user_id" = "User ID";
+"home_user_name" = "User Name";
+"home_device_registration" = "Device Registration";
+"home_scannables" = "Scannables";
+"home_assets" = "Assets";
+"home_monetize" = "Monetize";
+"home_athentication" = "Athentication";
+"home_custom_events" = "Custom Events";
+"home_other_features" = "Other Features";
+
+"home_coffee_brewer_title" = "Live Activities";
+"home_coffee_brewer_create_button" = "Brew a coffee";
+"home_coffee_brewer_brew_button" = "Start brewing";
+"home_coffee_brewer_serve_button" = "Serve the coffee!";
+"home_coffee_brewer_stop_button" = "Cancel";
+
+"inbox_title" = "Inbox";
+"inbox_section_today" = "Today";
+"inbox_section_yesterday" = "Yesterday";
+"inbox_section_last_seven_days" = "Last 7 days";
+"inbox_no_messages" = "No messages found!";
+"inbox_sheet_select_option" = "Select Option";
+"inbox_sheet_open" = "Open";
+"inbox_sheet_mark_as_read" = "Mark as Read";
+"inbox_sheet_remove" = "Remove";
+"inbox_sheet_cancel" = "Cancel";
+
+"monetize_products" = "Products";
+"monetize_purchases" = "Purchases";
+
+"monetize_no_products_found" = "No products found!";
+"monetize_no_purchases_found" = "No purchases found!";
+
+"monetize_purchase_id" = "Purchase ID";
+"monetize_purchase_time" = "Purchase Time";
+"monetize_purchase_history" = "Purchase history";
+
+"monetize_product_id" = "ID";
+"monetize_product_name" = "Name";
+"monetize_product_type" = "Type";
+"monetize_product_price" = "Price";
+"monetize_buy" = "Buy";
+
+"scannables_title" = "Scannables";
+"scannables_nfc" = "NFC";
+"scannables_qr_code" = "QR Code";
+"scannables_scannable_session" = "Scannable Session";
+
+"tags_title" = "Tags";
+"tags_no_tags_found" = "No Registered Tags Found!";
+"tags_device_tags" = "Device Tags";
+"tags_select_tag" = "Select a Tag";
+"tags_manual_input" = "Manual Input";
+"tags_add" = "Manual Input";
+"tags_quick_fill" = "Quick Fill";
