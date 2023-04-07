@@ -139,24 +139,27 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
                 return
             }
 
-            LocalStorage.preferredLanguage = language
-            LocalStorage.preferredRegion = region
-
-            updateLanguage { result in
+            updateLanguage(language, region: region) { result in
                 switch result {
                 case .success:
+                    LocalStorage.preferredLanguage = language
+                    LocalStorage.preferredRegion = region
+
                     completion(.success(()))
                 case let .failure(error):
                     completion(.failure(error))
                 }
             }
         } else {
-            LocalStorage.preferredLanguage = nil
-            LocalStorage.preferredRegion = nil
+            let language = getDeviceLanguage()
+            let region = getDeviceRegion()
 
-            updateLanguage { result in
+            updateLanguage(language, region: region) { result in
                 switch result {
                 case .success:
+                    LocalStorage.preferredLanguage = nil
+                    LocalStorage.preferredRegion = nil
+
                     completion(.success(()))
                 case let .failure(error):
                     completion(.failure(error))
@@ -521,8 +524,8 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         }
 
         let payload = NotificareInternals.PushAPI.Payloads.Device.UpdateTimeZone(
-            language: getLanguage(),
-            region: getRegion(),
+            language: getDeviceLanguage(),
+            region: getDeviceRegion(),
             timeZoneOffset: NotificareUtils.timeZoneOffset
         )
 
@@ -541,15 +544,15 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
             }
     }
 
-    internal func updateLanguage(_ completion: @escaping NotificareCallback<Void>) {
+    internal func updateLanguage(_ language: String, region: String, _ completion: @escaping NotificareCallback<Void>) {
         guard Notificare.shared.isReady, let device = currentDevice else {
             completion(.failure(NotificareError.notReady))
             return
         }
 
         let payload = NotificareInternals.PushAPI.Payloads.Device.UpdateLanguage(
-            language: getLanguage(),
-            region: getRegion()
+            language: language,
+            region: region
         )
 
         NotificareRequest.Builder()
@@ -575,8 +578,8 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         }
 
         let payload = NotificareInternals.PushAPI.Payloads.Device.UpdateBackgroundAppRefresh(
-            language: getLanguage(),
-            region: getRegion(),
+            language: getDeviceLanguage(),
+            region: getDeviceRegion(),
             backgroundAppRefresh: UIApplication.shared.backgroundRefreshStatus == .available
         )
 
@@ -604,8 +607,8 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
                 oldDeviceID: oldDeviceId,
                 userID: userId,
                 userName: userName,
-                language: getLanguage(),
-                region: getRegion(),
+                language: getDeviceLanguage(),
+                region: getDeviceRegion(),
                 platform: "iOS",
                 transport: transport,
                 osVersion: NotificareUtils.osVersion,
@@ -729,12 +732,12 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
             changed = true
         }
 
-        if device.language != getLanguage() {
+        if device.language != getDeviceLanguage() {
             NotificareLogger.debug("Registration check: language changed")
             changed = true
         }
 
-        if device.region != getRegion() {
+        if device.region != getDeviceRegion() {
             NotificareLogger.debug("Registration check: region changed")
             changed = true
         }
@@ -742,11 +745,11 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         return changed
     }
 
-    private func getLanguage() -> String {
+    private func getDeviceLanguage() -> String {
         LocalStorage.preferredLanguage ?? NotificareUtils.deviceLanguage
     }
 
-    private func getRegion() -> String {
+    private func getDeviceRegion() -> String {
         LocalStorage.preferredRegion ?? NotificareUtils.deviceRegion
     }
 
@@ -765,7 +768,10 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
     @objc private func updateDeviceLanguage() {
         NotificareLogger.info("Device language changed.")
 
-        updateLanguage { result in
+        let language = getDeviceLanguage()
+        let region = getDeviceRegion()
+
+        updateLanguage(language, region: region) { result in
             if case .success = result {
                 NotificareLogger.info("Device language updated.")
             }
