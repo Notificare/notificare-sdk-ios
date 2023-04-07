@@ -22,6 +22,11 @@ public class NotificareAutoConfig: NSObject {
             object: nil
         )
 
+        guard Notificare.shared.state == .none else {
+            NotificareLogger.debug("Notificare has already been configured. Skipping automatic configuration...")
+            return
+        }
+
         var autoConfig = true
         if let path = Bundle.main.path(forResource: NotificareOptions.fileName, ofType: NotificareOptions.fileExtension),
            let options = NotificareOptions(contentsOfFile: path)
@@ -31,11 +36,6 @@ public class NotificareAutoConfig: NSObject {
 
         guard autoConfig else {
             NotificareLogger.debug("Notificare auto config is disabled. Skipping automatic configuration...")
-            return
-        }
-
-        guard Notificare.shared.state == .none else {
-            NotificareLogger.debug("Notificare has already been configured. Skipping automatic configuration...")
             return
         }
 
