@@ -118,17 +118,17 @@ public extension NotificareInternals.PushAPI.Models {
             public let camera: Bool?
             public let destructive: Bool?
             public let icon: NotificareNotification.Action.Icon?
-            
+
             public func toModel() -> NotificareNotification.Action? {
                 guard let label = label else { return nil }
-                
+
                 return NotificareNotification.Action(
                     type: type,
                     label: label,
                     target: target,
                     keyboard: keyboard ?? false,
                     camera: camera ?? false,
-                    destructive:destructive,
+                    destructive: destructive,
                     icon: icon
                 )
             }
