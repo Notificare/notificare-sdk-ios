@@ -51,6 +51,10 @@ public class NotificareAutoConfig: NSObject {
             return true
         }
 
+        if !options.autoConfig {
+            NotificareLogger.debug("Notificare auto config is disabled.")
+        }
+
         return options.autoConfig
     }
 
