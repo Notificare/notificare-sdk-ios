@@ -151,8 +151,8 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
                 }
             }
         } else {
-            let language = getDeviceLanguage()
-            let region = getDeviceRegion()
+            let language = NotificareUtils.deviceLanguage
+            let region = NotificareUtils.deviceRegion
 
             updateLanguage(language, region: region) { result in
                 switch result {
