@@ -82,24 +82,15 @@ public class NotificareVideoViewController: NotificareBaseNotificationViewContro
             return
         }
 
-        let width = view.ncSafeAreaLayoutGuide.layoutFrame.width
-        let height = view.ncSafeAreaLayoutGuide.layoutFrame.height
-
         switch content.type {
         case "re.notifica.content.YouTube":
             renderYouTubeVideo(content.data as! String)
 
         case "re.notifica.content.Vimeo":
-            let htmlTemplate = "<!DOCTYPE html><html><head><style>body{margin:0px 0px 0px 0px;}</style></head><body><iframe src='https://player.vimeo.com/video/%@?autoplay=1' width='%0.0f' height='%0.0f' frameborder='0' webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></body> </html>"
-
-            let htmlStr = String(format: htmlTemplate, content.data as! String, width, height)
-            webView.loadHTMLString(htmlStr, baseURL: Bundle.main.resourceURL)
+            renderVimeoVideo(content.data as! String)
 
         case "re.notifica.content.HTML5Video":
-            let htmlTemplate = "<!DOCTYPE html><html><head><style>body{margin:0px 0px 0px 0px;}</style></head><body><video id='html5player' width='%0.0f' height='%0.0f' autoplay controls preload><source src='%@' type='video/mp4'></video></body></html>"
-
-            let htmlStr = String(format: htmlTemplate, width, height, content.data as! String)
-            webView.loadHTMLString(htmlStr, baseURL: Bundle.main.resourceURL)
+            renderHtml5Video(content.data as! String)
 
         default:
             DispatchQueue.main.async {
@@ -155,6 +146,55 @@ public class NotificareVideoViewController: NotificareBaseNotificationViewContro
               event.target.playVideo();
             }
           </script>
+        </body>
+        </html>
+        """
+
+        webView.loadHTMLString(html, baseURL: Bundle.main.resourceURL)
+    }
+
+    private func renderVimeoVideo(_ videoId: String) {
+        let html = """
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <style>
+            body {
+              margin: 0px 0px 0px 0px;
+            }
+          </style>
+        </head>
+        <body>
+          <iframe src="https://player.vimeo.com/video/\(videoId)?autoplay=1"
+                  width="\(contentBoundaries.width)"
+                  height="\(contentBoundaries.height)"
+                  frameborder="0"
+                  webkitallowfullscreen
+                  mozallowfullscreen
+                  allowfullscreen
+          ></iframe>
+        </body>
+        </html>
+        """
+
+        webView.loadHTMLString(html, baseURL: Bundle.main.resourceURL)
+    }
+
+    private func renderHtml5Video(_ videoSource: String) {
+        let html = """
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <style>
+            body {
+              margin: 0px 0px 0px 0px;
+            }
+          </style>
+        </head>
+        <body>
+          <video width="\(contentBoundaries.width)" height="\(contentBoundaries.height)" autoplay controls preload>
+            <source src="\(videoSource)" type="video/mp4">
+          </video>
         </body>
         </html>
         """
