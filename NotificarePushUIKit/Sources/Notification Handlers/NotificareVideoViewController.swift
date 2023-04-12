@@ -9,6 +9,10 @@ import WebKit
 public class NotificareVideoViewController: NotificareBaseNotificationViewController {
     private var webView: WKWebView!
 
+    private var contentBoundaries: CGRect {
+        view.ncSafeAreaLayoutGuide.layoutFrame
+    }
+
     override public func viewDidLoad() {
         super.viewDidLoad()
 
@@ -83,11 +87,7 @@ public class NotificareVideoViewController: NotificareBaseNotificationViewContro
 
         switch content.type {
         case "re.notifica.content.YouTube":
-            let htmlTemplate = "<!DOCTYPE html><html><head><style>body{margin:0px 0px 0px 0px;}</style></head> <body> <div id=\"player\"></div> <script> var tag = document.createElement('script'); tag.src = \"https://www.youtube.com/player_api\"; var firstScriptTag = document.getElementsByTagName('script')[0]; firstScriptTag.parentNode.insertBefore(tag, firstScriptTag); var player; function onYouTubePlayerAPIReady() { player = new YT.Player('player', { autoplay: 1, width:'%0.0f', height:'%0.0f', videoId:'%@', events: { 'onReady': onPlayerReady } }); } function onPlayerReady(event) { event.target.playVideo(); } </script> </body> </html>"
-
-            let htmlStr = String(format: htmlTemplate, width, height, content.data as! String)
-            webView.loadHTMLString(htmlStr, baseURL: Bundle.main.resourceURL)
-            NotificareLogger.warning("done loading html")
+            renderYouTubeVideo(content.data as! String)
 
         case "re.notifica.content.Vimeo":
             let htmlTemplate = "<!DOCTYPE html><html><head><style>body{margin:0px 0px 0px 0px;}</style></head><body><iframe src='https://player.vimeo.com/video/%@?autoplay=1' width='%0.0f' height='%0.0f' frameborder='0' webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></body> </html>"
@@ -112,6 +112,54 @@ public class NotificareVideoViewController: NotificareBaseNotificationViewContro
         DispatchQueue.main.async {
             Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didPresentNotification: self.notification)
         }
+    }
+
+    private func renderYouTubeVideo(_ videoId: String) {
+        let html = """
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <style>
+            body {
+              margin: 0px 0px 0px 0px;
+            }
+          </style>
+        </head>
+        <body>
+          <iframe src="https://www.youtube-nocookie.com/embed/\(videoId)?enablejsapi=1"
+                  id="player"
+                  width="\(contentBoundaries.width)"
+                  height="\(contentBoundaries.height)"
+                  frameborder="0"
+                  webkitallowfullscreen
+                  mozallowfullscreen
+                  allowfullscreen></iframe>
+
+          <script type="text/javascript">
+            var tag = document.createElement('script');
+            tag.src = 'https://www.youtube.com/iframe_api';
+
+            var firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+            var player;
+            function onYouTubeIframeAPIReady() {
+              player = new YT.Player('player', {
+                events: {
+                  'onReady': onPlayerReady,
+                }
+              });
+            }
+
+            function onPlayerReady(event) {
+              event.target.playVideo();
+            }
+          </script>
+        </body>
+        </html>
+        """
+
+        webView.loadHTMLString(html, baseURL: Bundle.main.resourceURL)
     }
 }
 
