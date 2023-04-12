@@ -600,50 +600,53 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
 
     private func register(transport: NotificareTransport, token: String, userId: String?, userName: String?, _ completion: @escaping NotificareCallback<Void>) {
         if registrationChanged(token: token, userId: userId, userName: userName) {
-            let oldDeviceId = currentDevice?.id != nil && currentDevice?.id != token ? currentDevice?.id : nil
+            // NOTE: the backgroundRefreshStatus will print a warning when accessed from background threads.
+            DispatchQueue.main.async {
+                let oldDeviceId = self.currentDevice?.id != nil && self.currentDevice?.id != token ? self.currentDevice?.id : nil
 
-            let deviceRegistration = NotificareInternals.PushAPI.Payloads.Device.Registration(
-                deviceID: token,
-                oldDeviceID: oldDeviceId,
-                userID: userId,
-                userName: userName,
-                language: getDeviceLanguage(),
-                region: getDeviceRegion(),
-                platform: "iOS",
-                transport: transport,
-                osVersion: NotificareUtils.osVersion,
-                sdkVersion: Notificare.SDK_VERSION,
-                appVersion: NotificareUtils.applicationVersion,
-                deviceString: NotificareUtils.deviceString,
-                timeZoneOffset: NotificareUtils.timeZoneOffset,
-                backgroundAppRefresh: UIApplication.shared.backgroundRefreshStatus == .available,
+                let deviceRegistration = NotificareInternals.PushAPI.Payloads.Device.Registration(
+                    deviceID: token,
+                    oldDeviceID: oldDeviceId,
+                    userID: userId,
+                    userName: userName,
+                    language: self.getDeviceLanguage(),
+                    region: self.getDeviceRegion(),
+                    platform: "iOS",
+                    transport: transport,
+                    osVersion: NotificareUtils.osVersion,
+                    sdkVersion: Notificare.SDK_VERSION,
+                    appVersion: NotificareUtils.applicationVersion,
+                    deviceString: NotificareUtils.deviceString,
+                    timeZoneOffset: NotificareUtils.timeZoneOffset,
+                    backgroundAppRefresh: UIApplication.shared.backgroundRefreshStatus == .available,
 
-                // Submit a value when registering a temporary to prevent
-                // otherwise let the push module take over and update the setting accordingly.
-                allowedUI: transport == .notificare ? false : nil
-            )
+                    // Submit a value when registering a temporary to prevent
+                    // otherwise let the push module take over and update the setting accordingly.
+                    allowedUI: transport == .notificare ? false : nil
+                )
 
-            NotificareRequest.Builder()
-                .post("/device", body: deviceRegistration)
-                .response { result in
-                    switch result {
-                    case .success:
-                        let device = NotificareDevice(from: deviceRegistration, previous: self.currentDevice)
+                NotificareRequest.Builder()
+                    .post("/device", body: deviceRegistration)
+                    .response { result in
+                        switch result {
+                        case .success:
+                            let device = NotificareDevice(from: deviceRegistration, previous: self.currentDevice)
 
-                        // Update and store the cached device.
-                        self.currentDevice = device
+                            // Update and store the cached device.
+                            self.currentDevice = device
 
-                        DispatchQueue.main.async {
-                            // Notify delegate.
-                            Notificare.shared.delegate?.notificare(Notificare.shared, didRegisterDevice: device)
+                            DispatchQueue.main.async {
+                                // Notify delegate.
+                                Notificare.shared.delegate?.notificare(Notificare.shared, didRegisterDevice: device)
+                            }
+
+                            completion(.success(()))
+                        case let .failure(error):
+                            NotificareLogger.error("Failed to register device.", error: error)
+                            completion(.failure(error))
                         }
-
-                        completion(.success(()))
-                    case let .failure(error):
-                        NotificareLogger.error("Failed to register device.", error: error)
-                        completion(.failure(error))
                     }
-                }
+            }
         } else {
             NotificareLogger.info("Skipping device registration, nothing changed.")
 
