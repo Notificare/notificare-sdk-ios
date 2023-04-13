@@ -9,10 +9,6 @@ import WebKit
 public class NotificareVideoViewController: NotificareBaseNotificationViewController {
     private var webView: WKWebView!
 
-    private var contentBoundaries: CGRect {
-        view.ncSafeAreaLayoutGuide.layoutFrame
-    }
-
     override public func viewDidLoad() {
         super.viewDidLoad()
 
@@ -45,10 +41,6 @@ public class NotificareVideoViewController: NotificareBaseNotificationViewContro
         let configuration = WKWebViewConfiguration()
         configuration.allowsInlineMediaPlayback = true
         configuration.mediaTypesRequiringUserActionForPlayback = []
-
-        let metaTag = "var meta = document.createElement('meta');meta.name = 'viewport';meta.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';var head = document.getElementsByTagName('head')[0];head.appendChild(meta);"
-        let metaScript = WKUserScript(source: metaTag, injectionTime: .atDocumentEnd, forMainFrameOnly: false)
-        configuration.userContentController.addUserScript(metaScript)
 
         // View setup.
         webView = WKWebView(frame: .zero, configuration: configuration)
@@ -110,17 +102,21 @@ public class NotificareVideoViewController: NotificareBaseNotificationViewContro
         <!DOCTYPE html>
         <html>
         <head>
+          <meta name="viewport" content="initial-scale=1, maximum-scale=1">
           <style>
             body {
-              margin: 0px 0px 0px 0px;
+              margin: 0;
+            }
+
+            #player {
+              width: 100vw;
+              height: 100vh;
             }
           </style>
         </head>
         <body>
           <iframe src="https://www.youtube-nocookie.com/embed/\(videoId)?enablejsapi=1"
                   id="player"
-                  width="\(contentBoundaries.width)"
-                  height="\(contentBoundaries.height)"
                   frameborder="0"
                   webkitallowfullscreen
                   mozallowfullscreen
@@ -158,16 +154,21 @@ public class NotificareVideoViewController: NotificareBaseNotificationViewContro
         <!DOCTYPE html>
         <html>
         <head>
+          <meta name="viewport" content="initial-scale=1, maximum-scale=1">
           <style>
             body {
-              margin: 0px 0px 0px 0px;
+              margin: 0;
+            }
+
+            #player {
+              width: 100vw;
+              height: 100vh;
             }
           </style>
         </head>
         <body>
           <iframe src="https://player.vimeo.com/video/\(videoId)?autoplay=1"
-                  width="\(contentBoundaries.width)"
-                  height="\(contentBoundaries.height)"
+                  id="player"
                   frameborder="0"
                   webkitallowfullscreen
                   mozallowfullscreen
@@ -185,14 +186,20 @@ public class NotificareVideoViewController: NotificareBaseNotificationViewContro
         <!DOCTYPE html>
         <html>
         <head>
+          <meta name="viewport" content="initial-scale=1, maximum-scale=1">
           <style>
             body {
-              margin: 0px 0px 0px 0px;
+              margin: 0;
+            }
+
+            #player {
+              width: 100vw;
+              height: 100vh;
             }
           </style>
         </head>
         <body>
-          <video width="\(contentBoundaries.width)" height="\(contentBoundaries.height)" autoplay controls preload>
+          <video id="player" autoplay controls preload>
             <source src="\(videoSource)" type="video/mp4">
           </video>
         </body>
