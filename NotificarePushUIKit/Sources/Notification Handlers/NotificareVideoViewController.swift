@@ -13,15 +13,6 @@ public class NotificareVideoViewController: NotificareBaseNotificationViewContro
         super.viewDidLoad()
 
         setupWebView()
-        // setupContent()
-    }
-
-    override public func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
-        // NOTE: we're setting up the content when the view loads because,
-        // at the moment, we need the correct height of the safe area.
-        // We should improve the HTML template to be responsive.
         setupContent()
     }
 
