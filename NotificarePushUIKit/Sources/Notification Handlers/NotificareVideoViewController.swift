@@ -55,8 +55,8 @@ public class NotificareVideoViewController: NotificareBaseNotificationViewContro
         NSLayoutConstraint.activate([
             webView.topAnchor.constraint(equalTo: view.ncSafeAreaLayoutGuide.topAnchor),
             webView.bottomAnchor.constraint(equalTo: view.ncSafeAreaLayoutGuide.bottomAnchor),
-            webView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            webView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            webView.leadingAnchor.constraint(equalTo: view.ncSafeAreaLayoutGuide.leadingAnchor),
+            webView.trailingAnchor.constraint(equalTo: view.ncSafeAreaLayoutGuide.trailingAnchor),
         ])
 
         // Clear cache.
