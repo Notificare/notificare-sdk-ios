@@ -173,7 +173,9 @@ class Xcode
       command = <<~COMMAND
         xcodebuild -create-xcframework \\
           -framework ".build/archives/#{framework.scheme}-iOS.xcarchive/Products/Library/Frameworks/#{framework.scheme}.framework" \\
+          -debug-symbols #{File.expand_path(".build/archives/#{framework.scheme}-iOS.xcarchive/dSYMs/#{framework.scheme}.framework.dSYM")} \\
           -framework ".build/archives/#{framework.scheme}-iOS-simulator.xcarchive/Products/Library/Frameworks/#{framework.scheme}.framework" \\
+          -debug-symbols #{File.expand_path(".build/archives/#{framework.scheme}-iOS-simulator.xcarchive/dSYMs/#{framework.scheme}.framework.dSYM")} \\
           -output ".build/intermediates/#{framework.scheme}.xcframework"
       COMMAND
 
