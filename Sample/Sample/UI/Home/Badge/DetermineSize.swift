@@ -6,7 +6,7 @@ import SwiftUI
 
 struct DetermineSize: View {
     typealias Key = SizePreferenceKey
-    
+
     var body: some View {
         GeometryReader { proxy in
             Color.clear
@@ -19,7 +19,7 @@ struct DetermineSize: View {
 
 struct SizePreferenceKey: PreferenceKey {
     static var defaultValue: CGSize = .zero
-    
+
     static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
         value = nextValue()
     }

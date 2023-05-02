@@ -6,24 +6,24 @@ import SwiftUI
 
 struct UserSegmentsSection: View {
     @StateObject var viewModel: AuthenticationViewModel
-    
+
     var body: some View {
         Section {
             Text(String(localized: "authentication_user_segments"))
                 .fontWeight(.medium)
-            
+
             if let userSegments = viewModel.currentUser?.segments {
                 if userSegments.isEmpty {
                     Label(String(localized: "authentication_no_segemnts_found"), systemImage: "info.circle.fill")
                 }
                 ForEach(userSegments, id: \.self) { segment in
-                    let notificareSegment = viewModel.fetchedSegments.first { $0.id == segment}
+                    let notificareSegment = viewModel.fetchedSegments.first { $0.id == segment }
                     if let segment = notificareSegment {
                         HStack {
                             Text(segment.name)
-                            
+
                             Spacer()
-                            
+
                             Button(String(localized: "button_remove")) {
                                 viewModel.removeUserSegment(segment: segment)
                             }

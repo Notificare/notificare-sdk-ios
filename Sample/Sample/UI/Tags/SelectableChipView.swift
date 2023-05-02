@@ -7,7 +7,7 @@ import SwiftUI
 struct SelectableChipView: View {
     @StateObject var viewModel: TagsViewModel
     @State var tag: AvailableTag
-    
+
     var body: some View {
         HStack(spacing: 4) {
             Text(tag.name).font(.body).lineLimit(1)
@@ -20,7 +20,6 @@ struct SelectableChipView: View {
         .overlay(
             RoundedRectangle(cornerRadius: 20)
                 .stroke(tag.isSelected ? Color.blue : Color.black, lineWidth: 1.5)
-            
         )
         .onTapGesture {
             tag.isSelected.toggle()

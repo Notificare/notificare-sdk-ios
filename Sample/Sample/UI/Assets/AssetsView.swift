@@ -6,16 +6,16 @@ import SwiftUI
 
 struct AssetsView: View {
     @StateObject private var viewModel: AssetsViewModel
-    
+
     init() {
-        self._viewModel = StateObject(wrappedValue: AssetsViewModel())
+        _viewModel = StateObject(wrappedValue: AssetsViewModel())
     }
-    
+
     var body: some View {
         List {
             Section {
                 TextField(String(localized: "assets_group_input"), text: $viewModel.assetsGroup)
-                
+
                 Button(String(localized: "button_search")) {
                     viewModel.fetchAssets()
                 }
@@ -24,7 +24,7 @@ struct AssetsView: View {
             } header: {
                 Text(String(localized: "assets_fetch"))
             }
-            
+
             if viewModel.shouldShowResult {
                 Section {
                     if viewModel.assets.isEmpty {

@@ -6,7 +6,7 @@ import SwiftUI
 
 struct TagsView: View {
     @StateObject var viewModel: TagsViewModel
-    
+
     var body: some View {
         List {
             Section {
@@ -17,7 +17,7 @@ struct TagsView: View {
                         HStack {
                             Text(tag)
                             Spacer()
-                            
+
                             Button(String(localized: "button_remove")) {
                                 viewModel.removeTag(tag: tag)
                             }
@@ -27,10 +27,10 @@ struct TagsView: View {
             } header: {
                 Text(String(localized: "tags_device_tags"))
             }
-            
+
             Section {
                 if !viewModel.availableTags.isEmpty {
-                    VStack (alignment: .leading) {
+                    VStack(alignment: .leading) {
                         Text(String(localized: "tags_select_tag"))
                         HStack {
                             ForEach(viewModel.availableTags) { tag in
@@ -41,14 +41,14 @@ struct TagsView: View {
                         .padding(.bottom)
                     }
                 }
-                
+
                 HStack {
                     Text(String(localized: "tags_manual_input"))
-                        .frame(maxWidth: .infinity,  alignment: .leading)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                     TextField("Tag", text: $viewModel.inputTag)
                         .frame(maxWidth: .infinity)
                 }
-                
+
                 Button(String(localized: "button_add")) {
                     viewModel.addTags()
                 }
@@ -62,19 +62,19 @@ struct TagsView: View {
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarItems(
             trailing:
-                HStack {
-                    Button {
-                        viewModel.getDeviceTags()
-                    } label: {
-                        Image(systemName: "arrow.triangle.2.circlepath")
-                    }
-                    
-                    Button {
-                        viewModel.clearTags()
-                    } label: {
-                        Image(systemName: "trash")
-                    }
+            HStack {
+                Button {
+                    viewModel.getDeviceTags()
+                } label: {
+                    Image(systemName: "arrow.triangle.2.circlepath")
                 }
+
+                Button {
+                    viewModel.clearTags()
+                } label: {
+                    Image(systemName: "trash")
+                }
+            }
         )
     }
 }

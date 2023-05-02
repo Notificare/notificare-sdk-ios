@@ -6,14 +6,13 @@ import SwiftUI
 
 struct RegisterNewUserSection: View {
     @StateObject var viewModel: AuthenticationViewModel
-    
+
     var body: some View {
         Section {
             TextField(String(localized: "authentication_email"), text: $viewModel.newUserEmail)
             TextField(String(localized: "authentication_password"), text: $viewModel.newUserPassword)
             TextField(String(localized: "authentication_user_name"), text: $viewModel.newUserName)
-            
-            
+
             Button(String(localized: "authentication_register_new_account")) {
                 viewModel.registerNewUser()
             }

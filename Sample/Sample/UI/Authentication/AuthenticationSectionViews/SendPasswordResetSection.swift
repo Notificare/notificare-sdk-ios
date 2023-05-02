@@ -6,11 +6,11 @@ import SwiftUI
 
 struct SendPasswordResetSection: View {
     @StateObject var viewModel: AuthenticationViewModel
-    
+
     var body: some View {
         Section {
             TextField(String(localized: "authentication_email"), text: $viewModel.sendPasswordResetEmail)
-            
+
             Button(String(localized: "authentication_send_password_reset")) {
                 viewModel.sendPasswordReset()
             }

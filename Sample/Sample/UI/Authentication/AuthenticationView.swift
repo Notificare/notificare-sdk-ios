@@ -6,13 +6,11 @@ import SwiftUI
 
 struct AuthenticationView: View {
     @StateObject private var viewModel: AuthenticationViewModel
-    
-    
-    
+
     init() {
-        self._viewModel = StateObject(wrappedValue: AuthenticationViewModel())
+        _viewModel = StateObject(wrappedValue: AuthenticationViewModel())
     }
-    
+
     var body: some View {
         List {
             CurrentUserSection(viewModel: viewModel)

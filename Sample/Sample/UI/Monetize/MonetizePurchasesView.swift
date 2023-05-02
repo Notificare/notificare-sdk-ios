@@ -6,7 +6,7 @@ import SwiftUI
 
 struct MonetizePurchasesView: View {
     @StateObject var viewModel: MonetizeViewModel
-    
+
     var body: some View {
         List {
             Section {
@@ -20,7 +20,7 @@ struct MonetizePurchasesView: View {
                                     .fontWeight(.medium)
                                 Text(purchase.id)
                             }
-                            
+
                             HStack {
                                 Text(String(localized: "monetize_purchase_time"))
                                     .fontWeight(.medium)

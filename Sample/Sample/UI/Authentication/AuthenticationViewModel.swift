@@ -3,51 +3,51 @@
 //
 
 import Foundation
-import NotificareKit
 import NotificareAuthenticationKit
+import NotificareKit
 import OSLog
 
 @MainActor
 class AuthenticationViewModel: ObservableObject {
     @Published var currentUser: NotificareUser?
-    
+
     @Published var newUserEmail = ""
     @Published var newUserPassword = ""
     @Published var newUserName = ""
-    
+
     @Published var validateUserToken = ""
-    
+
     @Published var loginEmail = ""
     @Published var loginPassword = ""
-    
+
     @Published var sendPasswordResetEmail = ""
-    
+
     @Published var resetPasswordNewPassword = ""
     @Published var resetPasswordToken = ""
-    
+
     @Published var changePasswordNewPassword = ""
-    
+
     @Published private(set) var fetchedSegments = [NotificareUserSegment]()
-    
+
     @Published private(set) var fetchedPreferences = [NotificareUserPreference]()
     @Published private(set) var preferenceOptions = [NotificareUserPreference.Option]()
     @Published var selectedPreferenceId = ""
     @Published var selectedOptionIndex = 0
-    
+
     init() {
         fetchCurentUser()
         fetchUserSegments()
         fetchUserPreferences()
     }
-    
+
     private func fetchCurentUser() {
         Logger.main.info("-----> Fetching current user <-----")
-        
+
         if !Notificare.shared.authentication().isLoggedIn {
             Logger.main.info("-----> Skipping fetch current user, not logged in <-----")
             return
         }
-        
+
         Task {
             do {
                 let user = try await Notificare.shared.authentication().fetchUserDetails()
@@ -58,10 +58,10 @@ class AuthenticationViewModel: ObservableObject {
             }
         }
     }
-    
+
     func fetchUserSegments() {
         Logger.main.info("-----> Fetching user segments <-----")
-        
+
         Task {
             do {
                 let segments = try await Notificare.shared.authentication().fetchUserSegments()
@@ -72,15 +72,15 @@ class AuthenticationViewModel: ObservableObject {
             }
         }
     }
-    
+
     private func fetchUserPreferences() {
         Logger.main.info("-----> Fetching user preferences <-----")
-        
+
         if !Notificare.shared.authentication().isLoggedIn {
             Logger.main.info("-----> Skipping fetch user preferences, not logged in <-----")
             return
         }
-        
+
         Task {
             do {
                 let preferences = try await Notificare.shared.authentication().fetchUserPreferences()
@@ -93,12 +93,12 @@ class AuthenticationViewModel: ObservableObject {
             }
         }
     }
-    
+
     func registerNewUser() {
         Logger.main.info("-----> Register user clicked <-----")
-        
+
         let name = newUserName.isEmpty ? nil : newUserName
-        
+
         Task {
             do {
                 try await Notificare.shared.authentication().createAccount(email: newUserEmail, password: newUserPassword, name: name)
@@ -106,16 +106,16 @@ class AuthenticationViewModel: ObservableObject {
             } catch {
                 Logger.main.error("Failed to create new user account: \(error.localizedDescription)")
             }
-            
+
             newUserEmail = ""
             newUserPassword = ""
             newUserName = ""
         }
     }
-    
+
     func validateUser() {
         Logger.main.info("-----> Validate user clicked <-----")
-        
+
         Task {
             do {
                 try await Notificare.shared.authentication().validateUser(token: validateUserToken)
@@ -126,10 +126,10 @@ class AuthenticationViewModel: ObservableObject {
             }
         }
     }
-    
+
     func login() {
         Logger.main.info("-----> Login clicked <-----")
-        
+
         Task {
             do {
                 try await Notificare.shared.authentication().login(email: loginEmail, password: loginPassword)
@@ -143,10 +143,10 @@ class AuthenticationViewModel: ObservableObject {
             }
         }
     }
-    
+
     func logout() {
         Logger.main.info("-----> Logout clicked <-----")
-        
+
         Task {
             do {
                 try await Notificare.shared.authentication().logout()
@@ -157,10 +157,10 @@ class AuthenticationViewModel: ObservableObject {
             }
         }
     }
-    
+
     func sendPasswordReset() {
         Logger.main.info("-----> Send password reset clicked <-----")
-        
+
         Task {
             do {
                 try await Notificare.shared.authentication().sendPasswordReset(email: sendPasswordResetEmail)
@@ -171,10 +171,10 @@ class AuthenticationViewModel: ObservableObject {
             }
         }
     }
-    
+
     func resetPassword() {
         Logger.main.info("-----> Reset password clicked <-----")
-        
+
         Task {
             do {
                 try await Notificare.shared.authentication().resetPassword(resetPasswordNewPassword, token: resetPasswordToken)
@@ -186,10 +186,10 @@ class AuthenticationViewModel: ObservableObject {
             }
         }
     }
-    
+
     func changePassword() {
         Logger.main.info("-----> Change password clicked <-----")
-        
+
         Task {
             do {
                 try await Notificare.shared.authentication().changePassword(changePasswordNewPassword)
@@ -200,10 +200,10 @@ class AuthenticationViewModel: ObservableObject {
             }
         }
     }
-    
+
     func addUserSegment(segment: NotificareUserSegment) {
         Logger.main.info("-----> Add user segment clicked <-----")
-        
+
         Task {
             do {
                 try await Notificare.shared.authentication().addUserSegment(segment)
@@ -214,10 +214,10 @@ class AuthenticationViewModel: ObservableObject {
             }
         }
     }
-    
+
     func removeUserSegment(segment: NotificareUserSegment) {
         Logger.main.info("-----> Remove user segment clicked <-----")
-        
+
         Task {
             do {
                 try await Notificare.shared.authentication().removeUserSegment(segment)
@@ -228,23 +228,23 @@ class AuthenticationViewModel: ObservableObject {
             }
         }
     }
-    
+
     func updatePreferenceOptions() {
-        guard let preference = (fetchedPreferences.first { $0.id == selectedPreferenceId}) else {
+        guard let preference = (fetchedPreferences.first { $0.id == selectedPreferenceId }) else {
             return
         }
-        
+
         preferenceOptions = preference.options
     }
-    
+
     func addUserSegmentToPreference() {
         Logger.main.info("-----> Add user segment to preference clicked <-----")
-        guard let preference = (fetchedPreferences.first { $0.id == selectedPreferenceId}) else {
+        guard let preference = (fetchedPreferences.first { $0.id == selectedPreferenceId }) else {
             return
         }
-        
+
         let option = preference.options[selectedOptionIndex]
-        
+
         Task {
             do {
                 try await Notificare.shared.authentication().addUserSegmentToPreference(option: option, to: preference)
@@ -255,16 +255,16 @@ class AuthenticationViewModel: ObservableObject {
             }
         }
     }
-    
+
     func removeUserSegmentFromPreference() {
         Logger.main.info("-----> Remove user segment from preference clicked <-----")
-        
-        guard let preference = (fetchedPreferences.first { $0.id == selectedPreferenceId}) else {
+
+        guard let preference = (fetchedPreferences.first { $0.id == selectedPreferenceId }) else {
             return
         }
-        
+
         let option = preference.options[selectedOptionIndex]
-        
+
         Task {
             do {
                 try await Notificare.shared.authentication().removeUserSegmentFromPreference(option: option, from: preference)

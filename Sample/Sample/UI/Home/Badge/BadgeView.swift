@@ -6,9 +6,9 @@ import SwiftUI
 
 struct BadgeView: View {
     @State private var height: CGFloat = 0
-    
+
     let badge: Int
-    
+
     var body: some View {
         Text(verbatim: "\(badge)")
             .font(.caption)

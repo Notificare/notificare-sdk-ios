@@ -6,7 +6,7 @@ import SwiftUI
 
 struct MonetizeProductsView: View {
     @StateObject var viewModel: MonetizeViewModel
-    
+
     var body: some View {
         List {
             if viewModel.products.isEmpty {
@@ -21,19 +21,19 @@ struct MonetizeProductsView: View {
                             Spacer()
                             Text(product.id)
                         }
-                        
+
                         HStack {
                             Text(String(localized: "monetize_product_name"))
                             Spacer()
                             Text(product.name)
                         }
-                        
+
                         HStack {
                             Text(String(localized: "monetize_product_type"))
                             Spacer()
                             Text(product.type)
                         }
-                        
+
                         HStack {
                             Text(String(localized: "monetize_product_price"))
                             Spacer()
@@ -43,7 +43,7 @@ struct MonetizeProductsView: View {
                                 Text("-")
                             }
                         }
-                        
+
                         Button(String(localized: "monetize_buy")) {
                             viewModel.purchase(product: product)
                         }

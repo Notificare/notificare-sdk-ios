@@ -2,10 +2,9 @@
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
-import Foundation
-import SwiftUI
 import ActivityKit
 import CoreLocation
+import Foundation
 import NotificareAuthenticationKit
 import NotificareGeoKit
 import NotificareInAppMessagingKit
@@ -17,6 +16,7 @@ import NotificarePushKit
 import NotificarePushUIKit
 import NotificareScannablesKit
 import StoreKit
+import SwiftUI
 import UIKit
 
 class AppDelegate: NSObject, UIApplicationDelegate {
@@ -51,24 +51,24 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
         return true
     }
-    
-    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {}
-    
-    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {}
-    
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {}
+
+    func application(_: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken _: Data) {}
+
+    func application(_: UIApplication, didFailToRegisterForRemoteNotificationsWithError _: Error) {}
+
+    func application(_: UIApplication, didReceiveRemoteNotification _: [AnyHashable: Any], fetchCompletionHandler _: @escaping (UIBackgroundFetchResult) -> Void) {}
 }
 
 extension AppDelegate: NotificareDelegate {
     func notificare(_: Notificare, onReady _: NotificareApplication) {
         print("-----> Notificare finished launching.")
-        
+
         NotificationCenter.default.post(
             name: .notificareStatus,
             object: nil,
             userInfo: ["ready": true]
         )
-        
+
         if Notificare.shared.push().hasRemoteNotificationsEnabled {
             Notificare.shared.push().enableRemoteNotifications { _ in }
         }
@@ -80,7 +80,7 @@ extension AppDelegate: NotificareDelegate {
 
     func notificareDidUnlaunch(_: Notificare) {
         print("-----> Notificare finished un-launching.")
-        
+
         NotificationCenter.default.post(
             name: .notificareStatus,
             object: nil,
@@ -197,7 +197,7 @@ extension AppDelegate: NotificarePushUIDelegate {
 extension AppDelegate: NotificareInboxDelegate {
     func notificare(_: NotificareInbox, didUpdateInbox items: [NotificareInboxItem]) {
         print("-----> Inbox has loaded. Total = \(items.count)")
-        
+
         NotificationCenter.default.post(
             name: .inboxUpdated,
             object: nil,
@@ -207,7 +207,7 @@ extension AppDelegate: NotificareInboxDelegate {
 
     func notificare(_: NotificareInbox, didUpdateBadge badge: Int) {
         print("-----> Badge update. Unread = \(badge)")
-        
+
         NotificationCenter.default.post(
             name: .badgeUpdated,
             object: nil,
@@ -369,16 +369,16 @@ extension AppDelegate: NotificareInAppMessagingDelegate {
 }
 
 extension AppDelegate: NotificareScannablesDelegate {
-    func notificare(_ notificareScannables: NotificareScannables, didDetectScannable scannable: NotificareScannable) {
+    func notificare(_: NotificareScannables, didDetectScannable scannable: NotificareScannable) {
         guard let notification = scannable.notification else {
             print("Cannot present a scannable without a notification.")
             return
         }
-        
+
         UIApplication.shared.present(notification)
     }
-    
-    func notificare(_ notificareScannables: NotificareScannables, didInvalidateScannerSession error: Error) {
+
+    func notificare(_: NotificareScannables, didInvalidateScannerSession error: Error) {
         print("Scannable session invalidated: \(error.localizedDescription)")
     }
 }

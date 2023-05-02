@@ -2,12 +2,12 @@
 // Copyright (c) 2023 Notificare. All rights reserved.
 //
 
-import SwiftUI
 import NotificareAssetsKit
+import SwiftUI
 
 struct AssetDetailsView: View {
     var asset: NotificareAsset
-    
+
     var body: some View {
         List {
             Section {
@@ -17,50 +17,50 @@ struct AssetDetailsView: View {
                     Spacer()
                     Text(asset.id)
                 }
-                
+
                 HStack {
                     Text(String(localized: "asset_title"))
                         .padding(.trailing)
                     Spacer()
                     Text(asset.title)
                 }
-                
+
                 HStack {
                     Text(String(localized: "asset_description"))
                         .padding(.trailing)
                     Spacer()
-                    
+
                     if let description = asset.description {
                         Text(description)
                     } else {
                         Text("-")
                     }
                 }
-                
+
                 HStack {
                     Text(String(localized: "event_key"))
                         .padding(.trailing)
                     Spacer()
-                    
+
                     if let key = asset.key {
                         Text(key)
                     } else {
                         Text("-")
                     }
                 }
-                
+
                 HStack {
                     Text(String(localized: "asset_url"))
                         .padding(.trailing)
                     Spacer()
-                    
+
                     if let url = asset.url {
                         Text(url)
                     } else {
                         Text("-")
                     }
                 }
-                
+
                 if let label = asset.button?.label {
                     HStack {
                         Text(String(localized: "asset_button"))
@@ -75,7 +75,7 @@ struct AssetDetailsView: View {
                         Text("-")
                     }
                 }
-                
+
                 if let action = asset.button?.action {
                     HStack {
                         Text(String(localized: "asset_action"))
@@ -84,7 +84,7 @@ struct AssetDetailsView: View {
                         Text(action)
                     }
                 }
-                
+
                 if let metaData = asset.metaData {
                     HStack {
                         Text(String(localized: "asset_original_file_name"))
@@ -92,14 +92,14 @@ struct AssetDetailsView: View {
                         Spacer()
                         Text(metaData.originalFileName)
                     }
-                    
+
                     HStack {
                         Text(String(localized: "asset_content_type"))
                             .padding(.trailing)
                         Spacer()
                         Text(metaData.contentType)
                     }
-                    
+
                     HStack {
                         Text(String(localized: "asset_content_length"))
                             .padding(.trailing)
@@ -114,7 +114,7 @@ struct AssetDetailsView: View {
                         Text("-")
                     }
                 }
-                
+
                 if asset.extra.isEmpty {
                     HStack {
                         Text(String(localized: "asset_extras"))
@@ -126,7 +126,7 @@ struct AssetDetailsView: View {
                         Text(String(localized: "asset_extras"))
                             .fontWeight(.bold)
                     }
-                    
+
                     ForEach(asset.extra.keys.sorted(), id: \.self) { key in
                         HStack {
                             Text(key)
@@ -145,6 +145,6 @@ struct AssetDetailsView: View {
 
 struct AssetDetailsView_Previews: PreviewProvider {
     static var previews: some View {
-        AssetDetailsView(asset: NotificareAsset(id: "12345", title: "Title", description: nil, key: nil, url: nil, button: nil, metaData: nil, extra: [String:Any]()))
+        AssetDetailsView(asset: NotificareAsset(id: "12345", title: "Title", description: nil, key: nil, url: nil, button: nil, metaData: nil, extra: [String: Any]()))
     }
 }

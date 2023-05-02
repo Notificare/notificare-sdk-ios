@@ -6,7 +6,7 @@ import SwiftUI
 
 struct LocationSection: View {
     @StateObject var viewModel: HomeViewModel
-    
+
     var body: some View {
         Section {
             Toggle(isOn: $viewModel.hasLocationAndPermission) {
@@ -25,7 +25,7 @@ struct LocationSection: View {
             .onChange(of: viewModel.hasLocationAndPermission) { enabled in
                 viewModel.handleLocationToggle(enabled: enabled)
             }
-            
+
             HStack {
                 Text(String(localized: "home_enabled"))
                 Text(String(localized: "sdk"))
@@ -33,7 +33,7 @@ struct LocationSection: View {
                 Spacer()
                 Text(String(viewModel.hasLocationEnabled))
             }
-            
+
             HStack {
                 Text(String(localized: "home_bluetooth_enabled"))
                 Text(String(localized: "sdk"))
@@ -41,13 +41,13 @@ struct LocationSection: View {
                 Spacer()
                 Text(String(viewModel.hasBluetoothEnabled))
             }
-            
+
             HStack {
                 Text(String(localized: "home_permission"))
                 Spacer()
                 Text(String(viewModel.locationPermission))
             }
-            
+
             NavigationLink {
                 BeaconsView()
             } label: {

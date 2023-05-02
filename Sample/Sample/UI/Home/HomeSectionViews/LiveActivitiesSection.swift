@@ -6,7 +6,7 @@ import SwiftUI
 
 struct LiveActivitiesSection: View {
     @StateObject var viewModel: HomeViewModel
-    
+
     var body: some View {
         Section {
             VStack {
@@ -31,7 +31,7 @@ private struct CoffeeBrewerActionsView: View {
     var onCreate: () -> Void
     var onNextStep: () -> Void
     var onCancel: () -> Void
-    
+
     var body: some View {
         if let state {
             VStack(spacing: 16) {
@@ -42,18 +42,18 @@ private struct CoffeeBrewerActionsView: View {
                     }
                     .frame(maxWidth: .infinity)
                     .buttonStyle(BorderlessButtonStyle())
-                    
+
                 case .brewing:
                     Button(String(localized: "home_coffee_brewer_serve_button")) {
                         onNextStep()
                     }
                     .frame(maxWidth: .infinity)
                     .buttonStyle(BorderlessButtonStyle())
-                    
+
                 case .served:
                     EmptyView()
                 }
-                
+
                 Button(String(localized: "home_coffee_brewer_stop_button")) {
                     onCancel()
                 }

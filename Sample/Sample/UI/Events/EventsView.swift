@@ -6,20 +6,20 @@ import SwiftUI
 
 struct EventsView: View {
     @StateObject private var viewModel: EventsViewModel
-    
+
     init() {
-        self._viewModel = StateObject(wrappedValue: EventsViewModel())
+        _viewModel = StateObject(wrappedValue: EventsViewModel())
     }
-    
+
     var body: some View {
         List {
             Section {
                 TextField(String(localized: "event_name"), text: $viewModel.eventName)
-                
+
                 ForEach($viewModel.identifiableEventFields) { $field in
                     EventFieldView(field: $field)
                 }
-                
+
                 Button(String(localized: "button_register")) {
                     viewModel.registerEvent()
                 }
@@ -35,23 +35,23 @@ struct EventsView: View {
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarItems(
             trailing:
-                Button(action: viewModel.handleAddEventField) {
-                    HStack(alignment: .top) {
-                        Text(String(localized: "event_add_field"))
-                    }
+            Button(action: viewModel.handleAddEventField) {
+                HStack(alignment: .top) {
+                    Text(String(localized: "event_add_field"))
                 }
+            }
         )
     }
 }
 
 private struct EventFieldView: View {
     @Binding var field: IdentifiableEventField
-    
+
     var body: some View {
         HStack {
             TextField(String(localized: "event_key"), text: $field.key)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
-            
+
             TextField(String(localized: "event_value"), text: $field.value)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
         }

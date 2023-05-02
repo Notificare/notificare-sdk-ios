@@ -6,11 +6,11 @@ import SwiftUI
 
 struct BeaconsView: View {
     @StateObject private var viewModel: BeaconsViewModel
-    
+
     init() {
-        self._viewModel = StateObject(wrappedValue: BeaconsViewModel())
+        _viewModel = StateObject(wrappedValue: BeaconsViewModel())
     }
-    
+
     var body: some View {
         List {
             Section {
@@ -21,7 +21,7 @@ struct BeaconsView: View {
                         BeaconRow(beacon: beacon)
                     }
                 }
-            }  header: {
+            } header: {
                 Text(String(localized: "beacons_ranged"))
             }
         }

@@ -8,7 +8,7 @@ struct AsyncImageCompat<Placeholder: View, Content: View>: View {
     @StateObject private var loader: ImageLoader
     private let placeholder: () -> Placeholder
     private let image: (UIImage) -> Content
-    
+
     init(
         url: URL?,
         @ViewBuilder image: @escaping (UIImage) -> Content,
@@ -18,7 +18,7 @@ struct AsyncImageCompat<Placeholder: View, Content: View>: View {
         self.image = image
         _loader = StateObject(wrappedValue: ImageLoader(url: url, cache: Environment(\.imageCache).wrappedValue))
     }
-    
+
     var body: some View {
         Group {
             if loader.image != nil {

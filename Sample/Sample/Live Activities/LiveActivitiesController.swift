@@ -2,8 +2,8 @@
 // Copyright (c) 2023 Notificare. All rights reserved.
 //
 
-import Foundation
 import ActivityKit
+import Foundation
 import NotificareKit
 import OSLog
 import UIKit
@@ -14,7 +14,6 @@ class LiveActivitiesController {
 
     private init() {}
 
-
     var hasLiveActivityCapabilities: Bool {
         ActivityAuthorizationInfo().areActivitiesEnabled
     }
@@ -22,7 +21,6 @@ class LiveActivitiesController {
     func startMonitoring() {
         monitorLiveActivities()
     }
-
 
     // MARK: Coffee Brewer
 
@@ -93,10 +91,9 @@ class LiveActivitiesController {
         }
     }
 
-
     // MARK: Private API
 
-    private func getActivityIdentifier<T : ActivityAttributes>(_ activity: Activity<T>) -> String? {
+    private func getActivityIdentifier<T: ActivityAttributes>(_ activity: Activity<T>) -> String? {
         if activity.attributes is CoffeeBrewerActivityAttributes {
             return "coffee-brewer"
         }
@@ -116,7 +113,7 @@ class LiveActivitiesController {
         }
     }
 
-    private func monitorLiveActivity<T : ActivityAttributes>(_ activity: Activity<T>) {
+    private func monitorLiveActivity<T: ActivityAttributes>(_ activity: Activity<T>) {
         Task {
             // Listen to state changes of each activity.
             for await state in activity.activityStateUpdates {
@@ -134,7 +131,7 @@ class LiveActivitiesController {
         }
     }
 
-    private func monitorLiveActivityTokenChanges<T : ActivityAttributes>(_ activity: Activity<T>) {
+    private func monitorLiveActivityTokenChanges<T: ActivityAttributes>(_ activity: Activity<T>) {
         Task {
             // Listen to push token updates of each active activity.
             for await token in activity.pushTokenUpdates {
@@ -143,7 +140,7 @@ class LiveActivitiesController {
         }
     }
 
-    private func registerLiveActivity<T : ActivityAttributes>(_ activity: Activity<T>, token: Data) async {
+    private func registerLiveActivity<T: ActivityAttributes>(_ activity: Activity<T>, token: Data) async {
         guard let activityIdentifier = getActivityIdentifier(activity) else {
             Logger.main.warning("Unable to get the activity identifier for type '\(String(describing: activity.attributes.self))'.")
             return
@@ -162,7 +159,7 @@ class LiveActivitiesController {
         }
     }
 
-    private func endLiveActivity<T : ActivityAttributes>(_ activity: Activity<T>) async {
+    private func endLiveActivity<T: ActivityAttributes>(_ activity: Activity<T>) async {
         guard let activityIdentifier = getActivityIdentifier(activity) else {
             Logger.main.warning("Unable to get the activity identifier for type '\(String(describing: activity.attributes.self))'.")
             return

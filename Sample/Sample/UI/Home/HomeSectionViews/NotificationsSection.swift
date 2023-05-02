@@ -6,7 +6,7 @@ import SwiftUI
 
 struct NotificationsSection: View {
     @StateObject var viewModel: HomeViewModel
-    
+
     var body: some View {
         Section {
             Toggle(isOn: $viewModel.hasNotificationsAndPermission) {
@@ -25,7 +25,7 @@ struct NotificationsSection: View {
             .onChange(of: viewModel.hasNotificationsAndPermission) { enabled in
                 viewModel.handleNotificationsToggle(enabled: enabled)
             }
-            
+
             HStack {
                 Text(String(localized: "home_enabled"))
                 Text(String(localized: "sdk"))
@@ -33,7 +33,7 @@ struct NotificationsSection: View {
                 Spacer()
                 Text(String(viewModel.hasNotificationsEnabled))
             }
-            
+
             HStack {
                 Text(String(localized: "home_allowed_ui"))
                 Text(String(localized: "sdk"))
@@ -41,21 +41,21 @@ struct NotificationsSection: View {
                 Spacer()
                 Text(String(viewModel.allowedUi))
             }
-            
+
             HStack {
                 Text(String(localized: "home_permission"))
                 Spacer()
                 Text(String(viewModel.notificationsPermission))
             }
-            
+
             NavigationLink {
                 InboxView()
             } label: {
                 Label {
                     Text(String(localized: "home_inbox"))
-                    
+
                     Spacer(minLength: 16)
-                    
+
                     if viewModel.badge > 0 {
                         BadgeView(badge: viewModel.badge)
                     }
@@ -69,7 +69,7 @@ struct NotificationsSection: View {
                         .clipShape(RoundedRectangle(cornerRadius: 4))
                 }
             }
-            
+
             NavigationLink {
                 TagsView(viewModel: TagsViewModel())
             } label: {

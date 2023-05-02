@@ -6,11 +6,11 @@ import SwiftUI
 
 struct ChangePasswordSection: View {
     @StateObject var viewModel: AuthenticationViewModel
-    
+
     var body: some View {
         Section {
             TextField(String(localized: "authentication_new_password"), text: $viewModel.changePasswordNewPassword)
-            
+
             Button(String(localized: "authentication_change")) {
                 viewModel.changePassword()
             }

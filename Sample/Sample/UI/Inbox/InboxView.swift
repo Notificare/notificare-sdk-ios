@@ -2,21 +2,21 @@
 // Copyright (c) 2023 Notificare. All rights reserved.
 //
 
-import SwiftUI
-import NotificareKit
 import NotificareInboxKit
+import NotificareKit
 import NotificarePushUIKit
 import OSLog
+import SwiftUI
 
 struct InboxView: View {
     @Environment(\.presentationMode) var presentationMode
     @StateObject private var viewModel: InboxViewModel
     @State private var actionableItem: NotificareInboxItem?
-    
+
     init() {
-        self._viewModel = StateObject(wrappedValue: InboxViewModel())
+        _viewModel = StateObject(wrappedValue: InboxViewModel())
     }
-    
+
     var body: some View {
         ZStack {
             if viewModel.sections.isEmpty {
@@ -35,7 +35,7 @@ struct InboxView: View {
                                         if item.notification.type == NotificareNotification.NotificationType.urlScheme.rawValue {
                                             presentationMode.wrappedValue.dismiss()
                                         }
-                                        
+
                                         viewModel.presentInboxItem(item)
                                     }
                                     .onLongPressGesture {
@@ -58,7 +58,7 @@ struct InboxView: View {
                     Button(action: viewModel.handleMarkAllItemsAsRead) {
                         Image(systemName: "envelope.open")
                     }
-                    
+
                     Button(action: viewModel.handleClearItems) {
                         Image(systemName: "trash")
                     }
@@ -79,7 +79,7 @@ struct InboxView: View {
                     .destructive(Text(String(localized: "inbox_sheet_remove"))) {
                         viewModel.handleRemoveItem(item)
                     },
-                    .default(Text(String(localized: "inbox_sheet_cancel"))) { }
+                    .default(Text(String(localized: "inbox_sheet_cancel"))) {},
                 ]
             )
         }

@@ -6,7 +6,7 @@ import SwiftUI
 
 struct InAppMessagingSection: View {
     @StateObject var viewModel: HomeViewModel
-    
+
     var body: some View {
         Section {
             Toggle(isOn: $viewModel.hasEvaluateContextOn) {
@@ -22,7 +22,7 @@ struct InAppMessagingSection: View {
                         .clipShape(RoundedRectangle(cornerRadius: 4))
                 }
             }
-            
+
             Toggle(isOn: $viewModel.hasSuppressedOn) {
                 Label {
                     Text(String(localized: "home_suppressed"))
@@ -39,7 +39,7 @@ struct InAppMessagingSection: View {
             .onChange(of: viewModel.hasSuppressedOn) { enabled in
                 viewModel.handleSuppressedToggle(enabled: enabled)
             }
-            
+
         } header: {
             Text(String(localized: "home_in_app_messaging"))
         }

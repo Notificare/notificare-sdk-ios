@@ -6,11 +6,11 @@ import SwiftUI
 
 struct ValidateUserSection: View {
     @StateObject var viewModel: AuthenticationViewModel
-    
+
     var body: some View {
         Section {
             TextField(String(localized: "authentication_token"), text: $viewModel.validateUserToken)
-            
+
             Button(String(localized: "authentication_validate")) {
                 viewModel.validateUser()
             }

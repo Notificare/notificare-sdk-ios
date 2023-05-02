@@ -6,7 +6,7 @@ import SwiftUI
 
 struct DoNotDisturbSection: View {
     @StateObject var viewModel: HomeViewModel
-    
+
     var body: some View {
         Section {
             Toggle(isOn: $viewModel.hasDndEnabled) {
@@ -25,23 +25,23 @@ struct DoNotDisturbSection: View {
             .onChange(of: viewModel.hasDndEnabled) { enabled in
                 viewModel.handleDndToggle(enabled: enabled)
             }
-            
+
             if viewModel.hasDndEnabled {
                 DatePicker(
                     String(localized: "home_do_not_disturb_start"),
                     selection: $viewModel.startTime,
                     displayedComponents: .hourAndMinute
                 )
-                .onChange(of: viewModel.startTime) { time in
+                .onChange(of: viewModel.startTime) { _ in
                     viewModel.handleDndTimeUpdate()
                 }
-                
+
                 DatePicker(
                     String(localized: "home_do_not_disturb_end"),
                     selection: $viewModel.endTime,
                     displayedComponents: .hourAndMinute
                 )
-                .onChange(of: viewModel.endTime) { time in
+                .onChange(of: viewModel.endTime) { _ in
                     viewModel.handleDndTimeUpdate()
                 }
             }

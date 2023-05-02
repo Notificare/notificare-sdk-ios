@@ -2,9 +2,9 @@
 // Copyright (c) 2023 Notificare. All rights reserved.
 //
 
+import ActivityKit
 import SwiftUI
 import WidgetKit
-import ActivityKit
 
 @available(iOSApplicationExtension 16.1, *)
 struct CoffeeBrewerLiveActivity: Widget {

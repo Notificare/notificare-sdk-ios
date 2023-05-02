@@ -3,9 +3,9 @@
 //
 
 import Foundation
-import SwiftUI
 import NotificareKit
 import OSLog
+import SwiftUI
 
 @MainActor
 class TagsViewModel: ObservableObject {
@@ -13,16 +13,16 @@ class TagsViewModel: ObservableObject {
     @Published private(set) var selectedTags = [String]()
     @Published var availableTags = [AvailableTag]()
     @Published var inputTag = ""
-    
+
     private let defaultTags = ["Kotlin", "Java", "Swift"]
-    
+
     init() {
         getDeviceTags()
     }
-    
+
     func getDeviceTags() {
         Logger.main.info("-----> Fetching device tags <-----")
-        
+
         Task {
             do {
                 let tags = try await Notificare.shared.device().fetchTags()
@@ -32,11 +32,11 @@ class TagsViewModel: ObservableObject {
                 Logger.main.error("-----> Failed to fetch device tags: \(error.localizedDescription)")
                 deviceTags.removeAll()
             }
-            
+
             if !availableTags.isEmpty {
                 availableTags.removeAll()
             }
-            
+
             defaultTags.forEach { tag in
                 if !deviceTags.contains(tag) {
                     availableTags.append(AvailableTag(name: tag, isSelected: false))
@@ -44,17 +44,17 @@ class TagsViewModel: ObservableObject {
             }
         }
     }
-    
+
     func addTags() {
         Logger.main.info("-----> Add tags clicked <-----")
         if !inputTag.isEmpty {
             selectedTags.append(inputTag)
         }
-        
+
         Task {
             do {
                 try await Notificare.shared.device().addTags(selectedTags)
-                
+
                 Logger.main.info("-----> Added tags successfully <-----")
                 inputTag = ""
                 selectedTags.removeAll()
@@ -64,14 +64,14 @@ class TagsViewModel: ObservableObject {
             }
         }
     }
-    
+
     func removeTag(tag: String) {
         Logger.main.info("-----> Remove Tag Clicked <-----")
-        
+
         Task {
             do {
                 try await Notificare.shared.device().removeTag(tag)
-                
+
                 Logger.main.info("-----> Tag removed Successfully <-----")
                 getDeviceTags()
             } catch {
@@ -79,14 +79,14 @@ class TagsViewModel: ObservableObject {
             }
         }
     }
-    
+
     func clearTags() {
         Logger.main.info("-----> Clear tags Clicked <-----")
-        
+
         Task {
             do {
                 try await Notificare.shared.device().clearTags()
-                
+
                 Logger.main.info("-----> Tags cleared Successfully <-----")
                 getDeviceTags()
             } catch {
@@ -94,7 +94,7 @@ class TagsViewModel: ObservableObject {
             }
         }
     }
-    
+
     func handleSelectedTag(tag: String) {
         if selectedTags.contains(tag) {
             Logger.main.info("-----> Tag \(tag) Unselected <-----")

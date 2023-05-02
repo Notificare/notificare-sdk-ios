@@ -2,17 +2,17 @@
 // Copyright (c) 2023 Notificare. All rights reserved.
 //
 
-import SwiftUI
 import NotificareGeoKit
+import SwiftUI
 
 struct BeaconRow: View {
     let beacon: NotificareBeacon
-    
+
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
                 Text(verbatim: beacon.name)
-                
+
                 if let minor = beacon.minor {
                     Text(verbatim: "\(beacon.major) • \(minor)")
                         .font(.caption)
@@ -21,14 +21,14 @@ struct BeaconRow: View {
                         .font(.caption)
                 }
             }
-            
+
             Spacer()
-            
+
             if beacon.triggers {
                 Image(systemName: "bolt.fill")
                     .padding(.trailing)
             }
-            
+
             switch beacon.proximity {
             case .immediate:
                 Image("wifi_signal_3")
@@ -52,7 +52,7 @@ struct BeaconRow_Previews: PreviewProvider {
             minor: 100,
             triggers: true
         )
-        
+
         BeaconRow(beacon: beacon)
     }
 }

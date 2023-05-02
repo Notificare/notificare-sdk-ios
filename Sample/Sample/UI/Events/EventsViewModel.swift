@@ -6,16 +6,15 @@ import Foundation
 import NotificareKit
 import OSLog
 
-
 class EventsViewModel: ObservableObject {
     @Published private var eventFields = NotificareEventData()
     @Published var identifiableEventFields = [IdentifiableEventField]()
     @Published var eventName = ""
-    
+
     @MainActor
     func registerEvent() {
         updateEvenFields()
-        
+
         Task {
             do {
                 try await Notificare.shared.events().logCustom(eventName, data: eventFields)
@@ -28,17 +27,17 @@ class EventsViewModel: ObservableObject {
             }
         }
     }
-    
+
     private func updateEvenFields() {
         if !identifiableEventFields.isEmpty {
             identifiableEventFields.forEach { field in
-                if field.key != "" && field.value != "" {
+                if field.key != "", field.value != "" {
                     eventFields[field.key] = field.value
                 }
             }
         }
     }
-    
+
     func handleAddEventField() {
         Logger.main.info("-----> Add field clicked <-----")
         let field = IdentifiableEventField(key: "", value: "")

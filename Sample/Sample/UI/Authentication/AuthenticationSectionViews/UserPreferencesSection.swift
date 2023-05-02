@@ -6,7 +6,7 @@ import SwiftUI
 
 struct UserPreferencesSection: View {
     @StateObject var viewModel: AuthenticationViewModel
-    
+
     var body: some View {
         Section {
             if viewModel.currentUser == nil {
@@ -17,16 +17,16 @@ struct UserPreferencesSection: View {
                         Text(preference.label).tag(preference.id)
                     }
                 }
-                .onChange(of: viewModel.selectedPreferenceId) { preferene in
+                .onChange(of: viewModel.selectedPreferenceId) { _ in
                     viewModel.updatePreferenceOptions()
                 }
-                
+
                 Picker(String(localized: "authentication_choose_the_option"), selection: $viewModel.selectedOptionIndex) {
-                    ForEach(0..<viewModel.preferenceOptions.count, id: \.self) { index in
+                    ForEach(0 ..< viewModel.preferenceOptions.count, id: \.self) { index in
                         Text(viewModel.preferenceOptions[index].label).tag(index)
                     }
                 }
-                
+
                 HStack {
                     Button(String(localized: "button_add")) {
                         viewModel.addUserSegmentToPreference()
@@ -34,9 +34,9 @@ struct UserPreferencesSection: View {
                     .buttonStyle(BorderlessButtonStyle())
                     .frame(maxWidth: .infinity)
                     .disabled(viewModel.fetchedPreferences.isEmpty)
-                    
+
                     Divider()
-                    
+
                     Button(String(localized: "button_remove")) {
                         viewModel.removeUserSegmentFromPreference()
                     }

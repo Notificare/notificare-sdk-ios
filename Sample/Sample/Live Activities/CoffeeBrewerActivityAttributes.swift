@@ -2,8 +2,8 @@
 // Copyright (c) 2023 Notificare. All rights reserved.
 //
 
-import Foundation
 import ActivityKit
+import Foundation
 
 struct CoffeeBrewerActivityAttributes: ActivityAttributes {
     public struct ContentState: Codable, Hashable {

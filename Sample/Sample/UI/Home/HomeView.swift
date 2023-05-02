@@ -7,23 +7,23 @@ import SwiftUI
 struct HomeView: View {
     @Environment(\.scenePhase) var scenePhase
     @StateObject private var viewModel: HomeViewModel
-    
+
     @State private var isActive = false
-    
+
     init() {
-        self._viewModel = StateObject(wrappedValue: HomeViewModel())
+        _viewModel = StateObject(wrappedValue: HomeViewModel())
     }
-    
+
     var body: some View {
         List {
             LaunchFlowSection(viewModel: viewModel)
             NotificationsSection(viewModel: viewModel)
             DoNotDisturbSection(viewModel: viewModel)
-            
+
             if #available(iOS 16.1, *), LiveActivitiesController.shared.hasLiveActivityCapabilities {
                 LiveActivitiesSection(viewModel: viewModel)
             }
-            
+
             LocationSection(viewModel: viewModel)
             InAppMessagingSection(viewModel: viewModel)
             DeviceRegistrationSection(viewModel: viewModel)
@@ -33,10 +33,10 @@ struct HomeView: View {
             if newPhase == .active {
                 if !isActive {
                     isActive = true
-                    
+
                     return
                 }
-                
+
                 if !viewModel.hasNotificationsEnabled {
                     viewModel.checkNotificationsStatus()
                 }
@@ -49,11 +49,11 @@ struct HomeView: View {
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarItems(
             trailing:
-                Button(action: {
-                    viewModel.handleUpdateStats()
-                }, label: {
-                    Image(systemName: "arrow.triangle.2.circlepath")
-                })
+            Button(action: {
+                viewModel.handleUpdateStats()
+            }, label: {
+                Image(systemName: "arrow.triangle.2.circlepath")
+            })
         )
     }
 }

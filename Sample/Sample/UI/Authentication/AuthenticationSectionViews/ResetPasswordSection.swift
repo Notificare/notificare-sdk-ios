@@ -6,12 +6,12 @@ import SwiftUI
 
 struct ResetPasswordSection: View {
     @StateObject var viewModel: AuthenticationViewModel
-    
+
     var body: some View {
         Section {
             TextField(String(localized: "authentication_password"), text: $viewModel.resetPasswordNewPassword)
             TextField(String(localized: "authentication_token"), text: $viewModel.resetPasswordToken)
-            
+
             Button(String(localized: "authentication_reset")) {
                 viewModel.resetPassword()
             }

@@ -2,29 +2,29 @@
 // Copyright (c) 2023 Notificare. All rights reserved.
 //
 
-import SwiftUI
-import NotificareKit
 import NotificareInboxKit
+import NotificareKit
+import SwiftUI
 
 struct InboxItemView: View {
     private static var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "d MMM"
-        
+
         return formatter
     }()
-    
+
     private static var timeFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "HH:mm"
-        
+
         return formatter
     }()
-    
+
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
-    
+
     let item: NotificareInboxItem
-    
+
     var body: some View {
         HStack(alignment: .top, spacing: 16) {
             Group {
@@ -41,37 +41,37 @@ struct InboxItemView: View {
             }
             .frame(width: 48, height: 36)
             .clipShape(RoundedRectangle(cornerRadius: 8))
-            
+
             VStack(alignment: .leading, spacing: 0) {
                 if let title = item.notification.title {
                     Text(verbatim: title)
                         .font(.headline)
                         .lineLimit(1)
                 }
-                
+
                 Text(verbatim: item.notification.message)
                     .font(.caption)
                     .lineLimit(item.notification.title == nil ? 2 : 1)
                     .foregroundColor(.gray)
             }
-            
+
             Spacer()
-            
+
             VStack(alignment: .trailing, spacing: 0) {
                 Circle()
                     .fill(.blue)
                     .frame(width: 8, height: 8)
                     .padding(.top, 4)
                     .opacity(item.opened ? 0 : 1)
-                
+
                 Spacer()
-                
+
                 Text(verbatim: formattedTime)
                     .font(.footnote)
             }
         }
     }
-    
+
     private var imagePlaceholder: some View {
         Group {
             if colorScheme == .light {
@@ -81,12 +81,12 @@ struct InboxItemView: View {
             }
         }
     }
-    
+
     private var formattedTime: String {
         if Calendar.current.isDateInToday(item.time) {
             return InboxItemView.timeFormatter.string(from: item.time)
         }
-        
+
         return InboxItemView.dateFormatter.string(from: item.time)
     }
 }
@@ -109,7 +109,7 @@ struct InboxItemView_Previews: PreviewProvider {
                     NotificareNotification.Attachment(
                         mimeType: "image/jpeg",
                         uri: "https://push.notifica.re/asset/file/aad066ca10a9ced782194be1774553c517f0953857f1a55d3c54e0adcac2e0ec/a64254c0b032a36fc9bf40f695481f9dca333e5a7fcd75842228ce0b4aa4fa09"
-                    )
+                    ),
                 ],
                 extra: [:],
                 targetContentIdentifier: nil
@@ -119,11 +119,11 @@ struct InboxItemView_Previews: PreviewProvider {
             opened: false,
             expires: nil
         )
-        
+
         List {
             InboxItemView(item: item)
         }
-        
+
         List {
             InboxItemView(item: item)
         }

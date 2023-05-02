@@ -5,7 +5,6 @@
 import SwiftUI
 
 struct OtherFeaturesSection: View {
-    
     var body: some View {
         Section {
             NavigationLink {
@@ -23,7 +22,7 @@ struct OtherFeaturesSection: View {
                         .clipShape(RoundedRectangle(cornerRadius: 4))
                 }
             }
-            
+
             NavigationLink {
                 AssetsView()
             } label: {
@@ -39,7 +38,7 @@ struct OtherFeaturesSection: View {
                         .clipShape(RoundedRectangle(cornerRadius: 4))
                 }
             }
-            
+
             NavigationLink {
                 MonetizeView()
             } label: {
@@ -55,7 +54,7 @@ struct OtherFeaturesSection: View {
                         .clipShape(RoundedRectangle(cornerRadius: 4))
                 }
             }
-            
+
             NavigationLink {
                 AuthenticationView()
             } label: {
@@ -71,7 +70,7 @@ struct OtherFeaturesSection: View {
                         .clipShape(RoundedRectangle(cornerRadius: 4))
                 }
             }
-            
+
             NavigationLink {
                 EventsView()
             } label: {

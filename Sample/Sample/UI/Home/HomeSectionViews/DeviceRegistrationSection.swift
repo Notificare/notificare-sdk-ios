@@ -6,15 +6,15 @@ import SwiftUI
 
 struct DeviceRegistrationSection: View {
     @StateObject var viewModel: HomeViewModel
-    
+
     var body: some View {
         Section {
             TextField(String(localized: "home_user_id"), text: $viewModel.userId)
                 .disabled(viewModel.isDeviceRegistered)
-            
+
             TextField(String(localized: "home_user_name"), text: $viewModel.userName)
                 .disabled(viewModel.isDeviceRegistered)
-            
+
             if viewModel.isDeviceRegistered {
                 Button(String(localized: "button_clean_user")) {
                     viewModel.cleanDeviceRegistration()

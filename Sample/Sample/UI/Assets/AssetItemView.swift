@@ -2,13 +2,13 @@
 // Copyright (c) 2023 Notificare. All rights reserved.
 //
 
-import SwiftUI
-import NotificareKit
 import NotificareAssetsKit
+import NotificareKit
+import SwiftUI
 
 struct AssetItemView: View {
-    var asset : NotificareAsset
-    
+    var asset: NotificareAsset
+
     var body: some View {
         HStack(alignment: .center, spacing: 16) {
             Group {
@@ -29,20 +29,18 @@ struct AssetItemView: View {
             }
             .frame(width: 48, height: 36)
             .clipShape(RoundedRectangle(cornerRadius: 8))
-            
+
             VStack(alignment: .leading, spacing: 0) {
-                if let title = asset.title {
-                    Text(verbatim: title)
-                }
-                
+                Text(verbatim: asset.title)
+
                 if let description = asset.description {
                     Text(verbatim: description)
                         .font(.caption)
                 }
             }
-            
+
             Spacer()
-            
+
             if let typeStr = asset.metaData?.contentType {
                 VStack(alignment: .trailing, spacing: 0) {
                     Text(verbatim: typeStr)
@@ -55,6 +53,17 @@ struct AssetItemView: View {
 
 struct AssetItemView_Previews: PreviewProvider {
     static var previews: some View {
-        AssetItemView(asset: NotificareAsset(id: "Asset id", title: "Asset title", description: "Asset description", key: nil, url: nil, button: nil, metaData: nil, extra: ["" : ""]))
+        AssetItemView(
+            asset: NotificareAsset(
+                id: "Asset id",
+                title: "Asset title",
+                description: "Asset description",
+                key: nil,
+                url: nil,
+                button: nil,
+                metaData: nil,
+                extra: ["": ""]
+            )
+        )
     }
 }

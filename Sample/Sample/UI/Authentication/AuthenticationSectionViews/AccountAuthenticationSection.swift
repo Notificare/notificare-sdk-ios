@@ -6,12 +6,12 @@ import SwiftUI
 
 struct AccountAuthenticationSection: View {
     @StateObject var viewModel: AuthenticationViewModel
-    
+
     var body: some View {
         Section {
             TextField(String(localized: "authentication_email"), text: $viewModel.loginEmail)
             TextField(String(localized: "authentication_password"), text: $viewModel.loginPassword)
-            
+
             VStack {
                 HStack {
                     Button(String(localized: "authentication_login")) {
@@ -20,9 +20,9 @@ struct AccountAuthenticationSection: View {
                     .buttonStyle(BorderlessButtonStyle())
                     .frame(maxWidth: .infinity)
                     .disabled(viewModel.loginEmail.isEmpty || viewModel.loginPassword.isEmpty || viewModel.currentUser != nil)
-                    
+
                     Divider()
-                    
+
                     Button(String(localized: "authentication_logout")) {
                         viewModel.logout()
                     }
