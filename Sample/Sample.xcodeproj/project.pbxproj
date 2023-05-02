@@ -581,17 +581,17 @@
 		F29FD1F624CB1FE1004B166D /* Sample */ = {
 			isa = PBXGroup;
 			children = (
+				F25B6DC825CAC58C007BC2C8 /* Extensions */,
+				E51FD36B29D570B9000897D9 /* Live Activities */,
+				F25B6DC125CABDBF007BC2C8 /* UI */,
 				F29FD1F724CB1FE1004B166D /* AppDelegate.swift */,
 				F29FD20024CB1FE3004B166D /* Assets.xcassets */,
-				F25B6DC825CAC58C007BC2C8 /* Extensions */,
 				F29FD20524CB1FE3004B166D /* Info.plist */,
-				E51FD36B29D570B9000897D9 /* Live Activities */,
 				E51FD38A29D6F2D2000897D9 /* Localizable.strings */,
 				F267DA49273E7CA900448A8F /* NotificareOptions.plist */,
 				F25E62FF25CAB29A007C1202 /* NotificareServices.plist */,
 				F22443D3286CBAFE0015CBD6 /* Products.storekit */,
 				F28553C7258BA18C006674C1 /* Sample.entitlements */,
-				F25B6DC125CABDBF007BC2C8 /* UI */,
 			);
 			path = Sample;
 			sourceTree = "<group>";
