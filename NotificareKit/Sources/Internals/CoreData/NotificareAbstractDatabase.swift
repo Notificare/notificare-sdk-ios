@@ -12,6 +12,11 @@ open class NotificareAbstractDatabase {
         "re.notifica.database_version.\(name)"
     }
 
+    private var databaseUrl: URL {
+        let directory = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
+        return directory.appendingPathComponent("\(name).sqlite")
+    }
+
     public lazy var persistentContainer: NSPersistentContainer = {
         let bundle = Bundle(for: type(of: self))
 
@@ -72,16 +77,13 @@ open class NotificareAbstractDatabase {
     }
 
     private func removeStore() {
-        guard
-            let url = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first?.appendingPathComponent("\(name).sqlite"),
-            FileManager.default.fileExists(atPath: url.path)
-        else {
+        guard FileManager.default.fileExists(atPath: databaseUrl.path) else {
             NotificareLogger.debug("Database file not found.")
             return
         }
 
         do {
-            try persistentContainer.persistentStoreCoordinator.destroyPersistentStore(at: url, ofType: "sqlite")
+            try persistentContainer.persistentStoreCoordinator.destroyPersistentStore(at: databaseUrl, ofType: "sqlite")
             NotificareLogger.debug("Database removed.")
         } catch {
             NotificareLogger.debug("Failed to remove database.")
