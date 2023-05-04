@@ -27,20 +27,27 @@ open class NotificareAbstractDatabase {
             fatalError("Failed to load CoreData's models")
         }
 
-        let storeDescription = NSPersistentStoreDescription(url: databaseUrl)
-        storeDescription.type = NSSQLiteStoreType
-        storeDescription.shouldInferMappingModelAutomatically = true
-        storeDescription.shouldMigrateStoreAutomatically = true
-        storeDescription.setOption(FileProtectionType.none as NSObject, forKey: NSPersistentStoreFileProtectionKey)
-
         let container = NSPersistentContainer(name: name, managedObjectModel: model)
-        container.persistentStoreDescriptions = [storeDescription]
+
+        if shouldOverrideDatabaseFileProtection {
+            let storeDescription = NSPersistentStoreDescription(url: databaseUrl)
+            storeDescription.type = NSSQLiteStoreType
+            storeDescription.shouldInferMappingModelAutomatically = true
+            storeDescription.shouldMigrateStoreAutomatically = true
+            storeDescription.setOption(FileProtectionType.none as NSObject, forKey: NSPersistentStoreFileProtectionKey)
+
+            container.persistentStoreDescriptions = [storeDescription]
+        }
 
         return container
     }()
 
     public var context: NSManagedObjectContext {
         persistentContainer.viewContext
+    }
+
+    private var shouldOverrideDatabaseFileProtection: Bool {
+        Notificare.shared.options?.overrideDatabaseFileProtection ?? false
     }
 
     public init(name: String, rebuildOnVersionChange: Bool = true) {
