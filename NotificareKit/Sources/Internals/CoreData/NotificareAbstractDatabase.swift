@@ -84,7 +84,7 @@ open class NotificareAbstractDatabase {
         persistentContainer.loadPersistentStores { _, error in
             if let error = error {
                 NotificareLogger.error("Failed to load CoreData store '\(self.name)'.", error: error)
-                fatalError("Failed to load CoreData store.")
+                fatalError("Failed to load CoreData store: \(error)")
             }
 
             // Update the database version in local storage.
