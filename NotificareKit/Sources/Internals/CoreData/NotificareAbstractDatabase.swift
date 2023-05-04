@@ -12,6 +12,11 @@ open class NotificareAbstractDatabase {
         "re.notifica.database_version.\(name)"
     }
 
+    private var databaseUrl: URL {
+        let directory = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
+        return directory.appendingPathComponent("\(name).sqlite")
+    }
+
     public lazy var persistentContainer: NSPersistentContainer = {
         let bundle = Bundle(for: type(of: self))
 
@@ -22,11 +27,27 @@ open class NotificareAbstractDatabase {
             fatalError("Failed to load CoreData's models")
         }
 
-        return NSPersistentContainer(name: name, managedObjectModel: model)
+        let container = NSPersistentContainer(name: name, managedObjectModel: model)
+
+        if shouldOverrideDatabaseFileProtection {
+            let storeDescription = NSPersistentStoreDescription(url: databaseUrl)
+            storeDescription.type = NSSQLiteStoreType
+            storeDescription.shouldInferMappingModelAutomatically = true
+            storeDescription.shouldMigrateStoreAutomatically = true
+            storeDescription.setOption(FileProtectionType.none as NSObject, forKey: NSPersistentStoreFileProtectionKey)
+
+            container.persistentStoreDescriptions = [storeDescription]
+        }
+
+        return container
     }()
 
     public var context: NSManagedObjectContext {
         persistentContainer.viewContext
+    }
+
+    private var shouldOverrideDatabaseFileProtection: Bool {
+        Notificare.shared.options?.overrideDatabaseFileProtection ?? false
     }
 
     public init(name: String, rebuildOnVersionChange: Bool = true) {
@@ -63,7 +84,7 @@ open class NotificareAbstractDatabase {
         persistentContainer.loadPersistentStores { _, error in
             if let error = error {
                 NotificareLogger.error("Failed to load CoreData store '\(self.name)'.", error: error)
-                fatalError("Failed to load CoreData store.")
+                fatalError("Failed to load CoreData store: \(error)")
             }
 
             // Update the database version in local storage.
@@ -72,16 +93,13 @@ open class NotificareAbstractDatabase {
     }
 
     private func removeStore() {
-        guard
-            let url = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first?.appendingPathComponent("\(name).sqlite"),
-            FileManager.default.fileExists(atPath: url.path)
-        else {
+        guard FileManager.default.fileExists(atPath: databaseUrl.path) else {
             NotificareLogger.debug("Database file not found.")
             return
         }
 
         do {
-            try persistentContainer.persistentStoreCoordinator.destroyPersistentStore(at: url, ofType: "sqlite")
+            try persistentContainer.persistentStoreCoordinator.destroyPersistentStore(at: databaseUrl, ofType: "sqlite")
             NotificareLogger.debug("Database removed.")
         } catch {
             NotificareLogger.debug("Failed to remove database.")

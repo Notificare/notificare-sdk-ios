@@ -18,6 +18,7 @@ public struct NotificareOptions: Decodable {
     public static let DEFAULT_VISITS_API_ENABLED = false
     public static let DEFAULT_IMAGE_SHARING_ENABLED = true
     public static let DEFAULT_IAM_BACKGROUND_GRACE_PERIOD_MILLIS = 5 * 60 * 1000
+    public static let DEFAULT_OVERRIDE_DATABASE_FILE_PROTECTION = false
 
     public let debugLoggingEnabled: Bool
     public let autoConfig: Bool
@@ -33,6 +34,7 @@ public struct NotificareOptions: Decodable {
     public let safariDismissButtonStyle: Int?
     public let themes: Themes?
     public let backgroundGracePeriodMillis: Int
+    public let overrideDatabaseFileProtection: Bool
 
     public init(
         debugLoggingEnabled: Bool = DEFAULT_DEBUG_LOGGING_ENABLED,
@@ -48,7 +50,8 @@ public struct NotificareOptions: Decodable {
         imageSharingEnabled: Bool = DEFAULT_IMAGE_SHARING_ENABLED,
         safariDismissButtonStyle: Int? = nil,
         themes: NotificareOptions.Themes? = nil,
-        backgroundGracePeriodMillis: Int = DEFAULT_IAM_BACKGROUND_GRACE_PERIOD_MILLIS
+        backgroundGracePeriodMillis: Int = DEFAULT_IAM_BACKGROUND_GRACE_PERIOD_MILLIS,
+        overrideDatabaseFileProtection: Bool = DEFAULT_OVERRIDE_DATABASE_FILE_PROTECTION
     ) {
         self.debugLoggingEnabled = debugLoggingEnabled
         self.autoConfig = autoConfig
@@ -64,6 +67,7 @@ public struct NotificareOptions: Decodable {
         self.safariDismissButtonStyle = safariDismissButtonStyle
         self.themes = themes
         self.backgroundGracePeriodMillis = backgroundGracePeriodMillis
+        self.overrideDatabaseFileProtection = overrideDatabaseFileProtection
     }
 
     public struct Themes: Decodable {
@@ -124,6 +128,7 @@ public extension NotificareOptions {
             safariDismissButtonStyle = decoded.safariDismissButtonStyle
             themes = decoded.themes
             backgroundGracePeriodMillis = decoded.backgroundGracePeriodMillis
+            overrideDatabaseFileProtection = decoded.overrideDatabaseFileProtection
         } catch {
             return nil
         }
@@ -147,6 +152,7 @@ public extension NotificareOptions {
         case safariDismissButtonStyle = "SAFARI_DISMISS_BUTTON_STYLE"
         case themes = "THEMES"
         case backgroundGracePeriodMillis = "IAM_BACKGROUND_GRACE_PERIOD_MILLIS"
+        case overrideDatabaseFileProtection = "OVERRIDE_DATABASE_FILE_PROTECTION"
     }
 
     init(from decoder: Decoder) throws {
@@ -166,6 +172,7 @@ public extension NotificareOptions {
         safariDismissButtonStyle = try container.decodeIfPresent(Int.self, forKey: .safariDismissButtonStyle)
         themes = try container.decodeIfPresent(Themes.self, forKey: .themes)
         backgroundGracePeriodMillis = try container.decodeIfPresent(Int.self, forKey: .backgroundGracePeriodMillis) ?? NotificareOptions.DEFAULT_IAM_BACKGROUND_GRACE_PERIOD_MILLIS
+        overrideDatabaseFileProtection = try container.decodeIfPresent(Bool.self, forKey: .overrideDatabaseFileProtection) ?? NotificareOptions.DEFAULT_OVERRIDE_DATABASE_FILE_PROTECTION
     }
 }
 
