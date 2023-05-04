@@ -130,7 +130,12 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
 
                 // Update the local notification settings.
                 // Registering a temporary device automatically reports the allowedUI to the API.
-                LocalStorage.allowedUI = false
+                self.allowedUI = false
+
+                DispatchQueue.main.async {
+                    // Notify the delegate.
+                    self.delegate?.notificare(self, didChangeNotificationSettings: false)
+                }
 
                 NotificareLogger.info("Unregistered from APNS.")
             case let .failure(error):
