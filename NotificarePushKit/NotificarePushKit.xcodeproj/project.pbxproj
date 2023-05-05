@@ -14,12 +14,12 @@
 		F21DD9E72718449800C88D7B /* NotificarePushImpl+UIApplicationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21DD9E62718449800C88D7B /* NotificarePushImpl+UIApplicationDelegate.swift */; };
 		F21DD9E9271844B200C88D7B /* NotificarePushImpl+UNUserNotificationCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21DD9E8271844B200C88D7B /* NotificarePushImpl+UNUserNotificationCenterDelegate.swift */; };
 		F226509B258B6B900004F833 /* NotificarePush.swift in Sources */ = {isa = PBXBuildFile; fileRef = F226509A258B6B900004F833 /* NotificarePush.swift */; };
-		F22650B9258B6E560004F833 /* NotificareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F22650B8258B6E560004F833 /* NotificareKit.framework */; };
 		F23A5569259C7D6D00B57CF1 /* NotificarePush+Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = F23A5568259C7D6D00B57CF1 /* NotificarePush+Events.swift */; };
 		F258DD9E24BC4EE2006F9ABD /* NotificarePushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F258DD9424BC4EE2006F9ABD /* NotificarePushKit.framework */; };
 		F258DDA324BC4EE2006F9ABD /* PushTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DDA224BC4EE2006F9ABD /* PushTests.swift */; };
 		F258DDA524BC4EE2006F9ABD /* NotificarePushKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F258DD9724BC4EE2006F9ABD /* NotificarePushKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F28553C5258B8848006674C1 /* NotificarePushDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28553C4258B8848006674C1 /* NotificarePushDelegate.swift */; };
+		F29ECB652A054619001961B0 /* NotificareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F29ECB642A054619001961B0 /* NotificareKit.framework */; };
 		F2B6A34426173F32001CB7DC /* NotificareNotification+APNS.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B6A34326173F32001CB7DC /* NotificareNotification+APNS.swift */; };
 		F2D3893E266542F200EAEF44 /* PushAPI+Payloads.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D3893D266542F200EAEF44 /* PushAPI+Payloads.swift */; };
 		F2E9221D2641A4D8005279C0 /* InboxIntegration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E9221C2641A4D8005279C0 /* InboxIntegration.swift */; };
@@ -44,7 +44,6 @@
 		F21DD9E62718449800C88D7B /* NotificarePushImpl+UIApplicationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificarePushImpl+UIApplicationDelegate.swift"; sourceTree = "<group>"; };
 		F21DD9E8271844B200C88D7B /* NotificarePushImpl+UNUserNotificationCenterDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificarePushImpl+UNUserNotificationCenterDelegate.swift"; sourceTree = "<group>"; };
 		F226509A258B6B900004F833 /* NotificarePush.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificarePush.swift; sourceTree = "<group>"; };
-		F22650B8258B6E560004F833 /* NotificareKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F23A5568259C7D6D00B57CF1 /* NotificarePush+Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificarePush+Events.swift"; sourceTree = "<group>"; };
 		F258DD9424BC4EE2006F9ABD /* NotificarePushKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NotificarePushKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F258DD9724BC4EE2006F9ABD /* NotificarePushKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificarePushKit.h; sourceTree = "<group>"; };
@@ -52,12 +51,9 @@
 		F258DD9D24BC4EE2006F9ABD /* NotificarePushKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NotificarePushKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F258DDA224BC4EE2006F9ABD /* PushTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushTests.swift; sourceTree = "<group>"; };
 		F258DDA424BC4EE2006F9ABD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F258DE7624BC7FFA006F9ABD /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F258DE8924BC8A76006F9ABD /* Notificare.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Notificare.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F28553C4258B8848006674C1 /* NotificarePushDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificarePushDelegate.swift; sourceTree = "<group>"; };
-		F2AAAF88251D01B400465EC5 /* NotificareSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F29ECB642A054619001961B0 /* NotificareKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2B6A34326173F32001CB7DC /* NotificareNotification+APNS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificareNotification+APNS.swift"; sourceTree = "<group>"; };
-		F2B8C55C25A6173700FFBE0C /* NotificareCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2D3893D266542F200EAEF44 /* PushAPI+Payloads.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PushAPI+Payloads.swift"; sourceTree = "<group>"; };
 		F2E9221C2641A4D8005279C0 /* InboxIntegration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxIntegration.swift; sourceTree = "<group>"; };
 		F2FF5CEB2955BAD5007E133E /* NotificareNotificationDeliveryMechanism.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareNotificationDeliveryMechanism.swift; sourceTree = "<group>"; };
@@ -68,7 +64,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F22650B9258B6E560004F833 /* NotificareKit.framework in Frameworks */,
+				F29ECB652A054619001961B0 /* NotificareKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -139,11 +135,7 @@
 		F258DE7524BC7FFA006F9ABD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F2B8C55C25A6173700FFBE0C /* NotificareCore.framework */,
-				F22650B8258B6E560004F833 /* NotificareKit.framework */,
-				F2AAAF88251D01B400465EC5 /* NotificareSDK.framework */,
-				F258DE8924BC8A76006F9ABD /* Notificare.framework */,
-				F258DE7624BC7FFA006F9ABD /* Core.framework */,
+				F29ECB642A054619001961B0 /* NotificareKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -234,8 +226,9 @@
 		F258DD8B24BC4EE2006F9ABD /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1150;
-				LastUpgradeCheck = 1420;
+				LastUpgradeCheck = 1430;
 				ORGANIZATIONNAME = Notificare;
 				TargetAttributes = {
 					F258DD9324BC4EE2006F9ABD = {
@@ -478,6 +471,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
 				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -487,6 +481,8 @@
 					"@loader_path/Frameworks",
 				);
 				MARKETING_VERSION = 3.5.1;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.push;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -508,6 +504,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
 				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -517,6 +514,8 @@
 					"@loader_path/Frameworks",
 				);
 				MARKETING_VERSION = 3.5.1;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.push;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;

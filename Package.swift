@@ -17,10 +17,6 @@ let package = Package(
             targets: ["NotificareAssetsKit"]
         ),
         .library(
-            name: "NotificareAuthenticationKit",
-            targets: ["NotificareAuthenticationKit"]
-        ),
-        .library(
             name: "NotificareGeoKit",
             targets: ["NotificareGeoKit"]
         ),
@@ -71,11 +67,6 @@ let package = Package(
             name: "NotificareAssetsKit",
             url: "https://github.com/notificare/notificare-sdk-ios/releases/download/3.5.1/spm-notificare-assets.zip",
             checksum: "6f9db9bc7cf0866bacec3567c367673399e655178937816564f7a60815e6d2ff"
-        ),
-        .binaryTarget(
-            name: "NotificareAuthenticationKit",
-            url: "https://github.com/notificare/notificare-sdk-ios/releases/download/3.5.1/spm-notificare-authentication.zip",
-            checksum: "afd15b51808728a3c7969a8654def8574fe2703ba97314f18eacdc5ad164c1af"
         ),
         .binaryTarget(
             name: "NotificareGeoKit",
