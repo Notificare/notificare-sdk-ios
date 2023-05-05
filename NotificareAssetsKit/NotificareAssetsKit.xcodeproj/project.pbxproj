@@ -36,10 +36,7 @@
 		F258DDC124BC4F09006F9ABD /* NotificareAssetsKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NotificareAssetsKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F258DDC624BC4F09006F9ABD /* AssetsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetsTests.swift; sourceTree = "<group>"; };
 		F258DDC824BC4F09006F9ABD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F258DEAB24BC96DF006F9ABD /* Notificare.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Notificare.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F289F5D825B861670091AB97 /* NotificareCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F289F5D925B861670091AB97 /* NotificareKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F2AAAF78251D019A00465EC5 /* NotificareSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2ABF33B269C43AB00401D3F /* NotificareAssetsImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareAssetsImpl.swift; sourceTree = "<group>"; };
 		F2ABF33E269C45A900401D3F /* NotificareAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareAsset.swift; sourceTree = "<group>"; };
 		F2ABF345269C579900401D3F /* PushAPI+Responses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PushAPI+Responses.swift"; sourceTree = "<group>"; };
@@ -112,10 +109,7 @@
 		F258DEAA24BC96DF006F9ABD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F289F5D825B861670091AB97 /* NotificareCore.framework */,
 				F289F5D925B861670091AB97 /* NotificareKit.framework */,
-				F2AAAF78251D019A00465EC5 /* NotificareSDK.framework */,
-				F258DEAB24BC96DF006F9ABD /* Notificare.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

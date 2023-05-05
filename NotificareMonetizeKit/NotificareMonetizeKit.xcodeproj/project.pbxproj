@@ -62,10 +62,7 @@
 		F258DE0924BC4F89006F9ABD /* NotificareMonetizeKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NotificareMonetizeKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F258DE0E24BC4F89006F9ABD /* MonetizeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonetizeTests.swift; sourceTree = "<group>"; };
 		F258DE1024BC4F89006F9ABD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F258DEA124BC96D6006F9ABD /* Notificare.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Notificare.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F289F5C025B8611B0091AB97 /* NotificareCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F289F5C125B8611B0091AB97 /* NotificareKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F2AAAF84251D01AE00465EC5 /* NotificareSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -185,10 +182,7 @@
 			isa = PBXGroup;
 			children = (
 				F22443D1286CB33C0015CBD6 /* StoreKit.framework */,
-				F289F5C025B8611B0091AB97 /* NotificareCore.framework */,
 				F289F5C125B8611B0091AB97 /* NotificareKit.framework */,
-				F2AAAF84251D01AE00465EC5 /* NotificareSDK.framework */,
-				F258DEA124BC96D6006F9ABD /* Notificare.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

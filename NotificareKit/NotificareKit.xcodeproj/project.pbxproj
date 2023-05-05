@@ -123,9 +123,7 @@
 		F27DB187262EDEB5000C024D /* PushAPI+Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PushAPI+Models.swift"; sourceTree = "<group>"; };
 		F27DDD9929266B5F0020036D /* NotificareLoyaltyIntegration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareLoyaltyIntegration.swift; sourceTree = "<group>"; };
 		F286051D262D9A4300F6D582 /* NotificareRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareRequest.swift; sourceTree = "<group>"; };
-		F289991725C969EF008ADC7E /* NotificareCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F289993425C97D35008ADC7E /* NotificareOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareOptions.swift; sourceTree = "<group>"; };
-		F289F5B425B860B60091AB97 /* NotificareCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F293E27A26302C48008C2010 /* NotificareUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareUtils.swift; sourceTree = "<group>"; };
 		F293E28426302C70008C2010 /* NotificareLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareLogger.swift; sourceTree = "<group>"; };
 		F293E28926302C76008C2010 /* NotificareLocalizable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareLocalizable.swift; sourceTree = "<group>"; };
@@ -293,8 +291,6 @@
 		F289F5B325B860B60091AB97 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F289991725C969EF008ADC7E /* NotificareCore.framework */,
-				F289F5B425B860B60091AB97 /* NotificareCore.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

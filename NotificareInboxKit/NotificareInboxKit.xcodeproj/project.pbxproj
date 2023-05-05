@@ -45,7 +45,6 @@
 		F289F53E25B85E020091AB97 /* NotificareInboxKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NotificareInboxKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F289F54325B85E020091AB97 /* NotificareInboxKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareInboxKitTests.swift; sourceTree = "<group>"; };
 		F289F54525B85E020091AB97 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F289F55C25B85EA80091AB97 /* NotificareCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F289F56025B85EAF0091AB97 /* NotificareKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F289F5E725B8643A0091AB97 /* NotificareInboxImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareInboxImpl.swift; sourceTree = "<group>"; };
 		F289F5EB25B864A90091AB97 /* NotificareInboxKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificareInboxKit.h; sourceTree = "<group>"; };
@@ -136,7 +135,6 @@
 			isa = PBXGroup;
 			children = (
 				F289F56025B85EAF0091AB97 /* NotificareKit.framework */,
-				F289F55C25B85EA80091AB97 /* NotificareCore.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
