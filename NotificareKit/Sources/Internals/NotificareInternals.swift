@@ -19,7 +19,6 @@ public enum NotificareInternals {
         case loyalty = "NotificareLoyaltyKit.NotificareLoyaltyImpl"
         case assets = "NotificareAssetsKit.NotificareAssetsImpl"
         case scannables = "NotificareScannablesKit.NotificareScannablesImpl"
-        case authentication = "NotificareAuthenticationKit.NotificareAuthenticationImpl"
         case geo = "NotificareGeoKit.NotificareGeoImpl"
         case monetize = "NotificareMonetizeKit.NotificareMonetizeImpl"
         case inAppMessaging = "NotificareInAppMessagingKit.NotificareInAppMessagingImpl"
