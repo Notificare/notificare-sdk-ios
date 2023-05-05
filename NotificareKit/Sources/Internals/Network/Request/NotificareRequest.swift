@@ -12,13 +12,12 @@ public struct NotificareRequest {
 
     private let request: URLRequest
     private let validStatusCodes: ClosedRange<Int>
-    private let authenticationDelegate: NotificareRequestAuthenticationDelegate?
 
     public func response(_ completion: @escaping NotificareCallback<(response: HTTPURLResponse, data: Data?)>) {
         NotificareRequest.session.perform(request) { result in
             switch result {
             case .success(let (response, data)):
-                handleResponse(response, data: data, refreshAuthentication: true, completion)
+                handleResponse(response, data: data, completion)
             case let .failure(error):
                 completion(.failure(error))
             }
@@ -47,31 +46,7 @@ public struct NotificareRequest {
         }
     }
 
-    private func handleResponse(_ response: HTTPURLResponse, data: Data?, refreshAuthentication: Bool, _ completion: @escaping NotificareCallback<(response: HTTPURLResponse, data: Data?)>) {
-        if let authenticationDelegate = authenticationDelegate, response.statusCode == 401, refreshAuthentication {
-            NotificareLogger.debug("Authentication credentials have expired. Trying to refresh.")
-            authenticationDelegate.onRefreshAuthentication { result in
-                switch result {
-                case let .success(authentication):
-                    var newRequest = request
-                    newRequest.setValue(authentication.encode(), forHTTPHeaderField: "Authorization")
-
-                    NotificareRequest.session.perform(newRequest) { result in
-                        switch result {
-                        case let .success((response, data)):
-                            handleResponse(response, data: data, refreshAuthentication: false, completion)
-                        case let .failure(error):
-                            completion(.failure(error))
-                        }
-                    }
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-
-            return
-        }
-
+    private func handleResponse(_ response: HTTPURLResponse, data: Data?, _ completion: @escaping NotificareCallback<(response: HTTPURLResponse, data: Data?)>) {
         guard validStatusCodes.contains(response.statusCode) else {
             completion(.failure(NotificareNetworkError.validationError(response: response, data: data, validStatusCodes: validStatusCodes)))
             return
@@ -85,7 +60,6 @@ public struct NotificareRequest {
         private var url: String?
         private var queryItems = [String: String]()
         private var authentication: Authentication?
-        private var authenticationDelegate: NotificareRequestAuthenticationDelegate?
         private var headers = [String: String]()
         private var method: String?
         private var body: Data?
@@ -191,11 +165,6 @@ public struct NotificareRequest {
             return self
         }
 
-        public func authenticationDelegate(_ delegate: NotificareRequestAuthenticationDelegate) -> Self {
-            authenticationDelegate = delegate
-            return self
-        }
-
         public func validate(range: ClosedRange<Int>) -> Self {
             validStatusCodes = range
             return self
@@ -237,8 +206,7 @@ public struct NotificareRequest {
 
             return NotificareRequest(
                 request: request,
-                validStatusCodes: validStatusCodes,
-                authenticationDelegate: authenticationDelegate
+                validStatusCodes: validStatusCodes
             )
         }
 
@@ -343,7 +311,6 @@ public struct NotificareRequest {
 
     public enum Authentication {
         case basic(username: String, password: String)
-        case bearer(token: String)
 
         public func encode() -> String {
             switch self {
@@ -353,14 +320,7 @@ public struct NotificareRequest {
                     .base64EncodedString()
 
                 return "Basic \(base64encoded)"
-
-            case let .bearer(token):
-                return "Bearer \(token)"
             }
         }
     }
-}
-
-public protocol NotificareRequestAuthenticationDelegate {
-    func onRefreshAuthentication(_ completion: @escaping NotificareCallback<NotificareRequest.Authentication>)
 }
