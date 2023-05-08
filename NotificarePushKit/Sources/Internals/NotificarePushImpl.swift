@@ -83,7 +83,10 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
     }
 
     public func enableRemoteNotifications(_ completion: @escaping NotificareCallback<Bool>) {
-        // TODO: check if Notificare is ready and if the application services contain 'apns'.
+        guard Notificare.shared.isReady else {
+            completion(.failure(NotificareError.notReady))
+            return
+        }
 
         // Request notification authorization options.
         notificationCenter.requestAuthorization(options: authorizationOptions) { granted, _ in
