@@ -124,6 +124,12 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
     }
 
     public func disableRemoteNotifications() {
+        do {
+            try checkPrerequisites()
+        } catch {
+            return
+        }
+
         // Keep track of the status in local storage.
         LocalStorage.remoteNotificationsEnabled = false
 
