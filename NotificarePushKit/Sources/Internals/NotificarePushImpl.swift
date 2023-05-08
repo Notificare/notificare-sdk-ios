@@ -83,8 +83,10 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
     }
 
     public func enableRemoteNotifications(_ completion: @escaping NotificareCallback<Bool>) {
-        guard Notificare.shared.isReady else {
-            completion(.failure(NotificareError.notReady))
+        do {
+            try checkPrerequisites()
+        } catch {
+            completion(.failure(error))
             return
         }
 
@@ -244,6 +246,23 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
     }
 
     // MARK: Internal API
+
+    private func checkPrerequisites() throws {
+        if !Notificare.shared.isReady {
+            NotificareLogger.warning("Notificare is not ready yet.")
+            throw NotificareError.notReady
+        }
+
+        guard let application = Notificare.shared.application else {
+            NotificareLogger.warning("Notificare application is not yet available.")
+            throw NotificareError.applicationUnavailable
+        }
+
+        guard application.services[NotificareApplication.ServiceKey.apns.rawValue] == true else {
+            NotificareLogger.warning("Notificare APNS functionality is not enabled.")
+            throw NotificareError.serviceUnavailable(service: NotificareApplication.ServiceKey.apns.rawValue)
+        }
+    }
 
     internal func reloadActionCategories(_ completion: @escaping () -> Void) {
         NotificareLogger.debug("Reloading action categories.")
