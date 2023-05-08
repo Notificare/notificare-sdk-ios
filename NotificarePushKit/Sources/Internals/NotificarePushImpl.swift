@@ -83,30 +83,49 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
     }
 
     public func enableRemoteNotifications(_ completion: @escaping NotificareCallback<Bool>) {
-        // TODO: check if Notificare is ready and if the application services contain 'apns'.
-
-        // Request notification authorization options.
-        notificationCenter.requestAuthorization(options: authorizationOptions) { granted, _ in
-            NotificareLogger.info("Registered user notification settings.")
-
-            if granted {
-                NotificareLogger.info("User granted permission to receive alerts, badge and sounds.")
-                self.reloadActionCategories {
-                    self.handleEnabledRemoteNotifications(granted, completion)
-                }
-            } else {
-                NotificareLogger.info("User did not grant permission to receive alerts, badge and sounds.")
-                self.handleEnabledRemoteNotifications(granted, completion)
-            }
-        }
-
-        DispatchQueue.main.async {
-            // Request an APNS token.
-            UIApplication.shared.registerForRemoteNotifications()
+        do {
+            try checkPrerequisites()
+        } catch {
+            completion(.failure(error))
+            return
         }
 
         // Keep track of the status in local storage.
         LocalStorage.remoteNotificationsEnabled = true
+
+        // Request an APNS token.
+        DispatchQueue.main.async {
+            UIApplication.shared.registerForRemoteNotifications()
+        }
+
+        // Request notification authorization options.
+        notificationCenter.requestAuthorization(options: authorizationOptions) { granted, _ in
+            if granted {
+                NotificareLogger.info("User granted permission to receive alerts, badge and sounds.")
+                self.reloadActionCategories {
+                    self.updateNotificationSettings(granted) { result in
+                        switch result {
+                        case .success:
+                            completion(.success(granted))
+
+                        case let .failure(error):
+                            completion(.failure(error))
+                        }
+                    }
+                }
+            } else {
+                NotificareLogger.info("User did not grant permission to receive alerts, badge and sounds.")
+                self.updateNotificationSettings(granted) { result in
+                    switch result {
+                    case .success:
+                        completion(.success(granted))
+
+                    case let .failure(error):
+                        completion(.failure(error))
+                    }
+                }
+            }
+        }
     }
 
     @available(iOS 13.0, *)
@@ -119,6 +138,12 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
     }
 
     public func disableRemoteNotifications() {
+        do {
+            try checkPrerequisites()
+        } catch {
+            return
+        }
+
         // Keep track of the status in local storage.
         LocalStorage.remoteNotificationsEnabled = false
 
@@ -241,6 +266,23 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
     }
 
     // MARK: Internal API
+
+    private func checkPrerequisites() throws {
+        if !Notificare.shared.isReady {
+            NotificareLogger.warning("Notificare is not ready yet.")
+            throw NotificareError.notReady
+        }
+
+        guard let application = Notificare.shared.application else {
+            NotificareLogger.warning("Notificare application is not yet available.")
+            throw NotificareError.applicationUnavailable
+        }
+
+        guard application.services[NotificareApplication.ServiceKey.apns.rawValue] == true else {
+            NotificareLogger.warning("Notificare APNS functionality is not enabled.")
+            throw NotificareError.serviceUnavailable(service: NotificareApplication.ServiceKey.apns.rawValue)
+        }
+    }
 
     internal func reloadActionCategories(_ completion: @escaping () -> Void) {
         NotificareLogger.debug("Reloading action categories.")
@@ -379,21 +421,19 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
 
     internal func updateNotificationSettings(_ completion: @escaping NotificareCallback<Void>) {
         notificationCenter.getNotificationSettings { settings in
-            DispatchQueue.main.async {
-                var allowedUI = settings.authorizationStatus == .authorized
+            var granted = settings.authorizationStatus == .authorized
 
-                if #available(iOS 12.0, *) {
-                    if settings.authorizationStatus == .provisional {
-                        allowedUI = true
-                    }
+            if #available(iOS 12.0, *) {
+                if settings.authorizationStatus == .provisional {
+                    granted = true
                 }
-
-                self.handleNotificationSettings(allowedUI, completion)
             }
+
+            self.updateNotificationSettings(granted, completion)
         }
     }
 
-    private func handleNotificationSettings(_ granted: Bool, _ completion: @escaping NotificareCallback<Void>) {
+    private func updateNotificationSettings(_ granted: Bool, _ completion: @escaping NotificareCallback<Void>) {
         guard Notificare.shared.isConfigured else {
             completion(.failure(NotificareError.notConfigured))
             return
@@ -407,61 +447,52 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
         // The allowedUI is only true when the device has push capabilities and the user accepted the permission.
         let allowedUI = device.transport != .notificare && granted
 
-        if self.allowedUI != allowedUI {
-            let payload = NotificareInternals.PushAPI.Payloads.UpdateNotificationSettings(
-                allowedUI: allowedUI
-            )
-
-            NotificareRequest.Builder()
-                .put("/device/\(device.id)", body: payload)
-                .response { result in
-                    switch result {
-                    case .success:
-                        NotificareLogger.debug("User notification settings updated.")
-
-                        // Update current stored property.
-                        self.allowedUI = allowedUI
-
-                        DispatchQueue.main.async {
-                            // Notify the delegate.
-                            self.delegate?.notificare(self, didChangeNotificationSettings: allowedUI)
-                        }
-
-                        completion(.success(()))
-                    case let .failure(error):
-                        NotificareLogger.error("Failed to update the remote notification settings.", error: error)
-                        completion(.failure(error))
-                    }
-                }
-        } else {
+        guard self.allowedUI != allowedUI else {
             NotificareLogger.debug("User notification settings update skipped, nothing changed.")
-            completion(.success(()))
-        }
-    }
 
-    private func handleEnabledRemoteNotifications(_ granted: Bool, _ completion: @escaping NotificareCallback<Bool>) {
-        handleNotificationSettings(granted) { result in
-            switch result {
-            case .success:
-                if granted, LocalStorage.firstRegistration {
-                    Notificare.shared.events().logPushRegistration { result in
-                        switch result {
-                        case .success:
-                            LocalStorage.firstRegistration = false
-                            completion(.success(granted))
-                        case let .failure(error):
-                            completion(.failure(error))
-                        }
+            completion(.success(()))
+            return
+        }
+
+        let payload = NotificareInternals.PushAPI.Payloads.UpdateNotificationSettings(
+            allowedUI: allowedUI
+        )
+
+        NotificareRequest.Builder()
+            .put("/device/\(device.id)", body: payload)
+            .response { result in
+                switch result {
+                case .success:
+                    NotificareLogger.debug("User notification settings updated.")
+
+                    // Update current stored property.
+                    self.allowedUI = allowedUI
+
+                    DispatchQueue.main.async {
+                        // Notify the delegate.
+                        self.delegate?.notificare(self, didChangeNotificationSettings: allowedUI)
                     }
 
-                    return
-                }
+                    if allowedUI, LocalStorage.firstRegistration {
+                        Notificare.shared.events().logPushRegistration { result in
+                            switch result {
+                            case .success:
+                                LocalStorage.firstRegistration = false
+                                completion(.success(()))
+                            case let .failure(error):
+                                completion(.failure(error))
+                            }
+                        }
 
-                completion(.success(granted))
-            case let .failure(error):
-                completion(.failure(error))
+                        return
+                    }
+
+                    completion(.success(()))
+                case let .failure(error):
+                    NotificareLogger.error("Failed to update the remote notification settings.", error: error)
+                    completion(.failure(error))
+                }
             }
-        }
     }
 
     private func fetchAttachment(for request: UNNotificationRequest, _ completion: @escaping NotificareCallback<UNNotificationAttachment>) {

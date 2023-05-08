@@ -9,7 +9,7 @@ import UserNotifications
 public protocol NotificarePushDelegate: AnyObject {
     func notificare(_ notificarePush: NotificarePush, didFailToRegisterForRemoteNotificationsWithError error: Error)
 
-    func notificare(_ notificarePush: NotificarePush, didChangeNotificationSettings granted: Bool)
+    func notificare(_ notificarePush: NotificarePush, didChangeNotificationSettings allowedUI: Bool)
 
     func notificare(_ notificarePush: NotificarePush, didReceiveUnknownNotification userInfo: [AnyHashable: Any])
 
