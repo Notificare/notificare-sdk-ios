@@ -474,12 +474,17 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
                     }
 
                     if allowedUI, LocalStorage.firstRegistration {
+                        // Ensure the flag update is immediate, preventing multiple simulatenous allowedUI updates
+                        // from triggering the event.
+                        LocalStorage.firstRegistration = false
+
                         Notificare.shared.events().logPushRegistration { result in
                             switch result {
                             case .success:
                                 LocalStorage.firstRegistration = false
                                 completion(.success(()))
                             case let .failure(error):
+                                LocalStorage.firstRegistration = true
                                 completion(.failure(error))
                             }
                         }
