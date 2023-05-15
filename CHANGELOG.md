@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 3.5.2
+
+- Emit the `didChangeNotificationSettings` event when disabling remote notifications
+- Add opt-in flag to prevent file access restrictions for Core Data
+- Prevent push registration race condition when enabling remote notifications
+- Correctly track device on initial application open event
+
 ## 3.5.1
 
 - Improved auto-config mechanism
