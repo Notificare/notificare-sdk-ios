@@ -32,16 +32,25 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
 
     func launch(_ completion: @escaping NotificareCallback<Void>) {
         if let device = currentDevice {
-            if device.appVersion != NotificareUtils.applicationVersion {
-                // It's not the same version, let's log it as an upgrade.
-                NotificareLogger.debug("New version detected")
-                Notificare.shared.eventsImplementation().logApplicationUpgrade { _ in }
-            }
-
             register(transport: device.transport, token: device.id, userId: device.userId, userName: device.userName) { result in
                 switch result {
                 case .success:
-                    completion(.success(()))
+                    Notificare.shared.session().launch { result in
+                        switch result {
+                        case .success:
+                            if device.appVersion != NotificareUtils.applicationVersion {
+                                // It's not the same version, let's log it as an upgrade.
+                                NotificareLogger.debug("New version detected")
+                                Notificare.shared.eventsImplementation().logApplicationUpgrade { _ in }
+                            }
+
+                            completion(.success(()))
+
+                        case let .failure(error):
+                            NotificareLogger.debug("Failed to launch the session module.", error: error)
+                            completion(.failure(error))
+                        }
+                    }
                 case let .failure(error):
                     NotificareLogger.warning("Failed to register device.", error: error)
                     completion(.failure(error))
@@ -50,17 +59,23 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         } else {
             NotificareLogger.debug("New install detected")
 
-            // Let's logout the user in case there's an account in the keychain
-            // TODO: [[NotificareAuth shared] logoutAccount]
-
             registerTemporary { result in
                 switch result {
                 case .success:
-                    // We will log the Install & Registration events here since this will execute only one time at the start.
-                    Notificare.shared.eventsImplementation().logApplicationInstall { _ in }
-                    Notificare.shared.eventsImplementation().logApplicationRegistration { _ in }
+                    Notificare.shared.session().launch { result in
+                        switch result {
+                        case .success:
+                            // We will log the Install & Registration events here since this will execute only one time at the start.
+                            Notificare.shared.eventsImplementation().logApplicationInstall { _ in }
+                            Notificare.shared.eventsImplementation().logApplicationRegistration { _ in }
 
-                    completion(.success(()))
+                            completion(.success(()))
+
+                        case let .failure(error):
+                            NotificareLogger.debug("Failed to launch the session module.", error: error)
+                            completion(.failure(error))
+                        }
+                    }
                 case let .failure(error):
                     NotificareLogger.warning("Failed to register temporary device.", error: error)
                     completion(.failure(error))

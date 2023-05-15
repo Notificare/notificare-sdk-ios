@@ -41,7 +41,7 @@ internal class NotificareSessionModuleImpl: NSObject, NotificareModule {
     }
 
     func launch(_ completion: @escaping NotificareCallback<Void>) {
-        if sessionId == nil, UIApplication.shared.applicationState == .active {
+        if sessionId == nil, Notificare.shared.device().currentDevice != nil, UIApplication.shared.applicationState == .active {
             // Launch is taking place after the application came to the foreground.
             // Start the application session.
             startSession { _ in

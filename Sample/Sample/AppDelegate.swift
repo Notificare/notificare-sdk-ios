@@ -5,7 +5,6 @@
 import ActivityKit
 // import Atlantis
 import CoreLocation
-import NotificareAuthenticationKit
 import NotificareGeoKit
 import NotificareInAppMessagingKit
 import NotificareInboxKit
@@ -66,16 +65,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         if Notificare.shared.handleTestDeviceUrl(url) {
-            return true
-        }
-
-        if let token = Notificare.shared.authentication().parsePasswordResetToken(url) {
-            print("---> Password reset token = \(token)")
-            return true
-        }
-
-        if let token = Notificare.shared.authentication().parseValidateUserToken(url) {
-            print("---> Validate user token = \(token)")
             return true
         }
 
@@ -166,8 +155,8 @@ extension AppDelegate: NotificarePushDelegate {
         print("-----> Notificare: failed to register for remote notifications: \(error)")
     }
 
-    func notificare(_: NotificarePush, didChangeNotificationSettings granted: Bool) {
-        print("-----> Notificare: notification settings changed: \(granted)")
+    func notificare(_: NotificarePush, didChangeNotificationSettings allowedUI: Bool) {
+        print("-----> Notificare: notification settings changed: \(allowedUI)")
     }
 
     func notificare(_: NotificarePush, didReceiveSystemNotification notification: NotificareSystemNotification) {
