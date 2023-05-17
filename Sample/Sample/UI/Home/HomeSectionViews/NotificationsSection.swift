@@ -71,7 +71,7 @@ struct NotificationsSection: View {
             }
 
             NavigationLink {
-                TagsView(viewModel: TagsViewModel())
+                TagsView()
             } label: {
                 Label {
                     Text(String(localized: "home_tags"))

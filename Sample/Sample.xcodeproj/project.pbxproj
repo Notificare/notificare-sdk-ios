@@ -380,7 +380,6 @@
 			children = (
 				E5590DF529C21F59006E593B /* TagsView.swift */,
 				E5590DF729C2273A006E593B /* TagsViewModel.swift */,
-				E5590DFD29C2310F006E593B /* SelectableChipView.swift */,
 			);
 			path = Tags;
 			sourceTree = "<group>";
@@ -529,6 +528,7 @@
 		F25B6DC125CABDBF007BC2C8 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				F29F82A32A0E5D8B00B327D8 /* Components */,
 				E59CFC1029D05D6E0024057A /* Authentication */,
 				E5590E3129C474B5006E593B /* Events */,
 				E5590E2A29C38729006E593B /* Assets */,
@@ -555,6 +555,14 @@
 				E514687729C9CC41005E057D /* String+Localization.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		F29F82A32A0E5D8B00B327D8 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				E5590DFD29C2310F006E593B /* SelectableChipView.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 		F29FD1EB24CB1FE1004B166D = {

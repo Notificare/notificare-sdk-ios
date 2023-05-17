@@ -7,107 +7,163 @@ import NotificareKit
 import OSLog
 import SwiftUI
 
+private let DEFAULT_TAGS = ["Kotlin", "Java", "Swift"]
+
 @MainActor
 class TagsViewModel: ObservableObject {
-    @Published private(set) var deviceTags = [String]()
-    @Published private(set) var selectedTags = [String]()
-    @Published var availableTags = [AvailableTag]()
-    @Published var inputTag = ""
-
-    private let defaultTags = ["Kotlin", "Java", "Swift"]
+    @Published private(set) var viewState: ViewState = .idle
+    @Published private(set) var deviceTags: [String] = []
+    @Published var selectableTags = [SelectableTag]()
+    @Published var input = ""
+    @Published private(set) var userMessages: [UserMessage] = []
 
     init() {
-        getDeviceTags()
+        refresh()
     }
 
-    func getDeviceTags() {
-        Logger.main.info("-----> Fetching device tags <-----")
+    func refresh() {
+        Task {
+            await refreshAsync()
+        }
+    }
+
+    private func refreshAsync() async {
+        viewState = .loading
+
+        do {
+            let tags = try await Notificare.shared.device().fetchTags()
+
+            selectableTags = DEFAULT_TAGS
+                .filter { !tags.contains($0) }
+                .map { SelectableTag(tag: $0, isSelected: false) }
+
+            deviceTags = tags
+            viewState = .success
+        } catch {
+            Logger.main.error("Failed to fetch device tags: \(error)")
+            viewState = .failure
+        }
+    }
+
+    func saveChanges() {
+        viewState = .loading
+
+        var tags = selectableTags
+            .filter(\.isSelected)
+            .map(\.tag)
+
+        let input = input.replacingOccurrences(of: " ", with: "_")
+            .trimmingCharacters(in: .newlines)
+
+        if !input.isEmpty, !tags.contains(input) {
+            tags.append(input)
+        }
 
         Task {
             do {
-                let tags = try await Notificare.shared.device().fetchTags()
-                Logger.main.info("-----> Device tags fetched successfully <-----")
-                deviceTags = tags
+                try await Notificare.shared.device().addTags(tags)
+
+                self.input = ""
+                await refreshAsync()
+
+                userMessages.append(
+                    UserMessage(variant: .addTagsSuccess)
+                )
             } catch {
-                Logger.main.error("-----> Failed to fetch device tags: \(error.localizedDescription)")
-                deviceTags.removeAll()
-            }
+                Logger.main.error("Failed to add tags: \(error)")
 
-            if !availableTags.isEmpty {
-                availableTags.removeAll()
-            }
-
-            defaultTags.forEach { tag in
-                if !deviceTags.contains(tag) {
-                    availableTags.append(AvailableTag(name: tag, isSelected: false))
-                }
+                userMessages.append(
+                    UserMessage(variant: .addTagsFailure(error: error))
+                )
             }
         }
     }
 
-    func addTags() {
-        Logger.main.info("-----> Add tags clicked <-----")
-        if !inputTag.isEmpty {
-            selectedTags.append(inputTag)
-        }
-
-        Task {
-            do {
-                try await Notificare.shared.device().addTags(selectedTags)
-
-                Logger.main.info("-----> Added tags successfully <-----")
-                inputTag = ""
-                selectedTags.removeAll()
-                getDeviceTags()
-            } catch {
-                Logger.main.error("-----> Failed to add tags: \(error.localizedDescription)")
-            }
-        }
-    }
-
-    func removeTag(tag: String) {
-        Logger.main.info("-----> Remove Tag Clicked <-----")
+    func removeTag(_ tag: String) {
+        viewState = .loading
 
         Task {
             do {
                 try await Notificare.shared.device().removeTag(tag)
 
-                Logger.main.info("-----> Tag removed Successfully <-----")
-                getDeviceTags()
+                await refreshAsync()
+
+                userMessages.append(
+                    UserMessage(variant: .removeTagSuccess)
+                )
             } catch {
-                Logger.main.error("-----> Failed to remove Tag '\(tag): \(error.localizedDescription)")
+                Logger.main.error("Failed to remove tag '\(tag)': \(error)")
+
+                userMessages.append(
+                    UserMessage(variant: .removeTagFailure(error: error))
+                )
             }
         }
     }
 
     func clearTags() {
-        Logger.main.info("-----> Clear tags Clicked <-----")
+        viewState = .loading
 
         Task {
             do {
                 try await Notificare.shared.device().clearTags()
 
-                Logger.main.info("-----> Tags cleared Successfully <-----")
-                getDeviceTags()
+                await refreshAsync()
+
+                userMessages.append(
+                    UserMessage(variant: .clearTagsSuccess)
+                )
             } catch {
-                Logger.main.error("-----> Failed to Clear Tags Successfully: \(error.localizedDescription)")
+                Logger.main.error("Failed to clear tags: \(error)")
+
+                userMessages.append(
+                    UserMessage(variant: .clearTagsFailure(error: error))
+                )
             }
         }
     }
 
-    func handleSelectedTag(tag: String) {
-        if selectedTags.contains(tag) {
-            Logger.main.info("-----> Tag \(tag) Unselected <-----")
-            selectedTags.removeAll { $0 == tag }
-        } else {
-            Logger.main.info("-----> Tag \(tag) Selected <-----")
-            selectedTags.append(tag)
+    func processUserMessage(_ userMessage: UserMessage) {
+        userMessages.removeAll(where: { $0.uniqueId == userMessage.uniqueId })
+    }
+
+    enum ViewState {
+        case idle
+        case loading
+        case success
+        case failure
+    }
+
+//    struct ViewState {
+//        var state: State = .idle
+//        var deviceTags: [String] = []
+//        var userMessages: [UserMessage] = []
+//
+//        enum State {
+//            case idle
+//            case loading
+//            case success
+//            case failure(error: Error)
+//        }
+//    }
+
+    struct UserMessage {
+        let uniqueId = UUID().uuidString
+        let variant: Variant
+
+        enum Variant {
+            case addTagsSuccess
+            case addTagsFailure(error: Error)
+            case removeTagSuccess
+            case removeTagFailure(error: Error)
+            case clearTagsSuccess
+            case clearTagsFailure(error: Error)
         }
     }
 }
 
-struct AvailableTag: Identifiable {
-    var id = UUID()
-    var name: String
+struct SelectableTag: Identifiable {
+    let id = UUID()
+    var tag: String
     var isSelected: Bool
 }
