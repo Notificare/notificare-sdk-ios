@@ -5,13 +5,13 @@
 import SwiftUI
 
 struct LiveActivitiesSection: View {
-    @StateObject var viewModel: HomeViewModel
+    let coffeeBrewerLiveActivityState: CoffeeBrewerActivityAttributes.BrewingState?
 
     var body: some View {
         Section {
             VStack {
                 if #available(iOS 16.1, *) {
-                    CoffeeBrewerActionsView(state: viewModel.coffeeBrewerLiveActivityState) {
+                    CoffeeBrewerActionsView(state: coffeeBrewerLiveActivityState) {
                         LiveActivitiesController.shared.createCoffeeBrewerLiveActivity()
                     } onNextStep: {
                         LiveActivitiesController.shared.continueCoffeeBrewerLiveActivity()
@@ -72,6 +72,6 @@ private struct CoffeeBrewerActionsView: View {
 
 struct LiveActivitiesSection_Previews: PreviewProvider {
     static var previews: some View {
-        LiveActivitiesSection(viewModel: HomeViewModel())
+        LiveActivitiesSection(coffeeBrewerLiveActivityState: .none)
     }
 }

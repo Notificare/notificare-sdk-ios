@@ -5,11 +5,17 @@
 import SwiftUI
 
 struct NotificationsSection: View {
-    @StateObject var viewModel: HomeViewModel
+    @Binding var hasNotificationsAndPermission: Bool
+
+    let hasNotificationsEnabled: Bool
+    let allowedUi: Bool
+    let notificationsPermission: String
+    let badge: Int
+    let updateNotificationsStatus: (Bool) -> Void
 
     var body: some View {
         Section {
-            Toggle(isOn: $viewModel.hasNotificationsAndPermission) {
+            Toggle(isOn: $hasNotificationsAndPermission) {
                 Label {
                     Text(String(localized: "home_notifications"))
                 } icon: {
@@ -22,8 +28,8 @@ struct NotificationsSection: View {
                         .clipShape(RoundedRectangle(cornerRadius: 4))
                 }
             }
-            .onChange(of: viewModel.hasNotificationsAndPermission) { enabled in
-                viewModel.handleNotificationsToggle(enabled: enabled)
+            .onChange(of: hasNotificationsAndPermission) { enabled in
+                updateNotificationsStatus(enabled)
             }
 
             HStack {
@@ -31,7 +37,7 @@ struct NotificationsSection: View {
                 Text(String(localized: "sdk"))
                     .font(.caption2)
                 Spacer()
-                Text(String(viewModel.hasNotificationsEnabled))
+                Text(String(hasNotificationsEnabled))
             }
 
             HStack {
@@ -39,13 +45,13 @@ struct NotificationsSection: View {
                 Text(String(localized: "sdk"))
                     .font(.caption2)
                 Spacer()
-                Text(String(viewModel.allowedUi))
+                Text(String(allowedUi))
             }
 
             HStack {
                 Text(String(localized: "home_permission"))
                 Spacer()
-                Text(String(viewModel.notificationsPermission))
+                Text(String(notificationsPermission))
             }
 
             NavigationLink {
@@ -56,8 +62,8 @@ struct NotificationsSection: View {
 
                     Spacer(minLength: 16)
 
-                    if viewModel.badge > 0 {
-                        BadgeView(badge: viewModel.badge)
+                    if badge > 0 {
+                        BadgeView(badge: badge)
                     }
                 } icon: {
                     Image(systemName: "tray.and.arrow.down.fill")
@@ -93,6 +99,7 @@ struct NotificationsSection: View {
 
 struct NotificationsSection_Previews: PreviewProvider {
     static var previews: some View {
-        NotificationsSection(viewModel: HomeViewModel())
+        @State var hasNotificationsAndPermission = false
+        NotificationsSection(hasNotificationsAndPermission: $hasNotificationsAndPermission, hasNotificationsEnabled: false, allowedUi: false, notificationsPermission: "None", badge: 2, updateNotificationsStatus: { _ in })
     }
 }

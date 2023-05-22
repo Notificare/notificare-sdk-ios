@@ -5,11 +5,16 @@
 import SwiftUI
 
 struct LocationSection: View {
-    @StateObject var viewModel: HomeViewModel
+    @Binding var hasLocationAndPermission: Bool
+
+    let hasLocationEnabled: Bool
+    let hasBluetoothEnabled: Bool
+    let locationPermission: String
+    let updateLocationServicesStatus: (Bool) -> Void
 
     var body: some View {
         Section {
-            Toggle(isOn: $viewModel.hasLocationAndPermission) {
+            Toggle(isOn: $hasLocationAndPermission) {
                 Label {
                     Text(String(localized: "home_location"))
                 } icon: {
@@ -22,8 +27,8 @@ struct LocationSection: View {
                         .clipShape(RoundedRectangle(cornerRadius: 4))
                 }
             }
-            .onChange(of: viewModel.hasLocationAndPermission) { enabled in
-                viewModel.handleLocationToggle(enabled: enabled)
+            .onChange(of: hasLocationAndPermission) { enabled in
+                updateLocationServicesStatus(enabled)
             }
 
             HStack {
@@ -31,7 +36,7 @@ struct LocationSection: View {
                 Text(String(localized: "sdk"))
                     .font(.caption2)
                 Spacer()
-                Text(String(viewModel.hasLocationEnabled))
+                Text(String(hasLocationEnabled))
             }
 
             HStack {
@@ -39,13 +44,13 @@ struct LocationSection: View {
                 Text(String(localized: "sdk"))
                     .font(.caption2)
                 Spacer()
-                Text(String(viewModel.hasBluetoothEnabled))
+                Text(String(hasBluetoothEnabled))
             }
 
             HStack {
                 Text(String(localized: "home_permission"))
                 Spacer()
-                Text(String(viewModel.locationPermission))
+                Text(String(locationPermission))
             }
 
             NavigationLink {
@@ -71,6 +76,7 @@ struct LocationSection: View {
 
 struct LocationSection_Previews: PreviewProvider {
     static var previews: some View {
-        LocationSection(viewModel: HomeViewModel())
+        @State var hasLocationAndPermission = false
+        LocationSection(hasLocationAndPermission: $hasLocationAndPermission, hasLocationEnabled: false, hasBluetoothEnabled: false, locationPermission: "None", updateLocationServicesStatus: { _ in })
     }
 }

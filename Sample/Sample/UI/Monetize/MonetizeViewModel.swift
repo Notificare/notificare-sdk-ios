@@ -9,11 +9,10 @@ import OSLog
 import SwiftUI
 
 class MonetizeViewModel: ObservableObject {
-    @Published var products = [NotificareProduct]()
-    @Published var purchases = [NotificarePurchase]()
+    @Published private(set) var products = [NotificareProduct]()
+    @Published private(set) var purchases = [NotificarePurchase]()
 
     init() {
-        Logger.main.info("-----> Getting products and purchases <-----")
         products = Notificare.shared.monetize().products
         purchases = Notificare.shared.monetize().purchases
     }

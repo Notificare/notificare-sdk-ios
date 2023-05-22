@@ -7,7 +7,7 @@ import NotificareKit
 import SwiftUI
 
 struct AssetItemView: View {
-    var asset: NotificareAsset
+    let asset: NotificareAsset
 
     var body: some View {
         HStack(alignment: .center, spacing: 16) {

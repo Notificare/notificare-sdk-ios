@@ -31,7 +31,12 @@ struct TagsView: View {
                 )
 
             case .failure:
-                Text("ooops")
+                Label {
+                    Text(String(localized: "error"))
+                } icon: {
+                    Image(systemName: "exclamationmark.octagon.fill")
+                        .foregroundColor(.red)
+                }
             }
         }
         .navigationTitle("Tags")
@@ -57,6 +62,8 @@ struct TagsView: View {
         }
         .alert(item: $presentedAlert, content: createPresentedAlert)
         .onReceive(viewModel.$userMessages) { userMessages in
+            if presentedAlert != nil { return }
+
             guard let userMessage = userMessages.first else {
                 return
             }
@@ -66,46 +73,68 @@ struct TagsView: View {
                 break
 
             case .addTagsFailure:
-                presentedAlert = PresentedAlert(variant: .addTagsFailure)
+                presentedAlert = PresentedAlert(variant: .addTagsFailure, userMessageId: userMessage.uniqueId)
 
             case .removeTagSuccess:
                 break
 
             case .removeTagFailure:
-                presentedAlert = PresentedAlert(variant: .removeTagFailure)
+                presentedAlert = PresentedAlert(variant: .removeTagFailure, userMessageId: userMessage.uniqueId)
 
             case .clearTagsSuccess:
                 break
 
             case .clearTagsFailure:
-                presentedAlert = PresentedAlert(variant: .clearTagsFailure)
-            }
+                presentedAlert = PresentedAlert(variant: .clearTagsFailure, userMessageId: userMessage.uniqueId)
+                
+            case .fetchTagsSuccess:
+                break
 
-            viewModel.processUserMessage(userMessage)
+            case .fetchTagsFailure:
+                presentedAlert = PresentedAlert(variant: .fetchagsFailure, userMessageId: userMessage.uniqueId)
+            }
         }
     }
 
     private func createPresentedAlert(_ alert: PresentedAlert) -> Alert {
         switch alert.variant {
+        case .fetchagsFailure:
+            return Alert(
+                title: Text(String(localized: "error")),
+                message: Text(String(localized: "error_message_tags_fetch")),
+                dismissButton: .default(Text(String(localized: "button_ok"))) {
+                    presentedAlert = nil
+                    viewModel.processUserMessage(alert.userMessageId)
+                }
+            )
         case .addTagsFailure:
             return Alert(
-                title: Text(String(localized: "shared_alert_title_error")),
-                message: Text(String(localized: "tags_alert_add_tags_error_message")),
-                dismissButton: .default(Text(String(localized: "shared_alert_ok_button")))
+                title: Text(String(localized: "error")),
+                message: Text(String(localized: "error_message_tags_add")),
+                dismissButton: .default(Text(String(localized: "button_ok"))) {
+                    presentedAlert = nil
+                    viewModel.processUserMessage(alert.userMessageId)
+                }
             )
 
         case .removeTagFailure:
             return Alert(
-                title: Text(String(localized: "shared_alert_title_error")),
-                message: Text(String(localized: "tags_alert_remove_tag_error_message")),
-                dismissButton: .default(Text(String(localized: "shared_alert_ok_button")))
+                title: Text(String(localized: "error")),
+                message: Text(String(localized: "error_message_tags_remove")),
+                dismissButton: .default(Text(String(localized: "button_ok"))) {
+                    presentedAlert = nil
+                    viewModel.processUserMessage(alert.userMessageId)
+                }
             )
 
         case .clearTagsFailure:
             return Alert(
-                title: Text(String(localized: "shared_alert_title_error")),
-                message: Text(String(localized: "tags_alert_clear_tags_error_message")),
-                dismissButton: .default(Text(String(localized: "shared_alert_ok_button")))
+                title: Text(String(localized: "error")),
+                message: Text(String(localized: "error_message_tags_clear")),
+                dismissButton: .default(Text(String(localized: "button_ok"))) {
+                    presentedAlert = nil
+                    viewModel.processUserMessage(alert.userMessageId)
+                }
             )
         }
     }
@@ -113,8 +142,10 @@ struct TagsView: View {
     private struct PresentedAlert: Identifiable {
         let id = UUID().uuidString
         let variant: Variant
+        let userMessageId: String
 
         enum Variant {
+            case fetchagsFailure
             case addTagsFailure
             case removeTagFailure
             case clearTagsFailure
@@ -208,7 +239,7 @@ private struct SelectableTagsSectionView: View {
                 onSaveClicked()
             }
             .frame(maxWidth: .infinity)
-            .disabled(isSaveAllowed)
+            .disabled(!isSaveAllowed)
         } header: {
             Text(String(localized: "tags_quick_fill"))
         }

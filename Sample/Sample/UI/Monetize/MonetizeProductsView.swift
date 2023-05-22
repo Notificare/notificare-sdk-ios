@@ -3,18 +3,20 @@
 //
 
 import SwiftUI
+import NotificareMonetizeKit
 
 struct MonetizeProductsView: View {
-    @StateObject var viewModel: MonetizeViewModel
+    let products: [NotificareProduct]
+    let purchase: (NotificareProduct) -> Void
 
     var body: some View {
         List {
-            if viewModel.products.isEmpty {
+            if products.isEmpty {
                 Section {
                     Label(String(localized: "monetize_no_products_found"), systemImage: "info.circle.fill")
                 }
             } else {
-                ForEach(viewModel.products) { product in
+                ForEach(products) { product in
                     Section {
                         HStack {
                             Text(String(localized: "monetize_product_id"))
@@ -45,7 +47,7 @@ struct MonetizeProductsView: View {
                         }
 
                         Button(String(localized: "monetize_buy")) {
-                            viewModel.purchase(product: product)
+                            purchase(product)
                         }
                         .frame(maxWidth: .infinity)
                     }
@@ -57,6 +59,6 @@ struct MonetizeProductsView: View {
 
 struct MonetizeProductsView_Previews: PreviewProvider {
     static var previews: some View {
-        MonetizeProductsView(viewModel: MonetizeViewModel())
+        MonetizeProductsView(products: [], purchase: { _ in })
     }
 }

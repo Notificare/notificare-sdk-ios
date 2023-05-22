@@ -5,23 +5,24 @@
 import SwiftUI
 
 struct MonetizeView: View {
-    @StateObject private var viewModel: MonetizeViewModel
-
-    init() {
-        _viewModel = StateObject(wrappedValue: MonetizeViewModel())
-    }
+    @StateObject private var viewModel = MonetizeViewModel()
 
     var body: some View {
         TabView {
-            MonetizeProductsView(viewModel: viewModel)
-                .tabItem {
-                    Label(String(localized: "monetize_products"), systemImage: "list.dash")
-                }
+            MonetizeProductsView(
+                products: viewModel.products,
+                purchase: viewModel.purchase
+            )
+            .tabItem {
+                Label(String(localized: "monetize_products"), systemImage: "list.dash")
+            }
 
-            MonetizePurchasesView(viewModel: viewModel)
-                .tabItem {
-                    Label(String(localized: "monetize_purchases"), systemImage: "cart")
-                }
+            MonetizePurchasesView(
+                purchases: viewModel.purchases
+            )
+            .tabItem {
+                Label(String(localized: "monetize_purchases"), systemImage: "cart")
+            }
         }
     }
 }

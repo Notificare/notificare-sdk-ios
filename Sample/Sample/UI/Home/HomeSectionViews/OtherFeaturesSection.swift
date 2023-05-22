@@ -56,22 +56,6 @@ struct OtherFeaturesSection: View {
             }
 
             NavigationLink {
-                AuthenticationView()
-            } label: {
-                Label {
-                    Text(String(localized: "home_athentication"))
-                } icon: {
-                    Image(systemName: "person.badge.key.fill")
-                        .resizable()
-                        .aspectRatio(1, contentMode: .fit)
-                        .padding(6)
-                        .background(Color.red)
-                        .foregroundColor(.white)
-                        .clipShape(RoundedRectangle(cornerRadius: 4))
-                }
-            }
-
-            NavigationLink {
                 EventsView()
             } label: {
                 Label {

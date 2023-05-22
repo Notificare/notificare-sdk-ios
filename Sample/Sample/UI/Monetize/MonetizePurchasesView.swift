@@ -3,17 +3,18 @@
 //
 
 import SwiftUI
+import NotificareMonetizeKit
 
 struct MonetizePurchasesView: View {
-    @StateObject var viewModel: MonetizeViewModel
+    let purchases: [NotificarePurchase]
 
     var body: some View {
         List {
             Section {
-                if viewModel.purchases.isEmpty {
+                if purchases.isEmpty {
                     Label(String(localized: "monetize_no_purchases_found"), systemImage: "info.circle.fill")
                 } else {
-                    ForEach(viewModel.purchases) { purchase in
+                    ForEach(purchases) { purchase in
                         VStack {
                             HStack {
                                 Text(String(localized: "monetize_purchase_id"))
@@ -38,6 +39,6 @@ struct MonetizePurchasesView: View {
 
 struct MonetizePurchasesView_Previews: PreviewProvider {
     static var previews: some View {
-        MonetizePurchasesView(viewModel: MonetizeViewModel())
+        MonetizePurchasesView(purchases: [])
     }
 }

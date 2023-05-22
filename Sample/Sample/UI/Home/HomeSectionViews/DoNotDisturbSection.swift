@@ -3,13 +3,19 @@
 //
 
 import SwiftUI
+import NotificareKit
 
 struct DoNotDisturbSection: View {
-    @StateObject var viewModel: HomeViewModel
+    @Binding var hasDndEnabled: Bool
+    @Binding var startTime: Date
+    @Binding var endTime: Date
+
+    let updateDndStatus: (Bool) -> Void
+    let updateDndTime: () -> Void
 
     var body: some View {
         Section {
-            Toggle(isOn: $viewModel.hasDndEnabled) {
+            Toggle(isOn: $hasDndEnabled) {
                 Label {
                     Text(String(localized: "home_do_not_disturb"))
                 } icon: {
@@ -22,27 +28,27 @@ struct DoNotDisturbSection: View {
                         .clipShape(RoundedRectangle(cornerRadius: 4))
                 }
             }
-            .onChange(of: viewModel.hasDndEnabled) { enabled in
-                viewModel.handleDndToggle(enabled: enabled)
+            .onChange(of: hasDndEnabled) { enabled in
+                updateDndStatus(enabled)
             }
 
-            if viewModel.hasDndEnabled {
+            if hasDndEnabled {
                 DatePicker(
                     String(localized: "home_do_not_disturb_start"),
-                    selection: $viewModel.startTime,
+                    selection: $startTime,
                     displayedComponents: .hourAndMinute
                 )
-                .onChange(of: viewModel.startTime) { _ in
-                    viewModel.handleDndTimeUpdate()
+                .onChange(of: startTime) { _ in
+                    updateDndTime()
                 }
 
                 DatePicker(
                     String(localized: "home_do_not_disturb_end"),
-                    selection: $viewModel.endTime,
+                    selection: $endTime,
                     displayedComponents: .hourAndMinute
                 )
-                .onChange(of: viewModel.endTime) { _ in
-                    viewModel.handleDndTimeUpdate()
+                .onChange(of: endTime) { _ in
+                    updateDndTime()
                 }
             }
         }
@@ -51,6 +57,9 @@ struct DoNotDisturbSection: View {
 
 struct DoNotDisturbSection_Previews: PreviewProvider {
     static var previews: some View {
-        DoNotDisturbSection(viewModel: HomeViewModel())
+        @State var hasDndEnabled = false
+        @State var startTime = NotificareTime.defaultStart.date
+        @State var endTime = NotificareTime.defaultEnd.date
+        DoNotDisturbSection(hasDndEnabled: $hasDndEnabled, startTime: $startTime, endTime: $endTime, updateDndStatus: { _ in }, updateDndTime: {})
     }
 }

@@ -22,7 +22,6 @@ class AssetsViewModel: ObservableObject {
 
         Task {
             do {
-                try? await Task.sleep(nanoseconds: 5_000_000_000)
                 let result = try await Notificare.shared.assets().fetch(group: assetsGroup)
 
                 Logger.main.info("-----> Successfully fetched  assets group: \(self.assetsGroup) <-----")

@@ -5,11 +5,7 @@
 import SwiftUI
 
 struct BeaconsView: View {
-    @StateObject private var viewModel: BeaconsViewModel
-
-    init() {
-        _viewModel = StateObject(wrappedValue: BeaconsViewModel())
-    }
+    @StateObject private var viewModel = BeaconsViewModel()
 
     var body: some View {
         List {

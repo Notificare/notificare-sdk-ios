@@ -15,7 +15,6 @@ struct Sample: App {
             NavigationView {
                 HomeView()
             }
-            .navigationViewStyle(.stack)
         }
     }
 }

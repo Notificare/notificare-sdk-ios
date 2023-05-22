@@ -5,7 +5,10 @@
 import SwiftUI
 
 struct LaunchFlowSection: View {
-    @StateObject var viewModel: HomeViewModel
+    let isReady: Bool
+    let isConfigured: Bool
+    let launch: () -> Void
+    let unlaunch: () -> Void
 
     var body: some View {
         Section {
@@ -14,7 +17,7 @@ struct LaunchFlowSection: View {
                 Text(String(localized: "sdk"))
                     .font(.caption2)
                 Spacer()
-                Text(String(viewModel.isConfigured))
+                Text(String(isConfigured))
             }
 
             HStack {
@@ -22,25 +25,26 @@ struct LaunchFlowSection: View {
                 Text(String(localized: "sdk"))
                     .font(.caption2)
                 Spacer()
-                Text(String(viewModel.isReady))
+                Text(String(isReady))
             }
 
             HStack {
-                Button(String(localized: "home_launch")) {
-                    viewModel.notificareLaunch()
+                Button(String(localized: "home_unlaunch")) {
+                    unlaunch()
                 }
                 .buttonStyle(BorderlessButtonStyle())
                 .frame(maxWidth: .infinity)
-                .disabled(viewModel.isReady)
+                .disabled(!isReady)
 
                 Divider()
 
-                Button(String(localized: "home_unlaunch")) {
-                    viewModel.notificareUnlaunch()
+                Button(String(localized: "home_launch")) {
+                    launch()
                 }
                 .buttonStyle(BorderlessButtonStyle())
                 .frame(maxWidth: .infinity)
-                .disabled(!viewModel.isReady)
+                .disabled(isReady)
+
             }
         } header: {
             Text(String(localized: "home_launch_flow"))
@@ -50,6 +54,6 @@ struct LaunchFlowSection: View {
 
 struct LaunchFlowSection_Previews: PreviewProvider {
     static var previews: some View {
-        LaunchFlowSection(viewModel: HomeViewModel())
+        LaunchFlowSection(isReady: false, isConfigured: false, launch: {}, unlaunch: {})
     }
 }

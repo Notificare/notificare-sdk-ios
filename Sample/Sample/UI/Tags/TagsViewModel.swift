@@ -39,9 +39,18 @@ class TagsViewModel: ObservableObject {
 
             deviceTags = tags
             viewState = .success
+
+
+            userMessages.append(
+                UserMessage(variant: .fetchTagsSuccess)
+            )
         } catch {
             Logger.main.error("Failed to fetch device tags: \(error)")
             viewState = .failure
+
+            userMessages.append(
+                UserMessage(variant: .fetchTagsFailure(error: error))
+            )
         }
     }
 
@@ -123,8 +132,8 @@ class TagsViewModel: ObservableObject {
         }
     }
 
-    func processUserMessage(_ userMessage: UserMessage) {
-        userMessages.removeAll(where: { $0.uniqueId == userMessage.uniqueId })
+    func processUserMessage(_ userMessageId: String) {
+        userMessages.removeAll(where: { $0.uniqueId == userMessageId })
     }
 
     enum ViewState {
@@ -134,24 +143,13 @@ class TagsViewModel: ObservableObject {
         case failure
     }
 
-//    struct ViewState {
-//        var state: State = .idle
-//        var deviceTags: [String] = []
-//        var userMessages: [UserMessage] = []
-//
-//        enum State {
-//            case idle
-//            case loading
-//            case success
-//            case failure(error: Error)
-//        }
-//    }
-
     struct UserMessage {
         let uniqueId = UUID().uuidString
         let variant: Variant
 
         enum Variant {
+            case fetchTagsSuccess
+            case fetchTagsFailure(error: Error)
             case addTagsSuccess
             case addTagsFailure(error: Error)
             case removeTagSuccess

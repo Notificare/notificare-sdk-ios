@@ -12,6 +12,7 @@ struct AssetsView: View {
         List {
             Section {
                 TextField(String(localized: "assets_group_input"), text: $viewModel.assetsGroup)
+                    .disabled(viewModel.viewState.isLoading)
 
                 Button(String(localized: "button_search")) {
                     viewModel.fetchAssets()
@@ -37,7 +38,16 @@ struct AssetsView: View {
                 SearchResultView(assets: assets)
 
             case .failure:
-                Text("ooops")
+                ZStack(alignment: .center) {
+                    Label {
+                        Text(String(localized: "error_message_assets_fetch"))
+                    } icon: {
+                        Image(systemName: "exclamationmark.octagon.fill")
+                            .foregroundColor(.red)
+                    }
+                }
+                .frame(maxWidth: .infinity)
+                .listRowBackground(Color.clear)
             }
         }
         .navigationTitle(String(localized: "assets_title"))

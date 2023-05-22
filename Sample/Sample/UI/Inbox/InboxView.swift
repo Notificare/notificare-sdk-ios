@@ -10,56 +10,46 @@ import SwiftUI
 
 struct InboxView: View {
     @Environment(\.presentationMode) var presentationMode
-    @StateObject private var viewModel: InboxViewModel
+    @StateObject private var viewModel = InboxViewModel()
     @State private var actionableItem: NotificareInboxItem?
-
-    init() {
-        _viewModel = StateObject(wrappedValue: InboxViewModel())
-    }
-
+    @State private var presentedAlert: PresentedAlert?
+    
     var body: some View {
         ZStack {
-            if viewModel.sections.isEmpty {
+            if viewModel.items.isEmpty {
                 Text(String(localized: "inbox_no_messages"))
                     .multilineTextAlignment(.center)
                     .font(.callout)
                     .padding(.all, 32)
             } else {
                 List {
-                    ForEach(viewModel.sections, id: \.group) { section in
-                        Section {
-                            ForEach(section.items) { item in
-                                InboxItemView(item: item)
-                                    .contentShape(Rectangle())
-                                    .onTapGesture {
-                                        if item.notification.type == NotificareNotification.NotificationType.urlScheme.rawValue {
-                                            presentationMode.wrappedValue.dismiss()
-                                        }
-
-                                        viewModel.presentInboxItem(item)
-                                    }
-                                    .onLongPressGesture {
-                                        actionableItem = item
-                                    }
+                    ForEach(viewModel.items) { item in
+                        InboxItemView(item: item)
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                if item.notification.type == NotificareNotification.NotificationType.urlScheme.rawValue {
+                                    presentationMode.wrappedValue.dismiss()
+                                }
+                                
+                                viewModel.presentInboxItem(item)
                             }
-                        } header: {
-                            Text(verbatim: viewModel.getSectionHeader(section))
-                        }
+                            .onLongPressGesture {
+                                actionableItem = item
+                            }
                     }
                 }
-                .customListStyle()
             }
         }
         .navigationTitle(String(localized: "inbox_title"))
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItemGroup(placement: .navigationBarTrailing) {
-                if !viewModel.sections.isEmpty {
-                    Button(action: viewModel.handleMarkAllItemsAsRead) {
+                if !viewModel.items.isEmpty {
+                    Button(action: { viewModel.markAllItemsAsRead() }) {
                         Image(systemName: "envelope.open")
                     }
-
-                    Button(action: viewModel.handleClearItems) {
+                    
+                    Button(action: { viewModel.clearItems() }) {
                         Image(systemName: "trash")
                     }
                 }
@@ -74,14 +64,113 @@ struct InboxView: View {
                         viewModel.presentInboxItem(item)
                     },
                     .default(Text(String(localized: "inbox_sheet_mark_as_read"))) {
-                        viewModel.handleMarkItemAsRead(item)
+                        viewModel.markItemAsRead(item)
                     },
                     .destructive(Text(String(localized: "inbox_sheet_remove"))) {
-                        viewModel.handleRemoveItem(item)
+                        viewModel.removeItem(item)
                     },
                     .default(Text(String(localized: "inbox_sheet_cancel"))) {},
                 ]
             )
+        }
+        .alert(item: $presentedAlert, content: createPresentedAlert)
+        .onReceive(viewModel.$userMessages) { userMessages in
+            if presentedAlert != nil { return }
+
+            guard let userMessage = userMessages.first else {
+                return
+            }
+
+            switch userMessage.variant {
+            case .presentItemSuccess:
+                break
+            case .presentItemFailure:
+                presentedAlert = PresentedAlert(variant: .presentItemFailure, userMessageId: userMessage.uniqueId)
+            case .markItemAsReadSuccess:
+                break
+            case .markItemAsReadFailure:
+                presentedAlert = PresentedAlert(variant: .markItemAsReadFailure, userMessageId: userMessage.uniqueId)
+            case .markAllItemsAsReadSuccess:
+                break
+            case .markAllItemsAsReadFailure:
+                presentedAlert = PresentedAlert(variant: .markAllItemsAsReadFailure, userMessageId: userMessage.uniqueId)
+            case .removeItemSuccess:
+                break
+            case .removeItemFailure:
+                presentedAlert = PresentedAlert(variant: .removeItemFailure, userMessageId: userMessage.uniqueId)
+            case .clearItemsSuccess:
+                break
+            case .clearItemsFailure:
+                presentedAlert = PresentedAlert(variant: .clearItemsFailure, userMessageId: userMessage.uniqueId)
+            }
+        }
+    }
+
+    private func createPresentedAlert(_ alert: PresentedAlert) -> Alert {
+        switch alert.variant {
+        case .presentItemFailure:
+            return Alert(
+                title: Text(String(localized: "error")),
+                message: Text(String(localized: "error_message_inbox_present")),
+                dismissButton: .default(Text(String(localized: "button_ok"))) {
+                    presentedAlert = nil
+                    viewModel.processUserMessage(alert.userMessageId)
+                }
+            )
+
+        case .markItemAsReadFailure:
+            return Alert(
+                title: Text(String(localized: "error")),
+                message: Text(String(localized: "error_message_inbox_mark_as_read")),
+                dismissButton: .default(Text(String(localized: "button_ok"))) {
+                    presentedAlert = nil
+                    viewModel.processUserMessage(alert.userMessageId)
+                }
+            )
+
+        case .markAllItemsAsReadFailure:
+            return Alert(
+                title: Text(String(localized: "error")),
+                message: Text(String(localized: "error_message_inbox_mark_all_as_read")),
+                dismissButton: .default(Text(String(localized: "button_ok"))) {
+                    presentedAlert = nil
+                    viewModel.processUserMessage(alert.userMessageId)
+                }
+            )
+
+        case .removeItemFailure:
+            return Alert(
+                title: Text(String(localized: "error")),
+                message: Text(String(localized: "error_message_inbox_remove")),
+                dismissButton: .default(Text(String(localized: "button_ok"))) {
+                    presentedAlert = nil
+                    viewModel.processUserMessage(alert.userMessageId)
+                }
+            )
+
+        case .clearItemsFailure:
+            return Alert(
+                title: Text(String(localized: "error")),
+                message: Text(String(localized: "error_message_inbox_clear")),
+                dismissButton: .default(Text(String(localized: "button_ok"))) {
+                    presentedAlert = nil
+                    viewModel.processUserMessage(alert.userMessageId)
+                }
+            )
+        }
+    }
+
+    private struct PresentedAlert: Identifiable {
+        let id = UUID().uuidString
+        let variant: Variant
+        let userMessageId: String
+
+        enum Variant {
+            case presentItemFailure
+            case markItemAsReadFailure
+            case markAllItemsAsReadFailure
+            case removeItemFailure
+            case clearItemsFailure
         }
     }
 }

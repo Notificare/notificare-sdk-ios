@@ -5,11 +5,14 @@
 import SwiftUI
 
 struct InAppMessagingSection: View {
-    @StateObject var viewModel: HomeViewModel
+    @Binding var hasEvaluateContextOn: Bool
+    @Binding var hasSuppressedOn: Bool
+
+    let updateSuppressedIamStatus: (Bool) -> Void
 
     var body: some View {
         Section {
-            Toggle(isOn: $viewModel.hasEvaluateContextOn) {
+            Toggle(isOn: $hasEvaluateContextOn) {
                 Label {
                     Text(String(localized: "home_evaluate_context"))
                 } icon: {
@@ -23,7 +26,7 @@ struct InAppMessagingSection: View {
                 }
             }
 
-            Toggle(isOn: $viewModel.hasSuppressedOn) {
+            Toggle(isOn: $hasSuppressedOn) {
                 Label {
                     Text(String(localized: "home_suppressed"))
                 } icon: {
@@ -36,8 +39,8 @@ struct InAppMessagingSection: View {
                         .clipShape(RoundedRectangle(cornerRadius: 4))
                 }
             }
-            .onChange(of: viewModel.hasSuppressedOn) { enabled in
-                viewModel.handleSuppressedToggle(enabled: enabled)
+            .onChange(of: hasSuppressedOn) { enabled in
+                updateSuppressedIamStatus(enabled)
             }
 
         } header: {
@@ -48,6 +51,8 @@ struct InAppMessagingSection: View {
 
 struct InAppMessagingSection_Previews: PreviewProvider {
     static var previews: some View {
-        InAppMessagingSection(viewModel: HomeViewModel())
+        @State var hasEvaluateContextOn = false
+        @State var hasSuppressedOn = false
+        InAppMessagingSection(hasEvaluateContextOn: $hasEvaluateContextOn, hasSuppressedOn: $hasSuppressedOn, updateSuppressedIamStatus: { _ in })
     }
 }

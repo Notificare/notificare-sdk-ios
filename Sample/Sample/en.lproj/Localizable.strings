@@ -14,43 +14,12 @@
 "button_clean_user" = "Clean User";
 "button_register_user" = "Register User";
 "button_send" = "Send";
+"button_ok" = "Ok";
 
 "result" = "Result";
-
-"authentication_account" = "Account";
-"authentication_change" = "Change";
-"authentication_current_user" = "Current User";
-"authentication_choose_the_preferece" = "Preference";
-"authentication_choose_the_option" = "Option";
-"authentication_user_segments" = "User Segments";
-"authentication_user_id" = "ID";
-"authentication_email" = "Email";
-"authentication_generate_push_email" = "Generate Push Email";
-"authentication_push_email" = "Push Email";
-"authentication_fetch" = "Fetch";
-"authentication_fetched_segments" = "Fetched Segments";
-"authentication_last_active" = "Last Active";
-"authentication_login" = "Login";
-"authentication_logout" = "Logout";
-"authentication_user_name" = "Name";
-"authentication_no_data_to_show" = "No Data";
-"authentication_password" = "Password";
-"authentication_new_password" = "New Password";
-"authentication_register_new_account" = "Register New Account";
-"authentication_remove" = "Remove";
-"authentication_reset" = "Reset";
-"authentication_registration_date" = "Registration Date";
-"authentication_segments" = "Segments";
-"authentication_send_password_reset" = "Send Password Reset";
-"authentication_token" = "Token";
-"authentication_title" = "Authentication";
-"authentication_user_preferences" = "User Preferences";
-"authentication_user_segments" = "User Segments";
-"authentication_user" = "User";
-"authentication_validate" = "Validate";
-"authentication_validate_user" = "Validate User";
-"authentication_no_segemnts_found" = "No segments found";
-"authentication_not_available_please_login" = "Not available, please login.";
+"error" = "Error";
+"done" = "Done";
+"event_registered" = "Event Registered";
 
 "assets_details_title" = "Asset Details";
 "asset_id" = "ID";
@@ -123,9 +92,6 @@
 "home_coffee_brewer_stop_button" = "Cancel";
 
 "inbox_title" = "Inbox";
-"inbox_section_today" = "Today";
-"inbox_section_yesterday" = "Yesterday";
-"inbox_section_last_seven_days" = "Last 7 days";
 "inbox_no_messages" = "No messages found!";
 "inbox_sheet_select_option" = "Select Option";
 "inbox_sheet_open" = "Open";
@@ -135,14 +101,11 @@
 
 "monetize_products" = "Products";
 "monetize_purchases" = "Purchases";
-
 "monetize_no_products_found" = "No products found!";
 "monetize_no_purchases_found" = "No purchases found!";
-
 "monetize_purchase_id" = "Purchase ID";
 "monetize_purchase_time" = "Purchase Time";
 "monetize_purchase_history" = "Purchase history";
-
 "monetize_product_id" = "ID";
 "monetize_product_name" = "Name";
 "monetize_product_type" = "Type";
@@ -159,5 +122,23 @@
 "tags_device_tags" = "Device Tags";
 "tags_select_tag" = "Select a Tag";
 "tags_manual_input" = "Manual Input";
+"tags_input_tag" = "Tag";
 "tags_add" = "Manual Input";
 "tags_quick_fill" = "Quick Fill";
+
+"error_message_tags_fetch" = "Failed to fetch tags";
+"error_message_tags_add" = "Failed to add tags";
+"error_message_tags_remove" = "Failed to remove tags";
+"error_message_tags_clear" = "Failed to clear tags";
+"error_message_events_register" = "Failed to register event";
+"error_message_assets_fetch" = "Failed to fetch assets";
+"error_message_inbox_present" = "Failed to present inbox item";
+"error_message_inbox_mark_as_read" = "Failed to mark as read inbox item";
+"error_message_inbox_mark_all_as_read" = "Failed to mark all inbox items as read";
+"error_message_inbox_remove" = "Failed remove inbox item";
+"error_message_inbox_clear" = "Failed to clear inbox";
+"error_message_home_notifications_permission" = "Failed to request notifications permission";
+"error_message_home_enable_remote_notifications" = "Failed to enable remote notifications";
+"error_message_home_clear_dnd" = "Failed to clear do not disturb";
+"error_message_home_update_dnd" = "Failed to update do not disturb";
+"error_message_home_register_device" = "Failed to register device";

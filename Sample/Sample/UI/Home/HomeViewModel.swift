@@ -7,7 +7,6 @@ import Combine
 import CoreLocation
 import Foundation
 import NotificareAssetsKit
-import NotificareAuthenticationKit
 import NotificareGeoKit
 import NotificareInboxKit
 import NotificareKit
@@ -34,6 +33,8 @@ class HomeViewModel: NSObject, ObservableObject {
         }
     }
 
+    @Published private(set) var viewState: ViewState = .isNotReady
+    @Published private(set) var userMessages: [UserMessage] = []
     @Published private(set) var badge = Notificare.shared.inbox().badge
 
     // Launch Flow
@@ -72,8 +73,6 @@ class HomeViewModel: NSObject, ObservableObject {
     @Published var userName = ""
     @Published private(set) var isDeviceRegistered = false
 
-    private var pendingUrl: URL?
-
     // Live Activities
 
     @Published private(set) var coffeeBrewerLiveActivityState: CoffeeBrewerActivityAttributes.BrewingState?
@@ -94,10 +93,7 @@ class HomeViewModel: NSObject, ObservableObject {
                 }
 
                 self?.isReady = ready
-
-                guard let url = self?.pendingUrl else { return }
-                self?.handleUrl(url: url)
-                self?.pendingUrl = nil
+                self?.viewState = ready ? .isReady : .isNotReady
             }
             .store(in: &cancellables)
 
@@ -126,54 +122,18 @@ class HomeViewModel: NSObject, ObservableObject {
 
         // Load initial stats
 
-        handleUpdateStats()
+        updateStats()
 
         if #available(iOS 16.1, *), LiveActivitiesController.shared.hasLiveActivityCapabilities {
             monitorLiveActivities()
         }
     }
 
-    func handleUpdateStats() {
+    func updateStats() {
         checkNotificationsStatus()
         checkDndStatus()
         checkLocationStatus()
         checkCurrentDevice()
-    }
-
-    func handleUrl(url: URL) {
-        if !UIApplication.shared.canOpenURL(url as URL) {
-            return
-        }
-
-        if !Notificare.shared.isReady {
-            pendingUrl = url
-
-            return
-        }
-
-        if let token = Notificare.shared.authentication().parseValidateUserToken(url) {
-            Task {
-                do {
-                    try await Notificare.shared.authentication().validateUser(token: token)
-                    Logger.main.info("-----> User validated successfully <-----")
-                } catch {
-                    Logger.main.error("Failed to validates user: \(error.localizedDescription)")
-                }
-            }
-
-            return
-        }
-
-        if let token = Notificare.shared.authentication().parsePasswordResetToken(url) {
-            Task {
-                do {
-                    try await Notificare.shared.authentication().resetPassword("sample", token: token)
-                    Logger.main.info("-----> Password reset successfully, new password: sample <-----")
-                } catch {
-                    Logger.main.error("Failed to reset password: \(error.localizedDescription)")
-                }
-            }
-        }
     }
 }
 
@@ -194,7 +154,7 @@ extension HomeViewModel {
 // Notifications
 
 extension HomeViewModel {
-    func handleNotificationsToggle(enabled: Bool) {
+    func updateNotificationsStatus(enabled: Bool) {
         Logger.main.info("-----> Notifications Toggle switched \(enabled ? "ON" : "OFF") <-----")
 
         if enabled {
@@ -215,9 +175,15 @@ extension HomeViewModel {
 
                     do {
                         let granted = try await notificationCenter.requestAuthorization(options: Notificare.shared.push().authorizationOptions)
+
+                        userMessages.append(
+                            UserMessage(variant: .requestNotificationsPermissionSuccess)
+                        )
+
                         switch granted {
                         case true:
                             Logger.main.info("-----> Granted notifications permission <-----")
+
                         case false:
                             Logger.main.error("-----> Notifications permission request denied, skipping enabling remote notifications <-----")
                             hasNotificationsAndPermission = false
@@ -227,6 +193,10 @@ extension HomeViewModel {
                     } catch {
                         Logger.main.error("-----> Failed to request notifications authorization: \(error.localizedDescription)")
                         hasNotificationsAndPermission = false
+
+                        userMessages.append(
+                            UserMessage(variant: .requestNotificationsPermissionFailure(error: error))
+                        )
                     }
                 }
 
@@ -235,8 +205,16 @@ extension HomeViewModel {
                 do {
                     let result = try await Notificare.shared.push().enableRemoteNotifications()
                     Logger.main.info("-----> Successfully enabled remote notifications, result bool: \(result) <-----")
+
+                    userMessages.append(
+                        UserMessage(variant: .enableRemoteNotificationsSuccess)
+                    )
                 } catch {
                     Logger.main.error("-----> Failed to enable remote notifications: \(error.localizedDescription)")
+
+                    userMessages.append(
+                        UserMessage(variant: .enableRemoteNotificationsFailure(error: error))
+                    )
                 }
 
                 checkNotificationsStatus()
@@ -295,11 +273,11 @@ extension HomeViewModel {
         hasDndEnabled = true
     }
 
-    func handleDndToggle(enabled: Bool) {
+    func updateDndStatus(enabled: Bool) {
         Logger.main.info("-----> DnD Toggle switched \(enabled ? "ON" : "OFF") <-----")
 
         if enabled {
-            handleDndTimeUpdate()
+            updateDndTime()
         } else {
             Logger.main.info("-----> Clearing DnD <-----")
 
@@ -307,22 +285,38 @@ extension HomeViewModel {
                 do {
                     try await Notificare.shared.device().clearDoNotDisturb()
                     Logger.main.info("DnD cleared successfully")
+
+                    userMessages.append(
+                        UserMessage(variant: .clearDoNotDisturbSuccess)
+                    )
                 } catch {
                     Logger.main.error("-----> Failed to clear DnD: \(error.localizedDescription)")
+
+                    userMessages.append(
+                        UserMessage(variant: .clearDoNotDisturbFailure(error: error))
+                    )
                 }
             }
         }
     }
 
-    func handleDndTimeUpdate() {
+    func updateDndTime() {
         Logger.main.info("-----> Updating DnD time <-----")
 
         Task {
             do {
                 try await Notificare.shared.device().updateDoNotDisturb(NotificareDoNotDisturb(start: NotificareTime(from: startTime), end: NotificareTime(from: endTime)))
                 Logger.main.info("DnD updated successfully")
+
+                userMessages.append(
+                    UserMessage(variant: .updateDoNotDisturbSuccess)
+                )
             } catch {
                 Logger.main.error("-----> Failed to update DnD: \(error.localizedDescription)")
+
+                userMessages.append(
+                    UserMessage(variant: .updateDoNotDisturbFailure(error: error))
+                )
             }
         }
     }
@@ -357,7 +351,7 @@ extension HomeViewModel: CLLocationManagerDelegate {
         }
     }
 
-    func handleLocationToggle(enabled: Bool) {
+    func updateLocationServicesStatus(enabled: Bool) {
         Logger.main.info("-----> Location Toggle switched \(enabled ? "ON" : "OFF") <-----")
 
         if enabled {
@@ -456,15 +450,15 @@ extension HomeViewModel: CLLocationManagerDelegate {
     }
 
     internal func locationManager(_: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        handleAuthorizationChange(status)
+        onAuthorizationStatusChange(status)
     }
 
     @available(iOS 14.0, *)
     internal func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        handleAuthorizationChange(manager.authorizationStatus)
+        onAuthorizationStatusChange(manager.authorizationStatus)
     }
 
-    private func handleAuthorizationChange(_ authorizationStatus: CLAuthorizationStatus) {
+    private func onAuthorizationStatusChange(_ authorizationStatus: CLAuthorizationStatus) {
         if authorizationStatus == .notDetermined {
             // When the user changes to "Ask Next Time" via the Settings app.
             UserDefaults.standard.removeObject(forKey: REQUESTED_LOCATION_ALWAYS_KEY)
@@ -507,8 +501,8 @@ extension HomeViewModel: CLLocationManagerDelegate {
 // In App Messaging
 
 extension HomeViewModel {
-    func handleSuppressedToggle(enabled: Bool) {
-        Logger.main.info("-----> \(enabled ? "Supressing" : "Unsupressing") in app messages, evaluate context is \(hasEvaluateContextOn ? "ON" : "OFF") <-----")
+    func updateSuppressedIamStatus(enabled: Bool) {
+        Logger.main.info("-----> \(enabled ? "Supressing" : "Unsupressing") in app messages, evaluate context is \(self.hasEvaluateContextOn ? "ON" : "OFF") <-----")
         Notificare.shared.inAppMessaging().setMessagesSuppressed(enabled, evaluateContext: hasEvaluateContextOn)
     }
 }
@@ -532,8 +526,16 @@ extension HomeViewModel {
                 try await Notificare.shared.device().register(userId: userId, userName: userName.isEmpty ? nil : userName)
                 isDeviceRegistered = true
                 Logger.main.info("Device registered successfully")
+
+                userMessages.append(
+                    UserMessage(variant: .registerDeviceSuccess)
+                )
             } catch {
                 Logger.main.error("-----> Failed to registered device: \(error.localizedDescription)")
+
+                userMessages.append(
+                    UserMessage(variant: .registerDeviceFailure(error: error))
+                )
             }
         }
     }
@@ -547,8 +549,16 @@ extension HomeViewModel {
                 isDeviceRegistered = false
                 userId = ""
                 userName = ""
+
+                userMessages.append(
+                    UserMessage(variant: .registerDeviceSuccess)
+                )
             } catch {
                 Logger.main.error("-----> Failed to registered device as anonymous: \(error.localizedDescription)")
+
+                userMessages.append(
+                    UserMessage(variant: .registerDeviceFailure(error: error))
+                )
             }
         }
     }
@@ -597,6 +607,35 @@ extension HomeViewModel {
     }
 }
 
+extension HomeViewModel {
+    func processUserMessage(_ userMessageId: String) {
+        userMessages.removeAll(where: { $0.uniqueId == userMessageId })
+    }
+
+    enum ViewState {
+        case isNotReady
+        case isReady
+    }
+
+    struct UserMessage {
+        let uniqueId = UUID().uuidString
+        let variant: Variant
+
+        enum Variant {
+            case requestNotificationsPermissionSuccess
+            case requestNotificationsPermissionFailure(error: Error)
+            case enableRemoteNotificationsSuccess
+            case enableRemoteNotificationsFailure(error: Error)
+            case clearDoNotDisturbSuccess
+            case clearDoNotDisturbFailure(error: Error)
+            case updateDoNotDisturbSuccess
+            case updateDoNotDisturbFailure(error: Error)
+            case registerDeviceSuccess
+            case registerDeviceFailure(error: Error)
+        }
+    }
+}
+
 private extension HomeViewModel {
     enum NotificationsPermissionStatus: String, CaseIterable {
         case not_determined = "Not Determined"
@@ -619,7 +658,7 @@ private extension HomeViewModel {
     }
 }
 
-private extension NotificareTime {
+extension NotificareTime {
     init(from date: Date) {
         let hours = Calendar.current.component(.hour, from: date)
         let minutes = Calendar.current.component(.minute, from: date)

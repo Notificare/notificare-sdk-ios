@@ -5,53 +5,80 @@
 import SwiftUI
 
 struct EventsView: View {
-    @StateObject private var viewModel: EventsViewModel
-
-    init() {
-        _viewModel = StateObject(wrappedValue: EventsViewModel())
-    }
-
+    @StateObject private var viewModel = EventsViewModel()
+    
     var body: some View {
         List {
             Section {
                 TextField(String(localized: "event_name"), text: $viewModel.eventName)
+                    .disabled(viewModel.viewState.isLoading)
 
-                ForEach($viewModel.identifiableEventFields) { $field in
-                    EventFieldView(field: $field)
+                if !viewModel.viewState.isLoading {
+                    ForEach($viewModel.eventFields) { $field in
+                        EventFieldView(field: $field)
+                    }
                 }
 
                 Button(String(localized: "button_register")) {
                     viewModel.registerEvent()
                 }
                 .frame(maxWidth: .infinity)
-                .disabled(viewModel.eventName.isEmpty)
+                .disabled(!viewModel.isRegisterEventAllowed)
             } header: {
                 HStack {
                     Text(String(localized: "event_register"))
                 }
             }
+
+            ZStack(alignment: .center) {
+                switch viewModel.viewState {
+                case .idle:
+                    EmptyView()
+                    
+                case .loading:
+                    ProgressView()
+                    
+                case .success:
+                    Label {
+                        Text(String(localized: "event_registered"))
+                    } icon: {
+                        Image(systemName: "checkmark")
+                            .foregroundColor(.green)
+                    }
+                    
+                case .failure:
+                    Label {
+                        Text(String(localized: "error_message_events_register"))
+                    } icon: {
+                        Image(systemName: "exclamationmark.octagon.fill")
+                            .foregroundColor(.red)
+                    }
+                }
+            }
+            .frame(maxWidth: .infinity)
+            .listRowBackground(Color.clear)
         }
         .navigationTitle(String(localized: "events_title"))
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarItems(
             trailing:
-            Button(action: viewModel.handleAddEventField) {
-                HStack(alignment: .top) {
-                    Text(String(localized: "event_add_field"))
+                Button(action: viewModel.addEventField) {
+                    HStack(alignment: .top) {
+                        Text(String(localized: "event_add_field"))
+                    }
                 }
-            }
         )
     }
 }
 
 private struct EventFieldView: View {
-    @Binding var field: IdentifiableEventField
-
+    @Binding var field: EventField
+    
     var body: some View {
         HStack {
             TextField(String(localized: "event_key"), text: $field.key)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
-
+            
             TextField(String(localized: "event_value"), text: $field.value)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
         }

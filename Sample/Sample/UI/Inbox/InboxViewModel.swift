@@ -9,14 +9,16 @@ import NotificareKit
 import OSLog
 import UIKit
 
+@MainActor
 class InboxViewModel: ObservableObject {
-    @Published private(set) var sections: [InboxSection] = []
+    @Published private(set) var items: [NotificareInboxItem] = []
+    @Published private(set) var userMessages: [UserMessage] = []
 
     private var cancellables = Set<AnyCancellable>()
 
     init() {
         let items = Notificare.shared.inbox().items
-        sections = createSections(for: items)
+        self.items = items
 
         NotificationCenter.default
             .publisher(for: .inboxUpdated, object: nil)
@@ -28,28 +30,9 @@ class InboxViewModel: ObservableObject {
                     return
                 }
 
-                self.sections = self.createSections(for: items)
+                self.items = items
             }
             .store(in: &cancellables)
-    }
-
-    func getSectionHeader(_ section: InboxViewModel.InboxSection) -> String {
-        switch section.group {
-        case .today:
-            return String(localized: "inbox_section_today")
-        case .yesterday:
-            return String(localized: "inbox_section_yesterday")
-        case .lastSevenDays:
-            return String(localized: "inbox_section_last_seven_days")
-        case let .other(month, year):
-            let monthName = DateFormatter().monthSymbols[month - 1]
-
-            if year == Calendar.current.component(.year, from: Date()) {
-                return monthName
-            }
-
-            return "\(monthName) \(year)"
-        }
     }
 
     func presentInboxItem(_ item: NotificareInboxItem) {
@@ -57,146 +40,117 @@ class InboxViewModel: ObservableObject {
         Task {
             do {
                 let notification = try await Notificare.shared.inbox().open(item)
-                await UIApplication.shared.present(notification)
+                UIApplication.shared.present(notification)
+
+                userMessages.append(
+                    UserMessage(variant: .presentItemSuccess)
+                )
             } catch {
                 Logger.main.error("Failed to open an inbox item. \(error.localizedDescription)")
+
+                userMessages.append(
+                    UserMessage(variant: .presentItemFailure(error: error))
+                )
             }
         }
     }
 
-    func handleMarkItemAsRead(_ item: NotificareInboxItem) {
+    func markItemAsRead(_ item: NotificareInboxItem) {
         Logger.main.info("-----> Mark as read clicked <-----")
         Task {
             do {
                 try await Notificare.shared.inbox().markAsRead(item)
+
+                userMessages.append(
+                    UserMessage(variant: .markItemAsReadSuccess)
+                )
             } catch {
                 Logger.main.error("Failed to mark an item as read. \(error.localizedDescription)")
+
+                userMessages.append(
+                    UserMessage(variant: .markItemAsReadFailure(error: error))
+                )
             }
         }
     }
 
-    func handleMarkAllItemsAsRead() {
+    func markAllItemsAsRead() {
         Logger.main.info("-----> Mark all as read clicked <-----")
         Task {
             do {
                 try await Notificare.shared.inbox().markAllAsRead()
+
+                userMessages.append(
+                    UserMessage(variant: .markAllItemsAsReadSuccess)
+                )
             } catch {
                 Logger.main.error("Failed to mark all item as read. \(error.localizedDescription)")
+
+                userMessages.append(
+                    UserMessage(variant: .markAllItemsAsReadFailure(error: error))
+                )
             }
         }
     }
 
-    func handleRemoveItem(_ item: NotificareInboxItem) {
+    func removeItem(_ item: NotificareInboxItem) {
         Logger.main.info("-----> Remove inbox item clicked <-----")
         Task {
             do {
                 try await Notificare.shared.inbox().remove(item)
+
+                userMessages.append(
+                    UserMessage(variant: .removeItemSuccess)
+                )
             } catch {
                 Logger.main.error("Failed to remove an item. \(error.localizedDescription)")
+
+                userMessages.append(
+                    UserMessage(variant: .removeItemFailure(error: error))
+                )
             }
         }
     }
 
-    func handleClearItems() {
+    func clearItems() {
         Logger.main.info("-----> Clear inbox clicked <-----")
 
         Task {
             do {
                 try await Notificare.shared.inbox().clear()
+
+                userMessages.append(
+                    UserMessage(variant: .clearItemsSuccess)
+                )
             } catch {
                 Logger.main.error("Failed to clear the inbox. \(error.localizedDescription)")
+
+                userMessages.append(
+                    UserMessage(variant: .clearItemsFailure(error: error))
+                )
             }
         }
     }
 
-    private func createSections(for items: [NotificareInboxItem]) -> [InboxSection] {
-        var sections: [InboxSection] = []
-
-        var filteredItems = items.filter { $0.time >= Date.today }
-        if !filteredItems.isEmpty {
-            sections.append(
-                InboxSection(
-                    group: .today,
-                    items: filteredItems
-                )
-            )
-        }
-
-        filteredItems = items.filter { $0.time >= Date.yesterday && $0.time < Date.today }
-        if !filteredItems.isEmpty {
-            sections.append(
-                InboxSection(
-                    group: .yesterday,
-                    items: filteredItems
-                )
-            )
-        }
-
-        let sevenDaysAgo = Calendar.current.date(byAdding: .day, value: -7, to: Date.today)!
-
-        filteredItems = items.filter { $0.time >= sevenDaysAgo && $0.time < Date.yesterday }
-        if !filteredItems.isEmpty {
-            sections.append(
-                InboxSection(
-                    group: .lastSevenDays,
-                    items: filteredItems
-                )
-            )
-        }
-
-        let remainingItems = Dictionary(
-            grouping: items.filter { $0.time < sevenDaysAgo },
-            by: { item in
-                let month = Calendar.current.component(.month, from: item.time)
-                let year = Calendar.current.component(.year, from: item.time)
-
-                return InboxSection.Group.other(month: month, year: year)
-            }
-        ).map { key, value in
-            InboxSection(
-                group: key,
-                items: value
-            )
-        }.sorted { lhs, rhs in
-            if case let .other(lMonth, lYear) = lhs.group, case let .other(rMonth, rYear) = rhs.group {
-                if lYear == rYear {
-                    return lMonth > rMonth
-                }
-
-                return lYear > rYear
-            }
-
-            // should never happen.
-            return false
-        }
-
-        sections.append(contentsOf: remainingItems)
-
-        return sections
+    func processUserMessage(_ userMessage: String) {
+        userMessages.removeAll(where: { $0.uniqueId == userMessage })
     }
 
-    struct InboxSection: Identifiable {
-        let group: Group
-        let items: [NotificareInboxItem]
+    struct UserMessage {
+        let uniqueId = UUID().uuidString
+        let variant: Variant
 
-        var id: String {
-            switch group {
-            case .today:
-                return "today"
-            case .yesterday:
-                return "yesterday"
-            case .lastSevenDays:
-                return "last_seven_days"
-            case let .other(month, year):
-                return "other_\(year)_\(month)"
-            }
-        }
-
-        enum Group: Hashable {
-            case today
-            case yesterday
-            case lastSevenDays
-            case other(month: Int, year: Int)
+        enum Variant {
+            case presentItemSuccess
+            case presentItemFailure(error: Error)
+            case markItemAsReadSuccess
+            case markItemAsReadFailure(error: Error)
+            case markAllItemsAsReadSuccess
+            case markAllItemsAsReadFailure(error: Error)
+            case removeItemSuccess
+            case removeItemFailure(error: Error)
+            case clearItemsSuccess
+            case clearItemsFailure(error: Error)
         }
     }
 }

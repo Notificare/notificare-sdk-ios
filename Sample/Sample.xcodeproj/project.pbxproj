@@ -8,16 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		E514687829C9CC41005E057D /* String+Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = E514687729C9CC41005E057D /* String+Localization.swift */; };
-		E51FD35829D4854B000897D9 /* CurrentUserSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E51FD35729D4854B000897D9 /* CurrentUserSection.swift */; };
-		E51FD35A29D485F8000897D9 /* RegisterNewUserSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E51FD35929D485F8000897D9 /* RegisterNewUserSection.swift */; };
-		E51FD35C29D48669000897D9 /* ValidateUserSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E51FD35B29D48669000897D9 /* ValidateUserSection.swift */; };
-		E51FD35E29D486F7000897D9 /* AccountAuthenticationSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E51FD35D29D486F7000897D9 /* AccountAuthenticationSection.swift */; };
-		E51FD36029D48783000897D9 /* SendPasswordResetSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E51FD35F29D48783000897D9 /* SendPasswordResetSection.swift */; };
-		E51FD36229D487D6000897D9 /* ResetPasswordSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E51FD36129D487D6000897D9 /* ResetPasswordSection.swift */; };
-		E51FD36429D4880F000897D9 /* ChangePasswordSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E51FD36329D4880F000897D9 /* ChangePasswordSection.swift */; };
-		E51FD36629D48873000897D9 /* FetchedSegmentsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E51FD36529D48873000897D9 /* FetchedSegmentsSection.swift */; };
-		E51FD36829D488B1000897D9 /* UserSegmentsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E51FD36729D488B1000897D9 /* UserSegmentsSection.swift */; };
-		E51FD36A29D48903000897D9 /* UserPreferencesSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E51FD36929D48903000897D9 /* UserPreferencesSection.swift */; };
 		E51FD36D29D570EB000897D9 /* CoffeeBrewerActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E51FD36C29D570EB000897D9 /* CoffeeBrewerActivityAttributes.swift */; };
 		E51FD36F29D57104000897D9 /* LiveActivitiesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E51FD36E29D57104000897D9 /* LiveActivitiesController.swift */; };
 		E51FD37529D577D0000897D9 /* CoffeeBrewerLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = E51FD37429D577D0000897D9 /* CoffeeBrewerLiveActivity.swift */; };
@@ -40,7 +30,6 @@
 		E5590E0A29C33540006E593B /* AsyncImageCompat.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5590E0929C33540006E593B /* AsyncImageCompat.swift */; };
 		E5590E0C29C33586006E593B /* AsyncImageCompat+ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5590E0B29C33586006E593B /* AsyncImageCompat+ImageLoader.swift */; };
 		E5590E0E29C335BA006E593B /* AsyncImageCompat+ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5590E0D29C335BA006E593B /* AsyncImageCompat+ImageCache.swift */; };
-		E5590E1029C33637006E593B /* View+Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5590E0F29C33637006E593B /* View+Theme.swift */; };
 		E5590E1229C3428F006E593B /* UIApplication+Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5590E1129C3428F006E593B /* UIApplication+Notifications.swift */; };
 		E5590E1429C359B9006E593B /* Notification.Name+Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5590E1329C359B9006E593B /* Notification.Name+Custom.swift */; };
 		E5590E1729C35EA9006E593B /* BeaconsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5590E1629C35EA9006E593B /* BeaconsView.swift */; };
@@ -59,8 +48,6 @@
 		E5590E3929C6692A006E593B /* AssetDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5590E3829C6692A006E593B /* AssetDetailsView.swift */; };
 		E59CFC0D29CB6CC70024057A /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59CFC0C29CB6CC70024057A /* BadgeView.swift */; };
 		E59CFC0F29CB6D330024057A /* DetermineSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59CFC0E29CB6D330024057A /* DetermineSize.swift */; };
-		E59CFC1229D05D860024057A /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59CFC1129D05D860024057A /* AuthenticationViewModel.swift */; };
-		E59CFC1429D05EA30024057A /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E59CFC1329D05EA30024057A /* AuthenticationView.swift */; };
 		E5B26DA029C076F300B47C6D /* DeviceRegistrationSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5B26D9F29C076F300B47C6D /* DeviceRegistrationSection.swift */; };
 		E5B26DA229C07BCE00B47C6D /* OtherFeaturesSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5B26DA129C07BCE00B47C6D /* OtherFeaturesSection.swift */; };
 		E5C78EF729BB5015006BF1F6 /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5C78EF629BB5015006BF1F6 /* Main.swift */; };
@@ -171,16 +158,6 @@
 
 /* Begin PBXFileReference section */
 		E514687729C9CC41005E057D /* String+Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Localization.swift"; sourceTree = "<group>"; };
-		E51FD35729D4854B000897D9 /* CurrentUserSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserSection.swift; sourceTree = "<group>"; };
-		E51FD35929D485F8000897D9 /* RegisterNewUserSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterNewUserSection.swift; sourceTree = "<group>"; };
-		E51FD35B29D48669000897D9 /* ValidateUserSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidateUserSection.swift; sourceTree = "<group>"; };
-		E51FD35D29D486F7000897D9 /* AccountAuthenticationSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountAuthenticationSection.swift; sourceTree = "<group>"; };
-		E51FD35F29D48783000897D9 /* SendPasswordResetSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendPasswordResetSection.swift; sourceTree = "<group>"; };
-		E51FD36129D487D6000897D9 /* ResetPasswordSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordSection.swift; sourceTree = "<group>"; };
-		E51FD36329D4880F000897D9 /* ChangePasswordSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordSection.swift; sourceTree = "<group>"; };
-		E51FD36529D48873000897D9 /* FetchedSegmentsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchedSegmentsSection.swift; sourceTree = "<group>"; };
-		E51FD36729D488B1000897D9 /* UserSegmentsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSegmentsSection.swift; sourceTree = "<group>"; };
-		E51FD36929D48903000897D9 /* UserPreferencesSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferencesSection.swift; sourceTree = "<group>"; };
 		E51FD36C29D570EB000897D9 /* CoffeeBrewerActivityAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoffeeBrewerActivityAttributes.swift; sourceTree = "<group>"; };
 		E51FD36E29D57104000897D9 /* LiveActivitiesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivitiesController.swift; sourceTree = "<group>"; };
 		E51FD37429D577D0000897D9 /* CoffeeBrewerLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoffeeBrewerLiveActivity.swift; sourceTree = "<group>"; };
@@ -202,7 +179,6 @@
 		E5590E0929C33540006E593B /* AsyncImageCompat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncImageCompat.swift; sourceTree = "<group>"; };
 		E5590E0B29C33586006E593B /* AsyncImageCompat+ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AsyncImageCompat+ImageLoader.swift"; sourceTree = "<group>"; };
 		E5590E0D29C335BA006E593B /* AsyncImageCompat+ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AsyncImageCompat+ImageCache.swift"; sourceTree = "<group>"; };
-		E5590E0F29C33637006E593B /* View+Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Theme.swift"; sourceTree = "<group>"; };
 		E5590E1129C3428F006E593B /* UIApplication+Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Notifications.swift"; sourceTree = "<group>"; };
 		E5590E1329C359B9006E593B /* Notification.Name+Custom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification.Name+Custom.swift"; sourceTree = "<group>"; };
 		E5590E1629C35EA9006E593B /* BeaconsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconsView.swift; sourceTree = "<group>"; };
@@ -221,8 +197,6 @@
 		E5590E3829C6692A006E593B /* AssetDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetDetailsView.swift; sourceTree = "<group>"; };
 		E59CFC0C29CB6CC70024057A /* BadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeView.swift; sourceTree = "<group>"; };
 		E59CFC0E29CB6D330024057A /* DetermineSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetermineSize.swift; sourceTree = "<group>"; };
-		E59CFC1129D05D860024057A /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
-		E59CFC1329D05EA30024057A /* AuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationView.swift; sourceTree = "<group>"; };
 		E5B26D9F29C076F300B47C6D /* DeviceRegistrationSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceRegistrationSection.swift; sourceTree = "<group>"; };
 		E5B26DA129C07BCE00B47C6D /* OtherFeaturesSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherFeaturesSection.swift; sourceTree = "<group>"; };
 		E5C78EF629BB5015006BF1F6 /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
@@ -331,23 +305,6 @@
 			path = Badge;
 			sourceTree = "<group>";
 		};
-		E51FD35629D484EE000897D9 /* AuthenticationSectionViews */ = {
-			isa = PBXGroup;
-			children = (
-				E51FD35729D4854B000897D9 /* CurrentUserSection.swift */,
-				E51FD35929D485F8000897D9 /* RegisterNewUserSection.swift */,
-				E51FD35B29D48669000897D9 /* ValidateUserSection.swift */,
-				E51FD35D29D486F7000897D9 /* AccountAuthenticationSection.swift */,
-				E51FD35F29D48783000897D9 /* SendPasswordResetSection.swift */,
-				E51FD36129D487D6000897D9 /* ResetPasswordSection.swift */,
-				E51FD36329D4880F000897D9 /* ChangePasswordSection.swift */,
-				E51FD36529D48873000897D9 /* FetchedSegmentsSection.swift */,
-				E51FD36729D488B1000897D9 /* UserSegmentsSection.swift */,
-				E51FD36929D48903000897D9 /* UserPreferencesSection.swift */,
-			);
-			path = AuthenticationSectionViews;
-			sourceTree = "<group>";
-		};
 		E51FD36B29D570B9000897D9 /* Live Activities */ = {
 			isa = PBXGroup;
 			children = (
@@ -454,16 +411,6 @@
 			path = AsyncImageCompat;
 			sourceTree = "<group>";
 		};
-		E59CFC1029D05D6E0024057A /* Authentication */ = {
-			isa = PBXGroup;
-			children = (
-				E51FD35629D484EE000897D9 /* AuthenticationSectionViews */,
-				E59CFC1129D05D860024057A /* AuthenticationViewModel.swift */,
-				E59CFC1329D05EA30024057A /* AuthenticationView.swift */,
-			);
-			path = Authentication;
-			sourceTree = "<group>";
-		};
 		E5C78EFA29BB6D71006BF1F6 /* HomeSectionViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -529,7 +476,6 @@
 			isa = PBXGroup;
 			children = (
 				F29F82A32A0E5D8B00B327D8 /* Components */,
-				E59CFC1029D05D6E0024057A /* Authentication */,
 				E5590E3129C474B5006E593B /* Events */,
 				E5590E2A29C38729006E593B /* Assets */,
 				E5590E2129C36F5F006E593B /* Monetize */,
@@ -549,7 +495,6 @@
 			children = (
 				E5C78F0829BBA15B006BF1F6 /* Logger.swift */,
 				E5590E0529C33389006E593B /* Date+Utilities.swift */,
-				E5590E0F29C33637006E593B /* View+Theme.swift */,
 				E5590E1129C3428F006E593B /* UIApplication+Notifications.swift */,
 				E5590E1329C359B9006E593B /* Notification.Name+Custom.swift */,
 				E514687729C9CC41005E057D /* String+Localization.swift */,
@@ -793,11 +738,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E59CFC1229D05D860024057A /* AuthenticationViewModel.swift in Sources */,
 				E5C78F0929BBA15B006BF1F6 /* Logger.swift in Sources */,
 				E5590E3529C4760E006E593B /* EventsViewModel.swift in Sources */,
 				E5B26DA229C07BCE00B47C6D /* OtherFeaturesSection.swift in Sources */,
-				E51FD36229D487D6000897D9 /* ResetPasswordSection.swift in Sources */,
 				E5590E3029C46AD7006E593B /* AssetItemView.swift in Sources */,
 				E5C78F0D29BF4970006BF1F6 /* DoNotDisturbSection.swift in Sources */,
 				E5590E2E29C387D4006E593B /* AssetsViewModel.swift in Sources */,
@@ -807,7 +750,6 @@
 				E5590DF629C21F59006E593B /* TagsView.swift in Sources */,
 				E5590E0129C321DE006E593B /* InboxView.swift in Sources */,
 				E5B26DA029C076F300B47C6D /* DeviceRegistrationSection.swift in Sources */,
-				E5590E1029C33637006E593B /* View+Theme.swift in Sources */,
 				E5590E1729C35EA9006E593B /* BeaconsView.swift in Sources */,
 				E5C78F0F29BF6D4E006BF1F6 /* LocationSection.swift in Sources */,
 				E5590E0829C334C7006E593B /* InboxItemView.swift in Sources */,
@@ -818,38 +760,28 @@
 				E5C78EF929BB57D7006BF1F6 /* HomeView.swift in Sources */,
 				E5C78F0B29BE3DE8006BF1F6 /* NotificationsSection.swift in Sources */,
 				E5590E0C29C33586006E593B /* AsyncImageCompat+ImageLoader.swift in Sources */,
-				E59CFC1429D05EA30024057A /* AuthenticationView.swift in Sources */,
 				E51FD38629D5825F000897D9 /* LiveActivitiesSection.swift in Sources */,
-				E51FD36A29D48903000897D9 /* UserPreferencesSection.swift in Sources */,
 				E5590E1429C359B9006E593B /* Notification.Name+Custom.swift in Sources */,
 				E5590E3929C6692A006E593B /* AssetDetailsView.swift in Sources */,
 				E5590E0329C32415006E593B /* InboxViewModel.swift in Sources */,
 				E5590E2729C3701A006E593B /* MonetizeProductsView.swift in Sources */,
-				E51FD36829D488B1000897D9 /* UserSegmentsSection.swift in Sources */,
 				E5590E0E29C335BA006E593B /* AsyncImageCompat+ImageCache.swift in Sources */,
 				E59CFC0F29CB6D330024057A /* DetermineSize.swift in Sources */,
 				E5590E2529C37004006E593B /* MonetizeViewModel.swift in Sources */,
 				E5590E0629C33389006E593B /* Date+Utilities.swift in Sources */,
 				F29FD1F824CB1FE1004B166D /* AppDelegate.swift in Sources */,
 				E514687829C9CC41005E057D /* String+Localization.swift in Sources */,
-				E51FD35C29D48669000897D9 /* ValidateUserSection.swift in Sources */,
 				E5C78EFC29BB6DC5006BF1F6 /* LaunchFlowSection.swift in Sources */,
-				E51FD35A29D485F8000897D9 /* RegisterNewUserSection.swift in Sources */,
 				E5C78EF729BB5015006BF1F6 /* Main.swift in Sources */,
 				E5590E3329C47524006E593B /* EventsView.swift in Sources */,
 				E5590E2929C37026006E593B /* MonetizePurchasesView.swift in Sources */,
 				E5590E2C29C387C7006E593B /* AssetsView.swift in Sources */,
 				E5590E1B29C35F96006E593B /* BeaconRow.swift in Sources */,
-				E51FD35829D4854B000897D9 /* CurrentUserSection.swift in Sources */,
-				E51FD36429D4880F000897D9 /* ChangePasswordSection.swift in Sources */,
 				E5590DFE29C2310F006E593B /* SelectableChipView.swift in Sources */,
-				E51FD35E29D486F7000897D9 /* AccountAuthenticationSection.swift in Sources */,
 				E59CFC0D29CB6CC70024057A /* BadgeView.swift in Sources */,
-				E51FD36029D48783000897D9 /* SendPasswordResetSection.swift in Sources */,
 				E5590E1929C35EC3006E593B /* BeaconsViewModel.swift in Sources */,
 				E5590DF829C2273A006E593B /* TagsViewModel.swift in Sources */,
 				E5590E0A29C33540006E593B /* AsyncImageCompat.swift in Sources */,
-				E51FD36629D48873000897D9 /* FetchedSegmentsSection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

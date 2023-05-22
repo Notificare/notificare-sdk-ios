@@ -6,121 +6,29 @@ import NotificareAssetsKit
 import SwiftUI
 
 struct AssetDetailsView: View {
-    var asset: NotificareAsset
+    let asset: NotificareAsset
 
     var body: some View {
         List {
             Section {
-                HStack {
-                    Text(String(localized: "asset_id"))
-                        .padding(.trailing)
-                    Spacer()
-                    Text(asset.id)
-                }
-
-                HStack {
-                    Text(String(localized: "asset_title"))
-                        .padding(.trailing)
-                    Spacer()
-                    Text(asset.title)
-                }
-
-                HStack {
-                    Text(String(localized: "asset_description"))
-                        .padding(.trailing)
-                    Spacer()
-
-                    if let description = asset.description {
-                        Text(description)
-                    } else {
-                        Text("-")
-                    }
-                }
-
-                HStack {
-                    Text(String(localized: "event_key"))
-                        .padding(.trailing)
-                    Spacer()
-
-                    if let key = asset.key {
-                        Text(key)
-                    } else {
-                        Text("-")
-                    }
-                }
-
-                HStack {
-                    Text(String(localized: "asset_url"))
-                        .padding(.trailing)
-                    Spacer()
-
-                    if let url = asset.url {
-                        Text(url)
-                    } else {
-                        Text("-")
-                    }
-                }
-
-                if let label = asset.button?.label {
-                    HStack {
-                        Text(String(localized: "asset_button"))
-                        Spacer()
-                        Text(label)
-                    }
-                } else {
-                    HStack {
-                        Text(String(localized: "asset_button"))
-                            .padding(.trailing)
-                        Spacer()
-                        Text("-")
-                    }
-                }
-
-                if let action = asset.button?.action {
-                    HStack {
-                        Text(String(localized: "asset_action"))
-                            .padding(.trailing)
-                        Spacer()
-                        Text(action)
-                    }
-                }
+                AssetDetailsField(key: String(localized: "asset_id"), value: asset.id)
+                AssetDetailsField(key: String(localized: "asset_title"), value: asset.title)
+                AssetDetailsField(key: String(localized: "asset_title"), value: asset.description)
+                AssetDetailsField(key: String(localized: "event_key"), value: asset.key)
+                AssetDetailsField(key: String(localized: "asset_url"), value: asset.url)
+                AssetDetailsField(key: String(localized: "asset_button"), value: asset.button?.label)
+                AssetDetailsField(key: String(localized: "asset_action"), value: asset.button?.action)
 
                 if let metaData = asset.metaData {
-                    HStack {
-                        Text(String(localized: "asset_original_file_name"))
-                            .padding(.trailing)
-                        Spacer()
-                        Text(metaData.originalFileName)
-                    }
-
-                    HStack {
-                        Text(String(localized: "asset_content_type"))
-                            .padding(.trailing)
-                        Spacer()
-                        Text(metaData.contentType)
-                    }
-
-                    HStack {
-                        Text(String(localized: "asset_content_length"))
-                            .padding(.trailing)
-                        Spacer()
-                        Text(String(metaData.contentLength))
-                    }
+                    AssetDetailsField(key: String(localized: "asset_original_file_name"), value: metaData.originalFileName)
+                    AssetDetailsField(key: String(localized: "asset_content_type"), value: metaData.contentType)
+                    AssetDetailsField(key: String(localized: "asset_content_length"), value: String(metaData.contentLength))
                 } else {
-                    HStack {
-                        Text(String(localized: "asset_meta_data"))
-                            .padding(.trailing)
-                        Spacer()
-                        Text("-")
-                    }
+                    AssetDetailsField(key: String(localized: "asset_meta_data"), value: "-")
                 }
 
                 if asset.extra.isEmpty {
-                    HStack {
-                        Text(String(localized: "asset_extras"))
-                        Spacer()
-                        Text("-")
-                    }
+                    AssetDetailsField(key: String(localized: "asset_extras"), value: "-")
                 } else {
                     HStack {
                         Text(String(localized: "asset_extras"))
@@ -128,18 +36,37 @@ struct AssetDetailsView: View {
                     }
 
                     ForEach(asset.extra.keys.sorted(), id: \.self) { key in
-                        HStack {
-                            Text(key)
-                                .padding(.trailing)
-                            Spacer()
-                            Text(String(describing: asset.extra[key]))
-                        }
+                        AssetDetailsField(key: key, value: String(describing: asset.extra[key]))
                     }
                 }
             }
         }
         .navigationTitle(String(localized: "assets_details_title"))
         .navigationBarTitleDisplayMode(.inline)
+    }
+}
+
+private struct AssetDetailsField: View {
+    let key: String
+    let value: String?
+
+    var body: some View {
+        HStack {
+            Text(key)
+                .padding(.trailing)
+            Spacer()
+            if let value = value {
+                Text(value)
+                    .lineLimit(1)
+                    .truncationMode(.head)
+                    .foregroundColor(Color.gray)
+            } else {
+                Text("-")
+                    .lineLimit(1)
+                    .truncationMode(.head)
+                    .foregroundColor(Color.gray)
+            }
+        }
     }
 }
 

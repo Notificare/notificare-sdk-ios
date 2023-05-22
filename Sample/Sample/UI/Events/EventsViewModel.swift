@@ -6,46 +6,66 @@ import Foundation
 import NotificareKit
 import OSLog
 
+@MainActor
 class EventsViewModel: ObservableObject {
-    @Published private var eventFields = NotificareEventData()
-    @Published var identifiableEventFields = [IdentifiableEventField]()
+    @Published var eventFields = [EventField]()
     @Published var eventName = ""
+    @Published private(set) var viewState: ViewState = .idle
 
-    @MainActor
+    var isRegisterEventAllowed: Bool {
+        !viewState.isLoading && !eventName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
+
+    func addEventField() {
+        let field = EventField(key: "", value: "")
+        eventFields.append(field)
+    }
+    
     func registerEvent() {
-        updateEvenFields()
-
+        Logger.main.info("-----> Register Event clicked <-----")
+        viewState = .loading
+        let fields = validateEvenFields()
+        
         Task {
             do {
-                try await Notificare.shared.events().logCustom(eventName, data: eventFields)
+                try await Notificare.shared.events().logCustom(eventName, data: fields)
                 Logger.main.info("-----> Event \(self.eventName) registered successfully <-----")
                 eventName = ""
-                eventFields = NotificareEventData()
-                identifiableEventFields = [IdentifiableEventField]()
+                eventFields = [EventField]()
+                viewState = .success
             } catch {
                 Logger.main.error("-----> Failed to registered event \(self.eventName): \(error.localizedDescription)")
+                viewState = .failure(error: error)
             }
         }
     }
 
-    private func updateEvenFields() {
-        if !identifiableEventFields.isEmpty {
-            identifiableEventFields.forEach { field in
-                if field.key != "", field.value != "" {
-                    eventFields[field.key] = field.value
-                }
-            }
-        }
+    private func validateEvenFields() -> [String: String] {
+        let fields = eventFields
+            .filter { $0.key != "" && $0.value != ""}
+            .map { ($0.key, $0.value) }
+
+        return Dictionary(uniqueKeysWithValues: fields)
     }
 
-    func handleAddEventField() {
-        Logger.main.info("-----> Add field clicked <-----")
-        let field = IdentifiableEventField(key: "", value: "")
-        identifiableEventFields.append(field)
+    enum ViewState {
+        case idle
+        case loading
+        case success
+        case failure(error: Error)
+
+        var isLoading: Bool {
+            switch self {
+            case .loading:
+                return true
+            default:
+                return false
+            }
+        }
     }
 }
 
-struct IdentifiableEventField: Identifiable {
+struct EventField: Identifiable {
     var id = UUID()
     var key: String
     var value: String
