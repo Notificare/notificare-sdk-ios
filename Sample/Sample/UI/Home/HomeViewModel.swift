@@ -141,12 +141,12 @@ class HomeViewModel: NSObject, ObservableObject {
 
 extension HomeViewModel {
     func notificareLaunch() {
-        Logger.main.info("-----> Notificare launch clicked <-----")
+        Logger.main.info("Notificare launch clicked")
         Notificare.shared.launch()
     }
 
     func notificareUnlaunch() {
-        Logger.main.info("-----> Notificare unlaunch clicked <-----")
+        Logger.main.info("Notificare unlaunch clicked")
         Notificare.shared.unlaunch()
     }
 }
@@ -155,23 +155,23 @@ extension HomeViewModel {
 
 extension HomeViewModel {
     func updateNotificationsStatus(enabled: Bool) {
-        Logger.main.info("-----> Notifications Toggle switched \(enabled ? "ON" : "OFF") <-----")
+        Logger.main.info("Notifications Toggle switched \(enabled ? "ON" : "OFF")")
 
         if enabled {
-            Logger.main.info("-----> Checking notifications permission <-----")
+            Logger.main.info("Checking notifications permission")
 
             Task {
                 let status = await checkNotificationsPermissionStatus()
 
                 if status == .permanentlyDenied {
-                    Logger.main.info("-----> Notification permission permanently denied, skipping enabling remote notifications <-----")
+                    Logger.main.info("Notification permission permanently denied, skipping enabling remote notifications")
                     hasNotificationsAndPermission = false
 
                     return
                 }
 
                 if status == .not_determined {
-                    Logger.main.info("-----> Requesting notifications permission <-----")
+                    Logger.main.info("Requesting notifications permission")
 
                     do {
                         let granted = try await notificationCenter.requestAuthorization(options: Notificare.shared.push().authorizationOptions)
@@ -182,16 +182,16 @@ extension HomeViewModel {
 
                         switch granted {
                         case true:
-                            Logger.main.info("-----> Granted notifications permission <-----")
+                            Logger.main.info("Granted notifications permission")
 
                         case false:
-                            Logger.main.error("-----> Notifications permission request denied, skipping enabling remote notifications <-----")
+                            Logger.main.error("Notifications permission request denied, skipping enabling remote notifications")
                             hasNotificationsAndPermission = false
 
                             return
                         }
                     } catch {
-                        Logger.main.error("-----> Failed to request notifications authorization: \(error.localizedDescription)")
+                        Logger.main.error("Failed to request notifications authorization: \(error)")
                         hasNotificationsAndPermission = false
 
                         userMessages.append(
@@ -200,17 +200,17 @@ extension HomeViewModel {
                     }
                 }
 
-                Logger.main.info("-----> Enabling remote notifications <-----")
+                Logger.main.info("Enabling remote notifications")
 
                 do {
                     let result = try await Notificare.shared.push().enableRemoteNotifications()
-                    Logger.main.info("-----> Successfully enabled remote notifications, result bool: \(result) <-----")
+                    Logger.main.info("Successfully enabled remote notifications, result bool: \(result)")
 
                     userMessages.append(
                         UserMessage(variant: .enableRemoteNotificationsSuccess)
                     )
                 } catch {
-                    Logger.main.error("-----> Failed to enable remote notifications: \(error.localizedDescription)")
+                    Logger.main.error("Failed to enable remote notifications: \(error)")
 
                     userMessages.append(
                         UserMessage(variant: .enableRemoteNotificationsFailure(error: error))
@@ -220,7 +220,7 @@ extension HomeViewModel {
                 checkNotificationsStatus()
             }
         } else {
-            Logger.main.info("-----> Disabling remote notifications <-----")
+            Logger.main.info("Disabling remote notifications")
             Notificare.shared.push().disableRemoteNotifications()
 
             checkNotificationsStatus()
@@ -228,7 +228,7 @@ extension HomeViewModel {
     }
 
     private func checkNotificationsPermissionStatus() async -> (NotificationsPermissionStatus) {
-        return await withCheckedContinuation { completion in
+        await withCheckedContinuation { completion in
             UNUserNotificationCenter.current().getNotificationSettings { status in
                 var permissionStatus = NotificationsPermissionStatus.denied
 
@@ -274,12 +274,12 @@ extension HomeViewModel {
     }
 
     func updateDndStatus(enabled: Bool) {
-        Logger.main.info("-----> DnD Toggle switched \(enabled ? "ON" : "OFF") <-----")
+        Logger.main.info("DnD Toggle switched \(enabled ? "ON" : "OFF")")
 
         if enabled {
             updateDndTime()
         } else {
-            Logger.main.info("-----> Clearing DnD <-----")
+            Logger.main.info("Clearing DnD")
 
             Task {
                 do {
@@ -290,7 +290,7 @@ extension HomeViewModel {
                         UserMessage(variant: .clearDoNotDisturbSuccess)
                     )
                 } catch {
-                    Logger.main.error("-----> Failed to clear DnD: \(error.localizedDescription)")
+                    Logger.main.error("Failed to clear DnD: \(error)")
 
                     userMessages.append(
                         UserMessage(variant: .clearDoNotDisturbFailure(error: error))
@@ -301,7 +301,7 @@ extension HomeViewModel {
     }
 
     func updateDndTime() {
-        Logger.main.info("-----> Updating DnD time <-----")
+        Logger.main.info("Updating DnD time")
 
         Task {
             do {
@@ -312,7 +312,7 @@ extension HomeViewModel {
                     UserMessage(variant: .updateDoNotDisturbSuccess)
                 )
             } catch {
-                Logger.main.error("-----> Failed to update DnD: \(error.localizedDescription)")
+                Logger.main.error("Failed to update DnD: \(error)")
 
                 userMessages.append(
                     UserMessage(variant: .updateDoNotDisturbFailure(error: error))
@@ -352,7 +352,7 @@ extension HomeViewModel: CLLocationManagerDelegate {
     }
 
     func updateLocationServicesStatus(enabled: Bool) {
-        Logger.main.info("-----> Location Toggle switched \(enabled ? "ON" : "OFF") <-----")
+        Logger.main.info("Location Toggle switched \(enabled ? "ON" : "OFF")")
 
         if enabled {
             enableLocationUpdates()
@@ -365,43 +365,47 @@ extension HomeViewModel: CLLocationManagerDelegate {
 
     private func enableLocationUpdates() {
         if checkLocationPermissionStatus(permission: .locationAlways) == .granted {
-            Logger.main.info("-----> Location Always is Granted, enabling location updates  <-----")
+            Logger.main.info("Location Always is Granted, enabling location updates ")
             Notificare.shared.geo().enableLocationUpdates()
             checkLocationStatus()
 
             return
         }
 
-        Logger.main.info("-----> Checking location When in Use permission status <-----")
+        Logger.main.info("Checking location When in Use permission status")
         let whenInUsePermission = checkLocationPermissionStatus(permission: .locationWhenInUse)
 
         switch whenInUsePermission {
         case .permanentlyDenied, .restricted:
-            Logger.main.info("-----> Location When in Use is permanently denied <-----")
+            Logger.main.info("Location When in Use is permanently denied")
             hasLocationAndPermission = false
             return
+
         case .denied:
-            Logger.main.info("-----> Location When in Use is not determined, requesting permission <-----")
+            Logger.main.info("Location When in Use is not determined, requesting permission")
             requestLocationPermission(permission: .locationWhenInUse)
             return
+
         case .granted:
-            Logger.main.info("-----> Location When in Use granted, enabling location updates <-----")
+            Logger.main.info("Location When in Use granted, enabling location updates")
             Notificare.shared.geo().enableLocationUpdates()
             checkLocationStatus()
         }
 
-        Logger.main.info("-----> Checking location Always permission status <-----")
+        Logger.main.info("Checking location Always permission status")
         let alwaysPermission = checkLocationPermissionStatus(permission: .locationAlways)
 
         switch alwaysPermission {
         case .permanentlyDenied, .restricted:
-            Logger.main.info("-----> Location Always permission is permanently denied <-----")
+            Logger.main.info("Location Always permission is permanently denied")
             return
+
         case .denied:
-            Logger.main.info("-----> Location Always is not determined, requesting permission <-----")
+            Logger.main.info("Location Always is not determined, requesting permission")
             requestLocationPermission(permission: .locationAlways)
+
         case .granted:
-            Logger.main.info("-----> Location Always permission is granted, enabling location updates <-----")
+            Logger.main.info("Location Always permission is granted, enabling location updates")
             Notificare.shared.geo().enableLocationUpdates()
         }
     }
@@ -473,7 +477,7 @@ extension HomeViewModel: CLLocationManagerDelegate {
         let status = checkLocationPermissionStatus(permission: requestedPermission)
         if requestedPermission == .locationWhenInUse {
             if status != .granted {
-                Logger.main.info("-----> Location When in Use permission request denied <-----")
+                Logger.main.info("Location When in Use permission request denied")
 
                 self.requestedPermission = nil
                 hasLocationAndPermission = false
@@ -487,12 +491,12 @@ extension HomeViewModel: CLLocationManagerDelegate {
 
         if requestedPermission == .locationAlways {
             if status == .granted {
-                Logger.main.info("-----> Location Always permission request granted, enabling location updates <-----")
+                Logger.main.info("Location Always permission request granted, enabling location updates")
 
                 self.requestedPermission = nil
                 Notificare.shared.geo().enableLocationUpdates()
             } else {
-                Logger.main.info("-----> Location Always permission request denied <-----")
+                Logger.main.info("Location Always permission request denied")
             }
         }
     }
@@ -502,7 +506,7 @@ extension HomeViewModel: CLLocationManagerDelegate {
 
 extension HomeViewModel {
     func updateSuppressedIamStatus(enabled: Bool) {
-        Logger.main.info("-----> \(enabled ? "Supressing" : "Unsupressing") in app messages, evaluate context is \(self.hasEvaluateContextOn ? "ON" : "OFF") <-----")
+        Logger.main.info("\(enabled ? "Supressing" : "Unsupressing") in app messages, evaluate context is \(self.hasEvaluateContextOn ? "ON" : "OFF")")
         Notificare.shared.inAppMessaging().setMessagesSuppressed(enabled, evaluateContext: hasEvaluateContextOn)
     }
 }
@@ -519,7 +523,7 @@ extension HomeViewModel {
     }
 
     func registerDevice() {
-        Logger.main.info("-----> Registering device <-----")
+        Logger.main.info("Registering device")
 
         Task {
             do {
@@ -531,7 +535,7 @@ extension HomeViewModel {
                     UserMessage(variant: .registerDeviceSuccess)
                 )
             } catch {
-                Logger.main.error("-----> Failed to registered device: \(error.localizedDescription)")
+                Logger.main.error("Failed to registered device: \(error)")
 
                 userMessages.append(
                     UserMessage(variant: .registerDeviceFailure(error: error))
@@ -541,7 +545,7 @@ extension HomeViewModel {
     }
 
     func cleanDeviceRegistration() {
-        Logger.main.info("-----> Registering device as anonymous <-----")
+        Logger.main.info("Registering device as anonymous")
 
         Task {
             do {
@@ -554,7 +558,7 @@ extension HomeViewModel {
                     UserMessage(variant: .registerDeviceSuccess)
                 )
             } catch {
-                Logger.main.error("-----> Failed to registered device as anonymous: \(error.localizedDescription)")
+                Logger.main.error("Failed to registered device as anonymous: \(error)")
 
                 userMessages.append(
                     UserMessage(variant: .registerDeviceFailure(error: error))

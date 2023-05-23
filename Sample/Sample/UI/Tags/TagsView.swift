@@ -86,7 +86,7 @@ struct TagsView: View {
 
             case .clearTagsFailure:
                 presentedAlert = PresentedAlert(variant: .clearTagsFailure, userMessageId: userMessage.uniqueId)
-                
+
             case .fetchTagsSuccess:
                 break
 
@@ -107,6 +107,7 @@ struct TagsView: View {
                     viewModel.processUserMessage(alert.userMessageId)
                 }
             )
+
         case .addTagsFailure:
             return Alert(
                 title: Text(String(localized: "error")),

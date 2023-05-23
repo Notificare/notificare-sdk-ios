@@ -13,7 +13,7 @@ struct InboxView: View {
     @StateObject private var viewModel = InboxViewModel()
     @State private var actionableItem: NotificareInboxItem?
     @State private var presentedAlert: PresentedAlert?
-    
+
     var body: some View {
         ZStack {
             if viewModel.items.isEmpty {
@@ -30,7 +30,7 @@ struct InboxView: View {
                                 if item.notification.type == NotificareNotification.NotificationType.urlScheme.rawValue {
                                     presentationMode.wrappedValue.dismiss()
                                 }
-                                
+
                                 viewModel.presentInboxItem(item)
                             }
                             .onLongPressGesture {
@@ -48,7 +48,7 @@ struct InboxView: View {
                     Button(action: { viewModel.markAllItemsAsRead() }) {
                         Image(systemName: "envelope.open")
                     }
-                    
+
                     Button(action: { viewModel.clearItems() }) {
                         Image(systemName: "trash")
                     }
@@ -84,22 +84,31 @@ struct InboxView: View {
             switch userMessage.variant {
             case .presentItemSuccess:
                 break
+
             case .presentItemFailure:
                 presentedAlert = PresentedAlert(variant: .presentItemFailure, userMessageId: userMessage.uniqueId)
+
             case .markItemAsReadSuccess:
                 break
+
             case .markItemAsReadFailure:
                 presentedAlert = PresentedAlert(variant: .markItemAsReadFailure, userMessageId: userMessage.uniqueId)
+
             case .markAllItemsAsReadSuccess:
                 break
+
             case .markAllItemsAsReadFailure:
                 presentedAlert = PresentedAlert(variant: .markAllItemsAsReadFailure, userMessageId: userMessage.uniqueId)
+
             case .removeItemSuccess:
                 break
+
             case .removeItemFailure:
                 presentedAlert = PresentedAlert(variant: .removeItemFailure, userMessageId: userMessage.uniqueId)
+
             case .clearItemsSuccess:
                 break
+
             case .clearItemsFailure:
                 presentedAlert = PresentedAlert(variant: .clearItemsFailure, userMessageId: userMessage.uniqueId)
             }

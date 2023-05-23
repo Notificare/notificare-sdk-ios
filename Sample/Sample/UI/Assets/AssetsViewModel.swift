@@ -17,17 +17,17 @@ class AssetsViewModel: ObservableObject {
     }
 
     func fetchAssets() {
-        Logger.main.info("-----> Fetch assets clicked <-----")
+        Logger.main.info("Fetch assets clicked")
         viewState = .loading
 
         Task {
             do {
                 let result = try await Notificare.shared.assets().fetch(group: assetsGroup)
 
-                Logger.main.info("-----> Successfully fetched  assets group: \(self.assetsGroup) <-----")
+                Logger.main.info("Successfully fetched  assets group: \(self.assetsGroup)")
                 viewState = .success(assets: result)
             } catch {
-                print("-----> Failed to fetch asset group: \(self.assetsGroup): \(error.localizedDescription)")
+                Logger.main.error("Failed to fetch asset group: \(self.assetsGroup): \(error)")
                 viewState = .failure(error: error)
             }
         }

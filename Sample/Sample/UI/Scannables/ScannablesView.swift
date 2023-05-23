@@ -12,7 +12,7 @@ struct ScannablesView: View {
             Section {
                 VStack {
                     Button(String(localized: "scannables_nfc")) {
-                        Logger.main.info("-----> NFC scan clicked <-----")
+                        Logger.main.info("NFC scan clicked")
                         Notificare.shared.scannables().startNfcScannableSession()
                     }
                     .buttonStyle(BorderlessButtonStyle())
@@ -22,7 +22,7 @@ struct ScannablesView: View {
                     Divider()
 
                     Button(String(localized: "scannables_qr_code")) {
-                        Logger.main.info("-----> QR Code scan clicked <-----")
+                        Logger.main.info("QR Code scan clicked")
                         guard let rootViewController = UIApplication.shared.rootViewController else {
                             return
                         }

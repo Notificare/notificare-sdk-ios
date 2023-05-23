@@ -28,7 +28,7 @@ struct AssetsView: View {
                 EmptyView()
 
             case .loading:
-                ZStack(alignment: .center) {
+                ZStack {
                     ProgressView()
                 }
                 .frame(maxWidth: .infinity)
@@ -38,7 +38,7 @@ struct AssetsView: View {
                 SearchResultView(assets: assets)
 
             case .failure:
-                ZStack(alignment: .center) {
+                ZStack {
                     Label {
                         Text(String(localized: "error_message_assets_fetch"))
                     } icon: {

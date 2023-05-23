@@ -42,6 +42,12 @@ struct DeviceRegistrationSection_Previews: PreviewProvider {
     static var previews: some View {
         @State var userId = ""
         @State var userName = ""
-        DeviceRegistrationSection(userId: $userId, userName: $userName, isDeviceRegistered: false, cleanDeviceRegistration: {}, registerDevice: {})
+        DeviceRegistrationSection(
+            userId: $userId,
+            userName: $userName,
+            isDeviceRegistered: false,
+            cleanDeviceRegistration: {},
+            registerDevice: {}
+        )
     }
 }

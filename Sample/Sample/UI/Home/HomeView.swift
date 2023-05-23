@@ -13,8 +13,8 @@ struct HomeView: View {
             LaunchFlowSection(
                 isReady: viewModel.isReady,
                 isConfigured: viewModel.isConfigured,
-                launch: {viewModel.notificareLaunch()},
-                unlaunch:  {viewModel.notificareUnlaunch()}
+                launch: { viewModel.notificareLaunch() },
+                unlaunch: { viewModel.notificareUnlaunch() }
             )
 
             NotificationsSection(
@@ -23,15 +23,15 @@ struct HomeView: View {
                 allowedUi: viewModel.allowedUi,
                 notificationsPermission: viewModel.notificationsPermission,
                 badge: viewModel.badge,
-                updateNotificationsStatus: {enable in viewModel.updateNotificationsStatus(enabled: enable)}
+                updateNotificationsStatus: { enable in viewModel.updateNotificationsStatus(enabled: enable) }
             )
 
             DoNotDisturbSection(
                 hasDndEnabled: $viewModel.hasDndEnabled,
                 startTime: $viewModel.startTime,
                 endTime: $viewModel.endTime,
-                updateDndStatus: {enabled in viewModel.updateDndStatus(enabled: enabled)},
-                updateDndTime: {viewModel.updateDndTime()}
+                updateDndStatus: { enabled in viewModel.updateDndStatus(enabled: enabled) },
+                updateDndTime: { viewModel.updateDndTime() }
             )
 
             if #available(iOS 16.1, *), LiveActivitiesController.shared.hasLiveActivityCapabilities {
@@ -43,21 +43,21 @@ struct HomeView: View {
                 hasLocationEnabled: viewModel.hasLocationEnabled,
                 hasBluetoothEnabled: viewModel.hasBluetoothEnabled,
                 locationPermission: viewModel.locationPermission,
-                updateLocationServicesStatus: { enabled in viewModel.updateLocationServicesStatus(enabled: enabled)}
+                updateLocationServicesStatus: { enabled in viewModel.updateLocationServicesStatus(enabled: enabled) }
             )
 
             InAppMessagingSection(
                 hasEvaluateContextOn: $viewModel.hasEvaluateContextOn,
                 hasSuppressedOn: $viewModel.hasSuppressedOn,
-                updateSuppressedIamStatus: { enabled in viewModel.updateSuppressedIamStatus(enabled: enabled)}
+                updateSuppressedIamStatus: { enabled in viewModel.updateSuppressedIamStatus(enabled: enabled) }
             )
 
             DeviceRegistrationSection(
                 userId: $viewModel.userId,
                 userName: $viewModel.userName,
                 isDeviceRegistered: viewModel.isDeviceRegistered,
-                cleanDeviceRegistration: {viewModel.cleanDeviceRegistration()},
-                registerDevice: {viewModel.registerDevice()}
+                cleanDeviceRegistration: { viewModel.cleanDeviceRegistration() },
+                registerDevice: { viewModel.registerDevice() }
             )
 
             OtherFeaturesSection()
@@ -117,6 +117,7 @@ struct HomeView: View {
                     viewModel.processUserMessage(alert.userMessageId)
                 }
             )
+
         case .enableRemoteNotificationsFailure:
             return Alert(
                 title: Text(String(localized: "error")),
@@ -146,6 +147,7 @@ struct HomeView: View {
                     viewModel.processUserMessage(alert.userMessageId)
                 }
             )
+
         case .registerDeviceFailure:
             return Alert(
                 title: Text(String(localized: "error")),
@@ -162,7 +164,7 @@ struct HomeView: View {
         let id = UUID().uuidString
         let variant: Variant
         let userMessageId: String
-        
+
         enum Variant {
             case requestNotificationsPermissionFailure
             case enableRemoteNotificationsFailure

@@ -33,23 +33,31 @@ struct LocationSection: View {
 
             HStack {
                 Text(String(localized: "home_enabled"))
+
                 Text(String(localized: "sdk"))
                     .font(.caption2)
+
                 Spacer()
+
                 Text(String(hasLocationEnabled))
             }
 
             HStack {
                 Text(String(localized: "home_bluetooth_enabled"))
+
                 Text(String(localized: "sdk"))
                     .font(.caption2)
+
                 Spacer()
+
                 Text(String(hasBluetoothEnabled))
             }
 
             HStack {
                 Text(String(localized: "home_permission"))
+
                 Spacer()
+
                 Text(String(locationPermission))
             }
 
@@ -77,6 +85,11 @@ struct LocationSection: View {
 struct LocationSection_Previews: PreviewProvider {
     static var previews: some View {
         @State var hasLocationAndPermission = false
-        LocationSection(hasLocationAndPermission: $hasLocationAndPermission, hasLocationEnabled: false, hasBluetoothEnabled: false, locationPermission: "None", updateLocationServicesStatus: { _ in })
+        LocationSection(
+            hasLocationAndPermission: $hasLocationAndPermission,
+            hasLocationEnabled: false, hasBluetoothEnabled: false,
+            locationPermission: "None",
+            updateLocationServicesStatus: { _ in }
+        )
     }
 }

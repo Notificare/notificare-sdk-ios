@@ -34,23 +34,31 @@ struct NotificationsSection: View {
 
             HStack {
                 Text(String(localized: "home_enabled"))
+
                 Text(String(localized: "sdk"))
                     .font(.caption2)
+
                 Spacer()
+
                 Text(String(hasNotificationsEnabled))
             }
 
             HStack {
                 Text(String(localized: "home_allowed_ui"))
+
                 Text(String(localized: "sdk"))
                     .font(.caption2)
+
                 Spacer()
+
                 Text(String(allowedUi))
             }
 
             HStack {
                 Text(String(localized: "home_permission"))
+
                 Spacer()
+
                 Text(String(notificationsPermission))
             }
 
@@ -100,6 +108,12 @@ struct NotificationsSection: View {
 struct NotificationsSection_Previews: PreviewProvider {
     static var previews: some View {
         @State var hasNotificationsAndPermission = false
-        NotificationsSection(hasNotificationsAndPermission: $hasNotificationsAndPermission, hasNotificationsEnabled: false, allowedUi: false, notificationsPermission: "None", badge: 2, updateNotificationsStatus: { _ in })
+        NotificationsSection(
+            hasNotificationsAndPermission: $hasNotificationsAndPermission,
+            hasNotificationsEnabled: false, allowedUi: false,
+            notificationsPermission: "None",
+            badge: 2,
+            updateNotificationsStatus: { _ in }
+        )
     }
 }

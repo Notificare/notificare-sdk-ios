@@ -20,29 +20,29 @@ class EventsViewModel: ObservableObject {
         let field = EventField(key: "", value: "")
         eventFields.append(field)
     }
-    
+
     func registerEvent() {
-        Logger.main.info("-----> Register Event clicked <-----")
+        Logger.main.info("Register Event clicked")
         viewState = .loading
-        let fields = validateEvenFields()
-        
+        let fields = validateEventFields()
+
         Task {
             do {
                 try await Notificare.shared.events().logCustom(eventName, data: fields)
-                Logger.main.info("-----> Event \(self.eventName) registered successfully <-----")
+                Logger.main.info("Event \(self.eventName) registered successfully")
                 eventName = ""
                 eventFields = [EventField]()
                 viewState = .success
             } catch {
-                Logger.main.error("-----> Failed to registered event \(self.eventName): \(error.localizedDescription)")
+                Logger.main.error("Failed to registered event \(self.eventName): \(error)")
                 viewState = .failure(error: error)
             }
         }
     }
 
-    private func validateEvenFields() -> [String: String] {
+    private func validateEventFields() -> [String: String] {
         let fields = eventFields
-            .filter { $0.key != "" && $0.value != ""}
+            .filter { $0.key != "" && $0.value != "" }
             .map { ($0.key, $0.value) }
 
         return Dictionary(uniqueKeysWithValues: fields)

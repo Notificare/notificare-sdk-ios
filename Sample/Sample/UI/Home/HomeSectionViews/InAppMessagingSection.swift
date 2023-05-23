@@ -53,6 +53,10 @@ struct InAppMessagingSection_Previews: PreviewProvider {
     static var previews: some View {
         @State var hasEvaluateContextOn = false
         @State var hasSuppressedOn = false
-        InAppMessagingSection(hasEvaluateContextOn: $hasEvaluateContextOn, hasSuppressedOn: $hasSuppressedOn, updateSuppressedIamStatus: { _ in })
+        InAppMessagingSection(
+            hasEvaluateContextOn: $hasEvaluateContextOn,
+            hasSuppressedOn: $hasSuppressedOn,
+            updateSuppressedIamStatus: { _ in }
+        )
     }
 }

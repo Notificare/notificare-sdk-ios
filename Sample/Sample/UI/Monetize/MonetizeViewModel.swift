@@ -18,7 +18,7 @@ class MonetizeViewModel: ObservableObject {
     }
 
     func purchase(product: NotificareProduct) {
-        Logger.main.info("-----> Purchase \(product.name) clicked <-----")
+        Logger.main.info("Purchase \(product.name) clicked")
         Notificare.shared.monetize().startPurchaseFlow(for: product)
     }
 }

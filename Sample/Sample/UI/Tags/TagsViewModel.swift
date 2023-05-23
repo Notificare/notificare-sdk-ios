@@ -11,10 +11,10 @@ private let DEFAULT_TAGS = ["Kotlin", "Java", "Swift"]
 
 @MainActor
 class TagsViewModel: ObservableObject {
-    @Published private(set) var viewState: ViewState = .idle
-    @Published private(set) var deviceTags: [String] = []
     @Published var selectableTags = [SelectableTag]()
     @Published var input = ""
+    @Published private(set) var viewState: ViewState = .idle
+    @Published private(set) var deviceTags: [String] = []
     @Published private(set) var userMessages: [UserMessage] = []
 
     init() {
@@ -39,7 +39,6 @@ class TagsViewModel: ObservableObject {
 
             deviceTags = tags
             viewState = .success
-
 
             userMessages.append(
                 UserMessage(variant: .fetchTagsSuccess)

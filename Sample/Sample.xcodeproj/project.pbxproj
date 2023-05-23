@@ -344,7 +344,6 @@
 		E5590DFF29C32056006E593B /* Inbox */ = {
 			isa = PBXGroup;
 			children = (
-				E5590E3A29C8A93D006E593B /* AsyncImageCompat */,
 				E5590E0029C321DE006E593B /* InboxView.swift */,
 				E5590E0229C32415006E593B /* InboxViewModel.swift */,
 				E5590E0729C334C7006E593B /* InboxItemView.swift */,
@@ -429,7 +428,6 @@
 		E5C78F0329BB98D7006BF1F6 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				E51FD35329D336A7000897D9 /* Badge */,
 				E5C78EFA29BB6D71006BF1F6 /* HomeSectionViews */,
 				E5C78EF829BB57D7006BF1F6 /* HomeView.swift */,
 				E5C78F0429BB9A37006BF1F6 /* HomeViewModel.swift */,
@@ -505,6 +503,8 @@
 		F29F82A32A0E5D8B00B327D8 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				E5590E3A29C8A93D006E593B /* AsyncImageCompat */,
+				E51FD35329D336A7000897D9 /* Badge */,
 				E5590DFD29C2310F006E593B /* SelectableChipView.swift */,
 			);
 			path = Components;

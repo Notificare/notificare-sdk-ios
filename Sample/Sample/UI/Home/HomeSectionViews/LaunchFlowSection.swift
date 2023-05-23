@@ -14,17 +14,23 @@ struct LaunchFlowSection: View {
         Section {
             HStack {
                 Text(String(localized: "home_configured"))
+
                 Text(String(localized: "sdk"))
                     .font(.caption2)
+
                 Spacer()
+
                 Text(String(isConfigured))
             }
 
             HStack {
                 Text(String(localized: "home_ready"))
+
                 Text(String(localized: "sdk"))
                     .font(.caption2)
+
                 Spacer()
+
                 Text(String(isReady))
             }
 
@@ -44,7 +50,6 @@ struct LaunchFlowSection: View {
                 .buttonStyle(BorderlessButtonStyle())
                 .frame(maxWidth: .infinity)
                 .disabled(isReady)
-
             }
         } header: {
             Text(String(localized: "home_launch_flow"))
@@ -54,6 +59,11 @@ struct LaunchFlowSection: View {
 
 struct LaunchFlowSection_Previews: PreviewProvider {
     static var previews: some View {
-        LaunchFlowSection(isReady: false, isConfigured: false, launch: {}, unlaunch: {})
+        LaunchFlowSection(
+            isReady: false,
+            isConfigured: false,
+            launch: {},
+            unlaunch: {}
+        )
     }
 }

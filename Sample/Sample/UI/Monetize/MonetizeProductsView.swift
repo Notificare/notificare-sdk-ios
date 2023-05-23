@@ -2,8 +2,8 @@
 // Copyright (c) 2023 Notificare. All rights reserved.
 //
 
-import SwiftUI
 import NotificareMonetizeKit
+import SwiftUI
 
 struct MonetizeProductsView: View {
     let products: [NotificareProduct]
@@ -18,32 +18,14 @@ struct MonetizeProductsView: View {
             } else {
                 ForEach(products) { product in
                     Section {
-                        HStack {
-                            Text(String(localized: "monetize_product_id"))
-                            Spacer()
-                            Text(product.id)
-                        }
+                        ProductDetailsFieldView(key: String(localized: "monetize_product_id"), value: product.id)
+                        ProductDetailsFieldView(key: String(localized: "monetize_product_name"), value: product.name)
+                        ProductDetailsFieldView(key: String(localized: "monetize_product_type"), value: product.type)
 
-                        HStack {
-                            Text(String(localized: "monetize_product_name"))
-                            Spacer()
-                            Text(product.name)
-                        }
-
-                        HStack {
-                            Text(String(localized: "monetize_product_type"))
-                            Spacer()
-                            Text(product.type)
-                        }
-
-                        HStack {
-                            Text(String(localized: "monetize_product_price"))
-                            Spacer()
-                            if let price = product.storeDetails?.price {
-                                Text(String(price))
-                            } else {
-                                Text("-")
-                            }
+                        if let price = product.storeDetails?.price {
+                            ProductDetailsFieldView(key: String(localized: "monetize_product_price"), value: String(price))
+                        } else {
+                            ProductDetailsFieldView(key: String(localized: "monetize_product_price"), value: nil)
                         }
 
                         Button(String(localized: "monetize_buy")) {
@@ -53,6 +35,25 @@ struct MonetizeProductsView: View {
                     }
                 }
             }
+        }
+    }
+}
+
+private struct ProductDetailsFieldView: View {
+    let key: String
+    let value: String?
+
+    var body: some View {
+        HStack {
+            Text(key)
+                .padding(.trailing)
+
+            Spacer()
+
+            Text(value ?? "-")
+                .lineLimit(1)
+                .truncationMode(.head)
+                .foregroundColor(Color.gray)
         }
     }
 }

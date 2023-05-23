@@ -2,8 +2,8 @@
 // Copyright (c) 2023 Notificare. All rights reserved.
 //
 
-import SwiftUI
 import NotificareKit
+import SwiftUI
 
 struct DoNotDisturbSection: View {
     @Binding var hasDndEnabled: Bool
@@ -60,6 +60,12 @@ struct DoNotDisturbSection_Previews: PreviewProvider {
         @State var hasDndEnabled = false
         @State var startTime = NotificareTime.defaultStart.date
         @State var endTime = NotificareTime.defaultEnd.date
-        DoNotDisturbSection(hasDndEnabled: $hasDndEnabled, startTime: $startTime, endTime: $endTime, updateDndStatus: { _ in }, updateDndTime: {})
+        DoNotDisturbSection(
+            hasDndEnabled: $hasDndEnabled,
+            startTime: $startTime,
+            endTime: $endTime,
+            updateDndStatus: { _ in },
+            updateDndTime: {}
+        )
     }
 }

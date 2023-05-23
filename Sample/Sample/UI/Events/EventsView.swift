@@ -6,7 +6,7 @@ import SwiftUI
 
 struct EventsView: View {
     @StateObject private var viewModel = EventsViewModel()
-    
+
     var body: some View {
         List {
             Section {
@@ -30,14 +30,14 @@ struct EventsView: View {
                 }
             }
 
-            ZStack(alignment: .center) {
+            ZStack {
                 switch viewModel.viewState {
                 case .idle:
                     EmptyView()
-                    
+
                 case .loading:
                     ProgressView()
-                    
+
                 case .success:
                     Label {
                         Text(String(localized: "event_registered"))
@@ -45,7 +45,7 @@ struct EventsView: View {
                         Image(systemName: "checkmark")
                             .foregroundColor(.green)
                     }
-                    
+
                 case .failure:
                     Label {
                         Text(String(localized: "error_message_events_register"))
@@ -60,25 +60,24 @@ struct EventsView: View {
         }
         .navigationTitle(String(localized: "events_title"))
         .navigationBarTitleDisplayMode(.inline)
-        .navigationBarItems(
-            trailing:
-                Button(action: viewModel.addEventField) {
-                    HStack(alignment: .top) {
-                        Text(String(localized: "event_add_field"))
-                    }
+        .toolbar {
+            ToolbarItemGroup(placement: .navigationBarTrailing) {
+                Button(String(localized: "event_add_field")) {
+                    viewModel.addEventField()
                 }
-        )
+            }
+        }
     }
 }
 
 private struct EventFieldView: View {
     @Binding var field: EventField
-    
+
     var body: some View {
         HStack {
             TextField(String(localized: "event_key"), text: $field.key)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
-            
+
             TextField(String(localized: "event_value"), text: $field.value)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
         }

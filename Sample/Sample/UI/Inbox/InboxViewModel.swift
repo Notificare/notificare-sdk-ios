@@ -36,7 +36,7 @@ class InboxViewModel: ObservableObject {
     }
 
     func presentInboxItem(_ item: NotificareInboxItem) {
-        Logger.main.info("-----> Inbox item clicked <-----")
+        Logger.main.info("Inbox item clicked")
         Task {
             do {
                 let notification = try await Notificare.shared.inbox().open(item)
@@ -46,7 +46,7 @@ class InboxViewModel: ObservableObject {
                     UserMessage(variant: .presentItemSuccess)
                 )
             } catch {
-                Logger.main.error("Failed to open an inbox item. \(error.localizedDescription)")
+                Logger.main.error("Failed to open an inbox item. \(error)")
 
                 userMessages.append(
                     UserMessage(variant: .presentItemFailure(error: error))
@@ -56,7 +56,7 @@ class InboxViewModel: ObservableObject {
     }
 
     func markItemAsRead(_ item: NotificareInboxItem) {
-        Logger.main.info("-----> Mark as read clicked <-----")
+        Logger.main.info("Mark as read clicked")
         Task {
             do {
                 try await Notificare.shared.inbox().markAsRead(item)
@@ -65,7 +65,7 @@ class InboxViewModel: ObservableObject {
                     UserMessage(variant: .markItemAsReadSuccess)
                 )
             } catch {
-                Logger.main.error("Failed to mark an item as read. \(error.localizedDescription)")
+                Logger.main.error("Failed to mark an item as read. \(error)")
 
                 userMessages.append(
                     UserMessage(variant: .markItemAsReadFailure(error: error))
@@ -75,7 +75,7 @@ class InboxViewModel: ObservableObject {
     }
 
     func markAllItemsAsRead() {
-        Logger.main.info("-----> Mark all as read clicked <-----")
+        Logger.main.info("Mark all as read clicked")
         Task {
             do {
                 try await Notificare.shared.inbox().markAllAsRead()
@@ -84,7 +84,7 @@ class InboxViewModel: ObservableObject {
                     UserMessage(variant: .markAllItemsAsReadSuccess)
                 )
             } catch {
-                Logger.main.error("Failed to mark all item as read. \(error.localizedDescription)")
+                Logger.main.error("Failed to mark all item as read. \(error)")
 
                 userMessages.append(
                     UserMessage(variant: .markAllItemsAsReadFailure(error: error))
@@ -94,7 +94,7 @@ class InboxViewModel: ObservableObject {
     }
 
     func removeItem(_ item: NotificareInboxItem) {
-        Logger.main.info("-----> Remove inbox item clicked <-----")
+        Logger.main.info("Remove inbox item clicked")
         Task {
             do {
                 try await Notificare.shared.inbox().remove(item)
@@ -103,7 +103,7 @@ class InboxViewModel: ObservableObject {
                     UserMessage(variant: .removeItemSuccess)
                 )
             } catch {
-                Logger.main.error("Failed to remove an item. \(error.localizedDescription)")
+                Logger.main.error("Failed to remove an item. \(error)")
 
                 userMessages.append(
                     UserMessage(variant: .removeItemFailure(error: error))
@@ -113,7 +113,7 @@ class InboxViewModel: ObservableObject {
     }
 
     func clearItems() {
-        Logger.main.info("-----> Clear inbox clicked <-----")
+        Logger.main.info("Clear inbox clicked")
 
         Task {
             do {
@@ -123,7 +123,7 @@ class InboxViewModel: ObservableObject {
                     UserMessage(variant: .clearItemsSuccess)
                 )
             } catch {
-                Logger.main.error("Failed to clear the inbox. \(error.localizedDescription)")
+                Logger.main.error("Failed to clear the inbox. \(error)")
 
                 userMessages.append(
                     UserMessage(variant: .clearItemsFailure(error: error))
