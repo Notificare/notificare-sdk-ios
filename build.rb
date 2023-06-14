@@ -141,6 +141,7 @@ class Xcode
           -scheme #{framework.scheme} \\
           -archivePath ".build/archives/#{framework.scheme}-iOS.xcarchive" \\
           -destination "generic/platform=iOS" \\
+          -configuration Release \\
           -sdk iphoneos \\
           -quiet \\
           SKIP_INSTALL=NO \\
@@ -157,6 +158,7 @@ class Xcode
           -scheme #{framework.scheme} \\
           -archivePath ".build/archives/#{framework.scheme}-iOS-simulator.xcarchive" \\
           -destination "generic/platform=iOS Simulator" \\
+          -configuration Release \\
           -sdk iphonesimulator \\
           -quiet \\
           SKIP_INSTALL=NO \\
