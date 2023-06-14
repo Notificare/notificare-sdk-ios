@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## Upcoming release
+
+- Improve supported deep links validation
+
 ## 3.5.2
 
 - Emit the `didChangeNotificationSettings` event when disabling remote notifications
