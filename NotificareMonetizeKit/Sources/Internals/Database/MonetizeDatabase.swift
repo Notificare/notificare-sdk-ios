@@ -25,4 +25,11 @@ internal class MonetizeDatabase: NotificareAbstractDatabase {
 
         return result
     }
+
+    internal func clear() throws {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "PurchaseEntity")
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+
+        try persistentContainer.persistentStoreCoordinator.execute(deleteRequest, with: context)
+    }
 }
