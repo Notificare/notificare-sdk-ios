@@ -170,29 +170,29 @@ public class Notificare {
 
         NotificareLogger.info("Un-launching Notificare.")
 
-        deviceImplementation().registerTemporary { result in
-            switch result {
-            case .success:
-                NotificareLogger.debug("Registered device as temporary.")
+        // Loop all possible modules and un-launch the available ones.
+        LaunchSequence(NotificareInternals.Module.allCases.reversed())
+            .run { module, instance, completion in
+                NotificareLogger.debug("Un-launching module: \(module)")
+                instance.unlaunch { result in
+                    if case let .failure(error) = result {
+                        NotificareLogger.debug("Failed to un-launch '\(module)'.", error: error)
+                    }
 
-                // Loop all possible modules and un-launch the available ones.
-                LaunchSequence(NotificareInternals.Module.allCases.reversed())
-                    .run { module, instance, completion in
-                        NotificareLogger.debug("Un-launching module: \(module)")
-                        instance.unlaunch { result in
-                            if case let .failure(error) = result {
-                                NotificareLogger.debug("Failed to un-launch '\(module)'.", error: error)
-                            }
-
-                            completion(result)
-                        }
-                    } onDone: { result in
+                    completion(result)
+                }
+            } onDone: { result in
+                switch result {
+                case .success:
+                    self.device().clearTags { result in
                         switch result {
                         case .success:
-                            self.device().clearTags { result in
+                            NotificareLogger.debug("Removed all device tags.")
+
+                            self.deviceImplementation().registerTemporary { result in
                                 switch result {
                                 case .success:
-                                    NotificareLogger.debug("Removed all device tags.")
+                                    NotificareLogger.debug("Registered device as temporary.")
 
                                     self.deviceImplementation().delete { result in
                                         switch result {
@@ -211,17 +211,17 @@ public class Notificare {
                                         }
                                     }
                                 case let .failure(error):
-                                    NotificareLogger.error("Failed to clear device tags.", error: error)
+                                    NotificareLogger.error("Failed to register temporary device.", error: error)
                                 }
                             }
                         case let .failure(error):
-                            NotificareLogger.error("Failed to un-launch a peer module.", error: error)
+                            NotificareLogger.error("Failed to clear device tags.", error: error)
                         }
                     }
-            case let .failure(error):
-                NotificareLogger.error("Failed to register temporary device.", error: error)
+                case let .failure(error):
+                    NotificareLogger.error("Failed to un-launch a peer module.", error: error)
+                }
             }
-        }
     }
 
     public func fetchApplication(_ completion: @escaping NotificareCallback<NotificareApplication>) {
