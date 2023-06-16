@@ -55,7 +55,22 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
         updateNotificationSettings(completion)
     }
 
-    // TODO: confirm we do not need unlaunch
+    func unlaunch(_ completion: @escaping NotificareCallback<Void>) {
+        // Unregister from APNS
+        UIApplication.shared.unregisterForRemoteNotifications()
+        NotificareLogger.info("Unregistered from APNS.")
+
+        // Reset local storage
+        LocalStorage.remoteNotificationsEnabled = false
+        LocalStorage.allowedUI = false
+        LocalStorage.firstRegistration = true
+
+        DispatchQueue.main.async {
+            self.delegate?.notificare(self, didChangeNotificationSettings: false)
+        }
+
+        completion(.success(()))
+    }
 
     // MARK: Notificare Push Module
 

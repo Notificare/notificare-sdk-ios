@@ -44,6 +44,20 @@ internal class NotificareMonetizeImpl: NSObject, NotificareModule, NotificareMon
         completion(.success(()))
     }
 
+    func unlaunch(_ completion: @escaping NotificareCallback<Void>) {
+        clearLocalPurchases()
+
+        productsMap.removeAll()
+        productDetailsMap.removeAll()
+
+        DispatchQueue.main.async {
+            self.delegate?.notificare(self, didUpdateProducts: self.products)
+            self.delegate?.notificare(self, didUpdatePurchases: self.purchases)
+        }
+
+        completion(.success(()))
+    }
+
     // MARK: Notificare Monetize
 
     weak var delegate: NotificareMonetizeDelegate?
@@ -316,6 +330,15 @@ internal class NotificareMonetizeImpl: NSObject, NotificareModule, NotificareMon
                     completion(.failure(error))
                 }
             }
+    }
+
+    private func clearLocalPurchases() {
+        do {
+            try database.clear()
+            purchaseEntities.removeAll()
+        } catch {
+            NotificareLogger.error("Failed to clear the local purchases.", error: error)
+        }
     }
 }
 

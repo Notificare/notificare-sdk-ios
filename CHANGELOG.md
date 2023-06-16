@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 3.5.3
+
+- Improve supported deep links validation
+- Fix debug symbols search paths
+- Stricter unlaunch flow
+
 ## 3.5.2
 
 - Emit the `didChangeNotificationSettings` event when disabling remote notifications
