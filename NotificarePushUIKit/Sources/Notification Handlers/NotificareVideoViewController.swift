@@ -13,15 +13,6 @@ public class NotificareVideoViewController: NotificareBaseNotificationViewContro
         super.viewDidLoad()
 
         setupWebView()
-        // setupContent()
-    }
-
-    override public func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
-        // NOTE: we're setting up the content when the view loads because,
-        // at the moment, we need the correct height of the safe area.
-        // We should improve the HTML template to be responsive.
         setupContent()
     }
 
@@ -42,10 +33,6 @@ public class NotificareVideoViewController: NotificareBaseNotificationViewContro
         configuration.allowsInlineMediaPlayback = true
         configuration.mediaTypesRequiringUserActionForPlayback = []
 
-        let metaTag = "var meta = document.createElement('meta');meta.name = 'viewport';meta.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';var head = document.getElementsByTagName('head')[0];head.appendChild(meta);"
-        let metaScript = WKUserScript(source: metaTag, injectionTime: .atDocumentEnd, forMainFrameOnly: false)
-        configuration.userContentController.addUserScript(metaScript)
-
         // View setup.
         webView = WKWebView(frame: .zero, configuration: configuration)
         webView.translatesAutoresizingMaskIntoConstraints = false
@@ -59,8 +46,8 @@ public class NotificareVideoViewController: NotificareBaseNotificationViewContro
         NSLayoutConstraint.activate([
             webView.topAnchor.constraint(equalTo: view.ncSafeAreaLayoutGuide.topAnchor),
             webView.bottomAnchor.constraint(equalTo: view.ncSafeAreaLayoutGuide.bottomAnchor),
-            webView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            webView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            webView.leadingAnchor.constraint(equalTo: view.ncSafeAreaLayoutGuide.leadingAnchor),
+            webView.trailingAnchor.constraint(equalTo: view.ncSafeAreaLayoutGuide.trailingAnchor),
         ])
 
         // Clear cache.
@@ -78,28 +65,15 @@ public class NotificareVideoViewController: NotificareBaseNotificationViewContro
             return
         }
 
-        let width = view.ncSafeAreaLayoutGuide.layoutFrame.width
-        let height = view.ncSafeAreaLayoutGuide.layoutFrame.height
-
         switch content.type {
         case "re.notifica.content.YouTube":
-            let htmlTemplate = "<!DOCTYPE html><html><head><style>body{margin:0px 0px 0px 0px;}</style></head> <body> <div id=\"player\"></div> <script> var tag = document.createElement('script'); tag.src = \"https://www.youtube.com/player_api\"; var firstScriptTag = document.getElementsByTagName('script')[0]; firstScriptTag.parentNode.insertBefore(tag, firstScriptTag); var player; function onYouTubePlayerAPIReady() { player = new YT.Player('player', { autoplay: 1, width:'%0.0f', height:'%0.0f', videoId:'%@', events: { 'onReady': onPlayerReady } }); } function onPlayerReady(event) { event.target.playVideo(); } </script> </body> </html>"
-
-            let htmlStr = String(format: htmlTemplate, width, height, content.data as! String)
-            webView.loadHTMLString(htmlStr, baseURL: Bundle.main.resourceURL)
-            NotificareLogger.warning("done loading html")
+            renderYouTubeVideo(content.data as! String)
 
         case "re.notifica.content.Vimeo":
-            let htmlTemplate = "<!DOCTYPE html><html><head><style>body{margin:0px 0px 0px 0px;}</style></head><body><iframe src='https://player.vimeo.com/video/%@?autoplay=1' width='%0.0f' height='%0.0f' frameborder='0' webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></body> </html>"
-
-            let htmlStr = String(format: htmlTemplate, content.data as! String, width, height)
-            webView.loadHTMLString(htmlStr, baseURL: Bundle.main.resourceURL)
+            renderVimeoVideo(content.data as! String)
 
         case "re.notifica.content.HTML5Video":
-            let htmlTemplate = "<!DOCTYPE html><html><head><style>body{margin:0px 0px 0px 0px;}</style></head><body><video id='html5player' width='%0.0f' height='%0.0f' autoplay controls preload><source src='%@' type='video/mp4'></video></body></html>"
-
-            let htmlStr = String(format: htmlTemplate, width, height, content.data as! String)
-            webView.loadHTMLString(htmlStr, baseURL: Bundle.main.resourceURL)
+            renderHtml5Video(content.data as! String)
 
         default:
             DispatchQueue.main.async {
@@ -112,6 +86,118 @@ public class NotificareVideoViewController: NotificareBaseNotificationViewContro
         DispatchQueue.main.async {
             Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didPresentNotification: self.notification)
         }
+    }
+
+    private func renderYouTubeVideo(_ videoId: String) {
+        let html = """
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+          <style>
+            body {
+              margin: 0;
+            }
+
+            #player {
+              width: 100vw;
+              height: 100vh;
+            }
+          </style>
+        </head>
+        <body>
+          <iframe src="https://www.youtube-nocookie.com/embed/\(videoId)?enablejsapi=1"
+                  id="player"
+                  frameborder="0"
+                  webkitallowfullscreen
+                  mozallowfullscreen
+                  allowfullscreen></iframe>
+
+          <script type="text/javascript">
+            var tag = document.createElement('script');
+            tag.src = 'https://www.youtube.com/iframe_api';
+
+            var firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+            var player;
+            function onYouTubeIframeAPIReady() {
+              player = new YT.Player('player', {
+                events: {
+                  'onReady': onPlayerReady,
+                }
+              });
+            }
+
+            function onPlayerReady(event) {
+              event.target.playVideo();
+            }
+          </script>
+        </body>
+        </html>
+        """
+
+        webView.loadHTMLString(html, baseURL: Bundle.main.resourceURL)
+    }
+
+    private func renderVimeoVideo(_ videoId: String) {
+        let html = """
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+          <style>
+            body {
+              margin: 0;
+            }
+
+            #player {
+              width: 100vw;
+              height: 100vh;
+            }
+          </style>
+        </head>
+        <body>
+          <iframe src="https://player.vimeo.com/video/\(videoId)?autoplay=1"
+                  id="player"
+                  frameborder="0"
+                  webkitallowfullscreen
+                  mozallowfullscreen
+                  allowfullscreen
+          ></iframe>
+        </body>
+        </html>
+        """
+
+        webView.loadHTMLString(html, baseURL: Bundle.main.resourceURL)
+    }
+
+    private func renderHtml5Video(_ videoSource: String) {
+        let html = """
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+          <style>
+            body {
+              margin: 0;
+            }
+
+            #player {
+              width: 100vw;
+              height: 100vh;
+            }
+          </style>
+        </head>
+        <body>
+          <video id="player" autoplay controls preload>
+            <source src="\(videoSource)" type="video/mp4">
+          </video>
+        </body>
+        </html>
+        """
+
+        webView.loadHTMLString(html, baseURL: Bundle.main.resourceURL)
     }
 }
 

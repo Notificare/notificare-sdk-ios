@@ -96,8 +96,6 @@
 		F2EB435229350B3700AFDBD3 /* WidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = F2EB434329350B3600AFDBD3 /* WidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		F2F41D7825CD651D0010260B /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F41D7725CD651D0010260B /* NotificationService.swift */; };
 		F2F41D7C25CD651D0010260B /* NotificationService.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = F2F41D7525CD651D0010260B /* NotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		F2F697CC26B9541D00AB663E /* NotificareAuthenticationKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2F697CB26B9541D00AB663E /* NotificareAuthenticationKit.framework */; };
-		F2F697CD26B9541D00AB663E /* NotificareAuthenticationKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F2F697CB26B9541D00AB663E /* NotificareAuthenticationKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F2FB40DC27BE891700CD9792 /* NotificareNotificationServiceExtensionKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F28B88C5278F38E800549CA3 /* NotificareNotificationServiceExtensionKit.framework */; };
 /* End PBXBuildFile section */
 
@@ -132,16 +130,26 @@
 				F216F0B426A8265500F9EF56 /* NotificareLoyaltyKit.framework in Embed Frameworks */,
 				F2ABF34B269CA32500401D3F /* NotificareAssetsKit.framework in Embed Frameworks */,
 				F20C9C3B27AD33DB00486217 /* NotificareNotificationServiceExtensionKit.framework in Embed Frameworks */,
-				F2F697CD26B9541D00AB663E /* NotificareAuthenticationKit.framework in Embed Frameworks */,
 				F2EA0724291E9C63009DB7A0 /* NotificareUserInboxKit.framework in Embed Frameworks */,
 				F22443D8286CBDED0015CBD6 /* NotificareMonetizeKit.framework in Embed Frameworks */,
 				F22650CB258B6E900004F833 /* NotificarePushKit.framework in Embed Frameworks */,
 				F2E801D7269D93C300582DB8 /* NotificareScannablesKit.framework in Embed Frameworks */,
 				F206D6EA28A5366300A35E60 /* NotificareInAppMessagingKit.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
+            );
+            name = "Embed Frameworks";
+            runOnlyForDeploymentPostprocessing = 0;
+        };
+        F29ECB712A0546A1001961B0 /* Embed Frameworks */ = {
+            isa = PBXCopyFilesBuildPhase;
+            buildActionMask = 2147483647;
+            dstPath = "";
+            dstSubfolderSpec = 10;
+            files = (
+                F29ECB702A0546A1001961B0 /* NotificareNotificationServiceExtensionKit.framework in Embed Frameworks */,
+            );
+            name = "Embed Frameworks";
+            runOnlyForDeploymentPostprocessing = 0;
+        };
 		F2F41D8025CD651D0010260B /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -250,8 +258,6 @@
 		F2F41D7525CD651D0010260B /* NotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2F41D7725CD651D0010260B /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		F2F41D7925CD651D0010260B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F2F697B926B9432D00AB663E /* NotificareAuthentication.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareAuthentication.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F2F697CB26B9541D00AB663E /* NotificareAuthenticationKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareAuthenticationKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -260,7 +266,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F2E801D6269D93C300582DB8 /* NotificareScannablesKit.framework in Frameworks */,
-				F2F697CC26B9541D00AB663E /* NotificareAuthenticationKit.framework in Frameworks */,
 				F289F56525B85EC20091AB97 /* NotificareInboxKit.framework in Frameworks */,
 				F25B6DCD25CAC67E007BC2C8 /* SDWebImage in Frameworks */,
 				F20C9C3A27AD33DB00486217 /* NotificareNotificationServiceExtensionKit.framework in Frameworks */,
@@ -446,7 +451,6 @@
 				F20C9C3927AD33DB00486217 /* NotificareNotificationServiceExtensionKit.framework */,
 				F28B88C5278F38E800549CA3 /* NotificareNotificationServiceExtensionKit.framework */,
 				F2696AAB26C2843F002EA653 /* NotificareGeoKit.framework */,
-				F2F697CB26B9541D00AB663E /* NotificareAuthenticationKit.framework */,
 				F2F697B926B9432D00AB663E /* NotificareAuthentication.framework */,
 				F216F0B226A8265500F9EF56 /* NotificareLoyaltyKit.framework */,
 				F2E801D5269D93C300582DB8 /* NotificareScannablesKit.framework */,
@@ -625,6 +629,7 @@
 				F2F41D7125CD651D0010260B /* Sources */,
 				F2F41D7225CD651D0010260B /* Frameworks */,
 				F2F41D7325CD651D0010260B /* Resources */,
+				F29ECB712A0546A1001961B0 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -641,6 +646,7 @@
 		F29FD1EC24CB1FE1004B166D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1410;
 				LastUpgradeCheck = 1410;
 				ORGANIZATIONNAME = Notificare;

@@ -8,9 +8,6 @@
       location = "group:NotificareAssetsKit/NotificareAssetsKit.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:NotificareAuthenticationKit/NotificareAuthenticationKit.xcodeproj">
-   </FileRef>
-   <FileRef
       location = "group:NotificareGeoKit/NotificareGeoKit.xcodeproj">
    </FileRef>
    <FileRef

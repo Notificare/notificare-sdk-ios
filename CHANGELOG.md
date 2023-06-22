@@ -1,5 +1,29 @@
 # CHANGELOG
 
+## 3.5.3
+
+- Improve supported deep links validation
+- Fix debug symbols search paths
+- Stricter unlaunch flow
+
+## 3.5.2
+
+- Emit the `didChangeNotificationSettings` event when disabling remote notifications
+- Add opt-in flag to prevent file access restrictions for Core Data
+- Prevent push registration race condition when enabling remote notifications
+- Correctly track device on initial application open event
+
+## 3.5.1
+
+- Improved auto-config mechanism
+- Improved action categories parsing
+- Fix user validation request
+- Fix cached language when the network request fails
+- Include debug symbols in the distributed frameworks
+- Fix store notification required view controller flag
+- Fix main-thread warning on device registration
+- Use YouTube privacy-enhanced mode
+
 ## 3.5.0
 
 #### Important changes since 3.4.2

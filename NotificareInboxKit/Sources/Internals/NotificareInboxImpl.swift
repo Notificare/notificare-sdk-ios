@@ -114,7 +114,28 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
 
     func unlaunch(_ completion: @escaping NotificareCallback<Void>) {
         clearLocalInbox()
-        completion(.success(()))
+        clearNotificationCenter()
+
+        clearRemoteInbox { result in
+            switch result {
+            case .success:
+                DispatchQueue.main.async {
+                    self.delegate?.notificare(self, didUpdateInbox: self.items)
+                }
+
+                self.refreshBadge { result in
+                    switch result {
+                    case .success:
+                        completion(.success(()))
+
+                    case let .failure(error):
+                        completion(.failure(error))
+                    }
+                }
+            case let .failure(error):
+                completion(.failure(error))
+            }
+        }
     }
 
     // MARK: - Notificare Inbox
@@ -605,6 +626,24 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
                 NotificareLogger.error("Failed to fetch inbox items.", error: error)
             }
         }
+    }
+
+    private func clearRemoteInbox(_ completion: @escaping NotificareCallback<Void>) {
+        guard let device = Notificare.shared.device().currentDevice else {
+            completion(.failure(NotificareError.deviceUnavailable))
+            return
+        }
+
+        NotificareRequest.Builder()
+            .delete("/notification/inbox/fordevice/\(device.id)")
+            .response { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
     }
 
     // MARK: - NotificationCenter events

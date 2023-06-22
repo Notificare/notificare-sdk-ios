@@ -74,6 +74,17 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
                                                object: nil)
     }
 
+    func unlaunch(_ completion: @escaping NotificareCallback<Void>) {
+        LocalStorage.locationServicesEnabled = false
+
+        stopMonitoringGeofences()
+        stopMonitoringLocationUpdates()
+
+        clearDeviceLocation { result in
+            completion(result)
+        }
+    }
+
     // MARK: - Notificare Geo
 
     public weak var delegate: NotificareGeoDelegate?
@@ -133,21 +144,6 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
         // Keep track of the location services status.
         LocalStorage.locationServicesEnabled = false
 
-        // Stop any location updates
-        locationManager.stopUpdatingLocation()
-        locationManager.stopMonitoringSignificantLocationChanges()
-
-        if Notificare.shared.options?.visitsApiEnabled == true {
-            NotificareLogger.debug("Stopped monitoring visits.")
-            locationManager.stopMonitoringVisits()
-        }
-
-        if Notificare.shared.options?.headingApiEnabled == true {
-            NotificareLogger.debug("Stopped updating heading.")
-            locationManager.stopUpdatingHeading()
-        }
-
-        // This should remove all the regions, beacons and device location.
         handleLocationServicesUnauthorized()
 
         NotificareLogger.info("Location updates disabled.")
@@ -188,37 +184,10 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
     }
 
     private func handleLocationServicesUnauthorized() {
-        guard let device = Notificare.shared.device().currentDevice else {
-            NotificareLogger.warning("Cannot update location authorization state without a device.")
-            return
-        }
+        stopMonitoringGeofences()
+        stopMonitoringLocationUpdates()
 
-        clearRegions()
-        clearBeacons()
-
-        let payload = NotificareInternals.PushAPI.Payloads.UpdateDeviceLocation(
-            latitude: nil,
-            longitude: nil,
-            altitude: nil,
-            locationAccuracy: nil,
-            speed: nil,
-            course: nil,
-            country: nil,
-            floor: nil,
-            locationServicesAuthStatus: nil,
-            locationServicesAccuracyAuth: nil
-        )
-
-        NotificareRequest.Builder()
-            .put("/device/\(device.id)", body: payload)
-            .response { result in
-                switch result {
-                case .success:
-                    NotificareLogger.debug("Device location cleared.")
-                case let .failure(error):
-                    NotificareLogger.error("Failed to clear the device location.", error: error)
-                }
-            }
+        clearDeviceLocation { _ in }
     }
 
     private func handleLocationServicesAuthorized(monitorSignificantLocationChanges: Bool) {
@@ -381,6 +350,60 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
             // Check if we are inside this region.
             locationManager.requestState(for: clr)
         }
+    }
+
+    private func stopMonitoringLocationUpdates() {
+        locationManager.stopUpdatingLocation()
+        locationManager.stopMonitoringSignificantLocationChanges()
+
+        if Notificare.shared.options?.visitsApiEnabled == true {
+            NotificareLogger.debug("Stopped monitoring visits.")
+            locationManager.stopMonitoringVisits()
+        }
+
+        if Notificare.shared.options?.headingApiEnabled == true {
+            NotificareLogger.debug("Stopped updating heading.")
+            locationManager.stopUpdatingHeading()
+        }
+    }
+
+    private func stopMonitoringGeofences() {
+        clearRegions()
+        clearBeacons()
+    }
+
+    private func clearDeviceLocation(_ completion: @escaping NotificareCallback<Void>) {
+        guard let device = Notificare.shared.device().currentDevice else {
+            NotificareLogger.warning("Cannot update location authorization state without a device.")
+            completion(.failure(NotificareError.deviceUnavailable))
+            return
+        }
+
+        let payload = NotificareInternals.PushAPI.Payloads.UpdateDeviceLocation(
+            latitude: nil,
+            longitude: nil,
+            altitude: nil,
+            locationAccuracy: nil,
+            speed: nil,
+            course: nil,
+            country: nil,
+            floor: nil,
+            locationServicesAuthStatus: nil,
+            locationServicesAccuracyAuth: nil
+        )
+
+        NotificareRequest.Builder()
+            .put("/device/\(device.id)", body: payload)
+            .response { result in
+                switch result {
+                case .success:
+                    NotificareLogger.debug("Device location cleared.")
+                    completion(.success(()))
+                case let .failure(error):
+                    NotificareLogger.error("Failed to clear the device location.", error: error)
+                    completion(.failure(error))
+                }
+            }
     }
 
     private func clearRegions() {
@@ -1119,8 +1142,7 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
 
         if manager.accuracyAuthorization == .reducedAccuracy {
             NotificareLogger.debug("Location accuracy authorization set to reduced. Removing regions and beacons.")
-            clearRegions()
-            clearBeacons()
+            stopMonitoringGeofences()
         }
     }
 

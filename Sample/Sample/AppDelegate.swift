@@ -5,7 +5,6 @@
 import ActivityKit
 import CoreLocation
 import Foundation
-import NotificareAuthenticationKit
 import NotificareGeoKit
 import NotificareInAppMessagingKit
 import NotificareInboxKit
@@ -57,6 +56,27 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
     func application(_: UIApplication, didFailToRegisterForRemoteNotificationsWithError _: Error) {}
 
+    func application(_: UIApplication, open url: URL, options _: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
+        if Notificare.shared.handleTestDeviceUrl(url) || Notificare.shared.handleDynamicLinkUrl(url) {
+            return true
+        }
+
+        Logger.main.info("Received deep link: \(url.absoluteString).")
+        return true
+    }
+
+    func application(_: UIApplication, continue userActivity: NSUserActivity, restorationHandler _: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+        guard let url = userActivity.webpageURL else {
+            return false
+        }
+
+        if Notificare.shared.handleTestDeviceUrl(url) {
+            return true
+        }
+
+        return Notificare.shared.handleDynamicLinkUrl(url)
+    }
+
     func application(_: UIApplication, didReceiveRemoteNotification _: [AnyHashable: Any], fetchCompletionHandler _: @escaping (UIBackgroundFetchResult) -> Void) {}
 }
 
@@ -99,8 +119,8 @@ extension AppDelegate: NotificarePushDelegate {
         Logger.main.error("Notificare: failed to register for remote notifications: \(error)")
     }
 
-    func notificare(_: NotificarePush, didChangeNotificationSettings granted: Bool) {
-        Logger.main.info("Notificare: notification settings changed: \(granted)")
+    func notificare(_: NotificarePush, didChangeNotificationSettings allowedUI: Bool) {
+        Logger.main.info("Notificare: notification settings changed: \(allowedUI)")
 
         NotificationCenter.default.post(
             name: .notificationSettingsChanged,

@@ -32,16 +32,25 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
 
     func launch(_ completion: @escaping NotificareCallback<Void>) {
         if let device = currentDevice {
-            if device.appVersion != NotificareUtils.applicationVersion {
-                // It's not the same version, let's log it as an upgrade.
-                NotificareLogger.debug("New version detected")
-                Notificare.shared.eventsImplementation().logApplicationUpgrade { _ in }
-            }
-
             register(transport: device.transport, token: device.id, userId: device.userId, userName: device.userName) { result in
                 switch result {
                 case .success:
-                    completion(.success(()))
+                    Notificare.shared.session().launch { result in
+                        switch result {
+                        case .success:
+                            if device.appVersion != NotificareUtils.applicationVersion {
+                                // It's not the same version, let's log it as an upgrade.
+                                NotificareLogger.debug("New version detected")
+                                Notificare.shared.eventsImplementation().logApplicationUpgrade { _ in }
+                            }
+
+                            completion(.success(()))
+
+                        case let .failure(error):
+                            NotificareLogger.debug("Failed to launch the session module.", error: error)
+                            completion(.failure(error))
+                        }
+                    }
                 case let .failure(error):
                     NotificareLogger.warning("Failed to register device.", error: error)
                     completion(.failure(error))
@@ -50,17 +59,23 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         } else {
             NotificareLogger.debug("New install detected")
 
-            // Let's logout the user in case there's an account in the keychain
-            // TODO: [[NotificareAuth shared] logoutAccount]
-
             registerTemporary { result in
                 switch result {
                 case .success:
-                    // We will log the Install & Registration events here since this will execute only one time at the start.
-                    Notificare.shared.eventsImplementation().logApplicationInstall { _ in }
-                    Notificare.shared.eventsImplementation().logApplicationRegistration { _ in }
+                    Notificare.shared.session().launch { result in
+                        switch result {
+                        case .success:
+                            // We will log the Install & Registration events here since this will execute only one time at the start.
+                            Notificare.shared.eventsImplementation().logApplicationInstall { _ in }
+                            Notificare.shared.eventsImplementation().logApplicationRegistration { _ in }
 
-                    completion(.success(()))
+                            completion(.success(()))
+
+                        case let .failure(error):
+                            NotificareLogger.debug("Failed to launch the session module.", error: error)
+                            completion(.failure(error))
+                        }
+                    }
                 case let .failure(error):
                     NotificareLogger.warning("Failed to register temporary device.", error: error)
                     completion(.failure(error))
@@ -139,24 +154,27 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
                 return
             }
 
-            LocalStorage.preferredLanguage = language
-            LocalStorage.preferredRegion = region
-
-            updateLanguage { result in
+            updateLanguage(language, region: region) { result in
                 switch result {
                 case .success:
+                    LocalStorage.preferredLanguage = language
+                    LocalStorage.preferredRegion = region
+
                     completion(.success(()))
                 case let .failure(error):
                     completion(.failure(error))
                 }
             }
         } else {
-            LocalStorage.preferredLanguage = nil
-            LocalStorage.preferredRegion = nil
+            let language = NotificareUtils.deviceLanguage
+            let region = NotificareUtils.deviceRegion
 
-            updateLanguage { result in
+            updateLanguage(language, region: region) { result in
                 switch result {
                 case .success:
+                    LocalStorage.preferredLanguage = nil
+                    LocalStorage.preferredRegion = nil
+
                     completion(.success(()))
                 case let .failure(error):
                     completion(.failure(error))
@@ -521,8 +539,8 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         }
 
         let payload = NotificareInternals.PushAPI.Payloads.Device.UpdateTimeZone(
-            language: getLanguage(),
-            region: getRegion(),
+            language: getDeviceLanguage(),
+            region: getDeviceRegion(),
             timeZoneOffset: NotificareUtils.timeZoneOffset
         )
 
@@ -541,15 +559,15 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
             }
     }
 
-    internal func updateLanguage(_ completion: @escaping NotificareCallback<Void>) {
+    internal func updateLanguage(_ language: String, region: String, _ completion: @escaping NotificareCallback<Void>) {
         guard Notificare.shared.isReady, let device = currentDevice else {
             completion(.failure(NotificareError.notReady))
             return
         }
 
         let payload = NotificareInternals.PushAPI.Payloads.Device.UpdateLanguage(
-            language: getLanguage(),
-            region: getRegion()
+            language: language,
+            region: region
         )
 
         NotificareRequest.Builder()
@@ -575,8 +593,8 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         }
 
         let payload = NotificareInternals.PushAPI.Payloads.Device.UpdateBackgroundAppRefresh(
-            language: getLanguage(),
-            region: getRegion(),
+            language: getDeviceLanguage(),
+            region: getDeviceRegion(),
             backgroundAppRefresh: UIApplication.shared.backgroundRefreshStatus == .available
         )
 
@@ -597,50 +615,53 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
 
     private func register(transport: NotificareTransport, token: String, userId: String?, userName: String?, _ completion: @escaping NotificareCallback<Void>) {
         if registrationChanged(token: token, userId: userId, userName: userName) {
-            let oldDeviceId = currentDevice?.id != nil && currentDevice?.id != token ? currentDevice?.id : nil
+            // NOTE: the backgroundRefreshStatus will print a warning when accessed from background threads.
+            DispatchQueue.main.async {
+                let oldDeviceId = self.currentDevice?.id != nil && self.currentDevice?.id != token ? self.currentDevice?.id : nil
 
-            let deviceRegistration = NotificareInternals.PushAPI.Payloads.Device.Registration(
-                deviceID: token,
-                oldDeviceID: oldDeviceId,
-                userID: userId,
-                userName: userName,
-                language: getLanguage(),
-                region: getRegion(),
-                platform: "iOS",
-                transport: transport,
-                osVersion: NotificareUtils.osVersion,
-                sdkVersion: Notificare.SDK_VERSION,
-                appVersion: NotificareUtils.applicationVersion,
-                deviceString: NotificareUtils.deviceString,
-                timeZoneOffset: NotificareUtils.timeZoneOffset,
-                backgroundAppRefresh: UIApplication.shared.backgroundRefreshStatus == .available,
+                let deviceRegistration = NotificareInternals.PushAPI.Payloads.Device.Registration(
+                    deviceID: token,
+                    oldDeviceID: oldDeviceId,
+                    userID: userId,
+                    userName: userName,
+                    language: self.getDeviceLanguage(),
+                    region: self.getDeviceRegion(),
+                    platform: "iOS",
+                    transport: transport,
+                    osVersion: NotificareUtils.osVersion,
+                    sdkVersion: Notificare.SDK_VERSION,
+                    appVersion: NotificareUtils.applicationVersion,
+                    deviceString: NotificareUtils.deviceString,
+                    timeZoneOffset: NotificareUtils.timeZoneOffset,
+                    backgroundAppRefresh: UIApplication.shared.backgroundRefreshStatus == .available,
 
-                // Submit a value when registering a temporary to prevent
-                // otherwise let the push module take over and update the setting accordingly.
-                allowedUI: transport == .notificare ? false : nil
-            )
+                    // Submit a value when registering a temporary to prevent
+                    // otherwise let the push module take over and update the setting accordingly.
+                    allowedUI: transport == .notificare ? false : nil
+                )
 
-            NotificareRequest.Builder()
-                .post("/device", body: deviceRegistration)
-                .response { result in
-                    switch result {
-                    case .success:
-                        let device = NotificareDevice(from: deviceRegistration, previous: self.currentDevice)
+                NotificareRequest.Builder()
+                    .post("/device", body: deviceRegistration)
+                    .response { result in
+                        switch result {
+                        case .success:
+                            let device = NotificareDevice(from: deviceRegistration, previous: self.currentDevice)
 
-                        // Update and store the cached device.
-                        self.currentDevice = device
+                            // Update and store the cached device.
+                            self.currentDevice = device
 
-                        DispatchQueue.main.async {
-                            // Notify delegate.
-                            Notificare.shared.delegate?.notificare(Notificare.shared, didRegisterDevice: device)
+                            DispatchQueue.main.async {
+                                // Notify delegate.
+                                Notificare.shared.delegate?.notificare(Notificare.shared, didRegisterDevice: device)
+                            }
+
+                            completion(.success(()))
+                        case let .failure(error):
+                            NotificareLogger.error("Failed to register device.", error: error)
+                            completion(.failure(error))
                         }
-
-                        completion(.success(()))
-                    case let .failure(error):
-                        NotificareLogger.error("Failed to register device.", error: error)
-                        completion(.failure(error))
                     }
-                }
+            }
         } else {
             NotificareLogger.info("Skipping device registration, nothing changed.")
 
@@ -729,12 +750,12 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
             changed = true
         }
 
-        if device.language != getLanguage() {
+        if device.language != getDeviceLanguage() {
             NotificareLogger.debug("Registration check: language changed")
             changed = true
         }
 
-        if device.region != getRegion() {
+        if device.region != getDeviceRegion() {
             NotificareLogger.debug("Registration check: region changed")
             changed = true
         }
@@ -742,11 +763,11 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         return changed
     }
 
-    private func getLanguage() -> String {
+    private func getDeviceLanguage() -> String {
         LocalStorage.preferredLanguage ?? NotificareUtils.deviceLanguage
     }
 
-    private func getRegion() -> String {
+    private func getDeviceRegion() -> String {
         LocalStorage.preferredRegion ?? NotificareUtils.deviceRegion
     }
 
@@ -765,7 +786,10 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
     @objc private func updateDeviceLanguage() {
         NotificareLogger.info("Device language changed.")
 
-        updateLanguage { result in
+        let language = getDeviceLanguage()
+        let region = getDeviceRegion()
+
+        updateLanguage(language, region: region) { result in
             if case .success = result {
                 NotificareLogger.info("Device language updated.")
             }

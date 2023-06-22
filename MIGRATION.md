@@ -23,7 +23,6 @@ pod 'Notificare/NotificareKit'
 
 # Optional modules
 pod 'Notificare/NotificareAssetsKit'
-pod 'Notificare/NotificareAuthenticationKit'
 pod 'Notificare/NotificareGeoKit'
 pod 'Notificare/NotificareInboxKit'
 pod 'Notificare/NotificareLoyaltyKit'

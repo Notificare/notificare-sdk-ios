@@ -72,9 +72,6 @@ class Framework
         Framework.new(scheme: 'NotificareAssetsKit',
                       spm_zip_filename: 'spm-notificare-assets.zip',
                       spm_checksum_placeholder: '{{NOTIFICARE_ASSETS_CHECKSUM}}'),
-        Framework.new(scheme: 'NotificareAuthenticationKit',
-                      spm_zip_filename: 'spm-notificare-authentication.zip',
-                      spm_checksum_placeholder: '{{NOTIFICARE_AUTHENTICATION_CHECKSUM}}'),
         Framework.new(scheme: 'NotificareGeoKit',
                       spm_zip_filename: 'spm-notificare-geo.zip',
                       spm_checksum_placeholder: '{{NOTIFICARE_GEO_CHECKSUM}}'),
@@ -144,6 +141,7 @@ class Xcode
           -scheme #{framework.scheme} \\
           -archivePath ".build/archives/#{framework.scheme}-iOS.xcarchive" \\
           -destination "generic/platform=iOS" \\
+          -configuration Release \\
           -sdk iphoneos \\
           -quiet \\
           SKIP_INSTALL=NO \\
@@ -160,6 +158,7 @@ class Xcode
           -scheme #{framework.scheme} \\
           -archivePath ".build/archives/#{framework.scheme}-iOS-simulator.xcarchive" \\
           -destination "generic/platform=iOS Simulator" \\
+          -configuration Release \\
           -sdk iphonesimulator \\
           -quiet \\
           SKIP_INSTALL=NO \\
