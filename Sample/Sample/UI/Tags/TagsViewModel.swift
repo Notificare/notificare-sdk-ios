@@ -45,11 +45,12 @@ class TagsViewModel: ObservableObject {
             )
         } catch {
             Logger.main.error("Failed to fetch device tags: \(error)")
-            viewState = .failure
 
             userMessages.append(
                 UserMessage(variant: .fetchTagsFailure(error: error))
             )
+
+            viewState = .failure
         }
     }
 
@@ -83,6 +84,8 @@ class TagsViewModel: ObservableObject {
                 userMessages.append(
                     UserMessage(variant: .addTagsFailure(error: error))
                 )
+
+                viewState = .failure
             }
         }
     }
@@ -105,6 +108,8 @@ class TagsViewModel: ObservableObject {
                 userMessages.append(
                     UserMessage(variant: .removeTagFailure(error: error))
                 )
+
+                viewState = .failure
             }
         }
     }
@@ -127,6 +132,8 @@ class TagsViewModel: ObservableObject {
                 userMessages.append(
                     UserMessage(variant: .clearTagsFailure(error: error))
                 )
+
+                viewState = .failure
             }
         }
     }
@@ -142,11 +149,15 @@ class TagsViewModel: ObservableObject {
         case failure
     }
 
-    struct UserMessage {
+    struct UserMessage: Equatable {
+        static func == (lhs: UserMessage, rhs: UserMessage) -> Bool {
+            lhs.uniqueId == rhs.uniqueId && lhs.variant == rhs.variant
+        }
+
         let uniqueId = UUID().uuidString
         let variant: Variant
 
-        enum Variant {
+        enum Variant: Equatable {
             case fetchTagsSuccess
             case fetchTagsFailure(error: Error)
             case addTagsSuccess
@@ -155,6 +166,25 @@ class TagsViewModel: ObservableObject {
             case removeTagFailure(error: Error)
             case clearTagsSuccess
             case clearTagsFailure(error: Error)
+
+            static func == (lhs: Variant, rhs: Variant) -> Bool {
+                switch (lhs, rhs) {
+                case (.fetchTagsSuccess, .fetchTagsSuccess),
+                     (.addTagsSuccess, .addTagsSuccess),
+                     (.removeTagSuccess, .removeTagSuccess),
+                     (.clearTagsSuccess, .clearTagsSuccess):
+                    return true
+
+                case let (.fetchTagsFailure(lhsError), .fetchTagsFailure(rhsError)),
+                     let (.addTagsFailure(lhsError), .addTagsFailure(rhsError)),
+                     let (.removeTagFailure(lhsError), .removeTagFailure(rhsError)),
+                     let (.clearTagsFailure(lhsError), .clearTagsFailure(rhsError)):
+                    return lhsError.localizedDescription == rhsError.localizedDescription
+
+                default:
+                    return false
+                }
+            }
         }
     }
 }

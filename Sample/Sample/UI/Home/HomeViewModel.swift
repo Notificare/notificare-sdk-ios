@@ -507,7 +507,7 @@ extension HomeViewModel: CLLocationManagerDelegate {
 extension HomeViewModel {
     func updateSuppressedIamStatus(enabled: Bool) {
         Logger.main.info("\(enabled ? "Supressing" : "Unsupressing") in app messages, evaluate context is \(self.hasEvaluateContextOn ? "ON" : "OFF")")
-        Notificare.shared.inAppMessaging().setMessagesSuppressed(enabled, evaluateContext: hasEvaluateContextOn)
+        Notificare.shared.inAppMessaging().setMessagesSuppressed(enabled, evaluateContext: self.hasEvaluateContextOn)
     }
 }
 
@@ -621,11 +621,15 @@ extension HomeViewModel {
         case isReady
     }
 
-    struct UserMessage {
+    struct UserMessage: Equatable {
+        static func == (lhs: UserMessage, rhs: UserMessage) -> Bool {
+            lhs.uniqueId == rhs.uniqueId && lhs.variant == rhs.variant
+        }
+
         let uniqueId = UUID().uuidString
         let variant: Variant
 
-        enum Variant {
+        enum Variant: Equatable {
             case requestNotificationsPermissionSuccess
             case requestNotificationsPermissionFailure(error: Error)
             case enableRemoteNotificationsSuccess
@@ -636,6 +640,27 @@ extension HomeViewModel {
             case updateDoNotDisturbFailure(error: Error)
             case registerDeviceSuccess
             case registerDeviceFailure(error: Error)
+
+            static func == (lhs: Variant, rhs: Variant) -> Bool {
+                switch (lhs, rhs) {
+                case (.requestNotificationsPermissionSuccess, .requestNotificationsPermissionSuccess),
+                     (.enableRemoteNotificationsSuccess, .enableRemoteNotificationsSuccess),
+                     (.clearDoNotDisturbSuccess, .clearDoNotDisturbSuccess),
+                     (.updateDoNotDisturbSuccess, .updateDoNotDisturbSuccess),
+                     (.registerDeviceSuccess, .registerDeviceSuccess):
+                    return true
+
+                case let (.requestNotificationsPermissionFailure(lhsError), .requestNotificationsPermissionFailure(rhsError)),
+                     let (.enableRemoteNotificationsFailure(lhsError), .enableRemoteNotificationsFailure(rhsError)),
+                     let (.clearDoNotDisturbFailure(lhsError), .clearDoNotDisturbFailure(rhsError)),
+                     let (.updateDoNotDisturbFailure(lhsError), .updateDoNotDisturbFailure(rhsError)),
+                     let (.registerDeviceFailure(lhsError), .registerDeviceFailure(rhsError)):
+                    return lhsError.localizedDescription == rhsError.localizedDescription
+
+                default:
+                    return false
+                }
+            }
         }
     }
 }

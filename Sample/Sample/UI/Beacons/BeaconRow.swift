@@ -38,6 +38,8 @@ struct BeaconRow: View {
                 Image("wifi_signal_1")
             case .unknown:
                 Image(systemName: "wifi.slash")
+            @unknown default:
+                Image(systemName: "wifi.slash")
             }
         }
     }
@@ -50,7 +52,8 @@ struct BeaconRow_Previews: PreviewProvider {
             name: "Test beacon",
             major: 1,
             minor: 100,
-            triggers: true
+            triggers: true,
+            proximity: .immediate
         )
 
         BeaconRow(beacon: beacon)

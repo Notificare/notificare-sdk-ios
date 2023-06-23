@@ -29,6 +29,7 @@ class EventsViewModel: ObservableObject {
         Task {
             do {
                 try await Notificare.shared.events().logCustom(eventName, data: fields)
+
                 Logger.main.info("Event \(self.eventName) registered successfully")
                 eventName = ""
                 eventFields = [EventField]()

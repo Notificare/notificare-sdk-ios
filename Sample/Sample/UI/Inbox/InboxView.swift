@@ -74,7 +74,7 @@ struct InboxView: View {
             )
         }
         .alert(item: $presentedAlert, content: createPresentedAlert)
-        .onReceive(viewModel.$userMessages) { userMessages in
+        .onChange(of: viewModel.userMessages) { userMessages in
             if presentedAlert != nil { return }
 
             guard let userMessage = userMessages.first else {
@@ -83,31 +83,31 @@ struct InboxView: View {
 
             switch userMessage.variant {
             case .presentItemSuccess:
-                break
+                viewModel.processUserMessage(userMessage.uniqueId)
 
             case .presentItemFailure:
                 presentedAlert = PresentedAlert(variant: .presentItemFailure, userMessageId: userMessage.uniqueId)
 
             case .markItemAsReadSuccess:
-                break
+                viewModel.processUserMessage(userMessage.uniqueId)
 
             case .markItemAsReadFailure:
                 presentedAlert = PresentedAlert(variant: .markItemAsReadFailure, userMessageId: userMessage.uniqueId)
 
             case .markAllItemsAsReadSuccess:
-                break
+                viewModel.processUserMessage(userMessage.uniqueId)
 
             case .markAllItemsAsReadFailure:
                 presentedAlert = PresentedAlert(variant: .markAllItemsAsReadFailure, userMessageId: userMessage.uniqueId)
 
             case .removeItemSuccess:
-                break
+                viewModel.processUserMessage(userMessage.uniqueId)
 
             case .removeItemFailure:
                 presentedAlert = PresentedAlert(variant: .removeItemFailure, userMessageId: userMessage.uniqueId)
 
             case .clearItemsSuccess:
-                break
+                viewModel.processUserMessage(userMessage.uniqueId)
 
             case .clearItemsFailure:
                 presentedAlert = PresentedAlert(variant: .clearItemsFailure, userMessageId: userMessage.uniqueId)

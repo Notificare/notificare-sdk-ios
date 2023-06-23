@@ -65,7 +65,7 @@ struct HomeView: View {
         .navigationTitle(String(localized: "home_title"))
         .navigationBarTitleDisplayMode(.inline)
         .alert(item: $presentedAlert, content: createPresentedAlert)
-        .onReceive(viewModel.$userMessages) { userMessages in
+        .onChange(of: viewModel.userMessages) { userMessages in
             if presentedAlert != nil { return }
 
             guard let userMessage = userMessages.first else {
@@ -74,31 +74,31 @@ struct HomeView: View {
 
             switch userMessage.variant {
             case .requestNotificationsPermissionSuccess:
-                break
+                viewModel.processUserMessage(userMessage.uniqueId)
 
             case .requestNotificationsPermissionFailure:
                 presentedAlert = PresentedAlert(variant: .requestNotificationsPermissionFailure, userMessageId: userMessage.uniqueId)
 
             case .enableRemoteNotificationsSuccess:
-                break
+                viewModel.processUserMessage(userMessage.uniqueId)
 
             case .enableRemoteNotificationsFailure:
                 presentedAlert = PresentedAlert(variant: .enableRemoteNotificationsFailure, userMessageId: userMessage.uniqueId)
 
             case .clearDoNotDisturbSuccess:
-                break
+                viewModel.processUserMessage(userMessage.uniqueId)
 
             case .clearDoNotDisturbFailure:
                 presentedAlert = PresentedAlert(variant: .clearDoNotDisturbFailure, userMessageId: userMessage.uniqueId)
 
             case .updateDoNotDisturbSuccess:
-                break
+                viewModel.processUserMessage(userMessage.uniqueId)
 
             case .updateDoNotDisturbFailure:
                 presentedAlert = PresentedAlert(variant: .updateDoNotDisturbFailure, userMessageId: userMessage.uniqueId)
 
             case .registerDeviceSuccess:
-                break
+                viewModel.processUserMessage(userMessage.uniqueId)
 
             case .registerDeviceFailure:
                 presentedAlert = PresentedAlert(variant: .registerDeviceFailure, userMessageId: userMessage.uniqueId)

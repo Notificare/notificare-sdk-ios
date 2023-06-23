@@ -37,6 +37,7 @@ class InboxViewModel: ObservableObject {
 
     func presentInboxItem(_ item: NotificareInboxItem) {
         Logger.main.info("Inbox item clicked")
+
         Task {
             do {
                 let notification = try await Notificare.shared.inbox().open(item)
@@ -57,6 +58,7 @@ class InboxViewModel: ObservableObject {
 
     func markItemAsRead(_ item: NotificareInboxItem) {
         Logger.main.info("Mark as read clicked")
+
         Task {
             do {
                 try await Notificare.shared.inbox().markAsRead(item)
@@ -76,6 +78,7 @@ class InboxViewModel: ObservableObject {
 
     func markAllItemsAsRead() {
         Logger.main.info("Mark all as read clicked")
+
         Task {
             do {
                 try await Notificare.shared.inbox().markAllAsRead()
@@ -95,6 +98,7 @@ class InboxViewModel: ObservableObject {
 
     func removeItem(_ item: NotificareInboxItem) {
         Logger.main.info("Remove inbox item clicked")
+
         Task {
             do {
                 try await Notificare.shared.inbox().remove(item)
@@ -132,15 +136,19 @@ class InboxViewModel: ObservableObject {
         }
     }
 
-    func processUserMessage(_ userMessage: String) {
-        userMessages.removeAll(where: { $0.uniqueId == userMessage })
+    func processUserMessage(_ userMessageId: String) {
+        userMessages.removeAll(where: { $0.uniqueId == userMessageId })
     }
 
-    struct UserMessage {
+    struct UserMessage: Equatable {
+        static func == (lhs: UserMessage, rhs: UserMessage) -> Bool {
+            lhs.uniqueId == rhs.uniqueId && lhs.variant == rhs.variant
+        }
+
         let uniqueId = UUID().uuidString
         let variant: Variant
 
-        enum Variant {
+        enum Variant: Equatable {
             case presentItemSuccess
             case presentItemFailure(error: Error)
             case markItemAsReadSuccess
@@ -151,6 +159,27 @@ class InboxViewModel: ObservableObject {
             case removeItemFailure(error: Error)
             case clearItemsSuccess
             case clearItemsFailure(error: Error)
+
+            static func == (lhs: Variant, rhs: Variant) -> Bool {
+                switch (lhs, rhs) {
+                case (.presentItemSuccess, .presentItemSuccess),
+                     (.markItemAsReadSuccess, .markItemAsReadSuccess),
+                     (.markAllItemsAsReadSuccess, .markAllItemsAsReadSuccess),
+                     (.removeItemSuccess, .removeItemSuccess),
+                     (.clearItemsSuccess, .clearItemsSuccess):
+                    return true
+
+                case let (.presentItemFailure(lhsError), .presentItemFailure(rhsError)),
+                     let (.markItemAsReadFailure(lhsError), .markItemAsReadFailure(rhsError)),
+                     let (.markAllItemsAsReadFailure(lhsError), .markAllItemsAsReadFailure(rhsError)),
+                     let (.removeItemFailure(lhsError), .removeItemFailure(rhsError)),
+                     let (.clearItemsFailure(lhsError), .clearItemsFailure(rhsError)):
+                    return lhsError.localizedDescription == rhsError.localizedDescription
+
+                default:
+                    return false
+                }
+            }
         }
     }
 }

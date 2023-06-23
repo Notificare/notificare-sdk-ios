@@ -61,7 +61,7 @@ struct TagsView: View {
             }
         }
         .alert(item: $presentedAlert, content: createPresentedAlert)
-        .onReceive(viewModel.$userMessages) { userMessages in
+        .onChange(of: viewModel.userMessages) { userMessages in
             if presentedAlert != nil { return }
 
             guard let userMessage = userMessages.first else {
@@ -70,25 +70,25 @@ struct TagsView: View {
 
             switch userMessage.variant {
             case .addTagsSuccess:
-                break
+                viewModel.processUserMessage(userMessage.uniqueId)
 
             case .addTagsFailure:
                 presentedAlert = PresentedAlert(variant: .addTagsFailure, userMessageId: userMessage.uniqueId)
 
             case .removeTagSuccess:
-                break
+                viewModel.processUserMessage(userMessage.uniqueId)
 
             case .removeTagFailure:
                 presentedAlert = PresentedAlert(variant: .removeTagFailure, userMessageId: userMessage.uniqueId)
 
             case .clearTagsSuccess:
-                break
+                viewModel.processUserMessage(userMessage.uniqueId)
 
             case .clearTagsFailure:
                 presentedAlert = PresentedAlert(variant: .clearTagsFailure, userMessageId: userMessage.uniqueId)
 
             case .fetchTagsSuccess:
-                break
+                viewModel.processUserMessage(userMessage.uniqueId)
 
             case .fetchTagsFailure:
                 presentedAlert = PresentedAlert(variant: .fetchagsFailure, userMessageId: userMessage.uniqueId)
