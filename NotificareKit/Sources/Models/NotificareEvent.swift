@@ -9,7 +9,7 @@ public typealias NotificareEventData = [String: Any]
 public struct NotificareEvent {
     public let type: String
     public let timestamp: Int64
-    public let deviceId: String?
+    public let deviceId: String
     public let sessionId: String?
     public let notificationId: String?
     public let userId: String?
@@ -34,7 +34,7 @@ extension NotificareEvent: Codable {
 
         type = try container.decode(String.self, forKey: .type)
         timestamp = try container.decode(Int64.self, forKey: .timestamp)
-        deviceId = try container.decodeIfPresent(String.self, forKey: .deviceId)
+        deviceId = try container.decode(String.self, forKey: .deviceId)
         sessionId = try container.decodeIfPresent(String.self, forKey: .sessionId)
         notificationId = try container.decodeIfPresent(String.self, forKey: .notificationId)
         userId = try container.decodeIfPresent(String.self, forKey: .userId)
@@ -51,7 +51,7 @@ extension NotificareEvent: Codable {
 
         try container.encode(type, forKey: .type)
         try container.encode(timestamp, forKey: .timestamp)
-        try container.encodeIfPresent(deviceId, forKey: .deviceId)
+        try container.encode(deviceId, forKey: .deviceId)
         try container.encodeIfPresent(sessionId, forKey: .sessionId)
         try container.encodeIfPresent(notificationId, forKey: .notificationId)
         try container.encodeIfPresent(userId, forKey: .userId)
