@@ -50,6 +50,11 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
     }
 
     func logCustom(_ event: String, data: NotificareEventData?, _ completion: @escaping NotificareCallback<Void>) {
+        guard Notificare.shared.isReady else {
+            completion(.failure(NotificareError.notReady))
+            return
+        }
+
         log("re.notifica.event.custom.\(event)", data: data, completion)
     }
 
