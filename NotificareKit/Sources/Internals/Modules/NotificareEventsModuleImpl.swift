@@ -212,7 +212,15 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
             return
         }
 
-        let event = NotificareEvent(from: managedEvent)
+        let event: NotificareEvent
+
+        do {
+            event = try NotificareEvent(from: managedEvent)
+        } catch {
+            NotificareLogger.debug("Cleaning up a corrupted event in the database.")
+            Notificare.shared.database.remove(managedEvent)
+            return
+        }
 
         // Leverage a DispatchGroup to wait for the request.
         let group = DispatchGroup()
