@@ -63,15 +63,20 @@ internal class NotificareCrashReporterModuleImpl: NSObject, NotificareModule {
     // MARK: - Internal API
 
     private let uncaughtExceptionHandler: @convention(c) (NSException) -> Void = { exception in
+        guard let device = Notificare.shared.device().currentDevice else {
+            NotificareLogger.warning("Cannot process a crash report before the device becomes available.")
+            return
+        }
+
         let timestamp = Int64(Date().timeIntervalSince1970 * 1000)
 
         LocalStorage.crashReport = NotificareEvent(
             type: "re.notifica.event.application.Exception",
             timestamp: timestamp,
-            deviceId: Notificare.shared.device().currentDevice?.id,
+            deviceId: device.id,
             sessionId: Notificare.shared.session().sessionId,
             notificationId: nil,
-            userId: Notificare.shared.device().currentDevice?.userId,
+            userId: device.userId,
             data: [
                 "platform": "iOS",
                 "osVersion": NotificareUtils.osVersion,
@@ -87,6 +92,11 @@ internal class NotificareCrashReporterModuleImpl: NSObject, NotificareModule {
     }
 
     private let signalReceiver: @convention(c) (Int32) -> Void = { signal in
+        guard let device = Notificare.shared.device().currentDevice else {
+            NotificareLogger.warning("Cannot process a crash report before the device becomes available.")
+            return
+        }
+
         let timestamp = Int64(Date().timeIntervalSince1970 * 1000)
         let stackSymbols = Thread.callStackSymbols.joined(separator: "\n")
         let name: String
@@ -111,10 +121,10 @@ internal class NotificareCrashReporterModuleImpl: NSObject, NotificareModule {
         LocalStorage.crashReport = NotificareEvent(
             type: "re.notifica.event.application.Exception",
             timestamp: timestamp,
-            deviceId: Notificare.shared.device().currentDevice?.id,
+            deviceId: device.id,
             sessionId: Notificare.shared.session().sessionId,
             notificationId: nil,
-            userId: Notificare.shared.device().currentDevice?.userId,
+            userId: device.userId,
             data: [
                 "platform": "iOS",
                 "osVersion": NotificareUtils.osVersion,
