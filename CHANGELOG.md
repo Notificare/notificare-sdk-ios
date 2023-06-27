@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 3.5.4
+
+- Prevent queued events without an associated device
+- Prevent `logCustom` usage before Notificare becomes ready
+
 ## 3.5.3
 
 - Improve supported deep links validation
