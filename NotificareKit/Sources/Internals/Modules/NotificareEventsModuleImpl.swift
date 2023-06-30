@@ -50,6 +50,11 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
     }
 
     func logCustom(_ event: String, data: NotificareEventData?, _ completion: @escaping NotificareCallback<Void>) {
+        guard Notificare.shared.isReady else {
+            completion(.failure(NotificareError.notReady))
+            return
+        }
+
         log("re.notifica.event.custom.\(event)", data: data, completion)
     }
 
@@ -65,13 +70,18 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
     // MARK: - Notificare Internal Events
 
     func log(_ event: String, data: NotificareEventData?, sessionId: String?, notificationId: String?, _ completion: @escaping NotificareCallback<Void>) {
+        guard let device = Notificare.shared.device().currentDevice else {
+            completion(.failure(NotificareError.deviceUnavailable))
+            return
+        }
+
         let event = NotificareEvent(
             type: event,
             timestamp: Int64(Date().timeIntervalSince1970 * 1000),
-            deviceId: Notificare.shared.device().currentDevice?.id,
+            deviceId: device.id,
             sessionId: sessionId ?? Notificare.shared.session().sessionId,
             notificationId: notificationId,
-            userId: Notificare.shared.device().currentDevice?.userId,
+            userId: device.userId,
             data: data
         )
 
@@ -212,7 +222,15 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
             return
         }
 
-        let event = NotificareEvent(from: managedEvent)
+        let event: NotificareEvent
+
+        do {
+            event = try NotificareEvent(from: managedEvent)
+        } catch {
+            NotificareLogger.debug("Cleaning up a corrupted event in the database.")
+            Notificare.shared.database.remove(managedEvent)
+            return
+        }
 
         // Leverage a DispatchGroup to wait for the request.
         let group = DispatchGroup()

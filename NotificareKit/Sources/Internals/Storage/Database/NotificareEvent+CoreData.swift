@@ -27,7 +27,7 @@ extension NotificareEvent {
         return event
     }
 
-    init(from managed: NotificareCoreDataEvent) {
+    init(from managed: NotificareCoreDataEvent) throws {
         var eventData: NotificareEventData?
         if let data = managed.data,
            let decoded = try? NotificareUtils.jsonDecoder.decode(NotificareAnyCodable.self, from: data)
@@ -35,10 +35,18 @@ extension NotificareEvent {
             eventData = decoded.value as? NotificareEventData
         }
 
+        guard let type = managed.type else {
+            throw NotificareError.invalidArgument(message: "Event entity is missing the 'type' attribute.")
+        }
+
+        guard let deviceId = managed.deviceId else {
+            throw NotificareError.invalidArgument(message: "Event entity is missing the 'deviceId' attribute.")
+        }
+
         self.init(
-            type: managed.type!,
+            type: type,
             timestamp: managed.timestamp,
-            deviceId: managed.deviceId!,
+            deviceId: deviceId,
             sessionId: managed.sessionId,
             notificationId: managed.notificationId,
             userId: managed.userId,
