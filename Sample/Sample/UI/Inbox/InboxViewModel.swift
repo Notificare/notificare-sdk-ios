@@ -50,7 +50,7 @@ class InboxViewModel: ObservableObject {
                 Logger.main.error("Failed to open an inbox item. \(error)")
 
                 userMessages.append(
-                    UserMessage(variant: .presentItemFailure(error: error))
+                    UserMessage(variant: .presentItemFailure)
                 )
             }
         }
@@ -70,7 +70,7 @@ class InboxViewModel: ObservableObject {
                 Logger.main.error("Failed to mark an item as read. \(error)")
 
                 userMessages.append(
-                    UserMessage(variant: .markItemAsReadFailure(error: error))
+                    UserMessage(variant: .markItemAsReadFailure)
                 )
             }
         }
@@ -90,7 +90,7 @@ class InboxViewModel: ObservableObject {
                 Logger.main.error("Failed to mark all item as read. \(error)")
 
                 userMessages.append(
-                    UserMessage(variant: .markAllItemsAsReadFailure(error: error))
+                    UserMessage(variant: .markAllItemsAsReadFailure)
                 )
             }
         }
@@ -110,7 +110,7 @@ class InboxViewModel: ObservableObject {
                 Logger.main.error("Failed to remove an item. \(error)")
 
                 userMessages.append(
-                    UserMessage(variant: .removeItemFailure(error: error))
+                    UserMessage(variant: .removeItemFailure)
                 )
             }
         }
@@ -130,7 +130,7 @@ class InboxViewModel: ObservableObject {
                 Logger.main.error("Failed to clear the inbox. \(error)")
 
                 userMessages.append(
-                    UserMessage(variant: .clearItemsFailure(error: error))
+                    UserMessage(variant: .clearItemsFailure)
                 )
             }
         }
@@ -141,45 +141,20 @@ class InboxViewModel: ObservableObject {
     }
 
     struct UserMessage: Equatable {
-        static func == (lhs: UserMessage, rhs: UserMessage) -> Bool {
-            lhs.uniqueId == rhs.uniqueId && lhs.variant == rhs.variant
-        }
-
         let uniqueId = UUID().uuidString
         let variant: Variant
 
         enum Variant: Equatable {
             case presentItemSuccess
-            case presentItemFailure(error: Error)
+            case presentItemFailure
             case markItemAsReadSuccess
-            case markItemAsReadFailure(error: Error)
+            case markItemAsReadFailure
             case markAllItemsAsReadSuccess
-            case markAllItemsAsReadFailure(error: Error)
+            case markAllItemsAsReadFailure
             case removeItemSuccess
-            case removeItemFailure(error: Error)
+            case removeItemFailure
             case clearItemsSuccess
-            case clearItemsFailure(error: Error)
-
-            static func == (lhs: Variant, rhs: Variant) -> Bool {
-                switch (lhs, rhs) {
-                case (.presentItemSuccess, .presentItemSuccess),
-                     (.markItemAsReadSuccess, .markItemAsReadSuccess),
-                     (.markAllItemsAsReadSuccess, .markAllItemsAsReadSuccess),
-                     (.removeItemSuccess, .removeItemSuccess),
-                     (.clearItemsSuccess, .clearItemsSuccess):
-                    return true
-
-                case let (.presentItemFailure(lhsError), .presentItemFailure(rhsError)),
-                     let (.markItemAsReadFailure(lhsError), .markItemAsReadFailure(rhsError)),
-                     let (.markAllItemsAsReadFailure(lhsError), .markAllItemsAsReadFailure(rhsError)),
-                     let (.removeItemFailure(lhsError), .removeItemFailure(rhsError)),
-                     let (.clearItemsFailure(lhsError), .clearItemsFailure(rhsError)):
-                    return lhsError.localizedDescription == rhsError.localizedDescription
-
-                default:
-                    return false
-                }
-            }
+            case clearItemsFailure
         }
     }
 }

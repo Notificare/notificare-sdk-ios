@@ -47,7 +47,7 @@ class TagsViewModel: ObservableObject {
             Logger.main.error("Failed to fetch device tags: \(error)")
 
             userMessages.append(
-                UserMessage(variant: .fetchTagsFailure(error: error))
+                UserMessage(variant: .fetchTagsFailure)
             )
 
             viewState = .failure
@@ -82,7 +82,7 @@ class TagsViewModel: ObservableObject {
                 Logger.main.error("Failed to add tags: \(error)")
 
                 userMessages.append(
-                    UserMessage(variant: .addTagsFailure(error: error))
+                    UserMessage(variant: .addTagsFailure)
                 )
 
                 viewState = .failure
@@ -106,7 +106,7 @@ class TagsViewModel: ObservableObject {
                 Logger.main.error("Failed to remove tag '\(tag)': \(error)")
 
                 userMessages.append(
-                    UserMessage(variant: .removeTagFailure(error: error))
+                    UserMessage(variant: .removeTagFailure)
                 )
 
                 viewState = .failure
@@ -130,7 +130,7 @@ class TagsViewModel: ObservableObject {
                 Logger.main.error("Failed to clear tags: \(error)")
 
                 userMessages.append(
-                    UserMessage(variant: .clearTagsFailure(error: error))
+                    UserMessage(variant: .clearTagsFailure)
                 )
 
                 viewState = .failure
@@ -150,41 +150,18 @@ class TagsViewModel: ObservableObject {
     }
 
     struct UserMessage: Equatable {
-        static func == (lhs: UserMessage, rhs: UserMessage) -> Bool {
-            lhs.uniqueId == rhs.uniqueId && lhs.variant == rhs.variant
-        }
-
         let uniqueId = UUID().uuidString
         let variant: Variant
 
         enum Variant: Equatable {
             case fetchTagsSuccess
-            case fetchTagsFailure(error: Error)
+            case fetchTagsFailure
             case addTagsSuccess
-            case addTagsFailure(error: Error)
+            case addTagsFailure
             case removeTagSuccess
-            case removeTagFailure(error: Error)
+            case removeTagFailure
             case clearTagsSuccess
-            case clearTagsFailure(error: Error)
-
-            static func == (lhs: Variant, rhs: Variant) -> Bool {
-                switch (lhs, rhs) {
-                case (.fetchTagsSuccess, .fetchTagsSuccess),
-                     (.addTagsSuccess, .addTagsSuccess),
-                     (.removeTagSuccess, .removeTagSuccess),
-                     (.clearTagsSuccess, .clearTagsSuccess):
-                    return true
-
-                case let (.fetchTagsFailure(lhsError), .fetchTagsFailure(rhsError)),
-                     let (.addTagsFailure(lhsError), .addTagsFailure(rhsError)),
-                     let (.removeTagFailure(lhsError), .removeTagFailure(rhsError)),
-                     let (.clearTagsFailure(lhsError), .clearTagsFailure(rhsError)):
-                    return lhsError.localizedDescription == rhsError.localizedDescription
-
-                default:
-                    return false
-                }
-            }
+            case clearTagsFailure
         }
     }
 }

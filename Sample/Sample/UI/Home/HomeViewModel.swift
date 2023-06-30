@@ -195,7 +195,7 @@ extension HomeViewModel {
                         hasNotificationsAndPermission = false
 
                         userMessages.append(
-                            UserMessage(variant: .requestNotificationsPermissionFailure(error: error))
+                            UserMessage(variant: .requestNotificationsPermissionFailure)
                         )
                     }
                 }
@@ -213,7 +213,7 @@ extension HomeViewModel {
                     Logger.main.error("Failed to enable remote notifications: \(error)")
 
                     userMessages.append(
-                        UserMessage(variant: .enableRemoteNotificationsFailure(error: error))
+                        UserMessage(variant: .enableRemoteNotificationsFailure)
                     )
                 }
 
@@ -293,7 +293,7 @@ extension HomeViewModel {
                     Logger.main.error("Failed to clear DnD: \(error)")
 
                     userMessages.append(
-                        UserMessage(variant: .clearDoNotDisturbFailure(error: error))
+                        UserMessage(variant: .clearDoNotDisturbFailure)
                     )
                 }
             }
@@ -315,7 +315,7 @@ extension HomeViewModel {
                 Logger.main.error("Failed to update DnD: \(error)")
 
                 userMessages.append(
-                    UserMessage(variant: .updateDoNotDisturbFailure(error: error))
+                    UserMessage(variant: .updateDoNotDisturbFailure)
                 )
             }
         }
@@ -506,8 +506,8 @@ extension HomeViewModel: CLLocationManagerDelegate {
 
 extension HomeViewModel {
     func updateSuppressedIamStatus(enabled: Bool) {
-        Logger.main.info("\(enabled ? "Supressing" : "Unsupressing") in app messages, evaluate context is \(self.hasEvaluateContextOn ? "ON" : "OFF")")
-        Notificare.shared.inAppMessaging().setMessagesSuppressed(enabled, evaluateContext: self.hasEvaluateContextOn)
+//        Logger.main.info("\(enabled ? "Supressing" : "Unsupressing") in app messages, evaluate context is \(hasEvaluateContextOn ? "ON" : "OFF")")
+        Notificare.shared.inAppMessaging().setMessagesSuppressed(enabled, evaluateContext: hasEvaluateContextOn)
     }
 }
 
@@ -538,7 +538,7 @@ extension HomeViewModel {
                 Logger.main.error("Failed to registered device: \(error)")
 
                 userMessages.append(
-                    UserMessage(variant: .registerDeviceFailure(error: error))
+                    UserMessage(variant: .registerDeviceFailure)
                 )
             }
         }
@@ -561,7 +561,7 @@ extension HomeViewModel {
                 Logger.main.error("Failed to registered device as anonymous: \(error)")
 
                 userMessages.append(
-                    UserMessage(variant: .registerDeviceFailure(error: error))
+                    UserMessage(variant: .registerDeviceFailure)
                 )
             }
         }
@@ -622,45 +622,20 @@ extension HomeViewModel {
     }
 
     struct UserMessage: Equatable {
-        static func == (lhs: UserMessage, rhs: UserMessage) -> Bool {
-            lhs.uniqueId == rhs.uniqueId && lhs.variant == rhs.variant
-        }
-
         let uniqueId = UUID().uuidString
         let variant: Variant
 
-        enum Variant: Equatable {
+        enum Variant {
             case requestNotificationsPermissionSuccess
-            case requestNotificationsPermissionFailure(error: Error)
+            case requestNotificationsPermissionFailure
             case enableRemoteNotificationsSuccess
-            case enableRemoteNotificationsFailure(error: Error)
+            case enableRemoteNotificationsFailure
             case clearDoNotDisturbSuccess
-            case clearDoNotDisturbFailure(error: Error)
+            case clearDoNotDisturbFailure
             case updateDoNotDisturbSuccess
-            case updateDoNotDisturbFailure(error: Error)
+            case updateDoNotDisturbFailure
             case registerDeviceSuccess
-            case registerDeviceFailure(error: Error)
-
-            static func == (lhs: Variant, rhs: Variant) -> Bool {
-                switch (lhs, rhs) {
-                case (.requestNotificationsPermissionSuccess, .requestNotificationsPermissionSuccess),
-                     (.enableRemoteNotificationsSuccess, .enableRemoteNotificationsSuccess),
-                     (.clearDoNotDisturbSuccess, .clearDoNotDisturbSuccess),
-                     (.updateDoNotDisturbSuccess, .updateDoNotDisturbSuccess),
-                     (.registerDeviceSuccess, .registerDeviceSuccess):
-                    return true
-
-                case let (.requestNotificationsPermissionFailure(lhsError), .requestNotificationsPermissionFailure(rhsError)),
-                     let (.enableRemoteNotificationsFailure(lhsError), .enableRemoteNotificationsFailure(rhsError)),
-                     let (.clearDoNotDisturbFailure(lhsError), .clearDoNotDisturbFailure(rhsError)),
-                     let (.updateDoNotDisturbFailure(lhsError), .updateDoNotDisturbFailure(rhsError)),
-                     let (.registerDeviceFailure(lhsError), .registerDeviceFailure(rhsError)):
-                    return lhsError.localizedDescription == rhsError.localizedDescription
-
-                default:
-                    return false
-                }
-            }
+            case registerDeviceFailure
         }
     }
 }
