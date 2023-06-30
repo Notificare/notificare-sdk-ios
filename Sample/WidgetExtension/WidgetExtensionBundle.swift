@@ -8,6 +8,8 @@ import WidgetKit
 @main
 struct WidgetExtensionBundle: WidgetBundle {
     var body: some Widget {
-        SampleLiveActivity()
+        if #available(iOS 16.1, *) {
+            CoffeeBrewerLiveActivity()
+        }
     }
 }

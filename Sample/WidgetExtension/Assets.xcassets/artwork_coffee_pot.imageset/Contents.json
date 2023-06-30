@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "icons8-coffee-pot-40.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
