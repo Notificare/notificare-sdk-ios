@@ -98,6 +98,10 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
         LocalStorage.locationServicesEnabled && CLLocationManager.locationServicesEnabled()
     }
 
+    var monitoredRegions: [NotificareRegion] {
+        LocalStorage.monitoredRegions
+    }
+
     func enableLocationUpdates() {
         do {
             try checkPrerequisites()

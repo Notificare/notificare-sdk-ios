@@ -14,6 +14,8 @@ public protocol NotificareGeo: AnyObject {
 
     var hasBluetoothEnabled: Bool { get }
 
+    var monitoredRegions: [NotificareRegion] { get }
+
     // MARK: Methods
 
     func enableLocationUpdates()
