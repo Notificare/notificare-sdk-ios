@@ -102,6 +102,16 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
         LocalStorage.monitoredRegions
     }
 
+    var enteredRegions: [NotificareRegion] {
+        let monitoredRegions = LocalStorage.monitoredRegions
+
+        return LocalStorage.enteredRegions.compactMap { id in
+            monitoredRegions.first { region in
+                region.id == id
+            }
+        }
+    }
+
     func enableLocationUpdates() {
         do {
             try checkPrerequisites()

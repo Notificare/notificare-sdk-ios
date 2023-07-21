@@ -16,6 +16,8 @@ public protocol NotificareGeo: AnyObject {
 
     var monitoredRegions: [NotificareRegion] { get }
 
+    var enteredRegions: [NotificareRegion] { get }
+
     // MARK: Methods
 
     func enableLocationUpdates()
