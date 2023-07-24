@@ -170,7 +170,7 @@ public extension NotificareReachability {
                 _ = unmanagedWeakifiedReachability.retain()
                 return UnsafeRawPointer(unmanagedWeakifiedReachability.toOpaque())
             },
-            release: { (info: UnsafeRawPointer) -> Void in
+            release: { (info: UnsafeRawPointer) in
                 let unmanagedWeakifiedReachability = Unmanaged<ReachabilityWeakifier>.fromOpaque(info)
                 unmanagedWeakifiedReachability.release()
             },
@@ -214,8 +214,8 @@ private extension NotificareReachability {
     func setReachabilityFlags() throws {
         try reachabilitySerialQueue.sync { [unowned self] in
             var flags = SCNetworkReachabilityFlags()
-            if !SCNetworkReachabilityGetFlags(self.reachabilityRef, &flags) {
-                self.stopNotifier()
+            if !SCNetworkReachabilityGetFlags(reachabilityRef, &flags) {
+                stopNotifier()
                 throw ReachabilityError.unableToGetFlags(SCError())
             }
 
