@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 3.6.0
+
+- Allow checking which regions are being monitored
+- Allow checking which regions the device is inside of
+- Allow setting the amount of regions to monitor
+
 ## 3.5.4
 
 - Prevent queued events without an associated device
