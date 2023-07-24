@@ -2,4 +2,4 @@
 // Copyright (c) 2022 Notificare. All rights reserved.
 //
 
-internal let NOTIFICARE_VERSION = "3.5.4"
+internal let NOTIFICARE_VERSION = "3.6.0"
