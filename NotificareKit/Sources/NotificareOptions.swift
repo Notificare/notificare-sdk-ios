@@ -35,6 +35,7 @@ public struct NotificareOptions: Decodable {
     public let themes: Themes?
     public let backgroundGracePeriodMillis: Int
     public let overrideDatabaseFileProtection: Bool
+    public let monitoredRegionsLimit: Int?
 
     public init(
         debugLoggingEnabled: Bool = DEFAULT_DEBUG_LOGGING_ENABLED,
@@ -51,7 +52,8 @@ public struct NotificareOptions: Decodable {
         safariDismissButtonStyle: Int? = nil,
         themes: NotificareOptions.Themes? = nil,
         backgroundGracePeriodMillis: Int = DEFAULT_IAM_BACKGROUND_GRACE_PERIOD_MILLIS,
-        overrideDatabaseFileProtection: Bool = DEFAULT_OVERRIDE_DATABASE_FILE_PROTECTION
+        overrideDatabaseFileProtection: Bool = DEFAULT_OVERRIDE_DATABASE_FILE_PROTECTION,
+        monitoredRegionsLimit: Int? = nil
     ) {
         self.debugLoggingEnabled = debugLoggingEnabled
         self.autoConfig = autoConfig
@@ -68,6 +70,7 @@ public struct NotificareOptions: Decodable {
         self.themes = themes
         self.backgroundGracePeriodMillis = backgroundGracePeriodMillis
         self.overrideDatabaseFileProtection = overrideDatabaseFileProtection
+        self.monitoredRegionsLimit = monitoredRegionsLimit
     }
 
     public struct Themes: Decodable {
@@ -129,6 +132,7 @@ public extension NotificareOptions {
             themes = decoded.themes
             backgroundGracePeriodMillis = decoded.backgroundGracePeriodMillis
             overrideDatabaseFileProtection = decoded.overrideDatabaseFileProtection
+            monitoredRegionsLimit = decoded.monitoredRegionsLimit
         } catch {
             return nil
         }
@@ -153,6 +157,7 @@ public extension NotificareOptions {
         case themes = "THEMES"
         case backgroundGracePeriodMillis = "IAM_BACKGROUND_GRACE_PERIOD_MILLIS"
         case overrideDatabaseFileProtection = "OVERRIDE_DATABASE_FILE_PROTECTION"
+        case monitoredRegionsLimit = "MONITORED_REGIONS_LIMIT"
     }
 
     init(from decoder: Decoder) throws {
@@ -173,6 +178,7 @@ public extension NotificareOptions {
         themes = try container.decodeIfPresent(Themes.self, forKey: .themes)
         backgroundGracePeriodMillis = try container.decodeIfPresent(Int.self, forKey: .backgroundGracePeriodMillis) ?? NotificareOptions.DEFAULT_IAM_BACKGROUND_GRACE_PERIOD_MILLIS
         overrideDatabaseFileProtection = try container.decodeIfPresent(Bool.self, forKey: .overrideDatabaseFileProtection) ?? NotificareOptions.DEFAULT_OVERRIDE_DATABASE_FILE_PROTECTION
+        monitoredRegionsLimit = try container.decodeIfPresent(Int.self, forKey: .monitoredRegionsLimit)
     }
 }
 

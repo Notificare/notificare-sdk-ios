@@ -8,8 +8,9 @@ import MapKit
 import NotificareKit
 import UIKit
 
-private let MAX_MONITORED_REGIONS = 10
-private let MAX_MONITORED_BEACONS = 10
+private let DEFAULT_MONITORED_REGIONS_LIMIT = 10
+private let MAX_MONITORED_REGIONS_LIMIT = 20
+private let MAX_MONITORED_BEACONS_LIMIT = 10
 private let FAKE_BEACON_IDENTIFIER = "NotificareFakeBeacon"
 
 internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLLocationManagerDelegate {
@@ -40,6 +41,34 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
 
     private var accuracyMode: AccuracyMode {
         hasReducedAccuracy ? .reduced : .full
+    }
+
+    private var monitoredRegionsLimit: Int {
+        guard let options = Notificare.shared.options else {
+            NotificareLogger.warning("Notificare is not configured. Using the default limit for geofences.")
+            return DEFAULT_MONITORED_REGIONS_LIMIT
+        }
+
+        guard let limit = options.monitoredRegionsLimit else {
+            return DEFAULT_MONITORED_REGIONS_LIMIT
+        }
+
+        guard limit > 0 else {
+            NotificareLogger.warning("The monitored regions limit needs to be a positive number. Using the default limit for geofences.")
+            return DEFAULT_MONITORED_REGIONS_LIMIT
+        }
+
+        guard limit <= MAX_MONITORED_REGIONS_LIMIT else {
+            NotificareLogger.warning("The monitored regions limit cannot exceed the OS limit of \(MAX_MONITORED_REGIONS_LIMIT). Using the OS limit for geofences.")
+            return MAX_MONITORED_REGIONS_LIMIT
+        }
+
+        return limit
+    }
+
+    private var monitoredBeaconsLimit: Int {
+        // The fixed -1 is to reserve for the fake beacon (bluetooth check).
+        max(0, MAX_MONITORED_REGIONS_LIMIT - monitoredRegionsLimit - 1)
     }
 
     // MARK: - Notificare Module
@@ -96,6 +125,20 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
 
     var hasLocationServicesEnabled: Bool {
         LocalStorage.locationServicesEnabled && CLLocationManager.locationServicesEnabled()
+    }
+
+    var monitoredRegions: [NotificareRegion] {
+        LocalStorage.monitoredRegions
+    }
+
+    var enteredRegions: [NotificareRegion] {
+        let monitoredRegions = LocalStorage.monitoredRegions
+
+        return LocalStorage.enteredRegions.compactMap { id in
+            monitoredRegions.first { region in
+                region.id == id
+            }
+        }
     }
 
     func enableLocationUpdates() {
@@ -259,11 +302,11 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
     private func loadNearestRegions(_ location: CLLocation, _ completion: @escaping () -> Void) {
         NotificareRequest.Builder()
             .get("region/bylocation/\(location.coordinate.latitude)/\(location.coordinate.longitude)")
+            .query(name: "limit", value: String(monitoredRegionsLimit))
             .responseDecodable(NotificareInternals.PushAPI.Responses.FetchRegions.self) { result in
                 switch result {
                 case let .success(response):
                     let regions = response.regions
-                        .prefix(MAX_MONITORED_REGIONS)
                         .map { $0.toModel() }
 
                     self.monitorRegions(regions)
@@ -794,6 +837,11 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
     }
 
     private func startMonitoringBeacons(in region: NotificareRegion) {
+        guard monitoredBeaconsLimit > 0 else {
+            NotificareLogger.debug("Maximum monitored regions reached. Cannot monitor beacons.")
+            return
+        }
+
         NotificareLogger.debug("Starting to monitor beacons in region '\(region.name)'.")
 
         guard let uuidStr = Notificare.shared.application?.regionConfig?.proximityUUID,
@@ -831,11 +879,11 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
 
         NotificareRequest.Builder()
             .get("/beacon/forregion/\(region.id)")
+            .query(name: "limit", value: String(monitoredBeaconsLimit))
             .responseDecodable(NotificareInternals.PushAPI.Responses.FetchBeacons.self) { result in
                 switch result {
                 case let .success(response):
                     let beacons = response.beacons
-                        .prefix(MAX_MONITORED_BEACONS)
                         .map { $0.toModel() }
 
                     // Start monitoring every beacon.

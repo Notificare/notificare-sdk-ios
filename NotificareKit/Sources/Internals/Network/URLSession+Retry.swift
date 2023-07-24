@@ -68,9 +68,8 @@ private extension URLSession {
         let urlRequest = networkRequest.urlRequest
 
         let task = dataTask(with: urlRequest) { [unowned self] data, urlResponse, error in
-
-            let dataResult = self.process(data, urlResponse, error, for: networkRequest)
-            self.validate(dataResult, for: networkRequest)
+            let dataResult = process(data, urlResponse, error, for: networkRequest)
+            validate(dataResult, for: networkRequest)
         }
 
         task.resume()

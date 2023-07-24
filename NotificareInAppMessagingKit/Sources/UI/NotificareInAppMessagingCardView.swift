@@ -145,13 +145,8 @@ public class NotificareInAppMessagingCardView: UIView, NotificareInAppMessagingV
         return constraints
     }()
 
-    private lazy var imageViewAspectRatioHeightConstraint: NSLayoutConstraint = {
-        imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 1 / 2)
-    }()
-
-    private lazy var imageViewCollapsedHeightConstraint: NSLayoutConstraint = {
-        imageView.heightAnchor.constraint(equalToConstant: 0)
-    }()
+    private lazy var imageViewAspectRatioHeightConstraint: NSLayoutConstraint = imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 1 / 2)
+    private lazy var imageViewCollapsedHeightConstraint: NSLayoutConstraint = imageView.heightAnchor.constraint(equalToConstant: 0)
 
     // MARK: - Constructors
 
