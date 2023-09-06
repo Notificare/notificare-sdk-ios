@@ -7,6 +7,7 @@ import CoreData
 open class NotificareAbstractDatabase {
     private let name: String
     private let rebuildOnVersionChange: Bool
+    private let mergePolicy: NSMergePolicy?
 
     private var databaseVersionKey: String {
         "re.notifica.database_version.\(name)"
@@ -50,14 +51,19 @@ open class NotificareAbstractDatabase {
         Notificare.shared.options?.overrideDatabaseFileProtection ?? false
     }
 
-    public init(name: String, rebuildOnVersionChange: Bool = true) {
+    public init(name: String, rebuildOnVersionChange: Bool = true, mergePolicy: NSMergePolicy? = nil) {
         self.name = name
         self.rebuildOnVersionChange = rebuildOnVersionChange
+        self.mergePolicy = mergePolicy
     }
 
     public func configure() {
         // Force the container to be loaded.
         _ = persistentContainer
+
+        if let mergePolicy {
+            persistentContainer.viewContext.mergePolicy = mergePolicy
+        }
 
         if let currentVersion = UserDefaults.standard.string(forKey: databaseVersionKey), currentVersion != Notificare.SDK_VERSION {
             NotificareLogger.debug("Database version mismatch. Recreating...")

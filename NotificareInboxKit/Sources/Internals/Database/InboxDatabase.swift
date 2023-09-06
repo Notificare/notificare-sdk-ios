@@ -8,8 +8,11 @@ import NotificareKit
 
 class InboxDatabase: NotificareAbstractDatabase {
     init() {
-        super.init(name: "NotificareInboxDatabase", rebuildOnVersionChange: true)
-        context.mergePolicy = NSOverwriteMergePolicy
+        super.init(
+            name: "NotificareInboxDatabase",
+            rebuildOnVersionChange: true,
+            mergePolicy: .overwrite
+        )
     }
 
     func add(_ item: NotificareInboxItem, visible: Bool) throws -> InboxItemEntity {

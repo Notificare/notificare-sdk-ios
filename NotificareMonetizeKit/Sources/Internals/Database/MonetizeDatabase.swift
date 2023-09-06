@@ -8,8 +8,11 @@ import NotificareKit
 
 internal class MonetizeDatabase: NotificareAbstractDatabase {
     init() {
-        super.init(name: "NotificareMonetizeDatabase", rebuildOnVersionChange: true)
-        context.mergePolicy = NSOverwriteMergePolicy
+        super.init(
+            name: "NotificareMonetizeDatabase",
+            rebuildOnVersionChange: true,
+            mergePolicy: .overwrite
+        )
     }
 
     internal func add(_ purchase: NotificarePurchase) throws -> PurchaseEntity {
