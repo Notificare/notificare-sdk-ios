@@ -16,6 +16,8 @@ internal class MonetizeDatabase: NotificareAbstractDatabase {
     }
 
     internal func add(_ purchase: NotificarePurchase) throws -> PurchaseEntity {
+        ensureLoadedStores()
+
         let entity = try PurchaseEntity(context, purchase: purchase)
         saveChanges()
 
@@ -23,6 +25,8 @@ internal class MonetizeDatabase: NotificareAbstractDatabase {
     }
 
     internal func find() throws -> [PurchaseEntity] {
+        ensureLoadedStores()
+
         let request = NSFetchRequest<PurchaseEntity>(entityName: "PurchaseEntity")
         let result = try context.fetch(request)
 
@@ -30,6 +34,8 @@ internal class MonetizeDatabase: NotificareAbstractDatabase {
     }
 
     internal func clear() throws {
+        ensureLoadedStores()
+
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "PurchaseEntity")
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
 
