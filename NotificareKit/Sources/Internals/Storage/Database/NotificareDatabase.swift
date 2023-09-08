@@ -11,16 +11,22 @@ class NotificareDatabase: NotificareAbstractDatabase {
     }
 
     func add(_ event: NotificareEvent) {
+        ensureLoadedStores()
+
         _ = event.toManaged(context: context)
         saveChanges()
     }
 
     func remove(_ event: NotificareCoreDataEvent) {
+        ensureLoadedStores()
+
         context.delete(event)
         saveChanges()
     }
 
     func fetchEvents() throws -> [NotificareCoreDataEvent] {
+        ensureLoadedStores()
+
         let request = NSFetchRequest<NotificareCoreDataEvent>(entityName: "NotificareCoreDataEvent")
         let result = try context.fetch(request)
 

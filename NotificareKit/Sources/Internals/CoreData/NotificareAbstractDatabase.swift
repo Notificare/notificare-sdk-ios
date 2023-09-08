@@ -7,6 +7,7 @@ import CoreData
 open class NotificareAbstractDatabase {
     private let name: String
     private let rebuildOnVersionChange: Bool
+    private let mergePolicy: NSMergePolicy?
 
     private var databaseVersionKey: String {
         "re.notifica.database_version.\(name)"
@@ -46,18 +47,27 @@ open class NotificareAbstractDatabase {
         persistentContainer.viewContext
     }
 
+    private var hasLoadedPersistentStores: Bool {
+        !persistentContainer.persistentStoreCoordinator.persistentStores.isEmpty
+    }
+
     private var shouldOverrideDatabaseFileProtection: Bool {
         Notificare.shared.options?.overrideDatabaseFileProtection ?? false
     }
 
-    public init(name: String, rebuildOnVersionChange: Bool = true) {
+    public init(name: String, rebuildOnVersionChange: Bool = true, mergePolicy: NSMergePolicy? = nil) {
         self.name = name
         self.rebuildOnVersionChange = rebuildOnVersionChange
+        self.mergePolicy = mergePolicy
     }
 
     public func configure() {
         // Force the container to be loaded.
         _ = persistentContainer
+
+        if let mergePolicy {
+            persistentContainer.viewContext.mergePolicy = mergePolicy
+        }
 
         if let currentVersion = UserDefaults.standard.string(forKey: databaseVersionKey), currentVersion != Notificare.SDK_VERSION {
             NotificareLogger.debug("Database version mismatch. Recreating...")
@@ -68,8 +78,22 @@ open class NotificareAbstractDatabase {
         loadStore()
     }
 
+    public func ensureLoadedStores() {
+        guard !hasLoadedPersistentStores else {
+            return
+        }
+
+        NotificareLogger.debug("Trying to load database: \(name)")
+        loadStore()
+    }
+
     public func saveChanges() {
         guard context.hasChanges else {
+            return
+        }
+
+        guard hasLoadedPersistentStores else {
+            NotificareLogger.warning("Cannot save the database changes before the persistent stores are loaded.")
             return
         }
 
@@ -82,9 +106,9 @@ open class NotificareAbstractDatabase {
 
     private func loadStore() {
         persistentContainer.loadPersistentStores { _, error in
-            if let error = error {
+            if let error {
                 NotificareLogger.error("Failed to load CoreData store '\(self.name)'.", error: error)
-                fatalError("Failed to load CoreData store: \(error)")
+                return
             }
 
             // Update the database version in local storage.

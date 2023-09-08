@@ -530,11 +530,9 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
 
     private func loadCachedItems() {
         do {
-            let entities = try database.find()
-            cachedEntities = entities
+            cachedEntities = try database.find()
         } catch {
             NotificareLogger.error("Failed to query the local database.", error: error)
-            fatalError("Failed to query the local database.")
         }
     }
 
