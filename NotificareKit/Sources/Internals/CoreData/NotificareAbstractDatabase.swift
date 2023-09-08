@@ -47,6 +47,10 @@ open class NotificareAbstractDatabase {
         persistentContainer.viewContext
     }
 
+    private var hasLoadedPersistentStores: Bool {
+        !persistentContainer.persistentStoreCoordinator.persistentStores.isEmpty
+    }
+
     private var shouldOverrideDatabaseFileProtection: Bool {
         Notificare.shared.options?.overrideDatabaseFileProtection ?? false
     }
@@ -74,8 +78,22 @@ open class NotificareAbstractDatabase {
         loadStore()
     }
 
+    public func ensureLoadedStores() {
+        guard !hasLoadedPersistentStores else {
+            return
+        }
+
+        NotificareLogger.debug("Trying to load database: \(name)")
+        loadStore()
+    }
+
     public func saveChanges() {
         guard context.hasChanges else {
+            return
+        }
+
+        guard hasLoadedPersistentStores else {
+            NotificareLogger.warning("Cannot save the database changes before the persistent stores are loaded.")
             return
         }
 
@@ -88,9 +106,9 @@ open class NotificareAbstractDatabase {
 
     private func loadStore() {
         persistentContainer.loadPersistentStores { _, error in
-            if let error = error {
+            if let error {
                 NotificareLogger.error("Failed to load CoreData store '\(self.name)'.", error: error)
-                fatalError("Failed to load CoreData store: \(error)")
+                return
             }
 
             // Update the database version in local storage.

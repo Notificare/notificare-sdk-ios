@@ -16,6 +16,8 @@ class InboxDatabase: NotificareAbstractDatabase {
     }
 
     func add(_ item: NotificareInboxItem, visible: Bool) throws -> InboxItemEntity {
+        ensureLoadedStores()
+
         let entity = try InboxItemEntity(from: item, visible: visible, context: context)
         saveChanges()
 
@@ -23,6 +25,8 @@ class InboxDatabase: NotificareAbstractDatabase {
     }
 
     func find() throws -> [InboxItemEntity] {
+        ensureLoadedStores()
+
         let request = NSFetchRequest<InboxItemEntity>(entityName: "InboxItemEntity")
         let result = try context.fetch(request)
 
@@ -30,6 +34,8 @@ class InboxDatabase: NotificareAbstractDatabase {
     }
 
     func find(id: String) throws -> [InboxItemEntity] {
+        ensureLoadedStores()
+
         let request = NSFetchRequest<InboxItemEntity>(entityName: "InboxItemEntity")
         request.predicate = NSPredicate(format: "id = %@", id)
 
@@ -39,11 +45,15 @@ class InboxDatabase: NotificareAbstractDatabase {
     }
 
     func remove(_ item: InboxItemEntity) {
+        ensureLoadedStores()
+
         context.delete(item)
         saveChanges()
     }
 
     func clear() throws {
+        ensureLoadedStores()
+
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "InboxItemEntity")
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
 
