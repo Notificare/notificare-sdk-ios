@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Notificare documentation
+    url: https://docs.notifica.re/
+    about: Check the documentation for help with the integration.
+  - name: Notificare support
+    url: https://support.notifica.re/
+    about: Contact Notificare Support for help with product-related issues.
