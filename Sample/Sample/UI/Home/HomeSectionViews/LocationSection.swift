@@ -18,13 +18,11 @@ struct LocationSection: View {
                 Label {
                     Text(String(localized: "home_location"))
                 } icon: {
-                    Image(systemName: "location.fill")
-                        .resizable()
-                        .aspectRatio(1, contentMode: .fit)
-                        .padding(6)
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .clipShape(RoundedRectangle(cornerRadius: 4))
+                    ListIconView(
+                        icon: "location.fill",
+                        foregroundColor: .white,
+                        backgroundColor: .blue
+                    )
                 }
             }
             .onChange(of: hasLocationAndPermission) { enabled in
@@ -67,13 +65,11 @@ struct LocationSection: View {
                 Label {
                     Text(String(localized: "home_beacons"))
                 } icon: {
-                    Image(systemName: "sensor.tag.radiowaves.forward")
-                        .resizable()
-                        .aspectRatio(1, contentMode: .fit)
-                        .padding(6)
-                        .background(Color.green)
-                        .foregroundColor(.white)
-                        .clipShape(RoundedRectangle(cornerRadius: 4))
+                    ListIconView(
+                        icon: "sensor.tag.radiowaves.forward",
+                        foregroundColor: .white,
+                        backgroundColor: .green
+                    )
                 }
             }
         } header: {

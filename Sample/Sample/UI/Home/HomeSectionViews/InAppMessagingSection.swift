@@ -16,13 +16,11 @@ struct InAppMessagingSection: View {
                 Label {
                     Text(String(localized: "home_evaluate_context"))
                 } icon: {
-                    Image(systemName: "arrow.up.message.fill")
-                        .resizable()
-                        .aspectRatio(1, contentMode: .fit)
-                        .padding(6)
-                        .background(Color("system_indigo"))
-                        .foregroundColor(.white)
-                        .clipShape(RoundedRectangle(cornerRadius: 4))
+                    ListIconView(
+                        icon: "arrow.up.message.fill",
+                        foregroundColor: .white,
+                        backgroundColor: Color("system_indigo")
+                    )
                 }
             }
 
@@ -30,13 +28,11 @@ struct InAppMessagingSection: View {
                 Label {
                     Text(String(localized: "home_suppressed"))
                 } icon: {
-                    Image(systemName: "stopwatch.fill")
-                        .resizable()
-                        .aspectRatio(1, contentMode: .fit)
-                        .padding(6)
-                        .background(Color.red)
-                        .foregroundColor(.white)
-                        .clipShape(RoundedRectangle(cornerRadius: 4))
+                    ListIconView(
+                        icon: "stopwatch.fill",
+                        foregroundColor: .white,
+                        backgroundColor: .red
+                    )
                 }
             }
             .onChange(of: hasSuppressedOn) { enabled in

@@ -19,13 +19,11 @@ struct NotificationsSection: View {
                 Label {
                     Text(String(localized: "home_notifications"))
                 } icon: {
-                    Image(systemName: "bell.badge.fill")
-                        .resizable()
-                        .aspectRatio(1, contentMode: .fit)
-                        .padding(6)
-                        .background(Color.red)
-                        .foregroundColor(.white)
-                        .clipShape(RoundedRectangle(cornerRadius: 4))
+                    ListIconView(
+                        icon: "bell.badge.fill",
+                        foregroundColor: .white,
+                        backgroundColor: .red
+                    )
                 }
             }
             .onChange(of: hasNotificationsAndPermission) { enabled in
@@ -74,13 +72,11 @@ struct NotificationsSection: View {
                         BadgeView(badge: badge)
                     }
                 } icon: {
-                    Image(systemName: "tray.and.arrow.down.fill")
-                        .resizable()
-                        .aspectRatio(1, contentMode: .fit)
-                        .padding(6)
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .clipShape(RoundedRectangle(cornerRadius: 4))
+                    ListIconView(
+                        icon: "tray.and.arrow.down.fill",
+                        foregroundColor: .white,
+                        backgroundColor: .blue
+                    )
                 }
             }
 
@@ -90,13 +86,11 @@ struct NotificationsSection: View {
                 Label {
                     Text(String(localized: "home_tags"))
                 } icon: {
-                    Image(systemName: "tag.fill")
-                        .resizable()
-                        .aspectRatio(1, contentMode: .fit)
-                        .padding(6)
-                        .background(Color.orange)
-                        .foregroundColor(.white)
-                        .clipShape(RoundedRectangle(cornerRadius: 4))
+                    ListIconView(
+                        icon: "tag.fill",
+                        foregroundColor: .white,
+                        backgroundColor: .orange
+                    )
                 }
             }
         } header: {

@@ -19,13 +19,11 @@ struct DoNotDisturbSection: View {
                 Label {
                     Text(String(localized: "home_do_not_disturb"))
                 } icon: {
-                    Image(systemName: "moon.fill")
-                        .resizable()
-                        .aspectRatio(1, contentMode: .fit)
-                        .padding(6)
-                        .background(Color("system_indigo"))
-                        .foregroundColor(.white)
-                        .clipShape(RoundedRectangle(cornerRadius: 4))
+                    ListIconView(
+                        icon: "moon.fill",
+                        foregroundColor: .white,
+                        backgroundColor: Color("system_indigo")
+                    )
                 }
             }
             .onChange(of: hasDndEnabled) { enabled in
