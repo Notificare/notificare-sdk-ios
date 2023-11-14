@@ -16,18 +16,29 @@ struct Sample: App {
                 HomeView()
             }
             .onOpenURL { url in
-                if Notificare.shared.handleTestDeviceUrl(url) {
-                    Logger.main.info("Test device url: \(url.absoluteString).")
+                handleUrl(url: url)
+            }
+            .onContinueUserActivity(NSUserActivityTypeBrowsingWeb) { userActivity in
+                guard let url = userActivity.webpageURL else {
                     return
                 }
 
-                if Notificare.shared.handleDynamicLinkUrl(url) {
-                    Logger.main.info("Dynamic link url: \(url.absoluteString).")
-                    return
-                }
-
-                Logger.main.info("Received deep link: \(url.absoluteString).")
+                handleUrl(url: url)
             }
         }
+    }
+
+    private func handleUrl(url: URL) {
+        if Notificare.shared.handleTestDeviceUrl(url) {
+            Logger.main.info("Test device url: \(url.absoluteString).")
+            return
+        }
+
+        if Notificare.shared.handleDynamicLinkUrl(url) {
+            Logger.main.info("Dynamic link url: \(url.absoluteString).")
+            return
+        }
+
+        Logger.main.info("Received deep link: \(url.absoluteString).")
     }
 }

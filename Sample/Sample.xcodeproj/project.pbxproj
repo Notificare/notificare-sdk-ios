@@ -20,6 +20,7 @@
 		E51FD38429D57ECB000897D9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E51FD38229D57ECB000897D9 /* Localizable.strings */; };
 		E51FD38629D5825F000897D9 /* LiveActivitiesSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E51FD38529D5825F000897D9 /* LiveActivitiesSection.swift */; };
 		E51FD38C29D6F2D2000897D9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E51FD38A29D6F2D2000897D9 /* Localizable.strings */; };
+		E534D10E2B03810800A6EF62 /* ListIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E534D10D2B03810800A6EF62 /* ListIconView.swift */; };
 		E5590DF629C21F59006E593B /* TagsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5590DF529C21F59006E593B /* TagsView.swift */; };
 		E5590DF829C2273A006E593B /* TagsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5590DF729C2273A006E593B /* TagsViewModel.swift */; };
 		E5590DFE29C2310F006E593B /* SelectableChipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5590DFD29C2310F006E593B /* SelectableChipView.swift */; };
@@ -175,6 +176,7 @@
 		E51FD38229D57ECB000897D9 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		E51FD38529D5825F000897D9 /* LiveActivitiesSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivitiesSection.swift; sourceTree = "<group>"; };
 		E51FD38B29D6F2D2000897D9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		E534D10D2B03810800A6EF62 /* ListIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListIconView.swift; sourceTree = "<group>"; };
 		E5590DF529C21F59006E593B /* TagsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsView.swift; sourceTree = "<group>"; };
 		E5590DF729C2273A006E593B /* TagsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsViewModel.swift; sourceTree = "<group>"; };
 		E5590DFD29C2310F006E593B /* SelectableChipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectableChipView.swift; sourceTree = "<group>"; };
@@ -509,6 +511,7 @@
 				E5590E3A29C8A93D006E593B /* AsyncImageCompat */,
 				E51FD35329D336A7000897D9 /* Badge */,
 				E5590DFD29C2310F006E593B /* SelectableChipView.swift */,
+				E534D10D2B03810800A6EF62 /* ListIconView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -780,6 +783,7 @@
 				E5C78F0F29BF6D4E006BF1F6 /* LocationSection.swift in Sources */,
 				E5590E0829C334C7006E593B /* InboxItemView.swift in Sources */,
 				E5590E1E29C363AD006E593B /* ScannablesView.swift in Sources */,
+				E534D10E2B03810800A6EF62 /* ListIconView.swift in Sources */,
 				E5C78F1129BF6FF8006BF1F6 /* InAppMessagingSection.swift in Sources */,
 				E51FD36F29D57104000897D9 /* LiveActivitiesController.swift in Sources */,
 				E5590E1229C3428F006E593B /* UIApplication+Notifications.swift in Sources */,

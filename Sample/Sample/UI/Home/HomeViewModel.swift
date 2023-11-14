@@ -47,7 +47,7 @@ class HomeViewModel: NSObject, ObservableObject {
     @Published var hasNotificationsAndPermission = Notificare.shared.push().allowedUI && Notificare.shared.push().hasRemoteNotificationsEnabled
     @Published private(set) var hasNotificationsEnabled = Notificare.shared.push().hasRemoteNotificationsEnabled
     @Published private(set) var allowedUi = Notificare.shared.push().allowedUI
-    @Published private(set) var notificationsPermission = ""
+    @Published private(set) var notificationsPermission: NotificationsPermissionStatus? = nil
 
     // Do not disturb
 
@@ -59,7 +59,7 @@ class HomeViewModel: NSObject, ObservableObject {
 
     @Published var hasLocationAndPermission = Notificare.shared.geo().hasLocationServicesEnabled
     @Published private(set) var hasLocationEnabled = false
-    @Published private(set) var locationPermission = ""
+    @Published private(set) var locationPermission: LocationPermissionStatus? = nil
     @Published private(set) var hasBluetoothEnabled = false
 
     // In app messaging
@@ -170,7 +170,7 @@ extension HomeViewModel {
                     return
                 }
 
-                if status == .not_determined {
+                if status == .notDetermined {
                     Logger.main.info("Requesting notifications permission")
 
                     do {
@@ -233,7 +233,7 @@ extension HomeViewModel {
                 var permissionStatus = NotificationsPermissionStatus.denied
 
                 if status.authorizationStatus == .notDetermined {
-                    permissionStatus = NotificationsPermissionStatus.not_determined
+                    permissionStatus = NotificationsPermissionStatus.notDetermined
                 }
 
                 if status.authorizationStatus == .authorized {
@@ -254,7 +254,7 @@ extension HomeViewModel {
             let status = await checkNotificationsPermissionStatus()
 
             hasNotificationsAndPermission = Notificare.shared.push().hasRemoteNotificationsEnabled && status == .granted
-            notificationsPermission = status.rawValue
+            notificationsPermission = status
             hasNotificationsEnabled = Notificare.shared.push().hasRemoteNotificationsEnabled
             allowedUi = Notificare.shared.push().allowedUI
         }
@@ -338,16 +338,16 @@ extension HomeViewModel: CLLocationManagerDelegate {
         switch whenInUse {
         case .granted:
             if always == .granted {
-                locationPermission = "Always"
+                locationPermission = LocationPermissionStatus.always
             } else {
-                locationPermission = "When in Use"
+                locationPermission = LocationPermissionStatus.whenInUse
             }
-        case .denied:
-            locationPermission = "Not Determinated"
+        case .notDetermined:
+            locationPermission = LocationPermissionStatus.notDetermined
         case .restricted:
-            locationPermission = "Restricted"
+            locationPermission = LocationPermissionStatus.restricted
         case .permanentlyDenied:
-            locationPermission = "Permanently denied"
+            locationPermission = LocationPermissionStatus.permanentlyDenied
         }
     }
 
@@ -381,7 +381,7 @@ extension HomeViewModel: CLLocationManagerDelegate {
             hasLocationAndPermission = false
             return
 
-        case .denied:
+        case .notDetermined:
             Logger.main.info("Location When in Use is not determined, requesting permission")
             requestLocationPermission(permission: .locationWhenInUse)
             return
@@ -400,7 +400,7 @@ extension HomeViewModel: CLLocationManagerDelegate {
             Logger.main.info("Location Always permission is permanently denied")
             return
 
-        case .denied:
+        case .notDetermined:
             Logger.main.info("Location Always is not determined, requesting permission")
             requestLocationPermission(permission: .locationAlways)
 
@@ -410,27 +410,27 @@ extension HomeViewModel: CLLocationManagerDelegate {
         }
     }
 
-    private func checkLocationPermissionStatus(permission: LocationPermissionGroup) -> LocationPermissionStatus {
+    private func checkLocationPermissionStatus(permission: LocationPermissionGroup) -> LocationPermissionGroupStatus {
         if permission == .locationAlways {
             switch authorizationStatus {
             case .notDetermined:
-                return .denied
+                return .notDetermined
             case .restricted:
                 return .restricted
             case .denied:
                 return .permanentlyDenied
             case .authorizedWhenInUse:
-                return UserDefaults.standard.bool(forKey: REQUESTED_LOCATION_ALWAYS_KEY) ? .permanentlyDenied : .denied
+                return UserDefaults.standard.bool(forKey: REQUESTED_LOCATION_ALWAYS_KEY) ? .permanentlyDenied : .notDetermined
             case .authorizedAlways:
                 return .granted
             @unknown default:
-                return .denied
+                return .notDetermined
             }
         }
 
         switch authorizationStatus {
         case .notDetermined:
-            return .denied
+            return .notDetermined
         case .restricted:
             return .restricted
         case .denied:
@@ -438,7 +438,7 @@ extension HomeViewModel: CLLocationManagerDelegate {
         case .authorizedWhenInUse, .authorizedAlways:
             return .granted
         @unknown default:
-            return .denied
+            return .notDetermined
         }
     }
 
@@ -640,25 +640,41 @@ extension HomeViewModel {
     }
 }
 
-private extension HomeViewModel {
+internal extension HomeViewModel {
     enum NotificationsPermissionStatus: String, CaseIterable {
-        case not_determined = "Not Determined"
-        case granted = "Granted"
-        case denied = "Denied"
-        case permanentlyDenied = "Permanently Denied"
+        case notDetermined = "permission_status_not_determined"
+        case granted = "permission_status_granted"
+        case denied = "permission_status_denied"
+        case permanentlyDenied = "permission_status_permanently_denied"
+
+        var localized: String {
+            return NSLocalizedString(rawValue, comment: "")
+        }
     }
 
-    enum LocationPermissionGroup: String, CaseIterable {
-        case locationWhenInUse = "When in Use"
-        case locationAlways = "Always"
-        case bluetoothScan = "bluetooth_scan"
+    enum LocationPermissionGroup: CaseIterable {
+        case locationWhenInUse
+        case locationAlways
+        case bluetoothScan
+    }
+
+    enum LocationPermissionGroupStatus: CaseIterable {
+        case notDetermined
+        case granted
+        case restricted
+        case permanentlyDenied
     }
 
     enum LocationPermissionStatus: String, CaseIterable {
-        case denied = "Denied"
-        case granted = "Granted"
-        case restricted = "Restricted"
-        case permanentlyDenied = "Permanently Denied"
+        case notDetermined = "permission_status_not_determined"
+        case restricted = "permission_status_restricted"
+        case permanentlyDenied = "permission_status_permanently_denied"
+        case whenInUse = "permission_status_when_in_use"
+        case always = "permission_status_always"
+
+        var localized: String {
+            return NSLocalizedString(rawValue, comment: "")
+        }
     }
 }
 
