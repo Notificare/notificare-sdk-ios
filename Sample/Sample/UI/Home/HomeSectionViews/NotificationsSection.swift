@@ -9,7 +9,7 @@ struct NotificationsSection: View {
 
     let hasNotificationsEnabled: Bool
     let allowedUi: Bool
-    let notificationsPermission: String
+    let notificationsPermission: HomeViewModel.NotificationsPermissionStatus?
     let badge: Int
     let updateNotificationsStatus: (Bool) -> Void
 
@@ -59,7 +59,7 @@ struct NotificationsSection: View {
 
                 Spacer()
 
-                Text(String(notificationsPermission))
+                Text(String(notificationsPermission?.localized ?? ""))
             }
 
             NavigationLink {
@@ -111,7 +111,7 @@ struct NotificationsSection_Previews: PreviewProvider {
         NotificationsSection(
             hasNotificationsAndPermission: $hasNotificationsAndPermission,
             hasNotificationsEnabled: false, allowedUi: false,
-            notificationsPermission: "None",
+            notificationsPermission: HomeViewModel.NotificationsPermissionStatus.granted,
             badge: 2,
             updateNotificationsStatus: { _ in }
         )

@@ -126,6 +126,14 @@
 "tags_add" = "Manual Input";
 "tags_quick_fill" = "Quick Fill";
 
+"permission_status_granted" = "Granted";
+"permission_status_denied" = "Denied";
+"permission_status_permanently_denied" = "Permanently Denied";
+"permission_status_not_determined" = "Not Determined";
+"permission_status_restricted" = "Restricted";
+"permission_status_when_in_use" = "When in Use";
+"permission_status_always" = "Always";
+
 "error_message_tags_fetch" = "Failed to fetch tags";
 "error_message_tags_add" = "Failed to add tags";
 "error_message_tags_remove" = "Failed to remove tags";

@@ -9,7 +9,7 @@ struct LocationSection: View {
 
     let hasLocationEnabled: Bool
     let hasBluetoothEnabled: Bool
-    let locationPermission: String
+    let locationPermission: HomeViewModel.LocationPermissionStatus?
     let updateLocationServicesStatus: (Bool) -> Void
 
     var body: some View {
@@ -58,7 +58,7 @@ struct LocationSection: View {
 
                 Spacer()
 
-                Text(String(locationPermission))
+                Text(String(locationPermission?.localized ?? ""))
             }
 
             NavigationLink {
@@ -88,7 +88,7 @@ struct LocationSection_Previews: PreviewProvider {
         LocationSection(
             hasLocationAndPermission: $hasLocationAndPermission,
             hasLocationEnabled: false, hasBluetoothEnabled: false,
-            locationPermission: "None",
+            locationPermission: HomeViewModel.LocationPermissionStatus.permanentlyDenied,
             updateLocationServicesStatus: { _ in }
         )
     }
