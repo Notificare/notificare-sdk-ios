@@ -7,6 +7,8 @@
 
 "sdk" = "SDK";
 
+"main_deep_link_opened_title" = "Deep link opened";
+
 "button_register" = "Register";
 "button_search" = "Search";
 "button_add" = "Add";
