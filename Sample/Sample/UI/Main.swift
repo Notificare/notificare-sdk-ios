@@ -9,6 +9,7 @@ import SwiftUI
 @main
 struct Sample: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    @State private var presentedDeepLink: URL?
 
     var body: some Scene {
         WindowGroup {
@@ -25,6 +26,12 @@ struct Sample: App {
 
                 handleUrl(url: url)
             }
+            .banner(item: $presentedDeepLink) { url in
+                BannerView(
+                    title: String(localized: "main_deep_link_opened_title"),
+                    subtitle: url.absoluteString
+                )
+            }
         }
     }
 
@@ -40,5 +47,6 @@ struct Sample: App {
         }
 
         Logger.main.info("Received deep link: \(url.absoluteString).")
+        presentedDeepLink = url
     }
 }
