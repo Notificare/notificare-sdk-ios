@@ -3,7 +3,26 @@
 ## Upcoming release
 
 - Prevent the `device_registered` event from invoking before the `ready` event
+- Automatically enable remote notifications during launch when possible
+- Automatically enable location updates during launch when possible
 - Drop support for iOS 12.0
+
+**Important notice:** Re-enabling remote notifications and location services is no longer required. 
+You can safely remove the following piece of code as the SDK will automatically handle it for you during the launch flow.
+
+```swift
+func notificare(_ notificare: Notificare, onReady application: NotificareApplication) {
+    // This check is no longer necessary.
+    if Notificare.shared.push().hasRemoteNotificationsEnabled {
+        Notificare.shared.push().enableRemoteNotifications { _ in }
+    }
+
+    // This check is no longer necessary.
+    if Notificare.shared.geo().hasLocationServicesEnabled {
+        Notificare.shared.geo().enableLocationUpdates()
+    }
+}
+```
 
 ## 3.6.1
 

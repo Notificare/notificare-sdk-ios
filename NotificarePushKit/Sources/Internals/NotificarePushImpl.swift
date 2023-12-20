@@ -55,6 +55,13 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
         updateNotificationSettings(completion)
     }
 
+    func postLaunch() async throws {
+        if hasRemoteNotificationsEnabled {
+            NotificareLogger.debug("Enabling remote notifications automatically.")
+            enableRemoteNotifications { _ in }
+        }
+    }
+
     func unlaunch(_ completion: @escaping NotificareCallback<Void>) {
         // Unregister from APNS
         UIApplication.shared.unregisterForRemoteNotifications()
