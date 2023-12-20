@@ -2,6 +2,7 @@
 
 ## Upcoming release
 
+- Prevent the `device_registered` event from invoking before the `ready` event
 - Drop support for iOS 12.0
 
 ## 3.6.1
