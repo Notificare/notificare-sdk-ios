@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## Upcoming release
+
+- Drop support for iOS 12.0
+
 ## 3.6.1
 
 - Fix race condition when setting the database merge policy eagerly loads the data stores
