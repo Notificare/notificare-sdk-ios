@@ -15,6 +15,8 @@ public protocol NotificareModule {
 
     func launch(_ completion: @escaping NotificareCallback<Void>)
 
+    func postLaunch() async throws
+
     func unlaunch(_ completion: @escaping NotificareCallback<Void>)
 }
 
@@ -26,6 +28,8 @@ public extension NotificareModule {
     func launch(_ completion: @escaping NotificareCallback<Void>) {
         completion(.success(()))
     }
+
+    func postLaunch() async throws {}
 
     func unlaunch(_ completion: @escaping NotificareCallback<Void>) {
         completion(.success(()))
