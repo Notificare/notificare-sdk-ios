@@ -103,6 +103,13 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
                                                object: nil)
     }
 
+    func postLaunch() async throws {
+        if hasLocationServicesEnabled {
+            NotificareLogger.debug("Enabling locations updates automatically.")
+            enableLocationUpdates()
+        }
+    }
+
     func unlaunch(_ completion: @escaping NotificareCallback<Void>) {
         LocalStorage.locationServicesEnabled = false
 
