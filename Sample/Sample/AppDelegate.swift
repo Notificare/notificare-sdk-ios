@@ -68,14 +68,6 @@ extension AppDelegate: NotificareDelegate {
             object: nil,
             userInfo: ["ready": true]
         )
-
-        if Notificare.shared.push().hasRemoteNotificationsEnabled {
-            Notificare.shared.push().enableRemoteNotifications { _ in }
-        }
-
-        if Notificare.shared.geo().hasLocationServicesEnabled {
-            Notificare.shared.geo().enableLocationUpdates()
-        }
     }
 
     func notificareDidUnlaunch(_: Notificare) {
