@@ -527,6 +527,20 @@ public class Notificare {
                 // We're done launching. Notify the delegate.
                 self.delegate?.notificare(self, onReady: application)
             }
+
+            Task {
+                // Loop all possible modules and post-launch the available ones.
+                for module in NotificareInternals.Module.allCases {
+                    if let instance = module.klass?.instance {
+                        do {
+                            NotificareLogger.debug("Post-launching module: \(module)")
+                            try await instance.postLaunch()
+                        } catch {
+                            NotificareLogger.error("Failed to post-launch '\(module)'.", error: error)
+                        }
+                    }
+                }
+            }
         case let .failure(error):
             NotificareLogger.error("Failed to launch Notificare.", error: error)
             state = .configured

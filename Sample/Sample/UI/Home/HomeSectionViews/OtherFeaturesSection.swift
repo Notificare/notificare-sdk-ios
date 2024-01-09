@@ -13,13 +13,11 @@ struct OtherFeaturesSection: View {
                 Label {
                     Text(String(localized: "home_scannables"))
                 } icon: {
-                    Image(systemName: "qrcode.viewfinder")
-                        .resizable()
-                        .aspectRatio(1, contentMode: .fit)
-                        .padding(6)
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .clipShape(RoundedRectangle(cornerRadius: 4))
+                    ListIconView(
+                        icon: "qrcode.viewfinder",
+                        foregroundColor: .white,
+                        backgroundColor: .blue
+                    )
                 }
             }
 
@@ -29,13 +27,11 @@ struct OtherFeaturesSection: View {
                 Label {
                     Text(String(localized: "home_assets"))
                 } icon: {
-                    Image(systemName: "folder.fill")
-                        .resizable()
-                        .aspectRatio(1, contentMode: .fit)
-                        .padding(6)
-                        .background(Color("system_indigo"))
-                        .foregroundColor(.white)
-                        .clipShape(RoundedRectangle(cornerRadius: 4))
+                    ListIconView(
+                        icon: "folder.fill",
+                        foregroundColor: .white,
+                        backgroundColor: Color("system_indigo")
+                    )
                 }
             }
 
@@ -45,13 +41,11 @@ struct OtherFeaturesSection: View {
                 Label {
                     Text(String(localized: "home_monetize"))
                 } icon: {
-                    Image(systemName: "bag.fill")
-                        .resizable()
-                        .aspectRatio(1, contentMode: .fit)
-                        .padding(6)
-                        .background(Color("system_indigo"))
-                        .foregroundColor(.white)
-                        .clipShape(RoundedRectangle(cornerRadius: 4))
+                    ListIconView(
+                        icon: "bag.fill",
+                        foregroundColor: .white,
+                        backgroundColor: Color("system_indigo")
+                    )
                 }
             }
 
@@ -61,13 +55,11 @@ struct OtherFeaturesSection: View {
                 Label {
                     Text(String(localized: "home_custom_events"))
                 } icon: {
-                    Image(systemName: "light.beacon.max")
-                        .resizable()
-                        .aspectRatio(1, contentMode: .fit)
-                        .padding(6)
-                        .background(Color.red)
-                        .foregroundColor(.white)
-                        .clipShape(RoundedRectangle(cornerRadius: 4))
+                    ListIconView(
+                        icon: "light.beacon.max",
+                        foregroundColor: .white,
+                        backgroundColor: .red
+                    )
                 }
             }
         } header: {

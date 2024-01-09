@@ -9,6 +9,7 @@ import SwiftUI
 @main
 struct Sample: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    @State private var presentedDeepLink: URL?
 
     var body: some Scene {
         WindowGroup {
@@ -16,18 +17,36 @@ struct Sample: App {
                 HomeView()
             }
             .onOpenURL { url in
-                if Notificare.shared.handleTestDeviceUrl(url) {
-                    Logger.main.info("Test device url: \(url.absoluteString).")
+                handleUrl(url: url)
+            }
+            .onContinueUserActivity(NSUserActivityTypeBrowsingWeb) { userActivity in
+                guard let url = userActivity.webpageURL else {
                     return
                 }
 
-                if Notificare.shared.handleDynamicLinkUrl(url) {
-                    Logger.main.info("Dynamic link url: \(url.absoluteString).")
-                    return
-                }
-
-                Logger.main.info("Received deep link: \(url.absoluteString).")
+                handleUrl(url: url)
+            }
+            .banner(item: $presentedDeepLink) { url in
+                BannerView(
+                    title: String(localized: "main_deep_link_opened_title"),
+                    subtitle: url.absoluteString
+                )
             }
         }
+    }
+
+    private func handleUrl(url: URL) {
+        if Notificare.shared.handleTestDeviceUrl(url) {
+            Logger.main.info("Test device url: \(url.absoluteString).")
+            return
+        }
+
+        if Notificare.shared.handleDynamicLinkUrl(url) {
+            Logger.main.info("Dynamic link url: \(url.absoluteString).")
+            return
+        }
+
+        Logger.main.info("Received deep link: \(url.absoluteString).")
+        presentedDeepLink = url
     }
 }

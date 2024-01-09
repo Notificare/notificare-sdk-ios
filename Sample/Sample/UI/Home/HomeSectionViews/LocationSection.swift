@@ -9,7 +9,7 @@ struct LocationSection: View {
 
     let hasLocationEnabled: Bool
     let hasBluetoothEnabled: Bool
-    let locationPermission: String
+    let locationPermission: HomeViewModel.LocationPermissionStatus?
     let updateLocationServicesStatus: (Bool) -> Void
 
     var body: some View {
@@ -18,13 +18,11 @@ struct LocationSection: View {
                 Label {
                     Text(String(localized: "home_location"))
                 } icon: {
-                    Image(systemName: "location.fill")
-                        .resizable()
-                        .aspectRatio(1, contentMode: .fit)
-                        .padding(6)
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .clipShape(RoundedRectangle(cornerRadius: 4))
+                    ListIconView(
+                        icon: "location.fill",
+                        foregroundColor: .white,
+                        backgroundColor: .blue
+                    )
                 }
             }
             .onChange(of: hasLocationAndPermission) { enabled in
@@ -58,7 +56,7 @@ struct LocationSection: View {
 
                 Spacer()
 
-                Text(String(locationPermission))
+                Text(String(locationPermission?.localized ?? ""))
             }
 
             NavigationLink {
@@ -67,13 +65,11 @@ struct LocationSection: View {
                 Label {
                     Text(String(localized: "home_beacons"))
                 } icon: {
-                    Image(systemName: "sensor.tag.radiowaves.forward")
-                        .resizable()
-                        .aspectRatio(1, contentMode: .fit)
-                        .padding(6)
-                        .background(Color.green)
-                        .foregroundColor(.white)
-                        .clipShape(RoundedRectangle(cornerRadius: 4))
+                    ListIconView(
+                        icon: "sensor.tag.radiowaves.forward",
+                        foregroundColor: .white,
+                        backgroundColor: .green
+                    )
                 }
             }
         } header: {
@@ -88,7 +84,7 @@ struct LocationSection_Previews: PreviewProvider {
         LocationSection(
             hasLocationAndPermission: $hasLocationAndPermission,
             hasLocationEnabled: false, hasBluetoothEnabled: false,
-            locationPermission: "None",
+            locationPermission: HomeViewModel.LocationPermissionStatus.permanentlyDenied,
             updateLocationServicesStatus: { _ in }
         )
     }

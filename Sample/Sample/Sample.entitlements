@@ -6,12 +6,11 @@
 	<string>development</string>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>applinks:sample.ntc.re</string>
-		<string>applinks:61644511218adebf72c5449b.applinks.notifica.re</string>
+		<string>applinks:sample-app.ntc.re</string>
+		<string>applinks:6511625f445cc1c81d47fd6f.applinks.notifica.re</string>
 	</array>
 	<key>com.apple.developer.nfc.readersession.formats</key>
 	<array>
-		<string>NDEF</string>
 		<string>TAG</string>
 	</array>
 </dict>
