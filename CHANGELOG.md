@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## Upcoming release
+## 3.7.0-beta.1
 
 - Prevent the `device_registered` event from invoking before the `ready` event
 - Automatically enable remote notifications during launch when possible
