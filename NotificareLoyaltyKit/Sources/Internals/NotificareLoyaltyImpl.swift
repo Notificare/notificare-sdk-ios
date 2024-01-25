@@ -31,15 +31,11 @@ internal class NotificareLoyaltyImpl: NSObject, NotificareModule, NotificareLoya
             throw NotificareError.invalidArgument(message: "Invalid serial value.")
         }
 
-        do {
-            let response = try await NotificareRequest.Builder()
-                .get("/pass/forserial/\(urlEncodedSerial)")
-                .responseDecodable(NotificareInternals.PushAPI.Responses.Pass.self)
+        let response = try await NotificareRequest.Builder()
+            .get("/pass/forserial/\(urlEncodedSerial)")
+            .responseDecodable(NotificareInternals.PushAPI.Responses.Pass.self)
 
-            return try await enhancePass(response.pass)
-        } catch {
-            throw error
-        }
+        return try await enhancePass(response.pass)
     }
 
     func fetchPass(barcode: String, _ completion: @escaping NotificareCallback<NotificarePass>) {
@@ -60,15 +56,11 @@ internal class NotificareLoyaltyImpl: NSObject, NotificareModule, NotificareLoya
             throw NotificareError.invalidArgument(message: "Invalid barcode value.")
         }
 
-        do {
-            let response = try await NotificareRequest.Builder()
-                .get("/pass/forbarcode/\(urlEncodedBarcode)")
-                .responseDecodable(NotificareInternals.PushAPI.Responses.Pass.self)
+        let response = try await NotificareRequest.Builder()
+            .get("/pass/forbarcode/\(urlEncodedBarcode)")
+            .responseDecodable(NotificareInternals.PushAPI.Responses.Pass.self)
 
-            return try await enhancePass(response.pass)
-        } catch {
-            throw error
-        }
+        return try await enhancePass(response.pass)
     }
 
     func present(pass: NotificarePass, in controller: UIViewController) {
@@ -140,14 +132,10 @@ internal class NotificareLoyaltyImpl: NSObject, NotificareModule, NotificareLoya
 
     private func enhancePass(_ pass: NotificareInternals.PushAPI.Models.Pass) async throws -> NotificarePass {
         if pass.version == 1, let passbook = pass.passbook {
-            do {
-                let type = try await fetchPassType(passbook: passbook)
+            let type = try await fetchPassType(passbook: passbook)
 
-                let model = createPassModel(pass, passType: type)
-                return model
-            } catch {
-                throw error
-            }
+            let model = createPassModel(pass, passType: type)
+            return model
         }
 
         let model = createPassModel(pass, passType: nil)
@@ -155,15 +143,11 @@ internal class NotificareLoyaltyImpl: NSObject, NotificareModule, NotificareLoya
     }
 
     private func fetchPassType(passbook: String) async throws -> NotificarePass.PassType {
-        do {
-            let response = try await NotificareRequest.Builder()
-                .get("/passbook/\(passbook)")
-                .responseDecodable(NotificareInternals.PushAPI.Responses.FetchPassbookTemplate.self)
+        let response = try await NotificareRequest.Builder()
+            .get("/passbook/\(passbook)")
+            .responseDecodable(NotificareInternals.PushAPI.Responses.FetchPassbookTemplate.self)
 
-            return response.passbook.passStyle
-        } catch {
-            throw error
-        }
+        return response.passbook.passStyle
     }
 
     private func createPassModel(_ pass: NotificareInternals.PushAPI.Models.Pass, passType: NotificarePass.PassType?) -> NotificarePass {
