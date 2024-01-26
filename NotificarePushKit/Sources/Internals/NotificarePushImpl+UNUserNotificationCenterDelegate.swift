@@ -25,69 +25,67 @@ extension NotificarePushImpl: UNUserNotificationCenterDelegate {
                 NotificareLogger.warning("Notificare has not been configured.")
                 return completionHandler()
             }
+            
+            Task {
+                do {
+                    let notification = try await Notificare.shared.fetchNotification(id)
 
-            Notificare.shared.fetchNotification(id) { result in
-                switch result {
-                case let .success(notification):
-                    Notificare.shared.events().logNotificationOpen(id) { result in
-                        switch result {
-                        case .success:
-                            if response.actionIdentifier != UNNotificationDefaultActionIdentifier {
-                                if let clickedAction = notification.actions.first(where: { $0.label == response.actionIdentifier }) {
-                                    let responseText = (response as? UNTextInputNotificationResponse)?.userText
+                    do {
+                        try await Notificare.shared.events().logNotificationOpen(id)
 
-                                    if clickedAction.type == NotificareNotification.Action.ActionType.callback.rawValue, !clickedAction.camera, !clickedAction.keyboard || responseText != nil {
-                                        NotificareLogger.debug("Handling a notification action without UI.")
-                                        self.handleQuickResponse(userInfo: userInfo, notification: notification, action: clickedAction, responseText: responseText)
-                                        return completionHandler()
-                                    }
+                        if response.actionIdentifier != UNNotificationDefaultActionIdentifier {
+                            if let clickedAction = notification.actions.first(where: { $0.label == response.actionIdentifier }) {
+                                let responseText = (response as? UNTextInputNotificationResponse)?.userText
 
-                                    Notificare.shared.events().logNotificationInfluenced(id) { result in
-                                        switch result {
-                                        case .success:
-                                            InboxIntegration.markItemAsRead(userInfo: userInfo)
-
-                                            DispatchQueue.main.async {
-                                                self.delegate?.notificare(self, didOpenAction: clickedAction, for: notification)
-                                            }
-                                        case let .failure(error):
-                                            NotificareLogger.error("Failed to log the notification influenced open.", error: error)
-                                        }
-
-                                        completionHandler()
-                                    }
-
-                                    return
+                                if clickedAction.type == NotificareNotification.Action.ActionType.callback.rawValue, !clickedAction.camera, !clickedAction.keyboard || responseText != nil {
+                                    NotificareLogger.debug("Handling a notification action without UI.")
+                                    self.handleQuickResponse(userInfo: userInfo, notification: notification, action: clickedAction, responseText: responseText)
+                                    return completionHandler()
                                 }
 
-                                // Notify the inbox to update the badge.
-                                InboxIntegration.refreshBadge()
+                                do {
+                                    try await Notificare.shared.events().logNotificationInfluenced(id)
+
+                                    InboxIntegration.markItemAsRead(userInfo: userInfo)
+
+                                    DispatchQueue.main.async {
+                                        self.delegate?.notificare(self, didOpenAction: clickedAction, for: notification)
+                                    }
+                                } catch {
+                                    NotificareLogger.error("Failed to log the notification influenced open.", error: error)
+                                }
 
                                 completionHandler()
-                            } else {
-                                Notificare.shared.events().logNotificationInfluenced(id) { result in
-                                    switch result {
-                                    case .success:
-                                        InboxIntegration.markItemAsRead(userInfo: userInfo)
 
-                                        DispatchQueue.main.async {
-                                            self.delegate?.notificare(self, didOpenNotification: notification)
-                                        }
-                                    case let .failure(error):
-                                        NotificareLogger.error("Failed to log the notification influenced open.", error: error)
-                                    }
-
-                                    completionHandler()
-                                }
+                                return
                             }
 
-                        case let .failure(error):
-                            NotificareLogger.error("Failed to log the notification as open.", error: error)
+                            // Notify the inbox to update the badge.
+                            InboxIntegration.refreshBadge()
+
+                            completionHandler()
+                        } else {
+                            do {
+                                try await Notificare.shared.events().logNotificationInfluenced(id)
+
+                                try await Notificare.shared.events().logNotificationInfluenced(id)
+
+                                InboxIntegration.markItemAsRead(userInfo: userInfo)
+
+                                DispatchQueue.main.async {
+                                    self.delegate?.notificare(self, didOpenNotification: notification)
+                                }
+                            } catch {
+                                NotificareLogger.error("Failed to log the notification influenced open.", error: error)
+                            }
+
                             completionHandler()
                         }
+                    } catch {
+                        NotificareLogger.error("Failed to log the notification as open.", error: error)
+                        completionHandler()
                     }
-
-                case let .failure(error):
+                } catch {
                     NotificareLogger.error("Failed to fetch notification with id '\(id)'.", error: error)
                     completionHandler()
                 }
@@ -172,7 +170,9 @@ extension NotificarePushImpl: UNUserNotificationCenterDelegate {
     }
 
     private func handleQuickResponse(userInfo: [AnyHashable: Any], notification: NotificareNotification, action: NotificareNotification.Action, responseText: String?) {
-        sendQuickResponse(notification: notification, action: action, responseText: responseText) { _ in
+        Task {
+            try await sendQuickResponse(notification: notification, action: action, responseText: responseText)
+
             // Remove the notification from the notification center.
             Notificare.shared.removeNotificationFromNotificationCenter(notification)
 
@@ -182,9 +182,19 @@ extension NotificarePushImpl: UNUserNotificationCenterDelegate {
     }
 
     private func sendQuickResponse(notification: NotificareNotification, action: NotificareNotification.Action, responseText: String?, _ completion: @escaping NotificareCallback<Void>) {
-        guard let target = action.target, let url = URL(string: target), url.scheme != nil, url.host != nil else {
-            sendQuickResponseAction(notification: notification, action: action, responseText: responseText, completion)
+        Task {
+            do {
+                try await sendQuickResponse(notification: notification, action: action, responseText: responseText)
+                completion(.success(()))
+            } catch {
+                completion(.failure(error))
+            }
+        }
+    }
 
+    private func sendQuickResponse(notification: NotificareNotification, action: NotificareNotification.Action, responseText: String?) async throws {
+        guard let target = action.target, let url = URL(string: target), url.scheme != nil, url.host != nil else {
+            try await sendQuickResponseAction(notification: notification, action: action, responseText: responseText)
             return
         }
 
@@ -197,22 +207,31 @@ extension NotificarePushImpl: UNUserNotificationCenterDelegate {
             params["message"] = responseText
         }
 
-        Notificare.shared.callNotificationReplyWebhook(url: url, data: params) { result in
-            if case let .failure(error) = result {
-                NotificareLogger.debug("Failed to call the notification reply webhook.", error: error)
-            }
+        do {
+            try await Notificare.shared.callNotificationReplyWebhook(url: url, data: params)
 
-            self.sendQuickResponseAction(notification: notification, action: action, responseText: responseText, completion)
+            try await self.sendQuickResponseAction(notification: notification, action: action, responseText: responseText)
+        } catch {
+            NotificareLogger.debug("Failed to call the notification reply webhook.", error: error)
         }
     }
 
     private func sendQuickResponseAction(notification: NotificareNotification, action: NotificareNotification.Action, responseText: String?, _ completion: @escaping NotificareCallback<Void>) {
-        Notificare.shared.createNotificationReply(notification: notification, action: action, message: responseText, media: nil, mimeType: nil) { result in
-            if case let .failure(error) = result {
-                NotificareLogger.debug("Failed to create a notification reply.", error: error)
+        Task {
+            do {
+                try await sendQuickResponse(notification: notification, action: action, responseText: responseText)
+                completion(.success(()))
+            } catch {
+                completion(.failure(error))
             }
+        }
+    }
 
-            completion(result)
+    private func sendQuickResponseAction(notification: NotificareNotification, action: NotificareNotification.Action, responseText: String?) async throws {
+        do {
+            try await Notificare.shared.createNotificationReply(notification: notification, action: action, message: responseText, media: nil, mimeType: nil)
+        } catch {
+            NotificareLogger.debug("Failed to create a notification reply.", error: error)
         }
     }
 }

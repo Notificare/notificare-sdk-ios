@@ -26,7 +26,6 @@ public protocol NotificarePush: AnyObject, NotificarePushUIApplicationDelegate, 
 
     func enableRemoteNotifications(_ completion: @escaping NotificareCallback<Bool>)
 
-    @available(iOS 13.0, *)
     func enableRemoteNotifications() async throws -> Bool
 
     func disableRemoteNotifications()
@@ -35,6 +34,9 @@ public protocol NotificarePush: AnyObject, NotificarePushUIApplicationDelegate, 
 
     @available(*, deprecated, message: "Include the NotificareNotificationServiceExtensionKit and use NotificareNotificationServiceExtension.handleNotificationRequest() instead.")
     func handleNotificationRequest(_ request: UNNotificationRequest, _ completion: @escaping NotificareCallback<UNNotificationContent>)
+
+    @available(*, deprecated, message: "Include the NotificareNotificationServiceExtensionKit and use NotificareNotificationServiceExtension.handleNotificationRequest() instead.")
+    func handleNotificationRequest(_ request: UNNotificationRequest) async throws -> UNNotificationContent
 
     @available(iOS 16.1, *)
     func registerLiveActivity(_ activityId: String, token: String, topics: [String], _ completion: @escaping NotificareCallback<Void>)
