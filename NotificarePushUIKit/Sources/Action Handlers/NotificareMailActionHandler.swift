@@ -57,7 +57,13 @@ extension NotificareMailActionHandler: MFMailComposeViewControllerDelegate {
                 Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didExecuteAction: self.action, for: self.notification)
             }
 
-            Notificare.shared.createNotificationReply(notification: notification, action: action) { _ in }
+            Task {
+                do {
+                    try await Notificare.shared.createNotificationReply(notification: notification, action: action)
+                } catch {
+                    
+                }
+            }
 
         case .cancelled:
             DispatchQueue.main.async {

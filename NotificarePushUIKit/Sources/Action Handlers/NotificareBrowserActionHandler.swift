@@ -18,7 +18,13 @@ public class NotificareBrowserActionHandler: NotificareBaseActionHandler {
                         Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didExecuteAction: self.action, for: self.notification)
                     }
 
-                    Notificare.shared.createNotificationReply(notification: self.notification, action: self.action) { _ in }
+                    Task {
+                        do {
+                            try await Notificare.shared.createNotificationReply(notification: self.notification, action: self.action)
+                        } catch {
+                            
+                        }
+                    }
                 }
             }
         } else {
