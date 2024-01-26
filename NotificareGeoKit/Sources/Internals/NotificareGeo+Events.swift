@@ -36,11 +36,7 @@ internal extension NotificareEventsModule {
         ]
 
         let this = self as! NotificareInternalEventsModule
-        return try await withCheckedThrowingContinuation { continuation in
-            this.log("re.notifica.event.region.Session", data: data) { result in
-                continuation.resume(with: result)
-            }
-        }
+        try await this.log("re.notifica.event.region.Session", data: data)
     }
 
     func logBeaconSession(_ session: NotificareBeaconSession) async throws {
@@ -72,11 +68,7 @@ internal extension NotificareEventsModule {
         ]
 
         let this = self as! NotificareInternalEventsModule
-        return try await withCheckedThrowingContinuation { continuation in
-            this.log("re.notifica.event.beacon.Session", data: data) { result in
-                continuation.resume(with: result)
-            }
-        }
+        try await this.log("re.notifica.event.beacon.Session", data: data)
     }
 
     func logVisit(_ visit: NotificareVisit) async throws {
@@ -88,10 +80,6 @@ internal extension NotificareEventsModule {
         ]
 
         let this = self as! NotificareInternalEventsModule
-        return try await withCheckedThrowingContinuation { continuation in
-            this.log("re.notifica.event.location.Visit", data: data) { result in
-                continuation.resume(with: result)
-            }
-        }
+        try await this.log("re.notifica.event.location.Visit", data: data)
     }
 }
