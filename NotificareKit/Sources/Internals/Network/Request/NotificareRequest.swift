@@ -47,12 +47,22 @@ public struct NotificareRequest {
     }
 
     private func handleResponse(_ response: HTTPURLResponse, data: Data?, _ completion: @escaping NotificareCallback<(response: HTTPURLResponse, data: Data?)>) {
+        Task {
+            do {
+                let result = try await handleResponse(response, data: data)
+                completion(.success(result))
+            } catch {
+                completion(.failure(error))
+            }
+        }
+    }
+
+    private func handleResponse(_ response: HTTPURLResponse, data: Data?) async throws -> (response: HTTPURLResponse, data: Data?) {
         guard validStatusCodes.contains(response.statusCode) else {
-            completion(.failure(NotificareNetworkError.validationError(response: response, data: data, validStatusCodes: validStatusCodes)))
-            return
+            throw NotificareNetworkError.validationError(response: response, data: data, validStatusCodes: validStatusCodes)
         }
 
-        completion(.success((response, data)))
+        return (response, data)
     }
 
     public class Builder {
@@ -218,7 +228,7 @@ public struct NotificareRequest {
             }
         }
 
-        @available(iOS 13.0, *)
+        @discardableResult
         public func response() async throws -> (response: HTTPURLResponse, data: Data?) {
             try await withCheckedThrowingContinuation { continuation in
                 response { result in
@@ -235,7 +245,6 @@ public struct NotificareRequest {
             }
         }
 
-        @available(iOS 13.0, *)
         public func responseDecodable<T: Decodable>(_ type: T.Type) async throws -> T {
             try await withCheckedThrowingContinuation { continuation in
                 responseDecodable(type) { result in
