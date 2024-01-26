@@ -42,9 +42,7 @@ extension NotificareInAppBrowserActionHandler: SFSafariViewControllerDelegate {
             Task {
                 do {
                     try await Notificare.shared.createNotificationReply(notification: notification, action: action)
-                } catch {
-                    
-                }
+                } catch {}
             }
         } else {
             DispatchQueue.main.async {

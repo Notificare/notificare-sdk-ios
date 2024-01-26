@@ -155,7 +155,7 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
                     self.mediaUrl = url
                     self.mediaMimeType = "image/jpeg"
                     self.send()
-                } catch let error {
+                } catch {
                     DispatchQueue.main.async {
                         Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToExecuteAction: self.action, for: self.notification, error: error)
                     }
@@ -169,7 +169,7 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
                     self.mediaUrl = url
                     self.mediaMimeType = "video/quicktime"
                     self.send()
-                } catch let error {
+                } catch {
                     DispatchQueue.main.async {
                         Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToExecuteAction: self.action, for: self.notification, error: error)
                     }
@@ -443,9 +443,7 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
         Task {
             do {
                 try await Notificare.shared.createNotificationReply(notification: notification, action: action, message: message, media: mediaUrl, mimeType: mediaMimeType)
-            } catch {
-                
-            }
+            } catch {}
         }
     }
 }

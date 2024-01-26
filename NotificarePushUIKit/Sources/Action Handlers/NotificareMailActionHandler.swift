@@ -60,9 +60,7 @@ extension NotificareMailActionHandler: MFMailComposeViewControllerDelegate {
             Task {
                 do {
                     try await Notificare.shared.createNotificationReply(notification: notification, action: action)
-                } catch {
-                    
-                }
+                } catch {}
             }
 
         case .cancelled:
