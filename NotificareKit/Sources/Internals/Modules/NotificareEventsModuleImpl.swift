@@ -51,10 +51,10 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
         try await log("re.notifica.event.notification.Open", data: nil, notificationId: id)
     }
 
-    func logCustom(_ event: String, data _: NotificareEventData?, _ completion: @escaping NotificareCallback<Void>) {
+    func logCustom(_ event: String, data: NotificareEventData?, _ completion: @escaping NotificareCallback<Void>) {
         Task {
             do {
-                try await logCustom(event)
+                try await logCustom(event, data: data)
                 completion(.success(()))
             } catch {
                 completion(.failure(error))
