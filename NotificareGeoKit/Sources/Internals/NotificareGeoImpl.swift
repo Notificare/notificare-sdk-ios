@@ -265,42 +265,43 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
     }
 
     private func saveLocation(_ location: CLLocation) async {
-        let geocoder = CLGeocoder()
+        let placemarks: [CLPlacemark]
+
         do {
-            let placemarks = try await geocoder.reverseGeocodeLocation(location)
-
-            guard let placemark = placemarks.first,
-                  let device = Notificare.shared.device().currentDevice
-            else {
-                return
-            }
-
-            let payload = NotificareInternals.PushAPI.Payloads.UpdateDeviceLocation(
-                latitude: location.coordinate.latitude,
-                longitude: location.coordinate.longitude,
-                altitude: location.altitude,
-                locationAccuracy: location.horizontalAccuracy >= 0 ? location.horizontalAccuracy : nil,
-                speed: location.speed >= 0 ? location.speed : nil,
-                course: location.course >= 0 ? location.course : nil,
-                country: placemark.isoCountryCode,
-                floor: location.floor?.level,
-                locationServicesAuthStatus: self.authorizationMode,
-                locationServicesAccuracyAuth: self.accuracyMode
-            )
-
-            do {
-                try await NotificareRequest.Builder()
-                    .put("/device/\(device.id)", body: payload)
-                    .response()
-                NotificareLogger.info("Updated location to '\(placemark.name ?? "unknown")'.")
-            } catch {
-                NotificareLogger.error("Failed to save location to '\(placemark.name ?? "unknown")'.", error: error)
-            }
-
-            return
+            let geocoder = CLGeocoder()
+            placemarks = try await geocoder.reverseGeocodeLocation(location)
         } catch {
             NotificareLogger.warning("Failed to reverse geocode location.", error: error)
             return
+        }
+
+        guard let placemark = placemarks.first,
+              let device = Notificare.shared.device().currentDevice
+        else {
+            return
+        }
+
+        let payload = NotificareInternals.PushAPI.Payloads.UpdateDeviceLocation(
+            latitude: location.coordinate.latitude,
+            longitude: location.coordinate.longitude,
+            altitude: location.altitude,
+            locationAccuracy: location.horizontalAccuracy >= 0 ? location.horizontalAccuracy : nil,
+            speed: location.speed >= 0 ? location.speed : nil,
+            course: location.course >= 0 ? location.course : nil,
+            country: placemark.isoCountryCode,
+            floor: location.floor?.level,
+            locationServicesAuthStatus: self.authorizationMode,
+            locationServicesAccuracyAuth: self.accuracyMode
+        )
+
+        do {
+            try await NotificareRequest.Builder()
+                .put("/device/\(device.id)", body: payload)
+                .response()
+
+            NotificareLogger.info("Updated location to '\(placemark.name ?? "unknown")'.")
+        } catch {
+            NotificareLogger.error("Failed to save location to '\(placemark.name ?? "unknown")'.", error: error)
         }
     }
 
