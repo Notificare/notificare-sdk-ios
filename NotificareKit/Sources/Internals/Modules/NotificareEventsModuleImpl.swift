@@ -72,25 +72,6 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
 
     // MARK: - Notificare Internal Events
 
-    func log(_ event: String, data: NotificareEventData?, sessionId: String?, notificationId: String?, _ completion: @escaping NotificareCallback<Void>) {
-        guard let device = Notificare.shared.device().currentDevice else {
-            completion(.failure(NotificareError.deviceUnavailable))
-            return
-        }
-
-        let event = NotificareEvent(
-            type: event,
-            timestamp: Int64(Date().timeIntervalSince1970 * 1000),
-            deviceId: device.id,
-            sessionId: sessionId ?? Notificare.shared.session().sessionId,
-            notificationId: notificationId,
-            userId: device.userId,
-            data: data
-        )
-
-        log(event, completion)
-    }
-
     func log(_ event: String, data: NotificareEventData?, sessionId: String?, notificationId: String?) async throws {
         guard let device = Notificare.shared.device().currentDevice else {
             throw NotificareError.deviceUnavailable
@@ -211,14 +192,16 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
             return
         } catch {
             NotificareLogger.warning("Failed to send the event '\(event.type)'.", error: error)
-            if !self.discardableEvents.contains(event.type), let error = error as? NotificareNetworkError, error.recoverable {
+            
+            if !discardableEvents.contains(event.type), let error = error as? NotificareNetworkError, error.recoverable {
                 NotificareLogger.info("Queuing event to be sent whenever possible.")
 
                 Notificare.shared.database.add(event)
-                self.processStoredEvents()
+                processStoredEvents()
 
                 return
             }
+
             throw error
         }
     }
