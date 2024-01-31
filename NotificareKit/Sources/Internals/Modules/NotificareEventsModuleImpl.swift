@@ -167,17 +167,6 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
         try await log("re.notifica.event.application.Close", data: ["length": String(sessionLength)], sessionId: sessionId)
     }
 
-    private func log(_ event: NotificareEvent, _ completion: @escaping NotificareCallback<Void>) {
-        Task {
-            do {
-                try await log(event)
-                completion(.success(()))
-            } catch {
-                completion(.failure(error))
-            }
-        }
-    }
-
     private func log(_ event: NotificareEvent) async throws {
         guard Notificare.shared.isConfigured else {
             NotificareLogger.debug("Notificare is not configured. Cannot log the event.")
@@ -192,7 +181,7 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
             return
         } catch {
             NotificareLogger.warning("Failed to send the event '\(event.type)'.", error: error)
-            
+
             if !discardableEvents.contains(event.type), let error = error as? NotificareNetworkError, error.recoverable {
                 NotificareLogger.info("Queuing event to be sent whenever possible.")
 
