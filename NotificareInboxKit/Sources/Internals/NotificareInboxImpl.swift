@@ -296,7 +296,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
             throw NotificareError.deviceUnavailable
         }
 
-        _ = try await NotificareRequest.Builder()
+        try await NotificareRequest.Builder()
             .put("/notification/inbox/fordevice/\(device.id)")
             .response()
 
@@ -443,7 +443,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
                     if response.statusCode == 304 {
                         NotificareLogger.debug("The inbox has not been modified. Proceeding with locally stored data.")
 
-                        _ = try await self.refreshBadge()
+                        try await self.refreshBadge()
 
                         DispatchQueue.main.async {
                             self.delegate?.notificare(self, didUpdateInbox: self.items)
@@ -552,7 +552,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
                     }
 
                     // Refresh the badge if applicable.
-                    _ = try await self.refreshBadge()
+                    try await self.refreshBadge()
                 }
             } catch {
                 NotificareLogger.error("Failed to fetch inbox items.", error: error)

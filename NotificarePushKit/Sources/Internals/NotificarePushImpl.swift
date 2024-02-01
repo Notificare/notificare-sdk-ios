@@ -132,7 +132,7 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
         if granted {
             NotificareLogger.info("User granted permission to receive alerts, badge and sounds.")
 
-            await self.reloadActionCategories()
+            await reloadActionCategories()
             try await updateNotificationSettings(granted)
 
             return granted
@@ -238,7 +238,7 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
             topics: topics
         )
 
-        _ = try await NotificareRequest.Builder()
+        try await NotificareRequest.Builder()
             .post("/live-activity", body: payload)
             .response()
     }
@@ -264,7 +264,7 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
         let encodedActivityId = activityId.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)!
         let encodedDeviceId = device.id.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)!
 
-        _ = try await NotificareRequest.Builder()
+        try await NotificareRequest.Builder()
             .delete("/live-activity/\(encodedActivityId)/\(encodedDeviceId)")
             .response()
     }
@@ -294,7 +294,7 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
         if Notificare.shared.options?.preserveExistingNotificationCategories == true {
             let existingCategories = await notificationCenter.notificationCategories()
 
-            let categories = existingCategories.union(self.loadAvailableCategories())
+            let categories = existingCategories.union(loadAvailableCategories())
             notificationCenter.setNotificationCategories(categories)
 
             return
@@ -421,9 +421,7 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
         }
 
         Task {
-            do {
-                try await updateNotificationSettings()
-            } catch {}
+            try? await updateNotificationSettings()
         }
     }
 
