@@ -207,8 +207,8 @@ internal class NotificareScannablesImpl: NSObject, NotificareModule, NotificareS
 @available(iOS 11.0, *)
 extension NotificareScannablesImpl: NFCNDEFReaderSessionDelegate {
     public func readerSession(_: NFCNDEFReaderSession, didDetectNDEFs messages: [NFCNDEFMessage]) {
-        messages.forEach { message in
-            message.records.forEach { record in
+        for message in messages {
+            for record in message.records {
                 if record.typeNameFormat == .nfcWellKnown,
                    let type = String(data: record.type, encoding: .utf8),
                    type == "U", // only supports URL payloads

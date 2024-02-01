@@ -89,8 +89,6 @@ internal class NotificareUserInboxImpl: NotificareModule, NotificareUserInbox {
         try await NotificareRequest.Builder()
             .delete("/notification/userinbox/\(item.id)/fordevice/\(device.id)")
             .response()
-
-        return
     }
 
     // MARK: - Private API

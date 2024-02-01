@@ -13,9 +13,7 @@ public class NotificareCustomActionHandler: NotificareBaseActionHandler {
             }
 
             Task {
-                do {
-                    try await Notificare.shared.createNotificationReply(notification: self.notification, action: self.action)
-                } catch {}
+                try? await Notificare.shared.createNotificationReply(notification: self.notification, action: self.action)
             }
         } else {
             DispatchQueue.main.async {

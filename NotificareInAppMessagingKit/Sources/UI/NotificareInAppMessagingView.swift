@@ -45,13 +45,12 @@ public extension NotificareInAppMessagingView {
             Notificare.shared.inAppMessaging().delegate?.notificare(Notificare.shared.inAppMessaging(), didPresentMessage: self.message)
         }
 
-        NotificareLogger.debug("Tracking in-app message viewed event.")
-
         Task {
             do {
+                NotificareLogger.debug("Tracking in-app message viewed event.")
                 try await Notificare.shared.events().logInAppMessageViewed(message)
-            } catch let error1 {
-                NotificareLogger.error("Failed to log in-message viewed event.", error: error1)
+            } catch {
+                NotificareLogger.error("Failed to log in-message viewed event.", error: error)
             }
         }
     }
@@ -99,6 +98,7 @@ public extension NotificareInAppMessagingView {
         Task {
             do {
                 try await Notificare.shared.events().logInAppMessageActionClicked(message, action: actionType)
+
                 if await UIApplication.shared.canOpenURL(url) {
                     if await UIApplication.shared.open(url, options: [:]) {
                         NotificareLogger.info("In-app message action '\(actionType.rawValue)' successfully processed.")
@@ -120,6 +120,7 @@ public extension NotificareInAppMessagingView {
                         Notificare.shared.inAppMessaging().delegate?.notificare(Notificare.shared.inAppMessaging(), didFailToExecuteAction: action, for: self.message, error: nil)
                     }
                 }
+
                 self.dismiss()
             } catch {
                 NotificareLogger.error("Failed to log in-app message action.", error: error)

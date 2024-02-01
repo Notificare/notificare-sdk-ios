@@ -177,8 +177,8 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
             try await NotificareRequest.Builder()
                 .post("/event", body: event)
                 .response()
+
             NotificareLogger.info("Event '\(event.type)' sent successfully.")
-            return
         } catch {
             NotificareLogger.warning("Failed to send the event '\(event.type)'.", error: error)
 

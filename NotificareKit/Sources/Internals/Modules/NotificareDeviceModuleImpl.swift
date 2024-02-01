@@ -322,7 +322,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
             .get("/device/\(device.id)/dnd")
             .responseDecodable(NotificareInternals.PushAPI.Responses.DoNotDisturb.self)
         // Update current device properties.
-        self.currentDevice?.dnd = response.dnd
+        currentDevice?.dnd = response.dnd
         return response.dnd
     }
 
@@ -346,7 +346,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
             .put("/device/\(device.id)/dnd", body: dnd)
             .response()
         // Update current device properties.
-        self.currentDevice?.dnd = dnd
+        currentDevice?.dnd = dnd
     }
 
     public func clearDoNotDisturb(_ completion: @escaping NotificareCallback<Void>) {
@@ -369,7 +369,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
             .put("/device/\(device.id)/cleardnd")
             .response()
         // Update current device properties.
-        self.currentDevice?.dnd = nil
+        currentDevice?.dnd = nil
     }
 
     public func fetchUserData(_ completion: @escaping NotificareCallback<NotificareUserData>) {
@@ -393,7 +393,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
             .responseDecodable(NotificareInternals.PushAPI.Responses.UserData.self)
         let userData = response.userData?.compactMapValues { $0 } ?? [:]
         // Update current device properties.
-        self.currentDevice?.userData = userData
+        currentDevice?.userData = userData
         return userData
     }
 
@@ -418,7 +418,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
             .response()
 
         // Update current device properties.
-        self.currentDevice?.userData = userData
+        currentDevice?.userData = userData
     }
 
     // MARK: - Notificare Internal Device Module
@@ -485,7 +485,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
             .response()
 
         // Update current device properties.
-        self.currentDevice = nil
+        currentDevice = nil
     }
 
     internal func updateTimezone(_ completion: @escaping NotificareCallback<Void>) {
@@ -515,7 +515,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
             .response()
 
         // Update current device properties.
-        self.currentDevice?.timeZoneOffset = payload.timeZoneOffset
+        currentDevice?.timeZoneOffset = payload.timeZoneOffset
     }
 
     internal func updateLanguage(_ language: String, region: String, _ completion: @escaping NotificareCallback<Void>) {
@@ -544,8 +544,8 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
             .response()
 
         // Update current device properties.
-        self.currentDevice?.language = payload.language
-        self.currentDevice?.region = payload.region
+        currentDevice?.language = payload.language
+        currentDevice?.region = payload.region
     }
 
     internal func updateBackgroundAppRefresh(_ completion: @escaping NotificareCallback<Void>) {
@@ -591,8 +591,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
             .response()
 
         // Update current device properties.
-        self.currentDevice?.backgroundAppRefresh = payload.backgroundAppRefresh
-        return
+        currentDevice?.backgroundAppRefresh = payload.backgroundAppRefresh
     }
 
     private func register(transport: NotificareTransport, token: String, userId: String?, userName: String?, _ completion: @escaping NotificareCallback<Void>) {
@@ -609,15 +608,15 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
     private func register(transport: NotificareTransport, token: String, userId: String?, userName: String?) async throws {
         if registrationChanged(token: token, userId: userId, userName: userName) {
             // NOTE: the backgroundRefreshStatus will print a warning when accessed from background threads.
-            let oldDeviceId = self.currentDevice?.id != nil && self.currentDevice?.id != token ? self.currentDevice?.id : nil
+            let oldDeviceId = currentDevice?.id != nil && currentDevice?.id != token ? currentDevice?.id : nil
 
             let deviceRegistration = await NotificareInternals.PushAPI.Payloads.Device.Registration(
                 deviceID: token,
                 oldDeviceID: oldDeviceId,
                 userID: userId,
                 userName: userName,
-                language: self.getDeviceLanguage(),
-                region: self.getDeviceRegion(),
+                language: getDeviceLanguage(),
+                region: getDeviceRegion(),
                 platform: "iOS",
                 transport: transport,
                 osVersion: NotificareUtils.osVersion,
@@ -636,10 +635,10 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
                 try await NotificareRequest.Builder()
                     .post("/device", body: deviceRegistration)
                     .response()
-                let device = NotificareDevice(from: deviceRegistration, previous: self.currentDevice)
+                let device = NotificareDevice(from: deviceRegistration, previous: currentDevice)
 
                 // Update and store the cached device.
-                self.currentDevice = device
+                currentDevice = device
 
                 if Notificare.shared.isReady {
                     DispatchQueue.main.async {

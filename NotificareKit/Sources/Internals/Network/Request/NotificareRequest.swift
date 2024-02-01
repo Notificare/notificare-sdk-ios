@@ -153,7 +153,7 @@ public struct NotificareRequest {
         }
 
         public func query(items: [String: String?]) -> Self {
-            items.forEach { name, value in
+            for (name, value) in items {
                 queryItems[name] = value
             }
 
@@ -196,7 +196,7 @@ public struct NotificareRequest {
             request.httpBody = body
 
             // Append all available consumer headers.
-            headers.forEach { header, value in
+            for (header, value) in headers {
                 request.setValue(value, forHTTPHeaderField: header)
             }
 
@@ -275,7 +275,7 @@ public struct NotificareRequest {
             }
 
             if !queryItems.isEmpty {
-                queryItems.forEach { key, value in
+                for (key, value) in queryItems {
                     url.appendQueryComponent(name: key, value: value)
                 }
             }

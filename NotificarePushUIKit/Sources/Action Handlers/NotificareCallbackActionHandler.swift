@@ -441,9 +441,7 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
 
     private func logAction() {
         Task {
-            do {
-                try await Notificare.shared.createNotificationReply(notification: notification, action: action, message: message, media: mediaUrl, mimeType: mediaMimeType)
-            } catch {}
+            try? await Notificare.shared.createNotificationReply(notification: notification, action: action, message: message, media: mediaUrl, mimeType: mediaMimeType)
         }
     }
 }

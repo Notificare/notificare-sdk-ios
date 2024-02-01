@@ -500,7 +500,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
     }
 
     private func removeExpiredItemsFromNotificationCenter() {
-        cachedEntities.forEach { entity in
+        for entity in cachedEntities {
             if entity.expired, let notificationId = entity.notificationId {
                 Notificare.shared.removeNotificationFromNotificationCenter(notificationId)
             }
@@ -536,7 +536,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
                 let response = try await fetchRemoteInbox(for: device.id, skip: step * 100, limit: 100)
 
                 // Add all items to the database.
-                response.inboxItems.forEach { item in
+                for item in response.inboxItems {
                     self.addToLocalInbox(item.toModel(), visible: item.visible)
                 }
 
@@ -579,7 +579,6 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
         try await NotificareRequest.Builder()
             .delete("/notification/inbox/fordevice/\(device.id)")
             .response()
-        return
     }
 
     @MainActor
@@ -674,19 +673,19 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
             }
 
             Task {
-                do {
-                    let response = try await self.fetchRemoteInbox(for: device.id, skip: 0, limit: 1)
+                guard let response = try? await self.fetchRemoteInbox(for: device.id, skip: 0, limit: 1) else {
+                    return
+                }
 
-                    let total = self.items.count
-                    let unread = self.items.filter { !$0.opened }.count
+                let total = self.items.count
+                let unread = self.items.filter { !$0.opened }.count
 
-                    if response.count != total || response.unread != unread {
-                        NotificareLogger.debug("The inbox needs an update. The count/unread don't match with the local data.")
-                        self.reloadInbox()
-                    } else {
-                        NotificareLogger.debug("The inbox doesn't need an update. Proceeding as is.")
-                    }
-                } catch {}
+                if response.count != total || response.unread != unread {
+                    NotificareLogger.debug("The inbox needs an update. The count/unread don't match with the local data.")
+                    self.reloadInbox()
+                } else {
+                    NotificareLogger.debug("The inbox doesn't need an update. Proceeding as is.")
+                }
             }
         }
     }

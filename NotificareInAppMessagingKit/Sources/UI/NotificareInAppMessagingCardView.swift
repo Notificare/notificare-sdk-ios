@@ -122,14 +122,12 @@ public class NotificareInAppMessagingCardView: UIView, NotificareInAppMessagingV
 
     // MARK: - UI constraints
 
-    private lazy var cardViewMaxWidthConstraints: [NSLayoutConstraint] = {
-        [
-            cardView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 1 / 2),
+    private lazy var cardViewMaxWidthConstraints: [NSLayoutConstraint] = [
+        cardView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 1 / 2),
 //            cardView.widthAnchor.constraint(lessThanOrEqualTo: contentView.widthAnchor, multiplier: 1/2),
 //            cardView.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.leadingAnchor, constant: 16),
 //            cardView.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -16),
-        ]
-    }()
+    ]
 
     private lazy var cardViewFullWidthConstraints: [NSLayoutConstraint] = {
         var constraints = [

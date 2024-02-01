@@ -19,9 +19,7 @@ public class NotificareAppActionHandler: NotificareBaseActionHandler {
                     }
 
                     Task {
-                        do {
-                            try await Notificare.shared.createNotificationReply(notification: self.notification, action: self.action)
-                        } catch {}
+                        try? await Notificare.shared.createNotificationReply(notification: self.notification, action: self.action)
                     }
                 }
             }

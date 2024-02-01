@@ -98,7 +98,7 @@ public class Notificare {
         NotificareLogger.debug("Configuring available modules.")
         database.configure()
 
-        NotificareInternals.Module.allCases.forEach { module in
+        for module in NotificareInternals.Module.allCases {
             if let instance = module.klass?.instance {
                 NotificareLogger.debug("Configuring module: \(module)")
                 instance.configure()
@@ -239,8 +239,10 @@ public class Notificare {
         let response = try await NotificareRequest.Builder()
             .get("/application/info")
             .responseDecodable(NotificareInternals.PushAPI.Responses.Application.self)
+
         let application = response.application.toModel()
         self.application = application
+
         return application
     }
 
@@ -270,7 +272,7 @@ public class Notificare {
             .query(name: "deviceID", value: Notificare.shared.device().currentDevice?.id)
             .query(name: "userID", value: Notificare.shared.device().currentDevice?.userId)
             .responseDecodable(NotificareInternals.PushAPI.Responses.DynamicLink.self)
-        
+
         return response.link
     }
 
@@ -297,7 +299,7 @@ public class Notificare {
         let response = try await NotificareRequest.Builder()
             .get("/notification/\(urlEncodedId)")
             .responseDecodable(NotificareInternals.PushAPI.Responses.Notification.self)
-        
+
         return response.notification.toModel()
     }
 
@@ -355,7 +357,7 @@ public class Notificare {
 
         // Add all query params to the POST body.
         if let components = URLComponents(url: url, resolvingAgainstBaseURL: false), let queryItems = components.queryItems {
-            queryItems.forEach { item in
+            for item in queryItems {
                 if let value = item.value {
                     params[item.name] = value
                 }
@@ -393,8 +395,8 @@ public class Notificare {
         let response = try await NotificareRequest.Builder()
             .post("/upload/reply", body: data, contentType: contentType)
             .responseDecodable(NotificareInternals.PushAPI.Responses.UploadAsset.self)
+
         let host = Notificare.shared.servicesInfo!.services.pushHost
-        
         return "\(host)/upload\(response.filename)"
     }
 

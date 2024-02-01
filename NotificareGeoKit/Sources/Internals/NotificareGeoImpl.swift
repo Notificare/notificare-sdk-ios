@@ -290,8 +290,8 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
             course: location.course >= 0 ? location.course : nil,
             country: placemark.isoCountryCode,
             floor: location.floor?.level,
-            locationServicesAuthStatus: self.authorizationMode,
-            locationServicesAccuracyAuth: self.accuracyMode
+            locationServicesAuthStatus: authorizationMode,
+            locationServicesAccuracyAuth: accuracyMode
         )
 
         do {
@@ -315,7 +315,7 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
             let regions = response.regions
                 .map { $0.toModel() }
 
-            self.monitorRegions(regions)
+            monitorRegions(regions)
         } catch {
             NotificareLogger.error("Failed to load nearest regions.", error: error)
         }
@@ -452,6 +452,7 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
             try await NotificareRequest.Builder()
                 .put("/device/\(device.id)", body: payload)
                 .response()
+
             NotificareLogger.debug("Device location cleared.")
             return
         } catch {
@@ -611,6 +612,7 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
                 try await NotificareRequest.Builder()
                     .post("trigger/re.notifica.trigger.region.Enter", body: payload)
                     .response()
+
                 LocalStorage.enteredRegions = LocalStorage.enteredRegions.appending(region.id)
                 NotificareLogger.debug("Triggered region enter.")
             } catch {
@@ -635,6 +637,7 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
                 try await NotificareRequest.Builder()
                     .post("trigger/re.notifica.trigger.region.Exit", body: payload)
                     .response()
+
                 LocalStorage.enteredRegions = LocalStorage.enteredRegions.removing(region.id)
                 NotificareLogger.debug("Triggered region exit.")
             } catch {
@@ -659,6 +662,7 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
                 try await NotificareRequest.Builder()
                     .post("trigger/re.notifica.trigger.beacon.Enter", body: payload)
                     .response()
+
                 LocalStorage.enteredBeacons = LocalStorage.enteredBeacons.appending(beacon.id)
                 NotificareLogger.debug("Triggered beacon enter.")
             } catch {
@@ -683,10 +687,11 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
                 try await NotificareRequest.Builder()
                     .post("trigger/re.notifica.trigger.beacon.Exit", body: payload)
                     .response()
+
                 LocalStorage.enteredBeacons = LocalStorage.enteredBeacons.removing(beacon.id)
                 NotificareLogger.debug("Triggered beacon exit.")
-            } catch let error1 {
-                NotificareLogger.error("Failed to trigger a beacon exit.", error: error1)
+            } catch {
+                NotificareLogger.error("Failed to trigger a beacon exit.", error: error)
             }
         }
     }
@@ -1116,6 +1121,7 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
                     try await NotificareRequest.Builder()
                         .put("/device/\(device.id)", body: payload)
                         .response()
+
                     NotificareLogger.debug("Bluetooth state updated.")
                     self.hasBluetoothEnabled = enabled
                 } catch {
@@ -1213,6 +1219,7 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
 
         Task {
             await saveLocation(location)
+
             if #available(iOS 14.0, *) {
                 // Do not monitor regions unless we have full accuracy and always auth.
                 guard manager.accuracyAuthorization == .fullAccuracy, manager.authorizationStatus == .authorizedAlways else {

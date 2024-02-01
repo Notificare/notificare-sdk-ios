@@ -25,7 +25,7 @@ extension NotificarePushImpl: UNUserNotificationCenterDelegate {
                 NotificareLogger.warning("Notificare has not been configured.")
                 return completionHandler()
             }
-            
+
             Task {
                 do {
                     let notification = try await Notificare.shared.fetchNotification(id)
@@ -210,7 +210,7 @@ extension NotificarePushImpl: UNUserNotificationCenterDelegate {
         do {
             try await Notificare.shared.callNotificationReplyWebhook(url: url, data: params)
 
-            try await self.sendQuickResponseAction(notification: notification, action: action, responseText: responseText)
+            try await sendQuickResponseAction(notification: notification, action: action, responseText: responseText)
         } catch {
             NotificareLogger.debug("Failed to call the notification reply webhook.", error: error)
         }

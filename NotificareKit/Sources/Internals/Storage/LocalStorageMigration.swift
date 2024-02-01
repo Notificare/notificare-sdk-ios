@@ -55,7 +55,7 @@ internal struct LocalStorageMigration {
         }
 
         // Signal each available module to migrate whatever data it needs.
-        NotificareInternals.Module.allCases.forEach { module in
+        for module in NotificareInternals.Module.allCases {
             module.klass?.instance.migrate()
         }
 
