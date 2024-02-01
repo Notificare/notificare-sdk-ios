@@ -128,7 +128,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         }
     }
 
-    func register(userId: String?, userName: String?) async throws {
+    public func register(userId: String?, userName: String?) async throws {
         guard Notificare.shared.isReady,
               let device = currentDevice
         else {
@@ -149,7 +149,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         }
     }
 
-    func updatePreferredLanguage(_ preferredLanguage: String?) async throws {
+    public func updatePreferredLanguage(_ preferredLanguage: String?) async throws {
         guard Notificare.shared.isReady else {
             throw NotificareError.notReady
         }
@@ -197,7 +197,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         }
     }
 
-    func fetchTags() async throws -> [String] {
+    public func fetchTags() async throws -> [String] {
         guard Notificare.shared.isReady, let device = currentDevice else {
             throw NotificareError.notReady
         }
@@ -220,7 +220,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         }
     }
 
-    func addTag(_ tag: String) async throws {
+    public func addTag(_ tag: String) async throws {
         try await addTags([tag])
     }
 
@@ -235,7 +235,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         }
     }
 
-    func addTags(_ tags: [String]) async throws {
+    public func addTags(_ tags: [String]) async throws {
         guard Notificare.shared.isReady, let device = currentDevice else {
             throw NotificareError.notReady
         }
@@ -256,7 +256,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         }
     }
 
-    func removeTag(_ tag: String) async throws {
+    public func removeTag(_ tag: String) async throws {
         try await removeTags([tag])
     }
 
@@ -271,7 +271,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         }
     }
 
-    func removeTags(_ tags: [String]) async throws {
+    public func removeTags(_ tags: [String]) async throws {
         guard Notificare.shared.isReady, let device = currentDevice else {
             throw NotificareError.notReady
         }
@@ -292,7 +292,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         }
     }
 
-    func clearTags() async throws {
+    public func clearTags() async throws {
         guard Notificare.shared.isReady, let device = currentDevice else {
             throw NotificareError.notReady
         }
@@ -313,7 +313,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         }
     }
 
-    func fetchDoNotDisturb() async throws -> NotificareDoNotDisturb? {
+    public func fetchDoNotDisturb() async throws -> NotificareDoNotDisturb? {
         guard Notificare.shared.isReady, let device = currentDevice else {
             throw NotificareError.notReady
         }
@@ -337,7 +337,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         }
     }
 
-    func updateDoNotDisturb(_ dnd: NotificareDoNotDisturb) async throws {
+    public func updateDoNotDisturb(_ dnd: NotificareDoNotDisturb) async throws {
         guard Notificare.shared.isReady, let device = currentDevice else {
             throw NotificareError.notReady
         }
@@ -360,7 +360,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         }
     }
 
-    func clearDoNotDisturb() async throws {
+    public func clearDoNotDisturb() async throws {
         guard Notificare.shared.isReady, let device = currentDevice else {
             throw NotificareError.notReady
         }
@@ -383,7 +383,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         }
     }
 
-    func fetchUserData() async throws -> NotificareUserData {
+    public func fetchUserData() async throws -> NotificareUserData {
         guard Notificare.shared.isReady, let device = currentDevice else {
             throw NotificareError.notReady
         }
@@ -408,7 +408,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         }
     }
 
-    func updateUserData(_ userData: NotificareUserData) async throws {
+    public func updateUserData(_ userData: NotificareUserData) async throws {
         guard Notificare.shared.isReady, let device = currentDevice else {
             throw NotificareError.notReady
         }
