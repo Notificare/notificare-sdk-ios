@@ -17,10 +17,11 @@ extension NotificarePushImpl: NotificareAppDelegateInterceptor {
             do {
                 try await Notificare.shared.deviceInternal().registerAPNS(token: token.toHexString())
                 NotificareLogger.debug("Registered the device with an APNS token.")
-                try await self.updateNotificationSettings()
             } catch {
                 NotificareLogger.debug("Failed to register the device with an APNS token.", error: error)
             }
+
+            try? await self.updateNotificationSettings()
         }
     }
 
