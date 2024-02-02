@@ -98,7 +98,7 @@ public class Notificare {
         NotificareLogger.debug("Configuring available modules.")
         database.configure()
 
-        NotificareInternals.Module.allCases.forEach { module in
+        for module in NotificareInternals.Module.allCases {
             if let instance = module.klass?.instance {
                 NotificareLogger.debug("Configuring module: \(module)")
                 instance.configure()
@@ -225,108 +225,102 @@ public class Notificare {
     }
 
     public func fetchApplication(_ completion: @escaping NotificareCallback<NotificareApplication>) {
-        NotificareRequest.Builder()
-            .get("/application/info")
-            .responseDecodable(NotificareInternals.PushAPI.Responses.Application.self) { result in
-                switch result {
-                case let .success(response):
-                    let application = response.application.toModel()
-                    self.application = application
-                    completion(.success(application))
-
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-    }
-
-    @available(iOS 13.0, *)
-    public func fetchApplication() async throws -> NotificareApplication {
-        try await withCheckedThrowingContinuation { continuation in
-            fetchApplication { result in
-                continuation.resume(with: result)
+        Task {
+            do {
+                let result = try await fetchApplication()
+                completion(.success(result))
+            } catch {
+                completion(.failure(error))
             }
         }
+    }
+
+    public func fetchApplication() async throws -> NotificareApplication {
+        let response = try await NotificareRequest.Builder()
+            .get("/application/info")
+            .responseDecodable(NotificareInternals.PushAPI.Responses.Application.self)
+
+        let application = response.application.toModel()
+        self.application = application
+
+        return application
     }
 
     public func fetchDynamicLink(_ link: String, _ completion: @escaping NotificareCallback<NotificareDynamicLink>) {
+        Task {
+            do {
+                let result = try await fetchDynamicLink(link)
+                completion(.success(result))
+            } catch {
+                completion(.failure(error))
+            }
+        }
+    }
+
+    public func fetchDynamicLink(_ link: String) async throws -> NotificareDynamicLink {
         guard isConfigured else {
-            completion(.failure(NotificareError.notConfigured))
-            return
+            throw NotificareError.notConfigured
         }
 
         guard let urlEncodedLink = link.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else {
-            completion(.failure(NotificareError.invalidArgument(message: "Invalid link value.")))
-            return
+            throw NotificareError.invalidArgument(message: "Invalid link value.")
         }
 
-        NotificareRequest.Builder()
+        let response = try await NotificareRequest.Builder()
             .get("/link/dynamic/\(urlEncodedLink)")
             .query(name: "platform", value: "iOS")
             .query(name: "deviceID", value: Notificare.shared.device().currentDevice?.id)
             .query(name: "userID", value: Notificare.shared.device().currentDevice?.userId)
-            .responseDecodable(NotificareInternals.PushAPI.Responses.DynamicLink.self) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.link))
+            .responseDecodable(NotificareInternals.PushAPI.Responses.DynamicLink.self)
 
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-    }
-
-    @available(iOS 13.0, *)
-    public func fetchDynamicLink(_ link: String) async throws -> NotificareDynamicLink {
-        try await withCheckedThrowingContinuation { continuation in
-            fetchDynamicLink(link) { result in
-                continuation.resume(with: result)
-            }
-        }
+        return response.link
     }
 
     public func fetchNotification(_ id: String, _ completion: @escaping NotificareCallback<NotificareNotification>) {
+        Task {
+            do {
+                let result = try await fetchNotification(id)
+                completion(.success(result))
+            } catch {
+                completion(.failure(error))
+            }
+        }
+    }
+
+    public func fetchNotification(_ id: String) async throws -> NotificareNotification {
         guard isConfigured else {
-            completion(.failure(NotificareError.notConfigured))
-            return
+            throw NotificareError.notConfigured
         }
 
         guard let urlEncodedId = id.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else {
-            completion(.failure(NotificareError.invalidArgument(message: "Invalid id value.")))
-            return
+            throw NotificareError.invalidArgument(message: "Invalid id value.")
         }
 
-        NotificareRequest.Builder()
+        let response = try await NotificareRequest.Builder()
             .get("/notification/\(urlEncodedId)")
-            .responseDecodable(NotificareInternals.PushAPI.Responses.Notification.self) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.notification.toModel()))
+            .responseDecodable(NotificareInternals.PushAPI.Responses.Notification.self)
 
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-    }
-
-    @available(iOS 13.0, *)
-    public func fetchNotification(_ id: String) async throws -> NotificareNotification {
-        try await withCheckedThrowingContinuation { continuation in
-            fetchNotification(id) { result in
-                continuation.resume(with: result)
-            }
-        }
+        return response.notification.toModel()
     }
 
     public func createNotificationReply(notification: NotificareNotification, action: NotificareNotification.Action, message: String? = nil, media: String? = nil, mimeType: String? = nil, _ completion: @escaping NotificareCallback<Void>) {
+        Task {
+            do {
+                try await createNotificationReply(notification: notification, action: action, message: message, media: media, mimeType: mimeType)
+                completion(.success(()))
+            } catch {
+                completion(.failure(error))
+            }
+        }
+    }
+
+    public func createNotificationReply(notification: NotificareNotification, action: NotificareNotification.Action, message: String? = nil, media: String? = nil, mimeType: String? = nil) async throws {
         guard isConfigured else {
-            completion(.failure(NotificareError.notConfigured))
-            return
+            throw NotificareError.notConfigured
         }
 
         guard let device = device().currentDevice else {
-            completion(.failure(NotificareError.deviceUnavailable))
-            return
+            throw NotificareError.deviceUnavailable
         }
 
         let payload = NotificareInternals.PushAPI.Payloads.CreateNotificationReply(
@@ -342,33 +336,28 @@ public class Notificare {
             )
         )
 
-        NotificareRequest.Builder()
+        try await NotificareRequest.Builder()
             .post("/reply", body: payload)
-            .response { result in
-                switch result {
-                case .success:
-                    completion(.success(()))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
+            .response()
     }
 
-    @available(iOS 13.0, *)
-    public func createNotificationReply(notification: NotificareNotification, action: NotificareNotification.Action, message: String? = nil, media: String? = nil, mimeType: String? = nil) async throws {
-        try await withCheckedThrowingContinuation { continuation in
-            createNotificationReply(notification: notification, action: action, message: message, media: media, mimeType: mimeType) { result in
-                continuation.resume(with: result)
+    public func callNotificationReplyWebhook(url: URL, data: [String: String], _ completion: @escaping NotificareCallback<Void>) {
+        Task {
+            do {
+                try await callNotificationReplyWebhook(url: url, data: data)
+                completion(.success(()))
+            } catch {
+                completion(.failure(error))
             }
         }
     }
 
-    public func callNotificationReplyWebhook(url: URL, data: [String: String], _ completion: @escaping NotificareCallback<Void>) {
+    public func callNotificationReplyWebhook(url: URL, data: [String: String]) async throws {
         var params = [String: String]()
 
         // Add all query params to the POST body.
         if let components = URLComponents(url: url, resolvingAgainstBaseURL: false), let queryItems = components.queryItems {
-            queryItems.forEach { item in
+            for item in queryItems {
                 if let value = item.value {
                     params[item.name] = value
                 }
@@ -382,53 +371,33 @@ public class Notificare {
         // Add all the items passed via data.
         data.forEach { params[$0.key] = $0.value }
 
-        NotificareRequest.Builder()
+        try await NotificareRequest.Builder()
             .post(url.absoluteString, body: params)
-            .response { result in
-                switch result {
-                case .success:
-                    completion(.success(()))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-    }
-
-    @available(iOS 13.0, *)
-    public func callNotificationReplyWebhook(url: URL, data: [String: String]) async throws {
-        try await withCheckedThrowingContinuation { continuation in
-            callNotificationReplyWebhook(url: url, data: data) { result in
-                continuation.resume(with: result)
-            }
-        }
+            .response()
     }
 
     public func uploadNotificationReplyAsset(_ data: Data, contentType: String, _ completion: @escaping NotificareCallback<String>) {
-        guard isConfigured else {
-            completion(.failure(NotificareError.notConfigured))
-            return
-        }
-
-        NotificareRequest.Builder()
-            .post("/upload/reply", body: data, contentType: contentType)
-            .responseDecodable(NotificareInternals.PushAPI.Responses.UploadAsset.self) { result in
-                switch result {
-                case let .success(response):
-                    let host = Notificare.shared.servicesInfo!.services.pushHost
-                    completion(.success("\(host)/upload\(response.filename)"))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
+        Task {
+            do {
+                let result = try await uploadNotificationReplyAsset(data, contentType: contentType)
+                completion(.success(result))
+            } catch {
+                completion(.failure(error))
             }
+        }
     }
 
-    @available(iOS 13.0, *)
     public func uploadNotificationReplyAsset(_ data: Data, contentType: String) async throws -> String {
-        try await withCheckedThrowingContinuation { continuation in
-            uploadNotificationReplyAsset(data, contentType: contentType) { result in
-                continuation.resume(with: result)
-            }
+        guard isConfigured else {
+            throw NotificareError.notConfigured
         }
+
+        let response = try await NotificareRequest.Builder()
+            .post("/upload/reply", body: data, contentType: contentType)
+            .responseDecodable(NotificareInternals.PushAPI.Responses.UploadAsset.self)
+
+        let host = Notificare.shared.servicesInfo!.services.pushHost
+        return "\(host)/upload\(response.filename)"
     }
 
     public func removeNotificationFromNotificationCenter(_ notification: NotificareNotification) {
@@ -445,11 +414,11 @@ public class Notificare {
             return false
         }
 
-        deviceImplementation().registerTestDevice(nonce: nonce) { result in
-            switch result {
-            case .success:
+        Task {
+            do {
+                try await deviceImplementation().registerTestDevice(nonce: nonce)
                 NotificareLogger.info("Device registered for testing.")
-            case let .failure(error):
+            } catch {
                 NotificareLogger.error("Failed to register the device for testing.", error: error)
             }
         }
@@ -463,14 +432,13 @@ public class Notificare {
         }
 
         NotificareLogger.debug("Handling a dynamic link.")
-        fetchDynamicLink(url.absoluteString) { result in
-            switch result {
-            case let .success(link):
+        Task {
+            do {
+                let link = try await fetchDynamicLink(url.absoluteString)
                 guard let targetUrl = URL(string: link.target) else {
                     NotificareLogger.warning("Failed to parse the dynamic link target url.")
                     return
                 }
-
                 DispatchQueue.main.async {
                     UIApplication.shared.open(targetUrl, options: [:]) { opened in
                         if !opened {
@@ -478,7 +446,7 @@ public class Notificare {
                         }
                     }
                 }
-            case let .failure(error):
+            } catch {
                 NotificareLogger.warning("Failed to fetch the dynamic link.", error: error)
             }
         }

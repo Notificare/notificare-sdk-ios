@@ -155,307 +155,240 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
     }
 
     public func refreshBadge(_ completion: @escaping NotificareCallback<Int>) {
-        do {
-            try checkPrerequisites()
-        } catch {
-            completion(.failure(error))
-            return
+        Task {
+            do {
+                let result = try await refreshBadge()
+                completion(.success(result))
+            } catch {
+                completion(.failure(error))
+            }
         }
+    }
+
+    @discardableResult
+    func refreshBadge() async throws -> Int {
+        try checkPrerequisites()
 
         guard let device = Notificare.shared.device().currentDevice else {
-            completion(.failure(NotificareError.deviceUnavailable))
-            return
+            throw NotificareError.deviceUnavailable
         }
 
         guard Notificare.shared.application?.inboxConfig?.autoBadge == true else {
             NotificareLogger.warning("Notificare auto badge functionality is not enabled.")
-            completion(.failure(NotificareInboxError.autoBadgeUnavailable))
-            return
+            throw NotificareInboxError.autoBadgeUnavailable
         }
 
-        fetchRemoteInbox(for: device.id, skip: 0, limit: 1) { result in
-            switch result {
-            case let .success(response):
-                // Keep a cached copy of the current badge.
-                LocalStorage.currentBadge = response.unread
+        do {
+            let response = try await fetchRemoteInbox(for: device.id, skip: 0, limit: 1)
 
-                // Update the application badge.
-                UIApplication.shared.applicationIconBadgeNumber = response.unread
+            // Keep a cached copy of the current badge.
+            LocalStorage.currentBadge = response.unread
 
-                DispatchQueue.main.async {
-                    // Notify the delegate.
-                    self.delegate?.notificare(self, didUpdateBadge: response.unread)
-                }
+            // Update the application badge.
+            await setApplicationBadge(response.unread)
 
-                completion(.success(response.unread))
-            case let .failure(error):
-                NotificareLogger.error("Failed to refresh the badge.", error: error)
-                completion(.failure(error))
+            DispatchQueue.main.async {
+                // Notify the delegate.
+                self.delegate?.notificare(self, didUpdateBadge: response.unread)
             }
-        }
-    }
 
-    @available(iOS 13.0, *)
-    func refreshBadge() async throws -> Int {
-        try await withCheckedThrowingContinuation { continuation in
-            refreshBadge { result in
-                continuation.resume(with: result)
-            }
+            return response.unread
+        } catch {
+            NotificareLogger.error("Failed to refresh the badge.", error: error)
+            throw error
         }
     }
 
     public func open(_ item: NotificareInboxItem, _ completion: @escaping NotificareCallback<NotificareNotification>) {
-        do {
-            try checkPrerequisites()
-        } catch {
-            completion(.failure(error))
-            return
-        }
-
-        if item.notification.partial {
-            Notificare.shared.fetchNotification(item.id) { result in
-                switch result {
-                case let .success(notification):
-                    // Update the entity in the database.
-                    if let entity = self.cachedEntities.first(where: { $0.id == item.id }) {
-                        do {
-                            try entity.setNotification(notification)
-                            self.database.saveChanges()
-                        } catch {
-                            NotificareLogger.warning("Unable to encode updated inbox item '\(item.id)' into the database.", error: error)
-                        }
-                    }
-
-                    // Mark the item as read & send a notification open event.
-                    self.markAsRead(item) { result in
-                        switch result {
-                        case .success:
-                            completion(.success(notification))
-
-                        case let .failure(error):
-                            completion(.failure(error))
-                        }
-                    }
-
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-        } else {
-            // Mark the item as read & send a notification open event.
-            markAsRead(item) { result in
-                switch result {
-                case .success:
-                    completion(.success(item.notification))
-
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-        }
-    }
-
-    @available(iOS 13.0, *)
-    func open(_ item: NotificareInboxItem) async throws -> NotificareNotification {
-        try await withCheckedThrowingContinuation { continuation in
-            open(item) { result in
-                continuation.resume(with: result)
-            }
-        }
-    }
-
-    public func markAsRead(_ item: NotificareInboxItem, _ completion: @escaping NotificareCallback<Void>) {
-        do {
-            try checkPrerequisites()
-        } catch {
-            completion(.failure(error))
-            return
-        }
-
-        // Send an event to mark the notification as read in the remote inbox.
-        Notificare.shared.events().logNotificationOpen(item.notification.id) { result in
-            switch result {
-            case .success:
-                // Mark entities as read.
-                self.cachedEntities
-                    .filter { $0.id == item.id }
-                    .forEach { $0.opened = true }
-
-                // Persist the changes to the database.
-                self.database.saveChanges()
-
-                // No need to keep the item in the notification center.
-                Notificare.shared.removeNotificationFromNotificationCenter(item.notification)
-
-                DispatchQueue.main.async {
-                    // Notify the delegate.
-                    self.delegate?.notificare(self, didUpdateInbox: self.items)
-                }
-
-                // Refresh the badge if applicable.
-                self.refreshBadge { _ in }
-
-                completion(.success(()))
-
-            case let .failure(error):
-                NotificareLogger.warning("Failed to mark item as read.", error: error)
+        Task {
+            do {
+                let result = try await open(item)
+                completion(.success(result))
+            } catch {
                 completion(.failure(error))
             }
         }
     }
 
-    @available(iOS 13.0, *)
-    func markAsRead(_ item: NotificareInboxItem) async throws {
-        try await withCheckedThrowingContinuation { continuation in
-            markAsRead(item) { result in
-                continuation.resume(with: result)
+    func open(_ item: NotificareInboxItem) async throws -> NotificareNotification {
+        try checkPrerequisites()
+
+        if item.notification.partial {
+            let notification = try await Notificare.shared.fetchNotification(item.id)
+
+            // Update the entity in the database.
+            if let entity = cachedEntities.first(where: { $0.id == item.id }) {
+                do {
+                    try entity.setNotification(notification)
+                    database.saveChanges()
+                } catch {
+                    NotificareLogger.warning("Unable to encode updated inbox item '\(item.id)' into the database.",
+                                             error: error)
+                }
             }
+
+            // Mark the item as read & send a notification open event.
+            try await markAsRead(item)
+            return notification
+        } else {
+            // Mark the item as read & send a notification open event.
+            try await markAsRead(item)
+            return item.notification
+        }
+    }
+
+    public func markAsRead(_ item: NotificareInboxItem, _ completion: @escaping NotificareCallback<Void>) {
+        Task {
+            do {
+                try await markAsRead(item)
+                completion(.success(()))
+            } catch {
+                completion(.failure(error))
+            }
+        }
+    }
+
+    func markAsRead(_ item: NotificareInboxItem) async throws {
+        try checkPrerequisites()
+
+        do {
+            // Send an event to mark the notification as read in the remote inbox.
+            try await Notificare.shared.events().logNotificationOpen(item.notification.id)
+            // Mark entities as read.
+            cachedEntities
+                .filter { $0.id == item.id }
+                .forEach { $0.opened = true }
+
+            // Persist the changes to the database.
+            database.saveChanges()
+
+            // No need to keep the item in the notification center.
+            Notificare.shared.removeNotificationFromNotificationCenter(item.notification)
+
+            DispatchQueue.main.async {
+                // Notify the delegate.
+                self.delegate?.notificare(self, didUpdateInbox: self.items)
+            }
+
+            // Refresh the badge if applicable.
+            try await refreshBadge()
+        } catch {
+            NotificareLogger.warning("Failed to mark item as read.", error: error)
+            throw error
         }
     }
 
     public func markAllAsRead(_ completion: @escaping NotificareCallback<Void>) {
-        do {
-            try checkPrerequisites()
-        } catch {
-            completion(.failure(error))
-            return
-        }
-
-        guard let device = Notificare.shared.device().currentDevice else {
-            completion(.failure(NotificareError.deviceUnavailable))
-            return
-        }
-
-        NotificareRequest.Builder()
-            .put("/notification/inbox/fordevice/\(device.id)")
-            .response { result in
-                switch result {
-                case .success:
-                    self.cachedEntities
-                        .filter { !$0.opened && $0.visible }
-                        .forEach { entity in
-                            // Mark entity as read.
-                            entity.opened = true
-                        }
-
-                    // Persist the changes to the database.
-                    self.database.saveChanges()
-
-                    // Clear all items from the notification center.
-                    self.clearNotificationCenter()
-
-                    DispatchQueue.main.async {
-                        // Notify the delegate.
-                        self.delegate?.notificare(self, didUpdateInbox: self.items)
-                    }
-
-                    // Refresh the badge if applicable.
-                    self.refreshBadge { _ in
-                        completion(.success(()))
-                    }
-                case let .failure(error):
-                    completion(.failure(error))
-                }
+        Task {
+            do {
+                try await markAllAsRead()
+                completion(.success(()))
+            } catch {
+                completion(.failure(error))
             }
+        }
     }
 
-    @available(iOS 13.0, *)
     func markAllAsRead() async throws {
-        try await withCheckedThrowingContinuation { continuation in
-            markAllAsRead { result in
-                continuation.resume(with: result)
-            }
+        try checkPrerequisites()
+
+        guard let device = Notificare.shared.device().currentDevice else {
+            throw NotificareError.deviceUnavailable
         }
+
+        try await NotificareRequest.Builder()
+            .put("/notification/inbox/fordevice/\(device.id)")
+            .response()
+
+        cachedEntities
+            .filter { !$0.opened && $0.visible }
+            .forEach { entity in
+                // Mark entity as read.
+                entity.opened = true
+            }
+
+        // Persist the changes to the database.
+        database.saveChanges()
+
+        // Clear all items from the notification center.
+        clearNotificationCenter()
+
+        DispatchQueue.main.async {
+            // Notify the delegate.
+            self.delegate?.notificare(self, didUpdateInbox: self.items)
+        }
+
+        // Refresh the badge if applicable.
+        try await refreshBadge()
     }
 
     public func remove(_ item: NotificareInboxItem, _ completion: @escaping NotificareCallback<Void>) {
-        do {
-            try checkPrerequisites()
-        } catch {
-            completion(.failure(error))
-            return
-        }
-
-        NotificareRequest.Builder()
-            .delete("/notification/inbox/\(item.id)")
-            .response { result in
-                switch result {
-                case .success:
-                    if let entity = self.cachedEntities.first(where: { $0.id == item.id }),
-                       let index = self.cachedEntities.firstIndex(of: entity)
-                    {
-                        self.database.remove(entity)
-                        self.cachedEntities.remove(at: index)
-
-                        Notificare.shared.removeNotificationFromNotificationCenter(item.notification)
-                    }
-
-                    DispatchQueue.main.async {
-                        // Notify the delegate.
-                        self.delegate?.notificare(self, didUpdateInbox: self.items)
-                    }
-
-                    // Refresh the badge if applicable.
-                    self.refreshBadge { _ in
-                        completion(.success(()))
-                    }
-                case let .failure(error):
-                    completion(.failure(error))
-                }
+        Task {
+            do {
+                try await remove(item)
+                completion(.success(()))
+            } catch {
+                completion(.failure(error))
             }
+        }
     }
 
-    @available(iOS 13.0, *)
     func remove(_ item: NotificareInboxItem) async throws {
-        try await withCheckedThrowingContinuation { continuation in
-            remove(item) { result in
-                continuation.resume(with: result)
-            }
+        try checkPrerequisites()
+
+        try await NotificareRequest.Builder()
+            .delete("/notification/inbox/\(item.id)")
+            .response()
+
+        if let entity = cachedEntities.first(where: { $0.id == item.id }),
+           let index = cachedEntities.firstIndex(of: entity)
+        {
+            database.remove(entity)
+            cachedEntities.remove(at: index)
+
+            Notificare.shared.removeNotificationFromNotificationCenter(item.notification)
         }
+
+        DispatchQueue.main.async {
+            // Notify the delegate.
+            self.delegate?.notificare(self, didUpdateInbox: self.items)
+        }
+
+        // Refresh the badge if applicable.
+        try await refreshBadge()
     }
 
     public func clear(_ completion: @escaping NotificareCallback<Void>) {
-        do {
-            try checkPrerequisites()
-        } catch {
-            completion(.failure(error))
-            return
-        }
-
-        guard let device = Notificare.shared.device().currentDevice else {
-            completion(.failure(NotificareError.deviceUnavailable))
-            return
-        }
-
-        NotificareRequest.Builder()
-            .delete("/notification/inbox/fordevice/\(device.id)")
-            .response { result in
-                switch result {
-                case .success:
-                    self.clearLocalInbox()
-                    self.clearNotificationCenter()
-
-                    DispatchQueue.main.async {
-                        // Notify the delegate.
-                        self.delegate?.notificare(self, didUpdateInbox: self.items)
-                    }
-
-                    self.refreshBadge { _ in
-                        completion(.success(()))
-                    }
-                case let .failure(error):
-                    completion(.failure(error))
-                }
+        Task {
+            do {
+                try await clear()
+                completion(.success(()))
+            } catch {
+                completion(.failure(error))
             }
+        }
     }
 
-    @available(iOS 13.0, *)
     func clear() async throws {
-        try await withCheckedThrowingContinuation { continuation in
-            clear { result in
-                continuation.resume(with: result)
-            }
+        try checkPrerequisites()
+
+        guard let device = Notificare.shared.device().currentDevice else {
+            throw NotificareError.deviceUnavailable
         }
+
+        try await NotificareRequest.Builder()
+            .delete("/notification/inbox/fordevice/\(device.id)")
+            .response()
+
+        clearLocalInbox()
+        clearNotificationCenter()
+
+        DispatchQueue.main.async {
+            // Notify the delegate.
+            self.delegate?.notificare(self, didUpdateInbox: self.items)
+        }
+
+        try await refreshBadge()
     }
 
     // MARK: - Internal API
@@ -498,26 +431,26 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
         let timestamp = Int64(firstItem.time!.timeIntervalSince1970 * 1000)
 
         NotificareLogger.debug("Checking if the inbox has been modified since \(timestamp).")
-        fetchRemoteInbox(for: device.id, since: timestamp) { result in
-            switch result {
-            case .success:
+
+        Task {
+            do {
+                _ = try await fetchRemoteInbox(for: device.id, since: timestamp)
+
                 NotificareLogger.info("The inbox has been modified. Performing a full sync.")
                 self.reloadInbox()
-
-            case let .failure(error):
+            } catch {
                 if case let NotificareNetworkError.validationError(response, _, _) = error {
                     if response.statusCode == 304 {
                         NotificareLogger.debug("The inbox has not been modified. Proceeding with locally stored data.")
-                        self.refreshBadge { _ in
-                            DispatchQueue.main.async {
-                                self.delegate?.notificare(self, didUpdateInbox: self.items)
-                            }
-                        }
 
+                        try await self.refreshBadge()
+
+                        DispatchQueue.main.async {
+                            self.delegate?.notificare(self, didUpdateInbox: self.items)
+                        }
                         return
                     }
                 }
-
                 NotificareLogger.error("Failed to fetch the remote inbox.", error: error)
             }
         }
@@ -567,7 +500,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
     }
 
     private func removeExpiredItemsFromNotificationCenter() {
-        cachedEntities.forEach { entity in
+        for entity in cachedEntities {
             if entity.expired, let notificationId = entity.notificationId {
                 Notificare.shared.removeNotificationFromNotificationCenter(notificationId)
             }
@@ -579,7 +512,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
     }
 
-    private func fetchRemoteInbox(for deviceId: String, since: Int64? = nil, skip: Int = 0, limit: Int = 100, _ completion: @escaping NotificareCallback<NotificareInternals.PushAPI.Responses.RemoteInbox>) {
+    private func fetchRemoteInbox(for deviceId: String, since: Int64? = nil, skip: Int = 0, limit: Int = 100) async throws -> NotificareInternals.PushAPI.Responses.RemoteInbox {
         let request = NotificareRequest.Builder()
             .get("/notification/inbox/fordevice/\(deviceId)")
             .query(name: "skip", value: String(format: "%d", skip))
@@ -589,7 +522,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
             _ = request.query(name: "ifModifiedSince", value: "\(since)")
         }
 
-        request.responseDecodable(NotificareInternals.PushAPI.Responses.RemoteInbox.self, completion)
+        return try await request.responseDecodable(NotificareInternals.PushAPI.Responses.RemoteInbox.self)
     }
 
     private func requestRemoteInboxItems(step: Int = 0) {
@@ -598,11 +531,12 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
             return
         }
 
-        fetchRemoteInbox(for: device.id, skip: step * 100, limit: 100) { result in
-            switch result {
-            case let .success(response):
+        Task {
+            do {
+                let response = try await fetchRemoteInbox(for: device.id, skip: step * 100, limit: 100)
+
                 // Add all items to the database.
-                response.inboxItems.forEach { item in
+                for item in response.inboxItems {
                     self.addToLocalInbox(item.toModel(), visible: item.visible)
                 }
 
@@ -618,30 +552,38 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
                     }
 
                     // Refresh the badge if applicable.
-                    self.refreshBadge { _ in }
+                    try await self.refreshBadge()
                 }
-            case let .failure(error):
+            } catch {
                 NotificareLogger.error("Failed to fetch inbox items.", error: error)
             }
         }
     }
 
     private func clearRemoteInbox(_ completion: @escaping NotificareCallback<Void>) {
+        Task {
+            do {
+                try await clearRemoteInbox()
+                completion(.success(()))
+            } catch {
+                completion(.failure(error))
+            }
+        }
+    }
+
+    private func clearRemoteInbox() async throws {
         guard let device = Notificare.shared.device().currentDevice else {
-            completion(.failure(NotificareError.deviceUnavailable))
-            return
+            throw NotificareError.deviceUnavailable
         }
 
-        NotificareRequest.Builder()
+        try await NotificareRequest.Builder()
             .delete("/notification/inbox/fordevice/\(device.id)")
-            .response { result in
-                switch result {
-                case .success:
-                    completion(.success(()))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
+            .response()
+    }
+
+    @MainActor
+    private func setApplicationBadge(_ badge: Int) {
+        UIApplication.shared.applicationIconBadgeNumber = badge
     }
 
     // MARK: - NotificationCenter events
@@ -730,21 +672,19 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
                 return
             }
 
-            self.fetchRemoteInbox(for: device.id, skip: 0, limit: 1) { result in
-                switch result {
-                case let .success(response):
-                    let total = self.items.count
-                    let unread = self.items.filter { !$0.opened }.count
+            Task {
+                guard let response = try? await self.fetchRemoteInbox(for: device.id, skip: 0, limit: 1) else {
+                    return
+                }
 
-                    if response.count != total || response.unread != unread {
-                        NotificareLogger.debug("The inbox needs an update. The count/unread don't match with the local data.")
-                        self.reloadInbox()
-                    } else {
-                        NotificareLogger.debug("The inbox doesn't need an update. Proceeding as is.")
-                    }
+                let total = self.items.count
+                let unread = self.items.filter { !$0.opened }.count
 
-                case .failure:
-                    break
+                if response.count != total || response.unread != unread {
+                    NotificareLogger.debug("The inbox needs an update. The count/unread don't match with the local data.")
+                    self.reloadInbox()
+                } else {
+                    NotificareLogger.debug("The inbox doesn't need an update. Proceeding as is.")
                 }
             }
         }

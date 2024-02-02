@@ -23,7 +23,6 @@ public protocol NotificareScannables: AnyObject {
 
     func fetch(tag: String, _ completion: @escaping NotificareCallback<NotificareScannable>)
 
-    @available(iOS 13.0, *)
     func fetch(tag: String) async throws -> NotificareScannable
 }
 

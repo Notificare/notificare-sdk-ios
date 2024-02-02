@@ -57,12 +57,12 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
     private func evaluateContext(_ context: ApplicationContext) {
         NotificareLogger.debug("Checking in-app message for context '\(context.rawValue)'.")
 
-        fetchInAppMessage(for: context) { result in
-            switch result {
-            case let .success(message):
-                self.processInAppMessage(message)
+        Task {
+            do {
+                let message = try await fetchInAppMessage(for: context)
 
-            case let .failure(error):
+                self.processInAppMessage(message)
+            } catch {
                 if case let NotificareNetworkError.validationError(response, _, _) = error, response.statusCode == 404 {
                     NotificareLogger.debug("There is no in-app message for '\(context.rawValue)' context to process.")
 
@@ -147,24 +147,17 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
         presentedView = view
     }
 
-    private func fetchInAppMessage(for context: ApplicationContext, _ completion: @escaping NotificareCallback<NotificareInAppMessage>) {
+    private func fetchInAppMessage(for context: ApplicationContext) async throws -> NotificareInAppMessage {
         guard let device = Notificare.shared.device().currentDevice else {
-            completion(.failure(NotificareError.deviceUnavailable))
-            return
+            throw NotificareError.deviceUnavailable
         }
 
-        NotificareRequest.Builder()
+        let response = try await NotificareRequest.Builder()
             .get("/inappmessage/forcontext/\(context.rawValue)")
             .query(name: "deviceID", value: device.id)
-            .responseDecodable(NotificareInternals.PushAPI.Responses.InAppMessage.self) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.message.toModel()))
+            .responseDecodable(NotificareInternals.PushAPI.Responses.InAppMessage.self)
 
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
+        return response.message.toModel()
     }
 
     private func findParentView() -> UIView? {

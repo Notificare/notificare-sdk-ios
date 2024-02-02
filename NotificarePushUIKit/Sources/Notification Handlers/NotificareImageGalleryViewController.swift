@@ -90,7 +90,7 @@ public class NotificareImageGalleryViewController: NotificareBaseNotificationVie
         // Prepare the array with empty images.
         images = .init(repeating: nil, count: notification.content.count)
 
-        notification.content.enumerated().forEach { index, content in
+        for (index, content) in notification.content.enumerated() {
             let url = URL(string: content.data as! String)!
             URLSession.shared.dataTask(with: url) { data, _, _ in
                 if let data = data {

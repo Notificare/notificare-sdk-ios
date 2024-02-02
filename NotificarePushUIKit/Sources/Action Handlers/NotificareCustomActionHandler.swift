@@ -12,7 +12,9 @@ public class NotificareCustomActionHandler: NotificareBaseActionHandler {
                 Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didExecuteAction: self.action, for: self.notification)
             }
 
-            Notificare.shared.createNotificationReply(notification: notification, action: action) { _ in }
+            Task {
+                try? await Notificare.shared.createNotificationReply(notification: self.notification, action: self.action)
+            }
         } else {
             DispatchQueue.main.async {
                 Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToExecuteAction: self.action, for: self.notification, error: ActionError.invalidUrl)
