@@ -238,7 +238,7 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
         stopMonitoringLocationUpdates()
 
         Task {
-            try await clearDeviceLocation()
+            try? await clearDeviceLocation()
         }
     }
 
