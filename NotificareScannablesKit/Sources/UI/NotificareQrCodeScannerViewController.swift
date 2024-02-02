@@ -117,7 +117,7 @@ internal class NotificareQrCodeScannerViewController: UIViewController {
 
 extension NotificareQrCodeScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
     func metadataOutput(_: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from _: AVCaptureConnection) {
-        for metadata in metadataObjects {
+        metadataObjects.forEach { metadata in
             if let metadata = metadata as? AVMetadataMachineReadableCodeObject,
                let qrCode = metadata.stringValue,
                !detectedQrCode
@@ -125,7 +125,7 @@ extension NotificareQrCodeScannerViewController: AVCaptureMetadataOutputObjectsD
                 detectedQrCode = true
                 captureSession.stopRunning()
 
-                onQrCodeDetected?(qrCode)
+                self.onQrCodeDetected?(qrCode)
             }
         }
     }

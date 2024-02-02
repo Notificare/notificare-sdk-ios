@@ -15,8 +15,4 @@ internal extension Notificare {
     func deviceInternal() -> NotificareInternalDeviceModule {
         device() as! NotificareInternalDeviceModule
     }
-
-    func pushImplementation() -> NotificarePushImpl {
-        NotificarePushImpl.instance
-    }
 }

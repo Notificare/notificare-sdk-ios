@@ -39,9 +39,7 @@ extension NotificareInAppBrowserActionHandler: SFSafariViewControllerDelegate {
                 Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didExecuteAction: self.action, for: self.notification)
             }
 
-            Task {
-                try? await Notificare.shared.createNotificationReply(notification: notification, action: action)
-            }
+            Notificare.shared.createNotificationReply(notification: notification, action: action) { _ in }
         } else {
             DispatchQueue.main.async {
                 Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToExecuteAction: self.action, for: self.notification, error: nil)

@@ -149,30 +149,32 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
         activityIndicatorView.startAnimating()
 
         if let imageData = imageData {
-            Task {
-                do {
-                    let url = try await Notificare.shared.uploadNotificationReplyAsset(imageData, contentType: "image/jpeg")
+            Notificare.shared.uploadNotificationReplyAsset(imageData, contentType: "image/jpeg") { result in
+                switch result {
+                case let .success(url):
                     self.mediaUrl = url
                     self.mediaMimeType = "image/jpeg"
                     self.send()
-                } catch {
+                case let .failure(error):
                     DispatchQueue.main.async {
                         Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToExecuteAction: self.action, for: self.notification, error: error)
                     }
+
                     self.dismiss()
                 }
             }
         } else if let videoData = videoData {
-            Task {
-                do {
-                    let url = try await Notificare.shared.uploadNotificationReplyAsset(videoData, contentType: "video/quicktime")
+            Notificare.shared.uploadNotificationReplyAsset(videoData, contentType: "video/quicktime") { result in
+                switch result {
+                case let .success(url):
                     self.mediaUrl = url
                     self.mediaMimeType = "video/quicktime"
                     self.send()
-                } catch {
+                case let .failure(error):
                     DispatchQueue.main.async {
                         Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToExecuteAction: self.action, for: self.notification, error: error)
                     }
+
                     self.dismiss()
                 }
             }
@@ -440,9 +442,7 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
     }
 
     private func logAction() {
-        Task {
-            try? await Notificare.shared.createNotificationReply(notification: notification, action: action, message: message, media: mediaUrl, mimeType: mediaMimeType)
-        }
+        Notificare.shared.createNotificationReply(notification: notification, action: action, message: message, media: mediaUrl, mimeType: mediaMimeType) { _ in }
     }
 }
 

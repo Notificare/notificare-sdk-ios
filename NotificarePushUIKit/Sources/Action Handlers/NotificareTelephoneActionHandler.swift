@@ -17,9 +17,7 @@ public class NotificareTelephoneActionHandler: NotificareBaseActionHandler {
                         Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didExecuteAction: self.action, for: self.notification)
                     }
 
-                    Task {
-                        try? await Notificare.shared.createNotificationReply(notification: self.notification, action: self.action)
-                    }
+                    Notificare.shared.createNotificationReply(notification: self.notification, action: self.action) { _ in }
                 }
             }
         } else {

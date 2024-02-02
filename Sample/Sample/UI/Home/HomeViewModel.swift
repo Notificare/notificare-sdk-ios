@@ -648,7 +648,7 @@ internal extension HomeViewModel {
         case permanentlyDenied = "permission_status_permanently_denied"
 
         var localized: String {
-            NSLocalizedString(rawValue, comment: "")
+            return NSLocalizedString(rawValue, comment: "")
         }
     }
 
@@ -673,7 +673,7 @@ internal extension HomeViewModel {
         case always = "permission_status_always"
 
         var localized: String {
-            NSLocalizedString(rawValue, comment: "")
+            return NSLocalizedString(rawValue, comment: "")
         }
     }
 }

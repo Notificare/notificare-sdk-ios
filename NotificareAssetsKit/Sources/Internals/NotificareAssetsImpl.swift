@@ -12,32 +12,41 @@ internal class NotificareAssetsImpl: NSObject, NotificareModule, NotificareAsset
     // MARK: - Notificare Assets
 
     func fetch(group: String, _ completion: @escaping NotificareCallback<[NotificareAsset]>) {
-        Task {
-            do {
-                let result = try await fetch(group: group)
-                completion(.success(result))
-            } catch {
-                completion(.failure(error))
-            }
+        do {
+            try checkPrerequisites()
+        } catch {
+            completion(.failure(error))
+            return
         }
-    }
-
-    func fetch(group: String) async throws -> [NotificareAsset] {
-        try checkPrerequisites()
 
         guard let urlEncodedGroup = group.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else {
-            throw NotificareError.invalidArgument(message: "Invalid group value.")
+            completion(.failure(NotificareError.invalidArgument(message: "Invalid group value.")))
+            return
         }
 
-        let response = try await NotificareRequest.Builder()
+        NotificareRequest.Builder()
             .get("/asset/forgroup/\(urlEncodedGroup)")
             .query(name: "deviceID", value: Notificare.shared.device().currentDevice?.id)
             .query(name: "userID", value: Notificare.shared.device().currentDevice?.userId)
-            .responseDecodable(NotificareInternals.PushAPI.Responses.Assets.self)
+            .responseDecodable(NotificareInternals.PushAPI.Responses.Assets.self) { result in
+                switch result {
+                case let .success(response):
+                    let assets = response.assets.map { $0.toModel() }
+                    completion(.success(assets))
 
-        let assets = response.assets.map { $0.toModel() }
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+    }
 
-        return assets
+    @available(iOS 13.0, *)
+    func fetch(group: String) async throws -> [NotificareAsset] {
+        try await withCheckedThrowingContinuation { continuation in
+            fetch(group: group) { result in
+                continuation.resume(with: result)
+            }
+        }
     }
 
     // MARK: - Internal API

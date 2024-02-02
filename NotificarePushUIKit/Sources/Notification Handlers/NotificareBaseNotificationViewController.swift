@@ -65,7 +65,7 @@ public class NotificareBaseNotificationViewController: UIViewController {
                                       message: notification.message,
                                       preferredStyle: .actionSheet)
 
-        for action in notification.actions {
+        notification.actions.forEach { action in
             alert.addAction(
                 UIAlertAction(title: NotificareLocalizable.string(resource: action.label, fallback: action.label),
                               style: .default,
@@ -124,7 +124,7 @@ public class NotificareBaseNotificationViewController: UIViewController {
             return
         }
 
-        for item in queryItems {
+        queryItems.forEach { item in
             if item.name == "notificareCloseWindow" || item.name == Notificare.shared.options!.closeWindowQueryParameter {
                 if item.value == "1" || item.value == "true" {
                     if let rootViewController = UIApplication.shared.keyWindow?.rootViewController, rootViewController.presentedViewController != nil {
@@ -137,7 +137,7 @@ public class NotificareBaseNotificationViewController: UIViewController {
                 showActions()
             } else if item.name == "notificareOpenAction" {
                 // A query param to open a single action is present, let's loop over the actins and match the label.
-                for action in notification.actions {
+                notification.actions.forEach { action in
                     if action.label == item.value {
                         handleAction(action)
                     }

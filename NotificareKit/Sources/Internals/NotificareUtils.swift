@@ -114,7 +114,7 @@ public enum NotificareUtils {
 
         var supportedUrlSchemes: [String] = []
 
-        for item in urlTypes {
+        urlTypes.forEach { item in
             if let urlSchemes = item["CFBundleURLSchemes"] as? [String] {
                 supportedUrlSchemes += urlSchemes
             }
