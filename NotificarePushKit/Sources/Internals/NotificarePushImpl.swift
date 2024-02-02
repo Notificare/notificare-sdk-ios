@@ -13,6 +13,9 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
         UNUserNotificationCenter.current()
     }
 
+    internal let applicationDelegateInterceptor = NotificarePushAppDelegateInterceptor()
+    internal let notificationCenterDelegate = NotificareNotificationCenterDelegate()
+
     // MARK: - Notificare Module
 
     static let instance = NotificarePushImpl()
@@ -32,7 +35,7 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
     func configure() {
         if Notificare.shared.options!.userNotificationCenterDelegateEnabled {
             NotificareLogger.debug("Notificare will set itself as the UNUserNotificationCenter delegate.")
-            notificationCenter.delegate = self
+            notificationCenter.delegate = notificationCenterDelegate
         } else {
             NotificareLogger.warning("""
             Please configure your plist settings to allow Notificare to become the UNUserNotificationCenter delegate. \
@@ -41,7 +44,7 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
         }
 
         // Register interceptor to receive APNS swizzled events.
-        _ = NotificareSwizzler.addInterceptor(self)
+        _ = NotificareSwizzler.addInterceptor(applicationDelegateInterceptor)
 
         // Listen to 'application did become active'.
         NotificationCenter.default.addObserver(self,
