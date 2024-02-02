@@ -47,12 +47,22 @@ public struct NotificareRequest {
     }
 
     private func handleResponse(_ response: HTTPURLResponse, data: Data?, _ completion: @escaping NotificareCallback<(response: HTTPURLResponse, data: Data?)>) {
+        Task {
+            do {
+                let result = try await handleResponse(response, data: data)
+                completion(.success(result))
+            } catch {
+                completion(.failure(error))
+            }
+        }
+    }
+
+    private func handleResponse(_ response: HTTPURLResponse, data: Data?) async throws -> (response: HTTPURLResponse, data: Data?) {
         guard validStatusCodes.contains(response.statusCode) else {
-            completion(.failure(NotificareNetworkError.validationError(response: response, data: data, validStatusCodes: validStatusCodes)))
-            return
+            throw NotificareNetworkError.validationError(response: response, data: data, validStatusCodes: validStatusCodes)
         }
 
-        completion(.success((response, data)))
+        return (response, data)
     }
 
     public class Builder {
@@ -143,7 +153,7 @@ public struct NotificareRequest {
         }
 
         public func query(items: [String: String?]) -> Self {
-            items.forEach { name, value in
+            for (name, value) in items {
                 queryItems[name] = value
             }
 
@@ -186,7 +196,7 @@ public struct NotificareRequest {
             request.httpBody = body
 
             // Append all available consumer headers.
-            headers.forEach { header, value in
+            for (header, value) in headers {
                 request.setValue(value, forHTTPHeaderField: header)
             }
 
@@ -218,7 +228,7 @@ public struct NotificareRequest {
             }
         }
 
-        @available(iOS 13.0, *)
+        @discardableResult
         public func response() async throws -> (response: HTTPURLResponse, data: Data?) {
             try await withCheckedThrowingContinuation { continuation in
                 response { result in
@@ -235,7 +245,6 @@ public struct NotificareRequest {
             }
         }
 
-        @available(iOS 13.0, *)
         public func responseDecodable<T: Decodable>(_ type: T.Type) async throws -> T {
             try await withCheckedThrowingContinuation { continuation in
                 responseDecodable(type) { result in
@@ -266,7 +275,7 @@ public struct NotificareRequest {
             }
 
             if !queryItems.isEmpty {
-                queryItems.forEach { key, value in
+                for (key, value) in queryItems {
                     url.appendQueryComponent(name: key, value: value)
                 }
             }

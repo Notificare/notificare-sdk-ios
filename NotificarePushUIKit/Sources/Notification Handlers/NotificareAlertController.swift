@@ -17,7 +17,7 @@ class NotificareAlertController: NotificareNotificationPresenter {
                                       message: notification.message,
                                       preferredStyle: .alert)
 
-        notification.actions.forEach { action in
+        for action in notification.actions {
             alert.addAction(
                 UIAlertAction(title: NotificareLocalizable.string(resource: action.label, fallback: action.label),
                               style: .default,

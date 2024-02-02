@@ -374,7 +374,7 @@ extension NotificareSwizzler {
 //    }
 
     @objc private func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        NotificareSwizzler.interceptors.forEach { _, interceptor in
+        for (_, interceptor) in NotificareSwizzler.interceptors {
             interceptor.application?(application, didRegisterForRemoteNotificationsWithDeviceToken: deviceToken)
         }
 
@@ -386,7 +386,7 @@ extension NotificareSwizzler {
     }
 
     @objc private func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        NotificareSwizzler.interceptors.forEach { _, interceptor in
+        for (_, interceptor) in NotificareSwizzler.interceptors {
             interceptor.application?(application, didFailToRegisterForRemoteNotificationsWithError: error)
         }
 
@@ -398,7 +398,7 @@ extension NotificareSwizzler {
     }
 
     @objc private func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        NotificareSwizzler.interceptors.forEach { _, interceptor in
+        for (_, interceptor) in NotificareSwizzler.interceptors {
             interceptor.application?(application, didReceiveRemoteNotification: userInfo, fetchCompletionHandler: completionHandler)
         }
 
@@ -412,7 +412,7 @@ extension NotificareSwizzler {
     @objc private func application(_ application: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any]) -> Bool {
         var interceptorsResult = false
 
-        NotificareSwizzler.interceptors.forEach { _, interceptor in
+        for (_, interceptor) in NotificareSwizzler.interceptors {
             let result = interceptor.application?(application, open: url, options: options) ?? false
             interceptorsResult = interceptorsResult || result
         }
@@ -429,7 +429,7 @@ extension NotificareSwizzler {
     @objc private func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
         var interceptorsResult = false
 
-        NotificareSwizzler.interceptors.forEach { _, interceptor in
+        for (_, interceptor) in NotificareSwizzler.interceptors {
             let result = interceptor.application?(application, continue: userActivity, restorationHandler: restorationHandler) ?? false
             interceptorsResult = interceptorsResult || result
         }

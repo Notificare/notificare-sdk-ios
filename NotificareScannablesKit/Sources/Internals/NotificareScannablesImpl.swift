@@ -69,34 +69,29 @@ internal class NotificareScannablesImpl: NSObject, NotificareModule, NotificareS
     }
 
     func fetch(tag: String, _ completion: @escaping NotificareCallback<NotificareScannable>) {
+        Task {
+            do {
+                let result = try await fetch(tag: tag)
+                completion(.success(result))
+            } catch {
+                completion(.failure(error))
+            }
+        }
+    }
+
+    func fetch(tag: String) async throws -> NotificareScannable {
         guard let encodedTag = tag.addingPercentEncoding(withAllowedCharacters: .urlUserAllowed) else {
-            completion(.failure(NotificareError.invalidArgument(message: "Invalid tag value.")))
-            return
+            throw NotificareError.invalidArgument(message: "Invalid tag value.")
         }
 
-        NotificareRequest.Builder()
+        let response = try await NotificareRequest.Builder()
             .get("/scannable/tag/\(encodedTag)")
             .query(name: "deviceID", value: Notificare.shared.device().currentDevice?.id)
             .query(name: "userID", value: Notificare.shared.device().currentDevice?.userId)
-            .responseDecodable(NotificareInternals.PushAPI.Responses.Scannable.self) { result in
-                switch result {
-                case let .success(response):
-                    let scannable = response.scannable.toModel()
-                    completion(.success(scannable))
+            .responseDecodable(NotificareInternals.PushAPI.Responses.Scannable.self)
 
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-    }
-
-    @available(iOS 13.0, *)
-    func fetch(tag: String) async throws -> NotificareScannable {
-        try await withCheckedThrowingContinuation { continuation in
-            fetch(tag: tag) { result in
-                continuation.resume(with: result)
-            }
-        }
+        let scannable = response.scannable.toModel()
+        return scannable
     }
 
     // MARK: - Private API
@@ -193,14 +188,14 @@ internal class NotificareScannablesImpl: NSObject, NotificareModule, NotificareS
     }
 
     private func handleScannableTag(_ tag: String) {
-        fetch(tag: tag) { result in
-            switch result {
-            case let .success(scannable):
+        Task {
+            do {
+                let scannable = try await fetch(tag: tag)
+
                 DispatchQueue.main.async {
                     self.delegate?.notificare(self, didDetectScannable: scannable)
                 }
-
-            case let .failure(error):
+            } catch {
                 DispatchQueue.main.async {
                     self.delegate?.notificare(self, didInvalidateScannerSession: error)
                 }
@@ -212,8 +207,8 @@ internal class NotificareScannablesImpl: NSObject, NotificareModule, NotificareS
 @available(iOS 11.0, *)
 extension NotificareScannablesImpl: NFCNDEFReaderSessionDelegate {
     public func readerSession(_: NFCNDEFReaderSession, didDetectNDEFs messages: [NFCNDEFMessage]) {
-        messages.forEach { message in
-            message.records.forEach { record in
+        for message in messages {
+            for record in message.records {
                 if record.typeNameFormat == .nfcWellKnown,
                    let type = String(data: record.type, encoding: .utf8),
                    type == "U", // only supports URL payloads

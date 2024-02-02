@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		F2128F022594E47700F7F68F /* NotificareSystemNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2128F012594E47700F7F68F /* NotificareSystemNotification.swift */; };
+		F214D1E72B6C08D300FC5B47 /* NotificareNotificationCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F214D1E62B6C08D300FC5B47 /* NotificareNotificationCenterDelegate.swift */; };
+		F214D1EA2B6C19CB00FC5B47 /* NotificarePushAppDelegateInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F214D1E92B6C19CB00FC5B47 /* NotificarePushAppDelegateInterceptor.swift */; };
 		F21619F32642DCE90005BFF9 /* LocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21619F22642DCE90005BFF9 /* LocalStorage.swift */; };
 		F21DD9DF2717384800C88D7B /* NotificarePush+Augment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21DD9DE2717384800C88D7B /* NotificarePush+Augment.swift */; };
 		F21DD9E327173A4300C88D7B /* NotificarePushImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21DD9E227173A4300C88D7B /* NotificarePushImpl.swift */; };
@@ -38,6 +40,8 @@
 
 /* Begin PBXFileReference section */
 		F2128F012594E47700F7F68F /* NotificareSystemNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareSystemNotification.swift; sourceTree = "<group>"; };
+		F214D1E62B6C08D300FC5B47 /* NotificareNotificationCenterDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareNotificationCenterDelegate.swift; sourceTree = "<group>"; };
+		F214D1E92B6C19CB00FC5B47 /* NotificarePushAppDelegateInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificarePushAppDelegateInterceptor.swift; sourceTree = "<group>"; };
 		F21619F22642DCE90005BFF9 /* LocalStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorage.swift; sourceTree = "<group>"; };
 		F21DD9DE2717384800C88D7B /* NotificarePush+Augment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificarePush+Augment.swift"; sourceTree = "<group>"; };
 		F21DD9E227173A4300C88D7B /* NotificarePushImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificarePushImpl.swift; sourceTree = "<group>"; };
@@ -87,6 +91,22 @@
 				F2128F012594E47700F7F68F /* NotificareSystemNotification.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		F214D1E52B6C08BA00FC5B47 /* NotificationCenter */ = {
+			isa = PBXGroup;
+			children = (
+				F214D1E62B6C08D300FC5B47 /* NotificareNotificationCenterDelegate.swift */,
+			);
+			path = NotificationCenter;
+			sourceTree = "<group>";
+		};
+		F214D1E82B6C19AF00FC5B47 /* ApplicationDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				F214D1E92B6C19CB00FC5B47 /* NotificarePushAppDelegateInterceptor.swift */,
+			);
+			path = ApplicationDelegate;
 			sourceTree = "<group>";
 		};
 		F258DD8A24BC4EE2006F9ABD = {
@@ -159,6 +179,8 @@
 		F2E9221B2641A4C8005279C0 /* Internals */ = {
 			isa = PBXGroup;
 			children = (
+				F214D1E82B6C19AF00FC5B47 /* ApplicationDelegate */,
+				F214D1E52B6C08BA00FC5B47 /* NotificationCenter */,
 				F2D38939266542B600EAEF44 /* Network */,
 				F2E9221C2641A4D8005279C0 /* InboxIntegration.swift */,
 				F21619F22642DCE90005BFF9 /* LocalStorage.swift */,
@@ -308,7 +330,9 @@
 				F226509B258B6B900004F833 /* NotificarePush.swift in Sources */,
 				F2128F022594E47700F7F68F /* NotificareSystemNotification.swift in Sources */,
 				F28553C5258B8848006674C1 /* NotificarePushDelegate.swift in Sources */,
+				F214D1EA2B6C19CB00FC5B47 /* NotificarePushAppDelegateInterceptor.swift in Sources */,
 				F2E9221D2641A4D8005279C0 /* InboxIntegration.swift in Sources */,
+				F214D1E72B6C08D300FC5B47 /* NotificareNotificationCenterDelegate.swift in Sources */,
 				F2B6A34426173F32001CB7DC /* NotificareNotification+APNS.swift in Sources */,
 				F21DD9DF2717384800C88D7B /* NotificarePush+Augment.swift in Sources */,
 				F2D3893E266542F200EAEF44 /* PushAPI+Payloads.swift in Sources */,

@@ -6,20 +6,19 @@ import Foundation
 import NotificareKit
 
 internal extension NotificareEventsModule {
-    func logInAppMessageViewed(_ message: NotificareInAppMessage, _ completion: @escaping NotificareCallback<Void>) {
+    func logInAppMessageViewed(_ message: NotificareInAppMessage) async throws {
         let this = self as! NotificareInternalEventsModule
-        this.log("re.notifica.event.inappmessage.View", data: ["message": message.id], completion)
+        try await this.log("re.notifica.event.inappmessage.View", data: ["message": message.id])
     }
 
-    func logInAppMessageActionClicked(_ message: NotificareInAppMessage, action: NotificareInAppMessage.ActionType, _ completion: @escaping NotificareCallback<Void>) {
+    func logInAppMessageActionClicked(_ message: NotificareInAppMessage, action: NotificareInAppMessage.ActionType) async throws {
         let this = self as! NotificareInternalEventsModule
-        this.log(
+        try await this.log(
             "re.notifica.event.inappmessage.Action",
             data: [
                 "message": message.id,
                 "action": action.rawValue,
-            ],
-            completion
+            ]
         )
     }
 }
