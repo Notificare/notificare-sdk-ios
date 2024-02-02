@@ -788,7 +788,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         NotificareLogger.info("Device timezone changed.")
 
         Task {
-            try await updateTimezone()
+            try? await updateTimezone()
             NotificareLogger.info("Device timezone updated.")
         }
     }
@@ -800,7 +800,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         let region = getDeviceRegion()
 
         Task {
-            try await updateLanguage(language, region: region)
+            try? await updateLanguage(language, region: region)
             NotificareLogger.info("Device language updated.")
         }
     }
@@ -809,7 +809,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         NotificareLogger.info("Device background app refresh status changed.")
 
         Task {
-            try await updateBackgroundAppRefresh()
+            try? await updateBackgroundAppRefresh()
             NotificareLogger.info("Device background app refresh status updated.")
         }
     }
