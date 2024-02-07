@@ -626,7 +626,10 @@ extension HomeViewModel {
             return nil
         }
 
-        return ApplicationInfo(name: application.name, identifier: application.id)
+        return ApplicationInfo(
+            name: application.name,
+            identifier: application.id
+        )
     }
 }
 
