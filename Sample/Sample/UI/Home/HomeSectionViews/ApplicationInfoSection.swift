@@ -15,7 +15,7 @@ struct ApplicationInfoSection: View {
 
                 Spacer()
 
-                Text(String(applicationName ?? "null"))
+                Text(verbatim: applicationName)
             }
 
             HStack {
@@ -23,7 +23,7 @@ struct ApplicationInfoSection: View {
 
                 Spacer()
 
-                Text(String(applicationIdentifier ?? "null"))
+                Text(verbatim: applicationIdentifier)
             }
         } header: {
             Text(String(localized: "home_application_info"))
