@@ -107,35 +107,21 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
                                                object: nil)
     }
 
-    func launch(_ completion: @escaping NotificareCallback<Void>) {
+    func launch() async throws {
         sync()
-        completion(.success(()))
     }
 
-    func unlaunch(_ completion: @escaping NotificareCallback<Void>) {
+    func unlaunch() async throws {
         clearLocalInbox()
         clearNotificationCenter()
 
-        clearRemoteInbox { result in
-            switch result {
-            case .success:
-                DispatchQueue.main.async {
-                    self.delegate?.notificare(self, didUpdateInbox: self.items)
-                }
+        try await clearRemoteInbox()
 
-                self.refreshBadge { result in
-                    switch result {
-                    case .success:
-                        completion(.success(()))
-
-                    case let .failure(error):
-                        completion(.failure(error))
-                    }
-                }
-            case let .failure(error):
-                completion(.failure(error))
-            }
+        DispatchQueue.main.async {
+            self.delegate?.notificare(self, didUpdateInbox: self.items)
         }
+
+        try await refreshBadge()
     }
 
     // MARK: - Notificare Inbox
@@ -556,17 +542,6 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
                 }
             } catch {
                 NotificareLogger.error("Failed to fetch inbox items.", error: error)
-            }
-        }
-    }
-
-    private func clearRemoteInbox(_ completion: @escaping NotificareCallback<Void>) {
-        Task {
-            do {
-                try await clearRemoteInbox()
-                completion(.success(()))
-            } catch {
-                completion(.failure(error))
             }
         }
     }
