@@ -53,21 +53,21 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
                                                object: nil)
     }
 
-    func launch(_ completion: @escaping NotificareCallback<Void>) {
+    func launch() async throws {
         // Ensure the definitive allowedUI value has been communicated to the API.
-        updateNotificationSettings(completion)
+        try await updateNotificationSettings()
     }
 
     func postLaunch() async throws {
         if hasRemoteNotificationsEnabled {
             NotificareLogger.debug("Enabling remote notifications automatically.")
-            enableRemoteNotifications { _ in }
+            _ = try? await enableRemoteNotifications()
         }
     }
 
-    func unlaunch(_ completion: @escaping NotificareCallback<Void>) {
+    func unlaunch() async throws {
         // Unregister from APNS
-        UIApplication.shared.unregisterForRemoteNotifications()
+        await UIApplication.shared.unregisterForRemoteNotifications()
         NotificareLogger.info("Unregistered from APNS.")
 
         // Reset local storage
@@ -78,8 +78,6 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
         DispatchQueue.main.async {
             self.delegate?.notificare(self, didChangeNotificationSettings: false)
         }
-
-        completion(.success(()))
     }
 
     // MARK: Notificare Push Module
