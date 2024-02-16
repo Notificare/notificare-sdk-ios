@@ -27,8 +27,8 @@ internal class NotificareMonetizeImpl: NSObject, NotificareModule, NotificareMon
         SKPaymentQueue.default().add(self)
     }
 
-    func launch(_ completion: @escaping NotificareCallback<Void>) {
-        refresh { _ in }
+    func launch() async throws {
+        try? await refresh()
 
         do {
             let entities = try database.find()
@@ -40,11 +40,9 @@ internal class NotificareMonetizeImpl: NSObject, NotificareModule, NotificareMon
         } catch {
             NotificareLogger.error("Failed to query the local database.", error: error)
         }
-
-        completion(.success(()))
     }
 
-    func unlaunch(_ completion: @escaping NotificareCallback<Void>) {
+    func unlaunch() async throws {
         clearLocalPurchases()
 
         productsMap.removeAll()
@@ -54,8 +52,6 @@ internal class NotificareMonetizeImpl: NSObject, NotificareModule, NotificareMon
             self.delegate?.notificare(self, didUpdateProducts: self.products)
             self.delegate?.notificare(self, didUpdatePurchases: self.purchases)
         }
-
-        completion(.success(()))
     }
 
     // MARK: Notificare Monetize
