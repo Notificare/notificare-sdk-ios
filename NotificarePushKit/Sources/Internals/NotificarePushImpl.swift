@@ -61,7 +61,7 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
     func postLaunch() async throws {
         if hasRemoteNotificationsEnabled {
             NotificareLogger.debug("Enabling remote notifications automatically.")
-            _ = try? await enableRemoteNotifications()
+            try? await enableRemoteNotifications()
         }
     }
 
@@ -116,6 +116,7 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
         }
     }
 
+    @discardableResult
     public func enableRemoteNotifications() async throws -> Bool {
         try checkPrerequisites()
 
