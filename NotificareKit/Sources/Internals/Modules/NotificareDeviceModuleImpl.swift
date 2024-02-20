@@ -34,21 +34,21 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         if let device = currentDevice {
             do {
                 try await register(transport: device.transport, token: device.id, userId: device.userId, userName: device.userName)
-
-                do {
-                    try await Notificare.shared.session().launch()
-
-                    if device.appVersion != NotificareUtils.applicationVersion {
-                        // It's not the same version, let's log it as an upgrade.
-                        NotificareLogger.debug("New version detected")
-                        try? await Notificare.shared.eventsImplementation().logApplicationUpgrade()
-                    }
-                } catch {
-                    NotificareLogger.debug("Failed to launch the session module.", error: error)
-                    throw error
-                }
             } catch {
                 NotificareLogger.warning("Failed to register device.", error: error)
+                throw error
+            }
+
+            do {
+                try await Notificare.shared.session().launch()
+
+                if device.appVersion != NotificareUtils.applicationVersion {
+                    // It's not the same version, let's log it as an upgrade.
+                    NotificareLogger.debug("New version detected")
+                    try? await Notificare.shared.eventsImplementation().logApplicationUpgrade()
+                }
+            } catch {
+                NotificareLogger.debug("Failed to launch the session module.", error: error)
                 throw error
             }
         } else {
@@ -56,19 +56,19 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
 
             do {
                 try await registerTemporary()
-
-                do {
-                    try await Notificare.shared.session().launch()
-
-                    // We will log the Install & Registration events here since this will execute only one time at the start.
-                    try? await Notificare.shared.eventsImplementation().logApplicationInstall()
-                    try? await Notificare.shared.eventsImplementation().logApplicationRegistration()
-                } catch {
-                    NotificareLogger.debug("Failed to launch the session module.", error: error)
-                    throw error
-                }
             } catch {
                 NotificareLogger.warning("Failed to register temporary device.", error: error)
+                throw error
+            }
+
+            do {
+                try await Notificare.shared.session().launch()
+
+                // We will log the Install & Registration events here since this will execute only one time at the start.
+                try? await Notificare.shared.eventsImplementation().logApplicationInstall()
+                try? await Notificare.shared.eventsImplementation().logApplicationRegistration()
+            } catch {
+                NotificareLogger.debug("Failed to launch the session module.", error: error)
                 throw error
             }
         }

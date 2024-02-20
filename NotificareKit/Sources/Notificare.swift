@@ -133,10 +133,19 @@ public class Notificare {
         }
 
         Task {
+            let application: NotificareApplication
+            
             do {
                 // Fetch the application info.
-                let application = try await fetchApplication()
+                application = try await fetchApplication()
+            } catch {
+                NotificareLogger.error("Failed to load the application info.")
+                NotificareLogger.error("Failed to launch Notificare.", error: error)
+                state = .configured
+                return
+            }
 
+            do {
                 // Loop all possible modules and launch the available ones.
                 for module in NotificareInternals.Module.allCases {
                     if let instance = module.klass?.instance {
@@ -172,8 +181,6 @@ public class Notificare {
                     }
                 }
             } catch {
-                NotificareLogger.error("Failed to load the application info.")
-
                 NotificareLogger.error("Failed to launch Notificare.", error: error)
                 state = .configured
             }
@@ -203,39 +210,39 @@ public class Notificare {
                         }
                     }
                 }
-
-                do {
-                    try await self.device().clearTags()
-
-                    NotificareLogger.debug("Removed all device tags.")
-
-                    do {
-                        try await self.deviceImplementation().registerTemporary()
-
-                        NotificareLogger.debug("Registered device as temporary.")
-
-                        do {
-                            try await self.deviceImplementation().delete()
-
-                            NotificareLogger.debug("Removed the device.")
-
-                            NotificareLogger.info("Un-launched Notificare.")
-                            self.state = .configured
-
-                            DispatchQueue.main.async {
-                                self.delegate?.notificareDidUnlaunch(self)
-                            }
-                        } catch {
-                            NotificareLogger.error("Failed to delete device.", error: error)
-                        }
-                    } catch {
-                        NotificareLogger.error("Failed to register temporary device.", error: error)
-                    }
-                } catch {
-                    NotificareLogger.error("Failed to clear device tags.", error: error)
-                }
             } catch {
                 NotificareLogger.error("Failed to un-launch a peer module.", error: error)
+            }
+
+            do {
+                try await self.device().clearTags()
+
+                NotificareLogger.debug("Removed all device tags.")
+            } catch {
+                NotificareLogger.error("Failed to clear device tags.", error: error)
+            }
+
+            do {
+                try await self.deviceImplementation().registerTemporary()
+
+                NotificareLogger.debug("Registered device as temporary.")
+            } catch {
+                NotificareLogger.error("Failed to register temporary device.", error: error)
+            }
+
+            do {
+                try await self.deviceImplementation().delete()
+
+                NotificareLogger.debug("Removed the device.")
+
+                NotificareLogger.info("Un-launched Notificare.")
+                self.state = .configured
+
+                DispatchQueue.main.async {
+                    self.delegate?.notificareDidUnlaunch(self)
+                }
+            } catch {
+                NotificareLogger.error("Failed to delete device.", error: error)
             }
         }
     }
