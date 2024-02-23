@@ -12,9 +12,11 @@ private let DEFAULT_MONITORED_REGIONS_LIMIT = 10
 private let MAX_MONITORED_REGIONS_LIMIT = 20
 private let MAX_MONITORED_BEACONS_LIMIT = 10
 private let FAKE_BEACON_IDENTIFIER = "NotificareFakeBeacon"
+private let SMALLEST_DISPLACEMENT_METERS = 100.0
 
 internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLLocationManagerDelegate {
     private var locationManager: CLLocationManager!
+    private var lastKnownLocation: CLLocation?
     private var processingLocationUpdate = false
     private let fakeBeaconUUID = UUID()
 
@@ -260,6 +262,24 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
         }
 
         checkBluetoothEnabled()
+    }
+
+    private func shouldUpdateLocation(_ location: CLLocation) -> Bool {
+        guard let lastKnownLocation else { return true }
+
+        if lastKnownLocation.distance(from: location) >= SMALLEST_DISPLACEMENT_METERS {
+            return true
+        }
+
+        // Update the location when we can monitor geofences but no fences were loaded yet.
+        // This typically happens when tracking the user's location and later upgrading to background permission.
+        if #available(iOS 14.0, *) {
+            if locationManager.authorizationStatus == .authorizedAlways, locationManager.accuracyAuthorization == .fullAccuracy, LocalStorage.monitoredRegions.isEmpty {
+                return true
+            }
+        }
+
+        return false
     }
 
     private func saveLocation(_ location: CLLocation, _ completion: @escaping () -> Void) {
@@ -1202,7 +1222,29 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
     }
 
     public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard !processingLocationUpdate, let location = locations.last else {
+        guard let location = locations.last else {
+            DispatchQueue.main.async {
+                // Notify the delegate regardless of the decision to process the location.
+                self.delegate?.notificare(self, didUpdateLocations: locations.map { NotificareLocation(cl: $0) })
+            }
+
+            return
+        }
+
+        guard shouldUpdateLocation(location) else {
+            NotificareLogger.debug("Received a location update. Skipping due to smallest displacement constraints...")
+
+            DispatchQueue.main.async {
+                // Notify the delegate regardless of the decision to process the location.
+                self.delegate?.notificare(self, didUpdateLocations: locations.map { NotificareLocation(cl: $0) })
+            }
+
+            return
+        }
+
+        guard !processingLocationUpdate else {
+            NotificareLogger.debug("Received a location update. Skipping due to concurrent location update...")
+
             DispatchQueue.main.async {
                 // Notify the delegate regardless of the decision to process the location.
                 self.delegate?.notificare(self, didUpdateLocations: locations.map { NotificareLocation(cl: $0) })
@@ -1213,6 +1255,12 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
 
         NotificareLogger.info("Received a location update. Processing...")
         processingLocationUpdate = true
+
+        // Keep a reference to the last known location.
+        lastKnownLocation = location
+
+        // Add this location to the region session.
+        updateRegionSession(location)
 
         saveLocation(location) {
             if #available(iOS 14.0, *) {
@@ -1227,9 +1275,6 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
 
             // Load the nearest regions.
             self.loadNearestRegions(location) {
-                // Add this location to the region session.
-                self.updateRegionSession(location)
-
                 // Unlock location updates.
                 self.processingLocationUpdate = false
             }
