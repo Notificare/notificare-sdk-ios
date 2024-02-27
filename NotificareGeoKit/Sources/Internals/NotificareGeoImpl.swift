@@ -1491,6 +1491,16 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
                 return
             }
 
+            if region.isPolygon, (state == .inside || state == .outside) {
+                let newState: CLRegionState = LocalStorage.enteredRegions.contains(region.id) ? .inside : .outside
+
+                DispatchQueue.main.async {
+                    self.delegate?.notificare(self, didDetermineState: newState, for: region)
+                }
+
+                return
+            }
+
             DispatchQueue.main.async {
                 self.delegate?.notificare(self, didDetermineState: state, for: region)
             }
