@@ -900,7 +900,7 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
         }
 
         LocalStorage.beaconSessions = LocalStorage.beaconSessions.map { session in
-            guard session.regionId == region.id else {
+            guard session.regionId == region.id, session.canInsertBeacon(beacon) else {
                 return session
             }
 
