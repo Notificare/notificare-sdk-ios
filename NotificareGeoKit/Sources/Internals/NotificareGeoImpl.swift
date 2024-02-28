@@ -13,6 +13,7 @@ private let MAX_MONITORED_REGIONS_LIMIT = 20
 private let MAX_MONITORED_BEACONS_LIMIT = 10
 private let FAKE_BEACON_IDENTIFIER = "NotificareFakeBeacon"
 private let SMALLEST_DISPLACEMENT_METERS = 100.0
+private let MAX_REGION_SESSION_LOCATIONS = 100
 
 internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLLocationManagerDelegate {
     private var locationManager: CLLocationManager!
@@ -842,13 +843,22 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
 
         var sessions = LocalStorage.regionSessions
 
-        guard let session = sessions.first(where: { $0.regionId == region.id }) else {
+        guard var session = sessions.first(where: { $0.regionId == region.id }) else {
             NotificareLogger.debug("Skipping region session end since no session exists for region '\(region.name)'.")
             return
         }
 
         sessions.removeAll(where: { $0.regionId == region.id })
         LocalStorage.regionSessions = sessions
+
+        if session.locations.count > MAX_REGION_SESSION_LOCATIONS {
+            session = NotificareRegionSession(
+                regionId: session.regionId,
+                start: session.start,
+                end: session.end,
+                locations: session.locations.takeEvenlySpaced(MAX_REGION_SESSION_LOCATIONS)
+            )
+        }
 
         Notificare.shared.events().logRegionSession(session) { result in
             switch result {
