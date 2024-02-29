@@ -46,6 +46,10 @@ internal extension Array {
             fatalError("Requested element count \(n) is less than zero.")
         }
 
+        guard count > n else {
+            return self
+        }
+
         let interval = (Double(count) - 1) / (Double(n) - 1)
         var elements: [Element] = []
 
