@@ -15,6 +15,7 @@
 		F258DD7F24BC4E95006F9ABD /* LocationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DD7E24BC4E95006F9ABD /* LocationTests.swift */; };
 		F258DD8124BC4E95006F9ABD /* NotificareGeoKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F258DD7324BC4E95006F9ABD /* NotificareGeoKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F267DA4C273EBB2900448A8F /* NotificareGeoError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F267DA4B273EBB2900448A8F /* NotificareGeoError.swift */; };
+		F26851812B8FEBFA00936EA3 /* NotificareBeaconSession+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26851802B8FEBFA00936EA3 /* NotificareBeaconSession+Extensions.swift */; };
 		F2696AAA26C275C5002EA653 /* NotificareGeoImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2696AA926C275C5002EA653 /* NotificareGeoImpl.swift */; };
 		F2696AB326C2B43C002EA653 /* PushAPI+Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2696AB226C2B43C002EA653 /* PushAPI+Models.swift */; };
 		F2696AB526C2B446002EA653 /* PushAPI+Payloads.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2696AB426C2B446002EA653 /* PushAPI+Payloads.swift */; };
@@ -56,6 +57,7 @@
 		F258DD7E24BC4E95006F9ABD /* LocationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTests.swift; sourceTree = "<group>"; };
 		F258DD8024BC4E95006F9ABD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F267DA4B273EBB2900448A8F /* NotificareGeoError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareGeoError.swift; sourceTree = "<group>"; };
+		F26851802B8FEBFA00936EA3 /* NotificareBeaconSession+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificareBeaconSession+Extensions.swift"; sourceTree = "<group>"; };
 		F2696AA926C275C5002EA653 /* NotificareGeoImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareGeoImpl.swift; sourceTree = "<group>"; };
 		F2696AB226C2B43C002EA653 /* PushAPI+Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PushAPI+Models.swift"; sourceTree = "<group>"; };
 		F2696AB426C2B446002EA653 /* PushAPI+Payloads.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PushAPI+Payloads.swift"; sourceTree = "<group>"; };
@@ -167,6 +169,7 @@
 				F288C1F626C407BE00B6C83C /* Storage */,
 				F24FF2F526D3FFFA00BB7B1C /* NotificareBeacon+Extensions.swift */,
 				F26E6DCE26C44BE500FA67CB /* NotificareRegion+Extensions.swift */,
+				F26851802B8FEBFA00936EA3 /* NotificareBeaconSession+Extensions.swift */,
 				F29FCFD926C5688200A2C7E1 /* Collections+Extensions.swift */,
 				F2CDE01926C672F200CC4867 /* MapKit+Extensions.swift */,
 				F2696AA926C275C5002EA653 /* NotificareGeoImpl.swift */,
@@ -355,6 +358,7 @@
 				F2696AB726C2B44F002EA653 /* PushAPI+Responses.swift in Sources */,
 				F26E6DCF26C44BE500FA67CB /* NotificareRegion+Extensions.swift in Sources */,
 				F2696AB526C2B446002EA653 /* PushAPI+Payloads.swift in Sources */,
+				F26851812B8FEBFA00936EA3 /* NotificareBeaconSession+Extensions.swift in Sources */,
 				F2696AAA26C275C5002EA653 /* NotificareGeoImpl.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
