@@ -134,7 +134,7 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
     }
 
     var hasLocationServicesEnabled: Bool {
-        LocalStorage.locationServicesEnabled && CLLocationManager.locationServicesEnabled()
+        LocalStorage.locationServicesEnabled
     }
 
     var monitoredRegions: [NotificareRegion] {
@@ -159,31 +159,38 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
             return
         }
 
-        // Keep track of the location services status.
-        LocalStorage.locationServicesEnabled = true
+        hasLocationServicesEnabled { enabled in
+            guard enabled else {
+                NotificareLogger.warning("Location functionality is disabled by the user.")
+                return
+            }
 
-        let status = CLLocationManager.authorizationStatus()
+            // Keep track of the location services status.
+            LocalStorage.locationServicesEnabled = true
 
-        switch status {
-        case .notDetermined:
-            NotificareLogger.warning("Location permission not determined. You must request permissions before enabling location updates.")
-            return
+            let status = CLLocationManager.authorizationStatus()
 
-        case .restricted, .denied:
-            handleLocationServicesUnauthorized()
+            switch status {
+            case .notDetermined:
+                NotificareLogger.warning("Location permission not determined. You must request permissions before enabling location updates.")
+                return
 
-        case .authorizedWhenInUse:
-            handleLocationServicesAuthorized(monitorSignificantLocationChanges: false)
+            case .restricted, .denied:
+                self.handleLocationServicesUnauthorized()
 
-        case .authorizedAlways:
-            handleLocationServicesAuthorized(monitorSignificantLocationChanges: true)
+            case .authorizedWhenInUse:
+                self.handleLocationServicesAuthorized(monitorSignificantLocationChanges: false)
 
-        @unknown default:
-            NotificareLogger.warning("Unsupported authorization status: \(status)")
-            return
+            case .authorizedAlways:
+                self.handleLocationServicesAuthorized(monitorSignificantLocationChanges: true)
+
+            @unknown default:
+                NotificareLogger.warning("Unsupported authorization status: \(status)")
+                return
+            }
+
+            NotificareLogger.info("Location updates enabled.")
         }
-
-        NotificareLogger.info("Location updates enabled.")
     }
 
     func disableLocationUpdates() {
@@ -233,6 +240,15 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
             NotificareLogger.warning("/==================================================================================/")
 
             throw NotificareGeoError.permissionEntriesMissing
+        }
+    }
+
+    private func hasLocationServicesEnabled(_ completion: @escaping (_ enabled: Bool) -> Void) {
+        DispatchQueue.global().async {
+            let enabled = CLLocationManager.locationServicesEnabled()
+            DispatchQueue.main.async {
+                completion(enabled)
+            }
         }
     }
 
