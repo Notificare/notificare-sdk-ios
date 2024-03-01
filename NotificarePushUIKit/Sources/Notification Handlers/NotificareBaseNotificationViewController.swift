@@ -14,28 +14,7 @@ public class NotificareBaseNotificationViewController: UIViewController {
 
     var isActionsButtonEnabled: Bool = false {
         didSet {
-            guard isActionsButtonEnabled else {
-                navigationItem.rightBarButtonItem = nil
-                return
-            }
-
-            if let image = NotificareLocalizable.image(resource: .actions) {
-                actionsButton = UIBarButtonItem(image: image,
-                                                style: .plain,
-                                                target: self,
-                                                action: #selector(showActions))
-            } else {
-                actionsButton = UIBarButtonItem(title: NotificareLocalizable.string(resource: .actionsButton),
-                                                style: .plain,
-                                                target: self,
-                                                action: #selector(showActions))
-            }
-
-            if let colorStr = theme?.actionButtonTextColor {
-                actionsButton?.tintColor = UIColor(hexString: colorStr)
-            }
-
-            navigationItem.rightBarButtonItem = actionsButton
+            renderNavigationBarItems()
         }
     }
 
@@ -58,6 +37,10 @@ public class NotificareBaseNotificationViewController: UIViewController {
                 view.backgroundColor = .white
             }
         }
+    }
+
+    @objc func dismissViewController() {
+        dismiss(animated: true)
     }
 
     @objc func showActions() {
@@ -143,6 +126,57 @@ public class NotificareBaseNotificationViewController: UIViewController {
                     }
                 }
             }
+        }
+    }
+
+    private func renderNavigationBarItems() {
+        var leftBarButtonItem: UIBarButtonItem?
+        var rightBarButtonItem: UIBarButtonItem?
+
+        if isModal, isActionsButtonEnabled {
+            leftBarButtonItem = UIBarButtonItem(
+                barButtonSystemItem: .close,
+                target: self,
+                action: #selector(dismissViewController)
+            )
+        }
+
+        if isModal, !isActionsButtonEnabled {
+            rightBarButtonItem = UIBarButtonItem(
+                barButtonSystemItem: .done,
+                target: self,
+                action: #selector(dismissViewController)
+            )
+        }
+
+        if isActionsButtonEnabled {
+            rightBarButtonItem = UIBarButtonItem(
+                image: UIImage(systemName: "ellipsis"),
+                style: .plain,
+                target: self,
+                action: #selector(showActions)
+            )
+
+            if let colorStr = theme?.actionButtonTextColor {
+                rightBarButtonItem?.tintColor = UIColor(hexString: colorStr)
+            }
+        }
+
+        navigationItem.leftBarButtonItem = leftBarButtonItem
+        navigationItem.rightBarButtonItem = rightBarButtonItem
+
+        actionsButton = rightBarButtonItem
+    }
+}
+
+private extension UIViewController {
+    var isModal: Bool {
+        if let index = navigationController?.viewControllers.firstIndex(of: self), index > 0 {
+            return false
+        } else if presentingViewController != nil {
+            return true
+        } else {
+            return false
         }
     }
 }
