@@ -62,6 +62,11 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
                                                selector: #selector(keyboardWillAppear(_:)),
                                                name: UIResponder.keyboardWillShowNotification,
                                                object: nil)
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillDisappear(_:)),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
     }
 
     private func setupNavigationActions() {
@@ -225,7 +230,7 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
             messageView.textColor = UIColor(hexString: colorStr)
         }
 
-        toolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: viewController.view.frame.width, height: 44))
+        toolbar = UIToolbar(frame: .zero)
         toolbar.translatesAutoresizingMaskIntoConstraints = false
         toolbar.setContentCompressionResistancePriority(UILayoutPriority(rawValue: 751), for: .vertical)
         toolbar.setContentHuggingPriority(UILayoutPriority(rawValue: 751), for: .vertical)
@@ -352,6 +357,10 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
     }
 
     @objc private func keyboardWillAppear(_ notification: Notification) {
+        guard UIDevice.current.userInterfaceIdiom != .pad else {
+            return
+        }
+
         guard let userInfo = notification.userInfo,
               let keyboardRect = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect
         else {
@@ -359,6 +368,10 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
         }
 
         toolbarBottomConstraint?.constant = -keyboardRect.height
+    }
+
+    @objc private func keyboardWillDisappear(_ notification: Notification) {
+        toolbarBottomConstraint?.constant = 0
     }
 
     private func dismiss() {
