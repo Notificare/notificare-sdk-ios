@@ -215,6 +215,7 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
         messageView.autocorrectionType = .default
         messageView.keyboardType = .default
         messageView.returnKeyType = .default
+        messageView.textContainerInset = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
 
         self.messageView = messageView
         if let colorStr = theme?.textFieldBackgroundColor {
