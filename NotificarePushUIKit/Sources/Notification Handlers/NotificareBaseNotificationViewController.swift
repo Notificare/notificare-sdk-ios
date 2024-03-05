@@ -44,9 +44,33 @@ public class NotificareBaseNotificationViewController: UIViewController {
     }
 
     @objc func showActions() {
-        let alert = UIAlertController(title: NotificareUtils.applicationName,
-                                      message: notification.message,
-                                      preferredStyle: .actionSheet)
+        let alert: UIAlertController
+        
+        if UIDevice.current.userInterfaceIdiom == .pad, let actionsButton {
+            alert = UIAlertController(
+                title: NotificareUtils.applicationName,
+                message: notification.message,
+                preferredStyle: .actionSheet
+            )
+            
+            alert.modalPresentationStyle = .popover
+            alert.popoverPresentationController?.barButtonItem = actionsButton
+            alert.popoverPresentationController?.permittedArrowDirections = .up
+        } else if UIDevice.current.userInterfaceIdiom == .phone {
+            alert = UIAlertController(
+                title: NotificareUtils.applicationName,
+                message: notification.message,
+                preferredStyle: .actionSheet
+            )
+            
+            alert.modalPresentationStyle = .currentContext
+        } else {
+            alert = UIAlertController(
+                title: NotificareUtils.applicationName,
+                message: notification.message,
+                preferredStyle: .alert
+            )
+        }
 
         notification.actions.forEach { action in
             alert.addAction(
@@ -61,13 +85,6 @@ public class NotificareBaseNotificationViewController: UIViewController {
                           style: .cancel,
                           handler: nil)
         )
-
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            alert.modalPresentationStyle = .popover
-            alert.popoverPresentationController?.barButtonItem = actionsButton
-        } else {
-            alert.modalPresentationStyle = .currentContext
-        }
 
         present(alert, animated: true, completion: nil)
     }
@@ -160,12 +177,14 @@ public class NotificareBaseNotificationViewController: UIViewController {
             if let colorStr = theme?.actionButtonTextColor {
                 rightBarButtonItem?.tintColor = UIColor(hexString: colorStr)
             }
+            
+            actionsButton = rightBarButtonItem
+        } else {
+            actionsButton = nil
         }
 
         navigationItem.leftBarButtonItem = leftBarButtonItem
         navigationItem.rightBarButtonItem = rightBarButtonItem
-
-        actionsButton = rightBarButtonItem
     }
 }
 
