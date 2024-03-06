@@ -132,32 +132,57 @@ public class Notificare {
             fatalError("Failed to start listening to reachability events.")
         }
 
-        // Fetch the application info.
-        fetchApplication { result in
-            switch result {
-            case let .success(application):
-                // Loop all possible modules and launch the available ones.
-                LaunchSequence(NotificareInternals.Module.allCases)
-                    .run { module, instance, completion in
-                        NotificareLogger.debug("Launching module: \(module)")
-                        instance.launch { result in
-                            if case let .failure(error) = result {
-                                NotificareLogger.debug("Failed to launch '\(module)'.", error: error)
-                            }
+        Task {
+            let application: NotificareApplication
+            
+            do {
+                // Fetch the application info.
+                application = try await fetchApplication()
+            } catch {
+                NotificareLogger.error("Failed to load the application info.")
+                NotificareLogger.error("Failed to launch Notificare.", error: error)
+                state = .configured
+                return
+            }
 
-                            completion(result)
-                        }
-                    } onDone: { result in
-                        switch result {
-                        case .success:
-                            self.handleLaunchResult(.success(application))
-                        case let .failure(error):
-                            self.handleLaunchResult(.failure(error))
+            do {
+                // Loop all possible modules and launch the available ones.
+                for module in NotificareInternals.Module.allCases {
+                    if let instance = module.klass?.instance {
+                        NotificareLogger.debug("Launching module: \(module)")
+
+                        do {
+                            try await instance.launch()
+                        } catch {
+                            NotificareLogger.debug("Failed to launch '\(module)'.", error: error)
+                            throw error
                         }
                     }
-            case let .failure(error):
-                NotificareLogger.error("Failed to load the application info.")
-                self.handleLaunchResult(.failure(error))
+                }
+
+                state = .ready
+
+                printApplicationInfo(application: application)
+
+                DispatchQueue.main.async {
+                    // We're done launching. Notify the delegate.
+                    self.delegate?.notificare(self, onReady: application)
+                }
+
+                // Loop all possible modules and post-launch the available ones.
+                for module in NotificareInternals.Module.allCases {
+                    if let instance = module.klass?.instance {
+                        do {
+                            NotificareLogger.debug("Post-launching module: \(module)")
+                            try await instance.postLaunch()
+                        } catch {
+                            NotificareLogger.error("Failed to post-launch '\(module)'.", error: error)
+                        }
+                    }
+                }
+            } catch {
+                NotificareLogger.error("Failed to launch Notificare.", error: error)
+                state = .configured
             }
         }
     }
@@ -170,58 +195,56 @@ public class Notificare {
 
         NotificareLogger.info("Un-launching Notificare.")
 
-        // Loop all possible modules and un-launch the available ones.
-        LaunchSequence(NotificareInternals.Module.allCases.reversed())
-            .run { module, instance, completion in
-                NotificareLogger.debug("Un-launching module: \(module)")
-                instance.unlaunch { result in
-                    if case let .failure(error) = result {
-                        NotificareLogger.debug("Failed to un-launch '\(module)'.", error: error)
-                    }
+        Task {
+            do {
+                // Loop all possible modules and un-launch the available ones.
+                for module in NotificareInternals.Module.allCases.reversed() {
+                    if let instance = module.klass?.instance {
+                        NotificareLogger.debug("Un-launching module: \(module)")
 
-                    completion(result)
-                }
-            } onDone: { result in
-                switch result {
-                case .success:
-                    self.device().clearTags { result in
-                        switch result {
-                        case .success:
-                            NotificareLogger.debug("Removed all device tags.")
-
-                            self.deviceImplementation().registerTemporary { result in
-                                switch result {
-                                case .success:
-                                    NotificareLogger.debug("Registered device as temporary.")
-
-                                    self.deviceImplementation().delete { result in
-                                        switch result {
-                                        case .success:
-                                            NotificareLogger.debug("Removed the device.")
-
-                                            NotificareLogger.info("Un-launched Notificare.")
-                                            self.state = .configured
-
-                                            DispatchQueue.main.async {
-                                                self.delegate?.notificareDidUnlaunch(self)
-                                            }
-
-                                        case let .failure(error):
-                                            NotificareLogger.error("Failed to delete device.", error: error)
-                                        }
-                                    }
-                                case let .failure(error):
-                                    NotificareLogger.error("Failed to register temporary device.", error: error)
-                                }
-                            }
-                        case let .failure(error):
-                            NotificareLogger.error("Failed to clear device tags.", error: error)
+                        do {
+                            try await instance.unlaunch()
+                        } catch {
+                            NotificareLogger.debug("Failed to un-launch '\(module)'.", error: error)
+                            throw error
                         }
                     }
-                case let .failure(error):
-                    NotificareLogger.error("Failed to un-launch a peer module.", error: error)
                 }
+            } catch {
+                NotificareLogger.error("Failed to un-launch a peer module.", error: error)
             }
+
+            do {
+                try await self.device().clearTags()
+
+                NotificareLogger.debug("Removed all device tags.")
+            } catch {
+                NotificareLogger.error("Failed to clear device tags.", error: error)
+            }
+
+            do {
+                try await self.deviceImplementation().registerTemporary()
+
+                NotificareLogger.debug("Registered device as temporary.")
+            } catch {
+                NotificareLogger.error("Failed to register temporary device.", error: error)
+            }
+
+            do {
+                try await self.deviceImplementation().delete()
+
+                NotificareLogger.debug("Removed the device.")
+
+                NotificareLogger.info("Un-launched Notificare.")
+                self.state = .configured
+
+                DispatchQueue.main.async {
+                    self.delegate?.notificareDidUnlaunch(self)
+                }
+            } catch {
+                NotificareLogger.error("Failed to delete device.", error: error)
+            }
+        }
     }
 
     public func fetchApplication(_ completion: @escaping NotificareCallback<NotificareApplication>) {
@@ -473,46 +496,19 @@ public class Notificare {
         }
     }
 
-    private func handleLaunchResult(_ result: Result<NotificareApplication, Error>) {
-        switch result {
-        case let .success(application):
-            state = .ready
+    private func printApplicationInfo(application: NotificareApplication) {
+        let enabledServices = application.services.filter(\.value).map(\.key)
+        let enabledModules = NotificareUtils.getEnabledPeerModules()
 
-            let enabledServices = application.services.filter(\.value).map(\.key)
-            let enabledModules = NotificareUtils.getEnabledPeerModules()
-
-            NotificareLogger.debug("/==================================================================================/")
-            NotificareLogger.debug("Notificare SDK is ready to use for application")
-            NotificareLogger.debug("App name: \(application.name)")
-            NotificareLogger.debug("App ID: \(application.id)")
-            NotificareLogger.debug("App services: \(enabledServices.joined(separator: ", "))")
-            NotificareLogger.debug("/==================================================================================/")
-            NotificareLogger.debug("SDK version: \(Notificare.SDK_VERSION)")
-            NotificareLogger.debug("SDK modules: \(enabledModules.joined(separator: ", "))")
-            NotificareLogger.debug("/==================================================================================/")
-
-            DispatchQueue.main.async {
-                // We're done launching. Notify the delegate.
-                self.delegate?.notificare(self, onReady: application)
-            }
-
-            Task {
-                // Loop all possible modules and post-launch the available ones.
-                for module in NotificareInternals.Module.allCases {
-                    if let instance = module.klass?.instance {
-                        do {
-                            NotificareLogger.debug("Post-launching module: \(module)")
-                            try await instance.postLaunch()
-                        } catch {
-                            NotificareLogger.error("Failed to post-launch '\(module)'.", error: error)
-                        }
-                    }
-                }
-            }
-        case let .failure(error):
-            NotificareLogger.error("Failed to launch Notificare.", error: error)
-            state = .configured
-        }
+        NotificareLogger.debug("/==================================================================================/")
+        NotificareLogger.debug("Notificare SDK is ready to use for application")
+        NotificareLogger.debug("App name: \(application.name)")
+        NotificareLogger.debug("App ID: \(application.id)")
+        NotificareLogger.debug("App services: \(enabledServices.joined(separator: ", "))")
+        NotificareLogger.debug("/==================================================================================/")
+        NotificareLogger.debug("SDK version: \(Notificare.SDK_VERSION)")
+        NotificareLogger.debug("SDK modules: \(enabledModules.joined(separator: ", "))")
+        NotificareLogger.debug("/==================================================================================/")
     }
 
     private func loadServiceInfoFile() -> NotificareServicesInfo {

@@ -29,9 +29,8 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
                                                object: nil)
     }
 
-    func launch(_ completion: @escaping NotificareCallback<Void>) {
+    func launch() async throws {
         processStoredEvents()
-        completion(.success(()))
     }
 
     // MARK: - Notificare Events
@@ -92,75 +91,20 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
 
     // MARK: - Internal API
 
-    internal func logApplicationInstall(_ completion: @escaping NotificareCallback<Void>) {
-        Task {
-            do {
-                try await logApplicationInstall()
-                completion(.success(()))
-            } catch {
-                completion(.failure(error))
-            }
-        }
-    }
-
     internal func logApplicationInstall() async throws {
         try await log("re.notifica.event.application.Install")
-    }
-
-    internal func logApplicationRegistration(_ completion: @escaping NotificareCallback<Void>) {
-        Task {
-            do {
-                try await logApplicationRegistration()
-                completion(.success(()))
-            } catch {
-                completion(.failure(error))
-            }
-        }
     }
 
     internal func logApplicationRegistration() async throws {
         try await log("re.notifica.event.application.Registration")
     }
 
-    internal func logApplicationUpgrade(_ completion: @escaping NotificareCallback<Void>) {
-        Task {
-            do {
-                try await logApplicationUpgrade()
-                completion(.success(()))
-            } catch {
-                completion(.failure(error))
-            }
-        }
-    }
-
     internal func logApplicationUpgrade() async throws {
         try await log("re.notifica.event.application.Upgrade")
     }
 
-    internal func logApplicationOpen(sessionId: String, _ completion: @escaping NotificareCallback<Void>) {
-        Task {
-            do {
-                try await logApplicationOpen(sessionId: sessionId)
-                completion(.success(()))
-            } catch {
-                completion(.failure(error))
-            }
-        }
-    }
-
     internal func logApplicationOpen(sessionId: String) async throws {
         try await log("re.notifica.event.application.Open", sessionId: sessionId)
-    }
-
-    internal func logApplicationClose(sessionId: String, sessionLength: Double, _ completion: @escaping NotificareCallback<Void>) {
-        Task {
-            do {
-                try await logApplicationClose(sessionId: sessionId, sessionLength: sessionLength)
-                completion(.success(()))
-            } catch {
-                completion(.failure(error))
-            }
-        }
     }
 
     internal func logApplicationClose(sessionId: String, sessionLength: Double) async throws {

@@ -29,10 +29,8 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
                                                object: nil)
     }
 
-    func launch(_ completion: @escaping NotificareCallback<Void>) {
+    func launch() async throws {
         evaluateContext(.launch)
-
-        completion(.success(()))
     }
 
     // MARK: - Notificare In-App Messaging

@@ -30,56 +30,46 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
                                                object: nil)
     }
 
-    func launch(_ completion: @escaping NotificareCallback<Void>) {
+    func launch() async throws {
         if let device = currentDevice {
-            register(transport: device.transport, token: device.id, userId: device.userId, userName: device.userName) { result in
-                switch result {
-                case .success:
-                    Notificare.shared.session().launch { result in
-                        switch result {
-                        case .success:
-                            if device.appVersion != NotificareUtils.applicationVersion {
-                                // It's not the same version, let's log it as an upgrade.
-                                NotificareLogger.debug("New version detected")
-                                Notificare.shared.eventsImplementation().logApplicationUpgrade { _ in }
-                            }
+            do {
+                try await register(transport: device.transport, token: device.id, userId: device.userId, userName: device.userName)
+            } catch {
+                NotificareLogger.warning("Failed to register device.", error: error)
+                throw error
+            }
 
-                            completion(.success(()))
+            do {
+                try await Notificare.shared.session().launch()
 
-                        case let .failure(error):
-                            NotificareLogger.debug("Failed to launch the session module.", error: error)
-                            completion(.failure(error))
-                        }
-                    }
-                case let .failure(error):
-                    NotificareLogger.warning("Failed to register device.", error: error)
-                    completion(.failure(error))
+                if device.appVersion != NotificareUtils.applicationVersion {
+                    // It's not the same version, let's log it as an upgrade.
+                    NotificareLogger.debug("New version detected")
+                    try? await Notificare.shared.eventsImplementation().logApplicationUpgrade()
                 }
+            } catch {
+                NotificareLogger.debug("Failed to launch the session module.", error: error)
+                throw error
             }
         } else {
             NotificareLogger.debug("New install detected")
 
-            registerTemporary { result in
-                switch result {
-                case .success:
-                    Notificare.shared.session().launch { result in
-                        switch result {
-                        case .success:
-                            // We will log the Install & Registration events here since this will execute only one time at the start.
-                            Notificare.shared.eventsImplementation().logApplicationInstall { _ in }
-                            Notificare.shared.eventsImplementation().logApplicationRegistration { _ in }
+            do {
+                try await registerTemporary()
+            } catch {
+                NotificareLogger.warning("Failed to register temporary device.", error: error)
+                throw error
+            }
 
-                            completion(.success(()))
+            do {
+                try await Notificare.shared.session().launch()
 
-                        case let .failure(error):
-                            NotificareLogger.debug("Failed to launch the session module.", error: error)
-                            completion(.failure(error))
-                        }
-                    }
-                case let .failure(error):
-                    NotificareLogger.warning("Failed to register temporary device.", error: error)
-                    completion(.failure(error))
-                }
+                // We will log the Install & Registration events here since this will execute only one time at the start.
+                try? await Notificare.shared.eventsImplementation().logApplicationInstall()
+                try? await Notificare.shared.eventsImplementation().logApplicationRegistration()
+            } catch {
+                NotificareLogger.debug("Failed to launch the session module.", error: error)
+                throw error
             }
         }
     }
@@ -423,17 +413,6 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
 
     // MARK: - Notificare Internal Device Module
 
-    public func registerTemporary(_ completion: @escaping NotificareCallback<Void>) {
-        Task {
-            do {
-                try await registerTemporary()
-                completion(.success(()))
-            } catch {
-                completion(.failure(error))
-            }
-        }
-    }
-
     public func registerTemporary() async throws {
         var token = withUnsafePointer(to: UUID().uuid) {
             Data(bytes: $0, count: 16)
@@ -592,17 +571,6 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
 
         // Update current device properties.
         currentDevice?.backgroundAppRefresh = payload.backgroundAppRefresh
-    }
-
-    private func register(transport: NotificareTransport, token: String, userId: String?, userName: String?, _ completion: @escaping NotificareCallback<Void>) {
-        Task {
-            do {
-                try await register(transport: transport, token: token, userId: userId, userName: userName)
-                completion(.success(()))
-            } catch {
-                completion(.failure(error))
-            }
-        }
     }
 
     private func register(transport: NotificareTransport, token: String, userId: String?, userName: String?) async throws {
