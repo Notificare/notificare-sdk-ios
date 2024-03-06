@@ -70,6 +70,23 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
     }
 
     private func setupNavigationActions() {
+        if Notificare.shared.options?.legacyNotificationsUserInterfaceEnabled == true {
+            setupLegacyNavigationActions()
+        } else {
+            setupModernNavigationActions()
+        }
+
+        activityIndicatorView = UIActivityIndicatorView(style: .white)
+        activityIndicatorView.hidesWhenStopped = true
+        if let colorStr = theme?.activityIndicatorColor {
+            activityIndicatorView.tintColor = UIColor(hexString: colorStr)
+        }
+
+        viewController.navigationItem.leftBarButtonItem = closeButton
+        viewController.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: activityIndicatorView)
+    }
+
+    private func setupLegacyNavigationActions() {
         if let image = NotificareLocalizable.image(resource: .close) {
             closeButton = UIBarButtonItem(image: image,
                                           style: .plain,
@@ -109,15 +126,25 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
                 sendButton.tintColor = UIColor(hexString: colorStr)
             }
         }
+    }
 
-        activityIndicatorView = UIActivityIndicatorView(style: .white)
-        activityIndicatorView.hidesWhenStopped = true
-        if let colorStr = theme?.activityIndicatorColor {
-            activityIndicatorView.tintColor = UIColor(hexString: colorStr)
+    private func setupModernNavigationActions() {
+        closeButton = UIBarButtonItem(
+            barButtonSystemItem: .close,
+            target: self,
+            action: #selector(onCloseClicked)
+        )
+
+        sendButton = UIBarButtonItem(
+            image: UIImage(systemName: "chevron.right"),
+            style: .plain,
+            target: self,
+            action: #selector(onSendClicked)
+        )
+
+        if let colorStr = theme?.buttonTextColor {
+            sendButton.tintColor = UIColor(hexString: colorStr)
         }
-
-        viewController.navigationItem.leftBarButtonItem = closeButton
-        viewController.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: activityIndicatorView)
     }
 
     override func execute() {

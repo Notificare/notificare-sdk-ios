@@ -45,14 +45,14 @@ public class NotificareBaseNotificationViewController: UIViewController {
 
     @objc func showActions() {
         let alert: UIAlertController
-        
+
         if UIDevice.current.userInterfaceIdiom == .pad, let actionsButton {
             alert = UIAlertController(
                 title: NotificareUtils.applicationName,
                 message: notification.message,
                 preferredStyle: .actionSheet
             )
-            
+
             alert.modalPresentationStyle = .popover
             alert.popoverPresentationController?.barButtonItem = actionsButton
             alert.popoverPresentationController?.permittedArrowDirections = .up
@@ -62,7 +62,7 @@ public class NotificareBaseNotificationViewController: UIViewController {
                 message: notification.message,
                 preferredStyle: .actionSheet
             )
-            
+
             alert.modalPresentationStyle = .currentContext
         } else {
             alert = UIAlertController(
@@ -147,6 +147,11 @@ public class NotificareBaseNotificationViewController: UIViewController {
     }
 
     private func renderNavigationBarItems() {
+        if Notificare.shared.options?.legacyNotificationsUserInterfaceEnabled == true {
+            renderLegacyNavigationBarItems()
+            return
+        }
+
         var leftBarButtonItem: UIBarButtonItem?
         var rightBarButtonItem: UIBarButtonItem?
 
@@ -177,7 +182,7 @@ public class NotificareBaseNotificationViewController: UIViewController {
             if let colorStr = theme?.actionButtonTextColor {
                 rightBarButtonItem?.tintColor = UIColor(hexString: colorStr)
             }
-            
+
             actionsButton = rightBarButtonItem
         } else {
             actionsButton = nil
@@ -185,6 +190,32 @@ public class NotificareBaseNotificationViewController: UIViewController {
 
         navigationItem.leftBarButtonItem = leftBarButtonItem
         navigationItem.rightBarButtonItem = rightBarButtonItem
+    }
+
+    private func renderLegacyNavigationBarItems() {
+        guard isActionsButtonEnabled else {
+            navigationItem.rightBarButtonItem = nil
+            actionsButton = nil
+            return
+        }
+
+        if let image = NotificareLocalizable.image(resource: .actions) {
+            actionsButton = UIBarButtonItem(image: image,
+                                            style: .plain,
+                                            target: self,
+                                            action: #selector(showActions))
+        } else {
+            actionsButton = UIBarButtonItem(title: NotificareLocalizable.string(resource: .actionsButton),
+                                            style: .plain,
+                                            target: self,
+                                            action: #selector(showActions))
+        }
+
+        if let colorStr = theme?.actionButtonTextColor {
+            actionsButton?.tintColor = UIColor(hexString: colorStr)
+        }
+
+        navigationItem.rightBarButtonItem = actionsButton
     }
 }
 
