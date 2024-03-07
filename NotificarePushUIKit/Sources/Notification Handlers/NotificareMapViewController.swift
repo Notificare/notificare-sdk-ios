@@ -27,11 +27,18 @@ public class NotificareMapViewController: NotificareBaseNotificationViewControll
     }
 
     private func setupViews() {
-        mapView = MKMapView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height))
+        mapView = MKMapView()
+        mapView.translatesAutoresizingMaskIntoConstraints = false
         mapView.showsUserLocation = true
         mapView.delegate = self
 
         view.addSubview(mapView)
+        NSLayoutConstraint.activate([
+            mapView.leadingAnchor.constraint(equalTo: view.ncSafeAreaLayoutGuide.leadingAnchor),
+            mapView.trailingAnchor.constraint(equalTo: view.ncSafeAreaLayoutGuide.trailingAnchor),
+            mapView.topAnchor.constraint(equalTo: view.ncSafeAreaLayoutGuide.topAnchor),
+            mapView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+        ])
     }
 
     private func setupContent() {

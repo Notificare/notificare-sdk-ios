@@ -77,6 +77,10 @@ class HomeViewModel: NSObject, ObservableObject {
 
     @Published private(set) var coffeeBrewerLiveActivityState: CoffeeBrewerActivityAttributes.BrewingState?
 
+    // Application Info
+
+    @Published private(set) var applicationInfo: ApplicationInfo?
+
     private var cancellables = Set<AnyCancellable>()
 
     override init() {
@@ -94,6 +98,7 @@ class HomeViewModel: NSObject, ObservableObject {
 
                 self?.isReady = ready
                 self?.viewState = ready ? .isReady : .isNotReady
+                self?.applicationInfo = self?.getApplicationInfo()
             }
             .store(in: &cancellables)
 
@@ -127,6 +132,8 @@ class HomeViewModel: NSObject, ObservableObject {
         if #available(iOS 16.1, *), LiveActivitiesController.shared.hasLiveActivityCapabilities {
             monitorLiveActivities()
         }
+
+        applicationInfo = getApplicationInfo()
     }
 
     func updateStats() {
@@ -608,6 +615,21 @@ extension HomeViewModel {
                 }
             }
         }
+    }
+}
+
+// Application Info
+
+extension HomeViewModel {
+    private func getApplicationInfo() -> ApplicationInfo? {
+        guard let application = Notificare.shared.application else {
+            return nil
+        }
+
+        return ApplicationInfo(
+            name: application.name,
+            identifier: application.id
+        )
     }
 }
 

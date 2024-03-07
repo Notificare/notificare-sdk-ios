@@ -86,6 +86,9 @@
 "home_athentication" = "Athentication";
 "home_custom_events" = "Custom Events";
 "home_other_features" = "Other Features";
+"home_application_info" = "Application Info";
+"home_application_name" = "Name";
+"home_application_identifier" = "Identifier";
 
 "home_coffee_brewer_title" = "Live Activities";
 "home_coffee_brewer_create_button" = "Brew a coffee";
