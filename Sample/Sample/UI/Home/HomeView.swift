@@ -61,6 +61,13 @@ struct HomeView: View {
             )
 
             OtherFeaturesSection()
+
+            if let applicationInfo = viewModel.applicationInfo {
+                ApplicationInfoSection(
+                    applicationName: applicationInfo.name,
+                    applicationIdentifier: applicationInfo.identifier
+                )
+            }
         }
         .navigationTitle(String(localized: "home_title"))
         .navigationBarTitleDisplayMode(.inline)

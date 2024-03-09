@@ -14,28 +14,7 @@ public class NotificareBaseNotificationViewController: UIViewController {
 
     var isActionsButtonEnabled: Bool = false {
         didSet {
-            guard isActionsButtonEnabled else {
-                navigationItem.rightBarButtonItem = nil
-                return
-            }
-
-            if let image = NotificareLocalizable.image(resource: .actions) {
-                actionsButton = UIBarButtonItem(image: image,
-                                                style: .plain,
-                                                target: self,
-                                                action: #selector(showActions))
-            } else {
-                actionsButton = UIBarButtonItem(title: NotificareLocalizable.string(resource: .actionsButton),
-                                                style: .plain,
-                                                target: self,
-                                                action: #selector(showActions))
-            }
-
-            if let colorStr = theme?.actionButtonTextColor {
-                actionsButton?.tintColor = UIColor(hexString: colorStr)
-            }
-
-            navigationItem.rightBarButtonItem = actionsButton
+            renderNavigationBarItems()
         }
     }
 
@@ -60,10 +39,38 @@ public class NotificareBaseNotificationViewController: UIViewController {
         }
     }
 
+    @objc func dismissViewController() {
+        dismiss(animated: true)
+    }
+
     @objc func showActions() {
-        let alert = UIAlertController(title: NotificareUtils.applicationName,
-                                      message: notification.message,
-                                      preferredStyle: .actionSheet)
+        let alert: UIAlertController
+
+        if UIDevice.current.userInterfaceIdiom == .pad, let actionsButton {
+            alert = UIAlertController(
+                title: NotificareUtils.applicationName,
+                message: notification.message,
+                preferredStyle: .actionSheet
+            )
+
+            alert.modalPresentationStyle = .popover
+            alert.popoverPresentationController?.barButtonItem = actionsButton
+            alert.popoverPresentationController?.permittedArrowDirections = .up
+        } else if UIDevice.current.userInterfaceIdiom == .phone {
+            alert = UIAlertController(
+                title: NotificareUtils.applicationName,
+                message: notification.message,
+                preferredStyle: .actionSheet
+            )
+
+            alert.modalPresentationStyle = .currentContext
+        } else {
+            alert = UIAlertController(
+                title: NotificareUtils.applicationName,
+                message: notification.message,
+                preferredStyle: .alert
+            )
+        }
 
         for action in notification.actions {
             alert.addAction(
@@ -78,13 +85,6 @@ public class NotificareBaseNotificationViewController: UIViewController {
                           style: .cancel,
                           handler: nil)
         )
-
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            alert.modalPresentationStyle = .popover
-            alert.popoverPresentationController?.barButtonItem = actionsButton
-        } else {
-            alert.modalPresentationStyle = .currentContext
-        }
 
         present(alert, animated: true, completion: nil)
     }
@@ -143,6 +143,90 @@ public class NotificareBaseNotificationViewController: UIViewController {
                     }
                 }
             }
+        }
+    }
+
+    private func renderNavigationBarItems() {
+        if Notificare.shared.options?.legacyNotificationsUserInterfaceEnabled == true {
+            renderLegacyNavigationBarItems()
+            return
+        }
+
+        var leftBarButtonItem: UIBarButtonItem?
+        var rightBarButtonItem: UIBarButtonItem?
+
+        if isModal, isActionsButtonEnabled {
+            leftBarButtonItem = UIBarButtonItem(
+                barButtonSystemItem: .close,
+                target: self,
+                action: #selector(dismissViewController)
+            )
+        }
+
+        if isModal, !isActionsButtonEnabled {
+            rightBarButtonItem = UIBarButtonItem(
+                barButtonSystemItem: .done,
+                target: self,
+                action: #selector(dismissViewController)
+            )
+        }
+
+        if isActionsButtonEnabled {
+            rightBarButtonItem = UIBarButtonItem(
+                image: UIImage(systemName: "ellipsis"),
+                style: .plain,
+                target: self,
+                action: #selector(showActions)
+            )
+
+            if let colorStr = theme?.actionButtonTextColor {
+                rightBarButtonItem?.tintColor = UIColor(hexString: colorStr)
+            }
+
+            actionsButton = rightBarButtonItem
+        } else {
+            actionsButton = nil
+        }
+
+        navigationItem.leftBarButtonItem = leftBarButtonItem
+        navigationItem.rightBarButtonItem = rightBarButtonItem
+    }
+
+    private func renderLegacyNavigationBarItems() {
+        guard isActionsButtonEnabled else {
+            navigationItem.rightBarButtonItem = nil
+            actionsButton = nil
+            return
+        }
+
+        if let image = NotificareLocalizable.image(resource: .actions) {
+            actionsButton = UIBarButtonItem(image: image,
+                                            style: .plain,
+                                            target: self,
+                                            action: #selector(showActions))
+        } else {
+            actionsButton = UIBarButtonItem(title: NotificareLocalizable.string(resource: .actionsButton),
+                                            style: .plain,
+                                            target: self,
+                                            action: #selector(showActions))
+        }
+
+        if let colorStr = theme?.actionButtonTextColor {
+            actionsButton?.tintColor = UIColor(hexString: colorStr)
+        }
+
+        navigationItem.rightBarButtonItem = actionsButton
+    }
+}
+
+private extension UIViewController {
+    var isModal: Bool {
+        if let index = navigationController?.viewControllers.firstIndex(of: self), index > 0 {
+            return false
+        } else if presentingViewController != nil {
+            return true
+        } else {
+            return false
         }
     }
 }

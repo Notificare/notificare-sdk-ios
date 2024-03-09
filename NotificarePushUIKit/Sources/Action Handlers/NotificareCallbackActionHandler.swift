@@ -62,9 +62,31 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
                                                selector: #selector(keyboardWillAppear(_:)),
                                                name: UIResponder.keyboardWillShowNotification,
                                                object: nil)
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillDisappear(_:)),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
     }
 
     private func setupNavigationActions() {
+        if Notificare.shared.options?.legacyNotificationsUserInterfaceEnabled == true {
+            setupLegacyNavigationActions()
+        } else {
+            setupModernNavigationActions()
+        }
+
+        activityIndicatorView = UIActivityIndicatorView(style: .white)
+        activityIndicatorView.hidesWhenStopped = true
+        if let colorStr = theme?.activityIndicatorColor {
+            activityIndicatorView.tintColor = UIColor(hexString: colorStr)
+        }
+
+        viewController.navigationItem.leftBarButtonItem = closeButton
+        viewController.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: activityIndicatorView)
+    }
+
+    private func setupLegacyNavigationActions() {
         if let image = NotificareLocalizable.image(resource: .close) {
             closeButton = UIBarButtonItem(image: image,
                                           style: .plain,
@@ -104,15 +126,25 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
                 sendButton.tintColor = UIColor(hexString: colorStr)
             }
         }
+    }
 
-        activityIndicatorView = UIActivityIndicatorView(style: .white)
-        activityIndicatorView.hidesWhenStopped = true
-        if let colorStr = theme?.activityIndicatorColor {
-            activityIndicatorView.tintColor = UIColor(hexString: colorStr)
+    private func setupModernNavigationActions() {
+        closeButton = UIBarButtonItem(
+            barButtonSystemItem: .close,
+            target: self,
+            action: #selector(onCloseClicked)
+        )
+
+        sendButton = UIBarButtonItem(
+            image: UIImage(systemName: "chevron.right"),
+            style: .plain,
+            target: self,
+            action: #selector(onSendClicked)
+        )
+
+        if let colorStr = theme?.buttonTextColor {
+            sendButton.tintColor = UIColor(hexString: colorStr)
         }
-
-        viewController.navigationItem.leftBarButtonItem = closeButton
-        viewController.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: activityIndicatorView)
     }
 
     override func execute() {
@@ -213,6 +245,7 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
         messageView.autocorrectionType = .default
         messageView.keyboardType = .default
         messageView.returnKeyType = .default
+        messageView.textContainerInset = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
 
         self.messageView = messageView
         if let colorStr = theme?.textFieldBackgroundColor {
@@ -222,7 +255,7 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
             messageView.textColor = UIColor(hexString: colorStr)
         }
 
-        toolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: viewController.view.frame.width, height: 44))
+        toolbar = UIToolbar(frame: .zero)
         toolbar.translatesAutoresizingMaskIntoConstraints = false
         toolbar.setContentCompressionResistancePriority(UILayoutPriority(rawValue: 751), for: .vertical)
         toolbar.setContentHuggingPriority(UILayoutPriority(rawValue: 751), for: .vertical)
@@ -349,6 +382,10 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
     }
 
     @objc private func keyboardWillAppear(_ notification: Notification) {
+        guard UIDevice.current.userInterfaceIdiom != .pad else {
+            return
+        }
+
         guard let userInfo = notification.userInfo,
               let keyboardRect = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect
         else {
@@ -356,6 +393,10 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
         }
 
         toolbarBottomConstraint?.constant = -keyboardRect.height
+    }
+
+    @objc private func keyboardWillDisappear(_ notification: Notification) {
+        toolbarBottomConstraint?.constant = 0
     }
 
     private func dismiss() {

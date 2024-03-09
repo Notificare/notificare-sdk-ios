@@ -12,9 +12,12 @@ private let DEFAULT_MONITORED_REGIONS_LIMIT = 10
 private let MAX_MONITORED_REGIONS_LIMIT = 20
 private let MAX_MONITORED_BEACONS_LIMIT = 10
 private let FAKE_BEACON_IDENTIFIER = "NotificareFakeBeacon"
+private let SMALLEST_DISPLACEMENT_METERS = 100.0
+private let MAX_REGION_SESSION_LOCATIONS = 100
 
 internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLLocationManagerDelegate {
     private var locationManager: CLLocationManager!
+    private var lastKnownLocation: CLLocation?
     private var processingLocationUpdate = false
     private let fakeBeaconUUID = UUID()
 
@@ -129,7 +132,7 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
     }
 
     var hasLocationServicesEnabled: Bool {
-        LocalStorage.locationServicesEnabled && CLLocationManager.locationServicesEnabled()
+        LocalStorage.locationServicesEnabled
     }
 
     var monitoredRegions: [NotificareRegion] {
@@ -154,31 +157,38 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
             return
         }
 
-        // Keep track of the location services status.
-        LocalStorage.locationServicesEnabled = true
+        hasLocationServicesEnabled { enabled in
+            guard enabled else {
+                NotificareLogger.warning("Location functionality is disabled by the user.")
+                return
+            }
 
-        let status = CLLocationManager.authorizationStatus()
+            // Keep track of the location services status.
+            LocalStorage.locationServicesEnabled = true
 
-        switch status {
-        case .notDetermined:
-            NotificareLogger.warning("Location permission not determined. You must request permissions before enabling location updates.")
-            return
+            let status = CLLocationManager.authorizationStatus()
 
-        case .restricted, .denied:
-            handleLocationServicesUnauthorized()
+            switch status {
+            case .notDetermined:
+                NotificareLogger.warning("Location permission not determined. You must request permissions before enabling location updates.")
+                return
 
-        case .authorizedWhenInUse:
-            handleLocationServicesAuthorized(monitorSignificantLocationChanges: false)
+            case .restricted, .denied:
+                self.handleLocationServicesUnauthorized()
 
-        case .authorizedAlways:
-            handleLocationServicesAuthorized(monitorSignificantLocationChanges: true)
+            case .authorizedWhenInUse:
+                self.handleLocationServicesAuthorized(monitorSignificantLocationChanges: false)
 
-        @unknown default:
-            NotificareLogger.warning("Unsupported authorization status: \(status)")
-            return
+            case .authorizedAlways:
+                self.handleLocationServicesAuthorized(monitorSignificantLocationChanges: true)
+
+            @unknown default:
+                NotificareLogger.warning("Unsupported authorization status: \(status)")
+                return
+            }
+
+            NotificareLogger.info("Location updates enabled.")
         }
-
-        NotificareLogger.info("Location updates enabled.")
     }
 
     func disableLocationUpdates() {
@@ -231,6 +241,15 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
         }
     }
 
+    private func hasLocationServicesEnabled(_ completion: @escaping (_ enabled: Bool) -> Void) {
+        DispatchQueue.global().async {
+            let enabled = CLLocationManager.locationServicesEnabled()
+            DispatchQueue.main.async {
+                completion(enabled)
+            }
+        }
+    }
+
     private func handleLocationServicesUnauthorized() {
         stopMonitoringGeofences()
         stopMonitoringLocationUpdates()
@@ -260,6 +279,90 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
         }
 
         checkBluetoothEnabled()
+    }
+
+    private func handleLocationUpdate(_ location: CLLocation) {
+        guard shouldUpdateLocation(location) else {
+            NotificareLogger.debug("Received a location update. Skipping due to smallest displacement constraints...")
+            return
+        }
+
+        guard !processingLocationUpdate else {
+            NotificareLogger.debug("Received a location update. Skipping due to concurrent location update...")
+            return
+        }
+
+        NotificareLogger.info("Received a location update. Processing...")
+        processingLocationUpdate = true
+
+        // Keep a reference to the last known location.
+        lastKnownLocation = location
+
+        // Add this location to the region session.
+        updateRegionSession(location)
+
+        Task {
+            await saveLocation(location)
+
+            if #available(iOS 14.0, *) {
+                // Do not monitor regions unless we have full accuracy and always auth.
+                guard locationManager.accuracyAuthorization == .fullAccuracy, locationManager.authorizationStatus == .authorizedAlways else {
+                    // Unlock location updates.
+                    self.processingLocationUpdate = false
+
+                    return
+                }
+            }
+
+            // Load the nearest regions.
+            await self.loadNearestRegions(location)
+
+            // Unlock location updates.
+            self.processingLocationUpdate = false
+        }
+    }
+
+    private func handlePolygonSessions(for location: CLLocation) {
+        for region in LocalStorage.monitoredRegions.filter({ $0.isPolygon }) {
+            let hasEntered = LocalStorage.enteredRegions.contains(region.id)
+            let isInside = region.contains(location.coordinate)
+
+            if !hasEntered && isInside {
+                triggerRegionEnter(region)
+                startRegionSession(region)
+                startMonitoringBeacons(in: region)
+
+                DispatchQueue.main.async {
+                    self.delegate?.notificare(self, didEnter: region)
+                }
+            } else if hasEntered && !isInside {
+                triggerRegionExit(region)
+                stopRegionSession(region)
+                stopMonitoringBeacons(in: region)
+
+                DispatchQueue.main.async {
+                    self.delegate?.notificare(self, didExit: region)
+                }
+            }
+        }
+    }
+
+    private func shouldUpdateLocation(_ location: CLLocation) -> Bool {
+        guard let lastKnownLocation else { return true }
+
+        if lastKnownLocation.distance(from: location) >= SMALLEST_DISPLACEMENT_METERS {
+            return true
+        }
+
+        // Update the location when we can monitor geofences but no fences were loaded yet.
+        // This typically happens when tracking the user's location and later upgrading to background permission.
+        if #available(iOS 14.0, *) {
+            if locationManager.authorizationStatus == .authorizedAlways, locationManager.accuracyAuthorization == .fullAccuracy, LocalStorage.monitoredRegions.isEmpty {
+                return true
+            }
+        }
+
+        return false
     }
 
     private func saveLocation(_ location: CLLocation) async {
@@ -508,18 +611,16 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
                 return
             }
 
-            if region.isPolygon, let polygon = MKPolygon(region: region) {
+            if region.isPolygon {
                 // This region is a polygon. Proceed if we are inside the polygon boundaries.
-                guard let location = locationManager.location, polygon.contains(location.coordinate) else {
+                guard let location = locationManager.location, region.contains(location.coordinate) else {
                     NotificareLogger.debug("Triggered a region enter but we are not inside the polygon boundaries.")
+                    locationManager.requestLocation()
 
                     DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                         NotificareLogger.debug("Requesting state for polygon region.")
                         self.locationManager.requestState(for: clr)
                     }
-
-                    NotificareLogger.debug("Requesting some background time.")
-                    keepAlive()
 
                     return
                 }
@@ -529,10 +630,22 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
             if !LocalStorage.enteredRegions.contains(region.id) {
                 triggerRegionEnter(region)
                 startRegionSession(region)
+
+                // Circular regions emit the didEnterRegion in the corresponding CLLocationManagerDelegate event.
+                if region.isPolygon {
+                    DispatchQueue.main.async {
+                        self.delegate?.notificare(self, didEnter: region)
+                    }
+                }
             }
 
-            // Start monitoring for beacons in this region.
-            startMonitoringBeacons(in: region)
+            if region.isPolygon, let location = locationManager.location, region.contains(location.coordinate) {
+                // Start monitoring for beacons in this region.
+                startMonitoringBeacons(in: region)
+            } else if !region.isPolygon {
+                // Start monitoring for beacons in this region.
+                startMonitoringBeacons(in: region)
+            }
         }
     }
 
@@ -576,6 +689,13 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
             if LocalStorage.enteredRegions.contains(region.id) {
                 triggerRegionExit(region)
                 stopRegionSession(region)
+
+                // Circular regions emit the didExitRegion in the corresponding CLLocationManagerDelegate event.
+                if region.isPolygon {
+                    DispatchQueue.main.async {
+                        self.delegate?.notificare(self, didExit: region)
+                    }
+                }
             }
 
             // Stop monitoring for beacons in this region.
@@ -589,6 +709,8 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
             return
         }
 
+        LocalStorage.enteredRegions = LocalStorage.enteredRegions.appending(region.id)
+
         let payload = NotificareInternals.PushAPI.Payloads.RegionTrigger(
             deviceID: device.id,
             region: region.id
@@ -600,7 +722,6 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
                     .post("trigger/re.notifica.trigger.region.Enter", body: payload)
                     .response()
 
-                LocalStorage.enteredRegions = LocalStorage.enteredRegions.appending(region.id)
                 NotificareLogger.debug("Triggered region enter.")
             } catch {
                 NotificareLogger.error("Failed to trigger a region enter.", error: error)
@@ -614,6 +735,8 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
             return
         }
 
+        LocalStorage.enteredRegions = LocalStorage.enteredRegions.removing(region.id)
+
         let payload = NotificareInternals.PushAPI.Payloads.RegionTrigger(
             deviceID: device.id,
             region: region.id
@@ -625,7 +748,6 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
                     .post("trigger/re.notifica.trigger.region.Exit", body: payload)
                     .response()
 
-                LocalStorage.enteredRegions = LocalStorage.enteredRegions.removing(region.id)
                 NotificareLogger.debug("Triggered region exit.")
             } catch {
                 NotificareLogger.error("Failed to trigger a region exit.", error: error)
@@ -639,6 +761,8 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
             return
         }
 
+        LocalStorage.enteredBeacons = LocalStorage.enteredBeacons.appending(beacon.id)
+
         let payload = NotificareInternals.PushAPI.Payloads.BeaconTrigger(
             deviceID: device.id,
             beacon: beacon.id
@@ -650,7 +774,6 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
                     .post("trigger/re.notifica.trigger.beacon.Enter", body: payload)
                     .response()
 
-                LocalStorage.enteredBeacons = LocalStorage.enteredBeacons.appending(beacon.id)
                 NotificareLogger.debug("Triggered beacon enter.")
             } catch {
                 NotificareLogger.error("Failed to trigger a beacon enter.", error: error)
@@ -664,6 +787,8 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
             return
         }
 
+        LocalStorage.enteredBeacons = LocalStorage.enteredBeacons.removing(beacon.id)
+
         let payload = NotificareInternals.PushAPI.Payloads.BeaconTrigger(
             deviceID: device.id,
             beacon: beacon.id
@@ -675,7 +800,6 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
                     .post("trigger/re.notifica.trigger.beacon.Exit", body: payload)
                     .response()
 
-                LocalStorage.enteredBeacons = LocalStorage.enteredBeacons.removing(beacon.id)
                 NotificareLogger.debug("Triggered beacon exit.")
             } catch {
                 NotificareLogger.error("Failed to trigger a beacon exit.", error: error)
@@ -734,16 +858,26 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
         Task {
             var sessions = LocalStorage.regionSessions
 
-            guard let session = sessions.first(where: { $0.regionId == region.id }) else {
+            guard var session = sessions.first(where: { $0.regionId == region.id }) else {
                 NotificareLogger.debug("Skipping region session end since no session exists for region '\(region.name)'.")
                 return
+            }
+
+            sessions.removeAll(where: { $0.regionId == region.id })
+            LocalStorage.regionSessions = sessions
+
+            if session.locations.count > MAX_REGION_SESSION_LOCATIONS {
+                session = NotificareRegionSession(
+                    regionId: session.regionId,
+                    start: session.start,
+                    end: session.end,
+                    locations: session.locations.takeEvenlySpaced(MAX_REGION_SESSION_LOCATIONS)
+                )
             }
 
             do {
                 try await Notificare.shared.events().logRegionSession(session)
                 NotificareLogger.debug("Region session logged.")
-                sessions.removeAll(where: { $0.regionId == region.id })
-                LocalStorage.regionSessions = sessions
             } catch {
                 NotificareLogger.error("Failed to log the region session.", error: error)
             }
@@ -780,7 +914,7 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
         }
 
         LocalStorage.beaconSessions = LocalStorage.beaconSessions.map { session in
-            guard session.regionId == region.id else {
+            guard session.regionId == region.id, session.canInsertBeacon(beacon) else {
                 return session
             }
 
@@ -820,13 +954,12 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
         }
 
         NotificareLogger.debug("Stopping session for beacon '\(beacon.name)'.")
+        LocalStorage.beaconSessions = LocalStorage.beaconSessions.filter { $0.regionId != region.id }
 
         Task {
             do {
                 try await Notificare.shared.events().logBeaconSession(session)
                 NotificareLogger.debug("Beacon session logged.")
-                // Remove the session from local storage.
-                LocalStorage.beaconSessions = LocalStorage.beaconSessions.filter { $0.regionId != region.id }
             } catch {
                 NotificareLogger.error("Failed to log the beacon session.", error: error)
             }
@@ -988,13 +1121,6 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
 
         // Remove all monitored beacons with this region's major.
         LocalStorage.monitoredBeacons = LocalStorage.monitoredBeacons.filter { $0.major != region.major }
-    }
-
-    private func keepAlive() {
-        guard UIApplication.shared.applicationState != .active else { return }
-
-        NotificareLogger.debug("Requesting location in background.")
-        locationManager.requestLocation()
     }
 
     private func handleRangingBeacons(_ clBeacons: [CLBeacon], in clr: CLBeaconRegion) {
@@ -1192,7 +1318,7 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
     }
 
     public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard !processingLocationUpdate, let location = locations.last else {
+        guard let location = locations.last else {
             DispatchQueue.main.async {
                 // Notify the delegate regardless of the decision to process the location.
                 self.delegate?.notificare(self, didUpdateLocations: locations.map { NotificareLocation(cl: $0) })
@@ -1201,31 +1327,8 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
             return
         }
 
-        NotificareLogger.info("Received a location update. Processing...")
-        processingLocationUpdate = true
-
-        Task {
-            await saveLocation(location)
-
-            if #available(iOS 14.0, *) {
-                // Do not monitor regions unless we have full accuracy and always auth.
-                guard manager.accuracyAuthorization == .fullAccuracy, manager.authorizationStatus == .authorizedAlways else {
-                    // Unlock location updates.
-                    self.processingLocationUpdate = false
-
-                    return
-                }
-            }
-
-            // Load the nearest regions.
-            await self.loadNearestRegions(location)
-
-            // Add this location to the region session.
-            self.updateRegionSession(location)
-
-            // Unlock location updates.
-            self.processingLocationUpdate = false
-        }
+        handlePolygonSessions(for: location)
+        handleLocationUpdate(location)
 
         DispatchQueue.main.async {
             self.delegate?.notificare(self, didUpdateLocations: locations.map { NotificareLocation(cl: $0) })
@@ -1339,8 +1442,12 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
                 manager.requestLocation()
             }
 
-            DispatchQueue.main.async {
-                self.delegate?.notificare(self, didEnter: region)
+            // Prevent the didEnterRegion for polygons.
+            // Entering the circular region is no guarantee we entered the polygon.
+            if !region.isPolygon {
+                DispatchQueue.main.async {
+                    self.delegate?.notificare(self, didEnter: region)
+                }
             }
         }
     }
@@ -1367,8 +1474,13 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
                 return
             }
 
-            DispatchQueue.main.async {
-                self.delegate?.notificare(self, didExit: region)
+            // Prevent the didExitRegion for polygons.
+            // Although leaving the circular region guarantees we exit the polygon, we don't want to emit multiple 
+            // events. A location update will process the exit event instead.
+            if !region.isPolygon {
+                DispatchQueue.main.async {
+                    self.delegate?.notificare(self, didExit: region)
+                }
             }
         }
     }
@@ -1400,6 +1512,16 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
         } else {
             guard let region = LocalStorage.monitoredRegions.first(where: { $0.id == clr.identifier }) else {
                 NotificareLogger.debug("Received an event (didDetermineState) for non-cached region '\(clr.identifier)'.")
+                return
+            }
+
+            if region.isPolygon, (state == .inside || state == .outside) {
+                let newState: CLRegionState = LocalStorage.enteredRegions.contains(region.id) ? .inside : .outside
+
+                DispatchQueue.main.async {
+                    self.delegate?.notificare(self, didDetermineState: newState, for: region)
+                }
+
                 return
             }
 
