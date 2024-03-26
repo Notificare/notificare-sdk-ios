@@ -58,8 +58,8 @@ public extension NotificareDevice {
 }
 
 // Rolling registration
-internal extension NotificareDevice {
-    init(from registration: NotificareInternals.PushAPI.Payloads.Device.Registration, previous: NotificareDevice?) {
+extension NotificareDevice {
+    internal init(from registration: NotificareInternals.PushAPI.Payloads.Device.Registration, previous: NotificareDevice?) {
         id = registration.deviceID
         userId = registration.userID
         userName = registration.userName

@@ -4,8 +4,8 @@
 
 import Foundation
 
-internal extension String {
-    func toRegex() -> NSRegularExpression {
+extension String {
+    internal func toRegex() -> NSRegularExpression {
         do {
             return try NSRegularExpression(pattern: self)
         } catch {
@@ -14,15 +14,15 @@ internal extension String {
     }
 }
 
-internal extension String {
-    func matches(_ regex: NSRegularExpression) -> Bool {
+extension String {
+    internal func matches(_ regex: NSRegularExpression) -> Bool {
         let range = NSRange(location: 0, length: utf16.count)
         return regex.firstMatch(in: self, options: [], range: range) != nil
     }
 }
 
-internal extension String {
-    func removingSuffix(_ suffix: String) -> String {
+extension String {
+    internal func removingSuffix(_ suffix: String) -> String {
         guard hasSuffix(suffix) else { return self }
 
         return String(dropLast(suffix.count))
