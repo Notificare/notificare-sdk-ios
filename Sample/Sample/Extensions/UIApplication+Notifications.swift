@@ -8,7 +8,7 @@ import NotificarePushUIKit
 import UIKit
 
 extension UIApplication {
-    var currentKeyWindow: UIWindow? {
+    internal var currentKeyWindow: UIWindow? {
         UIApplication.shared.connectedScenes
             // .filter { $0.activationState == .foregroundActive }
             .compactMap { $0 as? UIWindowScene }
@@ -17,11 +17,11 @@ extension UIApplication {
             .first
     }
 
-    var rootViewController: UIViewController? {
+    internal var rootViewController: UIViewController? {
         currentKeyWindow?.rootViewController
     }
 
-    func present(_ notification: NotificareNotification) {
+    internal func present(_ notification: NotificareNotification) {
         guard let rootViewController = rootViewController else {
             return
         }
@@ -39,7 +39,7 @@ extension UIApplication {
         }
     }
 
-    func present(_ action: NotificareNotification.Action, for notification: NotificareNotification) {
+    internal func present(_ action: NotificareNotification.Action, for notification: NotificareNotification) {
         guard let rootViewController = rootViewController else {
             return
         }
