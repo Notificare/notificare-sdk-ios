@@ -76,14 +76,14 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
 
     // MARK: - Notificare Module
 
-    static let instance = NotificareGeoImpl()
+    internal static let instance = NotificareGeoImpl()
 
-    func migrate() {
+    internal func migrate() {
         LocalStorage.locationServicesEnabled = UserDefaults.standard.bool(forKey: "notificareAllowedLocationServices")
         LocalStorage.bluetoothEnabled = UserDefaults.standard.bool(forKey: "notificareBluetoothON")
     }
 
-    func configure() {
+    internal func configure() {
         locationManager = CLLocationManager()
         locationManager?.delegate = self
         locationManager?.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
@@ -106,14 +106,14 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
                                                object: nil)
     }
 
-    func postLaunch() async throws {
+    internal func postLaunch() async throws {
         if hasLocationServicesEnabled {
             NotificareLogger.debug("Enabling locations updates automatically.")
             enableLocationUpdates()
         }
     }
 
-    func unlaunch() async throws {
+    internal func unlaunch() async throws {
         LocalStorage.locationServicesEnabled = false
 
         stopMonitoringGeofences()
@@ -131,15 +131,15 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
         set { LocalStorage.bluetoothEnabled = newValue }
     }
 
-    var hasLocationServicesEnabled: Bool {
+    public var hasLocationServicesEnabled: Bool {
         LocalStorage.locationServicesEnabled
     }
 
-    var monitoredRegions: [NotificareRegion] {
+    public var monitoredRegions: [NotificareRegion] {
         LocalStorage.monitoredRegions
     }
 
-    var enteredRegions: [NotificareRegion] {
+    public var enteredRegions: [NotificareRegion] {
         let monitoredRegions = LocalStorage.monitoredRegions
 
         return LocalStorage.enteredRegions.compactMap { id in
@@ -149,7 +149,7 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
         }
     }
 
-    func enableLocationUpdates() {
+    public func enableLocationUpdates() {
         do {
             try checkPrerequisites()
             try checkPlistPrerequisites()
@@ -191,7 +191,7 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
         }
     }
 
-    func disableLocationUpdates() {
+    public func disableLocationUpdates() {
         do {
             try checkPrerequisites()
             try checkPlistPrerequisites()
@@ -1260,7 +1260,8 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
 
         // Request user location when we're only authorized while in use
         // or when the background updates are not available.
-        if CLLocationManager.authorizationStatus() == .authorizedWhenInUse ||
+        if
+            CLLocationManager.authorizationStatus() == .authorizedWhenInUse ||
             UIApplication.shared.backgroundRefreshStatus == .denied ||
             UIApplication.shared.backgroundRefreshStatus == .restricted ||
             !CLLocationManager.significantLocationChangeMonitoringAvailable()
@@ -1515,7 +1516,7 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
                 return
             }
 
-            if region.isPolygon, (state == .inside || state == .outside) {
+            if region.isPolygon, state == .inside || state == .outside {
                 let newState: CLRegionState = LocalStorage.enteredRegions.contains(region.id) ? .inside : .outside
 
                 DispatchQueue.main.async {

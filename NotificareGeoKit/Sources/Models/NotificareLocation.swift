@@ -30,8 +30,8 @@ public struct NotificareLocation: Codable {
     }
 }
 
-internal extension NotificareLocation {
-    init(cl location: CLLocation) {
+extension NotificareLocation {
+    internal init(cl location: CLLocation) {
         latitude = location.coordinate.latitude
         longitude = location.coordinate.longitude
         altitude = location.altitude

@@ -6,12 +6,12 @@ import CoreLocation
 import Foundation
 import MapKit
 
-internal extension NotificareRegion {
-    var isPolygon: Bool {
+extension NotificareRegion {
+    internal var isPolygon: Bool {
         advancedGeometry != nil
     }
 
-    func toCLRegion(with manager: CLLocationManager) -> CLRegion {
+    internal func toCLRegion(with manager: CLLocationManager) -> CLRegion {
         CLCircularRegion(
             center: CLLocationCoordinate2D(
                 latitude: geometry.coordinate.latitude,
@@ -22,7 +22,7 @@ internal extension NotificareRegion {
         )
     }
 
-    func contains(_ coordinate: CLLocationCoordinate2D) -> Bool {
+    internal func contains(_ coordinate: CLLocationCoordinate2D) -> Bool {
         if isPolygon, let polygon = MKPolygon(region: self) {
             return polygon.contains(coordinate)
         }
