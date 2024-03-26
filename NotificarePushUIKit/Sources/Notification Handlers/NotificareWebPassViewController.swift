@@ -173,7 +173,7 @@ extension NotificareWebPassViewController: WKNavigationDelegate, WKUIDelegate {
 }
 
 extension NotificareWebPassViewController: NotificareNotificationPresenter {
-    func present(in controller: UIViewController) {
+    internal func present(in controller: UIViewController) {
         controller.presentOrPush(self)
     }
 }

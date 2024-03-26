@@ -4,12 +4,12 @@
 
 import NotificareKit
 
-enum LocalStorage {
+internal enum LocalStorage {
     private enum Keys: String {
         case reviewedVersion = "re.notifica.push_ui.local_storage.reviewed_version"
     }
 
-    static var hasReviewedCurrentVersion: Bool {
+    internal static var hasReviewedCurrentVersion: Bool {
         get {
             let version = NotificareUtils.applicationVersion
             return UserDefaults.standard.bool(forKey: "\(Keys.reviewedVersion.rawValue)_\(version)")

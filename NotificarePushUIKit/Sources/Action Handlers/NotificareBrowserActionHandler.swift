@@ -6,11 +6,12 @@ import NotificareKit
 import UIKit
 
 public class NotificareBrowserActionHandler: NotificareBaseActionHandler {
-    override func execute() {
-        if let target = action.target,
-           let url = URL(string: target),
-           let urlScheme = url.scheme,
-           NotificareUtils.getSupportedUrlSchemes().contains(urlScheme) || UIApplication.shared.canOpenURL(url)
+    internal override func execute() {
+        if
+            let target = action.target,
+            let url = URL(string: target),
+            let urlScheme = url.scheme,
+            NotificareUtils.getSupportedUrlSchemes().contains(urlScheme) || UIApplication.shared.canOpenURL(url)
         {
             DispatchQueue.main.async {
                 UIApplication.shared.open(url, options: [:]) { _ in
