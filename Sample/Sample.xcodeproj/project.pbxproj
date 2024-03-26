@@ -624,12 +624,12 @@
 				F29FD1F124CB1FE1004B166D /* Frameworks */,
 				F29FD1F224CB1FE1004B166D /* Resources */,
 				F22650C8258B6E890004F833 /* Embed Frameworks */,
-				F25B6DCE25CAE859007BC2C8 /* SwiftFormat */,
 				F2F41D8025CD651D0010260B /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				1A8B9C472BB1893A009781B5 /* PBXTargetDependency */,
 				F2F41D7B25CD651D0010260B /* PBXTargetDependency */,
 				F2EB435129350B3700AFDBD3 /* PBXTargetDependency */,
 			);
@@ -709,6 +709,7 @@
 			mainGroup = F29FD1EB24CB1FE1004B166D;
 			packageReferences = (
 				F25B6DCB25CAC67E007BC2C8 /* XCRemoteSwiftPackageReference "SDWebImage" */,
+				1A8B9C2C2BB18877009781B5 /* XCRemoteSwiftPackageReference "SwiftLint" */,
 			);
 			productRefGroup = F29FD1F524CB1FE1004B166D /* Products */;
 			projectDirPath = "";
@@ -753,25 +754,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		F25B6DCE25CAE859007BC2C8 /* SwiftFormat */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = SwiftFormat;
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if which swiftformat >/dev/null; then\n  echo \"$(pwd)\"\n  swiftformat .\nelse\n  echo \"warning: SwiftFormat not installed, download from https://github.com/nicklockwood/SwiftFormat\"\nfi\n";
-		};
 		F2EAF9B02AF537F700A2CC0C /* Copy Notificare configuration file */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
@@ -876,6 +858,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		1A8B9C472BB1893A009781B5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 1A8B9C462BB1893A009781B5 /* SwiftLintPlugin */;
+		};
 		F2EB435129350B3700AFDBD3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = F2EB434229350B3600AFDBD3 /* WidgetExtension */;
@@ -1490,6 +1476,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		1A8B9C2C2BB18877009781B5 /* XCRemoteSwiftPackageReference "SwiftLint" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/SwiftLint";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.54.0;
+			};
+		};
 		F25B6DCB25CAC67E007BC2C8 /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SDWebImage/SDWebImage";
@@ -1501,6 +1495,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		1A8B9C462BB1893A009781B5 /* SwiftLintPlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1A8B9C2C2BB18877009781B5 /* XCRemoteSwiftPackageReference "SwiftLint" */;
+			productName = "plugin:SwiftLintPlugin";
+		};
 		F25B6DCC25CAC67E007BC2C8 /* SDWebImage */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = F25B6DCB25CAC67E007BC2C8 /* XCRemoteSwiftPackageReference "SDWebImage" */;
