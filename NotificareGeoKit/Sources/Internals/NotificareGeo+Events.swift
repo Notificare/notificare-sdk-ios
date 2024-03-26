@@ -5,8 +5,8 @@
 import Foundation
 import NotificareKit
 
-internal extension NotificareEventsModule {
-    func logRegionSession(_ session: NotificareRegionSession) async throws {
+extension NotificareEventsModule {
+    internal func logRegionSession(_ session: NotificareRegionSession) async throws {
         let sessionEnd = session.end ?? Date()
         let length = sessionEnd.timeIntervalSince(session.start)
 
@@ -39,7 +39,7 @@ internal extension NotificareEventsModule {
         try await this.log("re.notifica.event.region.Session", data: data)
     }
 
-    func logBeaconSession(_ session: NotificareBeaconSession) async throws {
+    internal func logBeaconSession(_ session: NotificareBeaconSession) async throws {
         let sessionEnd = session.end ?? Date()
         let length = sessionEnd.timeIntervalSince(session.start)
 
@@ -71,7 +71,7 @@ internal extension NotificareEventsModule {
         try await this.log("re.notifica.event.beacon.Session", data: data)
     }
 
-    func logVisit(_ visit: NotificareVisit) async throws {
+    internal func logVisit(_ visit: NotificareVisit) async throws {
         let data: NotificareEventData = [
             "departureDate": visit.departureDate,
             "arrivalDate": visit.arrivalDate,

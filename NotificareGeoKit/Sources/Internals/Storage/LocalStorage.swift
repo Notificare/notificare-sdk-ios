@@ -15,7 +15,7 @@ private let KEY_REGION_SESSIONS = "re.notifica.geo.region_sessions"
 private let KEY_BEACON_SESSIONS = "re.notifica.geo.beacon_sessions"
 
 internal enum LocalStorage {
-    static var locationServicesEnabled: Bool {
+    internal static var locationServicesEnabled: Bool {
         get {
             UserDefaults.standard.bool(forKey: KEY_LOCATION_SERVICES_ENABLED)
         }
@@ -24,7 +24,7 @@ internal enum LocalStorage {
         }
     }
 
-    static var bluetoothEnabled: Bool {
+    internal static var bluetoothEnabled: Bool {
         get {
             UserDefaults.standard.bool(forKey: KEY_BLUETOOTH_ENABLED)
         }
@@ -33,7 +33,7 @@ internal enum LocalStorage {
         }
     }
 
-    static var enteredRegions: Set<String> {
+    internal static var enteredRegions: Set<String> {
         get {
             let arr = UserDefaults.standard.stringArray(forKey: KEY_ENTERED_REGIONS) ?? []
             return Set(arr)
@@ -43,7 +43,7 @@ internal enum LocalStorage {
         }
     }
 
-    static var enteredBeacons: Set<String> {
+    internal static var enteredBeacons: Set<String> {
         get {
             let arr = UserDefaults.standard.stringArray(forKey: KEY_ENTERED_BEACONS) ?? []
             return Set(arr)
@@ -53,7 +53,7 @@ internal enum LocalStorage {
         }
     }
 
-    static var monitoredRegions: [NotificareRegion] {
+    internal static var monitoredRegions: [NotificareRegion] {
         get {
             guard let data = UserDefaults.standard.object(forKey: KEY_MONITORED_REGIONS) as? Data else {
                 return []
@@ -85,7 +85,7 @@ internal enum LocalStorage {
         }
     }
 
-    static var monitoredBeacons: Set<NotificareBeacon> {
+    internal static var monitoredBeacons: Set<NotificareBeacon> {
         get {
             guard let data = UserDefaults.standard.object(forKey: KEY_MONITORED_BEACONS) as? Data else {
                 return []
@@ -118,7 +118,7 @@ internal enum LocalStorage {
         }
     }
 
-    static var regionSessions: [NotificareRegionSession] {
+    internal static var regionSessions: [NotificareRegionSession] {
         get {
             guard let data = UserDefaults.standard.object(forKey: KEY_REGION_SESSIONS) as? Data else {
                 return []
@@ -150,7 +150,7 @@ internal enum LocalStorage {
         }
     }
 
-    static var beaconSessions: [NotificareBeaconSession] {
+    internal static var beaconSessions: [NotificareBeaconSession] {
         get {
             guard let data = UserDefaults.standard.object(forKey: KEY_BEACON_SESSIONS) as? Data else {
                 return []

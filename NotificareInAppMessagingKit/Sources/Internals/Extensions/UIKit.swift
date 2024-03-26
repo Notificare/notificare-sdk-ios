@@ -4,8 +4,8 @@
 
 import UIKit
 
-internal extension UIView {
-    var ncSafeAreaLayoutGuide: UILayoutGuide {
+extension UIView {
+    internal var ncSafeAreaLayoutGuide: UILayoutGuide {
         if #available(iOS 11.0, *) {
             return safeAreaLayoutGuide
         }

@@ -6,8 +6,8 @@ import CoreData
 import Foundation
 import NotificareKit
 
-class InboxDatabase: NotificareAbstractDatabase {
-    init() {
+internal class InboxDatabase: NotificareAbstractDatabase {
+    internal init() {
         super.init(
             name: "NotificareInboxDatabase",
             rebuildOnVersionChange: true,
@@ -15,7 +15,7 @@ class InboxDatabase: NotificareAbstractDatabase {
         )
     }
 
-    func add(_ item: NotificareInboxItem, visible: Bool) throws -> InboxItemEntity {
+    internal func add(_ item: NotificareInboxItem, visible: Bool) throws -> InboxItemEntity {
         ensureLoadedStores()
 
         let entity = try InboxItemEntity(from: item, visible: visible, context: context)
@@ -24,7 +24,7 @@ class InboxDatabase: NotificareAbstractDatabase {
         return entity
     }
 
-    func find() throws -> [InboxItemEntity] {
+    internal func find() throws -> [InboxItemEntity] {
         ensureLoadedStores()
 
         let request = NSFetchRequest<InboxItemEntity>(entityName: "InboxItemEntity")
@@ -33,7 +33,7 @@ class InboxDatabase: NotificareAbstractDatabase {
         return result
     }
 
-    func find(id: String) throws -> [InboxItemEntity] {
+    internal func find(id: String) throws -> [InboxItemEntity] {
         ensureLoadedStores()
 
         let request = NSFetchRequest<InboxItemEntity>(entityName: "InboxItemEntity")
@@ -44,14 +44,14 @@ class InboxDatabase: NotificareAbstractDatabase {
         return result
     }
 
-    func remove(_ item: InboxItemEntity) {
+    internal func remove(_ item: InboxItemEntity) {
         ensureLoadedStores()
 
         context.delete(item)
         saveChanges()
     }
 
-    func clear() throws {
+    internal func clear() throws {
         ensureLoadedStores()
 
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "InboxItemEntity")

@@ -7,11 +7,11 @@ import NotificareKit
 internal class NotificareAssetsImpl: NSObject, NotificareModule, NotificareAssets {
     // MARK: - Notificare Module
 
-    static let instance = NotificareAssetsImpl()
+    internal static let instance = NotificareAssetsImpl()
 
     // MARK: - Notificare Assets
 
-    func fetch(group: String, _ completion: @escaping NotificareCallback<[NotificareAsset]>) {
+    public func fetch(group: String, _ completion: @escaping NotificareCallback<[NotificareAsset]>) {
         Task {
             do {
                 let result = try await fetch(group: group)
@@ -22,7 +22,7 @@ internal class NotificareAssetsImpl: NSObject, NotificareModule, NotificareAsset
         }
     }
 
-    func fetch(group: String) async throws -> [NotificareAsset] {
+    public func fetch(group: String) async throws -> [NotificareAsset] {
         try checkPrerequisites()
 
         guard let urlEncodedGroup = group.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else {

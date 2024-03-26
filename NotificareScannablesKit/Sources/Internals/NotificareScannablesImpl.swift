@@ -9,13 +9,13 @@ import UIKit
 internal class NotificareScannablesImpl: NSObject, NotificareModule, NotificareScannables {
     // MARK: - Notificare Module
 
-    static let instance = NotificareScannablesImpl()
+    internal static let instance = NotificareScannablesImpl()
 
     // MARK: - Notificare Scannables
 
-    weak var delegate: NotificareScannablesDelegate?
+    public weak var delegate: NotificareScannablesDelegate?
 
-    var canStartNfcScannableSession: Bool {
+    public var canStartNfcScannableSession: Bool {
         if #available(iOS 11.0, *) {
             return NFCNDEFReaderSession.readingAvailable
         }
@@ -23,7 +23,7 @@ internal class NotificareScannablesImpl: NSObject, NotificareModule, NotificareS
         return false
     }
 
-    func startScannableSession(controller: UIViewController) {
+    public func startScannableSession(controller: UIViewController) {
         if canStartNfcScannableSession {
             startNfcScannableSession()
         } else {
@@ -31,7 +31,7 @@ internal class NotificareScannablesImpl: NSObject, NotificareModule, NotificareS
         }
     }
 
-    func startNfcScannableSession() {
+    public func startNfcScannableSession() {
         if #available(iOS 11.0, *), canStartNfcScannableSession {
             let session = NFCNDEFReaderSession(delegate: self, queue: nil, invalidateAfterFirstRead: true)
             session.begin()
@@ -40,7 +40,7 @@ internal class NotificareScannablesImpl: NSObject, NotificareModule, NotificareS
         }
     }
 
-    func startQrCodeScannableSession(controller: UIViewController, modal: Bool = false) {
+    public func startQrCodeScannableSession(controller: UIViewController, modal: Bool = false) {
         let qrCodeScanner = NotificareQrCodeScannerViewController()
         qrCodeScanner.onQrCodeDetected = { qrCode in
 
@@ -68,7 +68,7 @@ internal class NotificareScannablesImpl: NSObject, NotificareModule, NotificareS
         }
     }
 
-    func fetch(tag: String, _ completion: @escaping NotificareCallback<NotificareScannable>) {
+    public func fetch(tag: String, _ completion: @escaping NotificareCallback<NotificareScannable>) {
         Task {
             do {
                 let result = try await fetch(tag: tag)
@@ -79,7 +79,7 @@ internal class NotificareScannablesImpl: NSObject, NotificareModule, NotificareS
         }
     }
 
-    func fetch(tag: String) async throws -> NotificareScannable {
+    public func fetch(tag: String) async throws -> NotificareScannable {
         guard let encodedTag = tag.addingPercentEncoding(withAllowedCharacters: .urlUserAllowed) else {
             throw NotificareError.invalidArgument(message: "Invalid tag value.")
         }
@@ -209,10 +209,11 @@ extension NotificareScannablesImpl: NFCNDEFReaderSessionDelegate {
     public func readerSession(_: NFCNDEFReaderSession, didDetectNDEFs messages: [NFCNDEFMessage]) {
         for message in messages {
             for record in message.records {
-                if record.typeNameFormat == .nfcWellKnown,
-                   let type = String(data: record.type, encoding: .utf8),
-                   type == "U", // only supports URL payloads
-                   let tag = parseScannableTag(record)
+                if
+                    record.typeNameFormat == .nfcWellKnown,
+                    let type = String(data: record.type, encoding: .utf8),
+                    type == "U", // only supports URL payloads
+                    let tag = parseScannableTag(record)
                 {
                     handleScannableTag(tag)
                 } else {

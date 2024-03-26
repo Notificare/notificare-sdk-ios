@@ -7,7 +7,7 @@ import Foundation
 import NotificareKit
 
 internal class MonetizeDatabase: NotificareAbstractDatabase {
-    init() {
+    internal init() {
         super.init(
             name: "NotificareMonetizeDatabase",
             rebuildOnVersionChange: true,

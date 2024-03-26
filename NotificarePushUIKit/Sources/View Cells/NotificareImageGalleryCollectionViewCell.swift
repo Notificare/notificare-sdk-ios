@@ -6,7 +6,7 @@ import Foundation
 import UIKit
 
 public class NotificareImageGalleryCollectionViewCell: UICollectionViewCell {
-    lazy var imageView: UIImageView = {
+    internal lazy var imageView: UIImageView = {
         let view = UIImageView()
         view.contentMode = .scaleAspectFit
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -19,7 +19,7 @@ public class NotificareImageGalleryCollectionViewCell: UICollectionViewCell {
         setupViews()
     }
 
-    required init?(coder: NSCoder) {
+    internal required init?(coder: NSCoder) {
         super.init(coder: coder)
         setupViews()
     }

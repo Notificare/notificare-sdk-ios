@@ -6,11 +6,11 @@ import Foundation
 import SwiftUI
 import UIKit
 
-protocol ImageCache {
+internal protocol ImageCache {
     subscript(_: URL) -> UIImage? { get set }
 }
 
-struct TemporaryImageCache: ImageCache {
+internal struct TemporaryImageCache: ImageCache {
     private let cache: NSCache<NSURL, UIImage> = {
         let cache = NSCache<NSURL, UIImage>()
         cache.countLimit = 100 // 100 items
@@ -18,18 +18,18 @@ struct TemporaryImageCache: ImageCache {
         return cache
     }()
 
-    subscript(_ key: URL) -> UIImage? {
+    internal subscript(_ key: URL) -> UIImage? {
         get { cache.object(forKey: key as NSURL) }
         set { newValue == nil ? cache.removeObject(forKey: key as NSURL) : cache.setObject(newValue!, forKey: key as NSURL) }
     }
 }
 
-struct ImageCacheKey: EnvironmentKey {
-    static let defaultValue: ImageCache = TemporaryImageCache()
+internal struct ImageCacheKey: EnvironmentKey {
+    internal static let defaultValue: ImageCache = TemporaryImageCache()
 }
 
 extension EnvironmentValues {
-    var imageCache: ImageCache {
+    internal var imageCache: ImageCache {
         get { self[ImageCacheKey.self] }
         set { self[ImageCacheKey.self] = newValue }
     }

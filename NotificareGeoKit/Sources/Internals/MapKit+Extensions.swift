@@ -5,8 +5,8 @@
 import Foundation
 import MapKit
 
-internal extension MKPolygon {
-    convenience init?(region: NotificareRegion) {
+extension MKPolygon {
+    internal convenience init?(region: NotificareRegion) {
         guard region.isPolygon, let advancedGeometry = region.advancedGeometry else {
             return nil
         }
@@ -21,7 +21,7 @@ internal extension MKPolygon {
         self.init(coordinates: points, count: points.count)
     }
 
-    func contains(_ coordinate: CLLocationCoordinate2D) -> Bool {
+    internal func contains(_ coordinate: CLLocationCoordinate2D) -> Bool {
         let renderer = MKPolygonRenderer(polygon: self)
         let point = renderer.point(for: MKMapPoint(coordinate))
 

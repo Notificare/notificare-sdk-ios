@@ -46,12 +46,12 @@
 
 #if swift(>=4.2)
     @usableFromInline
-    protocol _NotificareAnyDecodable {
+    internal protocol _NotificareAnyDecodable {
         var value: Any { get }
         init<T>(_ value: T?)
     }
 #else
-    protocol _NotificareAnyDecodable {
+    internal protocol _NotificareAnyDecodable {
         var value: Any { get }
         init<T>(_ value: T?)
     }

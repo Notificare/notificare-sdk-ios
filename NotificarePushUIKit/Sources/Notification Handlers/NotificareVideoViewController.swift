@@ -203,8 +203,9 @@ public class NotificareVideoViewController: NotificareBaseNotificationViewContro
 
 extension NotificareVideoViewController: WKNavigationDelegate, WKUIDelegate {
     public func webView(_: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        if let url = navigationAction.request.url,
-           let scheme = url.scheme,
+        if
+            let url = navigationAction.request.url,
+            let scheme = url.scheme,
            Notificare.shared.options!.urlSchemes.contains(scheme)
         {
             DispatchQueue.main.async {
@@ -225,7 +226,7 @@ extension NotificareVideoViewController: WKNavigationDelegate, WKUIDelegate {
 }
 
 extension NotificareVideoViewController: NotificareNotificationPresenter {
-    func present(in controller: UIViewController) {
+    internal func present(in controller: UIViewController) {
         controller.presentOrPush(self)
     }
 }

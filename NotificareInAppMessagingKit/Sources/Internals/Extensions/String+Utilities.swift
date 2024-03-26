@@ -4,14 +4,14 @@
 
 import Foundation
 
-internal extension String {
-    func isBlank() -> Bool {
+extension String {
+    internal func isBlank() -> Bool {
         trimmingCharacters(in: .whitespaces).isEmpty
     }
 }
 
-internal extension Optional where Wrapped == String {
-    func isNullOrBlank() -> Bool {
+extension Optional where Wrapped == String {
+    internal func isNullOrBlank() -> Bool {
         guard let str = self else { return false }
 
         return str.isBlank()

@@ -5,7 +5,7 @@
 import NotificareKit
 
 public class NotificareCustomActionHandler: NotificareBaseActionHandler {
-    override func execute() {
+    internal override func execute() {
         if let target = action.target, let url = URL(string: target) {
             DispatchQueue.main.async {
                 Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didReceiveCustomAction: url, in: self.action, for: self.notification)

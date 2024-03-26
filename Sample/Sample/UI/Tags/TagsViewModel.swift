@@ -10,18 +10,18 @@ import SwiftUI
 private let DEFAULT_TAGS = ["Kotlin", "Java", "Swift"]
 
 @MainActor
-class TagsViewModel: ObservableObject {
-    @Published var selectableTags = [SelectableTag]()
-    @Published var input = ""
-    @Published private(set) var viewState: ViewState = .idle
-    @Published private(set) var deviceTags: [String] = []
-    @Published private(set) var userMessages: [UserMessage] = []
+internal class TagsViewModel: ObservableObject {
+    @Published internal var selectableTags = [SelectableTag]()
+    @Published internal var input = ""
+    @Published internal private(set) var viewState: ViewState = .idle
+    @Published internal private(set) var deviceTags: [String] = []
+    @Published internal private(set) var userMessages: [UserMessage] = []
 
-    init() {
+    internal init() {
         refresh()
     }
 
-    func refresh() {
+    internal func refresh() {
         Task {
             await refreshAsync()
         }
@@ -54,7 +54,7 @@ class TagsViewModel: ObservableObject {
         }
     }
 
-    func saveChanges() {
+    internal func saveChanges() {
         viewState = .loading
 
         var tags = selectableTags
@@ -90,7 +90,7 @@ class TagsViewModel: ObservableObject {
         }
     }
 
-    func removeTag(_ tag: String) {
+    internal func removeTag(_ tag: String) {
         viewState = .loading
 
         Task {
@@ -114,7 +114,7 @@ class TagsViewModel: ObservableObject {
         }
     }
 
-    func clearTags() {
+    internal func clearTags() {
         viewState = .loading
 
         Task {
@@ -138,22 +138,22 @@ class TagsViewModel: ObservableObject {
         }
     }
 
-    func processUserMessage(_ userMessageId: String) {
+    internal func processUserMessage(_ userMessageId: String) {
         userMessages.removeAll(where: { $0.uniqueId == userMessageId })
     }
 
-    enum ViewState {
+    internal enum ViewState {
         case idle
         case loading
         case success
         case failure
     }
 
-    struct UserMessage: Equatable {
-        let uniqueId = UUID().uuidString
-        let variant: Variant
+    internal struct UserMessage: Equatable {
+        internal let uniqueId = UUID().uuidString
+        internal let variant: Variant
 
-        enum Variant: Equatable {
+        internal enum Variant: Equatable {
             case fetchTagsSuccess
             case fetchTagsFailure
             case addTagsSuccess
@@ -166,8 +166,8 @@ class TagsViewModel: ObservableObject {
     }
 }
 
-struct SelectableTag: Identifiable {
-    let id = UUID()
-    var tag: String
-    var isSelected: Bool
+internal struct SelectableTag: Identifiable {
+    internal let id = UUID()
+    internal var tag: String
+    internal var isSelected: Bool
 }

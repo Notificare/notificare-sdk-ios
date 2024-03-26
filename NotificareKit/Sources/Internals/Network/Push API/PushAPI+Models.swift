@@ -58,7 +58,7 @@ public extension NotificareInternals.PushAPI.Models {
         public let extra: [String: Any]
         public let targetContentIdentifier: String?
 
-        enum CodingKeys: String, CodingKey {
+        internal enum CodingKeys: String, CodingKey {
             case _id
             case type
             case time

@@ -6,8 +6,8 @@ import Foundation
 import NotificareKit
 import StoreKit
 
-internal extension NotificareProduct {
-    init(ncProduct: NotificareInternals.PushAPI.Models.Product, skProduct: SKProduct?) {
+extension NotificareProduct {
+    internal init(ncProduct: NotificareInternals.PushAPI.Models.Product, skProduct: SKProduct?) {
         id = ncProduct._id
         identifier = ncProduct.identifier
         name = ncProduct.name
@@ -23,8 +23,8 @@ internal extension NotificareProduct {
     }
 }
 
-internal extension Sequence {
-    func associateBy<Key>(_ keySelector: @escaping (Element) -> Key) -> [Key: Element] {
+extension Sequence {
+    internal func associateBy<Key>(_ keySelector: @escaping (Element) -> Key) -> [Key: Element] {
         Dictionary(
             map { element in
                 let key = keySelector(element)
@@ -36,7 +36,7 @@ internal extension Sequence {
         )
     }
 
-    func compactAssociateBy<Key>(_ keySelector: @escaping (Element) -> Key?) -> [Key: Element] {
+    internal func compactAssociateBy<Key>(_ keySelector: @escaping (Element) -> Key?) -> [Key: Element] {
         Dictionary(
             compactMap { element in
                 guard let key = keySelector(element) else { return nil }

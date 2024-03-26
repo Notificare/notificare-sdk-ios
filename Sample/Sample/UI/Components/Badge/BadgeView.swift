@@ -4,12 +4,12 @@
 
 import SwiftUI
 
-struct BadgeView: View {
+internal struct BadgeView: View {
     @State private var height: CGFloat = 0
 
-    let badge: Int
+    internal let badge: Int
 
-    var body: some View {
+    internal var body: some View {
         Text(verbatim: "\(badge)")
             .font(.caption)
             .foregroundColor(.white)
@@ -24,8 +24,8 @@ struct BadgeView: View {
     }
 }
 
-struct BadgeView_Previews: PreviewProvider {
-    static var previews: some View {
+internal struct BadgeView_Previews: PreviewProvider {
+    internal static var previews: some View {
         VStack(spacing: 16) {
             BadgeView(badge: 5)
             BadgeView(badge: 15)

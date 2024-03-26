@@ -10,13 +10,13 @@ import OSLog
 import UIKit
 
 @MainActor
-class InboxViewModel: ObservableObject {
-    @Published private(set) var items: [NotificareInboxItem] = []
-    @Published private(set) var userMessages: [UserMessage] = []
+internal class InboxViewModel: ObservableObject {
+    @Published internal private(set) var items: [NotificareInboxItem] = []
+    @Published internal private(set) var userMessages: [UserMessage] = []
 
     private var cancellables = Set<AnyCancellable>()
 
-    init() {
+    internal init() {
         let items = Notificare.shared.inbox().items
         self.items = items
 
@@ -35,7 +35,7 @@ class InboxViewModel: ObservableObject {
             .store(in: &cancellables)
     }
 
-    func presentInboxItem(_ item: NotificareInboxItem) {
+    internal func presentInboxItem(_ item: NotificareInboxItem) {
         Logger.main.info("Inbox item clicked")
 
         Task {
@@ -56,7 +56,7 @@ class InboxViewModel: ObservableObject {
         }
     }
 
-    func markItemAsRead(_ item: NotificareInboxItem) {
+    internal func markItemAsRead(_ item: NotificareInboxItem) {
         Logger.main.info("Mark as read clicked")
 
         Task {
@@ -76,7 +76,7 @@ class InboxViewModel: ObservableObject {
         }
     }
 
-    func markAllItemsAsRead() {
+    internal func markAllItemsAsRead() {
         Logger.main.info("Mark all as read clicked")
 
         Task {
@@ -96,7 +96,7 @@ class InboxViewModel: ObservableObject {
         }
     }
 
-    func removeItem(_ item: NotificareInboxItem) {
+    internal func removeItem(_ item: NotificareInboxItem) {
         Logger.main.info("Remove inbox item clicked")
 
         Task {
@@ -116,7 +116,7 @@ class InboxViewModel: ObservableObject {
         }
     }
 
-    func clearItems() {
+    internal func clearItems() {
         Logger.main.info("Clear inbox clicked")
 
         Task {
@@ -136,15 +136,15 @@ class InboxViewModel: ObservableObject {
         }
     }
 
-    func processUserMessage(_ userMessageId: String) {
+    internal func processUserMessage(_ userMessageId: String) {
         userMessages.removeAll(where: { $0.uniqueId == userMessageId })
     }
 
-    struct UserMessage: Equatable {
-        let uniqueId = UUID().uuidString
-        let variant: Variant
+    internal struct UserMessage: Equatable {
+        internal let uniqueId = UUID().uuidString
+        internal let variant: Variant
 
-        enum Variant: Equatable {
+        internal enum Variant: Equatable {
             case presentItemSuccess
             case presentItemFailure
             case markItemAsReadSuccess

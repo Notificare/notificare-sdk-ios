@@ -5,26 +5,26 @@
 import CoreData
 import Foundation
 
-class NotificareDatabase: NotificareAbstractDatabase {
-    init() {
+internal class NotificareDatabase: NotificareAbstractDatabase {
+    internal init() {
         super.init(name: "NotificareDatabase", rebuildOnVersionChange: true)
     }
 
-    func add(_ event: NotificareEvent) {
+    internal func add(_ event: NotificareEvent) {
         ensureLoadedStores()
 
         _ = event.toManaged(context: context)
         saveChanges()
     }
 
-    func remove(_ event: NotificareCoreDataEvent) {
+    internal func remove(_ event: NotificareCoreDataEvent) {
         ensureLoadedStores()
 
         context.delete(event)
         saveChanges()
     }
 
-    func fetchEvents() throws -> [NotificareCoreDataEvent] {
+    internal func fetchEvents() throws -> [NotificareCoreDataEvent] {
         ensureLoadedStores()
 
         let request = NSFetchRequest<NotificareCoreDataEvent>(entityName: "NotificareCoreDataEvent")

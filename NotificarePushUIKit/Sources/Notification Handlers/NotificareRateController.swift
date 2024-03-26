@@ -6,14 +6,14 @@ import NotificareKit
 import StoreKit
 import UIKit
 
-class NotificareRateController: NotificareNotificationPresenter {
+internal class NotificareRateController: NotificareNotificationPresenter {
     private let notification: NotificareNotification
 
-    init(notification: NotificareNotification) {
+    internal init(notification: NotificareNotification) {
         self.notification = notification
     }
 
-    func present(in controller: UIViewController) {
+    internal func present(in controller: UIViewController) {
         let alert = UIAlertController(title: notification.title ?? NotificareUtils.applicationName,
                                       message: notification.message,
                                       preferredStyle: .alert)
@@ -30,8 +30,9 @@ class NotificareRateController: NotificareNotificationPresenter {
                 LocalStorage.hasReviewedCurrentVersion = true
             } else {
                 // Go to the Store instead
-                if let appStoreId = Notificare.shared.application?.appStoreId,
-                   let url = URL(string: "https://itunes.apple.com/app/id\(appStoreId)?action=write-review")
+                if
+                    let appStoreId = Notificare.shared.application?.appStoreId,
+                    let url = URL(string: "https://itunes.apple.com/app/id\(appStoreId)?action=write-review")
                 {
                     DispatchQueue.main.async {
                         UIApplication.shared.open(url, options: [:], completionHandler: nil)

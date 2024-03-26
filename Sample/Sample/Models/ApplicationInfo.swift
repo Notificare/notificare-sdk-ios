@@ -4,7 +4,7 @@
 
 import Foundation
 
-struct ApplicationInfo {
-    let name: String
-    let identifier: String
+internal struct ApplicationInfo {
+    internal let name: String
+    internal let identifier: String
 }

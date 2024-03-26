@@ -7,8 +7,8 @@ import UIKit
 
 public class NotificareImageGalleryViewController: NotificareBaseNotificationViewController {
     // UI references
-    private(set) var collectionView: UICollectionView!
-    private(set) var pageControl: UIPageControl!
+    internal private(set) var collectionView: UICollectionView!
+    internal private(set) var pageControl: UIPageControl!
 
     private var images = [UIImage?]()
 
@@ -156,7 +156,7 @@ extension NotificareImageGalleryViewController: UICollectionViewDelegate, UIColl
 }
 
 extension NotificareImageGalleryViewController: NotificareNotificationPresenter {
-    func present(in controller: UIViewController) {
+    internal func present(in controller: UIViewController) {
         controller.presentOrPush(self)
     }
 }

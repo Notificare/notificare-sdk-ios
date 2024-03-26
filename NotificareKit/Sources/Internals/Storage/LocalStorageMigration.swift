@@ -5,11 +5,11 @@
 import Foundation
 
 internal struct LocalStorageMigration {
-    var hasLegacyData: Bool {
+    internal var hasLegacyData: Bool {
         UserDefaults.standard.object(forKey: "notificareDeviceToken") != nil
     }
 
-    func migrate() {
+    internal func migrate() {
         if let deviceId = UserDefaults.standard.string(forKey: "notificareDeviceToken") {
             NotificareLogger.debug("Found v2 device stored.")
 

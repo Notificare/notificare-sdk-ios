@@ -14,20 +14,20 @@ public extension Notificare {
     }
 }
 
-internal extension Notificare {
-    func deviceImplementation() -> NotificareDeviceModuleImpl {
+extension Notificare {
+    internal func deviceImplementation() -> NotificareDeviceModuleImpl {
         NotificareDeviceModuleImpl.instance
     }
 
-    func eventsImplementation() -> NotificareEventsModuleImpl {
+    internal func eventsImplementation() -> NotificareEventsModuleImpl {
         NotificareEventsModuleImpl.instance
     }
 
-    func session() -> NotificareSessionModuleImpl {
+    internal func session() -> NotificareSessionModuleImpl {
         NotificareSessionModuleImpl.instance
     }
 
-    func crashReporter() -> NotificareCrashReporterModuleImpl {
+    internal func crashReporter() -> NotificareCrashReporterModuleImpl {
         NotificareCrashReporterModuleImpl.instance
     }
 }

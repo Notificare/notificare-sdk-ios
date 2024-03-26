@@ -7,7 +7,7 @@ import NotificareKit
 import NotificationCenter
 
 internal class NotificareNotificationCenterDelegate: NSObject, UNUserNotificationCenterDelegate {
-    func userNotificationCenter(_: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
+    internal func userNotificationCenter(_: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
         let userInfo = response.notification.request.content.userInfo
 
         guard response.actionIdentifier != UNNotificationDismissActionIdentifier else {
@@ -109,7 +109,7 @@ internal class NotificareNotificationCenterDelegate: NSObject, UNUserNotificatio
         }
     }
 
-    func userNotificationCenter(_: UNUserNotificationCenter, willPresent notification: UNNotification) async -> UNNotificationPresentationOptions {
+    internal func userNotificationCenter(_: UNUserNotificationCenter, willPresent notification: UNNotification) async -> UNNotificationPresentationOptions {
         let userInfo = notification.request.content.userInfo
 
         guard Notificare.shared.push().isNotificareNotification(userInfo) else {
@@ -129,7 +129,7 @@ internal class NotificareNotificationCenterDelegate: NSObject, UNUserNotificatio
         return Notificare.shared.push().presentationOptions
     }
 
-    func userNotificationCenter(_: UNUserNotificationCenter, openSettingsFor notification: UNNotification?) {
+    internal func userNotificationCenter(_: UNUserNotificationCenter, openSettingsFor notification: UNNotification?) {
         guard let notification = notification else {
             DispatchQueue.main.async {
                 Notificare.shared.push().delegate?.notificare(Notificare.shared.push(), shouldOpenSettings: nil)

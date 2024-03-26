@@ -4,10 +4,10 @@
 
 import SwiftUI
 
-struct DetermineSize: View {
-    typealias Key = SizePreferenceKey
+internal struct DetermineSize: View {
+    internal typealias Key = SizePreferenceKey
 
-    var body: some View {
+    internal var body: some View {
         GeometryReader { proxy in
             Color.clear
                 .anchorPreference(key: Key.self, value: .bounds) { anchor in
@@ -17,10 +17,10 @@ struct DetermineSize: View {
     }
 }
 
-struct SizePreferenceKey: PreferenceKey {
-    static var defaultValue: CGSize = .zero
+internal struct SizePreferenceKey: PreferenceKey {
+    internal static var defaultValue: CGSize = .zero
 
-    static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
+    internal static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
         value = nextValue()
     }
 }

@@ -70,9 +70,9 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
 
     // MARK: - Notificare Module
 
-    static let instance = NotificareInboxImpl()
+    internal static let instance = NotificareInboxImpl()
 
-    func configure() {
+    internal func configure() {
         database.configure()
         loadCachedItems()
 
@@ -107,11 +107,11 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
                                                object: nil)
     }
 
-    func launch() async throws {
+    internal func launch() async throws {
         sync()
     }
 
-    func unlaunch() async throws {
+    internal func unlaunch() async throws {
         clearLocalInbox()
         clearNotificationCenter()
 
@@ -152,7 +152,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
     }
 
     @discardableResult
-    func refreshBadge() async throws -> Int {
+    public func refreshBadge() async throws -> Int {
         try checkPrerequisites()
 
         guard let device = Notificare.shared.device().currentDevice else {
@@ -196,7 +196,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
         }
     }
 
-    func open(_ item: NotificareInboxItem) async throws -> NotificareNotification {
+    public func open(_ item: NotificareInboxItem) async throws -> NotificareNotification {
         try checkPrerequisites()
 
         if item.notification.partial {
@@ -234,7 +234,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
         }
     }
 
-    func markAsRead(_ item: NotificareInboxItem) async throws {
+    public func markAsRead(_ item: NotificareInboxItem) async throws {
         try checkPrerequisites()
 
         do {
@@ -275,7 +275,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
         }
     }
 
-    func markAllAsRead() async throws {
+    public func markAllAsRead() async throws {
         try checkPrerequisites()
 
         guard let device = Notificare.shared.device().currentDevice else {
@@ -319,16 +319,16 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
         }
     }
 
-    func remove(_ item: NotificareInboxItem) async throws {
+    public func remove(_ item: NotificareInboxItem) async throws {
         try checkPrerequisites()
 
         try await NotificareRequest.Builder()
             .delete("/notification/inbox/\(item.id)")
             .response()
 
-        if let entity = cachedEntities.first(where: { $0.id == item.id }),
-           let index = cachedEntities.firstIndex(of: entity)
-        {
+        if
+            let entity = cachedEntities.first(where: { $0.id == item.id }),
+            let index = cachedEntities.firstIndex(of: entity) {
             database.remove(entity)
             cachedEntities.remove(at: index)
 
@@ -355,7 +355,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
         }
     }
 
-    func clear() async throws {
+    public func clear() async throws {
         try checkPrerequisites()
 
         guard let device = Notificare.shared.device().currentDevice else {

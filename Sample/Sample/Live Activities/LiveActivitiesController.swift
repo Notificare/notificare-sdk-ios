@@ -9,22 +9,22 @@ import OSLog
 import UIKit
 
 @available(iOS 16.1, *)
-class LiveActivitiesController {
-    static let shared = LiveActivitiesController()
+internal class LiveActivitiesController {
+    internal static let shared = LiveActivitiesController()
 
     private init() {}
 
-    var hasLiveActivityCapabilities: Bool {
+    internal var hasLiveActivityCapabilities: Bool {
         ActivityAuthorizationInfo().areActivitiesEnabled
     }
 
-    func startMonitoring() {
+    internal func startMonitoring() {
         monitorLiveActivities()
     }
 
     // MARK: Coffee Brewer
 
-    func createCoffeeBrewerLiveActivity() {
+    internal func createCoffeeBrewerLiveActivity() {
         do {
             let activity = try Activity.request(
                 attributes: CoffeeBrewerActivityAttributes(),
@@ -55,7 +55,7 @@ class LiveActivitiesController {
         }
     }
 
-    func continueCoffeeBrewerLiveActivity() {
+    internal func continueCoffeeBrewerLiveActivity() {
         Task {
             for activity in Activity<CoffeeBrewerActivityAttributes>.activities {
                 switch activity.contentState.state {
@@ -83,7 +83,7 @@ class LiveActivitiesController {
         }
     }
 
-    func cancelCoffeeBrewerLiveActivity() {
+    internal func cancelCoffeeBrewerLiveActivity() {
         Task {
             for activity in Activity<CoffeeBrewerActivityAttributes>.activities {
                 await activity.end(dismissalPolicy: .immediate)

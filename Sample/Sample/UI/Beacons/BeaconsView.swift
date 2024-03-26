@@ -4,10 +4,10 @@
 
 import SwiftUI
 
-struct BeaconsView: View {
+internal struct BeaconsView: View {
     @StateObject private var viewModel = BeaconsViewModel()
 
-    var body: some View {
+    internal var body: some View {
         List {
             Section {
                 if viewModel.rangedBeacons.isEmpty {
@@ -26,8 +26,8 @@ struct BeaconsView: View {
     }
 }
 
-struct BeaconsView_Previews: PreviewProvider {
-    static var previews: some View {
+internal struct BeaconsView_Previews: PreviewProvider {
+    internal static var previews: some View {
         BeaconsView()
     }
 }

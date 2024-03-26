@@ -5,13 +5,13 @@
 import NotificareKit
 
 public class NotificareBaseActionHandler: NSObject {
-    let notification: NotificareNotification
-    let action: NotificareNotification.Action
+    internal let notification: NotificareNotification
+    internal let action: NotificareNotification.Action
 
-    init(notification: NotificareNotification, action: NotificareNotification.Action) {
+    internal init(notification: NotificareNotification, action: NotificareNotification.Action) {
         self.notification = notification
         self.action = action
     }
 
-    func execute() {}
+    internal func execute() {}
 }

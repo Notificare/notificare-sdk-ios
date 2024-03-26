@@ -4,11 +4,11 @@
 
 import SwiftUI
 
-struct ApplicationInfoSection: View {
-    let applicationName: String
-    let applicationIdentifier: String
+internal struct ApplicationInfoSection: View {
+    internal let applicationName: String
+    internal let applicationIdentifier: String
 
-    var body: some View {
+    internal var body: some View {
         Section {
             HStack {
                 Text(String(localized: "home_application_name"))
@@ -31,8 +31,8 @@ struct ApplicationInfoSection: View {
     }
 }
 
-struct ApplicationInfoSection_Previews: PreviewProvider {
-    static var previews: some View {
+internal struct ApplicationInfoSection_Previews: PreviewProvider {
+    internal static var previews: some View {
         ApplicationInfoSection(
             applicationName: "Sample",
             applicationIdentifier: "re.notifica.sample"

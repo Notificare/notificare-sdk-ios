@@ -13,9 +13,9 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
 
     // MARK: - Notificare Module
 
-    static let instance = NotificareInAppMessagingImpl()
+    internal static let instance = NotificareInAppMessagingImpl()
 
-    func configure() {
+    internal func configure() {
         // Listen to when the application comes into the foreground.
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(onApplicationForeground),
@@ -29,17 +29,17 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
                                                object: nil)
     }
 
-    func launch() async throws {
+    internal func launch() async throws {
         evaluateContext(.launch)
     }
 
     // MARK: - Notificare In-App Messaging
 
-    weak var delegate: NotificareInAppMessagingDelegate?
+    public weak var delegate: NotificareInAppMessagingDelegate?
 
-    var hasMessagesSuppressed: Bool = false
+    public var hasMessagesSuppressed: Bool = false
 
-    func setMessagesSuppressed(_ suppressed: Bool, evaluateContext: Bool) {
+    public func setMessagesSuppressed(_ suppressed: Bool, evaluateContext: Bool) {
         let suppressChanged = suppressed != hasMessagesSuppressed
         let canEvaluate = evaluateContext && suppressChanged && !suppressed
 
@@ -263,7 +263,7 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
 }
 
 extension NotificareInAppMessagingImpl: NotificareInAppMessagingViewDelegate {
-    func onViewDismissed() {
+    internal func onViewDismissed() {
         presentedView = nil
     }
 }

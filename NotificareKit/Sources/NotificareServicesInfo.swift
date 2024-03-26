@@ -46,7 +46,7 @@ public struct NotificareServicesInfo: Decodable {
         services = useTestApi ? .test : .production
     }
 
-    enum CodingKeys: String, CodingKey {
+    internal enum CodingKeys: String, CodingKey {
         case applicationKey = "APPLICATION_KEY"
         case applicationSecret = "APPLICATION_SECRET"
         case useTestApi = "USE_TEST_API"

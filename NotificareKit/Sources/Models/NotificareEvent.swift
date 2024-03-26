@@ -19,7 +19,7 @@ public struct NotificareEvent {
 // MARK: - Codable
 
 extension NotificareEvent: Codable {
-    enum CodingKeys: String, CodingKey {
+    internal enum CodingKeys: String, CodingKey {
         case type
         case timestamp
         case deviceId = "deviceID"

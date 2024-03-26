@@ -134,7 +134,7 @@ public class Notificare {
 
         Task {
             let application: NotificareApplication
-            
+
             do {
                 // Fetch the application info.
                 application = try await fetchApplication()

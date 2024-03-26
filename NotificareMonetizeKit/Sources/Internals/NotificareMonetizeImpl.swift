@@ -20,14 +20,14 @@ internal class NotificareMonetizeImpl: NSObject, NotificareModule, NotificareMon
 
     // MARK: - Notificare Module
 
-    static let instance = NotificareMonetizeImpl()
+    internal static let instance = NotificareMonetizeImpl()
 
-    func configure() {
+    internal func configure() {
         database.configure()
         SKPaymentQueue.default().add(self)
     }
 
-    func launch() async throws {
+    internal func launch() async throws {
         try? await refresh()
 
         do {
@@ -42,7 +42,7 @@ internal class NotificareMonetizeImpl: NSObject, NotificareModule, NotificareMon
         }
     }
 
-    func unlaunch() async throws {
+    internal func unlaunch() async throws {
         clearLocalPurchases()
 
         productsMap.removeAll()
@@ -56,17 +56,17 @@ internal class NotificareMonetizeImpl: NSObject, NotificareModule, NotificareMon
 
     // MARK: Notificare Monetize
 
-    weak var delegate: NotificareMonetizeDelegate?
+    public weak var delegate: NotificareMonetizeDelegate?
 
-    var hasPurchasingCapabilitiesAvailable: Bool {
+    public var hasPurchasingCapabilitiesAvailable: Bool {
         SKPaymentQueue.canMakePayments()
     }
 
-    var products: [NotificareProduct] {
+    public var products: [NotificareProduct] {
         Array(productsMap.values)
     }
 
-    var purchases: [NotificarePurchase] {
+    public var purchases: [NotificarePurchase] {
         purchaseEntities.values.compactMap { entity in
             do {
                 return try entity.toModel()
@@ -77,7 +77,7 @@ internal class NotificareMonetizeImpl: NSObject, NotificareModule, NotificareMon
         }
     }
 
-    func refresh(_ completion: @escaping NotificareCallback<Void>) {
+    public func refresh(_ completion: @escaping NotificareCallback<Void>) {
         NotificareLogger.debug("Fetching Notificare products.")
         fetchProducts { result in
             switch result {
@@ -120,7 +120,7 @@ internal class NotificareMonetizeImpl: NSObject, NotificareModule, NotificareMon
     }
 
     @available(iOS 13.0, *)
-    func refresh() async throws {
+    public func refresh() async throws {
         try await withCheckedThrowingContinuation { continuation in
             refresh { result in
                 continuation.resume(with: result)
@@ -128,7 +128,7 @@ internal class NotificareMonetizeImpl: NSObject, NotificareModule, NotificareMon
         }
     }
 
-    func startPurchaseFlow(for product: NotificareProduct) {
+    public func startPurchaseFlow(for product: NotificareProduct) {
         guard let details = productDetailsMap[product.identifier] else {
             NotificareLogger.warning("Unable to start a purchase flow when the product is not cached.")
             return
@@ -181,8 +181,9 @@ internal class NotificareMonetizeImpl: NSObject, NotificareModule, NotificareMon
             processPurchase(transaction) { result in
                 switch result {
                 case let .success(receipt):
-                    if let transactionIdentifier = transaction.original?.transactionIdentifier ?? transaction.transactionIdentifier,
-                       let transactionDate = transaction.original?.transactionDate ?? transaction.transactionDate
+                    if
+                        let transactionIdentifier = transaction.original?.transactionIdentifier ?? transaction.transactionIdentifier,
+                        let transactionDate = transaction.original?.transactionDate ?? transaction.transactionDate
                     {
                         let productIdentifier = transaction.original?.payment.productIdentifier ?? transaction.payment.productIdentifier
 
@@ -339,7 +340,7 @@ internal class NotificareMonetizeImpl: NSObject, NotificareModule, NotificareMon
 }
 
 extension NotificareMonetizeImpl: SKProductsRequestDelegate {
-    func productsRequest(_: SKProductsRequest, didReceive response: SKProductsResponse) {
+    internal func productsRequest(_: SKProductsRequest, didReceive response: SKProductsResponse) {
         NotificareLogger.debug("Received products request response.")
         productsRequestCallback?(.success(response.products))
 
@@ -347,7 +348,7 @@ extension NotificareMonetizeImpl: SKProductsRequestDelegate {
         productsRequestCallback = nil
     }
 
-    func request(_: SKRequest, didFailWithError error: Error) {
+    internal func request(_: SKRequest, didFailWithError error: Error) {
         NotificareLogger.error("Failed to fetch the product details.", error: error)
         productsRequestCallback?(.failure(error))
 
@@ -357,7 +358,7 @@ extension NotificareMonetizeImpl: SKProductsRequestDelegate {
 }
 
 extension NotificareMonetizeImpl: SKPaymentTransactionObserver {
-    func paymentQueue(_: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
+    internal func paymentQueue(_: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
         NotificareLogger.info("Processing purchases event.")
         NotificareLogger.debug("\(transactions.filter { $0.transactionState == .purchased }.count) purchased transactions.")
         NotificareLogger.debug("\(transactions.filter { $0.transactionState == .restored }.count) restored transactions.")

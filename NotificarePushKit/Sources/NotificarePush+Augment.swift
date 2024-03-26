@@ -11,12 +11,12 @@ public extension Notificare {
     }
 }
 
-internal extension Notificare {
-    func deviceInternal() -> NotificareInternalDeviceModule {
+extension Notificare {
+    internal func deviceInternal() -> NotificareInternalDeviceModule {
         device() as! NotificareInternalDeviceModule
     }
 
-    func pushImplementation() -> NotificarePushImpl {
+    internal func pushImplementation() -> NotificarePushImpl {
         NotificarePushImpl.instance
     }
 }

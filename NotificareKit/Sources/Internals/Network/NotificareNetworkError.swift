@@ -36,7 +36,7 @@ extension NotificareNetworkError {
     /// In mobile context, this can happen as you move through the building or traffic and may not represent serious or more permanent connection issues.
     ///
     /// Upper layers of the app architecture may build on this to add more specific cases when the request should be retried.
-    var shouldRetry: Bool {
+    internal var shouldRetry: Bool {
         switch self {
         case let .urlError(urlError):
             // if temporary network issues, retry

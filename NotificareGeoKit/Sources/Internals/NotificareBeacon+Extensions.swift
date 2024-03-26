@@ -5,8 +5,8 @@
 import CoreLocation
 import Foundation
 
-internal extension NotificareBeacon.Proximity {
-    init?(_ clp: CLProximity) {
+extension NotificareBeacon.Proximity {
+    internal init?(_ clp: CLProximity) {
         switch clp {
         case .unknown:
             return nil

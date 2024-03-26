@@ -4,11 +4,11 @@
 
 import SwiftUI
 
-struct HomeView: View {
+internal struct HomeView: View {
     @StateObject private var viewModel = HomeViewModel()
     @State private var presentedAlert: PresentedAlert?
 
-    var body: some View {
+    internal var body: some View {
         List {
             LaunchFlowSection(
                 isReady: viewModel.isReady,
@@ -182,8 +182,8 @@ struct HomeView: View {
     }
 }
 
-struct HomeView_Previews: PreviewProvider {
-    static var previews: some View {
+internal struct HomeView_Previews: PreviewProvider {
+    internal static var previews: some View {
         HomeView()
     }
 }

@@ -7,7 +7,7 @@ import NotificareKit
 import UIKit
 
 public class NotificareMapViewController: NotificareBaseNotificationViewController {
-    private(set) var mapView: MKMapView!
+    internal private(set) var mapView: MKMapView!
 
     override public func viewDidLoad() {
         super.viewDidLoad()
@@ -47,9 +47,10 @@ public class NotificareMapViewController: NotificareBaseNotificationViewControll
         notification.content
             .filter { $0.type == "re.notifica.content.Marker" }
             .forEach { content in
-                if let data = content.data as? [String: Any],
-                   let latitude = data["latitude"] as? Double,
-                   let longitude = data["longitude"] as? Double
+                if
+                    let data = content.data as? [String: Any],
+                    let latitude = data["latitude"] as? Double,
+                    let longitude = data["longitude"] as? Double
                 {
                     let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
                     let marker = MapMarker(title: data["title"] as? String,
@@ -63,12 +64,12 @@ public class NotificareMapViewController: NotificareBaseNotificationViewControll
         mapView.addAnnotations(markers)
     }
 
-    class MapMarker: NSObject, MKAnnotation {
-        let title: String?
-        let subtitle: String?
-        let coordinate: CLLocationCoordinate2D
+    internal class MapMarker: NSObject, MKAnnotation {
+        internal let title: String?
+        internal let subtitle: String?
+        internal let coordinate: CLLocationCoordinate2D
 
-        init(title: String?, subtitle: String?, coordinate: CLLocationCoordinate2D) {
+        internal init(title: String?, subtitle: String?, coordinate: CLLocationCoordinate2D) {
             if let title = title {
                 self.title = title
             } else {
@@ -152,7 +153,7 @@ extension NotificareMapViewController: MKMapViewDelegate {
 }
 
 extension NotificareMapViewController: NotificareNotificationPresenter {
-    func present(in controller: UIViewController) {
+    internal func present(in controller: UIViewController) {
         controller.presentOrPush(self) {
             DispatchQueue.main.async {
                 Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didPresentNotification: self.notification)

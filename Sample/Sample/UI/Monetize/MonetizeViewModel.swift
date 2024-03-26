@@ -8,16 +8,16 @@ import NotificareMonetizeKit
 import OSLog
 import SwiftUI
 
-class MonetizeViewModel: ObservableObject {
-    @Published private(set) var products = [NotificareProduct]()
-    @Published private(set) var purchases = [NotificarePurchase]()
+internal class MonetizeViewModel: ObservableObject {
+    @Published internal private(set) var products = [NotificareProduct]()
+    @Published internal private(set) var purchases = [NotificarePurchase]()
 
-    init() {
+    internal init() {
         products = Notificare.shared.monetize().products
         purchases = Notificare.shared.monetize().purchases
     }
 
-    func purchase(product: NotificareProduct) {
+    internal func purchase(product: NotificareProduct) {
         Logger.main.info("Purchase \(product.name) clicked")
         Notificare.shared.monetize().startPurchaseFlow(for: product)
     }

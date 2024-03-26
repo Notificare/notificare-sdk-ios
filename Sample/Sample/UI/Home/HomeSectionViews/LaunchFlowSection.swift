@@ -4,13 +4,13 @@
 
 import SwiftUI
 
-struct LaunchFlowSection: View {
-    let isReady: Bool
-    let isConfigured: Bool
-    let launch: () -> Void
-    let unlaunch: () -> Void
+internal struct LaunchFlowSection: View {
+    internal let isReady: Bool
+    internal let isConfigured: Bool
+    internal let launch: () -> Void
+    internal let unlaunch: () -> Void
 
-    var body: some View {
+    internal var body: some View {
         Section {
             HStack {
                 Text(String(localized: "home_configured"))
@@ -57,8 +57,8 @@ struct LaunchFlowSection: View {
     }
 }
 
-struct LaunchFlowSection_Previews: PreviewProvider {
-    static var previews: some View {
+internal struct LaunchFlowSection_Previews: PreviewProvider {
+    internal static var previews: some View {
         LaunchFlowSection(
             isReady: false,
             isConfigured: false,

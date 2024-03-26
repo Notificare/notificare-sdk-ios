@@ -8,13 +8,13 @@ import NotificarePushUIKit
 import OSLog
 import SwiftUI
 
-struct InboxView: View {
-    @Environment(\.presentationMode) var presentationMode
+internal struct InboxView: View {
+    @Environment(\.presentationMode) internal var presentationMode
     @StateObject private var viewModel = InboxViewModel()
     @State private var actionableItem: NotificareInboxItem?
     @State private var presentedAlert: PresentedAlert?
 
-    var body: some View {
+    internal var body: some View {
         ZStack {
             if viewModel.items.isEmpty {
                 Text(String(localized: "inbox_no_messages"))
@@ -184,8 +184,8 @@ struct InboxView: View {
     }
 }
 
-struct InboxView_Previews: PreviewProvider {
-    static var previews: some View {
+internal struct InboxView_Previews: PreviewProvider {
+    internal static var previews: some View {
         InboxView()
     }
 }

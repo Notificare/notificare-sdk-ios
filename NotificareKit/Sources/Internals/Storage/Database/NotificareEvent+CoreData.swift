@@ -6,7 +6,7 @@ import CoreData
 import Foundation
 
 extension NotificareEvent {
-    func toManaged(context: NSManagedObjectContext) -> NotificareCoreDataEvent {
+    internal func toManaged(context: NSManagedObjectContext) -> NotificareCoreDataEvent {
         let event = NotificareCoreDataEvent(context: context)
 
         event.type = type
@@ -27,10 +27,11 @@ extension NotificareEvent {
         return event
     }
 
-    init(from managed: NotificareCoreDataEvent) throws {
+    internal init(from managed: NotificareCoreDataEvent) throws {
         var eventData: NotificareEventData?
-        if let data = managed.data,
-           let decoded = try? NotificareUtils.jsonDecoder.decode(NotificareAnyCodable.self, from: data)
+        if
+            let data = managed.data,
+            let decoded = try? NotificareUtils.jsonDecoder.decode(NotificareAnyCodable.self, from: data)
         {
             eventData = decoded.value as? NotificareEventData
         }

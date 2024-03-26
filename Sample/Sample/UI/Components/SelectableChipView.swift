@@ -4,11 +4,11 @@
 
 import SwiftUI
 
-struct SelectableChipView: View {
-    let text: String
-    @Binding var isSelected: Bool
+internal struct SelectableChipView: View {
+    internal let text: String
+    @Binding internal var isSelected: Bool
 
-    var body: some View {
+    internal var body: some View {
         Text(text)
             .font(.body)
             .lineLimit(1)
@@ -32,10 +32,10 @@ struct SelectableChipView: View {
     }
 }
 
-struct SelectableChipView_Previews: PreviewProvider {
-    @State static var isSelected = false
+internal struct SelectableChipView_Previews: PreviewProvider {
+    @State internal static var isSelected = false
 
-    static var previews: some View {
+    internal static var previews: some View {
         SelectableChipView(
             text: "Foo",
             isSelected: $isSelected

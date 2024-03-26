@@ -4,12 +4,12 @@
 
 import SwiftUI
 
-struct ListIconView: View {
-    let icon: String
-    let foregroundColor: Color
-    let backgroundColor: Color
+internal struct ListIconView: View {
+    internal let icon: String
+    internal let foregroundColor: Color
+    internal let backgroundColor: Color
 
-    var body: some View {
+    internal var body: some View {
         Image(systemName: icon)
             .resizable()
             .aspectRatio(contentMode: .fit)
@@ -21,8 +21,8 @@ struct ListIconView: View {
     }
 }
 
-struct ListIconView_Previews: PreviewProvider {
-    static var previews: some View {
+internal struct ListIconView_Previews: PreviewProvider {
+    internal static var previews: some View {
         ListIconView(
             icon: "sensor.tag.radiowaves.forward",
             foregroundColor: Color.white,

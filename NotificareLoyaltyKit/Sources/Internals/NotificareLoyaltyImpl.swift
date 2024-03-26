@@ -9,11 +9,11 @@ import UIKit
 internal class NotificareLoyaltyImpl: NSObject, NotificareModule, NotificareLoyalty, NotificareLoyaltyIntegration {
     // MARK: - Notificare Module
 
-    static let instance = NotificareLoyaltyImpl()
+    internal static let instance = NotificareLoyaltyImpl()
 
     // MARK: - Notificare Loyalty
 
-    func fetchPass(serial: String, _ completion: @escaping NotificareCallback<NotificarePass>) {
+    public func fetchPass(serial: String, _ completion: @escaping NotificareCallback<NotificarePass>) {
         Task {
             do {
                 let result = try await fetchPass(serial: serial)
@@ -24,7 +24,7 @@ internal class NotificareLoyaltyImpl: NSObject, NotificareModule, NotificareLoya
         }
     }
 
-    func fetchPass(serial: String) async throws -> NotificarePass {
+    public func fetchPass(serial: String) async throws -> NotificarePass {
         try checkPrerequisites()
 
         guard let urlEncodedSerial = serial.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else {
@@ -38,7 +38,7 @@ internal class NotificareLoyaltyImpl: NSObject, NotificareModule, NotificareLoya
         return try await enhancePass(response.pass)
     }
 
-    func fetchPass(barcode: String, _ completion: @escaping NotificareCallback<NotificarePass>) {
+    public func fetchPass(barcode: String, _ completion: @escaping NotificareCallback<NotificarePass>) {
         Task {
             do {
                 let result = try await fetchPass(barcode: barcode)
@@ -49,7 +49,7 @@ internal class NotificareLoyaltyImpl: NSObject, NotificareModule, NotificareLoya
         }
     }
 
-    func fetchPass(barcode: String) async throws -> NotificarePass {
+    public func fetchPass(barcode: String) async throws -> NotificarePass {
         try checkPrerequisites()
 
         guard let urlEncodedBarcode = barcode.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else {
@@ -63,7 +63,7 @@ internal class NotificareLoyaltyImpl: NSObject, NotificareModule, NotificareLoya
         return try await enhancePass(response.pass)
     }
 
-    func present(pass: NotificarePass, in controller: UIViewController) {
+    public func present(pass: NotificarePass, in controller: UIViewController) {
         guard let host = Notificare.shared.servicesInfo?.services.pkPassHost,
               let url = URL(string: "\(host)/\(pass.serial)")
         else {
@@ -83,11 +83,11 @@ internal class NotificareLoyaltyImpl: NSObject, NotificareModule, NotificareLoya
 
     // MARK: - Notificare Loyalty Integration
 
-    var canPresentPasses: Bool {
+    public var canPresentPasses: Bool {
         PKPassLibrary.isPassLibraryAvailable() && PKAddPassesViewController.canAddPasses()
     }
 
-    func present(notification: NotificareNotification, in viewController: UIViewController) {
+    public func present(notification: NotificareNotification, in viewController: UIViewController) {
         guard let content = notification.content.first(where: { $0.type == "re.notifica.content.PKPass" }),
               let urlStr = content.data as? String,
               let url = URL(string: urlStr)

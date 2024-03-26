@@ -8,13 +8,13 @@ import NotificareKit
 public class NotificareMailActionHandler: NotificareBaseActionHandler {
     private let sourceViewController: UIViewController
 
-    init(notification: NotificareNotification, action: NotificareNotification.Action, sourceViewController: UIViewController) {
+    internal init(notification: NotificareNotification, action: NotificareNotification.Action, sourceViewController: UIViewController) {
         self.sourceViewController = sourceViewController
 
         super.init(notification: notification, action: action)
     }
 
-    override func execute() {
+    internal override func execute() {
         guard let target = action.target, MFMailComposeViewController.canSendMail() else {
             DispatchQueue.main.async {
                 Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToExecuteAction: self.action, for: self.notification, error: ActionError.notSupported)

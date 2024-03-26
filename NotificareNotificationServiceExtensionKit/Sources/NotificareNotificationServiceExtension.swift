@@ -74,8 +74,9 @@ public class NotificareNotificationServiceExtension {
                 UNNotificationAttachmentOptionsThumbnailClippingRectKey: CGRect(x: 0, y: 0, width: 1, height: 1),
             ]
 
-            if let mimeType = response.mimeType,
-               let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, mimeType as CFString, nil)
+            if
+                let mimeType = response.mimeType,
+                let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, mimeType as CFString, nil)
             {
                 options[UNNotificationAttachmentOptionsTypeHintKey] = uti.takeRetainedValue()
             }

@@ -36,6 +36,7 @@ private extension URLSession {
     /// Helper type which groups `URLRequest` (input), `Callback` from the caller (output)
     /// along with helpful processing properties, like number of retries.
     typealias NetworkRequest = (
+        // swiftlint:disable:previous large_tuple
         urlRequest: URLRequest,
         currentRetries: Int,
         maxRetries: Int,

@@ -5,10 +5,10 @@
 import NotificareAssetsKit
 import SwiftUI
 
-struct AssetsView: View {
+internal struct AssetsView: View {
     @StateObject private var viewModel = AssetsViewModel()
 
-    var body: some View {
+    internal var body: some View {
         List {
             Section {
                 TextField(String(localized: "assets_group_input"), text: $viewModel.assetsGroup)
@@ -77,8 +77,8 @@ private struct SearchResultView: View {
     }
 }
 
-struct AssetsView_Previews: PreviewProvider {
-    static var previews: some View {
+internal struct AssetsView_Previews: PreviewProvider {
+    internal static var previews: some View {
         AssetsView()
     }
 }

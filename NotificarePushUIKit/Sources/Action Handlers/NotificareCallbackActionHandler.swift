@@ -37,7 +37,7 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
     private var mediaUrl: String?
     private var mediaMimeType: String?
 
-    init(notification: NotificareNotification, action: NotificareNotification.Action, sourceViewController: UIViewController) {
+    internal init(notification: NotificareNotification, action: NotificareNotification.Action, sourceViewController: UIViewController) {
         self.sourceViewController = sourceViewController
         super.init(notification: notification, action: action)
 
@@ -147,7 +147,7 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
         }
     }
 
-    override func execute() {
+    internal override func execute() {
         if action.camera, action.keyboard {
             // First get the camera going, then get the message.
             openCamera()
@@ -522,7 +522,7 @@ extension NotificareCallbackActionHandler: UIImagePickerControllerDelegate {
 extension NotificareCallbackActionHandler: UINavigationControllerDelegate {}
 
 extension UIImage {
-    func fixedOrientation() -> UIImage? {
+    internal func fixedOrientation() -> UIImage? {
         // No-op if the orientation is already correct
         guard imageOrientation != .up else {
             return copy() as? UIImage
@@ -587,7 +587,7 @@ extension UIImage {
         return UIImage(cgImage: newCGImage, scale: 1, orientation: .up)
     }
 
-    static func renderVideoThumbnail(for url: URL) -> UIImage? {
+    internal static func renderVideoThumbnail(for url: URL) -> UIImage? {
         let asset = AVAsset(url: url)
         let avAssetImageGenerator = AVAssetImageGenerator(asset: asset)
         avAssetImageGenerator.appliesPreferredTrackTransform = true
