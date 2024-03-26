@@ -10,14 +10,14 @@ private let kCrosshairMarginHorizontal: CGFloat = 20.0
 private let kCrosshairMarginVertical: CGFloat = 100.0
 
 internal class NotificareQrCodeScannerViewController: UIViewController {
-    typealias OnQrCodeDetected = (_ qrCode: String) -> Void
+    internal typealias OnQrCodeDetected = (_ qrCode: String) -> Void
 
     private let captureSession = AVCaptureSession()
     private var detectedQrCode = false
 
-    var onQrCodeDetected: OnQrCodeDetected?
+    internal var onQrCodeDetected: OnQrCodeDetected?
 
-    override func viewDidLoad() {
+    internal override func viewDidLoad() {
         super.viewDidLoad()
 
         title = NotificareUtils.applicationName
@@ -29,7 +29,7 @@ internal class NotificareQrCodeScannerViewController: UIViewController {
         captureSession.startRunning()
     }
 
-    override func viewDidAppear(_ animated: Bool) {
+    internal override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
         if !captureSession.isRunning {
@@ -37,7 +37,7 @@ internal class NotificareQrCodeScannerViewController: UIViewController {
         }
     }
 
-    override func viewDidDisappear(_ animated: Bool) {
+    internal override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
 
         if captureSession.isRunning {
@@ -116,11 +116,12 @@ internal class NotificareQrCodeScannerViewController: UIViewController {
 }
 
 extension NotificareQrCodeScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
-    func metadataOutput(_: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from _: AVCaptureConnection) {
+    internal func metadataOutput(_: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from _: AVCaptureConnection) {
         for metadata in metadataObjects {
-            if let metadata = metadata as? AVMetadataMachineReadableCodeObject,
-               let qrCode = metadata.stringValue,
-               !detectedQrCode
+            if
+                let metadata = metadata as? AVMetadataMachineReadableCodeObject,
+                let qrCode = metadata.stringValue,
+                !detectedQrCode
             {
                 detectedQrCode = true
                 captureSession.stopRunning()
