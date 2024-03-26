@@ -4,8 +4,8 @@
 
 import NotificareKit
 
-internal extension NotificareNotification {
-    init?(apnsDictionary: [AnyHashable: Any]) {
+extension NotificareNotification {
+    internal init?(apnsDictionary: [AnyHashable: Any]) {
         let aps = apnsDictionary["aps"] as? [String: Any]
         let alert = aps?["alert"] as? [String: Any] ?? apnsDictionary["alert"] as? [String: Any]
 
@@ -17,9 +17,10 @@ internal extension NotificareNotification {
         }
 
         let attachments: [NotificareNotification.Attachment]
-        if let attachment = apnsDictionary["attachment"] as? [String: Any],
-           let mimeType = attachment["mimeType"] as? String,
-           let uri = attachment["uri"] as? String
+        if
+            let attachment = apnsDictionary["attachment"] as? [String: Any],
+            let mimeType = attachment["mimeType"] as? String,
+            let uri = attachment["uri"] as? String
         {
             attachments = [NotificareNotification.Attachment(mimeType: mimeType, uri: uri)]
         } else {

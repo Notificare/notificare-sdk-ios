@@ -7,7 +7,7 @@ import NotificareKit
 import UIKit
 
 internal class NotificarePushAppDelegateInterceptor: NSObject, NotificareAppDelegateInterceptor {
-    func application(_: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+    internal func application(_: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         guard Notificare.shared.isConfigured else {
             // TODO: consider implementing a pending token strategy like in Android
             NotificareLogger.warning("Notificare is not yet ready. Skipping...")
@@ -26,7 +26,7 @@ internal class NotificarePushAppDelegateInterceptor: NSObject, NotificareAppDele
         }
     }
 
-    func application(_: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+    internal func application(_: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         NotificareLogger.error("Failed to register for remote notifications.", error: error)
 
         DispatchQueue.main.async {
@@ -34,7 +34,7 @@ internal class NotificarePushAppDelegateInterceptor: NSObject, NotificareAppDele
         }
     }
 
-    func application(_: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+    internal func application(_: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         guard Notificare.shared.push().isNotificareNotification(userInfo) else {
             NotificareLogger.info("Received an unknown notification from APNS.")
 

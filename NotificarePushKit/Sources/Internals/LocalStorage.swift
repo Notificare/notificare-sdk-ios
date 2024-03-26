@@ -4,14 +4,14 @@
 
 import Foundation
 
-enum LocalStorage {
+internal enum LocalStorage {
     private enum Keys: String {
         case remoteNotificationsEnabled = "re.notifica.push.local_storage.remote_notifications_enabled"
         case allowedUI = "re.notifica.push.local_storage.allowed_ui"
         case firstRegistration = "re.notifica.push.local_storage.first_registration"
     }
 
-    static var remoteNotificationsEnabled: Bool {
+    internal static var remoteNotificationsEnabled: Bool {
         get {
             UserDefaults.standard.bool(forKey: Keys.remoteNotificationsEnabled.rawValue)
         }
@@ -21,7 +21,7 @@ enum LocalStorage {
         }
     }
 
-    static var allowedUI: Bool {
+    internal static var allowedUI: Bool {
         get {
             UserDefaults.standard.bool(forKey: Keys.allowedUI.rawValue)
         }
@@ -31,7 +31,7 @@ enum LocalStorage {
         }
     }
 
-    static var firstRegistration: Bool {
+    internal static var firstRegistration: Bool {
         get {
             if UserDefaults.standard.value(forKey: Keys.firstRegistration.rawValue) == nil {
                 return true
