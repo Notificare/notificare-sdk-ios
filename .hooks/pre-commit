@@ -2,7 +2,7 @@
 
 BUILD_DIR=$(xcodebuild -showBuildSettings -workspace Notificare.xcworkspace -scheme Sample-Production | grep " BUILD_DIR " | cut -d " " -f 7) 
 
-SWIFTLINT=${BUILD_DIR%/Build/Products}/SourcePackages/artifacts/swiftlint/SwiftLintBinary/SwiftLintBinary.artifactbundle/swiftlint-0.54.0-macos/bin/swiftlint
+SWIFTLINT=$(find ${BUILD_DIR%/Build/Products} -name swiftlint -type f)
 
 if [[ -e "${SWIFTLINT}" ]]; then
     # Export files in SCRIPT_INPUT_FILE_$count to lint against later
