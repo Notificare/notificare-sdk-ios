@@ -6,10 +6,10 @@ import Combine
 import Foundation
 import UIKit
 
-class ImageLoader: ObservableObject {
-    @Published var image: UIImage?
+internal class ImageLoader: ObservableObject {
+    @Published internal var image: UIImage?
 
-    private(set) var isLoading = false
+    internal private(set) var isLoading = false
 
     private let url: URL?
     private var cache: ImageCache?
@@ -17,7 +17,7 @@ class ImageLoader: ObservableObject {
 
     private static let imageProcessingQueue = DispatchQueue(label: "image-processing")
 
-    init(url: URL?, cache: ImageCache? = nil) {
+    internal init(url: URL?, cache: ImageCache? = nil) {
         self.url = url
         self.cache = cache
     }
@@ -26,7 +26,7 @@ class ImageLoader: ObservableObject {
         cancel()
     }
 
-    func load() {
+    internal func load() {
         guard !isLoading else { return }
 
         if url == nil {
@@ -51,7 +51,7 @@ class ImageLoader: ObservableObject {
             .sink { [weak self] in self?.image = $0 }
     }
 
-    func cancel() {
+    internal func cancel() {
         cancellable?.cancel()
     }
 

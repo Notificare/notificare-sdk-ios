@@ -8,9 +8,9 @@ import UIKit
 internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, NotificareDeviceModule, NotificareInternalDeviceModule {
     // MARK: - Notificare Module
 
-    static let instance = NotificareDeviceModuleImpl()
+    internal static let instance = NotificareDeviceModuleImpl()
 
-    func configure() {
+    internal func configure() {
         // Listen to timezone changes
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(updateDeviceTimezone),
@@ -30,7 +30,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
                                                object: nil)
     }
 
-    func launch() async throws {
+    internal func launch() async throws {
         if let device = currentDevice {
             do {
                 try await register(transport: device.transport, token: device.id, userId: device.userId, userName: device.userName)
@@ -74,7 +74,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         }
     }
 
-    func postLaunch() async throws {
+    internal func postLaunch() async throws {
         if let device = currentDevice {
             DispatchQueue.main.async {
                 Notificare.shared.delegate?.notificare(Notificare.shared, didRegisterDevice: device)

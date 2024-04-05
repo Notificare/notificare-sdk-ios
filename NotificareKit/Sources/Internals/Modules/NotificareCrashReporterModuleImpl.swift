@@ -7,9 +7,9 @@ import Foundation
 internal class NotificareCrashReporterModuleImpl: NSObject, NotificareModule {
     // MARK: - Notificare Module
 
-    static let instance = NotificareCrashReporterModuleImpl()
+    internal static let instance = NotificareCrashReporterModuleImpl()
 
-    func configure() {
+    internal func configure() {
         let crashReportsEnabled = Notificare.shared.options!.crashReportsEnabled
 
         guard crashReportsEnabled else {
@@ -36,7 +36,7 @@ internal class NotificareCrashReporterModuleImpl: NSObject, NotificareModule {
         signal(SIGXFSZ, signalReceiver)
     }
 
-    func launch() async throws {
+    internal func launch() async throws {
         guard let event = LocalStorage.crashReport else {
             NotificareLogger.debug("No crash report to process.")
             return

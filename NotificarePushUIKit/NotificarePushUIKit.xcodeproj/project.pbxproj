@@ -242,11 +242,11 @@
 				F29B17C725A48BEF007ED6F9 /* Sources */,
 				F29B17C825A48BEF007ED6F9 /* Frameworks */,
 				F29B17C925A48BEF007ED6F9 /* Resources */,
-				F29B17F525A48CE4007ED6F9 /* SwiftFormat */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				1A8B9C412BB18916009781B5 /* PBXTargetDependency */,
 			);
 			name = NotificarePushUIKit;
 			productName = NotificarePushUIKit;
@@ -300,6 +300,9 @@
 				Base,
 			);
 			mainGroup = F29B17C125A48BEF007ED6F9;
+			packageReferences = (
+				1A8B9C282BB18826009781B5 /* XCRemoteSwiftPackageReference "SwiftLint" */,
+			);
 			productRefGroup = F29B17CC25A48BEF007ED6F9 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -326,28 +329,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		F29B17F525A48CE4007ED6F9 /* SwiftFormat */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = SwiftFormat;
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if which swiftformat >/dev/null; then\n  echo \"$(pwd)\"\n  swiftformat .\nelse\n  echo \"warning: SwiftFormat not installed, download from https://github.com/nicklockwood/SwiftFormat\"\nfi\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		F29B17C725A48BEF007ED6F9 /* Sources */ = {
@@ -398,6 +379,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		1A8B9C412BB18916009781B5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 1A8B9C402BB18916009781B5 /* SwiftLintPlugin */;
+		};
 		F29B17D725A48BF0007ED6F9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = F29B17CA25A48BEF007ED6F9 /* NotificarePushUIKit */;
@@ -1124,6 +1109,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1A8B9C282BB18826009781B5 /* XCRemoteSwiftPackageReference "SwiftLint" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/SwiftLint";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.54.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1A8B9C402BB18916009781B5 /* SwiftLintPlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1A8B9C282BB18826009781B5 /* XCRemoteSwiftPackageReference "SwiftLint" */;
+			productName = "plugin:SwiftLintPlugin";
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F29B17C225A48BEF007ED6F9 /* Project object */;
 }

@@ -13,9 +13,9 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
 
     // MARK: - Notificare Module
 
-    static let instance = NotificareEventsModuleImpl()
+    internal static let instance = NotificareEventsModuleImpl()
 
-    func configure() {
+    internal func configure() {
         // Listen to application did become active events.
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(onApplicationDidBecomeActiveNotification(_:)),
@@ -29,13 +29,13 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
                                                object: nil)
     }
 
-    func launch() async throws {
+    internal func launch() async throws {
         processStoredEvents()
     }
 
     // MARK: - Notificare Events
 
-    func logNotificationOpen(_ id: String, _ completion: @escaping NotificareCallback<Void>) {
+    public func logNotificationOpen(_ id: String, _ completion: @escaping NotificareCallback<Void>) {
         Task {
             do {
                 try await logNotificationOpen(id)
@@ -46,11 +46,11 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
         }
     }
 
-    func logNotificationOpen(_ id: String) async throws {
+    public func logNotificationOpen(_ id: String) async throws {
         try await log("re.notifica.event.notification.Open", data: nil, notificationId: id)
     }
 
-    func logCustom(_ event: String, data: NotificareEventData?, _ completion: @escaping NotificareCallback<Void>) {
+    public func logCustom(_ event: String, data: NotificareEventData?, _ completion: @escaping NotificareCallback<Void>) {
         Task {
             do {
                 try await logCustom(event, data: data)
@@ -61,7 +61,7 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
         }
     }
 
-    func logCustom(_ event: String, data: NotificareEventData?) async throws {
+    public func logCustom(_ event: String, data: NotificareEventData?) async throws {
         guard Notificare.shared.isReady else {
             throw NotificareError.notReady
         }
@@ -71,7 +71,7 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
 
     // MARK: - Notificare Internal Events
 
-    func log(_ event: String, data: NotificareEventData?, sessionId: String?, notificationId: String?) async throws {
+    internal func log(_ event: String, data: NotificareEventData?, sessionId: String?, notificationId: String?) async throws {
         guard let device = Notificare.shared.device().currentDevice else {
             throw NotificareError.deviceUnavailable
         }

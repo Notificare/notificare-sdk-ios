@@ -7,21 +7,21 @@ import NotificareKit
 import OSLog
 
 @MainActor
-class EventsViewModel: ObservableObject {
-    @Published var eventFields = [EventField]()
-    @Published var eventName = ""
-    @Published private(set) var viewState: ViewState = .idle
+internal class EventsViewModel: ObservableObject {
+    @Published internal var eventFields = [EventField]()
+    @Published internal var eventName = ""
+    @Published internal private(set) var viewState: ViewState = .idle
 
-    var isRegisterEventAllowed: Bool {
+    internal var isRegisterEventAllowed: Bool {
         !viewState.isLoading && !eventName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
 
-    func addEventField() {
+    internal func addEventField() {
         let field = EventField(key: "", value: "")
         eventFields.append(field)
     }
 
-    func registerEvent() {
+    internal func registerEvent() {
         Logger.main.info("Register Event clicked")
         viewState = .loading
         let fields = validateEventFields()
@@ -49,13 +49,13 @@ class EventsViewModel: ObservableObject {
         return Dictionary(uniqueKeysWithValues: fields)
     }
 
-    enum ViewState {
+    internal enum ViewState {
         case idle
         case loading
         case success
         case failure(error: Error)
 
-        var isLoading: Bool {
+        internal var isLoading: Bool {
             switch self {
             case .loading:
                 return true
@@ -66,8 +66,8 @@ class EventsViewModel: ObservableObject {
     }
 }
 
-struct EventField: Identifiable {
-    var id = UUID()
-    var key: String
-    var value: String
+internal struct EventField: Identifiable {
+    internal var id = UUID()
+    internal var key: String
+    internal var value: String
 }

@@ -5,10 +5,10 @@
 import SwiftUI
 
 internal struct BannerView: View {
-    var title: String? = nil
-    var subtitle: String? = nil
+    internal var title: String? = nil
+    internal var subtitle: String? = nil
 
-    var body: some View {
+    internal var body: some View {
         VStack {
             if let title {
                 Text(title)

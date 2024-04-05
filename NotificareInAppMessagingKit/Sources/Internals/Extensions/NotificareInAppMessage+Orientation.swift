@@ -6,7 +6,7 @@ import Foundation
 import UIKit
 
 extension NotificareInAppMessage {
-    var orientationConstrainedImage: String? {
+    internal var orientationConstrainedImage: String? {
         if UIDevice.current.orientation.isLandscape {
             return landscapeImage ?? image
         }

@@ -6,9 +6,9 @@ import Foundation
 import NotificareKit
 
 extension NotificareInternals.PushAPI.Payloads {
-    struct PurchaseVerification: Encodable {
-        let receipt: String
-        let price: Double
-        let currency: String
+    internal struct PurchaseVerification: Encodable {
+        internal let receipt: String
+        internal let price: Double
+        internal let currency: String
     }
 }

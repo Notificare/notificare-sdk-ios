@@ -4,16 +4,16 @@
 
 import SwiftUI
 
-struct NotificationsSection: View {
-    @Binding var hasNotificationsAndPermission: Bool
+internal struct NotificationsSection: View {
+    @Binding internal var hasNotificationsAndPermission: Bool
 
-    let hasNotificationsEnabled: Bool
-    let allowedUi: Bool
-    let notificationsPermission: HomeViewModel.NotificationsPermissionStatus?
-    let badge: Int
-    let updateNotificationsStatus: (Bool) -> Void
+    internal let hasNotificationsEnabled: Bool
+    internal let allowedUi: Bool
+    internal let notificationsPermission: HomeViewModel.NotificationsPermissionStatus?
+    internal let badge: Int
+    internal let updateNotificationsStatus: (Bool) -> Void
 
-    var body: some View {
+    internal var body: some View {
         Section {
             Toggle(isOn: $hasNotificationsAndPermission) {
                 Label {
@@ -99,8 +99,8 @@ struct NotificationsSection: View {
     }
 }
 
-struct NotificationsSection_Previews: PreviewProvider {
-    static var previews: some View {
+internal struct NotificationsSection_Previews: PreviewProvider {
+    internal static var previews: some View {
         @State var hasNotificationsAndPermission = false
         NotificationsSection(
             hasNotificationsAndPermission: $hasNotificationsAndPermission,

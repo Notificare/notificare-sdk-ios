@@ -11,8 +11,8 @@ public extension Notificare {
     }
 }
 
-internal extension Notificare {
-    func pushUIImplementation() -> NotificarePushUIImpl {
+extension Notificare {
+    internal func pushUIImplementation() -> NotificarePushUIImpl {
         NotificarePushUIImpl.instance
     }
 }

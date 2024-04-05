@@ -5,14 +5,14 @@
 import NotificareKit
 import UIKit
 
-class NotificareAlertController: NotificareNotificationPresenter {
+internal class NotificareAlertController: NotificareNotificationPresenter {
     private let notification: NotificareNotification
 
-    init(notification: NotificareNotification) {
+    internal init(notification: NotificareNotification) {
         self.notification = notification
     }
 
-    func present(in controller: UIViewController) {
+    internal func present(in controller: UIViewController) {
         let alert = UIAlertController(title: notification.title ?? NotificareUtils.applicationName,
                                       message: notification.message,
                                       preferredStyle: .alert)

@@ -4,7 +4,7 @@
 
 import Foundation
 
-enum LocalStorage {
+internal enum LocalStorage {
     private enum Keys: String {
         case migrated = "re.notifica.local_storage.migrated"
         case application = "re.notifica.local_storage.application"
@@ -15,7 +15,7 @@ enum LocalStorage {
         case currentDatabaseVersion = "re.notifica.local_storage.current_database_version"
     }
 
-    static var migrated: Bool {
+    internal static var migrated: Bool {
         get {
             UserDefaults.standard.bool(forKey: Keys.migrated.rawValue)
         }
@@ -25,7 +25,7 @@ enum LocalStorage {
         }
     }
 
-    static var application: NotificareApplication? {
+    internal static var application: NotificareApplication? {
         get {
             guard let data = UserDefaults.standard.object(forKey: Keys.application.rawValue) as? Data else {
                 return nil
@@ -62,7 +62,7 @@ enum LocalStorage {
         }
     }
 
-    static var device: NotificareDevice? {
+    internal static var device: NotificareDevice? {
         get {
             let settings = UserDefaults.standard
             guard let data = settings.object(forKey: Keys.device.rawValue) as? Data else {
@@ -101,7 +101,7 @@ enum LocalStorage {
         }
     }
 
-    static var preferredLanguage: String? {
+    internal static var preferredLanguage: String? {
         get {
             UserDefaults.standard.string(forKey: Keys.preferredLanguage.rawValue)
         }
@@ -111,7 +111,7 @@ enum LocalStorage {
         }
     }
 
-    static var preferredRegion: String? {
+    internal static var preferredRegion: String? {
         get {
             UserDefaults.standard.string(forKey: Keys.preferredRegion.rawValue)
         }
@@ -121,7 +121,7 @@ enum LocalStorage {
         }
     }
 
-    static var crashReport: NotificareEvent? {
+    internal static var crashReport: NotificareEvent? {
         get {
             guard let data = UserDefaults.standard.data(forKey: Keys.crashReport.rawValue) else {
                 return nil
@@ -156,7 +156,7 @@ enum LocalStorage {
         }
     }
 
-    static var currentDatabaseVersion: String? {
+    internal static var currentDatabaseVersion: String? {
         get {
             UserDefaults.standard.string(forKey: Keys.currentDatabaseVersion.rawValue)
         }

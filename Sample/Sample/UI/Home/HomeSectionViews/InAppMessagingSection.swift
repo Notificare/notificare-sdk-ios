@@ -4,13 +4,13 @@
 
 import SwiftUI
 
-struct InAppMessagingSection: View {
-    @Binding var hasEvaluateContextOn: Bool
-    @Binding var hasSuppressedOn: Bool
+internal struct InAppMessagingSection: View {
+    @Binding internal var hasEvaluateContextOn: Bool
+    @Binding internal var hasSuppressedOn: Bool
 
-    let updateSuppressedIamStatus: (Bool) -> Void
+    internal let updateSuppressedIamStatus: (Bool) -> Void
 
-    var body: some View {
+    internal var body: some View {
         Section {
             Toggle(isOn: $hasEvaluateContextOn) {
                 Label {
@@ -45,8 +45,8 @@ struct InAppMessagingSection: View {
     }
 }
 
-struct InAppMessagingSection_Previews: PreviewProvider {
-    static var previews: some View {
+internal struct InAppMessagingSection_Previews: PreviewProvider {
+    internal static var previews: some View {
         @State var hasEvaluateContextOn = false
         @State var hasSuppressedOn = false
         InAppMessagingSection(

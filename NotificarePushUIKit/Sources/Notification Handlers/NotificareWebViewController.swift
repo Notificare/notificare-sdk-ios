@@ -110,10 +110,11 @@ extension NotificareWebViewController: WKNavigationDelegate, WKUIDelegate {
             handleNotificareQueryParameters(for: url)
 
             // Let's handle custom URLs if not http or https.
-            if let url = navigationAction.request.url,
-               let urlScheme = url.scheme,
-               urlScheme != "http", urlScheme != "https",
-               NotificareUtils.getSupportedUrlSchemes().contains(urlScheme) || UIApplication.shared.canOpenURL(url)
+            if
+                let url = navigationAction.request.url,
+                let urlScheme = url.scheme,
+                urlScheme != "http", urlScheme != "https",
+                NotificareUtils.getSupportedUrlSchemes().contains(urlScheme) || UIApplication.shared.canOpenURL(url)
             {
                 UIApplication.shared.open(url, options: [:]) { _ in
                     decisionHandler(.cancel)
@@ -194,7 +195,7 @@ extension NotificareWebViewController: WKNavigationDelegate, WKUIDelegate {
 }
 
 extension NotificareWebViewController: NotificareNotificationPresenter {
-    func present(in controller: UIViewController) {
+    internal func present(in controller: UIViewController) {
         controller.presentOrPush(self)
     }
 }

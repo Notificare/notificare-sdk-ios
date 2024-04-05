@@ -4,7 +4,7 @@
 
 import Foundation
 
-enum NotificareLaunchState: Int {
+internal enum NotificareLaunchState: Int {
     case none
     case configured
     case launching

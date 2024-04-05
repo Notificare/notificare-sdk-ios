@@ -5,14 +5,14 @@
 import NotificareKit
 import UIKit
 
-class NotificareUrlSchemeController: NotificareNotificationPresenter {
+internal class NotificareUrlSchemeController: NotificareNotificationPresenter {
     private let notification: NotificareNotification
 
-    init(notification: NotificareNotification) {
+    internal init(notification: NotificareNotification) {
         self.notification = notification
     }
 
-    func present(in _: UIViewController) {
+    internal func present(in _: UIViewController) {
         guard let content = notification.content.first,
               let urlStr = content.data as? String,
               let url = URL(string: urlStr)

@@ -5,10 +5,10 @@
 import ActivityKit
 import Foundation
 
-struct CoffeeBrewerActivityAttributes: ActivityAttributes {
+internal struct CoffeeBrewerActivityAttributes: ActivityAttributes {
     public struct ContentState: Codable, Hashable {
-        var state: BrewingState
-        var remaining: Int
+        internal var state: BrewingState
+        internal var remaining: Int
     }
 
     public enum BrewingState: String, Codable, CaseIterable {
@@ -16,7 +16,7 @@ struct CoffeeBrewerActivityAttributes: ActivityAttributes {
         case brewing
         case served
 
-        var index: Int {
+        internal var index: Int {
             guard let index = Self.allCases.firstIndex(of: self) else {
                 return 0
             }
