@@ -63,6 +63,8 @@ extension AppDelegate: NotificareDelegate {
     internal func notificare(_: Notificare, onReady _: NotificareApplication) {
         Logger.main.info("Notificare finished launching.")
 
+        autoRegisterFromPlist()
+
         NotificationCenter.default.post(
             name: .notificareStatus,
             object: nil,
@@ -82,6 +84,25 @@ extension AppDelegate: NotificareDelegate {
 
     internal func notificare(_: Notificare, didRegisterDevice device: NotificareDevice) {
         Logger.main.info("Notificare: device registered: \(String(describing: device))")
+    }
+
+    private func autoRegisterFromPlist() {
+        guard let path = Bundle.main.path(forResource: SampleUser.fileName, ofType: SampleUser.fileExtension),
+              let sampleUser = SampleUser(contentsOfFile: path)
+        else {
+            return
+        }
+
+        Logger.main.info("Registering device")
+
+        Task {
+            do {
+                try await Notificare.shared.device().register(userId: sampleUser.userID, userName: sampleUser.userName)
+                Logger.main.info("Device registered successfully")
+            } catch {
+                Logger.main.error("Failed to registered device: \(error)")
+            }
+        }
     }
 }
 
