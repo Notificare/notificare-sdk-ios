@@ -13,6 +13,7 @@ enum LocalStorage {
         case preferredRegion = "re.notifica.local_storage.preferred_region"
         case crashReport = "re.notifica.local_storage.crash_report"
         case currentDatabaseVersion = "re.notifica.local_storage.current_database_version"
+        case deferredLinkChecked = "re.notifica.preferences.deferred_link_checked"
     }
 
     static var migrated: Bool {
@@ -163,6 +164,23 @@ enum LocalStorage {
         set {
             UserDefaults.standard.set(newValue, forKey: Keys.currentDatabaseVersion.rawValue)
             UserDefaults.standard.synchronize()
+        }
+    }
+
+    internal static var deferredLinkChecked: Bool? {
+        get {
+            if UserDefaults.standard.object(forKey: Keys.deferredLinkChecked.rawValue) == nil {
+                return nil
+            }
+
+            return UserDefaults.standard.bool(forKey: Keys.deferredLinkChecked.rawValue)
+        }
+        set {
+            if let newValue {
+                UserDefaults.standard.setValue(newValue, forKey: Keys.deferredLinkChecked.rawValue)
+            } else {
+                UserDefaults.standard.removeObject(forKey: Keys.deferredLinkChecked.rawValue)
+            }
         }
     }
 }

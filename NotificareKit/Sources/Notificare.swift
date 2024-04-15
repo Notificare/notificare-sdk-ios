@@ -47,6 +47,14 @@ public class Notificare {
         state == .ready
     }
 
+    public var canEvaluateDeferredLink: Bool {
+        guard LocalStorage.deferredLinkChecked == false else {
+            return false
+        }
+
+        return UIPasteboard.general.hasURLs
+    }
+
     public func configure(servicesInfo: NotificareServicesInfo? = nil, options: NotificareOptions? = nil) {
         configure(
             servicesInfo: servicesInfo ?? loadServiceInfoFile(),
@@ -73,6 +81,13 @@ public class Notificare {
             }
 
             LocalStorage.migrated = true
+        }
+
+        // The default value of the deferred link depends on whether Notificare has a registered device.
+        // Having a registered device means the app ran at least once and we should stop checking for
+        // deferred links.
+        if LocalStorage.deferredLinkChecked == nil {
+            LocalStorage.deferredLinkChecked = LocalStorage.device != nil
         }
 
         NotificareLogger.debug("Configuring network services.")
@@ -484,6 +499,57 @@ public class Notificare {
         }
 
         return true
+    }
+
+    @MainActor
+    public func evaluateDeferredLink() async throws -> Bool {
+        guard LocalStorage.deferredLinkChecked == false else {
+            NotificareLogger.debug("Deferred link already evaluated.")
+            return false
+        }
+
+        defer {
+            LocalStorage.deferredLinkChecked = true
+        }
+
+        guard UIPasteboard.general.hasURLs else {
+            NotificareLogger.debug("Detected URLs in the clipboard.")
+            return false
+        }
+
+        guard let deferredUrl = UIPasteboard.general.url else {
+            NotificareLogger.warning("Detected URLs in the clipboard but the user denied access.")
+            return false
+        }
+
+        let dynamicLink = try await fetchDynamicLink(deferredUrl.absoluteString)
+
+        guard let url = URL(string: dynamicLink.target) else {
+            NotificareLogger.warning("Failed to parse the dynamic link target url.")
+            return false
+        }
+
+        guard UIApplication.shared.canOpenURL(url) else {
+            NotificareLogger.warning("Cannot open a deep link that's not supported by the application.")
+            return false
+        }
+
+        defer {
+            UIPasteboard.general.items = []
+        }
+
+        return await UIApplication.shared.open(url)
+    }
+
+    public func evaluateDeferredLink(_ completion: @escaping NotificareCallback<Bool>) {
+        Task {
+            do {
+                let result = try await evaluateDeferredLink()
+                completion(.success(result))
+            } catch {
+                completion(.failure(error))
+            }
+        }
     }
 
     // MARK: - Private API
