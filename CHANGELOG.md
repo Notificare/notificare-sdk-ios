@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## Upcoming release
+
+- Add support for deferred links
+
 ## 3.8.0
 
 - Prevent processing location updates too close to the last known location
