@@ -49,6 +49,17 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             LiveActivitiesController.shared.startMonitoring()
         }
 
+        if Notificare.shared.canEvaluateDeferredLink {
+            Notificare.shared.evaluateDeferredLink { result in
+                switch result {
+                case let .success(evaluated):
+                    Logger.main.info("deferred link evaluation = \(evaluated)")
+                case let .failure(error):
+                    Logger.main.error("Failed to evaluate the deferred link. \(error)")
+                }
+            }
+        }
+
         return true
     }
 
