@@ -11,6 +11,7 @@
 		F258DDC724BC4F09006F9ABD /* AssetsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DDC624BC4F09006F9ABD /* AssetsTests.swift */; };
 		F258DDC924BC4F09006F9ABD /* NotificareAssetsKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F258DDBB24BC4F09006F9ABD /* NotificareAssetsKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F289F5DC25B861670091AB97 /* NotificareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F289F5D925B861670091AB97 /* NotificareKit.framework */; };
+		F29017E82BD27730009DB80B /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = F29017E72BD2772C009DB80B /* PrivacyInfo.xcprivacy */; };
 		F2ABF33C269C43AB00401D3F /* NotificareAssetsImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2ABF33B269C43AB00401D3F /* NotificareAssetsImpl.swift */; };
 		F2ABF33F269C45A900401D3F /* NotificareAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2ABF33E269C45A900401D3F /* NotificareAsset.swift */; };
 		F2ABF346269C579900401D3F /* PushAPI+Responses.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2ABF345269C579900401D3F /* PushAPI+Responses.swift */; };
@@ -37,6 +38,7 @@
 		F258DDC624BC4F09006F9ABD /* AssetsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetsTests.swift; sourceTree = "<group>"; };
 		F258DDC824BC4F09006F9ABD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F289F5D925B861670091AB97 /* NotificareKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F29017E72BD2772C009DB80B /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		F2ABF33B269C43AB00401D3F /* NotificareAssetsImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareAssetsImpl.swift; sourceTree = "<group>"; };
 		F2ABF33E269C45A900401D3F /* NotificareAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareAsset.swift; sourceTree = "<group>"; };
 		F2ABF345269C579900401D3F /* PushAPI+Responses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PushAPI+Responses.swift"; sourceTree = "<group>"; };
@@ -90,6 +92,7 @@
 				F2ABF341269C575900401D3F /* Internals */,
 				F2ABF33D269C456F00401D3F /* Models */,
 				F258DDBC24BC4F09006F9ABD /* Info.plist */,
+				F29017E72BD2772C009DB80B /* PrivacyInfo.xcprivacy */,
 				F258DDBB24BC4F09006F9ABD /* NotificareAssetsKit.h */,
 				F2DAB38C271F0467002B5F27 /* NotificareAssets.swift */,
 				F2DAB38E271F0473002B5F27 /* NotificareAssets+Augment.swift */,
@@ -243,6 +246,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F29017E82BD27730009DB80B /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

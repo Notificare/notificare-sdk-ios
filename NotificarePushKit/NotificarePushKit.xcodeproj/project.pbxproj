@@ -19,6 +19,7 @@
 		F258DDA324BC4EE2006F9ABD /* PushTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DDA224BC4EE2006F9ABD /* PushTests.swift */; };
 		F258DDA524BC4EE2006F9ABD /* NotificarePushKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F258DD9724BC4EE2006F9ABD /* NotificarePushKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F28553C5258B8848006674C1 /* NotificarePushDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28553C4258B8848006674C1 /* NotificarePushDelegate.swift */; };
+		F29017F82BD279E0009DB80B /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = F29017F72BD279E0009DB80B /* PrivacyInfo.xcprivacy */; };
 		F29ECB652A054619001961B0 /* NotificareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F29ECB642A054619001961B0 /* NotificareKit.framework */; };
 		F2B6A34426173F32001CB7DC /* NotificareNotification+APNS.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B6A34326173F32001CB7DC /* NotificareNotification+APNS.swift */; };
 		F2D3893E266542F200EAEF44 /* PushAPI+Payloads.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D3893D266542F200EAEF44 /* PushAPI+Payloads.swift */; };
@@ -52,6 +53,7 @@
 		F258DDA224BC4EE2006F9ABD /* PushTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushTests.swift; sourceTree = "<group>"; };
 		F258DDA424BC4EE2006F9ABD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F28553C4258B8848006674C1 /* NotificarePushDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificarePushDelegate.swift; sourceTree = "<group>"; };
+		F29017F72BD279E0009DB80B /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		F29ECB642A054619001961B0 /* NotificareKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2B6A34326173F32001CB7DC /* NotificareNotification+APNS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificareNotification+APNS.swift"; sourceTree = "<group>"; };
 		F2D3893D266542F200EAEF44 /* PushAPI+Payloads.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PushAPI+Payloads.swift"; sourceTree = "<group>"; };
@@ -114,6 +116,7 @@
 				F2E9221B2641A4C8005279C0 /* Internals */,
 				F2128F002594E3E300F7F68F /* Models */,
 				F258DD9824BC4EE2006F9ABD /* Info.plist */,
+				F29017F72BD279E0009DB80B /* PrivacyInfo.xcprivacy */,
 				F258DD9724BC4EE2006F9ABD /* NotificarePushKit.h */,
 				F226509A258B6B900004F833 /* NotificarePush.swift */,
 				F21DD9DE2717384800C88D7B /* NotificarePush+Augment.swift */,
@@ -264,6 +267,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F29017F82BD279E0009DB80B /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

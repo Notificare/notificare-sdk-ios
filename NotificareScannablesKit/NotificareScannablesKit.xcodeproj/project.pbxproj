@@ -12,6 +12,7 @@
 		F258DE3524BC4FAD006F9ABD /* NotificareScannablesKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F258DE2724BC4FAD006F9ABD /* NotificareScannablesKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F267DA50273EC00200448A8F /* NotificareScannablesError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F267DA4F273EC00200448A8F /* NotificareScannablesError.swift */; };
 		F289F5BD25B860E90091AB97 /* NotificareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F22650B0258B6E410004F833 /* NotificareKit.framework */; };
+		F29017FC2BD27AB0009DB80B /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = F29017FB2BD27AB0009DB80B /* PrivacyInfo.xcprivacy */; };
 		F2DAB39D271F109E002B5F27 /* NotificareScannables.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2DAB39C271F109E002B5F27 /* NotificareScannables.swift */; };
 		F2DAB39F271F1115002B5F27 /* NotificareScannables+Augment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2DAB39E271F1115002B5F27 /* NotificareScannables+Augment.swift */; };
 		F2E801D4269D93AA00582DB8 /* NotificareScannablesImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E801D3269D93AA00582DB8 /* NotificareScannablesImpl.swift */; };
@@ -42,6 +43,7 @@
 		F258DE3224BC4FAD006F9ABD /* ScannableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannableTests.swift; sourceTree = "<group>"; };
 		F258DE3424BC4FAD006F9ABD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F267DA4F273EC00200448A8F /* NotificareScannablesError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareScannablesError.swift; sourceTree = "<group>"; };
+		F29017FB2BD27AB0009DB80B /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		F2DAB39C271F109E002B5F27 /* NotificareScannables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareScannables.swift; sourceTree = "<group>"; };
 		F2DAB39E271F1115002B5F27 /* NotificareScannables+Augment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificareScannables+Augment.swift"; sourceTree = "<group>"; };
 		F2E801D3269D93AA00582DB8 /* NotificareScannablesImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareScannablesImpl.swift; sourceTree = "<group>"; };
@@ -100,6 +102,7 @@
 				F2E801D8269D946200582DB8 /* Models */,
 				F2E801EA269F19AB00582DB8 /* UI */,
 				F258DE2824BC4FAD006F9ABD /* Info.plist */,
+				F29017FB2BD27AB0009DB80B /* PrivacyInfo.xcprivacy */,
 				F258DE2724BC4FAD006F9ABD /* NotificareScannablesKit.h */,
 				F2DAB39C271F109E002B5F27 /* NotificareScannables.swift */,
 				F2DAB39E271F1115002B5F27 /* NotificareScannables+Augment.swift */,
@@ -264,6 +267,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F29017FC2BD27AB0009DB80B /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

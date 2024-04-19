@@ -27,6 +27,7 @@
 		F258DE0F24BC4F89006F9ABD /* MonetizeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DE0E24BC4F89006F9ABD /* MonetizeTests.swift */; };
 		F258DE1124BC4F89006F9ABD /* NotificareMonetizeKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F258DE0324BC4F89006F9ABD /* NotificareMonetizeKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F289F5C425B8611B0091AB97 /* NotificareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F289F5C125B8611B0091AB97 /* NotificareKit.framework */; };
+		F29017F42BD27992009DB80B /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = F29017F32BD27992009DB80B /* PrivacyInfo.xcprivacy */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,7 @@
 		F258DE0E24BC4F89006F9ABD /* MonetizeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonetizeTests.swift; sourceTree = "<group>"; };
 		F258DE1024BC4F89006F9ABD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F289F5C125B8611B0091AB97 /* NotificareKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F29017F32BD27992009DB80B /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,6 +161,7 @@
 				F22443D9286D9F150015CBD6 /* Internals */,
 				F22443DC286D9F360015CBD6 /* Models */,
 				F258DE0424BC4F89006F9ABD /* Info.plist */,
+				F29017F32BD27992009DB80B /* PrivacyInfo.xcprivacy */,
 				F258DE0324BC4F89006F9ABD /* NotificareMonetizeKit.h */,
 				F22443DD286D9F4C0015CBD6 /* NotificareMonetize.swift */,
 				F22443DF286D9F580015CBD6 /* NotificareMonetize+Augment.swift */,
@@ -282,6 +285,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F29017F42BD27992009DB80B /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

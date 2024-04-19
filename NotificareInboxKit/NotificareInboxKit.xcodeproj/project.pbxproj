@@ -19,6 +19,7 @@
 		F289F5F125B884EC0091AB97 /* NotificareInboxItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F289F5F025B884EC0091AB97 /* NotificareInboxItem.swift */; };
 		F28E583B25C0401800C83537 /* InboxDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28E583A25C0401800C83537 /* InboxDatabase.swift */; };
 		F28E584A25C041C900C83537 /* InboxItemEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28E584925C041C900C83537 /* InboxItemEntity.swift */; };
+		F29017F02BD27923009DB80B /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = F29017EF2BD27923009DB80B /* PrivacyInfo.xcprivacy */; };
 		F293E2EA2630491E008C2010 /* LocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F293E2E92630491E008C2010 /* LocalStorage.swift */; };
 		F2B984C82850C123005CD6D6 /* InboxDatabaseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B984C72850C123005CD6D6 /* InboxDatabaseError.swift */; };
 		F2DAB3AB271F18E1002B5F27 /* NotificareInboxDatabase.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F2DAB3A9271F18E1002B5F27 /* NotificareInboxDatabase.xcdatamodeld */; };
@@ -52,6 +53,7 @@
 		F289F5F025B884EC0091AB97 /* NotificareInboxItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareInboxItem.swift; sourceTree = "<group>"; };
 		F28E583A25C0401800C83537 /* InboxDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxDatabase.swift; sourceTree = "<group>"; };
 		F28E584925C041C900C83537 /* InboxItemEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxItemEntity.swift; sourceTree = "<group>"; };
+		F29017EF2BD27923009DB80B /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		F293E2E92630491E008C2010 /* LocalStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorage.swift; sourceTree = "<group>"; };
 		F2B984C72850C123005CD6D6 /* InboxDatabaseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxDatabaseError.swift; sourceTree = "<group>"; };
 		F2DAB3AA271F18E1002B5F27 /* NotificareInboxDatabase.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = NotificareInboxDatabase.xcdatamodel; sourceTree = "<group>"; };
@@ -112,6 +114,7 @@
 				F28E583925C0400A00C83537 /* Internals */,
 				F289F5EF25B884E00091AB97 /* Models */,
 				F289F53925B85E020091AB97 /* Info.plist */,
+				F29017EF2BD27923009DB80B /* PrivacyInfo.xcprivacy */,
 				F289F5EB25B864A90091AB97 /* NotificareInboxKit.h */,
 				F21DD9EC27185C4B00C88D7B /* NotificareInbox.swift */,
 				F21DD9EA27184CE500C88D7B /* NotificareInbox+Augment.swift */,
@@ -270,6 +273,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F29017F02BD27923009DB80B /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
