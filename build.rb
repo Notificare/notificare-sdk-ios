@@ -23,17 +23,23 @@ class Bob
   end
 
   def work
-    puts "Building version #{version}"
+    puts "▸ Building version #{version}".cyan
 
     prepare_environment
 
+    puts '▸ Cleaning...'.cyan
     Xcode.clean
+
+    puts '▸ Building...'.cyan
     Xcode.build
 
+    puts '▸ Generating SPM artefacts...'.cyan
     SPM.new(version).generate_artefacts
+
+    puts '▸ Generating Cocoapods artefacts...'.cyan
     Cocoapods.new(version).generate_artefacts
 
-    puts 'Done! 🚀'
+    puts '▸ Done! 🚀'.cyan
   end
 
   class << self
@@ -45,6 +51,11 @@ class Bob
   private
 
   def prepare_environment
+    if ENV['NOTIFICARE_SDK_DISTRIBUTION_CERTIFICATE'].to_s.strip.empty?
+      puts 'Unable to find the code signing certificate information.'.red
+      exit 1
+    end
+
     FileUtils.rm_rf '.build'
     FileUtils.mkdir_p '.build/archives'
     FileUtils.mkdir_p '.build/intermediates'
@@ -112,10 +123,13 @@ class Xcode
   class << self
     def clean
       Framework.all.each do |framework|
+        puts "▸ Cleaning #{framework.scheme}".green
+
         command = <<~COMMAND
           xcodebuild clean \\
             -workspace Notificare.xcworkspace \\
             -scheme #{framework.scheme} \\
+            -destination "generic/platform=iOS" \\
             -sdk iphoneos \\
             -quiet
         COMMAND
@@ -126,6 +140,8 @@ class Xcode
 
     def build
       Framework.all.each do |framework|
+        puts "▸ Building #{framework.scheme}".green
+
         create_ios_device_archive(framework)
         create_ios_simulator_archive(framework)
         create_xcframework(framework)
@@ -136,6 +152,8 @@ class Xcode
     private
 
     def create_ios_device_archive(framework)
+      puts "▸ Creating #{framework.scheme} iOS device archive".green
+
       command = <<~COMMAND
         xcodebuild archive \\
           -workspace Notificare.xcworkspace \\
@@ -153,6 +171,8 @@ class Xcode
     end
 
     def create_ios_simulator_archive(framework)
+      puts "▸ Creating #{framework.scheme} iOS simulator archive".green
+
       command = <<~COMMAND
         xcodebuild archive \\
           -workspace Notificare.xcworkspace \\
@@ -170,6 +190,8 @@ class Xcode
     end
 
     def create_xcframework(framework)
+      puts "▸ Creating #{framework.scheme} XCFramework".green
+
       command = <<~COMMAND
         xcodebuild -create-xcframework \\
           -framework ".build/archives/#{framework.scheme}-iOS.xcarchive/Products/Library/Frameworks/#{framework.scheme}.framework" \\
@@ -183,6 +205,8 @@ class Xcode
     end
 
     def sign_xcframework(framework)
+      puts "▸ Signing #{framework.scheme} XCFramework".green
+
       command = <<~COMMAND
         codesign --timestamp -v \\
           --sign "$NOTIFICARE_SDK_DISTRIBUTION_CERTIFICATE" \\
@@ -275,6 +299,38 @@ class Cocoapods
     Bob.zip(working_directory: '.build/tmp',
             files: 'Notificare',
             output: '../outputs/cocoapods.zip')
+  end
+end
+
+class String
+  def red
+    colorize(31)
+  end
+
+  def green
+    colorize(32)
+  end
+
+  def yellow
+    colorize(33)
+  end
+
+  def blue
+    colorize(34)
+  end
+
+  def pink
+    colorize(35)
+  end
+
+  def cyan
+    colorize(36)
+  end
+
+  private
+
+  def colorize(color_code)
+    "\e[#{color_code}m#{self}\e[0m"
   end
 end
 
