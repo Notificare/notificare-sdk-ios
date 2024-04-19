@@ -75,7 +75,6 @@
 		F22650C7258B6E890004F833 /* NotificareKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F22650C5258B6E890004F833 /* NotificareKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F22650CA258B6E900004F833 /* NotificarePushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F22650C9258B6E900004F833 /* NotificarePushKit.framework */; };
 		F22650CB258B6E900004F833 /* NotificarePushKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F22650C9258B6E900004F833 /* NotificarePushKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F25B6DCD25CAC67E007BC2C8 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = F25B6DCC25CAC67E007BC2C8 /* SDWebImage */; };
 		F267DA4A273E7CA900448A8F /* NotificareOptions.plist in Resources */ = {isa = PBXBuildFile; fileRef = F267DA49273E7CA900448A8F /* NotificareOptions.plist */; };
 		F2696AAC26C2843F002EA653 /* NotificareGeoKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2696AAB26C2843F002EA653 /* NotificareGeoKit.framework */; };
 		F2696AAD26C2843F002EA653 /* NotificareGeoKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F2696AAB26C2843F002EA653 /* NotificareGeoKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -279,7 +278,6 @@
 			files = (
 				F2E801D6269D93C300582DB8 /* NotificareScannablesKit.framework in Frameworks */,
 				F289F56525B85EC20091AB97 /* NotificareInboxKit.framework in Frameworks */,
-				F25B6DCD25CAC67E007BC2C8 /* SDWebImage in Frameworks */,
 				F20C9C3A27AD33DB00486217 /* NotificareNotificationServiceExtensionKit.framework in Frameworks */,
 				F206D6E928A5366300A35E60 /* NotificareInAppMessagingKit.framework in Frameworks */,
 				F2EA0723291E9C63009DB7A0 /* NotificareUserInboxKit.framework in Frameworks */,
@@ -635,7 +633,6 @@
 			);
 			name = Sample;
 			packageProductDependencies = (
-				F25B6DCC25CAC67E007BC2C8 /* SDWebImage */,
 			);
 			productName = Sample;
 			productReference = F29FD1F424CB1FE1004B166D /* Sample.app */;
@@ -708,7 +705,6 @@
 			);
 			mainGroup = F29FD1EB24CB1FE1004B166D;
 			packageReferences = (
-				F25B6DCB25CAC67E007BC2C8 /* XCRemoteSwiftPackageReference "SDWebImage" */,
 			);
 			productRefGroup = F29FD1F524CB1FE1004B166D /* Products */;
 			projectDirPath = "";
@@ -1488,25 +1484,6 @@
 			defaultConfigurationName = "Release-Production";
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		F25B6DCB25CAC67E007BC2C8 /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SDWebImage/SDWebImage";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.10.4;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		F25B6DCC25CAC67E007BC2C8 /* SDWebImage */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F25B6DCB25CAC67E007BC2C8 /* XCRemoteSwiftPackageReference "SDWebImage" */;
-			productName = SDWebImage;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F29FD1EC24CB1FE1004B166D /* Project object */;
 }
