@@ -129,6 +129,7 @@ class Xcode
         create_ios_device_archive(framework)
         create_ios_simulator_archive(framework)
         create_xcframework(framework)
+        sign_xcframework(framework)
       end
     end
 
@@ -176,6 +177,17 @@ class Xcode
           -framework ".build/archives/#{framework.scheme}-iOS-simulator.xcarchive/Products/Library/Frameworks/#{framework.scheme}.framework" \\
           -debug-symbols #{File.expand_path(".build/archives/#{framework.scheme}-iOS-simulator.xcarchive/dSYMs/#{framework.scheme}.framework.dSYM")} \\
           -output ".build/intermediates/#{framework.scheme}.xcframework"
+      COMMAND
+
+      system(command, exception: true)
+    end
+
+    def sign_xcframework(framework)
+      command = <<~COMMAND
+        codesign --timestamp -v \\
+          --sign "$NOTIFICARE_SDK_DISTRIBUTION_CERTIFICATE" \\
+          ".build/intermediates/#{framework.scheme}.xcframework"
+
       COMMAND
 
       system(command, exception: true)
