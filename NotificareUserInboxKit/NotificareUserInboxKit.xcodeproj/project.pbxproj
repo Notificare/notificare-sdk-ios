@@ -11,6 +11,7 @@
 		F28CF5D6292D0FF900F44651 /* RawUserInboxResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28CF5D5292D0FF900F44651 /* RawUserInboxResponse.swift */; };
 		F28CF5D8292D143E00F44651 /* NotificareUserInboxError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28CF5D7292D143E00F44651 /* NotificareUserInboxError.swift */; };
 		F28CF5DC292D39B400F44651 /* PushAPI+Responses.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28CF5DB292D39B400F44651 /* PushAPI+Responses.swift */; };
+		F29017FE2BD27AE4009DB80B /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = F29017FD2BD27AE4009DB80B /* PrivacyInfo.xcprivacy */; };
 		F2EA0713291E9BA7009DB7A0 /* NotificareUserInboxKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2EA070A291E9BA7009DB7A0 /* NotificareUserInboxKit.framework */; };
 		F2EA0718291E9BA7009DB7A0 /* NotificareUserInboxKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2EA0717291E9BA7009DB7A0 /* NotificareUserInboxKitTests.swift */; };
 		F2EA0719291E9BA7009DB7A0 /* NotificareUserInboxKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F2EA070D291E9BA7009DB7A0 /* NotificareUserInboxKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -37,6 +38,7 @@
 		F28CF5D5292D0FF900F44651 /* RawUserInboxResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawUserInboxResponse.swift; sourceTree = "<group>"; };
 		F28CF5D7292D143E00F44651 /* NotificareUserInboxError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareUserInboxError.swift; sourceTree = "<group>"; };
 		F28CF5DB292D39B400F44651 /* PushAPI+Responses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PushAPI+Responses.swift"; sourceTree = "<group>"; };
+		F29017FD2BD27AE4009DB80B /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		F2EA070A291E9BA7009DB7A0 /* NotificareUserInboxKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NotificareUserInboxKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2EA070D291E9BA7009DB7A0 /* NotificareUserInboxKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificareUserInboxKit.h; sourceTree = "<group>"; };
 		F2EA0712291E9BA7009DB7A0 /* NotificareUserInboxKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NotificareUserInboxKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -110,6 +112,7 @@
 				F28CF5D9292D399700F44651 /* Network */,
 				F2EA0728291EAD3D009DB7A0 /* Internals */,
 				F2EA0727291EAD32009DB7A0 /* Models */,
+				F29017FD2BD27AE4009DB80B /* PrivacyInfo.xcprivacy */,
 				F2EA070D291E9BA7009DB7A0 /* NotificareUserInboxKit.h */,
 				F2EA0725291EA89F009DB7A0 /* NotificareUserInbox.swift */,
 				F28CF5D7292D143E00F44651 /* NotificareUserInboxError.swift */,
@@ -256,6 +259,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F29017FE2BD27AE4009DB80B /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
