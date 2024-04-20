@@ -6,14 +6,17 @@ import UIKit
 
 public extension UIColor {
     convenience init(hexString: String, alpha: CGFloat = 1.0) {
-        let hexString: String = hexString.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-        let scanner = Scanner(string: hexString)
-        if hexString.hasPrefix("#") {
-            scanner.scanLocation = 1
+        var hexColor = hexString.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+
+        if hexColor.starts(with: "#") {
+            let start = hexColor.index(hexColor.startIndex, offsetBy: 1)
+            hexColor = String(hexColor[start...])
         }
 
-        var color: UInt32 = 0
-        scanner.scanHexInt32(&color)
+        let scanner = Scanner(string: hexColor)
+
+        var color: UInt64 = 0
+        scanner.scanHexInt64(&color)
 
         let mask = 0x0000_00FF
         let r = Int(color >> 16) & mask
