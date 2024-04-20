@@ -100,6 +100,10 @@ internal class NotificarePushUIImpl: NotificareModule, NotificarePushUI {
             notificationController.notification = notification
 
             latestPresentableNotificationHandler = notificationController
+
+        @unknown default:
+            NotificareLogger.warning("Unknown notification type '\(notification.type)'.")
+            return
         }
 
         DispatchQueue.main.async {
@@ -146,6 +150,10 @@ internal class NotificarePushUIImpl: NotificareModule, NotificarePushUI {
             latestPresentableActionHandler = NotificareInAppBrowserActionHandler(notification: notification,
                                                                                  action: action,
                                                                                  sourceViewController: controller)
+
+        @unknown default:
+            NotificareLogger.warning("Unknown notification action type '\(action.type)'.")
+            return
         }
 
         DispatchQueue.main.async {
