@@ -127,7 +127,7 @@ public class NotificareBaseNotificationViewController: UIViewController {
         queryItems.forEach { item in
             if item.name == "notificareCloseWindow" || item.name == Notificare.shared.options!.closeWindowQueryParameter {
                 if item.value == "1" || item.value == "true" {
-                    if let rootViewController = UIApplication.shared.keyWindow?.rootViewController, rootViewController.presentedViewController != nil {
+                    if let rootViewController = NotificareUtils.rootViewController, rootViewController.presentedViewController != nil {
                         rootViewController.dismiss(animated: true, completion: nil)
                     } else {
                         navigationController?.popViewController(animated: true)

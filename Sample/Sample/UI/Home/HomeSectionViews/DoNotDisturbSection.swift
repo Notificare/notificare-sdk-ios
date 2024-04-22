@@ -22,7 +22,7 @@ struct DoNotDisturbSection: View {
                     ListIconView(
                         icon: "moon.fill",
                         foregroundColor: .white,
-                        backgroundColor: Color("system_indigo")
+                        backgroundColor: Color(.systemIndigo)
                     )
                 }
             }

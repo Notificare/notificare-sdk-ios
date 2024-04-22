@@ -124,6 +124,9 @@ class LiveActivitiesController {
                 case .dismissed, .ended:
                     await endLiveActivity(activity)
 
+                case .stale:
+                    break
+
                 @unknown default:
                     Logger.main.warning("Live activity '\(activity.id)' unknown state '\(String(describing: state))'.")
                 }

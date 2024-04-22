@@ -19,7 +19,7 @@ struct InAppMessagingSection: View {
                     ListIconView(
                         icon: "arrow.up.message.fill",
                         foregroundColor: .white,
-                        backgroundColor: Color("system_indigo")
+                        backgroundColor: Color(.systemIndigo)
                     )
                 }
             }

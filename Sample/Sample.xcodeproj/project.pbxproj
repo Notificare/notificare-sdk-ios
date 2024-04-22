@@ -622,7 +622,6 @@
 				F29FD1F124CB1FE1004B166D /* Frameworks */,
 				F29FD1F224CB1FE1004B166D /* Resources */,
 				F22650C8258B6E890004F833 /* Embed Frameworks */,
-				F25B6DCE25CAE859007BC2C8 /* SwiftFormat */,
 				F2F41D8025CD651D0010260B /* Embed Foundation Extensions */,
 			);
 			buildRules = (
@@ -681,7 +680,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1410;
-				LastUpgradeCheck = 1500;
+				LastUpgradeCheck = 1530;
 				ORGANIZATIONNAME = Notificare;
 				TargetAttributes = {
 					F29FD1F324CB1FE1004B166D = {
@@ -749,25 +748,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		F25B6DCE25CAE859007BC2C8 /* SwiftFormat */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = SwiftFormat;
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if which swiftformat >/dev/null; then\n  echo \"$(pwd)\"\n  swiftformat .\nelse\n  echo \"warning: SwiftFormat not installed, download from https://github.com/nicklockwood/SwiftFormat\"\nfi\n";
-		};
 		F2EAF9B02AF537F700A2CC0C /* Copy Notificare configuration file */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
