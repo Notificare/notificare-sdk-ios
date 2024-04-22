@@ -76,7 +76,7 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
             setupModernNavigationActions()
         }
 
-        activityIndicatorView = UIActivityIndicatorView(style: .white)
+        activityIndicatorView = UIActivityIndicatorView(style: .medium)
         activityIndicatorView.hidesWhenStopped = true
         if let colorStr = theme?.activityIndicatorColor {
             activityIndicatorView.tintColor = UIColor(hexString: colorStr)
