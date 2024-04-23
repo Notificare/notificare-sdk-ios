@@ -11,6 +11,7 @@
 		F258DDC724BC4F09006F9ABD /* AssetsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DDC624BC4F09006F9ABD /* AssetsTests.swift */; };
 		F258DDC924BC4F09006F9ABD /* NotificareAssetsKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F258DDBB24BC4F09006F9ABD /* NotificareAssetsKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F289F5DC25B861670091AB97 /* NotificareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F289F5D925B861670091AB97 /* NotificareKit.framework */; };
+		F29017E82BD27730009DB80B /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = F29017E72BD2772C009DB80B /* PrivacyInfo.xcprivacy */; };
 		F2ABF33C269C43AB00401D3F /* NotificareAssetsImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2ABF33B269C43AB00401D3F /* NotificareAssetsImpl.swift */; };
 		F2ABF33F269C45A900401D3F /* NotificareAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2ABF33E269C45A900401D3F /* NotificareAsset.swift */; };
 		F2ABF346269C579900401D3F /* PushAPI+Responses.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2ABF345269C579900401D3F /* PushAPI+Responses.swift */; };
@@ -37,6 +38,7 @@
 		F258DDC624BC4F09006F9ABD /* AssetsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetsTests.swift; sourceTree = "<group>"; };
 		F258DDC824BC4F09006F9ABD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F289F5D925B861670091AB97 /* NotificareKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F29017E72BD2772C009DB80B /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		F2ABF33B269C43AB00401D3F /* NotificareAssetsImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareAssetsImpl.swift; sourceTree = "<group>"; };
 		F2ABF33E269C45A900401D3F /* NotificareAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareAsset.swift; sourceTree = "<group>"; };
 		F2ABF345269C579900401D3F /* PushAPI+Responses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PushAPI+Responses.swift"; sourceTree = "<group>"; };
@@ -90,6 +92,7 @@
 				F2ABF341269C575900401D3F /* Internals */,
 				F2ABF33D269C456F00401D3F /* Models */,
 				F258DDBC24BC4F09006F9ABD /* Info.plist */,
+				F29017E72BD2772C009DB80B /* PrivacyInfo.xcprivacy */,
 				F258DDBB24BC4F09006F9ABD /* NotificareAssetsKit.h */,
 				F2DAB38C271F0467002B5F27 /* NotificareAssets.swift */,
 				F2DAB38E271F0473002B5F27 /* NotificareAssets+Augment.swift */,
@@ -170,7 +173,6 @@
 				F258DDB424BC4F09006F9ABD /* Sources */,
 				F258DDB524BC4F09006F9ABD /* Frameworks */,
 				F258DDB624BC4F09006F9ABD /* Resources */,
-				F289F5DF25B8616A0091AB97 /* SwiftFormat */,
 			);
 			buildRules = (
 			);
@@ -207,7 +209,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1150;
-				LastUpgradeCheck = 1430;
+				LastUpgradeCheck = 1530;
 				ORGANIZATIONNAME = Notificare;
 				TargetAttributes = {
 					F258DDB724BC4F09006F9ABD = {
@@ -243,6 +245,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F29017E82BD27730009DB80B /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -254,28 +257,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		F289F5DF25B8616A0091AB97 /* SwiftFormat */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = SwiftFormat;
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if which swiftformat >/dev/null; then\n  echo \"$(pwd)\"\n  swiftformat .\nelse\n  echo \"warning: SwiftFormat not installed, download from https://github.com/nicklockwood/SwiftFormat\"\nfi\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		F258DDB424BC4F09006F9ABD /* Sources */ = {
@@ -455,7 +436,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.8.0;
+				MARKETING_VERSION = 3.9.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.assets;
@@ -487,7 +468,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.8.0;
+				MARKETING_VERSION = 3.9.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.assets;
@@ -622,7 +603,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.8.0;
+				MARKETING_VERSION = 3.9.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.assets;
@@ -739,7 +720,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.8.0;
+				MARKETING_VERSION = 3.9.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.assets;
@@ -850,7 +831,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.8.0;
+				MARKETING_VERSION = 3.9.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.assets;
@@ -960,7 +941,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.8.0;
+				MARKETING_VERSION = 3.9.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.assets;

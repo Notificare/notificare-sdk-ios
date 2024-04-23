@@ -608,6 +608,9 @@ extension HomeViewModel {
                             // Reset the UI controls.
                             coffeeBrewerLiveActivityState = nil
 
+                        case .stale:
+                            break
+
                         @unknown default:
                             Logger.main.warning("Live activity '\(activity.id)' unknown state '\(String(describing: state))'.")
                         }

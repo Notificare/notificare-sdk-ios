@@ -24,6 +24,7 @@
 		F26E6DD126C44C4A00FA67CB /* NotificareRegion.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26E6DD026C44C4A00FA67CB /* NotificareRegion.swift */; };
 		F288C1F826C407D600B6C83C /* LocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F288C1F726C407D600B6C83C /* LocalStorage.swift */; };
 		F289F5D425B8614B0091AB97 /* NotificareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F289F5D125B8614B0091AB97 /* NotificareKit.framework */; };
+		F29017EB2BD277A2009DB80B /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = F29017EA2BD277A2009DB80B /* PrivacyInfo.xcprivacy */; };
 		F29FCFDA26C5688200A2C7E1 /* Collections+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29FCFD926C5688200A2C7E1 /* Collections+Extensions.swift */; };
 		F2CC441C26DD15A400740C06 /* NotificareHeading.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2CC441B26DD15A400740C06 /* NotificareHeading.swift */; };
 		F2CC441E26DD18E100740C06 /* NotificareLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2CC441D26DD18E100740C06 /* NotificareLocation.swift */; };
@@ -66,6 +67,7 @@
 		F26E6DD026C44C4A00FA67CB /* NotificareRegion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareRegion.swift; sourceTree = "<group>"; };
 		F288C1F726C407D600B6C83C /* LocalStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorage.swift; sourceTree = "<group>"; };
 		F289F5D125B8614B0091AB97 /* NotificareKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F29017EA2BD277A2009DB80B /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		F29FCFD926C5688200A2C7E1 /* Collections+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collections+Extensions.swift"; sourceTree = "<group>"; };
 		F2CC441B26DD15A400740C06 /* NotificareHeading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareHeading.swift; sourceTree = "<group>"; };
 		F2CC441D26DD18E100740C06 /* NotificareLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareLocation.swift; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 				F2696AAF26C2B420002EA653 /* Internals */,
 				F2696AAE26C2B41B002EA653 /* Models */,
 				F258DD7424BC4E95006F9ABD /* Info.plist */,
+				F29017EA2BD277A2009DB80B /* PrivacyInfo.xcprivacy */,
 				F258DD7324BC4E95006F9ABD /* NotificareGeoKit.h */,
 				F2DAB394271F0C46002B5F27 /* NotificareGeo.swift */,
 				F2DAB39A271F0FCB002B5F27 /* NotificareGeo+Augment.swift */,
@@ -226,7 +229,6 @@
 				F258DD6C24BC4E95006F9ABD /* Sources */,
 				F258DD6D24BC4E95006F9ABD /* Frameworks */,
 				F258DD6E24BC4E95006F9ABD /* Resources */,
-				F289F5D725B8614E0091AB97 /* SwiftFormat */,
 			);
 			buildRules = (
 			);
@@ -263,7 +265,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1150;
-				LastUpgradeCheck = 1430;
+				LastUpgradeCheck = 1530;
 				ORGANIZATIONNAME = Notificare;
 				TargetAttributes = {
 					F258DD6F24BC4E95006F9ABD = {
@@ -299,6 +301,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F29017EB2BD277A2009DB80B /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -310,28 +313,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		F289F5D725B8614E0091AB97 /* SwiftFormat */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = SwiftFormat;
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if which swiftformat >/dev/null; then\n  echo \"$(pwd)\"\n  swiftformat .\nelse\n  echo \"warning: SwiftFormat not installed, download from https://github.com/nicklockwood/SwiftFormat\"\nfi\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		F258DD6C24BC4E95006F9ABD /* Sources */ = {
@@ -527,7 +508,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.8.0;
+				MARKETING_VERSION = 3.9.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.geo;
@@ -559,7 +540,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.8.0;
+				MARKETING_VERSION = 3.9.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.geo;
@@ -694,7 +675,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.8.0;
+				MARKETING_VERSION = 3.9.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.geo;
@@ -811,7 +792,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.8.0;
+				MARKETING_VERSION = 3.9.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.geo;
@@ -922,7 +903,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.8.0;
+				MARKETING_VERSION = 3.9.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.geo;
@@ -1032,7 +1013,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.8.0;
+				MARKETING_VERSION = 3.9.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.geo;

@@ -10,6 +10,7 @@
 		F258DDC224BC4F09006F9ABD /* NotificareNotificationServiceExtensionKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F258DDB824BC4F09006F9ABD /* NotificareNotificationServiceExtensionKit.framework */; };
 		F258DDC724BC4F09006F9ABD /* NotificareNotificationServiceExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DDC624BC4F09006F9ABD /* NotificareNotificationServiceExtensionTests.swift */; };
 		F258DDC924BC4F09006F9ABD /* NotificareNotificationServiceExtensionKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F258DDBB24BC4F09006F9ABD /* NotificareNotificationServiceExtensionKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F29017F62BD279BA009DB80B /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = F29017F52BD279BA009DB80B /* PrivacyInfo.xcprivacy */; };
 		F2DAB38D271F0467002B5F27 /* NotificareNotificationServiceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2DAB38C271F0467002B5F27 /* NotificareNotificationServiceExtension.swift */; };
 /* End PBXBuildFile section */
 
@@ -30,6 +31,7 @@
 		F258DDC124BC4F09006F9ABD /* NotificareNotificationServiceExtensionKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NotificareNotificationServiceExtensionKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F258DDC624BC4F09006F9ABD /* NotificareNotificationServiceExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareNotificationServiceExtensionTests.swift; sourceTree = "<group>"; };
 		F258DDC824BC4F09006F9ABD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F29017F52BD279BA009DB80B /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		F2DAB38C271F0467002B5F27 /* NotificareNotificationServiceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareNotificationServiceExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -67,6 +69,7 @@
 			isa = PBXGroup;
 			children = (
 				F258DDBC24BC4F09006F9ABD /* Info.plist */,
+				F29017F52BD279BA009DB80B /* PrivacyInfo.xcprivacy */,
 				F258DDBB24BC4F09006F9ABD /* NotificareNotificationServiceExtensionKit.h */,
 				F2DAB38C271F0467002B5F27 /* NotificareNotificationServiceExtension.swift */,
 			);
@@ -103,7 +106,6 @@
 				F258DDB324BC4F09006F9ABD /* Headers */,
 				F258DDB424BC4F09006F9ABD /* Sources */,
 				F258DDB624BC4F09006F9ABD /* Resources */,
-				F289F5DF25B8616A0091AB97 /* SwiftFormat */,
 			);
 			buildRules = (
 			);
@@ -140,7 +142,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1150;
-				LastUpgradeCheck = 1430;
+				LastUpgradeCheck = 1530;
 				ORGANIZATIONNAME = Notificare;
 				TargetAttributes = {
 					F258DDB724BC4F09006F9ABD = {
@@ -176,6 +178,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F29017F62BD279BA009DB80B /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -187,28 +190,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		F289F5DF25B8616A0091AB97 /* SwiftFormat */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = SwiftFormat;
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if which swiftformat >/dev/null; then\n  echo \"$(pwd)\"\n  swiftformat .\nelse\n  echo \"warning: SwiftFormat not installed, download from https://github.com/nicklockwood/SwiftFormat\"\nfi\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		F258DDB424BC4F09006F9ABD /* Sources */ = {
@@ -385,7 +366,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.8.0;
+				MARKETING_VERSION = 3.9.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.notificationServiceExtension;
@@ -417,7 +398,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.8.0;
+				MARKETING_VERSION = 3.9.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.notificationServiceExtension;
@@ -553,7 +534,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.8.0;
+				MARKETING_VERSION = 3.9.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.notificationServiceExtension;
@@ -671,7 +652,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.8.0;
+				MARKETING_VERSION = 3.9.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.notificationServiceExtension;
@@ -783,7 +764,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.8.0;
+				MARKETING_VERSION = 3.9.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.notificationServiceExtension;
@@ -894,7 +875,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.8.0;
+				MARKETING_VERSION = 3.9.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.notificationServiceExtension;

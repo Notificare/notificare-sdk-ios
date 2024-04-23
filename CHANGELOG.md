@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 3.9.0
+
+- Add support for deferred links
+- Add privacy manifests
+- Code sign XCFrameworks
+
 ## 3.8.0
 
 - Prevent processing location updates too close to the last known location
@@ -15,7 +21,7 @@
 - Automatically enable location updates during launch when possible
 - Drop support for iOS 12.0
 
-**Important notice:** Re-enabling remote notifications and location services is no longer required. 
+**Important notice:** Re-enabling remote notifications and location services is no longer required.
 You can safely remove the following piece of code as the SDK will automatically handle it for you during the launch flow.
 
 ```swift
@@ -39,7 +45,7 @@ func notificare(_ notificare: Notificare, onReady application: NotificareApplica
 - Automatically enable location updates during launch when possible
 - Drop support for iOS 12.0
 
-**Important notice:** Re-enabling remote notifications and location services is no longer required. 
+**Important notice:** Re-enabling remote notifications and location services is no longer required.
 You can safely remove the following piece of code as the SDK will automatically handle it for you during the launch flow.
 
 ```swift

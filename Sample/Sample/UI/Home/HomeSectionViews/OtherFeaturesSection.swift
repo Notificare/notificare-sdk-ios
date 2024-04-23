@@ -30,7 +30,7 @@ struct OtherFeaturesSection: View {
                     ListIconView(
                         icon: "folder.fill",
                         foregroundColor: .white,
-                        backgroundColor: Color("system_indigo")
+                        backgroundColor: Color(.systemIndigo)
                     )
                 }
             }
@@ -44,7 +44,7 @@ struct OtherFeaturesSection: View {
                     ListIconView(
                         icon: "bag.fill",
                         foregroundColor: .white,
-                        backgroundColor: Color("system_indigo")
+                        backgroundColor: Color(.systemIndigo)
                     )
                 }
             }

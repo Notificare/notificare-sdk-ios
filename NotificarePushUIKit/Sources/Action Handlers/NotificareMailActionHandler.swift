@@ -35,11 +35,11 @@ public class NotificareMailActionHandler: NotificareBaseActionHandler {
     }
 
     private func dismiss() {
-        if let rootViewController = UIApplication.shared.keyWindow?.rootViewController, rootViewController.presentedViewController != nil {
+        if let rootViewController = NotificareUtils.rootViewController, rootViewController.presentedViewController != nil {
             rootViewController.dismiss(animated: true, completion: nil)
         } else {
             if sourceViewController is UIAlertController {
-                UIApplication.shared.keyWindow?.rootViewController?.dismiss(animated: true, completion: nil)
+                NotificareUtils.rootViewController?.dismiss(animated: true, completion: nil)
             } else {
                 sourceViewController.dismiss(animated: true) {
                     self.sourceViewController.becomeFirstResponder()
