@@ -12,41 +12,32 @@ internal class NotificareAssetsImpl: NSObject, NotificareModule, NotificareAsset
     // MARK: - Notificare Assets
 
     func fetch(group: String, _ completion: @escaping NotificareCallback<[NotificareAsset]>) {
-        do {
-            try checkPrerequisites()
-        } catch {
-            completion(.failure(error))
-            return
+        Task {
+            do {
+                let result = try await fetch(group: group)
+                completion(.success(result))
+            } catch {
+                completion(.failure(error))
+            }
         }
+    }
 
+    func fetch(group: String) async throws -> [NotificareAsset] {
+        try checkPrerequisites()
+        
         guard let urlEncodedGroup = group.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else {
-            completion(.failure(NotificareError.invalidArgument(message: "Invalid group value.")))
-            return
+            throw NotificareError.invalidArgument(message: "Invalid group value.")
         }
-
-        NotificareRequest.Builder()
+        
+        let response = try await NotificareRequest.Builder()
             .get("/asset/forgroup/\(urlEncodedGroup)")
             .query(name: "deviceID", value: Notificare.shared.device().currentDevice?.id)
             .query(name: "userID", value: Notificare.shared.device().currentDevice?.userId)
-            .responseDecodable(NotificareInternals.PushAPI.Responses.Assets.self) { result in
-                switch result {
-                case let .success(response):
-                    let assets = response.assets.map { $0.toModel() }
-                    completion(.success(assets))
-
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-    }
-
-    @available(iOS 13.0, *)
-    func fetch(group: String) async throws -> [NotificareAsset] {
-        try await withCheckedThrowingContinuation { continuation in
-            fetch(group: group) { result in
-                continuation.resume(with: result)
-            }
-        }
+            .responseDecodable(NotificareInternals.PushAPI.Responses.Assets.self)
+        
+        let assets = response.assets.map { $0.toModel() }
+        
+        return assets
     }
 
     // MARK: - Internal API
