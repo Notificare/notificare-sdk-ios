@@ -30,97 +30,64 @@ internal class NotificareUserInboxImpl: NotificareModule, NotificareUserInbox {
     }
 
     func open(_ item: NotificareUserInboxItem, _ completion: @escaping NotificareCallback<NotificareNotification>) {
-        do {
-            try checkPrerequisites()
-        } catch {
-            completion(.failure(error))
-            return
-        }
-
-        // User inbox items are always partial.
-        fetchUserInboxNotification(item) { result in
-            switch result {
-            case let .success(notification):
-                // Mark the item as read & send a notification open event.
-                self.markAsRead(item) { result in
-                    switch result {
-                    case .success:
-                        completion(.success(notification))
-
-                    case let .failure(error):
-                        completion(.failure(error))
-                    }
-                }
-
-            case let .failure(error):
+        Task {
+            do {
+                let result = try await open(item)
+                completion(.success(result))
+            } catch {
                 completion(.failure(error))
             }
         }
     }
 
-    @available(iOS 13.0, *)
     func open(_ item: NotificareUserInboxItem) async throws -> NotificareNotification {
-        try await withCheckedThrowingContinuation { continuation in
-            open(item) { result in
-                continuation.resume(with: result)
-            }
-        }
+        try checkPrerequisites()
+        
+        let notification = try await fetchUserInboxNotification(item)
+        
+        // Mark the item as read & send a notification open event.
+        try await markAsRead(item)
+        return notification
     }
 
     func markAsRead(_ item: NotificareUserInboxItem, _ completion: @escaping NotificareCallback<Void>) {
-        do {
-            try checkPrerequisites()
-        } catch {
-            completion(.failure(error))
-            return
-        }
-
-        Notificare.shared.events().logNotificationOpen(item.notification.id) { result in
-            completion(result)
+        Task {
+            do {
+                try await markAsRead(item)
+                completion(.success(()))
+            } catch {
+                completion(.failure(error))
+            }
         }
     }
 
-    @available(iOS 13.0, *)
     func markAsRead(_ item: NotificareUserInboxItem) async throws {
-        try await withCheckedThrowingContinuation { continuation in
-            markAsRead(item) { result in
-                continuation.resume(with: result)
-            }
-        }
+        try checkPrerequisites()
+        
+        return try await Notificare.shared.events().logNotificationOpen(item.notification.id)
     }
 
     func remove(_ item: NotificareUserInboxItem, _ completion: @escaping NotificareCallback<Void>) {
-        do {
-            try checkPrerequisites()
-        } catch {
-            completion(.failure(error))
-            return
-        }
-
-        guard let device = Notificare.shared.device().currentDevice else {
-            completion(.failure(NotificareError.deviceUnavailable))
-            return
-        }
-
-        NotificareRequest.Builder()
-            .delete("/notification/userinbox/\(item.id)/fordevice/\(device.id)")
-            .response { result in
-                switch result {
-                case .success:
-                    completion(.success(()))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
+        Task {
+            do {
+                try await remove(item)
+                completion(.success(()))
+            } catch {
+                completion(.failure(error))
             }
+        }
     }
 
-    @available(iOS 13.0, *)
     func remove(_ item: NotificareUserInboxItem) async throws {
-        try await withCheckedThrowingContinuation { continuation in
-            remove(item) { result in
-                continuation.resume(with: result)
-            }
+        try checkPrerequisites()
+        
+        guard let device = Notificare.shared.device().currentDevice else {
+            throw NotificareError.deviceUnavailable
         }
+        
+        try await NotificareRequest.Builder()
+            .delete("/notification/userinbox/\(item.id)/fordevice/\(device.id)")
+            .response()
     }
 
     // MARK: - Private API
@@ -152,27 +119,19 @@ internal class NotificareUserInboxImpl: NotificareModule, NotificareUserInbox {
         }
     }
 
-    private func fetchUserInboxNotification(_ item: NotificareUserInboxItem, _ completion: @escaping NotificareCallback<NotificareNotification>) {
+    private func fetchUserInboxNotification(_ item: NotificareUserInboxItem) async throws -> NotificareNotification {
         guard Notificare.shared.isConfigured else {
-            completion(.failure(NotificareError.notConfigured))
-            return
+            throw NotificareError.notConfigured
         }
 
         guard let device = Notificare.shared.device().currentDevice else {
-            completion(.failure(NotificareError.notConfigured))
-            return
+            throw NotificareError.notConfigured
         }
 
-        NotificareRequest.Builder()
+        let response = try await NotificareRequest.Builder()
             .get("/notification/userinbox/\(item.id)/fordevice/\(device.id)")
-            .responseDecodable(NotificareInternals.PushAPI.Responses.UserInboxNotification.self) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.notification.toModel()))
-
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
+            .responseDecodable(NotificareInternals.PushAPI.Responses.UserInboxNotification.self)
+        
+        return response.notification.toModel()
     }
 }
