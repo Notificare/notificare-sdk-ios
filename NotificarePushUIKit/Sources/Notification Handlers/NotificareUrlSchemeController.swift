@@ -30,10 +30,11 @@ class NotificareUrlSchemeController: NotificareNotificationPresenter {
             return
         }
 
-        // It's an universal link from Notificare, let's get the target.
-        Notificare.shared.fetchDynamicLink(urlStr) { result in
-            switch result {
-            case let .success(link):
+        Task {
+            do {
+                // It's an universal link from Notificare, let's get the target.
+                let link = try await Notificare.shared.fetchDynamicLink(urlStr)
+                
                 guard let url = URL(string: link.target) else {
                     DispatchQueue.main.async {
                         Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToPresentNotification: self.notification)
@@ -41,9 +42,9 @@ class NotificareUrlSchemeController: NotificareNotificationPresenter {
 
                     return
                 }
-
+                
                 self.presentDeepLink(url)
-            case .failure:
+            } catch {
                 DispatchQueue.main.async {
                     Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToPresentNotification: self.notification)
                 }
