@@ -6,18 +6,18 @@ import Foundation
 import NotificareKit
 
 public extension NotificareEventsModule {
-    func logNotificationReceived(_ id: String, _ completion: @escaping NotificareCallback<Void>) {
+    func logNotificationReceived(_ id: String) async throws {
         let this = self as! NotificareInternalEventsModule
-        this.log("re.notifica.event.notification.Receive", notificationId: id, completion)
+        try await this.log("re.notifica.event.notification.Receive", notificationId: id)
     }
 
-    func logNotificationInfluenced(_ id: String, _ completion: @escaping NotificareCallback<Void>) {
+    func logNotificationInfluenced(_ id: String) async throws {
         let this = self as! NotificareInternalEventsModule
-        this.log("re.notifica.event.notification.Influenced", notificationId: id, completion)
+        try await this.log("re.notifica.event.notification.Influenced", notificationId: id)
     }
 
-    func logPushRegistration(_ completion: @escaping NotificareCallback<Void>) {
+    func logPushRegistration() async throws{
         let this = self as! NotificareInternalEventsModule
-        this.log("re.notifica.event.push.Registration", notificationId: nil, completion)
+        try await this.log("re.notifica.event.push.Registration", notificationId: nil)
     }
 }
