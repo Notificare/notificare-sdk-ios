@@ -62,9 +62,7 @@ public protocol NotificareDeviceModule: AnyObject {
     func updateUserData(_ userData: NotificareUserData) async throws
 }
 
-public protocol NotificareInternalDeviceModule: AnyObject {
-    func registerTemporary(_ completion: @escaping NotificareCallback<Void>)
-    
+public protocol NotificareInternalDeviceModule: AnyObject {    
     func registerTemporary() async throws
 
     func registerAPNS(token: String, _ completion: @escaping NotificareCallback<Void>)

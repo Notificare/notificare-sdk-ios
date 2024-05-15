@@ -13,11 +13,11 @@ public protocol NotificareModule {
 
     func configure()
 
-    func launch(_ completion: @escaping NotificareCallback<Void>)
+    func launch() async throws
 
     func postLaunch() async throws
 
-    func unlaunch(_ completion: @escaping NotificareCallback<Void>)
+    func unlaunch() async throws
 }
 
 public extension NotificareModule {
@@ -25,13 +25,9 @@ public extension NotificareModule {
 
     func configure() {}
 
-    func launch(_ completion: @escaping NotificareCallback<Void>) {
-        completion(.success(()))
-    }
+    func launch() async throws {}
 
     func postLaunch() async throws {}
 
-    func unlaunch(_ completion: @escaping NotificareCallback<Void>) {
-        completion(.success(()))
-    }
+    func unlaunch() async throws {}
 }

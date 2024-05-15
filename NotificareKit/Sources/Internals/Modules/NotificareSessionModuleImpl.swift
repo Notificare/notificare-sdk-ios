@@ -40,25 +40,17 @@ internal class NotificareSessionModuleImpl: NSObject, NotificareModule {
                                                object: nil)
     }
 
-    func launch(_ completion: @escaping NotificareCallback<Void>) {
-        if sessionId == nil, Notificare.shared.device().currentDevice != nil, UIApplication.shared.applicationState == .active {
+    func launch() async throws {
+        if sessionId == nil, Notificare.shared.device().currentDevice != nil, await UIApplication.shared.applicationState == .active {
             // Launch is taking place after the application came to the foreground.
             // Start the application session.
-            startSession { _ in
-                completion(.success(()))
-            }
-
-            return
+            await startSession()
         }
-
-        completion(.success(()))
     }
 
-    func unlaunch(_ completion: @escaping NotificareCallback<Void>) {
+    func unlaunch() async throws {
         sessionEnd = Date()
-        stopSession { _ in
-            completion(.success(()))
-        }
+        await stopSession()
     }
 
     // MARK: - Internal API
@@ -106,13 +98,6 @@ internal class NotificareSessionModuleImpl: NSObject, NotificareModule {
         backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(withName: SESSION_CLOSE_TASK_NAME) { [weak self] in
             NotificareLogger.debug("Background task expiration handler triggered.")
             self?.cancelBackgroundTask()
-        }
-    }
-
-    private func startSession(_ completion: @escaping NotificareCallback<Void>) {
-        Task {
-            await startSession()
-            completion(.success(()))
         }
     }
     

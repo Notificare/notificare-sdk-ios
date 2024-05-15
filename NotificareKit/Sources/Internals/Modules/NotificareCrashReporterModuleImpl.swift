@@ -36,28 +36,25 @@ internal class NotificareCrashReporterModuleImpl: NSObject, NotificareModule {
         signal(SIGXFSZ, signalReceiver)
     }
 
-    func launch(_ completion: @escaping NotificareCallback<Void>) {
+    func launch() async throws {
         guard let event = LocalStorage.crashReport else {
             NotificareLogger.debug("No crash report to process.")
-            completion(.success(()))
             return
         }
 
-        NotificareRequest.Builder()
-            .post("/event", body: event)
-            .response { result in
-                switch result {
-                case .success:
-                    NotificareLogger.info("Crash report processed.")
+        do {
+            try await NotificareRequest.Builder()
+                .post("/event", body: event)
+                .response()
+            
+            NotificareLogger.info("Crash report processed.")
+            
+            // Clean up the stored crash report
+            LocalStorage.crashReport = nil
+        } catch {
+            NotificareLogger.error("Failed to process a crash report.", error: error)
 
-                    // Clean up the stored crash report
-                    LocalStorage.crashReport = nil
-                case let .failure(error):
-                    NotificareLogger.error("Failed to process a crash report.", error: error)
-                }
-            }
-
-        completion(.success(()))
+        }
     }
 
     // MARK: - Internal API
