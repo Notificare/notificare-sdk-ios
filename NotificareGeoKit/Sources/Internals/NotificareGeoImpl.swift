@@ -113,15 +113,13 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
         }
     }
 
-    func unlaunch(_ completion: @escaping NotificareCallback<Void>) {
+    func unlaunch() async throws {
         LocalStorage.locationServicesEnabled = false
 
         stopMonitoringGeofences()
         stopMonitoringLocationUpdates()
 
-        Task {
-            try? await clearDeviceLocation()
-        }
+        try await clearDeviceLocation()
     }
 
     // MARK: - Notificare Geo
