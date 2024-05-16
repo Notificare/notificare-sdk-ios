@@ -29,10 +29,8 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
                                                object: nil)
     }
 
-    func launch(_ completion: @escaping NotificareCallback<Void>) {
+    func launch() async throws  {
         evaluateContext(.launch)
-
-        completion(.success(()))
     }
 
     // MARK: - Notificare In-App Messaging
@@ -57,12 +55,12 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
     private func evaluateContext(_ context: ApplicationContext) {
         NotificareLogger.debug("Checking in-app message for context '\(context.rawValue)'.")
 
-        fetchInAppMessage(for: context) { result in
-            switch result {
-            case let .success(message):
-                self.processInAppMessage(message)
-
-            case let .failure(error):
+        Task {
+            do {
+                let message = try await fetchInAppMessage(for: context)
+                
+                await processInAppMessage(message)
+            } catch {
                 if case let NotificareNetworkError.validationError(response, _, _) = error, response.statusCode == 404 {
                     NotificareLogger.debug("There is no in-app message for '\(context.rawValue)' context to process.")
 
@@ -78,6 +76,7 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
         }
     }
 
+    @MainActor
     private func processInAppMessage(_ message: NotificareInAppMessage) {
         NotificareLogger.info("Processing in-app message '\(message.name)'.")
 
@@ -100,6 +99,7 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
         present(message)
     }
 
+    @MainActor
     private func present(_ message: NotificareInAppMessage) {
         guard presentedView == nil else {
             NotificareLogger.warning("Cannot display an in-app message while another is being presented.")
@@ -147,26 +147,20 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
         presentedView = view
     }
 
-    private func fetchInAppMessage(for context: ApplicationContext, _ completion: @escaping NotificareCallback<NotificareInAppMessage>) {
+    private func fetchInAppMessage(for context: ApplicationContext) async throws -> NotificareInAppMessage {
         guard let device = Notificare.shared.device().currentDevice else {
-            completion(.failure(NotificareError.deviceUnavailable))
-            return
+            throw NotificareError.deviceUnavailable
         }
 
-        NotificareRequest.Builder()
+        let response = try await NotificareRequest.Builder()
             .get("/inappmessage/forcontext/\(context.rawValue)")
             .query(name: "deviceID", value: device.id)
-            .responseDecodable(NotificareInternals.PushAPI.Responses.InAppMessage.self) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.message.toModel()))
-
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
+            .responseDecodable(NotificareInternals.PushAPI.Responses.InAppMessage.self)
+        
+        return response.message.toModel()
     }
 
+    @MainActor
     private func findParentView() -> UIView? {
         let window: UIWindow
 

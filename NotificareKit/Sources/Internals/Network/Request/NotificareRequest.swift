@@ -218,7 +218,7 @@ public struct NotificareRequest {
             }
         }
 
-        @available(iOS 13.0, *)
+        @discardableResult
         public func response() async throws -> (response: HTTPURLResponse, data: Data?) {
             try await withCheckedThrowingContinuation { continuation in
                 response { result in
@@ -235,7 +235,6 @@ public struct NotificareRequest {
             }
         }
 
-        @available(iOS 13.0, *)
         public func responseDecodable<T: Decodable>(_ type: T.Type) async throws -> T {
             try await withCheckedThrowingContinuation { continuation in
                 responseDecodable(type) { result in

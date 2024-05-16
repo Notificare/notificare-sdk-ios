@@ -14,71 +14,53 @@ internal class NotificareLoyaltyImpl: NSObject, NotificareModule, NotificareLoya
     // MARK: - Notificare Loyalty
 
     func fetchPass(serial: String, _ completion: @escaping NotificareCallback<NotificarePass>) {
-        do {
-            try checkPrerequisites()
-        } catch {
-            completion(.failure(error))
-            return
-        }
-
-        guard let urlEncodedSerial = serial.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else {
-            completion(.failure(NotificareError.invalidArgument(message: "Invalid serial value.")))
-            return
-        }
-
-        NotificareRequest.Builder()
-            .get("/pass/forserial/\(urlEncodedSerial)")
-            .responseDecodable(NotificareInternals.PushAPI.Responses.Pass.self) { result in
-                switch result {
-                case let .success(response):
-                    self.enhancePass(response.pass, completion)
-                case let .failure(error):
-                    completion(.failure(error))
-                }
+        Task {
+            do {
+                let result = try await fetchPass(serial: serial)
+                completion(.success(result))
+            } catch {
+                completion(.failure(error))
             }
+        }
     }
 
-    @available(iOS 13.0, *)
     func fetchPass(serial: String) async throws -> NotificarePass {
-        try await withCheckedThrowingContinuation { continuation in
-            fetchPass(serial: serial) { result in
-                continuation.resume(with: result)
-            }
+        try checkPrerequisites()
+        
+        guard let urlEncodedSerial = serial.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else {
+            throw NotificareError.invalidArgument(message: "Invalid serial value.")
         }
+        
+        let response = try await NotificareRequest.Builder()
+            .get("/pass/forserial/\(urlEncodedSerial)")
+            .responseDecodable(NotificareInternals.PushAPI.Responses.Pass.self)
+            
+        return try await enhancePass(response.pass)
     }
 
     func fetchPass(barcode: String, _ completion: @escaping NotificareCallback<NotificarePass>) {
-        do {
-            try checkPrerequisites()
-        } catch {
-            completion(.failure(error))
-            return
-        }
-
-        guard let urlEncodedBarcode = barcode.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else {
-            completion(.failure(NotificareError.invalidArgument(message: "Invalid barcode value.")))
-            return
-        }
-
-        NotificareRequest.Builder()
-            .get("/pass/forbarcode/\(urlEncodedBarcode)")
-            .responseDecodable(NotificareInternals.PushAPI.Responses.Pass.self) { result in
-                switch result {
-                case let .success(response):
-                    self.enhancePass(response.pass, completion)
-                case let .failure(error):
-                    completion(.failure(error))
-                }
+        Task {
+            do {
+                let result = try await fetchPass(barcode: barcode)
+                completion(.success(result))
+            } catch {
+                completion(.failure(error))
             }
+        }
     }
 
-    @available(iOS 13.0, *)
     func fetchPass(barcode: String) async throws -> NotificarePass {
-        try await withCheckedThrowingContinuation { continuation in
-            fetchPass(barcode: barcode) { result in
-                continuation.resume(with: result)
-            }
+        try checkPrerequisites()
+        
+        guard let urlEncodedBarcode = barcode.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else {
+            throw NotificareError.invalidArgument(message: "Invalid barcode value.")
         }
+        
+        let response = try await NotificareRequest.Builder()
+            .get("/pass/forbarcode/\(urlEncodedBarcode)")
+            .responseDecodable(NotificareInternals.PushAPI.Responses.Pass.self)
+            
+        return try await enhancePass(response.pass)
     }
 
     func present(pass: NotificarePass, in controller: UIViewController) {
@@ -148,36 +130,22 @@ internal class NotificareLoyaltyImpl: NSObject, NotificareModule, NotificareLoya
         }
     }
 
-    private func enhancePass(_ pass: NotificareInternals.PushAPI.Models.Pass, _ completion: @escaping NotificareCallback<NotificarePass>) {
+    private func enhancePass(_ pass: NotificareInternals.PushAPI.Models.Pass) async throws -> NotificarePass {
         if pass.version == 1, let passbook = pass.passbook {
-            fetchPassType(passbook: passbook) { result in
-                switch result {
-                case let .success(type):
-                    let model = self.createPassModel(pass, passType: type)
-                    completion(.success(model))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-
-            return
+            let type = try await fetchPassType(passbook: passbook)
+                
+            return createPassModel(pass, passType: type)
         }
 
-        let model = createPassModel(pass, passType: nil)
-        completion(.success(model))
+        return createPassModel(pass, passType: nil)
     }
 
-    private func fetchPassType(passbook: String, _ completion: @escaping NotificareCallback<NotificarePass.PassType>) {
-        NotificareRequest.Builder()
+    private func fetchPassType(passbook: String) async throws -> NotificarePass.PassType {
+        let response = try await NotificareRequest.Builder()
             .get("/passbook/\(passbook)")
-            .responseDecodable(NotificareInternals.PushAPI.Responses.FetchPassbookTemplate.self) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.passbook.passStyle))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
+            .responseDecodable(NotificareInternals.PushAPI.Responses.FetchPassbookTemplate.self)
+            
+        return response.passbook.passStyle
     }
 
     private func createPassModel(_ pass: NotificareInternals.PushAPI.Models.Pass, passType: NotificarePass.PassType?) -> NotificarePass {
