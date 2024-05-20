@@ -11,7 +11,7 @@ internal extension NotificareEventsModule {
         try await this.log("re.notifica.event.inappmessage.View", data: ["message": message.id])
     }
 
-    func logInAppMessageActionClicked(_ message: NotificareInAppMessage, action: NotificareInAppMessage.ActionType) async throws  {
+    func logInAppMessageActionClicked(_ message: NotificareInAppMessage, action: NotificareInAppMessage.ActionType) async throws {
         let this = self as! NotificareInternalEventsModule
         try await this.log(
             "re.notifica.event.inappmessage.Action",
