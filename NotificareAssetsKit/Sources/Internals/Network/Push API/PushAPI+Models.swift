@@ -6,26 +6,26 @@ import NotificareKit
 
 internal extension NotificareInternals.PushAPI.Models {
     struct Asset: Decodable {
-        let _id: String
-        let key: String?
-        let title: String
-        let description: String?
-        let extra: NotificareAnyCodable?
-        let button: Button?
-        let metaData: MetaData?
+        internal let _id: String
+        internal let key: String?
+        internal let title: String
+        internal let description: String?
+        internal let extra: NotificareAnyCodable?
+        internal let button: Button?
+        internal let metaData: MetaData?
 
-        struct Button: Decodable {
-            let label: String?
-            let action: String?
+        internal struct Button: Decodable {
+            internal let label: String?
+            internal let action: String?
         }
 
-        struct MetaData: Decodable {
-            let originalFileName: String
-            let contentType: String
-            let contentLength: Int
+        internal struct MetaData: Decodable {
+            internal let originalFileName: String
+            internal let contentType: String
+            internal let contentLength: Int
         }
 
-        func toModel() -> NotificareAsset {
+        internal func toModel() -> NotificareAsset {
             let url: String?
             if let key = key, let host = Notificare.shared.servicesInfo?.services.pushHost {
                 url = "\(host)/asset/file/\(key)"

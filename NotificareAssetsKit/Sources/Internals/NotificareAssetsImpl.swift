@@ -7,11 +7,11 @@ import NotificareKit
 internal class NotificareAssetsImpl: NSObject, NotificareModule, NotificareAssets {
     // MARK: - Notificare Module
 
-    static let instance = NotificareAssetsImpl()
+    internal static let instance = NotificareAssetsImpl()
 
     // MARK: - Notificare Assets
 
-    func fetch(group: String, _ completion: @escaping NotificareCallback<[NotificareAsset]>) {
+    public func fetch(group: String, _ completion: @escaping NotificareCallback<[NotificareAsset]>) {
         Task {
             do {
                 let result = try await fetch(group: group)
@@ -22,21 +22,21 @@ internal class NotificareAssetsImpl: NSObject, NotificareModule, NotificareAsset
         }
     }
 
-    func fetch(group: String) async throws -> [NotificareAsset] {
+    public func fetch(group: String) async throws -> [NotificareAsset] {
         try checkPrerequisites()
-        
+
         guard let urlEncodedGroup = group.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else {
             throw NotificareError.invalidArgument(message: "Invalid group value.")
         }
-        
+
         let response = try await NotificareRequest.Builder()
             .get("/asset/forgroup/\(urlEncodedGroup)")
             .query(name: "deviceID", value: Notificare.shared.device().currentDevice?.id)
             .query(name: "userID", value: Notificare.shared.device().currentDevice?.userId)
             .responseDecodable(NotificareInternals.PushAPI.Responses.Assets.self)
-        
+
         let assets = response.assets.map { $0.toModel() }
-        
+
         return assets
     }
 
