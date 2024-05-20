@@ -7,28 +7,28 @@ import NotificareKit
 
 internal extension NotificareInternals.PushAPI.Models {
     struct Region: Decodable {
-        let _id: String
-        let name: String
-        let description: String?
-        let referenceKey: String?
-        let geometry: Geometry
-        let advancedGeometry: AdvancedGeometry?
-        let major: Int?
-        let distance: Double
-        let timezone: String
-        let timeZoneOffset: Int
+        internal let _id: String
+        internal let name: String
+        internal let description: String?
+        internal let referenceKey: String?
+        internal let geometry: Geometry
+        internal let advancedGeometry: AdvancedGeometry?
+        internal let major: Int?
+        internal let distance: Double
+        internal let timezone: String
+        internal let timeZoneOffset: Int
 
-        struct Geometry: Decodable {
-            let type: String
-            let coordinates: [Double]
+        internal struct Geometry: Decodable {
+            internal let type: String
+            internal let coordinates: [Double]
         }
 
-        struct AdvancedGeometry: Decodable {
-            let type: String
-            let coordinates: [[[Double]]]
+        internal struct AdvancedGeometry: Decodable {
+            internal let type: String
+            internal let coordinates: [[[Double]]]
         }
 
-        func toModel() -> NotificareRegion {
+        internal func toModel() -> NotificareRegion {
             NotificareRegion(
                 id: _id,
                 name: name,
@@ -65,13 +65,13 @@ internal extension NotificareInternals.PushAPI.Models {
     }
 
     struct Beacon: Decodable {
-        let _id: String
-        let name: String
-        let major: Int
-        let minor: Int
-        let triggers: Bool
+        internal let _id: String
+        internal let name: String
+        internal let major: Int
+        internal let minor: Int
+        internal let triggers: Bool
 
-        func toModel() -> NotificareBeacon {
+        internal func toModel() -> NotificareBeacon {
             NotificareBeacon(
                 id: _id,
                 name: name,

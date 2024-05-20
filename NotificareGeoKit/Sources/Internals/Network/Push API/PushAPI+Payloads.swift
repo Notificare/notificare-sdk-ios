@@ -7,16 +7,16 @@ import NotificareKit
 
 internal extension NotificareInternals.PushAPI.Payloads {
     struct UpdateDeviceLocation: Encodable {
-        let latitude: Double?
-        let longitude: Double?
-        let altitude: Double?
-        let locationAccuracy: Double?
-        let speed: Double?
-        let course: Double?
-        let country: String?
-        let floor: Int?
-        let locationServicesAuthStatus: NotificareGeoImpl.AuthorizationMode?
-        let locationServicesAccuracyAuth: NotificareGeoImpl.AccuracyMode?
+        internal let latitude: Double?
+        internal let longitude: Double?
+        internal let altitude: Double?
+        internal let locationAccuracy: Double?
+        internal let speed: Double?
+        internal let course: Double?
+        internal let country: String?
+        internal let floor: Int?
+        internal let locationServicesAuthStatus: NotificareGeoImpl.AuthorizationMode?
+        internal let locationServicesAccuracyAuth: NotificareGeoImpl.AccuracyMode?
 
         private enum CodingKeys: String, CodingKey {
             case latitude
@@ -31,7 +31,7 @@ internal extension NotificareInternals.PushAPI.Payloads {
             case locationServicesAccuracyAuth
         }
 
-        func encode(to encoder: Encoder) throws {
+        internal func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encode(latitude, forKey: .latitude)
             try container.encode(longitude, forKey: .longitude)
@@ -47,16 +47,16 @@ internal extension NotificareInternals.PushAPI.Payloads {
     }
 
     struct RegionTrigger: Encodable {
-        let deviceID: String
-        let region: String
+        internal let deviceID: String
+        internal let region: String
     }
 
     struct BeaconTrigger: Encodable {
-        let deviceID: String
-        let beacon: String
+        internal let deviceID: String
+        internal let beacon: String
     }
 
     struct BluetoothStateUpdate: Encodable {
-        let bluetoothEnabled: Bool
+        internal let bluetoothEnabled: Bool
     }
 }

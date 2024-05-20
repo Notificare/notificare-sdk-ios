@@ -36,12 +36,12 @@ internal extension Array {
     }
 }
 
-internal extension Array {
+extension Array {
     /// Returns a list of `n` evenly spaced elements.
     ///
     /// - Parameter n: the number of elements to extract.
     /// - Returns: A list of `n` evenly spaced elements.
-    func takeEvenlySpaced(_ n: Int) -> Array<Element> {
+    internal func takeEvenlySpaced(_ n: Int) -> [Element] {
         guard n >= 0 else {
             fatalError("Requested element count \(n) is less than zero.")
         }
