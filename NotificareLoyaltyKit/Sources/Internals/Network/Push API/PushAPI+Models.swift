@@ -7,21 +7,21 @@ import NotificareKit
 
 internal extension NotificareInternals.PushAPI.Models {
     struct Pass: Decodable {
-        let _id: String
-        let version: Int
-        let passbook: String?
-        let template: String?
-        let serial: String
-        let barcode: String
-        let redeem: NotificarePass.Redeem
-        let redeemHistory: [NotificarePass.Redemption]
-        let limit: Int
-        let token: String
-        let data: NotificareAnyCodable?
-        let date: Date
+        internal let _id: String
+        internal let version: Int
+        internal let passbook: String?
+        internal let template: String?
+        internal let serial: String
+        internal let barcode: String
+        internal let redeem: NotificarePass.Redeem
+        internal let redeemHistory: [NotificarePass.Redemption]
+        internal let limit: Int
+        internal let token: String
+        internal let data: NotificareAnyCodable?
+        internal let date: Date
     }
 
     struct Passbook: Decodable {
-        let passStyle: NotificarePass.PassType
+        internal let passStyle: NotificarePass.PassType
     }
 }
