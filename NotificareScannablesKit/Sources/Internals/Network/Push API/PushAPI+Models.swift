@@ -4,8 +4,8 @@
 
 import NotificareKit
 
-internal extension NotificareInternals.PushAPI.Models {
-    struct Scannable: Decodable {
+extension NotificareInternals.PushAPI.Models {
+    internal struct Scannable: Decodable {
         internal let _id: String
         internal let name: String
         internal let type: String

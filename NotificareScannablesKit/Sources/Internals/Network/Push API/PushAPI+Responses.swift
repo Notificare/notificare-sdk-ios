@@ -4,8 +4,8 @@
 
 import NotificareKit
 
-internal extension NotificareInternals.PushAPI.Responses {
-    struct Scannable: Decodable {
+extension NotificareInternals.PushAPI.Responses {
+    internal struct Scannable: Decodable {
         internal let scannable: NotificareInternals.PushAPI.Models.Scannable
     }
 }
