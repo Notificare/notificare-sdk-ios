@@ -43,7 +43,7 @@ public class NotificareBaseNotificationViewController: UIViewController {
         dismiss(animated: true)
     }
 
-    @objc internal  func showActions() {
+    @objc internal func showActions() {
         let alert: UIAlertController
 
         if UIDevice.current.userInterfaceIdiom == .pad, let actionsButton {

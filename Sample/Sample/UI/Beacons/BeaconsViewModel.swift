@@ -12,7 +12,7 @@ import NotificareGeoKit
 import SwiftUI
 
 internal class BeaconsViewModel: ObservableObject {
-    @Published internal  var rangedBeacons = [NotificareBeacon]()
+    @Published internal var rangedBeacons = [NotificareBeacon]()
 
     private var cancellables = Set<AnyCancellable>()
 
