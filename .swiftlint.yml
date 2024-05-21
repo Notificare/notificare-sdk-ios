@@ -21,6 +21,7 @@ disabled_rules:
 opt_in_rules:
   - explicit_top_level_acl
   - explicit_acl
+  - no_extension_access_modifier
 
 identifier_name:
   allowed_symbols: _
@@ -28,9 +29,9 @@ identifier_name:
   max_length: 75
   validates_start_with_lowercase: warning
   
-opening_brace:
-  allow_multiline_func: true
- 
+#opening_brace:
+#  allow_multiline_func: true
+
 trailing_comma:
   mandatory_comma: true
   
