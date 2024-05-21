@@ -8,11 +8,11 @@ import NotificareKit
 internal class NotificareUserInboxImpl: NotificareModule, NotificareUserInbox {
     // MARK: - Notificare module
 
-    static let instance = NotificareUserInboxImpl()
+    internal static let instance = NotificareUserInboxImpl()
 
     // MARK: - Notificare user inbox
 
-    func parseResponse(string: String) throws -> NotificareUserInboxResponse {
+    public func parseResponse(string: String) throws -> NotificareUserInboxResponse {
         guard let data = string.data(using: .utf8) else {
             throw NotificareUserInboxError.dataCorrupted
         }
@@ -20,16 +20,16 @@ internal class NotificareUserInboxImpl: NotificareModule, NotificareUserInbox {
         return try parseResponse(data: data)
     }
 
-    func parseResponse(json: [String: Any]) throws -> NotificareUserInboxResponse {
+    public func parseResponse(json: [String: Any]) throws -> NotificareUserInboxResponse {
         let data = try JSONSerialization.data(withJSONObject: json, options: [])
         return try parseResponse(data: data)
     }
 
-    func parseResponse(data: Data) throws -> NotificareUserInboxResponse {
+    public func parseResponse(data: Data) throws -> NotificareUserInboxResponse {
         try NotificareUtils.jsonDecoder.decode(NotificareUserInboxResponse.self, from: data)
     }
 
-    func open(_ item: NotificareUserInboxItem, _ completion: @escaping NotificareCallback<NotificareNotification>) {
+    public func open(_ item: NotificareUserInboxItem, _ completion: @escaping NotificareCallback<NotificareNotification>) {
         Task {
             do {
                 let result = try await open(item)
@@ -40,17 +40,17 @@ internal class NotificareUserInboxImpl: NotificareModule, NotificareUserInbox {
         }
     }
 
-    func open(_ item: NotificareUserInboxItem) async throws -> NotificareNotification {
+    public func open(_ item: NotificareUserInboxItem) async throws -> NotificareNotification {
         try checkPrerequisites()
-        
+
         let notification = try await fetchUserInboxNotification(item)
-        
+
         // Mark the item as read & send a notification open event.
         try await markAsRead(item)
         return notification
     }
 
-    func markAsRead(_ item: NotificareUserInboxItem, _ completion: @escaping NotificareCallback<Void>) {
+    public func markAsRead(_ item: NotificareUserInboxItem, _ completion: @escaping NotificareCallback<Void>) {
         Task {
             do {
                 try await markAsRead(item)
@@ -61,13 +61,13 @@ internal class NotificareUserInboxImpl: NotificareModule, NotificareUserInbox {
         }
     }
 
-    func markAsRead(_ item: NotificareUserInboxItem) async throws {
+    public func markAsRead(_ item: NotificareUserInboxItem) async throws {
         try checkPrerequisites()
-        
+
         return try await Notificare.shared.events().logNotificationOpen(item.notification.id)
     }
 
-    func remove(_ item: NotificareUserInboxItem, _ completion: @escaping NotificareCallback<Void>) {
+    public func remove(_ item: NotificareUserInboxItem, _ completion: @escaping NotificareCallback<Void>) {
         Task {
             do {
                 try await remove(item)
@@ -78,13 +78,13 @@ internal class NotificareUserInboxImpl: NotificareModule, NotificareUserInbox {
         }
     }
 
-    func remove(_ item: NotificareUserInboxItem) async throws {
+    public func remove(_ item: NotificareUserInboxItem) async throws {
         try checkPrerequisites()
-        
+
         guard let device = Notificare.shared.device().currentDevice else {
             throw NotificareError.deviceUnavailable
         }
-        
+
         try await NotificareRequest.Builder()
             .delete("/notification/userinbox/\(item.id)/fordevice/\(device.id)")
             .response()
@@ -131,7 +131,7 @@ internal class NotificareUserInboxImpl: NotificareModule, NotificareUserInbox {
         let response = try await NotificareRequest.Builder()
             .get("/notification/userinbox/\(item.id)/fordevice/\(device.id)")
             .responseDecodable(NotificareInternals.PushAPI.Responses.UserInboxNotification.self)
-        
+
         return response.notification.toModel()
     }
 }
