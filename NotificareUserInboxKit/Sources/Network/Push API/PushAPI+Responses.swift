@@ -5,8 +5,8 @@
 import Foundation
 import NotificareKit
 
-internal extension NotificareInternals.PushAPI.Responses {
-    struct UserInboxNotification: Decodable {
+extension NotificareInternals.PushAPI.Responses {
+    internal struct UserInboxNotification: Decodable {
         internal let notification: NotificareInternals.PushAPI.Models.Notification
     }
 }

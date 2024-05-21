@@ -5,8 +5,8 @@
 import Foundation
 import NotificareKit
 
-public extension Notificare {
-    func userInbox() -> NotificareUserInbox {
+extension Notificare {
+    public func userInbox() -> NotificareUserInbox {
         NotificareUserInboxImpl.instance
     }
 }

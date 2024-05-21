@@ -26,13 +26,13 @@ public struct NotificareUserInboxItem: Codable {
 extension NotificareUserInboxItem: Identifiable {}
 
 // JSON: NotificareUserInboxItem
-public extension NotificareUserInboxItem {
-    func toJson() throws -> [String: Any] {
+extension NotificareUserInboxItem {
+    public func toJson() throws -> [String: Any] {
         let data = try NotificareUtils.jsonEncoder.encode(self)
         return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
     }
 
-    static func fromJson(json: [String: Any]) throws -> NotificareUserInboxItem {
+    public static func fromJson(json: [String: Any]) throws -> NotificareUserInboxItem {
         let data = try JSONSerialization.data(withJSONObject: json, options: [])
         return try NotificareUtils.jsonDecoder.decode(NotificareUserInboxItem.self, from: data)
     }

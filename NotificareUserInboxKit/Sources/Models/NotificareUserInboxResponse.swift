@@ -12,8 +12,8 @@ public struct NotificareUserInboxResponse: Codable {
 }
 
 // Codable: NotificareUserInboxResponse
-public extension NotificareUserInboxResponse {
-    init(from decoder: Decoder) throws {
+extension NotificareUserInboxResponse {
+    public init(from decoder: Decoder) throws {
         do {
             let raw = try RawUserInboxResponse(from: decoder)
 
@@ -38,20 +38,20 @@ public extension NotificareUserInboxResponse {
         }
     }
 
-    func encode(to encoder: Encoder) throws {
+    public func encode(to encoder: Encoder) throws {
         let consumer = ConsumerUserInboxResponse(count: count, unread: unread, items: items)
         try consumer.encode(to: encoder)
     }
 }
 
 // JSON: NotificareUserInboxResponse
-public extension NotificareUserInboxResponse {
-    func toJson() throws -> [String: Any] {
+extension NotificareUserInboxResponse {
+    public func toJson() throws -> [String: Any] {
         let data = try NotificareUtils.jsonEncoder.encode(self)
         return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
     }
 
-    static func fromJson(json: [String: Any]) throws -> NotificareUserInboxResponse {
+    public static func fromJson(json: [String: Any]) throws -> NotificareUserInboxResponse {
         let data = try JSONSerialization.data(withJSONObject: json, options: [])
         return try NotificareUtils.jsonDecoder.decode(NotificareUserInboxResponse.self, from: data)
     }
