@@ -4,8 +4,8 @@
 
 import NotificareKit
 
-internal extension NotificareInternals.PushAPI.Models {
-    struct Asset: Decodable {
+extension NotificareInternals.PushAPI.Models {
+    internal struct Asset: Decodable {
         internal let _id: String
         internal let key: String?
         internal let title: String
