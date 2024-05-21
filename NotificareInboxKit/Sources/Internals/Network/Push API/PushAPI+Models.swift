@@ -6,20 +6,20 @@ import NotificareKit
 
 internal extension NotificareInternals.PushAPI.Models {
     struct RemoteInboxItem: Decodable {
-        let _id: String
-        let notification: String
-        let type: String
-        let time: Date
-        let title: String?
-        let subtitle: String?
-        let message: String
-        let attachment: NotificareNotification.Attachment?
-        let extra: [String: Any]
-        let opened: Bool
-        let visible: Bool
-        let expires: Date?
+        internal let _id: String
+        internal let notification: String
+        internal let type: String
+        internal let time: Date
+        internal let title: String?
+        internal let subtitle: String?
+        internal let message: String
+        internal let attachment: NotificareNotification.Attachment?
+        internal let extra: [String: Any]
+        internal let opened: Bool
+        internal let visible: Bool
+        internal let expires: Date?
 
-        init(from decoder: Decoder) throws {
+        internal init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
 
             _id = try container.decode(String.self, forKey: ._id)
@@ -36,7 +36,7 @@ internal extension NotificareInternals.PushAPI.Models {
             expires = try container.decodeIfPresent(Date.self, forKey: .expires)
         }
 
-        enum CodingKeys: String, CodingKey {
+        internal enum CodingKeys: String, CodingKey {
             case _id
             case notification
             case type
@@ -51,7 +51,7 @@ internal extension NotificareInternals.PushAPI.Models {
             case expires
         }
 
-        func toModel() -> NotificareInboxItem {
+        internal func toModel() -> NotificareInboxItem {
             NotificareInboxItem(
                 id: _id,
                 notification: NotificareNotification(

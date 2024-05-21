@@ -6,8 +6,8 @@ import NotificareKit
 
 internal extension NotificareInternals.PushAPI.Responses {
     struct RemoteInbox: Decodable {
-        let inboxItems: [NotificareInternals.PushAPI.Models.RemoteInboxItem]
-        let count: Int
-        let unread: Int
+        internal let inboxItems: [NotificareInternals.PushAPI.Models.RemoteInboxItem]
+        internal let count: Int
+        internal let unread: Int
     }
 }
