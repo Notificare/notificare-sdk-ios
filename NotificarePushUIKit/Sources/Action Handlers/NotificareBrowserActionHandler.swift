@@ -32,8 +32,8 @@ public class NotificareBrowserActionHandler: NotificareBaseActionHandler {
     }
 }
 
-public extension NotificareBrowserActionHandler {
-    enum ActionError: LocalizedError {
+extension NotificareBrowserActionHandler {
+    public enum ActionError: LocalizedError {
         case invalidUrl
 
         public var errorDescription: String? {

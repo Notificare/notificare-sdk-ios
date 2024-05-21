@@ -80,8 +80,8 @@ extension NotificareSmsActionHandler: MFMessageComposeViewControllerDelegate {
     }
 }
 
-public extension NotificareSmsActionHandler {
-    enum ActionError: LocalizedError {
+extension NotificareSmsActionHandler {
+    public enum ActionError: LocalizedError {
         case notSupported
         case failed
 

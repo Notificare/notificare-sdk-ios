@@ -31,8 +31,8 @@ public class NotificareTelephoneActionHandler: NotificareBaseActionHandler {
     }
 }
 
-public extension NotificareTelephoneActionHandler {
-    enum ActionError: LocalizedError {
+extension NotificareTelephoneActionHandler {
+    public enum ActionError: LocalizedError {
         case notSupported
 
         public var errorDescription: String? {

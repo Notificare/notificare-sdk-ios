@@ -5,14 +5,14 @@
 import Foundation
 import NotificareKit
 
-public extension Notificare {
-    func pushUI() -> NotificarePushUI {
+extension Notificare {
+    public func pushUI() -> NotificarePushUI {
         NotificarePushUIImpl.instance
     }
 }
 
-internal extension Notificare {
-    func pushUIImplementation() -> NotificarePushUIImpl {
+extension Notificare {
+    internal func pushUIImplementation() -> NotificarePushUIImpl {
         NotificarePushUIImpl.instance
     }
 }

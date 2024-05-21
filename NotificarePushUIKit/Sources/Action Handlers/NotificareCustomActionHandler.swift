@@ -23,8 +23,8 @@ public class NotificareCustomActionHandler: NotificareBaseActionHandler {
     }
 }
 
-public extension NotificareCustomActionHandler {
-    enum ActionError: LocalizedError {
+extension NotificareCustomActionHandler {
+    public enum ActionError: LocalizedError {
         case invalidUrl
 
         public var errorDescription: String? {

@@ -30,24 +30,24 @@ public protocol NotificarePushUIDelegate: AnyObject {
     func notificare(_ notificarePushUI: NotificarePushUI, didReceiveCustomAction url: URL, in action: NotificareNotification.Action, for notification: NotificareNotification)
 }
 
-public extension NotificarePushUIDelegate {
-    func notificare(_: NotificarePushUI, willPresentNotification _: NotificareNotification) {}
+extension NotificarePushUIDelegate {
+    public func notificare(_: NotificarePushUI, willPresentNotification _: NotificareNotification) {}
 
-    func notificare(_: NotificarePushUI, didPresentNotification _: NotificareNotification) {}
+    public func notificare(_: NotificarePushUI, didPresentNotification _: NotificareNotification) {}
 
-    func notificare(_: NotificarePushUI, didFinishPresentingNotification _: NotificareNotification) {}
+    public func notificare(_: NotificarePushUI, didFinishPresentingNotification _: NotificareNotification) {}
 
-    func notificare(_: NotificarePushUI, didFailToPresentNotification _: NotificareNotification) {}
+    public func notificare(_: NotificarePushUI, didFailToPresentNotification _: NotificareNotification) {}
 
-    func notificare(_: NotificarePushUI, didClickURL _: URL, in _: NotificareNotification) {}
+    public func notificare(_: NotificarePushUI, didClickURL _: URL, in _: NotificareNotification) {}
 
-    func notificare(_: NotificarePushUI, willExecuteAction _: NotificareNotification.Action, for _: NotificareNotification) {}
+    public func notificare(_: NotificarePushUI, willExecuteAction _: NotificareNotification.Action, for _: NotificareNotification) {}
 
-    func notificare(_: NotificarePushUI, didExecuteAction _: NotificareNotification.Action, for _: NotificareNotification) {}
+    public func notificare(_: NotificarePushUI, didExecuteAction _: NotificareNotification.Action, for _: NotificareNotification) {}
 
-    func notificare(_: NotificarePushUI, didNotExecuteAction _: NotificareNotification.Action, for _: NotificareNotification) {}
+    public func notificare(_: NotificarePushUI, didNotExecuteAction _: NotificareNotification.Action, for _: NotificareNotification) {}
 
-    func notificare(_: NotificarePushUI, didFailToExecuteAction _: NotificareNotification.Action, for _: NotificareNotification, error _: Error?) {}
+    public func notificare(_: NotificarePushUI, didFailToExecuteAction _: NotificareNotification.Action, for _: NotificareNotification, error _: Error?) {}
 
-    func notificare(_: NotificarePushUI, didReceiveCustomAction _: URL, in _: NotificareNotification.Action, for _: NotificareNotification) {}
+    public func notificare(_: NotificarePushUI, didReceiveCustomAction _: URL, in _: NotificareNotification.Action, for _: NotificareNotification) {}
 }

@@ -28,8 +28,8 @@ public class NotificareAppActionHandler: NotificareBaseActionHandler {
     }
 }
 
-public extension NotificareAppActionHandler {
-    enum ActionError: LocalizedError {
+extension NotificareAppActionHandler {
+    public enum ActionError: LocalizedError {
         case unsupportedUrlScheme
 
         public var errorDescription: String? {

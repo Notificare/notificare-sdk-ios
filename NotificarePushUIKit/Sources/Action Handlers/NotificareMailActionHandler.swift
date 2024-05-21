@@ -81,8 +81,8 @@ extension NotificareMailActionHandler: MFMailComposeViewControllerDelegate {
     }
 }
 
-public extension NotificareMailActionHandler {
-    enum ActionError: LocalizedError {
+extension NotificareMailActionHandler {
+    public enum ActionError: LocalizedError {
         case notSupported
 
         public var errorDescription: String? {

@@ -219,6 +219,7 @@ public class NotificareBaseNotificationViewController: UIViewController {
     }
 }
 
+// swiftlint:disable:next no_extension_access_modifier
 private extension UIViewController {
     var isModal: Bool {
         if let index = navigationController?.viewControllers.firstIndex(of: self), index > 0 {

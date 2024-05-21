@@ -50,8 +50,8 @@ extension NotificareInAppBrowserActionHandler: SFSafariViewControllerDelegate {
     }
 }
 
-public extension NotificareInAppBrowserActionHandler {
-    enum ActionError: LocalizedError {
+extension NotificareInAppBrowserActionHandler {
+    public enum ActionError: LocalizedError {
         case invalidUrl
 
         public var errorDescription: String? {
