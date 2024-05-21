@@ -4,8 +4,8 @@
 
 import NotificareKit
 
-internal extension NotificareInternals.PushAPI.Models {
-    struct RemoteInboxItem: Decodable {
+extension NotificareInternals.PushAPI.Models {
+    internal struct RemoteInboxItem: Decodable {
         internal let _id: String
         internal let notification: String
         internal let type: String

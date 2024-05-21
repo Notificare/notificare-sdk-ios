@@ -10,8 +10,8 @@ public protocol NotificareInboxDelegate: AnyObject {
     func notificare(_ notificareInbox: NotificareInbox, didUpdateBadge badge: Int)
 }
 
-public extension NotificareInboxDelegate {
-    func notificare(_: NotificareInbox, didUpdateInbox _: [NotificareInboxItem]) {}
+extension NotificareInboxDelegate {
+    public func notificare(_: NotificareInbox, didUpdateInbox _: [NotificareInboxItem]) {}
 
-    func notificare(_: NotificareInbox, didUpdateBadge _: Int) {}
+    public func notificare(_: NotificareInbox, didUpdateBadge _: Int) {}
 }
