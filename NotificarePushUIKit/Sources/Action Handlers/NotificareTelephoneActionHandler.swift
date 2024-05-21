@@ -6,17 +6,18 @@ import NotificareKit
 import UIKit
 
 public class NotificareTelephoneActionHandler: NotificareBaseActionHandler {
-    override func execute() {
-        if let target = action.target,
-           let url = URL(string: target),
-           UIApplication.shared.canOpenURL(url)
+    internal override func execute() {
+        if
+            let target = action.target,
+            let url = URL(string: target),
+            UIApplication.shared.canOpenURL(url)
         {
             DispatchQueue.main.async {
                 UIApplication.shared.open(url, options: [:]) { _ in
                     DispatchQueue.main.async {
                         Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didExecuteAction: self.action, for: self.notification)
                     }
-                    
+
                     Task {
                         try? await Notificare.shared.createNotificationReply(notification: self.notification, action: self.action)
                     }

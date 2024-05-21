@@ -5,14 +5,14 @@
 import NotificareKit
 import UIKit
 
-class NotificareUrlSchemeController: NotificareNotificationPresenter {
+internal class NotificareUrlSchemeController: NotificareNotificationPresenter {
     private let notification: NotificareNotification
 
-    init(notification: NotificareNotification) {
+    internal init(notification: NotificareNotification) {
         self.notification = notification
     }
 
-    func present(in _: UIViewController) {
+    internal func present(in _: UIViewController) {
         guard let content = notification.content.first,
               let urlStr = content.data as? String,
               let url = URL(string: urlStr)
@@ -34,7 +34,7 @@ class NotificareUrlSchemeController: NotificareNotificationPresenter {
             do {
                 // It's an universal link from Notificare, let's get the target.
                 let link = try await Notificare.shared.fetchDynamicLink(urlStr)
-                
+
                 guard let url = URL(string: link.target) else {
                     DispatchQueue.main.async {
                         Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToPresentNotification: self.notification)
@@ -42,7 +42,7 @@ class NotificareUrlSchemeController: NotificareNotificationPresenter {
 
                     return
                 }
-                
+
                 self.presentDeepLink(url)
             } catch {
                 DispatchQueue.main.async {

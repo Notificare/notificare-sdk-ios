@@ -6,14 +6,14 @@ import NotificareKit
 import SafariServices
 import UIKit
 
-class NotificareInAppBrowserController: NSObject, NotificareNotificationPresenter {
+internal class NotificareInAppBrowserController: NSObject, NotificareNotificationPresenter {
     private let notification: NotificareNotification
 
-    init(notification: NotificareNotification) {
+    internal init(notification: NotificareNotification) {
         self.notification = notification
     }
 
-    func present(in controller: UIViewController) {
+    internal func present(in controller: UIViewController) {
         guard let content = notification.content.first,
               let urlStr = content.data as? String,
               let url = URL(string: urlStr)

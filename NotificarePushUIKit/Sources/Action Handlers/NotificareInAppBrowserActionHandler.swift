@@ -9,13 +9,13 @@ import UIKit
 public class NotificareInAppBrowserActionHandler: NotificareBaseActionHandler {
     private let sourceViewController: UIViewController
 
-    init(notification: NotificareNotification, action: NotificareNotification.Action, sourceViewController: UIViewController) {
+    internal init(notification: NotificareNotification, action: NotificareNotification.Action, sourceViewController: UIViewController) {
         self.sourceViewController = sourceViewController
 
         super.init(notification: notification, action: action)
     }
 
-    override func execute() {
+    internal override func execute() {
         if let target = action.target, let url = URL(string: target) {
             DispatchQueue.main.async {
                 let theme = Notificare.shared.options?.theme(for: self.sourceViewController)
