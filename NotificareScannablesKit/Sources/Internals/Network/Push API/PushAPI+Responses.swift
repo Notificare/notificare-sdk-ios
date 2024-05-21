@@ -6,6 +6,6 @@ import NotificareKit
 
 internal extension NotificareInternals.PushAPI.Responses {
     struct Scannable: Decodable {
-        let scannable: NotificareInternals.PushAPI.Models.Scannable
+        internal let scannable: NotificareInternals.PushAPI.Models.Scannable
     }
 }
