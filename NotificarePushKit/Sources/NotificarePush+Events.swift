@@ -16,7 +16,7 @@ public extension NotificareEventsModule {
         try await this.log("re.notifica.event.notification.Influenced", notificationId: id)
     }
 
-    func logPushRegistration() async throws{
+    func logPushRegistration() async throws {
         let this = self as! NotificareInternalEventsModule
         try await this.log("re.notifica.event.push.Registration", notificationId: nil)
     }

@@ -18,9 +18,9 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
 
     // MARK: - Notificare Module
 
-    static let instance = NotificarePushImpl()
+    internal static let instance = NotificarePushImpl()
 
-    func migrate() {
+    internal func migrate() {
         let allowedUI = UserDefaults.standard.bool(forKey: "notificareAllowedUI")
 
         LocalStorage.allowedUI = allowedUI
@@ -32,7 +32,7 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
         }
     }
 
-    func configure() {
+    internal func configure() {
         if Notificare.shared.options!.userNotificationCenterDelegateEnabled {
             NotificareLogger.debug("Notificare will set itself as the UNUserNotificationCenter delegate.")
             notificationCenter.delegate = notificationCenterDelegate
@@ -53,19 +53,19 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
                                                object: nil)
     }
 
-    func launch() async throws {
+    internal func launch() async throws {
         // Ensure the definitive allowedUI value has been communicated to the API.
         try await updateNotificationSettings()
     }
 
-    func postLaunch() async throws {
+    internal func postLaunch() async throws {
         if hasRemoteNotificationsEnabled {
             NotificareLogger.debug("Enabling remote notifications automatically.")
             enableRemoteNotifications { _ in }
         }
     }
 
-    func unlaunch() async throws {
+    internal func unlaunch() async throws {
         // Unregister from APNS
         await UIApplication.shared.unregisterForRemoteNotifications()
         NotificareLogger.info("Unregistered from APNS.")
@@ -115,10 +115,10 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
             }
         }
     }
-    
+
     public func enableRemoteNotifications() async throws -> Bool {
         try checkPrerequisites()
-        
+
         // Keep track of the status in local storage.
         LocalStorage.remoteNotificationsEnabled = true
 
@@ -129,48 +129,48 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
 
         // Request notification authorization options.
         let granted = try await notificationCenter.requestAuthorization(options: authorizationOptions)
-        
+
         if granted {
             NotificareLogger.info("User granted permission to receive alerts, badge and sounds.")
-            
+
             await reloadActionCategories()
             try await updateNotificationSettings(granted)
-            
+
             return granted
         } else {
             NotificareLogger.info("User did not grant permission to receive alerts, badge and sounds.")
             try await updateNotificationSettings(granted)
-            
+
             return granted
         }
     }
-    
+
     public func disableRemoteNotifications() {
         do {
             try checkPrerequisites()
         } catch {
             return
         }
-        
+
         // Keep track of the status in local storage.
         LocalStorage.remoteNotificationsEnabled = false
-        
+
         Task {
             do {
                 try await Notificare.shared.deviceInternal().registerTemporary()
-                
+
                 // Unregister from APNS
                 await UIApplication.shared.unregisterForRemoteNotifications()
-                
+
                 // Update the local notification settings.
                 // Registering a temporary device automatically reports the allowedUI to the API.
                 self.allowedUI = false
-                
+
                 DispatchQueue.main.async {
                     // Notify the delegate.
                     self.delegate?.notificare(self, didChangeNotificationSettings: false)
                 }
-                
+
                 NotificareLogger.info("Unregistered from APNS.")
             } catch {
                 NotificareLogger.error("Failed to register a temporary device and unregister from APNS.", error: error)
@@ -219,7 +219,7 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
     }
 
     @available(iOS 16.1, *)
-    func registerLiveActivity(_ activityId: String, token: String, topics: [String], _ completion: @escaping NotificareCallback<Void>) {
+    public func registerLiveActivity(_ activityId: String, token: String, topics: [String], _ completion: @escaping NotificareCallback<Void>) {
         Task.init {
             do {
                 try await registerLiveActivity(activityId, token: token, topics: topics)
@@ -231,7 +231,7 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
     }
 
     @available(iOS 16.1, *)
-    func registerLiveActivity(_ activityId: String, token: String, topics: [String]) async throws {
+    public func registerLiveActivity(_ activityId: String, token: String, topics: [String]) async throws {
         guard let device = Notificare.shared.device().currentDevice else {
             throw NotificareError.deviceUnavailable
         }
@@ -249,7 +249,7 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
     }
 
     @available(iOS 16.1, *)
-    func endLiveActivity(_ activityId: String, _ completion: @escaping NotificareCallback<Void>) {
+    public func endLiveActivity(_ activityId: String, _ completion: @escaping NotificareCallback<Void>) {
         Task.init {
             do {
                 try await endLiveActivity(activityId)
@@ -261,7 +261,7 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
     }
 
     @available(iOS 16.1, *)
-    func endLiveActivity(_ activityId: String) async throws {
+    public func endLiveActivity(_ activityId: String) async throws {
         guard let device = Notificare.shared.device().currentDevice else {
             throw NotificareError.deviceUnavailable
         }
@@ -310,16 +310,16 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
             return
         }
     }
-    
+
     internal func reloadActionCategories() async {
         NotificareLogger.debug("Reloading action categories.")
 
         if Notificare.shared.options?.preserveExistingNotificationCategories == true {
             let existingCategories = await notificationCenter.notificationCategories()
-            
+
             let categories = existingCategories.union(loadAvailableCategories())
             notificationCenter.setNotificationCategories(categories)
-            
+
             return
         } else {
             let categories = loadAvailableCategories()
@@ -458,18 +458,18 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
             }
         }
     }
-    
+
     internal func updateNotificationSettings() async throws {
         let settings = await notificationCenter.notificationSettings()
-        
+
         var granted = settings.authorizationStatus == .authorized
-        
+
         if #available(iOS 12.0, *) {
             if settings.authorizationStatus == .provisional {
                 granted = true
             }
         }
-        
+
         try await updateNotificationSettings(granted)
     }
 
@@ -499,7 +499,7 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
             try await NotificareRequest.Builder()
                 .put("/device/\(device.id)", body: payload)
                 .response()
-            
+
             NotificareLogger.debug("User notification settings updated.")
 
             // Update current stored property.
@@ -509,15 +509,15 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
                 // Notify the delegate.
                 self.delegate?.notificare(self, didChangeNotificationSettings: allowedUI)
             }
-            
+
             if allowedUI, LocalStorage.firstRegistration {
                 // Ensure the flag update is immediate, preventing multiple simulatenous allowedUI updates
                 // from triggering the event.
                 LocalStorage.firstRegistration = false
-                
+
                 do {
                     try await Notificare.shared.events().logPushRegistration()
-                    
+
                     LocalStorage.firstRegistration = false
                     return
                 } catch {
@@ -575,8 +575,9 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
                     UNNotificationAttachmentOptionsThumbnailClippingRectKey: CGRect(x: 0, y: 0, width: 1, height: 1),
                 ]
 
-                if let mimeType = response.mimeType,
-                   let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, mimeType as CFString, nil)
+                if
+                    let mimeType = response.mimeType,
+                    let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, mimeType as CFString, nil)
                 {
                     options[UNNotificationAttachmentOptionsTypeHintKey] = uti.takeRetainedValue()
                 }
