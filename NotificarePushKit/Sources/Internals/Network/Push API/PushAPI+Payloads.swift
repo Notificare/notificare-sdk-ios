@@ -4,12 +4,12 @@
 
 import NotificareKit
 
-internal extension NotificareInternals.PushAPI.Payloads {
-    struct UpdateNotificationSettings: Encodable {
+extension NotificareInternals.PushAPI.Payloads {
+    internal struct UpdateNotificationSettings: Encodable {
         internal let allowedUI: Bool
     }
 
-    struct RegisterLiveActivity: Encodable {
+    internal struct RegisterLiveActivity: Encodable {
         internal let activity: String
         internal let token: String
         internal let deviceID: String
