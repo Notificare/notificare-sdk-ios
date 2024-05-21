@@ -13,8 +13,8 @@ public enum BannerAutoDismiss {
     case never
 }
 
-public extension View {
-    func banner<C: View>(
+extension View {
+    public func banner<C: View>(
         isPresented: Binding<Bool>,
         edge: BannerEdge = .top,
         autoDismiss: BannerAutoDismiss = .after(3),
@@ -34,7 +34,7 @@ public extension View {
         )
     }
 
-    func banner<T: Identifiable, C: View>(
+    public func banner<T: Identifiable, C: View>(
         item: Binding<T?>,
         edge: BannerEdge = .top,
         autoDismiss: BannerAutoDismiss = .after(3),

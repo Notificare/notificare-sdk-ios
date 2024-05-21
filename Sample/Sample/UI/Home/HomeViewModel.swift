@@ -665,8 +665,8 @@ extension HomeViewModel {
     }
 }
 
-internal extension HomeViewModel {
-    enum NotificationsPermissionStatus: String, CaseIterable {
+extension HomeViewModel {
+    internal enum NotificationsPermissionStatus: String, CaseIterable {
         case notDetermined = "permission_status_not_determined"
         case granted = "permission_status_granted"
         case denied = "permission_status_denied"
@@ -677,20 +677,20 @@ internal extension HomeViewModel {
         }
     }
 
-    enum LocationPermissionGroup: CaseIterable {
+    internal enum LocationPermissionGroup: CaseIterable {
         case locationWhenInUse
         case locationAlways
         case bluetoothScan
     }
 
-    enum LocationPermissionGroupStatus: CaseIterable {
+    internal enum LocationPermissionGroupStatus: CaseIterable {
         case notDetermined
         case granted
         case restricted
         case permanentlyDenied
     }
 
-    enum LocationPermissionStatus: String, CaseIterable {
+    internal enum LocationPermissionStatus: String, CaseIterable {
         case notDetermined = "permission_status_not_determined"
         case restricted = "permission_status_restricted"
         case permanentlyDenied = "permission_status_permanently_denied"
