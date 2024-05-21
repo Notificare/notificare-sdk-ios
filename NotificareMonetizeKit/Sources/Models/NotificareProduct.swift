@@ -41,26 +41,26 @@ public struct NotificareProduct: Codable {
 extension NotificareProduct: Identifiable {}
 
 // JSON: NotificareProduct
-public extension NotificareProduct {
-    func toJson() throws -> [String: Any] {
+extension NotificareProduct {
+    public func toJson() throws -> [String: Any] {
         let data = try NotificareUtils.jsonEncoder.encode(self)
         return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
     }
 
-    static func fromJson(json: [String: Any]) throws -> NotificareProduct {
+    public static func fromJson(json: [String: Any]) throws -> NotificareProduct {
         let data = try JSONSerialization.data(withJSONObject: json, options: [])
         return try NotificareUtils.jsonDecoder.decode(NotificareProduct.self, from: data)
     }
 }
 
 // JSON: NotificareProduct.StoreDetails
-public extension NotificareProduct.StoreDetails {
-    func toJson() throws -> [String: Any] {
+extension NotificareProduct.StoreDetails {
+    public func toJson() throws -> [String: Any] {
         let data = try NotificareUtils.jsonEncoder.encode(self)
         return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
     }
 
-    static func fromJson(json: [String: Any]) throws -> NotificareProduct.StoreDetails {
+    public static func fromJson(json: [String: Any]) throws -> NotificareProduct.StoreDetails {
         let data = try JSONSerialization.data(withJSONObject: json, options: [])
         return try NotificareUtils.jsonDecoder.decode(NotificareProduct.StoreDetails.self, from: data)
     }

@@ -21,18 +21,18 @@ public protocol NotificareMonetizeDelegate: AnyObject {
     func notificare(_ notificareMonetize: NotificareMonetize, processTransaction transaction: SKPaymentTransaction)
 }
 
-public extension NotificareMonetizeDelegate {
-    func notificare(_: NotificareMonetize, didUpdateProducts _: [NotificareProduct]) {}
+extension NotificareMonetizeDelegate {
+    public func notificare(_: NotificareMonetize, didUpdateProducts _: [NotificareProduct]) {}
 
-    func notificare(_: NotificareMonetize, didUpdatePurchases _: [NotificarePurchase]) {}
+    public func notificare(_: NotificareMonetize, didUpdatePurchases _: [NotificarePurchase]) {}
 
-    func notificare(_: NotificareMonetize, didFinishPurchase _: NotificarePurchase) {}
+    public func notificare(_: NotificareMonetize, didFinishPurchase _: NotificarePurchase) {}
 
-    func notificare(_: NotificareMonetize, didRestorePurchase _: NotificarePurchase) {}
+    public func notificare(_: NotificareMonetize, didRestorePurchase _: NotificarePurchase) {}
 
-    func notificareDidCancelPurchase(_: NotificareMonetize) {}
+    public func notificareDidCancelPurchase(_: NotificareMonetize) {}
 
-    func notificare(_: NotificareMonetize, didFailToPurchase _: Error) {}
+    public func notificare(_: NotificareMonetize, didFailToPurchase _: Error) {}
 
-    func notificare(_: NotificareMonetize, processTransaction _: SKPaymentTransaction) {}
+    public func notificare(_: NotificareMonetize, processTransaction _: SKPaymentTransaction) {}
 }

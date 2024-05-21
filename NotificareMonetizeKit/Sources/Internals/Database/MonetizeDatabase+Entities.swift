@@ -5,8 +5,8 @@
 import CoreData
 import NotificareKit
 
-internal extension PurchaseEntity {
-    convenience init(_ context: NSManagedObjectContext, purchase: NotificarePurchase) throws {
+extension PurchaseEntity {
+    internal convenience init(_ context: NSManagedObjectContext, purchase: NotificarePurchase) throws {
         guard let receiptData = purchase.receipt.data(using: .utf8) else {
             throw MonetizeDatabaseError.corruptedReceipt
         }
@@ -21,7 +21,7 @@ internal extension PurchaseEntity {
         self.purchase = purchaseData
     }
 
-    func toModel() throws -> NotificarePurchase {
+    internal func toModel() throws -> NotificarePurchase {
         guard let data = purchase else {
             throw MonetizeDatabaseError.corruptedPurchase
         }
