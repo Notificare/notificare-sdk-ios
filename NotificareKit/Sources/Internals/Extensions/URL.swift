@@ -4,8 +4,8 @@
 
 import Foundation
 
-public extension URL {
-    func appendingQueryComponent(name: String, value: String) -> URL {
+extension URL {
+    public func appendingQueryComponent(name: String, value: String) -> URL {
         var components = URLComponents(url: self, resolvingAgainstBaseURL: true)!
         var queryItems = components.queryItems ?? []
 
@@ -22,7 +22,7 @@ public extension URL {
         return components.url!
     }
 
-    mutating func appendQueryComponent(name: String, value: String) {
+    public mutating func appendQueryComponent(name: String, value: String) {
         self = appendingQueryComponent(name: name, value: value)
     }
 }

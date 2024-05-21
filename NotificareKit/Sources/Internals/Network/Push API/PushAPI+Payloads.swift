@@ -4,8 +4,8 @@
 
 import Foundation
 
-internal extension NotificareInternals.PushAPI.Payloads {
-    enum Device {
+extension NotificareInternals.PushAPI.Payloads {
+    internal enum Device {
         internal struct Registration: Encodable {
             internal let deviceID: String
             internal let oldDeviceID: String?
@@ -46,9 +46,9 @@ internal extension NotificareInternals.PushAPI.Payloads {
         }
     }
 
-    struct CreateEvent: Encodable {}
+    internal struct CreateEvent: Encodable {}
 
-    struct CreateNotificationReply: Encodable {
+    internal struct CreateNotificationReply: Encodable {
         internal let notification: String
         internal let deviceID: String
         internal let userID: String?
@@ -63,7 +63,7 @@ internal extension NotificareInternals.PushAPI.Payloads {
         }
     }
 
-    struct TestDeviceRegistration: Encodable {
+    internal struct TestDeviceRegistration: Encodable {
         internal let deviceID: String
     }
 }

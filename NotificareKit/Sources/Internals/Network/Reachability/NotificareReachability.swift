@@ -33,8 +33,8 @@ public enum ReachabilityError: Error {
     case unableToGetFlags(Int32)
 }
 
-public extension Notification.Name {
-    static let reachabilityChanged = Notification.Name("reachabilityChanged")
+extension Notification.Name {
+    public static let reachabilityChanged = Notification.Name("reachabilityChanged")
 }
 
 public class NotificareReachability {
@@ -137,10 +137,10 @@ public class NotificareReachability {
     }
 }
 
-public extension NotificareReachability {
+extension NotificareReachability {
     // MARK: - *** Notifier methods ***
 
-    func startNotifier() throws {
+    public func startNotifier() throws {
         guard !notifierRunning else {
             return
         }
@@ -198,20 +198,20 @@ public extension NotificareReachability {
         notifierRunning = true
     }
 
-    func stopNotifier() {
+    public func stopNotifier() {
         defer { notifierRunning = false }
 
         SCNetworkReachabilitySetCallback(reachabilityRef, nil, nil)
         SCNetworkReachabilitySetDispatchQueue(reachabilityRef, nil)
     }
 
-    var description: String {
+    public var description: String {
         flags?.description ?? "unavailable flags"
     }
 }
 
-private extension NotificareReachability {
-    func setReachabilityFlags() throws {
+extension NotificareReachability {
+    private func setReachabilityFlags() throws {
         try reachabilitySerialQueue.sync { [unowned self] in
             var flags = SCNetworkReachabilityFlags()
             if !SCNetworkReachabilityGetFlags(reachabilityRef, &flags) {
@@ -223,7 +223,7 @@ private extension NotificareReachability {
         }
     }
 
-    func notifyReachabilityChanged() {
+    private func notifyReachabilityChanged() {
         let notify = { [weak self] in
             guard let self = self else {
                 return

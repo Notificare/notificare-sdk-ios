@@ -4,8 +4,8 @@
 
 import Foundation
 
-public extension NotificareInternals.PushAPI.Models {
-    struct Application: Decodable {
+extension NotificareInternals.PushAPI.Models {
+    public struct Application: Decodable {
         public let _id: String
         public let name: String
         public let category: String
@@ -45,7 +45,7 @@ public extension NotificareInternals.PushAPI.Models {
         }
     }
 
-    struct Notification: Decodable {
+    public struct Notification: Decodable {
         public let _id: String
         public let type: String
         public let time: Date

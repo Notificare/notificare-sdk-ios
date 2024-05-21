@@ -4,13 +4,13 @@
 
 import Foundation
 
-public extension Dictionary {
+extension Dictionary {
     /// Same values, corresponding to `map`ped keys.
     ///
     /// - Parameter transform: Accepts each key of the dictionary as its parameter
     ///   and returns a key for the new dictionary.
     /// - Postcondition: The collection of transformed keys must not contain duplicates.
-    func mapKeys<Transformed>(
+    public func mapKeys<Transformed>(
         _ transform: (Key) throws -> Transformed
     ) rethrows -> [Transformed: Value] {
         try .init(

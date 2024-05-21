@@ -20,14 +20,14 @@ public protocol NotificareModule {
     func unlaunch() async throws
 }
 
-public extension NotificareModule {
-    func migrate() {}
+extension NotificareModule {
+    public func migrate() {}
 
-    func configure() {}
+    public func configure() {}
 
-    func launch() async throws {}
+    public func launch() async throws {}
 
-    func postLaunch() async throws {}
+    public func postLaunch() async throws {}
 
-    func unlaunch() async throws {}
+    public func unlaunch() async throws {}
 }

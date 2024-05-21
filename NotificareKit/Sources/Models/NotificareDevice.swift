@@ -45,21 +45,21 @@ public struct NotificareDevice: Codable {
 extension NotificareDevice: Identifiable {}
 
 // JSON: NotificareDevice
-public extension NotificareDevice {
-    func toJson() throws -> [String: Any] {
+extension NotificareDevice {
+    public func toJson() throws -> [String: Any] {
         let data = try NotificareUtils.jsonEncoder.encode(self)
         return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
     }
 
-    static func fromJson(json: [String: Any]) throws -> NotificareDevice {
+    public static func fromJson(json: [String: Any]) throws -> NotificareDevice {
         let data = try JSONSerialization.data(withJSONObject: json, options: [])
         return try NotificareUtils.jsonDecoder.decode(NotificareDevice.self, from: data)
     }
 }
 
 // Rolling registration
-internal extension NotificareDevice {
-    init(from registration: NotificareInternals.PushAPI.Payloads.Device.Registration, previous: NotificareDevice?) {
+extension NotificareDevice {
+    internal init(from registration: NotificareInternals.PushAPI.Payloads.Device.Registration, previous: NotificareDevice?) {
         id = registration.deviceID
         userId = registration.userID
         userName = registration.userName

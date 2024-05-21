@@ -113,8 +113,8 @@ public struct NotificareOptions: Decodable {
 }
 
 // Load options from a file
-public extension NotificareOptions {
-    init?(contentsOfFile plistPath: String) {
+extension NotificareOptions {
+    public init?(contentsOfFile plistPath: String) {
         do {
             let data = try Data(contentsOf: URL(fileURLWithPath: plistPath))
 
@@ -145,8 +145,8 @@ public extension NotificareOptions {
 }
 
 // Codable: NotificareOptions
-public extension NotificareOptions {
-    enum CodingKeys: String, CodingKey {
+extension NotificareOptions {
+    public enum CodingKeys: String, CodingKey {
         case debugLoggingEnabled = "DEBUG_LOGGING_ENABLED"
         case autoConfig = "AUTO_CONFIG"
         case swizzlingEnabled = "SWIZZLING_ENABLED"
@@ -166,7 +166,7 @@ public extension NotificareOptions {
         case legacyNotificationsUserInterfaceEnabled = "LEGACY_NOTIFICATIONS_USER_INTERFACE_ENABLED"
     }
 
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         debugLoggingEnabled = try container.decodeIfPresent(Bool.self, forKey: .debugLoggingEnabled) ?? NotificareOptions.DEFAULT_DEBUG_LOGGING_ENABLED
@@ -190,13 +190,13 @@ public extension NotificareOptions {
 }
 
 // Codable: NotificareOptions.Themes
-public extension NotificareOptions.Themes {
-    enum CodingKeys: String, CodingKey {
+extension NotificareOptions.Themes {
+    public enum CodingKeys: String, CodingKey {
         case light = "LIGHT"
         case dark = "DARK"
     }
 
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         light = try container.decodeIfPresent(NotificareOptions.Theme.self, forKey: .light)
@@ -205,8 +205,8 @@ public extension NotificareOptions.Themes {
 }
 
 // Codable: NotificareOptions.Theme
-public extension NotificareOptions.Theme {
-    enum CodingKeys: String, CodingKey {
+extension NotificareOptions.Theme {
+    public enum CodingKeys: String, CodingKey {
         case backgroundColor = "BACKGROUND_COLOR"
         case actionButtonTextColor = "ACTION_BUTTON_TEXT_COLOR"
         case toolbarBackgroundColor = "TOOLBAR_BACKGROUND_COLOR"
@@ -218,7 +218,7 @@ public extension NotificareOptions.Theme {
         case safariControlsTintColor = "SAFARI_CONTROLS_TINT_COLOR"
     }
 
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         backgroundColor = try container.decodeIfPresent(String.self, forKey: .backgroundColor)
@@ -234,8 +234,8 @@ public extension NotificareOptions.Theme {
 }
 
 // Load the appropriate theme for a given view controller
-public extension NotificareOptions {
-    func theme(for controller: UIViewController) -> NotificareOptions.Theme? {
+extension NotificareOptions {
+    public func theme(for controller: UIViewController) -> NotificareOptions.Theme? {
         var theme = themes?.light
 
         if #available(iOS 13.0, *) {

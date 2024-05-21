@@ -302,6 +302,7 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
 
 // MARK: - Recoverable NotificareError
 
+// swiftlint:disable:next no_extension_access_modifier
 private extension NotificareNetworkError {
     var recoverable: Bool {
         switch self {

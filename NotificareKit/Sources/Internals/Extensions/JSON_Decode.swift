@@ -19,32 +19,32 @@ internal struct JSONCodingKeys: CodingKey {
     }
 }
 
-public extension KeyedDecodingContainer {
-    func decode(_ type: [String: Any].Type, forKey key: K) throws -> [String: Any] {
+extension KeyedDecodingContainer {
+    public func decode(_ type: [String: Any].Type, forKey key: K) throws -> [String: Any] {
         let container = try nestedContainer(keyedBy: JSONCodingKeys.self, forKey: key)
         return try container.decode(type)
     }
 
-    func decodeIfPresent(_ type: [String: Any].Type, forKey key: K) throws -> [String: Any]? {
+    public func decodeIfPresent(_ type: [String: Any].Type, forKey key: K) throws -> [String: Any]? {
         guard try contains(key) && !decodeNil(forKey: key) else {
             return nil
         }
         return try decode(type, forKey: key)
     }
 
-    func decode(_ type: [Any].Type, forKey key: K) throws -> [Any] {
+    public func decode(_ type: [Any].Type, forKey key: K) throws -> [Any] {
         var container = try nestedUnkeyedContainer(forKey: key)
         return try container.decode(type)
     }
 
-    func decodeIfPresent(_ type: [Any].Type, forKey key: K) throws -> [Any]? {
+    public func decodeIfPresent(_ type: [Any].Type, forKey key: K) throws -> [Any]? {
         guard try contains(key) && !decodeNil(forKey: key) else {
             return nil
         }
         return try decode(type, forKey: key)
     }
 
-    func decode(_: [String: Any].Type) throws -> [String: Any] {
+    public func decode(_: [String: Any].Type) throws -> [String: Any] {
         var dictionary = [String: Any]()
 
         for key in allKeys {
@@ -67,8 +67,8 @@ public extension KeyedDecodingContainer {
     }
 }
 
-public extension UnkeyedDecodingContainer {
-    mutating func decode(_: [Any].Type) throws -> [Any] {
+extension UnkeyedDecodingContainer {
+    public mutating func decode(_: [Any].Type) throws -> [Any] {
         var array: [Any] = []
         while isAtEnd == false {
             if let value = try? decode(Bool.self) {
@@ -86,7 +86,7 @@ public extension UnkeyedDecodingContainer {
         return array
     }
 
-    mutating func decode(_ type: [String: Any].Type) throws -> [String: Any] {
+    public mutating func decode(_ type: [String: Any].Type) throws -> [String: Any] {
         let nestedContainer = try self.nestedContainer(keyedBy: JSONCodingKeys.self)
         return try nestedContainer.decode(type)
     }

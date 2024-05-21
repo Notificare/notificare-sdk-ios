@@ -116,12 +116,14 @@ extension NotificareNetworkError: LocalizedError {
     }
 }
 
+// swiftlint:disable:next no_extension_access_modifier
 private extension HTTPURLResponse {
     var formattedHeaders: String {
         allHeaderFields.map { "\($0.key) : \($0.value)" }.joined(separator: "\n")
     }
 }
 
+// swiftlint:disable:next no_extension_access_modifier
 private extension Data {
     var utf8StringRepresentation: String? {
         String(data: self, encoding: .utf8)
