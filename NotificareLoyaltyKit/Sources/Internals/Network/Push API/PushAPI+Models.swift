@@ -5,8 +5,8 @@
 import Foundation
 import NotificareKit
 
-internal extension NotificareInternals.PushAPI.Models {
-    struct Pass: Decodable {
+extension NotificareInternals.PushAPI.Models {
+    internal struct Pass: Decodable {
         internal let _id: String
         internal let version: Int
         internal let passbook: String?
@@ -21,7 +21,7 @@ internal extension NotificareInternals.PushAPI.Models {
         internal let date: Date
     }
 
-    struct Passbook: Decodable {
+    internal struct Passbook: Decodable {
         internal let passStyle: NotificarePass.PassType
     }
 }
