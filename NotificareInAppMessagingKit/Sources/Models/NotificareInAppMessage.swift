@@ -65,26 +65,26 @@ public struct NotificareInAppMessage: Codable {
 extension NotificareInAppMessage: Identifiable {}
 
 // JSON: NotificareInAppMessage
-public extension NotificareInAppMessage {
-    func toJson() throws -> [String: Any] {
+extension NotificareInAppMessage {
+    public func toJson() throws -> [String: Any] {
         let data = try NotificareUtils.jsonEncoder.encode(self)
         return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
     }
 
-    static func fromJson(json: [String: Any]) throws -> NotificareInAppMessage {
+    public static func fromJson(json: [String: Any]) throws -> NotificareInAppMessage {
         let data = try JSONSerialization.data(withJSONObject: json, options: [])
         return try NotificareUtils.jsonDecoder.decode(NotificareInAppMessage.self, from: data)
     }
 }
 
 // JSON: NotificareInAppMessage.Action
-public extension NotificareInAppMessage.Action {
-    func toJson() throws -> [String: Any] {
+extension NotificareInAppMessage.Action {
+    public func toJson() throws -> [String: Any] {
         let data = try NotificareUtils.jsonEncoder.encode(self)
         return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
     }
 
-    static func fromJson(json: [String: Any]) throws -> NotificareInAppMessage.Action {
+    public static func fromJson(json: [String: Any]) throws -> NotificareInAppMessage.Action {
         let data = try JSONSerialization.data(withJSONObject: json, options: [])
         return try NotificareUtils.jsonDecoder.decode(NotificareInAppMessage.Action.self, from: data)
     }

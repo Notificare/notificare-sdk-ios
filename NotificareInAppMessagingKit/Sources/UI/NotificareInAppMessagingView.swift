@@ -26,8 +26,8 @@ public protocol NotificareInAppMessagingView: UIView {
     func handleActionClicked(_ actionType: NotificareInAppMessage.ActionType)
 }
 
-public extension NotificareInAppMessagingView {
-    func present(in parentView: UIView) {
+extension NotificareInAppMessagingView {
+    public func present(in parentView: UIView) {
         parentView.addSubview(self)
         parentView.bringSubviewToFront(self)
 
@@ -56,11 +56,11 @@ public extension NotificareInAppMessagingView {
         }
     }
 
-    func animate(transition: NotificareInAppMessagingViewTransition) {
+    public func animate(transition: NotificareInAppMessagingViewTransition) {
         animate(transition: transition) {}
     }
 
-    func dismiss() {
+    public func dismiss() {
         animate(transition: .exit) {
             self.removeFromSuperview()
             self.delegate?.onViewDismissed()
@@ -71,7 +71,7 @@ public extension NotificareInAppMessagingView {
         }
     }
 
-    func handleActionClicked(_ actionType: NotificareInAppMessage.ActionType) {
+    public func handleActionClicked(_ actionType: NotificareInAppMessage.ActionType) {
         let action: NotificareInAppMessage.Action?
 
         switch actionType {

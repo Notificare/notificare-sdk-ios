@@ -5,8 +5,8 @@
 import Foundation
 import NotificareKit
 
-internal extension NotificareInternals.PushAPI.Models {
-    struct Message: Decodable {
+extension NotificareInternals.PushAPI.Models {
+    internal struct Message: Decodable {
         internal let _id: String
         internal let name: String
         internal let type: String
@@ -55,7 +55,7 @@ internal extension NotificareInternals.PushAPI.Models {
     }
 }
 
-internal extension NotificareInternals.PushAPI.Models.Message {
+extension NotificareInternals.PushAPI.Models.Message {
     private enum CodingKeys: String, CodingKey {
         case _id
         case name
@@ -70,7 +70,7 @@ internal extension NotificareInternals.PushAPI.Models.Message {
         case secondaryAction
     }
 
-    init(from decoder: Decoder) throws {
+    internal init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         _id = try container.decode(String.self, forKey: ._id)
