@@ -278,10 +278,10 @@ public class Notificare {
         let response = try await NotificareRequest.Builder()
             .get("/application/info")
             .responseDecodable(NotificareInternals.PushAPI.Responses.Application.self)
-        
+
         let application = response.application.toModel()
         self.application = application
-        
+
         return application
     }
 
@@ -304,14 +304,14 @@ public class Notificare {
         guard let urlEncodedLink = link.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else {
             throw NotificareError.invalidArgument(message: "Invalid link value.")
         }
-        
+
         let response = try await NotificareRequest.Builder()
             .get("/link/dynamic/\(urlEncodedLink)")
             .query(name: "platform", value: "iOS")
             .query(name: "deviceID", value: Notificare.shared.device().currentDevice?.id)
             .query(name: "userID", value: Notificare.shared.device().currentDevice?.userId)
             .responseDecodable(NotificareInternals.PushAPI.Responses.DynamicLink.self)
-        
+
         return response.link
     }
 
@@ -334,11 +334,11 @@ public class Notificare {
         guard let urlEncodedId = id.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else {
             throw NotificareError.invalidArgument(message: "Invalid id value.")
         }
-        
+
         let response = try await NotificareRequest.Builder()
             .get("/notification/\(urlEncodedId)")
             .responseDecodable(NotificareInternals.PushAPI.Responses.Notification.self)
-        
+
         return response.notification.toModel()
     }
 
@@ -361,7 +361,7 @@ public class Notificare {
         guard let device = device().currentDevice else {
             throw NotificareError.deviceUnavailable
         }
-        
+
         let payload = NotificareInternals.PushAPI.Payloads.CreateNotificationReply(
             notification: notification.id,
             deviceID: device.id,
@@ -374,7 +374,7 @@ public class Notificare {
                 mimeType: mimeType
             )
         )
-        
+
         try await NotificareRequest.Builder()
             .post("/reply", body: payload)
             .response()
@@ -402,14 +402,14 @@ public class Notificare {
                 }
             }
         }
-        
+
         // Add our standard properties.
         params["userID"] = device().currentDevice?.userId
         params["deviceID"] = device().currentDevice?.id
 
         // Add all the items passed via data.
         data.forEach { params[$0.key] = $0.value }
-        
+
         try await NotificareRequest.Builder()
             .post(url.absoluteString, body: params)
             .response()
@@ -430,11 +430,11 @@ public class Notificare {
         guard isConfigured else {
             throw NotificareError.notConfigured
         }
-        
+
         let response = try await NotificareRequest.Builder()
             .post("/upload/reply", body: data, contentType: contentType)
             .responseDecodable(NotificareInternals.PushAPI.Responses.UploadAsset.self)
-        
+
         let host = Notificare.shared.servicesInfo!.services.pushHost
 
         return "\(host)/upload\(response.filename)"
@@ -475,7 +475,7 @@ public class Notificare {
             do {
                 NotificareLogger.debug("Handling a dynamic link.")
                 let link = try await fetchDynamicLink(url.absoluteString)
-                
+
                 guard let targetUrl = URL(string: link.target) else {
                     NotificareLogger.warning("Failed to parse the dynamic link target url.")
                     return
@@ -492,7 +492,7 @@ public class Notificare {
                 NotificareLogger.warning("Failed to fetch the dynamic link.", error: error)
             }
         }
-        
+
         return true
     }
 
