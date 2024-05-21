@@ -20,13 +20,13 @@ public struct NotificareVisit: Codable {
 }
 
 // JSON: NotificareVisit
-public extension NotificareVisit {
-    func toJson() throws -> [String: Any] {
+extension NotificareVisit {
+    public func toJson() throws -> [String: Any] {
         let data = try NotificareUtils.jsonEncoder.encode(self)
         return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
     }
 
-    static func fromJson(json: [String: Any]) throws -> NotificareVisit {
+    public static func fromJson(json: [String: Any]) throws -> NotificareVisit {
         let data = try JSONSerialization.data(withJSONObject: json, options: [])
         return try NotificareUtils.jsonDecoder.decode(NotificareVisit.self, from: data)
     }

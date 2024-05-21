@@ -5,8 +5,8 @@
 import Foundation
 import NotificareKit
 
-internal extension NotificareInternals.PushAPI.Models {
-    struct Region: Decodable {
+extension NotificareInternals.PushAPI.Models {
+    internal struct Region: Decodable {
         internal let _id: String
         internal let name: String
         internal let description: String?
@@ -64,7 +64,7 @@ internal extension NotificareInternals.PushAPI.Models {
         }
     }
 
-    struct Beacon: Decodable {
+    internal struct Beacon: Decodable {
         internal let _id: String
         internal let name: String
         internal let major: Int

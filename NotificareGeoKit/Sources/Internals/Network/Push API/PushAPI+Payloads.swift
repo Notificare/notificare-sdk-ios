@@ -5,8 +5,8 @@
 import Foundation
 import NotificareKit
 
-internal extension NotificareInternals.PushAPI.Payloads {
-    struct UpdateDeviceLocation: Encodable {
+extension NotificareInternals.PushAPI.Payloads {
+    internal struct UpdateDeviceLocation: Encodable {
         internal let latitude: Double?
         internal let longitude: Double?
         internal let altitude: Double?
@@ -46,17 +46,17 @@ internal extension NotificareInternals.PushAPI.Payloads {
         }
     }
 
-    struct RegionTrigger: Encodable {
+    internal struct RegionTrigger: Encodable {
         internal let deviceID: String
         internal let region: String
     }
 
-    struct BeaconTrigger: Encodable {
+    internal struct BeaconTrigger: Encodable {
         internal let deviceID: String
         internal let beacon: String
     }
 
-    struct BluetoothStateUpdate: Encodable {
+    internal struct BluetoothStateUpdate: Encodable {
         internal let bluetoothEnabled: Bool
     }
 }

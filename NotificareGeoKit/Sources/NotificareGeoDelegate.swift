@@ -40,36 +40,36 @@ public protocol NotificareGeoDelegate: AnyObject {
     func notificare(_ notificareGeo: NotificareGeo, didFailRangingFor region: NotificareRegion, with error: Error)
 }
 
-public extension NotificareGeoDelegate {
-    func notificare(_: NotificareGeo, didUpdateLocations _: [NotificareLocation]) {}
+extension NotificareGeoDelegate {
+    public func notificare(_: NotificareGeo, didUpdateLocations _: [NotificareLocation]) {}
 
-    func notificare(_: NotificareGeo, didFailWith _: Error) {}
+    public func notificare(_: NotificareGeo, didFailWith _: Error) {}
 
-    func notificare(_: NotificareGeo, didStartMonitoringFor _: NotificareRegion) {}
+    public func notificare(_: NotificareGeo, didStartMonitoringFor _: NotificareRegion) {}
 
-    func notificare(_: NotificareGeo, didStartMonitoringFor _: NotificareBeacon) {}
+    public func notificare(_: NotificareGeo, didStartMonitoringFor _: NotificareBeacon) {}
 
-    func notificare(_: NotificareGeo, monitoringDidFailFor _: NotificareRegion, with _: Error) {}
+    public func notificare(_: NotificareGeo, monitoringDidFailFor _: NotificareRegion, with _: Error) {}
 
-    func notificare(_: NotificareGeo, monitoringDidFailFor _: NotificareBeacon, with _: Error) {}
+    public func notificare(_: NotificareGeo, monitoringDidFailFor _: NotificareBeacon, with _: Error) {}
 
-    func notificare(_: NotificareGeo, didDetermineState _: CLRegionState, for _: NotificareRegion) {}
+    public func notificare(_: NotificareGeo, didDetermineState _: CLRegionState, for _: NotificareRegion) {}
 
-    func notificare(_: NotificareGeo, didDetermineState _: CLRegionState, for _: NotificareBeacon) {}
+    public func notificare(_: NotificareGeo, didDetermineState _: CLRegionState, for _: NotificareBeacon) {}
 
-    func notificare(_: NotificareGeo, didEnter _: NotificareRegion) {}
+    public func notificare(_: NotificareGeo, didEnter _: NotificareRegion) {}
 
-    func notificare(_: NotificareGeo, didEnter _: NotificareBeacon) {}
+    public func notificare(_: NotificareGeo, didEnter _: NotificareBeacon) {}
 
-    func notificare(_: NotificareGeo, didExit _: NotificareRegion) {}
+    public func notificare(_: NotificareGeo, didExit _: NotificareRegion) {}
 
-    func notificare(_: NotificareGeo, didExit _: NotificareBeacon) {}
+    public func notificare(_: NotificareGeo, didExit _: NotificareBeacon) {}
 
-    func notificare(_: NotificareGeo, didVisit _: NotificareVisit) {}
+    public func notificare(_: NotificareGeo, didVisit _: NotificareVisit) {}
 
-    func notificare(_: NotificareGeo, didUpdateHeading _: NotificareHeading) {}
+    public func notificare(_: NotificareGeo, didUpdateHeading _: NotificareHeading) {}
 
-    func notificare(_: NotificareGeo, didRange _: [NotificareBeacon], in _: NotificareRegion) {}
+    public func notificare(_: NotificareGeo, didRange _: [NotificareBeacon], in _: NotificareRegion) {}
 
-    func notificare(_: NotificareGeo, didFailRangingFor _: NotificareRegion, with _: Error) {}
+    public func notificare(_: NotificareGeo, didFailRangingFor _: NotificareRegion, with _: Error) {}
 }
