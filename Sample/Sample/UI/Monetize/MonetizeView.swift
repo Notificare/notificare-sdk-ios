@@ -4,10 +4,10 @@
 
 import SwiftUI
 
-struct MonetizeView: View {
+internal struct MonetizeView: View {
     @StateObject private var viewModel = MonetizeViewModel()
 
-    var body: some View {
+    internal var body: some View {
         TabView {
             MonetizeProductsView(
                 products: viewModel.products,
@@ -27,8 +27,8 @@ struct MonetizeView: View {
     }
 }
 
-struct MonetizeView_Previews: PreviewProvider {
-    static var previews: some View {
+internal struct MonetizeView_Previews: PreviewProvider {
+    internal static var previews: some View {
         MonetizeView()
     }
 }

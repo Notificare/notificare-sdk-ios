@@ -7,11 +7,11 @@ import OSLog
 import SwiftUI
 
 @main
-struct Sample: App {
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+internal struct Sample: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) internal var appDelegate
     @State private var presentedDeepLink: URL?
 
-    var body: some Scene {
+    internal var body: some Scene {
         WindowGroup {
             NavigationView {
                 HomeView()

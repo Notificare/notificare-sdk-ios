@@ -4,10 +4,10 @@
 
 import SwiftUI
 
-struct LiveActivitiesSection: View {
-    let coffeeBrewerLiveActivityState: CoffeeBrewerActivityAttributes.BrewingState?
+internal struct LiveActivitiesSection: View {
+    internal let coffeeBrewerLiveActivityState: CoffeeBrewerActivityAttributes.BrewingState?
 
-    var body: some View {
+    internal var body: some View {
         Section {
             VStack {
                 if #available(iOS 16.1, *) {
@@ -70,8 +70,8 @@ private struct CoffeeBrewerActionsView: View {
     }
 }
 
-struct LiveActivitiesSection_Previews: PreviewProvider {
-    static var previews: some View {
+internal struct LiveActivitiesSection_Previews: PreviewProvider {
+    internal static var previews: some View {
         LiveActivitiesSection(coffeeBrewerLiveActivityState: .none)
     }
 }

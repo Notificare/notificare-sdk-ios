@@ -5,11 +5,11 @@
 import NotificareMonetizeKit
 import SwiftUI
 
-struct MonetizeProductsView: View {
-    let products: [NotificareProduct]
-    let purchase: (NotificareProduct) -> Void
+internal struct MonetizeProductsView: View {
+    internal let products: [NotificareProduct]
+    internal let purchase: (NotificareProduct) -> Void
 
-    var body: some View {
+    internal var body: some View {
         List {
             if products.isEmpty {
                 Section {
@@ -58,8 +58,8 @@ private struct ProductDetailsFieldView: View {
     }
 }
 
-struct MonetizeProductsView_Previews: PreviewProvider {
-    static var previews: some View {
+internal struct MonetizeProductsView_Previews: PreviewProvider {
+    internal static var previews: some View {
         MonetizeProductsView(products: [], purchase: { _ in })
     }
 }

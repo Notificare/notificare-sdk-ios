@@ -5,10 +5,10 @@
 import NotificareGeoKit
 import SwiftUI
 
-struct BeaconRow: View {
-    let beacon: NotificareBeacon
+internal struct BeaconRow: View {
+    internal let beacon: NotificareBeacon
 
-    var body: some View {
+    internal var body: some View {
         HStack {
             VStack(alignment: .leading) {
                 Text(verbatim: beacon.name)
@@ -45,8 +45,8 @@ struct BeaconRow: View {
     }
 }
 
-struct BeaconRow_Previews: PreviewProvider {
-    static var previews: some View {
+internal struct BeaconRow_Previews: PreviewProvider {
+    internal static var previews: some View {
         let beacon = NotificareBeacon(
             id: UUID().uuidString,
             name: "Test beacon",

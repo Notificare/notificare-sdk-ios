@@ -4,10 +4,10 @@
 
 import SwiftUI
 
-struct EventsView: View {
+internal struct EventsView: View {
     @StateObject private var viewModel = EventsViewModel()
 
-    var body: some View {
+    internal var body: some View {
         List {
             Section {
                 TextField(String(localized: "event_name"), text: $viewModel.eventName)
@@ -84,8 +84,8 @@ private struct EventFieldView: View {
     }
 }
 
-struct EventsView_Previews: PreviewProvider {
-    static var previews: some View {
+internal struct EventsView_Previews: PreviewProvider {
+    internal static var previews: some View {
         EventsView()
     }
 }

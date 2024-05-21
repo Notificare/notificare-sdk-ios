@@ -6,8 +6,8 @@ import NotificareKit
 import OSLog
 import SwiftUI
 
-struct ScannablesView: View {
-    var body: some View {
+internal struct ScannablesView: View {
+    internal var body: some View {
         List {
             Section {
                 VStack {
@@ -41,8 +41,8 @@ struct ScannablesView: View {
     }
 }
 
-struct ScannablesView_Previews: PreviewProvider {
-    static var previews: some View {
+internal struct ScannablesView_Previews: PreviewProvider {
+    internal static var previews: some View {
         ScannablesView()
     }
 }
