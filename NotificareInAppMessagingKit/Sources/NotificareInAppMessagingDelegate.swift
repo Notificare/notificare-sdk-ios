@@ -16,14 +16,14 @@ public protocol NotificareInAppMessagingDelegate: AnyObject {
     func notificare(_ notificare: NotificareInAppMessaging, didFailToExecuteAction action: NotificareInAppMessage.Action, for message: NotificareInAppMessage, error: Error?)
 }
 
-public extension NotificareInAppMessagingDelegate {
-    func notificare(_: NotificareInAppMessaging, didPresentMessage _: NotificareInAppMessage) {}
+extension NotificareInAppMessagingDelegate {
+    public func notificare(_: NotificareInAppMessaging, didPresentMessage _: NotificareInAppMessage) {}
 
-    func notificare(_: NotificareInAppMessaging, didFinishPresentingMessage _: NotificareInAppMessage) {}
+    public func notificare(_: NotificareInAppMessaging, didFinishPresentingMessage _: NotificareInAppMessage) {}
 
-    func notificare(_: NotificareInAppMessaging, didFailToPresentMessage _: NotificareInAppMessage) {}
+    public func notificare(_: NotificareInAppMessaging, didFailToPresentMessage _: NotificareInAppMessage) {}
 
-    func notificare(_: NotificareInAppMessaging, didExecuteAction _: NotificareInAppMessage.Action, for _: NotificareInAppMessage) {}
+    public func notificare(_: NotificareInAppMessaging, didExecuteAction _: NotificareInAppMessage.Action, for _: NotificareInAppMessage) {}
 
-    func notificare(_: NotificareInAppMessaging, didFailToExecuteAction _: NotificareInAppMessage.Action, for _: NotificareInAppMessage, error _: Error?) {}
+    public func notificare(_: NotificareInAppMessaging, didFailToExecuteAction _: NotificareInAppMessage.Action, for _: NotificareInAppMessage, error _: Error?) {}
 }

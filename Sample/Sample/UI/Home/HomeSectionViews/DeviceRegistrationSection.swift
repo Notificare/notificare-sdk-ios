@@ -4,15 +4,15 @@
 
 import SwiftUI
 
-struct DeviceRegistrationSection: View {
-    @Binding var userId: String
-    @Binding var userName: String
+internal struct DeviceRegistrationSection: View {
+    @Binding internal var userId: String
+    @Binding internal  var userName: String
 
-    let isDeviceRegistered: Bool
-    let cleanDeviceRegistration: () -> Void
-    let registerDevice: () -> Void
+    internal let isDeviceRegistered: Bool
+    internal let cleanDeviceRegistration: () -> Void
+    internal let registerDevice: () -> Void
 
-    var body: some View {
+    internal var body: some View {
         Section {
             TextField(String(localized: "home_user_id"), text: $userId)
                 .disabled(isDeviceRegistered)
@@ -38,8 +38,8 @@ struct DeviceRegistrationSection: View {
     }
 }
 
-struct DeviceRegistrationSection_Previews: PreviewProvider {
-    static var previews: some View {
+internal struct DeviceRegistrationSection_Previews: PreviewProvider {
+    internal static var previews: some View {
         @State var userId = ""
         @State var userName = ""
         DeviceRegistrationSection(

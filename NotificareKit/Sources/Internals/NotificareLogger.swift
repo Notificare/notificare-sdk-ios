@@ -34,8 +34,9 @@ public enum NotificareLogger {
     private static func log(level: Level, message: String, error: Error?, file: String = #file) {
         let tag: String
 
-        if let fullFileName = URL(fileURLWithPath: file).pathComponents.last,
-           let fileName = fullFileName.split(separator: ".").first
+        if
+            let fullFileName = URL(fileURLWithPath: file).pathComponents.last,
+            let fileName = fullFileName.split(separator: ".").first
         {
             tag = String(fileName).removingSuffix("ModuleImpl").removingSuffix("Impl")
         } else {
@@ -74,7 +75,7 @@ public enum NotificareLogger {
 }
 
 extension NotificareLogger {
-    enum Level: String {
+    internal enum Level: String {
         case debug
         case info
         case warning
@@ -83,7 +84,7 @@ extension NotificareLogger {
 }
 
 extension NotificareLogger.Level {
-    func toOSLogType() -> OSLogType {
+    internal func toOSLogType() -> OSLogType {
         switch self {
         case .debug, .info:
             return .default

@@ -5,8 +5,8 @@
 import Foundation
 import NotificareKit
 
-public extension Notificare {
-    func scannables() -> NotificareScannables {
+extension Notificare {
+    public func scannables() -> NotificareScannables {
         NotificareScannablesImpl.instance
     }
 }

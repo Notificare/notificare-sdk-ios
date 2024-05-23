@@ -48,24 +48,24 @@ public protocol NotificarePush: AnyObject, NotificarePushUIApplicationDelegate, 
     func endLiveActivity(_ activityId: String) async throws
 }
 
-public extension NotificarePush {
+extension NotificarePush {
     @available(iOS 16.1, *)
-    func registerLiveActivity(_ activityId: String, token: String, _ completion: @escaping NotificareCallback<Void>) {
+    public func registerLiveActivity(_ activityId: String, token: String, _ completion: @escaping NotificareCallback<Void>) {
         registerLiveActivity(activityId, token: token, topics: [], completion)
     }
 
     @available(iOS 16.1, *)
-    func registerLiveActivity(_ activityId: String, token: String) async throws {
+    public func registerLiveActivity(_ activityId: String, token: String) async throws {
         try await registerLiveActivity(activityId, token: token, topics: [])
     }
 
     @available(iOS 16.1, *)
-    func registerLiveActivity(_ activityId: String, token: Data, topics: [String] = [], _ completion: @escaping NotificareCallback<Void>) {
+    public func registerLiveActivity(_ activityId: String, token: Data, topics: [String] = [], _ completion: @escaping NotificareCallback<Void>) {
         registerLiveActivity(activityId, token: token.toHexString(), topics: topics, completion)
     }
 
     @available(iOS 16.1, *)
-    func registerLiveActivity(_ activityId: String, token: Data, topics: [String] = []) async throws {
+    public func registerLiveActivity(_ activityId: String, token: Data, topics: [String] = []) async throws {
         try await registerLiveActivity(activityId, token: token.toHexString(), topics: topics)
     }
 }
@@ -82,12 +82,12 @@ public protocol NotificarePushUIApplicationDelegate {
 
 public protocol NotificarePushUNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter, openSettingsFor notification: UNNotification?)
-    
+
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void)
-    
+
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async
-    
+
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void)
-    
+
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification) async -> UNNotificationPresentationOptions
 }

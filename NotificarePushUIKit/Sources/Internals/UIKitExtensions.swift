@@ -7,8 +7,8 @@ import SafariServices
 import StoreKit
 import UIKit
 
-internal extension UIViewController {
-    func presentOrPush(_ controller: UIViewController, completion: (() -> Void)? = nil) {
+extension UIViewController {
+    internal func presentOrPush(_ controller: UIViewController, completion: (() -> Void)? = nil) {
         if controller is UIAlertController || controller is SKStoreProductViewController || controller is UINavigationController || controller is SFSafariViewController {
             if presentedViewController != nil {
                 dismiss(animated: true) {
@@ -30,8 +30,8 @@ internal extension UIViewController {
     }
 }
 
-internal extension UIView {
-    var ncSafeAreaLayoutGuide: UILayoutGuide {
+extension UIView {
+    internal var ncSafeAreaLayoutGuide: UILayoutGuide {
         if #available(iOS 11.0, *) {
             return safeAreaLayoutGuide
         }

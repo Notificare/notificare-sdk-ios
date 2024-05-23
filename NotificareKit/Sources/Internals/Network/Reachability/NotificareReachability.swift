@@ -33,8 +33,8 @@ public enum ReachabilityError: Error {
     case unableToGetFlags(Int32)
 }
 
-public extension Notification.Name {
-    static let reachabilityChanged = Notification.Name("reachabilityChanged")
+extension Notification.Name {
+    public static let reachabilityChanged = Notification.Name("reachabilityChanged")
 }
 
 public class NotificareReachability {
@@ -81,11 +81,11 @@ public class NotificareReachability {
         #endif
     }()
 
-    private(set) var notifierRunning = false
+    internal private(set) var notifierRunning = false
     private let reachabilityRef: SCNetworkReachability
     private let reachabilitySerialQueue: DispatchQueue
     private let notificationQueue: DispatchQueue?
-    private(set) var flags: SCNetworkReachabilityFlags? {
+    internal private(set) var flags: SCNetworkReachabilityFlags? {
         didSet {
             guard flags != oldValue else {
                 return
@@ -137,10 +137,10 @@ public class NotificareReachability {
     }
 }
 
-public extension NotificareReachability {
+extension NotificareReachability {
     // MARK: - *** Notifier methods ***
 
-    func startNotifier() throws {
+    public func startNotifier() throws {
         guard !notifierRunning else {
             return
         }
@@ -198,20 +198,20 @@ public extension NotificareReachability {
         notifierRunning = true
     }
 
-    func stopNotifier() {
+    public func stopNotifier() {
         defer { notifierRunning = false }
 
         SCNetworkReachabilitySetCallback(reachabilityRef, nil, nil)
         SCNetworkReachabilitySetDispatchQueue(reachabilityRef, nil)
     }
 
-    var description: String {
+    public var description: String {
         flags?.description ?? "unavailable flags"
     }
 }
 
-private extension NotificareReachability {
-    func setReachabilityFlags() throws {
+extension NotificareReachability {
+    private func setReachabilityFlags() throws {
         try reachabilitySerialQueue.sync { [unowned self] in
             var flags = SCNetworkReachabilityFlags()
             if !SCNetworkReachabilityGetFlags(reachabilityRef, &flags) {
@@ -223,7 +223,7 @@ private extension NotificareReachability {
         }
     }
 
-    func notifyReachabilityChanged() {
+    private func notifyReachabilityChanged() {
         let notify = { [weak self] in
             guard let self = self else {
                 return
@@ -238,9 +238,9 @@ private extension NotificareReachability {
 }
 
 extension SCNetworkReachabilityFlags {
-    typealias Connection = NotificareReachability.Connection
+    internal typealias Connection = NotificareReachability.Connection
 
-    var connection: Connection {
+    internal var connection: Connection {
         guard isReachableFlagSet else {
             return .unavailable
         }
@@ -269,7 +269,7 @@ extension SCNetworkReachabilityFlags {
         #endif
     }
 
-    var isOnWWANFlagSet: Bool {
+    internal var isOnWWANFlagSet: Bool {
         #if os(iOS)
             return contains(.isWWAN)
         #else
@@ -277,47 +277,47 @@ extension SCNetworkReachabilityFlags {
         #endif
     }
 
-    var isReachableFlagSet: Bool {
+    internal var isReachableFlagSet: Bool {
         contains(.reachable)
     }
 
-    var isConnectionRequiredFlagSet: Bool {
+    internal var isConnectionRequiredFlagSet: Bool {
         contains(.connectionRequired)
     }
 
-    var isInterventionRequiredFlagSet: Bool {
+    internal var isInterventionRequiredFlagSet: Bool {
         contains(.interventionRequired)
     }
 
-    var isConnectionOnTrafficFlagSet: Bool {
+    internal var isConnectionOnTrafficFlagSet: Bool {
         contains(.connectionOnTraffic)
     }
 
-    var isConnectionOnDemandFlagSet: Bool {
+    internal var isConnectionOnDemandFlagSet: Bool {
         contains(.connectionOnDemand)
     }
 
-    var isConnectionOnTrafficOrDemandFlagSet: Bool {
+    internal var isConnectionOnTrafficOrDemandFlagSet: Bool {
         !intersection([.connectionOnTraffic, .connectionOnDemand]).isEmpty
     }
 
-    var isTransientConnectionFlagSet: Bool {
+    internal var isTransientConnectionFlagSet: Bool {
         contains(.transientConnection)
     }
 
-    var isLocalAddressFlagSet: Bool {
+    internal var isLocalAddressFlagSet: Bool {
         contains(.isLocalAddress)
     }
 
-    var isDirectFlagSet: Bool {
+    internal var isDirectFlagSet: Bool {
         contains(.isDirect)
     }
 
-    var isConnectionRequiredAndTransientFlagSet: Bool {
+    internal var isConnectionRequiredAndTransientFlagSet: Bool {
         intersection([.connectionRequired, .transientConnection]) == [.connectionRequired, .transientConnection]
     }
 
-    var description: String {
+    internal var description: String {
         let W = isOnWWANFlagSet ? "W" : "-"
         let R = isReachableFlagSet ? "R" : "-"
         let c = isConnectionRequiredFlagSet ? "c" : "-"

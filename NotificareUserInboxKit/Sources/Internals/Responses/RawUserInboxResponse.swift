@@ -6,24 +6,24 @@ import Foundation
 import NotificareKit
 
 internal struct RawUserInboxResponse: Decodable {
-    let count: Int
-    let unread: Int
-    let inboxItems: [RawUserInboxItem]
+    internal let count: Int
+    internal let unread: Int
+    internal let inboxItems: [RawUserInboxItem]
 
     internal struct RawUserInboxItem: Decodable {
-        let _id: String
-        let notification: String
-        let type: String
-        let time: Date
-        let title: String?
-        let subtitle: String?
-        let message: String
-        let attachment: NotificareNotification.Attachment?
-        let extra: [String: Any]
-        let opened: Bool
-        let expires: Date?
+        internal let _id: String
+        internal let notification: String
+        internal let type: String
+        internal let time: Date
+        internal let title: String?
+        internal let subtitle: String?
+        internal let message: String
+        internal let attachment: NotificareNotification.Attachment?
+        internal let extra: [String: Any]
+        internal let opened: Bool
+        internal let expires: Date?
 
-        init(from decoder: Decoder) throws {
+        internal init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
 
             _id = try container.decode(String.self, forKey: ._id)

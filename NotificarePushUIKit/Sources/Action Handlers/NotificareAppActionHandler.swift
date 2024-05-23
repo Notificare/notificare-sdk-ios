@@ -6,11 +6,8 @@ import NotificareKit
 import UIKit
 
 public class NotificareAppActionHandler: NotificareBaseActionHandler {
-    override func execute() {
-        if let target = action.target,
-           let url = URL(string: target),
-           let urlScheme = url.scheme,
-           NotificareUtils.getSupportedUrlSchemes().contains(urlScheme) || UIApplication.shared.canOpenURL(url)
+    internal override func execute() {
+        if let target = action.target, let url = URL(string: target), let urlScheme = url.scheme, NotificareUtils.getSupportedUrlSchemes().contains(urlScheme) || UIApplication.shared.canOpenURL(url)
         {
             DispatchQueue.main.async {
                 UIApplication.shared.open(url, options: [:]) { _ in
@@ -31,8 +28,8 @@ public class NotificareAppActionHandler: NotificareBaseActionHandler {
     }
 }
 
-public extension NotificareAppActionHandler {
-    enum ActionError: LocalizedError {
+extension NotificareAppActionHandler {
+    public enum ActionError: LocalizedError {
         case unsupportedUrlScheme
 
         public var errorDescription: String? {

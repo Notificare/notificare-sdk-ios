@@ -67,20 +67,20 @@ public struct NotificarePass: Codable {
 extension NotificarePass: Identifiable {}
 
 // JSON: NotificarePass
-public extension NotificarePass {
-    func toJson() throws -> [String: Any] {
+extension NotificarePass {
+    public func toJson() throws -> [String: Any] {
         let data = try NotificareUtils.jsonEncoder.encode(self)
         return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
     }
 
-    static func fromJson(json: [String: Any]) throws -> NotificarePass {
+    public static func fromJson(json: [String: Any]) throws -> NotificarePass {
         let data = try JSONSerialization.data(withJSONObject: json, options: [])
         return try NotificareUtils.jsonDecoder.decode(NotificarePass.self, from: data)
     }
 }
 
 // Codable: NotificarePass
-public extension NotificarePass {
+extension NotificarePass {
     internal enum CodingKeys: String, CodingKey {
         case id
         case type
@@ -97,7 +97,7 @@ public extension NotificarePass {
         case date
     }
 
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         id = try container.decode(String.self, forKey: .id)
@@ -115,7 +115,7 @@ public extension NotificarePass {
         date = try container.decode(Date.self, forKey: .date)
     }
 
-    func encode(to encoder: Encoder) throws {
+    public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(id, forKey: .id)
@@ -135,13 +135,13 @@ public extension NotificarePass {
 }
 
 // JSON: NotificarePass.Redemption
-public extension NotificarePass.Redemption {
-    func toJson() throws -> [String: Any] {
+extension NotificarePass.Redemption {
+    public func toJson() throws -> [String: Any] {
         let data = try NotificareUtils.jsonEncoder.encode(self)
         return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
     }
 
-    static func fromJson(json: [String: Any]) throws -> NotificarePass.Redemption {
+    public static func fromJson(json: [String: Any]) throws -> NotificarePass.Redemption {
         let data = try JSONSerialization.data(withJSONObject: json, options: [])
         return try NotificareUtils.jsonDecoder.decode(NotificarePass.Redemption.self, from: data)
     }

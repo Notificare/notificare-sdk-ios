@@ -24,9 +24,9 @@ internal class NotificareSessionModuleImpl: NSObject, NotificareModule {
 
     // MARK: - Notificare Module
 
-    static let instance = NotificareSessionModuleImpl()
+    internal static let instance = NotificareSessionModuleImpl()
 
-    func configure() {
+    internal func configure() {
         // Listen to 'application did become active'
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(applicationDidBecomeActive),
@@ -40,7 +40,7 @@ internal class NotificareSessionModuleImpl: NSObject, NotificareModule {
                                                object: nil)
     }
 
-    func launch() async throws {
+    internal func launch() async throws {
         if sessionId == nil, Notificare.shared.device().currentDevice != nil, await UIApplication.shared.applicationState == .active {
             // Launch is taking place after the application came to the foreground.
             // Start the application session.
@@ -48,7 +48,7 @@ internal class NotificareSessionModuleImpl: NSObject, NotificareModule {
         }
     }
 
-    func unlaunch() async throws {
+    internal func unlaunch() async throws {
         sessionEnd = Date()
         await stopSession()
     }
@@ -100,7 +100,7 @@ internal class NotificareSessionModuleImpl: NSObject, NotificareModule {
             self?.cancelBackgroundTask()
         }
     }
-    
+
     private func startSession() async {
         let sessionId = UUID().uuidString.lowercased()
         let sessionStart = Date()
@@ -108,7 +108,7 @@ internal class NotificareSessionModuleImpl: NSObject, NotificareModule {
         self.sessionId = sessionId
         self.sessionStart = sessionStart
         sessionEnd = nil
-        
+
         NotificareLogger.debug("Session '\(sessionId)' started at \(dateFormatter.string(from: sessionStart)).")
 
         do {
@@ -124,7 +124,7 @@ internal class NotificareSessionModuleImpl: NSObject, NotificareModule {
             completion(.success(()))
         }
     }
-    
+
     private func stopSession() async {
         guard let sessionId = sessionId,
               let sessionStart = sessionStart,
@@ -142,7 +142,7 @@ internal class NotificareSessionModuleImpl: NSObject, NotificareModule {
         NotificareLogger.debug("Session '\(sessionId)' stopped at \(dateFormatter.string(from: sessionEnd)).")
 
         let length = sessionEnd.timeIntervalSince(sessionStart)
-        
+
         do {
             try await Notificare.shared.eventsImplementation().logApplicationClose(sessionId: sessionId, sessionLength: length)
         } catch {

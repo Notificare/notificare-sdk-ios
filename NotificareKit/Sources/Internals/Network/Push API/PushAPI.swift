@@ -4,8 +4,8 @@
 
 import Foundation
 
-public extension NotificareInternals {
-    enum PushAPI {
+extension NotificareInternals {
+    public enum PushAPI {
         // Add any contants related to the Push API, if appropriate.
 
         // Serve as the base namespace for internal models.

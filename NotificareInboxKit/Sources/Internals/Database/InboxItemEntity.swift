@@ -5,8 +5,8 @@
 import CoreData
 import NotificareKit
 
-internal extension InboxItemEntity {
-    var expired: Bool {
+extension InboxItemEntity {
+    internal var expired: Bool {
         if let expiresAt = expires {
             return expiresAt <= Date()
         }
@@ -14,7 +14,7 @@ internal extension InboxItemEntity {
         return false
     }
 
-    convenience init(from model: NotificareInboxItem, visible: Bool, context: NSManagedObjectContext) throws {
+    internal convenience init(from model: NotificareInboxItem, visible: Bool, context: NSManagedObjectContext) throws {
         let encoder = NotificareUtils.jsonEncoder
 
         self.init(context: context)
@@ -33,7 +33,7 @@ internal extension InboxItemEntity {
         expires = model.expires
     }
 
-    func setNotification(_ notification: NotificareNotification) throws {
+    internal func setNotification(_ notification: NotificareNotification) throws {
         let encoder = NotificareUtils.jsonEncoder
 
         do {
@@ -43,7 +43,7 @@ internal extension InboxItemEntity {
         }
     }
 
-    func toModel() throws -> NotificareInboxItem {
+    internal func toModel() throws -> NotificareInboxItem {
         let decoder = NotificareUtils.jsonDecoder
 
         guard let id = id else {

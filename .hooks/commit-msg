@@ -1,0 +1,9 @@
+#!/bin/sh
+
+if [ `npm list -g --depth=0 | grep -c @commitlint/cli` -eq 0 ]; then
+    echo "CommitLint appears to not be installed."
+    echo "Please visit https://commitlint.js.org/guides/getting-started.html to install it"
+    exit 1
+fi
+
+npx --no -- commitlint --edit $1

@@ -5,8 +5,8 @@
 import Foundation
 import NotificareKit
 
-public extension Notificare {
-    func inAppMessaging() -> NotificareInAppMessaging {
+extension Notificare {
+    public func inAppMessaging() -> NotificareInAppMessaging {
         NotificareInAppMessagingImpl.instance
     }
 }

@@ -6,13 +6,13 @@ import NotificareKit
 import UIKit
 
 public class NotificareBaseNotificationViewController: UIViewController {
-    var notification: NotificareNotification!
+    internal var notification: NotificareNotification!
 
     public private(set) var theme: NotificareOptions.Theme?
 
-    private(set) var actionsButton: UIBarButtonItem?
+    internal private(set) var actionsButton: UIBarButtonItem?
 
-    var isActionsButtonEnabled: Bool = false {
+    internal var isActionsButtonEnabled: Bool = false {
         didSet {
             renderNavigationBarItems()
         }
@@ -39,11 +39,11 @@ public class NotificareBaseNotificationViewController: UIViewController {
         }
     }
 
-    @objc func dismissViewController() {
+    @objc internal func dismissViewController() {
         dismiss(animated: true)
     }
 
-    @objc func showActions() {
+    @objc internal func showActions() {
         let alert: UIAlertController
 
         if UIDevice.current.userInterfaceIdiom == .pad, let actionsButton {
@@ -89,11 +89,11 @@ public class NotificareBaseNotificationViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
 
-    func handleAction(_ action: NotificareNotification.Action) {
+    internal func handleAction(_ action: NotificareNotification.Action) {
         Notificare.shared.pushUI().presentAction(action, for: notification, in: self)
     }
 
-    func hasNotificareQueryParameters(in url: URL) -> Bool {
+    internal func hasNotificareQueryParameters(in url: URL) -> Bool {
         guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
             return false
         }
@@ -115,7 +115,7 @@ public class NotificareBaseNotificationViewController: UIViewController {
         }
     }
 
-    func handleNotificareQueryParameters(for url: URL) {
+    internal func handleNotificareQueryParameters(for url: URL) {
         guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
             return
         }
@@ -219,6 +219,7 @@ public class NotificareBaseNotificationViewController: UIViewController {
     }
 }
 
+// swiftlint:disable:next no_extension_access_modifier
 private extension UIViewController {
     var isModal: Bool {
         if let index = navigationController?.viewControllers.firstIndex(of: self), index > 0 {

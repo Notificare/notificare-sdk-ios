@@ -4,30 +4,30 @@
 
 import Foundation
 
-public extension Notificare {
-    func device() -> NotificareDeviceModule {
+extension Notificare {
+    public func device() -> NotificareDeviceModule {
         NotificareDeviceModuleImpl.instance
     }
 
-    func events() -> NotificareEventsModule {
+    public func events() -> NotificareEventsModule {
         NotificareEventsModuleImpl.instance
     }
 }
 
-internal extension Notificare {
-    func deviceImplementation() -> NotificareDeviceModuleImpl {
+extension Notificare {
+    internal func deviceImplementation() -> NotificareDeviceModuleImpl {
         NotificareDeviceModuleImpl.instance
     }
 
-    func eventsImplementation() -> NotificareEventsModuleImpl {
+    internal func eventsImplementation() -> NotificareEventsModuleImpl {
         NotificareEventsModuleImpl.instance
     }
 
-    func session() -> NotificareSessionModuleImpl {
+    internal func session() -> NotificareSessionModuleImpl {
         NotificareSessionModuleImpl.instance
     }
 
-    func crashReporter() -> NotificareCrashReporterModuleImpl {
+    internal func crashReporter() -> NotificareCrashReporterModuleImpl {
         NotificareCrashReporterModuleImpl.instance
     }
 }

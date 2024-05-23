@@ -4,8 +4,8 @@
 
 import NotificareKit
 
-internal extension NotificareInternals.PushAPI.Responses {
-    struct FetchProducts: Decodable {
-        let products: [NotificareInternals.PushAPI.Models.Product]
+extension NotificareInternals.PushAPI.Responses {
+    internal struct FetchProducts: Decodable {
+        internal let products: [NotificareInternals.PushAPI.Models.Product]
     }
 }

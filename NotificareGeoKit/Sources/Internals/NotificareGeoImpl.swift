@@ -76,14 +76,14 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
 
     // MARK: - Notificare Module
 
-    static let instance = NotificareGeoImpl()
+    internal static let instance = NotificareGeoImpl()
 
-    func migrate() {
+    internal func migrate() {
         LocalStorage.locationServicesEnabled = UserDefaults.standard.bool(forKey: "notificareAllowedLocationServices")
         LocalStorage.bluetoothEnabled = UserDefaults.standard.bool(forKey: "notificareBluetoothON")
     }
 
-    func configure() {
+    internal func configure() {
         locationManager = CLLocationManager()
         locationManager?.delegate = self
         locationManager?.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
@@ -106,14 +106,14 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
                                                object: nil)
     }
 
-    func postLaunch() async throws {
+    internal func postLaunch() async throws {
         if hasLocationServicesEnabled {
             NotificareLogger.debug("Enabling locations updates automatically.")
             enableLocationUpdates()
         }
     }
 
-    func unlaunch() async throws {
+    internal func unlaunch() async throws {
         LocalStorage.locationServicesEnabled = false
 
         stopMonitoringGeofences()
@@ -131,15 +131,15 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
         set { LocalStorage.bluetoothEnabled = newValue }
     }
 
-    var hasLocationServicesEnabled: Bool {
+    public var hasLocationServicesEnabled: Bool {
         LocalStorage.locationServicesEnabled
     }
 
-    var monitoredRegions: [NotificareRegion] {
+    public var monitoredRegions: [NotificareRegion] {
         LocalStorage.monitoredRegions
     }
 
-    var enteredRegions: [NotificareRegion] {
+    public var enteredRegions: [NotificareRegion] {
         let monitoredRegions = LocalStorage.monitoredRegions
 
         return LocalStorage.enteredRegions.compactMap { id in
@@ -149,7 +149,7 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
         }
     }
 
-    func enableLocationUpdates() {
+    public func enableLocationUpdates() {
         do {
             try checkPrerequisites()
             try checkPlistPrerequisites()
@@ -191,7 +191,7 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
         }
     }
 
-    func disableLocationUpdates() {
+    public func disableLocationUpdates() {
         do {
             try checkPrerequisites()
             try checkPlistPrerequisites()
@@ -303,20 +303,20 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
 
         Task {
             await saveLocation(location)
-                
+
             if #available(iOS 14.0, *) {
                 // Do not monitor regions unless we have full accuracy and always auth.
                 guard self.locationManager.accuracyAuthorization == .fullAccuracy, self.locationManager.authorizationStatus == .authorizedAlways else {
                     // Unlock location updates.
                     self.processingLocationUpdate = false
-                        
+
                     return
                 }
             }
-            
+
             // Load the nearest regions.
             await loadNearestRegions(location)
-            
+
             // Unlock location updates.
             self.processingLocationUpdate = false
         }
@@ -364,10 +364,10 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
 
         return false
     }
-    
+
     private func saveLocation(_ location: CLLocation) async {
         let placemarks: [CLPlacemark]
-        
+
         do {
             let geocoder = CLGeocoder()
             placemarks = try await geocoder.reverseGeocodeLocation(location)
@@ -375,13 +375,13 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
             NotificareLogger.warning("Failed to reverse geocode location.", error: error)
             return
         }
-        
+
         guard let placemark = placemarks.first,
                 let device = Notificare.shared.device().currentDevice
         else {
             return
         }
-            
+
         let payload = NotificareInternals.PushAPI.Payloads.UpdateDeviceLocation(
             latitude: location.coordinate.latitude,
             longitude: location.coordinate.longitude,
@@ -394,28 +394,28 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
             locationServicesAuthStatus: self.authorizationMode,
             locationServicesAccuracyAuth: self.accuracyMode
         )
-            
+
         do {
             try await NotificareRequest.Builder()
                 .put("/device/\(device.id)", body: payload)
                 .response()
-                
+
             NotificareLogger.info("Updated location to '\(placemark.name ?? "unknown")'.")
         } catch {
             NotificareLogger.error("Failed to save location to '\(placemark.name ?? "unknown")'.", error: error)
         }
     }
-    
+
     private func loadNearestRegions(_ location: CLLocation) async {
         do {
             let response = try await NotificareRequest.Builder()
                 .get("region/bylocation/\(location.coordinate.latitude)/\(location.coordinate.longitude)")
                 .query(name: "limit", value: String(monitoredRegionsLimit))
                 .responseDecodable(NotificareInternals.PushAPI.Responses.FetchRegions.self)
-            
+
             let regions = response.regions
                 .map { $0.toModel() }
-            
+
             monitorRegions(regions)
         } catch {
             NotificareLogger.error("Failed to load nearest regions.", error: error)
@@ -519,12 +519,12 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
         clearBeacons()
     }
 
-    private func clearDeviceLocation() async throws{
+    private func clearDeviceLocation() async throws {
         guard let device = Notificare.shared.device().currentDevice else {
             NotificareLogger.warning("Cannot update location authorization state without a device.")
             throw NotificareError.deviceUnavailable
         }
-        
+
         let payload = NotificareInternals.PushAPI.Payloads.UpdateDeviceLocation(
             latitude: nil,
             longitude: nil,
@@ -537,12 +537,12 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
             locationServicesAuthStatus: nil,
             locationServicesAccuracyAuth: nil
         )
-        
+
         do {
             try await NotificareRequest.Builder()
                 .put("/device/\(device.id)", body: payload)
                 .response()
-            
+
             NotificareLogger.debug("Device location cleared.")
         } catch {
             NotificareLogger.error("Failed to clear the device location.", error: error)
@@ -720,7 +720,7 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
                 try await NotificareRequest.Builder()
                     .post("trigger/re.notifica.trigger.region.Enter", body: payload)
                     .response()
-                
+
                 NotificareLogger.debug("Triggered region enter.")
 
             } catch {
@@ -748,7 +748,7 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
                 try await NotificareRequest.Builder()
                     .post("trigger/re.notifica.trigger.region.Exit", body: payload)
                     .response()
-                
+
                 NotificareLogger.debug("Triggered region exit.")
             } catch {
                 NotificareLogger.error("Failed to trigger a region exit.", error: error)
@@ -768,13 +768,13 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
             deviceID: device.id,
             beacon: beacon.id
         )
-        
+
         Task {
             do {
                 try await NotificareRequest.Builder()
                     .post("trigger/re.notifica.trigger.beacon.Enter", body: payload)
                     .response()
-                
+
                 NotificareLogger.debug("Triggered beacon enter.")
             } catch {
                 NotificareLogger.error("Failed to trigger a beacon enter.", error: error)
@@ -794,13 +794,13 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
             deviceID: device.id,
             beacon: beacon.id
         )
-        
+
         Task {
             do {
                 try await NotificareRequest.Builder()
                     .post("trigger/re.notifica.trigger.beacon.Exit", body: payload)
                     .response()
-                
+
                 NotificareLogger.debug("Triggered beacon exit.")
             } catch {
                 NotificareLogger.error("Failed to trigger a beacon exit.", error: error)
@@ -863,10 +863,10 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
                 NotificareLogger.debug("Skipping region session end since no session exists for region '\(region.name)'.")
                 return
             }
-            
+
             sessions.removeAll(where: { $0.regionId == region.id })
             LocalStorage.regionSessions = sessions
-            
+
             if session.locations.count > MAX_REGION_SESSION_LOCATIONS {
                 session = NotificareRegionSession(
                     regionId: session.regionId,
@@ -878,7 +878,7 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
 
             do {
                 try await Notificare.shared.events().logRegionSession(session)
-                
+
                 NotificareLogger.debug("Region session logged.")
             } catch {
                 NotificareLogger.error("Failed to log the region session.", error: error)
@@ -962,7 +962,7 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
         Task {
             do {
                 try await Notificare.shared.events().logBeaconSession(session)
-                
+
                 NotificareLogger.debug("Beacon session logged.")
             } catch {
                 NotificareLogger.error("Failed to log the beacon session.", error: error)
@@ -1017,10 +1017,10 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
                     .get("/beacon/forregion/\(region.id)")
                     .query(name: "limit", value: String(monitoredBeaconsLimit))
                     .responseDecodable(NotificareInternals.PushAPI.Responses.FetchBeacons.self)
-                
+
                 let beacons = response.beacons
                     .map { $0.toModel() }
-                
+
                 // Start monitoring every beacon.
                 beacons.forEach { self.startMonitoringBeacon($0, with: uuid) }
 
@@ -1239,7 +1239,7 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
                     try await NotificareRequest.Builder()
                         .put("/device/\(device.id)", body: payload)
                         .response()
-                    
+
                     NotificareLogger.debug("Bluetooth state updated.")
                     self.hasBluetoothEnabled = enabled
                 } catch {
@@ -1265,7 +1265,8 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
 
         // Request user location when we're only authorized while in use
         // or when the background updates are not available.
-        if CLLocationManager.authorizationStatus() == .authorizedWhenInUse ||
+        if
+            CLLocationManager.authorizationStatus() == .authorizedWhenInUse ||
             UIApplication.shared.backgroundRefreshStatus == .denied ||
             UIApplication.shared.backgroundRefreshStatus == .restricted ||
             !CLLocationManager.significantLocationChangeMonitoringAvailable()
@@ -1520,7 +1521,10 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
                 return
             }
 
-            if region.isPolygon, (state == .inside || state == .outside) {
+            if
+                region.isPolygon,
+                state == .inside || state == .outside
+            {
                 let newState: CLRegionState = LocalStorage.enteredRegions.contains(region.id) ? .inside : .outside
 
                 DispatchQueue.main.async {

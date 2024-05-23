@@ -4,13 +4,13 @@
 
 import Foundation
 
-public extension URLSession {
+extension URLSession {
     /// Default number of retries to attempt on each `URLRequest` instance. To customize, supply desired value to `perform()`
-    static var maximumNumberOfRetries: Int = 5
+    public static var maximumNumberOfRetries: Int = 5
 
     /// Output types
-    typealias DataResult = Result<(response: HTTPURLResponse, data: Data?), NotificareNetworkError>
-    typealias Callback = (DataResult) -> Void
+    public typealias DataResult = Result<(response: HTTPURLResponse, data: Data?), NotificareNetworkError>
+    public typealias Callback = (DataResult) -> Void
 
     /// Executes given URLRequest instance, possibly retrying the said number of times. Through `callback` returns either `Data` from the response or `NetworkError` instance.
     /// If any authentication needs to be done, it's handled internally by this methods and its derivatives.
@@ -18,10 +18,10 @@ public extension URLSession {
     ///   - urlRequest: URLRequest instance to execute.
     ///   - maxRetries: Number of automatic retries (default is 5).
     ///   - callback: Closure to return the result of the request's execution.
-    func perform(_ urlRequest: URLRequest,
-                 maxRetries: Int = URLSession.maximumNumberOfRetries,
-                 allowEmptyData: Bool = false,
-                 callback: @escaping Callback)
+    public func perform(_ urlRequest: URLRequest,
+                        maxRetries: Int = URLSession.maximumNumberOfRetries,
+                        allowEmptyData: Bool = false,
+                        callback: @escaping Callback)
     {
         if maxRetries <= 0 {
             fatalError("maxRetries must be 1 or larger.")
@@ -32,10 +32,11 @@ public extension URLSession {
     }
 }
 
-private extension URLSession {
+extension URLSession {
     /// Helper type which groups `URLRequest` (input), `Callback` from the caller (output)
     /// along with helpful processing properties, like number of retries.
-    typealias NetworkRequest = (
+    private typealias NetworkRequest = (
+        // swiftlint:disable:previous large_tuple
         urlRequest: URLRequest,
         currentRetries: Int,
         maxRetries: Int,
@@ -44,7 +45,7 @@ private extension URLSession {
     )
 
     /// Extra-step where `URLRequest`'s authorization should be handled, before actually performing the URLRequest in `execute()`
-    func authenticate(_ networkRequest: NetworkRequest) {
+    private func authenticate(_ networkRequest: NetworkRequest) {
         let currentRetries = networkRequest.currentRetries
         let maxRetries = networkRequest.maxRetries
         let callback = networkRequest.callback
@@ -64,7 +65,7 @@ private extension URLSession {
     }
 
     ///    Creates the instance of `URLSessionDataTask`, performs it then lightly processes the response before calling `validate`.
-    func execute(_ networkRequest: NetworkRequest) {
+    private func execute(_ networkRequest: NetworkRequest) {
         let urlRequest = networkRequest.urlRequest
 
         let task = dataTask(with: urlRequest) { [unowned self] data, urlResponse, error in
@@ -76,7 +77,7 @@ private extension URLSession {
     }
 
     ///    Process results of `URLSessionDataTask` and converts it into `DataResult` instance
-    func process(_ data: Data?, _ urlResponse: URLResponse?, _ error: Error?, for _: NetworkRequest) -> DataResult {
+    private func process(_ data: Data?, _ urlResponse: URLResponse?, _ error: Error?, for _: NetworkRequest) -> DataResult {
         if let urlError = error as? URLError {
             return .failure(NotificareNetworkError.urlError(urlError))
         } else if let otherError = error {
@@ -107,7 +108,7 @@ private extension URLSession {
     }
 
     ///    Checks the result of URLSessionDataTask and if there were errors, should the URLRequest be retried.
-    func validate(_ result: DataResult, for networkRequest: NetworkRequest) {
+    private func validate(_ result: DataResult, for networkRequest: NetworkRequest) {
         let callback = networkRequest.callback
 
         switch result {

@@ -12,7 +12,7 @@ internal class InboxIntegration {
 
     private init() {}
 
-    static func reloadInbox() {
+    internal static func reloadInbox() {
         NotificationCenter.default.post(
             name: reloadInboxNotification,
             object: nil,
@@ -20,7 +20,7 @@ internal class InboxIntegration {
         )
     }
 
-    static func refreshBadge() {
+    internal static func refreshBadge() {
         NotificationCenter.default.post(
             name: refreshBadgeNotification,
             object: nil,
@@ -28,7 +28,7 @@ internal class InboxIntegration {
         )
     }
 
-    static func addItemToInbox(userInfo: [AnyHashable: Any], notification: NotificareNotification) {
+    internal static func addItemToInbox(userInfo: [AnyHashable: Any], notification: NotificareNotification) {
         guard let inboxItemId = userInfo["inboxItemId"] as? String else {
             NotificareLogger.debug("Received a notification payload without an inbox item id. Inbox functionality disabled.")
             return
@@ -52,7 +52,7 @@ internal class InboxIntegration {
         )
     }
 
-    static func markItemAsRead(userInfo: [AnyHashable: Any]) {
+    internal static func markItemAsRead(userInfo: [AnyHashable: Any]) {
         guard let inboxItemId = userInfo["inboxItemId"] as? String else {
             NotificareLogger.debug("Received a notification payload without an inbox item id. Inbox functionality disabled.")
             return

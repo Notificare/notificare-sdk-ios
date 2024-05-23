@@ -8,9 +8,9 @@ import UIKit
 internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, NotificareDeviceModule, NotificareInternalDeviceModule {
     // MARK: - Notificare Module
 
-    static let instance = NotificareDeviceModuleImpl()
+    internal static let instance = NotificareDeviceModuleImpl()
 
-    func configure() {
+    internal func configure() {
         // Listen to timezone changes
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(updateDeviceTimezone),
@@ -30,7 +30,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
                                                object: nil)
     }
 
-    func launch() async throws {
+    internal func launch() async throws {
         if let device = currentDevice {
             do {
                 try await register(transport: device.transport, token: device.id, userId: device.userId, userName: device.userName)
@@ -38,10 +38,10 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
                 NotificareLogger.warning("Failed to register device.", error: error)
                 throw error
             }
-            
+
             do {
                 try await Notificare.shared.session().launch()
-                
+
                 if device.appVersion != NotificareUtils.applicationVersion {
                     // It's not the same version, let's log it as an upgrade.
                     NotificareLogger.debug("New version detected")
@@ -60,10 +60,10 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
                 NotificareLogger.warning("Failed to register temporary device.", error: error)
                 throw error
             }
-            
+
             do {
                 try await Notificare.shared.session().launch()
-                
+
                 // We will log the Install & Registration events here since this will execute only one time at the start.
                 try? await Notificare.shared.eventsImplementation().logApplicationInstall()
                 try? await Notificare.shared.eventsImplementation().logApplicationRegistration()
@@ -74,7 +74,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         }
     }
 
-    func postLaunch() async throws {
+    internal func postLaunch() async throws {
         if let device = currentDevice {
             DispatchQueue.main.async {
                 Notificare.shared.delegate?.notificare(Notificare.shared, didRegisterDevice: device)
@@ -143,7 +143,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         guard Notificare.shared.isReady else {
             throw NotificareError.notReady
         }
-        
+
         if let preferredLanguage = preferredLanguage {
             let parts = preferredLanguage.components(separatedBy: "-")
 
@@ -162,7 +162,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
             }
 
             try await updateLanguage(language, region: region)
-            
+
             LocalStorage.preferredLanguage = language
             LocalStorage.preferredRegion = region
         } else {
@@ -170,7 +170,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
             let region = NotificareUtils.deviceRegion
 
             try await updateLanguage(language, region: region)
-                
+
             LocalStorage.preferredLanguage = nil
             LocalStorage.preferredRegion = nil
         }
@@ -191,11 +191,11 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         guard Notificare.shared.isReady, let device = currentDevice else {
             throw NotificareError.notReady
         }
-        
+
         let response = try await NotificareRequest.Builder()
             .get("/device/\(device.id)/tags")
             .responseDecodable(NotificareInternals.PushAPI.Responses.Tags.self)
-        
+
         return response.tags
     }
 
@@ -213,7 +213,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
     public func addTag(_ tag: String) async throws {
         try await addTags([tag])
     }
-    
+
     public func addTags(_ tags: [String], _ completion: @escaping NotificareCallback<Void>) {
         Task {
             do {
@@ -229,7 +229,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         guard Notificare.shared.isReady, let device = currentDevice else {
             throw NotificareError.notReady
         }
-        
+
         try await NotificareRequest.Builder()
             .put("/device/\(device.id)/addtags", body: NotificareInternals.PushAPI.Payloads.Device.Tags(tags: tags))
             .response()
@@ -265,7 +265,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         guard Notificare.shared.isReady, let device = currentDevice else {
             throw NotificareError.notReady
         }
-        
+
         try await NotificareRequest.Builder()
             .put("/device/\(device.id)/removetags", body: NotificareInternals.PushAPI.Payloads.Device.Tags(tags: tags))
             .response()
@@ -286,7 +286,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         guard Notificare.shared.isReady, let device = currentDevice else {
             throw NotificareError.notReady
         }
-        
+
         try await NotificareRequest.Builder()
             .put("/device/\(device.id)/cleartags")
             .response()
@@ -307,14 +307,14 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         guard Notificare.shared.isReady, let device = currentDevice else {
             throw NotificareError.notReady
         }
-        
+
         let response = try await NotificareRequest.Builder()
             .get("/device/\(device.id)/dnd")
             .responseDecodable(NotificareInternals.PushAPI.Responses.DoNotDisturb.self)
-        
+
         // Update current device properties.
         currentDevice?.dnd = response.dnd
-        
+
         return response.dnd
     }
 
@@ -333,11 +333,11 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         guard Notificare.shared.isReady, let device = currentDevice else {
             throw NotificareError.notReady
         }
-        
+
         try await NotificareRequest.Builder()
             .put("/device/\(device.id)/dnd", body: dnd)
             .response()
-        
+
         // Update current device properties.
         currentDevice?.dnd = dnd
     }
@@ -357,11 +357,11 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         guard Notificare.shared.isReady, let device = currentDevice else {
             throw NotificareError.notReady
         }
-        
+
         try await NotificareRequest.Builder()
             .put("/device/\(device.id)/cleardnd")
             .response()
-        
+
         // Update current device properties.
         currentDevice?.dnd = nil
     }
@@ -381,16 +381,16 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         guard Notificare.shared.isReady, let device = currentDevice else {
             throw NotificareError.notReady
         }
-        
+
         let response = try await NotificareRequest.Builder()
             .get("/device/\(device.id)/userdata")
             .responseDecodable(NotificareInternals.PushAPI.Responses.UserData.self)
-        
+
         let userData = response.userData?.compactMapValues { $0 } ?? [:]
 
         // Update current device properties.
         currentDevice?.userData = userData
-        
+
         return userData
     }
 
@@ -409,17 +409,17 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         guard Notificare.shared.isReady, let device = currentDevice else {
             throw NotificareError.notReady
         }
-        
+
         try await NotificareRequest.Builder()
             .put("/device/\(device.id)/userdata", body: userData)
             .response()
-        
+
         // Update current device properties.
         currentDevice?.userData = userData
     }
 
     // MARK: - Notificare Internal Device Module
-    
+
     public func registerTemporary() async throws {
         var token = withUnsafePointer(to: UUID().uuid) {
             Data(bytes: $0, count: 16)
@@ -447,7 +447,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
     public func registerAPNS(token: String) async throws {
         try await register(transport: .apns, token: token, userId: currentDevice?.userId, userName: currentDevice?.userName)
     }
-    
+
     // MARK: - Internal API
 
     internal func delete(_ completion: @escaping NotificareCallback<Void>) {
@@ -460,7 +460,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
             }
         }
     }
-    
+
     internal func delete() async throws {
         guard Notificare.shared.isReady, let device = currentDevice else {
             throw NotificareError.notReady
@@ -469,7 +469,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         try await NotificareRequest.Builder()
             .delete("/device/\(device.id)")
             .response()
-        
+
         // Update current device properties.
         currentDevice = nil
     }
@@ -488,7 +488,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         try await NotificareRequest.Builder()
             .put("/device/\(device.id)", body: payload)
             .response()
-        
+
         // Update current device properties.
         currentDevice?.timeZoneOffset = payload.timeZoneOffset
     }
@@ -506,7 +506,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         try await NotificareRequest.Builder()
             .put("/device/\(device.id)", body: payload)
             .response()
-        
+
         // Update current device properties.
         currentDevice?.language = payload.language
         currentDevice?.region = payload.region
@@ -525,12 +525,12 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
 
         try await NotificareRequest.Builder()
             .put("/device/\(device.id)", body: payload)
-            .response() 
-        
+            .response()
+
         // Update current device properties.
         currentDevice?.backgroundAppRefresh = payload.backgroundAppRefresh
     }
-    
+
     private func register(transport: NotificareTransport, token: String, userId: String?, userName: String?) async throws {
         if registrationChanged(token: token, userId: userId, userName: userName) {
             // NOTE: the backgroundRefreshStatus will print a warning when accessed from background threads.
@@ -561,8 +561,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
                 try await NotificareRequest.Builder()
                     .post("/device", body: deviceRegistration)
                     .response()
-                    
-                    
+
                 let device = NotificareDevice(from: deviceRegistration, previous: self.currentDevice)
 
                 // Update and store the cached device.
@@ -588,16 +587,16 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
             }
         }
     }
-    
+
     internal func registerTestDevice(nonce: String) async throws {
         guard let device = currentDevice else {
             throw NotificareError.notReady
         }
-        
+
         let payload = NotificareInternals.PushAPI.Payloads.TestDeviceRegistration(
             deviceID: device.id
         )
-        
+
         try await NotificareRequest.Builder()
             .put("/support/testdevice/\(nonce)", body: payload)
             .response()

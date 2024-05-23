@@ -5,8 +5,8 @@
 import Foundation
 import NotificareKit
 
-public extension Notificare {
-    func geo() -> NotificareGeo {
+extension Notificare {
+    public func geo() -> NotificareGeo {
         NotificareGeoImpl.instance
     }
 }

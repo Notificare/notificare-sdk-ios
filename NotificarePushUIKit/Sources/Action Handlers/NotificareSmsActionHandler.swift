@@ -8,13 +8,13 @@ import NotificareKit
 public class NotificareSmsActionHandler: NotificareBaseActionHandler {
     private let sourceViewController: UIViewController
 
-    init(notification: NotificareNotification, action: NotificareNotification.Action, sourceViewController: UIViewController) {
+    internal init(notification: NotificareNotification, action: NotificareNotification.Action, sourceViewController: UIViewController) {
         self.sourceViewController = sourceViewController
 
         super.init(notification: notification, action: action)
     }
 
-    override func execute() {
+    internal override func execute() {
         guard let target = action.target, MFMessageComposeViewController.canSendText() else {
             DispatchQueue.main.async {
                 Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToExecuteAction: self.action, for: self.notification, error: ActionError.notSupported)
@@ -80,8 +80,8 @@ extension NotificareSmsActionHandler: MFMessageComposeViewControllerDelegate {
     }
 }
 
-public extension NotificareSmsActionHandler {
-    enum ActionError: LocalizedError {
+extension NotificareSmsActionHandler {
+    public enum ActionError: LocalizedError {
         case notSupported
         case failed
 

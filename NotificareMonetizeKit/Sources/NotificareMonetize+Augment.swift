@@ -5,8 +5,8 @@
 import Foundation
 import NotificareKit
 
-public extension Notificare {
-    func monetize() -> NotificareMonetize {
+extension Notificare {
+    public func monetize() -> NotificareMonetize {
         NotificareMonetizeImpl.instance
     }
 }

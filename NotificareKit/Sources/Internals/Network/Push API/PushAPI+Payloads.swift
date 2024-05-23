@@ -4,66 +4,66 @@
 
 import Foundation
 
-internal extension NotificareInternals.PushAPI.Payloads {
-    enum Device {
-        struct Registration: Encodable {
-            let deviceID: String
-            let oldDeviceID: String?
-            let userID: String?
-            let userName: String?
-            let language: String
-            let region: String
-            let platform: String
-            let transport: NotificareTransport
-            let osVersion: String
-            let sdkVersion: String
-            let appVersion: String
-            let deviceString: String
-            let timeZoneOffset: Float
-            let backgroundAppRefresh: Bool
-            let allowedUI: Bool?
+extension NotificareInternals.PushAPI.Payloads {
+    internal enum Device {
+        internal struct Registration: Encodable {
+            internal let deviceID: String
+            internal let oldDeviceID: String?
+            internal let userID: String?
+            internal let userName: String?
+            internal let language: String
+            internal let region: String
+            internal let platform: String
+            internal let transport: NotificareTransport
+            internal let osVersion: String
+            internal let sdkVersion: String
+            internal let appVersion: String
+            internal let deviceString: String
+            internal let timeZoneOffset: Float
+            internal let backgroundAppRefresh: Bool
+            internal let allowedUI: Bool?
         }
 
-        struct UpdateTimeZone: Encodable {
-            let language: String
-            let region: String
-            let timeZoneOffset: Float
+        internal struct UpdateTimeZone: Encodable {
+            internal let language: String
+            internal let region: String
+            internal let timeZoneOffset: Float
         }
 
-        struct UpdateLanguage: Encodable {
-            let language: String
-            let region: String
+        internal struct UpdateLanguage: Encodable {
+            internal let language: String
+            internal let region: String
         }
 
-        struct UpdateBackgroundAppRefresh: Encodable {
-            let language: String
-            let region: String
-            let backgroundAppRefresh: Bool
+        internal struct UpdateBackgroundAppRefresh: Encodable {
+            internal let language: String
+            internal let region: String
+            internal let backgroundAppRefresh: Bool
         }
 
-        struct Tags: Encodable {
-            let tags: [String]
-        }
-    }
-
-    struct CreateEvent: Encodable {}
-
-    struct CreateNotificationReply: Encodable {
-        let notification: String
-        let deviceID: String
-        let userID: String?
-        let label: String
-        let data: ReplyData
-
-        struct ReplyData: Encodable {
-            let target: String?
-            let message: String?
-            let media: String?
-            let mimeType: String?
+        internal struct Tags: Encodable {
+            internal let tags: [String]
         }
     }
 
-    struct TestDeviceRegistration: Encodable {
-        let deviceID: String
+    internal struct CreateEvent: Encodable {}
+
+    internal struct CreateNotificationReply: Encodable {
+        internal let notification: String
+        internal let deviceID: String
+        internal let userID: String?
+        internal let label: String
+        internal let data: ReplyData
+
+        internal struct ReplyData: Encodable {
+            internal let target: String?
+            internal let message: String?
+            internal let media: String?
+            internal let mimeType: String?
+        }
+    }
+
+    internal struct TestDeviceRegistration: Encodable {
+        internal let deviceID: String
     }
 }
