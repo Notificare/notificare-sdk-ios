@@ -229,11 +229,6 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
             return
         }
 
-        // Leverage a DispatchGroup to wait for the request.
-        let group = DispatchGroup()
-        group.enter()
-
-        // Perform the network request, which can retry internally.
         Task {
             do {
                 try await NotificareRequest.Builder()
@@ -261,12 +256,7 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
                     Notificare.shared.database.remove(managedEvent)
                 }
             }
-
-            group.leave()
         }
-
-        // Wait until the request finishes.
-        group.wait()
     }
 
     @objc private func onApplicationDidBecomeActiveNotification(_: Notification) {
