@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## Upcoming release
+
+- Fix `NotificarePass.type` decoding
+
 ## 3.9.0
 
 - Add support for deferred links
