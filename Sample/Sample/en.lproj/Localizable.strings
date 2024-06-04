@@ -82,7 +82,6 @@
 "home_device_registration" = "Device Registration";
 "home_scannables" = "Scannables";
 "home_assets" = "Assets";
-"home_monetize" = "Monetize";
 "home_athentication" = "Athentication";
 "home_custom_events" = "Custom Events";
 "home_other_features" = "Other Features";
@@ -103,19 +102,6 @@
 "inbox_sheet_mark_as_read" = "Mark as Read";
 "inbox_sheet_remove" = "Remove";
 "inbox_sheet_cancel" = "Cancel";
-
-"monetize_products" = "Products";
-"monetize_purchases" = "Purchases";
-"monetize_no_products_found" = "No products found!";
-"monetize_no_purchases_found" = "No purchases found!";
-"monetize_purchase_id" = "Purchase ID";
-"monetize_purchase_time" = "Purchase Time";
-"monetize_purchase_history" = "Purchase history";
-"monetize_product_id" = "ID";
-"monetize_product_name" = "Name";
-"monetize_product_type" = "Type";
-"monetize_product_price" = "Price";
-"monetize_buy" = "Buy";
 
 "scannables_title" = "Scannables";
 "scannables_nfc" = "NFC";

@@ -33,10 +33,6 @@ let package = Package(
             targets: ["NotificareLoyaltyKit"]
         ),
         .library(
-            name: "NotificareMonetizeKit",
-            targets: ["NotificareMonetizeKit"]
-        ),
-        .library(
             name: "NotificareNotificationServiceExtensionKit",
             targets: ["NotificareNotificationServiceExtensionKit"]
         ),
@@ -87,11 +83,6 @@ let package = Package(
             name: "NotificareLoyaltyKit",
             url: "https://github.com/notificare/notificare-sdk-ios/releases/download/3.9.0/spm-notificare-loyalty.zip",
             checksum: "a69bc423fb897127f8d3aefc2bc0398a3013b9c1504e39118a5fd2497c1b6abe"
-        ),
-        .binaryTarget(
-            name: "NotificareMonetizeKit",
-            url: "https://github.com/notificare/notificare-sdk-ios/releases/download/3.9.0/spm-notificare-monetize.zip",
-            checksum: "8f7721f7825bcea0c6c173acb84636188261ed8f486feaa95d9205c002334df9"
         ),
         .binaryTarget(
             name: "NotificarePushKit",
