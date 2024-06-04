@@ -11,7 +11,6 @@ import NotificareGeoKit
 import NotificareInboxKit
 import NotificareKit
 import NotificareLoyaltyKit
-import NotificareMonetizeKit
 import NotificarePushKit
 import NotificarePushUIKit
 import NotificareScannablesKit

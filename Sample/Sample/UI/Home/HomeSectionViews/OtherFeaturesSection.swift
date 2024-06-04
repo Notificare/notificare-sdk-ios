@@ -36,20 +36,6 @@ internal struct OtherFeaturesSection: View {
             }
 
             NavigationLink {
-                MonetizeView()
-            } label: {
-                Label {
-                    Text(String(localized: "home_monetize"))
-                } icon: {
-                    ListIconView(
-                        icon: "bag.fill",
-                        foregroundColor: .white,
-                        backgroundColor: Color(.systemIndigo)
-                    )
-                }
-            }
-
-            NavigationLink {
                 EventsView()
             } label: {
                 Label {

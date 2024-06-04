@@ -10,7 +10,6 @@ import NotificareInAppMessagingKit
 import NotificareInboxKit
 import NotificareKit
 import NotificareLoyaltyKit
-import NotificareMonetizeKit
 import NotificarePushKit
 import NotificarePushUIKit
 import NotificareScannablesKit
@@ -40,7 +39,6 @@ internal class AppDelegate: NSObject, UIApplicationDelegate {
         Notificare.shared.inAppMessaging().delegate = self
         Notificare.shared.inbox().delegate = self
         Notificare.shared.geo().delegate = self
-        Notificare.shared.monetize().delegate = self
         Notificare.shared.scannables().delegate = self
 
         Notificare.shared.launch()
@@ -334,37 +332,6 @@ extension AppDelegate: NotificareGeoDelegate {
 
     internal func notificare(_: NotificareGeo, didFailRangingFor region: NotificareRegion, with _: Error) {
         Logger.main.error("Failed to range beacons for region = \(region.name)")
-    }
-}
-
-extension AppDelegate: NotificareMonetizeDelegate {
-    internal func notificare(_: NotificareMonetize, didUpdateProducts products: [NotificareProduct]) {
-        Logger.main.info("products updated = \(products)")
-        Logger.main.info("products event == cached products : \(products.count == Notificare.shared.monetize().products.count)")
-    }
-
-    internal func notificare(_: NotificareMonetize, didUpdatePurchases purchases: [NotificarePurchase]) {
-        Logger.main.info("purchases updated = \(purchases)")
-    }
-
-    internal func notificare(_: NotificareMonetize, didFinishPurchase purchase: NotificarePurchase) {
-        Logger.main.info("purchase finished = \(String(describing: purchase))")
-    }
-
-    internal func notificare(_: NotificareMonetize, didRestorePurchase purchase: NotificarePurchase) {
-        Logger.main.info("purchase restored = \(String(describing: purchase))")
-    }
-
-    internal func notificareDidCancelPurchase(_: NotificareMonetize) {
-        Logger.main.info("purchase canceled")
-    }
-
-    internal func notificare(_: NotificareMonetize, didFailToPurchase error: Error) {
-        Logger.main.error("purchase failed = \(error)")
-    }
-
-    internal func notificare(_: NotificareMonetize, processTransaction transaction: SKPaymentTransaction) {
-        Logger.main.info("process transaction: identifier=\(transaction.transactionIdentifier ?? "") state=\(String(describing: transaction.transactionState))")
     }
 }
 
