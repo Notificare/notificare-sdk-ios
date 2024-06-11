@@ -24,7 +24,7 @@ internal class PushTokenRequester {
 
     internal func signalTokenReceived(_ token: Data) {
         guard let continuation else {
-            NotificareLogger.warning("Received an APNS token with a continuation available.")
+            NotificareLogger.warning("Received an APNS token without a continuation available.")
             return
         }
 
@@ -34,7 +34,7 @@ internal class PushTokenRequester {
 
     internal func signalTokenRequestError(_ error: Error) {
         guard let continuation else {
-            NotificareLogger.warning("Received an APNS token error with a continuation available.")
+            NotificareLogger.warning("Received an APNS token error without a continuation available.")
             return
         }
 
