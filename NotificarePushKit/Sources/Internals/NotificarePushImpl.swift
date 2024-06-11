@@ -15,6 +15,7 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
 
     internal let applicationDelegateInterceptor = NotificarePushAppDelegateInterceptor()
     internal let notificationCenterDelegate = NotificareNotificationCenterDelegate()
+    internal let pushTokenRequester = PushTokenRequester()
 
     // MARK: - Notificare Module
 
@@ -53,15 +54,10 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
                                                object: nil)
     }
 
-    internal func launch() async throws {
-        // Ensure the definitive allowedUI value has been communicated to the API.
-        try await updateNotificationSettings()
-    }
-
     internal func postLaunch() async throws {
         if hasRemoteNotificationsEnabled {
             NotificareLogger.debug("Enabling remote notifications automatically.")
-            enableRemoteNotifications { _ in }
+            try await updateDeviceSubscription()
         }
     }
 
@@ -72,8 +68,13 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
 
         // Reset local storage
         LocalStorage.remoteNotificationsEnabled = false
-        LocalStorage.allowedUI = false
         LocalStorage.firstRegistration = true
+
+        self.transport = nil
+        self.subscriptionId = nil
+        self.allowedUI = false
+
+        // TODO: subscriptionChanged event
 
         DispatchQueue.main.async {
             self.delegate?.notificare(self, didChangeNotificationSettings: false)
@@ -100,6 +101,16 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
         LocalStorage.remoteNotificationsEnabled
     }
 
+    public private(set) var transport: NotificareTransport? {
+        get { LocalStorage.transport }
+        set { LocalStorage.transport = newValue }
+    }
+
+    public private(set) var subscriptionId: String? {
+        get { LocalStorage.subscriptionId }
+        set { LocalStorage.subscriptionId = newValue }
+    }
+
     public private(set) var allowedUI: Bool {
         get { LocalStorage.allowedUI }
         set { LocalStorage.allowedUI = newValue }
@@ -122,60 +133,47 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
         // Keep track of the status in local storage.
         LocalStorage.remoteNotificationsEnabled = true
 
-        // Request an APNS token.
-        DispatchQueue.main.async {
-            UIApplication.shared.registerForRemoteNotifications()
-        }
-
         // Request notification authorization options.
         let granted = try await notificationCenter.requestAuthorization(options: authorizationOptions)
 
+        try await updateDeviceSubscription()
+
         if granted {
             NotificareLogger.info("User granted permission to receive alerts, badge and sounds.")
-
             await reloadActionCategories()
-            try await updateNotificationSettings(granted)
-
-            return granted
         } else {
             NotificareLogger.info("User did not grant permission to receive alerts, badge and sounds.")
-            try await updateNotificationSettings(granted)
+        }
 
-            return granted
+        return granted
+    }
+
+    public func disableRemoteNotifications(_ completion: @escaping NotificareCallback<Void>) {
+        Task {
+            do {
+                try await disableRemoteNotifications()
+                completion(.success(()))
+            } catch {
+                completion(.failure(error))
+            }
         }
     }
 
-    public func disableRemoteNotifications() {
-        do {
-            try checkPrerequisites()
-        } catch {
-            return
-        }
+    public func disableRemoteNotifications() async throws {
+        try checkPrerequisites()
 
         // Keep track of the status in local storage.
         LocalStorage.remoteNotificationsEnabled = false
 
-        Task {
-            do {
-                try await Notificare.shared.deviceInternal().registerTemporary()
+        try await updateDeviceSubscription(
+            transport: .notificare,
+            token: nil
+        )
 
-                // Unregister from APNS
-                await UIApplication.shared.unregisterForRemoteNotifications()
+        // Unregister from APNS
+        await UIApplication.shared.unregisterForRemoteNotifications()
 
-                // Update the local notification settings.
-                // Registering a temporary device automatically reports the allowedUI to the API.
-                self.allowedUI = false
-
-                DispatchQueue.main.async {
-                    // Notify the delegate.
-                    self.delegate?.notificare(self, didChangeNotificationSettings: false)
-                }
-
-                NotificareLogger.info("Unregistered from APNS.")
-            } catch {
-                NotificareLogger.error("Failed to register a temporary device and unregister from APNS.", error: error)
-            }
-        }
+        NotificareLogger.info("Unregistered from push provider.")
     }
 
     public func isNotificareNotification(_ userInfo: [AnyHashable: Any]) -> Bool {
@@ -444,92 +442,7 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
         }
 
         Task {
-            try? await updateNotificationSettings()
-        }
-    }
-
-    internal func updateNotificationSettings(_ completion: @escaping NotificareCallback<Void>) {
-        Task {
-            do {
-                try await updateNotificationSettings()
-                completion(.success(()))
-            } catch {
-                completion(.failure(error))
-            }
-        }
-    }
-
-    internal func updateNotificationSettings() async throws {
-        let settings = await notificationCenter.notificationSettings()
-
-        var granted = settings.authorizationStatus == .authorized
-
-        if #available(iOS 12.0, *) {
-            if settings.authorizationStatus == .provisional {
-                granted = true
-            }
-        }
-
-        try await updateNotificationSettings(granted)
-    }
-
-    private func updateNotificationSettings(_ granted: Bool) async throws {
-        guard Notificare.shared.isConfigured else {
-            throw NotificareError.notConfigured
-        }
-
-        guard let device = Notificare.shared.device().currentDevice else {
-            throw NotificareError.deviceUnavailable
-        }
-
-        // The allowedUI is only true when the device has push capabilities and the user accepted the permission.
-        let allowedUI = device.transport != .notificare && granted
-
-        guard self.allowedUI != allowedUI else {
-            NotificareLogger.debug("User notification settings update skipped, nothing changed.")
-
-            return
-        }
-
-        let payload = NotificareInternals.PushAPI.Payloads.UpdateNotificationSettings(
-            allowedUI: allowedUI
-        )
-
-        do {
-            try await NotificareRequest.Builder()
-                .put("/device/\(device.id)", body: payload)
-                .response()
-
-            NotificareLogger.debug("User notification settings updated.")
-
-            // Update current stored property.
-            self.allowedUI = allowedUI
-
-            DispatchQueue.main.async {
-                // Notify the delegate.
-                self.delegate?.notificare(self, didChangeNotificationSettings: allowedUI)
-            }
-
-            if allowedUI, LocalStorage.firstRegistration {
-                // Ensure the flag update is immediate, preventing multiple simulatenous allowedUI updates
-                // from triggering the event.
-                LocalStorage.firstRegistration = false
-
-                do {
-                    try await Notificare.shared.events().logPushRegistration()
-
-                    LocalStorage.firstRegistration = false
-                    return
-                } catch {
-                    LocalStorage.firstRegistration = true
-                    throw error
-                }
-            }
-            return
-
-        } catch {
-            NotificareLogger.error("Failed to update the remote notification settings.", error: error)
-            throw error
+            try? await updateDeviceNotificationSettings()
         }
     }
 
@@ -589,5 +502,124 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
                 return
             }
         }.resume()
+    }
+
+    private func updateDeviceSubscription() async throws {
+        let token = try await pushTokenRequester.requestToken()
+
+        try await updateDeviceSubscription(
+            transport: .apns,
+            token: token
+        )
+    }
+
+    private func updateDeviceSubscription(transport: NotificareTransport, token: String?) async throws {
+        NotificareLogger.debug("Updating push subscription.")
+
+        guard let device = Notificare.shared.device().currentDevice else {
+            throw NotificareError.deviceUnavailable
+        }
+
+        let previousTransport = self.transport
+        let previousSubscriptionId = self.subscriptionId
+
+        if previousTransport == transport && previousSubscriptionId == token {
+            NotificareLogger.debug("Push subscription unmodified. Updating notification settings instead.")
+            try await updateDeviceNotificationSettings()
+            return
+        }
+
+        let isPushCapable = transport != .notificare
+        let hasPermission = await hasNotificationPermission()
+        let allowedUI = isPushCapable && hasPermission
+
+        let payload = NotificareInternals.PushAPI.Payloads.UpdateDeviceSubscription(
+            transport: transport,
+            subscriptionId: token,
+            allowedUI: allowedUI
+        )
+
+        try await NotificareRequest.Builder()
+            .put("/push/\(device.id)", body: payload)
+            .response()
+
+        self.transport = transport
+        self.subscriptionId = token
+        self.allowedUI = allowedUI
+
+        // TODO: notify subscriptionChanged event
+
+        DispatchQueue.main.async {
+            self.delegate?.notificare(self, didChangeNotificationSettings: allowedUI)
+        }
+
+        await ensureLoggedPushRegistration()
+    }
+
+    private func updateDeviceNotificationSettings() async throws {
+        NotificareLogger.debug("Updating user notification settings.")
+
+        guard let device = Notificare.shared.device().currentDevice else {
+            throw NotificareError.deviceUnavailable
+        }
+
+        let previousAllowedUI = self.allowedUI
+
+        let transport = self.transport
+        let isPushCapable = transport != nil && transport != .notificare
+        let hasPermission = await hasNotificationPermission()
+        let allowedUI = isPushCapable && hasPermission
+
+        if previousAllowedUI != allowedUI {
+            let payload = NotificareInternals.PushAPI.Payloads.UpdateDeviceNotificationSettings(
+                allowedUI: allowedUI
+            )
+
+            try await NotificareRequest.Builder()
+                .put("/push/\(device.id)", body: payload)
+                .response()
+
+            NotificareLogger.debug("User notification settings updated.")
+            self.allowedUI = allowedUI
+
+            DispatchQueue.main.async {
+                self.delegate?.notificare(self, didChangeNotificationSettings: allowedUI)
+            }
+        } else {
+            NotificareLogger.debug("User notification settings update skipped, nothing changed.")
+        }
+
+        await ensureLoggedPushRegistration()
+    }
+
+    private func hasNotificationPermission() async -> Bool {
+        let settings = await notificationCenter.notificationSettings()
+
+        var granted = settings.authorizationStatus == .authorized
+
+        if #available(iOS 12.0, *) {
+            if settings.authorizationStatus == .provisional {
+                granted = true
+            }
+        }
+
+        return granted
+    }
+
+    private func ensureLoggedPushRegistration() async {
+        guard allowedUI, LocalStorage.firstRegistration else {
+            return
+        }
+
+        do {
+            // Ensure the flag update is immediate, preventing multiple simulatenous allowedUI updates
+            // from triggering the event.
+            LocalStorage.firstRegistration = false
+
+            try await Notificare.shared.events().logPushRegistration()
+        } catch {
+            NotificareLogger.warning("Failed to log the push registration event.", error: error)
+            LocalStorage.firstRegistration = true
+        }
     }
 }

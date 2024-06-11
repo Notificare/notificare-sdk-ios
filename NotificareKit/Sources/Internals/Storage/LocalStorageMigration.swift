@@ -13,17 +13,7 @@ internal struct LocalStorageMigration {
         if let deviceId = UserDefaults.standard.string(forKey: "notificareDeviceToken") {
             NotificareLogger.debug("Found v2 device stored.")
 
-            let transport: NotificareTransport
-            if let transportStr = UserDefaults.standard.string(forKey: "notificareDeviceTransport") {
-                transport = NotificareTransport(rawValue: transportStr) ?? .notificare
-            } else {
-                transport = .notificare
-            }
-
-            let lastRegistered = UserDefaults.standard.value(forKey: "notificareDeviceLastRegistered") as? Date
-                ?? Calendar.current.date(byAdding: .day, value: -7, to: Date())!
-
-            let device = NotificareDevice(
+            let device = StoredDevice(
                 id: deviceId,
                 userId: UserDefaults.standard.string(forKey: "notificareUserID"),
                 userName: UserDefaults.standard.string(forKey: "notificareUserName"),
@@ -34,10 +24,9 @@ internal struct LocalStorageMigration {
                 deviceString: UserDefaults.standard.string(forKey: "notificareDeviceModel") ?? "",
                 language: UserDefaults.standard.string(forKey: "notificareDeviceLanguage") ?? NotificareUtils.deviceLanguage,
                 region: UserDefaults.standard.string(forKey: "notificareDeviceRegion") ?? NotificareUtils.deviceRegion,
-                transport: transport,
+                transport: UserDefaults.standard.string(forKey: "notificareDeviceTransport"),
                 dnd: nil,
                 userData: [:],
-                lastRegistered: lastRegistered,
                 backgroundAppRefresh: UserDefaults.standard.bool(forKey: "notificareBackgroundAppRefresh")
             )
 

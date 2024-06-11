@@ -148,12 +148,12 @@ internal class HomeViewModel: NSObject, ObservableObject {
 extension HomeViewModel {
     internal func notificareLaunch() {
         Logger.main.info("Notificare launch clicked")
-        Notificare.shared.launch()
+        Notificare.shared.launch { _ in }
     }
 
     internal func notificareUnlaunch() {
         Logger.main.info("Notificare unlaunch clicked")
-        Notificare.shared.unlaunch()
+        Notificare.shared.unlaunch { _ in }
     }
 }
 
@@ -226,10 +226,12 @@ extension HomeViewModel {
                 checkNotificationsStatus()
             }
         } else {
-            Logger.main.info("Disabling remote notifications")
-            Notificare.shared.push().disableRemoteNotifications()
+            Task {
+                Logger.main.info("Disabling remote notifications")
+                try await Notificare.shared.push().disableRemoteNotifications()
 
-            checkNotificationsStatus()
+                checkNotificationsStatus()
+            }
         }
     }
 
@@ -533,7 +535,7 @@ extension HomeViewModel {
 
         Task {
             do {
-                try await Notificare.shared.device().register(userId: userId, userName: userName.isEmpty ? nil : userName)
+                try await Notificare.shared.device().updateUser(userId: userId, userName: userName.isEmpty ? nil : userName)
                 isDeviceRegistered = true
                 Logger.main.info("Device registered successfully")
 
@@ -555,7 +557,7 @@ extension HomeViewModel {
 
         Task {
             do {
-                try await Notificare.shared.device().register(userId: nil, userName: nil)
+                try await Notificare.shared.device().updateUser(userId: nil, userName: nil)
                 isDeviceRegistered = false
                 userId = ""
                 userName = ""

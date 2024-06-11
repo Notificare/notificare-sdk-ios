@@ -5,7 +5,13 @@
 import NotificareKit
 
 extension NotificareInternals.PushAPI.Payloads {
-    internal struct UpdateNotificationSettings: Encodable {
+    internal struct UpdateDeviceSubscription: Encodable {
+        internal let transport: NotificareTransport
+        internal let subscriptionId: String?
+        internal let allowedUI: Bool
+    }
+
+    internal struct UpdateDeviceNotificationSettings: Encodable {
         internal let allowedUI: Bool
     }
 

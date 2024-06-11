@@ -9,9 +9,15 @@ public protocol NotificareDeviceModule: AnyObject {
 
     var preferredLanguage: String? { get }
 
+    @available(*, deprecated, renamed: "updateUser")
     func register(userId: String?, userName: String?, _ completion: @escaping NotificareCallback<Void>)
 
+    @available(*, deprecated, renamed: "updateUser")
     func register(userId: String?, userName: String?) async throws
+
+    func updateUser(userId: String?, userName: String?, _ completion: @escaping NotificareCallback<Void>)
+
+    func updateUser(userId: String?, userName: String?) async throws
 
     func updatePreferredLanguage(_ preferredLanguage: String?, _ completion: @escaping NotificareCallback<Void>)
 
@@ -60,12 +66,4 @@ public protocol NotificareDeviceModule: AnyObject {
     func updateUserData(_ userData: NotificareUserData, _ completion: @escaping NotificareCallback<Void>)
 
     func updateUserData(_ userData: NotificareUserData) async throws
-}
-
-public protocol NotificareInternalDeviceModule: AnyObject {
-    func registerTemporary() async throws
-
-    func registerAPNS(token: String, _ completion: @escaping NotificareCallback<Void>)
-
-    func registerAPNS(token: String) async throws
 }

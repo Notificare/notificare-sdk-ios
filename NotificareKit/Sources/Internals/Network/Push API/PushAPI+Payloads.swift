@@ -5,25 +5,59 @@
 import Foundation
 
 extension NotificareInternals.PushAPI.Payloads {
-    internal enum Device {
-        internal struct Registration: Encodable {
-            internal let deviceID: String
-            internal let oldDeviceID: String?
-            internal let userID: String?
-            internal let userName: String?
-            internal let language: String
-            internal let region: String
-            internal let platform: String
-            internal let transport: NotificareTransport
-            internal let osVersion: String
-            internal let sdkVersion: String
-            internal let appVersion: String
-            internal let deviceString: String
-            internal let timeZoneOffset: Float
-            internal let backgroundAppRefresh: Bool
-            internal let allowedUI: Bool?
-        }
+    internal struct CreateDevice: Encodable {
+        internal var language: String
+        internal var region: String
+        internal var platform: String
+        internal var osVersion: String
+        internal var sdkVersion: String
+        internal var appVersion: String
+        internal var deviceString: String
+        internal var timeZoneOffset: Float
+        internal var backgroundAppRefresh: Bool
+    }
 
+    internal struct UpdateDevice: Encodable {
+        internal var language: String
+        internal var region: String
+        internal var platform: String
+        internal var osVersion: String
+        internal var sdkVersion: String
+        internal var appVersion: String
+        internal var deviceString: String
+        internal var timeZoneOffset: Float
+        internal var backgroundAppRefresh: Bool
+    }
+
+    internal struct UpdateDeviceUser: Encodable {
+        @EncodeNull internal var userID: String?
+        @EncodeNull internal var userName: String?
+    }
+
+    internal struct UpdateDeviceDoNotDisturb: Encodable {
+        @EncodeNull internal var dnd: NotificareDoNotDisturb?
+    }
+
+    internal struct UpdateDeviceUserData: Encodable {
+        internal let userData: NotificareUserData
+    }
+
+    internal struct UpgradeToLongLivedDevice: Encodable {
+        internal let deviceID: String
+        internal let transport: String
+        internal let subscriptionId: String?
+        internal let language: String
+        internal let region: String
+        internal let platform: String
+        internal let osVersion: String
+        internal let sdkVersion: String
+        internal let appVersion: String
+        internal let deviceString: String
+        internal let timeZoneOffset: Float
+        internal let backgroundAppRefresh: Bool
+    }
+
+    internal enum Device {
         internal struct UpdateTimeZone: Encodable {
             internal let language: String
             internal let region: String
@@ -45,8 +79,6 @@ extension NotificareInternals.PushAPI.Payloads {
             internal let tags: [String]
         }
     }
-
-    internal struct CreateEvent: Encodable {}
 
     internal struct CreateNotificationReply: Encodable {
         internal let notification: String

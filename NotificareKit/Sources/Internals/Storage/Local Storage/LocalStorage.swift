@@ -63,7 +63,7 @@ internal enum LocalStorage {
         }
     }
 
-    internal static var device: NotificareDevice? {
+    internal static var device: StoredDevice? {
         get {
             let settings = UserDefaults.standard
             guard let data = settings.object(forKey: Keys.device.rawValue) as? Data else {
@@ -72,7 +72,7 @@ internal enum LocalStorage {
 
             do {
                 let decoder = NotificareUtils.jsonDecoder
-                return try decoder.decode(NotificareDevice.self, from: data)
+                return try decoder.decode(StoredDevice.self, from: data)
             } catch {
                 NotificareLogger.warning("Failed to decode the stored device.", error: error)
 
