@@ -2,10 +2,17 @@
 
 ## Upcoming release
 
+- Device identifiers become long-lived
+- `launch()`, `unlaunch()`, `enableRemoteNotifications()` and `disableRemoteNotifications()` become suspending functions with a callback alternative
 - Fix `NotificarePass.type` decoding
 
 #### Breaking changes
 
+- `NotificareDevice.id` attribute no longer contains the push token. Use `Notificare.push().subscriptionId` instead.
+- The `NotificareDevice` data model was reduced to only publicly relevant attributes.
+- `didRegisterDevice` only triggers once, when the device is created.
+- `launch()`, `unlaunch()`, `enableRemoteNotifications()` and `disableRemoteNotifications()` become suspending functions that complete after all the work is done.
+- `NotificareTransport` was moved to the push module.
 - Drops support for the monetize module.
 
 ## 3.9.0
