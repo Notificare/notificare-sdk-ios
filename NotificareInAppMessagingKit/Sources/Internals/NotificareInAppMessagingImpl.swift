@@ -60,7 +60,9 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
         fetchInAppMessage(for: context) { result in
             switch result {
             case let .success(message):
-                self.processInAppMessage(message)
+                DispatchQueue.main.async {
+                    self.processInAppMessage(message)
+                }
 
             case let .failure(error):
                 if case let NotificareNetworkError.validationError(response, _, _) = error, response.statusCode == 404 {
@@ -78,6 +80,7 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
         }
     }
 
+    @MainActor
     private func processInAppMessage(_ message: NotificareInAppMessage) {
         NotificareLogger.info("Processing in-app message '\(message.name)'.")
 
@@ -100,6 +103,7 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
         present(message)
     }
 
+    @MainActor
     private func present(_ message: NotificareInAppMessage) {
         guard presentedView == nil else {
             NotificareLogger.warning("Cannot display an in-app message while another is being presented.")
@@ -131,20 +135,33 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
             return
         }
 
-        guard let view = createMessageView(for: message) else {
-            NotificareLogger.warning("Cannot display an in-app message without a view implementation for the given type.")
+        Task {
+            var image: UIImage? = nil
+            var landscapeImage: UIImage? = nil
 
-            DispatchQueue.main.async {
-                self.delegate?.notificare(self, didFailToPresentMessage: message)
+            if let imageUrlStr = message.image, let imageUrl = URL(string: imageUrlStr) {
+                image = await preloadImage(url: imageUrl)
             }
 
-            return
+            if let imageUrlStr = message.landscapeImage, let imageUrl = URL(string: imageUrlStr) {
+                landscapeImage = await preloadImage(url: imageUrl)
+            }
+
+            guard let view = self.createMessageView(for: message, image: image, landscapeImage: landscapeImage) else {
+                NotificareLogger.warning("Cannot display an in-app message without a view implementation for the given type.")
+
+                DispatchQueue.main.async {
+                    self.delegate?.notificare(self, didFailToPresentMessage: message)
+                }
+
+                return
+            }
+
+            view.delegate = self
+            view.present(in: parentView)
+
+            self.presentedView = view
         }
-
-        view.delegate = self
-        view.present(in: parentView)
-
-        presentedView = view
     }
 
     private func fetchInAppMessage(for context: ApplicationContext, _ completion: @escaping NotificareCallback<NotificareInAppMessage>) {
@@ -167,6 +184,7 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
             }
     }
 
+    @MainActor
     private func findParentView() -> UIView? {
         let window: UIWindow
 
@@ -208,23 +226,36 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
         return rootViewController.view
     }
 
-    private func createMessageView(for message: NotificareInAppMessage) -> NotificareInAppMessagingView? {
+    private func createMessageView(for message: NotificareInAppMessage, image: UIImage?, landscapeImage: UIImage?) -> NotificareInAppMessagingView? {
         let type = NotificareInAppMessage.MessageType(rawValue: message.type)
 
         switch type {
         case .banner:
-            return NotificareInAppMessagingBannerView(message: message)
+            return NotificareInAppMessagingBannerView(message: message, image: image)
 
         case .card:
-            return NotificareInAppMessagingCardView(message: message)
+            return NotificareInAppMessagingCardView(message: message, image: image)
 
         case .fullscreen:
-            return NotificareInAppMessagingFullscreenView(message: message)
+            return NotificareInAppMessagingFullscreenView(message: message, image: image, landscapeImage: landscapeImage)
 
         default:
             NotificareLogger.warning("Unsupported in-app message type '\(message.type)'.")
             return nil
         }
+    }
+
+    private func preloadImage(url: URL) async -> UIImage? {
+        let session = URLSession(configuration: .default)
+        do {
+            let (data, _) = try await session.data(from: url)
+
+            return UIImage(data: data)
+        } catch {
+            NotificareLogger.warning("Failed to load in-app message image.")
+        }
+
+        return nil
     }
 
     @objc private func onApplicationForeground() {
