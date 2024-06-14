@@ -8,8 +8,7 @@ import UIKit
 
 public class NotificareInAppMessagingFullscreenView: UIView, NotificareInAppMessagingView {
     public let message: NotificareInAppMessage
-    public var image: UIImage?
-    public var landscapeImage: UIImage?
+    public let cache: NotificareImageCache
     public weak var delegate: NotificareInAppMessagingViewDelegate?
 
     // MARK: - UI views
@@ -91,16 +90,9 @@ public class NotificareInAppMessagingFullscreenView: UIView, NotificareInAppMess
 
     // MARK: - Constructors
 
-    public init(message: NotificareInAppMessage, image: UIImage?, landscapeImage: UIImage?) {
+    public init(message: NotificareInAppMessage, cache: NotificareImageCache) {
         self.message = message
-
-        if let image = image {
-            self.image = image
-        }
-
-        if let landscapeImage = landscapeImage {
-            self.landscapeImage = landscapeImage
-        }
+        self.cache = cache
 
         super.init(frame: .zero)
         setup()
@@ -116,11 +108,7 @@ public class NotificareInAppMessagingFullscreenView: UIView, NotificareInAppMess
     override public func layoutSubviews() {
         super.layoutSubviews()
 
-        if UIDevice.current.orientation.isLandscape {
-            imageView.image = landscapeImage ?? image
-        } else {
-            imageView.image = image
-        }
+        imageView.image = cache.orientationConstrainedImage
 
         footerView.isHidden = message.title == nil && message.message == nil
 

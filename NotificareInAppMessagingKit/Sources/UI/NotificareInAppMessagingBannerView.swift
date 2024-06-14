@@ -8,7 +8,7 @@ import UIKit
 
 public class NotificareInAppMessagingBannerView: UIView, NotificareInAppMessagingView {
     public let message: NotificareInAppMessage
-    public var image: UIImage?
+    public let cache: NotificareImageCache
     public weak var delegate: NotificareInAppMessagingViewDelegate?
 
     // MARK: - UI views
@@ -77,12 +77,9 @@ public class NotificareInAppMessagingBannerView: UIView, NotificareInAppMessagin
 
     // MARK: - Constructors
 
-    public init(message: NotificareInAppMessage, image: UIImage?) {
+    public init(message: NotificareInAppMessage, cache: NotificareImageCache) {
         self.message = message
-
-        if let image = image {
-            self.image = image
-        }
+        self.cache = cache
 
         super.init(frame: .zero)
         setup()
@@ -98,7 +95,7 @@ public class NotificareInAppMessagingBannerView: UIView, NotificareInAppMessagin
     override public func layoutSubviews() {
         super.layoutSubviews()
 
-        if let image = self.image {
+        if let image = cache.orientationConstrainedImage {
             imageView.isHidden = false
             imageView.image = image
         } else {

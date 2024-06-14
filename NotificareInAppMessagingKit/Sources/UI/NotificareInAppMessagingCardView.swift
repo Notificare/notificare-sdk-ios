@@ -8,7 +8,7 @@ import UIKit
 
 public class NotificareInAppMessagingCardView: UIView, NotificareInAppMessagingView {
     public let message: NotificareInAppMessage
-    public var image: UIImage?
+    public let cache: NotificareImageCache
     public weak var delegate: NotificareInAppMessagingViewDelegate?
 
     // MARK: - UI views
@@ -151,12 +151,9 @@ public class NotificareInAppMessagingCardView: UIView, NotificareInAppMessagingV
 
     // MARK: - Constructors
 
-    public init(message: NotificareInAppMessage, image: UIImage?) {
+    public init(message: NotificareInAppMessage, cache: NotificareImageCache) {
         self.message = message
-
-        if let image = image {
-            self.image = image
-        }
+        self.cache = cache
 
         super.init(frame: .zero)
         setup()
@@ -178,7 +175,7 @@ public class NotificareInAppMessagingCardView: UIView, NotificareInAppMessagingV
         cardViewMaxWidthConstraints.forEach { $0.isActive = isLandscape }
         cardViewFullWidthConstraints.forEach { $0.isActive = !isLandscape }
 
-        if let image = self.image {
+        if let image = cache.orientationConstrainedImage {
             imageView.isHidden = false
             imageViewAspectRatioHeightConstraint.isActive = true
             imageViewCollapsedHeightConstraint.isActive = false
