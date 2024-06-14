@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		F206D6ED28A53E3500A35E60 /* NotificareInAppMessagingBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F206D6EC28A53E3500A35E60 /* NotificareInAppMessagingBannerView.swift */; };
 		F206D6F028A5427800A35E60 /* UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = F206D6EF28A5427800A35E60 /* UIKit.swift */; };
-		F206D6F228A55CF100A35E60 /* NotificareInAppMessage+Orientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F206D6F128A55CF100A35E60 /* NotificareInAppMessage+Orientation.swift */; };
 		F206D6F428A65F3D00A35E60 /* NotificareInAppMessagingCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F206D6F328A65F3D00A35E60 /* NotificareInAppMessagingCardView.swift */; };
 		F206D6F828AD532800A35E60 /* NotificareInAppMessagingFullscreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F206D6F728AD532800A35E60 /* NotificareInAppMessagingFullscreenView.swift */; };
 		F225AC9328AFA24E00E4446A /* NotificareInAppMessaging+Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = F225AC9228AFA24E00E4446A /* NotificareInAppMessaging+Events.swift */; };
@@ -17,6 +16,7 @@
 		F225AC9928B3746F00E4446A /* NotificareInAppMessagingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F225AC9828B3746F00E4446A /* NotificareInAppMessagingView.swift */; };
 		F23D9E8B28B537FC009675DE /* String+Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = F23D9E8A28B537FC009675DE /* String+Utilities.swift */; };
 		F25314A428A5133900A979EA /* ApplicationContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = F25314A328A5133900A979EA /* ApplicationContext.swift */; };
+		F286CF1D2C1C3765005DF265 /* NotificareImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = F286CF1C2C1C3765005DF265 /* NotificareImageCache.swift */; };
 		F29017EE2BD27879009DB80B /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = F29017ED2BD27879009DB80B /* PrivacyInfo.xcprivacy */; };
 		F2E513FC28A2BB7C00D1E0BF /* NotificareInAppMessagingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2E513F128A2BB7C00D1E0BF /* NotificareInAppMessagingKit.framework */; };
 		F2E5140128A2BB7C00D1E0BF /* NotificareInAppMessagingKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E5140028A2BB7C00D1E0BF /* NotificareInAppMessagingKitTests.swift */; };
@@ -43,7 +43,6 @@
 /* Begin PBXFileReference section */
 		F206D6EC28A53E3500A35E60 /* NotificareInAppMessagingBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareInAppMessagingBannerView.swift; sourceTree = "<group>"; };
 		F206D6EF28A5427800A35E60 /* UIKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKit.swift; sourceTree = "<group>"; };
-		F206D6F128A55CF100A35E60 /* NotificareInAppMessage+Orientation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificareInAppMessage+Orientation.swift"; sourceTree = "<group>"; };
 		F206D6F328A65F3D00A35E60 /* NotificareInAppMessagingCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareInAppMessagingCardView.swift; sourceTree = "<group>"; };
 		F206D6F728AD532800A35E60 /* NotificareInAppMessagingFullscreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareInAppMessagingFullscreenView.swift; sourceTree = "<group>"; };
 		F225AC9228AFA24E00E4446A /* NotificareInAppMessaging+Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificareInAppMessaging+Events.swift"; sourceTree = "<group>"; };
@@ -51,6 +50,7 @@
 		F225AC9828B3746F00E4446A /* NotificareInAppMessagingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareInAppMessagingView.swift; sourceTree = "<group>"; };
 		F23D9E8A28B537FC009675DE /* String+Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Utilities.swift"; sourceTree = "<group>"; };
 		F25314A328A5133900A979EA /* ApplicationContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationContext.swift; sourceTree = "<group>"; };
+		F286CF1C2C1C3765005DF265 /* NotificareImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareImageCache.swift; sourceTree = "<group>"; };
 		F29017ED2BD27879009DB80B /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		F2E513F128A2BB7C00D1E0BF /* NotificareInAppMessagingKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NotificareInAppMessagingKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2E513F428A2BB7C00D1E0BF /* NotificareInAppMessagingKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificareInAppMessagingKit.h; sourceTree = "<group>"; };
@@ -99,11 +99,18 @@
 		F206D6EE28A5426900A35E60 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				F206D6F128A55CF100A35E60 /* NotificareInAppMessage+Orientation.swift */,
 				F23D9E8A28B537FC009675DE /* String+Utilities.swift */,
 				F206D6EF28A5427800A35E60 /* UIKit.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		F286CF1B2C1C363E005DF265 /* Caching */ = {
+			isa = PBXGroup;
+			children = (
+				F286CF1C2C1C3765005DF265 /* NotificareImageCache.swift */,
+			);
+			path = Caching;
 			sourceTree = "<group>";
 		};
 		F2E513E728A2BB7C00D1E0BF = {
@@ -160,6 +167,7 @@
 		F2E5141028A2C84B00D1E0BF /* Internals */ = {
 			isa = PBXGroup;
 			children = (
+				F286CF1B2C1C363E005DF265 /* Caching */,
 				F206D6EE28A5426900A35E60 /* Extensions */,
 				F2E5141D28A50EA100D1E0BF /* Network */,
 				F2E5141128A2C85E00D1E0BF /* NotificareInAppMessagingImpl.swift */,
@@ -305,8 +313,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F206D6F228A55CF100A35E60 /* NotificareInAppMessage+Orientation.swift in Sources */,
 				F206D6F028A5427800A35E60 /* UIKit.swift in Sources */,
+				F286CF1D2C1C3765005DF265 /* NotificareImageCache.swift in Sources */,
 				F2E5141A28A50C6800D1E0BF /* NotificareInAppMessage.swift in Sources */,
 				F206D6ED28A53E3500A35E60 /* NotificareInAppMessagingBannerView.swift in Sources */,
 				F23D9E8B28B537FC009675DE /* String+Utilities.swift in Sources */,
