@@ -60,9 +60,7 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
         fetchInAppMessage(for: context) { result in
             switch result {
             case let .success(message):
-                DispatchQueue.main.async {
-                    self.processInAppMessage(message)
-                }
+                self.processInAppMessage(message)
 
             case let .failure(error):
                 if case let NotificareNetworkError.validationError(response, _, _) = error, response.statusCode == 404 {
