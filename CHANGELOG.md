@@ -2,6 +2,7 @@
 
 ## Upcoming release
 
+- Preload images before showing in-app messages
 - Fix `NotificarePass.type` decoding
 
 ## 3.9.0
