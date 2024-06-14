@@ -8,6 +8,7 @@ import UIKit
 
 public class NotificareInAppMessagingBannerView: UIView, NotificareInAppMessagingView {
     public let message: NotificareInAppMessage
+    public let cache: NotificareImageCache
     public weak var delegate: NotificareInAppMessagingViewDelegate?
 
     // MARK: - UI views
@@ -76,8 +77,9 @@ public class NotificareInAppMessagingBannerView: UIView, NotificareInAppMessagin
 
     // MARK: - Constructors
 
-    public init(message: NotificareInAppMessage) {
+    public init(message: NotificareInAppMessage, cache: NotificareImageCache) {
         self.message = message
+        self.cache = cache
 
         super.init(frame: .zero)
         setup()
@@ -93,16 +95,9 @@ public class NotificareInAppMessagingBannerView: UIView, NotificareInAppMessagin
     override public func layoutSubviews() {
         super.layoutSubviews()
 
-        if let imageUrlStr = message.orientationConstrainedImage, let imageUrl = URL(string: imageUrlStr) {
+        if let image = cache.orientationConstrainedImage {
             imageView.isHidden = false
-
-            URLSession.shared.dataTask(with: imageUrl) { data, _, _ in
-                if let data = data {
-                    DispatchQueue.main.async { [weak self] in
-                        self?.imageView.image = UIImage(data: data)
-                    }
-                }
-            }.resume()
+            imageView.image = image
         } else {
             imageView.isHidden = true
         }

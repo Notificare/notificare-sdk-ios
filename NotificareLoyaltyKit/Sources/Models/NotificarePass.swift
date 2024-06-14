@@ -101,7 +101,7 @@ public extension NotificarePass {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         id = try container.decode(String.self, forKey: .id)
-        type = try container.decode(PassType.self, forKey: .type)
+        type = try container.decodeIfPresent(PassType.self, forKey: .type)
         version = try container.decode(Int.self, forKey: .version)
         passbook = try container.decodeIfPresent(String.self, forKey: .passbook)
         template = try container.decodeIfPresent(String.self, forKey: .template)
