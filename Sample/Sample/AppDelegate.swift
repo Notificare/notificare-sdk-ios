@@ -41,7 +41,13 @@ internal class AppDelegate: NSObject, UIApplicationDelegate {
         Notificare.shared.geo().delegate = self
         Notificare.shared.scannables().delegate = self
 
-        Notificare.shared.launch()
+        Task {
+            do {
+                try await Notificare.shared.launch()
+            } catch {
+                Logger.main.error("Failed to launch Notificare. \(error)")
+            }
+        }
 
         if #available(iOS 16.1, *) {
             LiveActivitiesController.shared.startMonitoring()
@@ -106,7 +112,7 @@ extension AppDelegate: NotificareDelegate {
         Task {
             do {
                 Logger.main.info("Registering device")
-                try await Notificare.shared.device().register(userId: userId, userName: userName)
+                try await Notificare.shared.device().updateUser(userId: userId, userName: userName)
                 Logger.main.info("Device registered successfully")
             } catch {
                 Logger.main.error("Failed to registered device: \(error)")

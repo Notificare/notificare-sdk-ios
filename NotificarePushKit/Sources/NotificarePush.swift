@@ -20,6 +20,10 @@ public protocol NotificarePush: AnyObject, NotificarePushUIApplicationDelegate, 
 
     var hasRemoteNotificationsEnabled: Bool { get }
 
+    var transport: NotificareTransport? { get }
+
+    var subscriptionId: String? { get }
+
     var allowedUI: Bool { get }
 
     // MARK: Methods
@@ -28,7 +32,9 @@ public protocol NotificarePush: AnyObject, NotificarePushUIApplicationDelegate, 
 
     func enableRemoteNotifications() async throws -> Bool
 
-    func disableRemoteNotifications()
+    func disableRemoteNotifications(_ completion: @escaping NotificareCallback<Void>)
+
+    func disableRemoteNotifications() async throws
 
     func isNotificareNotification(_ userInfo: [AnyHashable: Any]) -> Bool
 

@@ -318,13 +318,13 @@ extension SCNetworkReachabilityFlags {
     }
 
     internal var description: String {
-        let W = isOnWWANFlagSet ? "W" : "-"
-        let R = isReachableFlagSet ? "R" : "-"
+        let W = isOnWWANFlagSet ? "W" : "-" // swiftlint:disable:this identifier_name
+        let R = isReachableFlagSet ? "R" : "-" // swiftlint:disable:this identifier_name
         let c = isConnectionRequiredFlagSet ? "c" : "-"
         let t = isTransientConnectionFlagSet ? "t" : "-"
         let i = isInterventionRequiredFlagSet ? "i" : "-"
-        let C = isConnectionOnTrafficFlagSet ? "C" : "-"
-        let D = isConnectionOnDemandFlagSet ? "D" : "-"
+        let C = isConnectionOnTrafficFlagSet ? "C" : "-" // swiftlint:disable:this identifier_name
+        let D = isConnectionOnDemandFlagSet ? "D" : "-" // swiftlint:disable:this identifier_name
         let l = isLocalAddressFlagSet ? "l" : "-"
         let d = isDirectFlagSet ? "d" : "-"
 

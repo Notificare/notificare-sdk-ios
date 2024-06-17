@@ -9,6 +9,14 @@ extension NotificareInternals.PushAPI.Responses {
         internal let application: NotificareInternals.PushAPI.Models.Application
     }
 
+    internal struct CreateDevice: Decodable {
+        internal let device: Device
+
+        internal struct Device: Decodable {
+            internal let deviceID: String
+        }
+    }
+
     internal struct Tags: Decodable {
         internal let tags: [String]
     }

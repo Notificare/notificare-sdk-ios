@@ -20,6 +20,8 @@
 		F258DD9E24BC4EE2006F9ABD /* NotificarePushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F258DD9424BC4EE2006F9ABD /* NotificarePushKit.framework */; };
 		F258DDA324BC4EE2006F9ABD /* PushTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DDA224BC4EE2006F9ABD /* PushTests.swift */; };
 		F258DDA524BC4EE2006F9ABD /* NotificarePushKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F258DD9724BC4EE2006F9ABD /* NotificarePushKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F260F37D2C0F664D007D7A59 /* NotificareTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F260F37C2C0F664D007D7A59 /* NotificareTransport.swift */; };
+		F260F37F2C107E16007D7A59 /* PushTokenRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = F260F37E2C107E16007D7A59 /* PushTokenRequester.swift */; };
 		F28553C5258B8848006674C1 /* NotificarePushDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28553C4258B8848006674C1 /* NotificarePushDelegate.swift */; };
 		F29017F82BD279E0009DB80B /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = F29017F72BD279E0009DB80B /* PrivacyInfo.xcprivacy */; };
 		F29ECB652A054619001961B0 /* NotificareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F29ECB642A054619001961B0 /* NotificareKit.framework */; };
@@ -56,6 +58,8 @@
 		F258DD9D24BC4EE2006F9ABD /* NotificarePushKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NotificarePushKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F258DDA224BC4EE2006F9ABD /* PushTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushTests.swift; sourceTree = "<group>"; };
 		F258DDA424BC4EE2006F9ABD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F260F37C2C0F664D007D7A59 /* NotificareTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareTransport.swift; sourceTree = "<group>"; };
+		F260F37E2C107E16007D7A59 /* PushTokenRequester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushTokenRequester.swift; sourceTree = "<group>"; };
 		F28553C4258B8848006674C1 /* NotificarePushDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificarePushDelegate.swift; sourceTree = "<group>"; };
 		F29017F72BD279E0009DB80B /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		F29ECB642A054619001961B0 /* NotificareKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -89,6 +93,7 @@
 			isa = PBXGroup;
 			children = (
 				1AF8E7CD2BF21AB500DE2BC8 /* NotificarePushAppDelegateInterceptor.swift */,
+				F260F37E2C107E16007D7A59 /* PushTokenRequester.swift */,
 			);
 			path = ApplicationDelegate;
 			sourceTree = "<group>";
@@ -107,6 +112,7 @@
 				F2B6A34326173F32001CB7DC /* NotificareNotification+APNS.swift */,
 				F2FF5CEB2955BAD5007E133E /* NotificareNotificationDeliveryMechanism.swift */,
 				F2128F012594E47700F7F68F /* NotificareSystemNotification.swift */,
+				F260F37C2C0F664D007D7A59 /* NotificareTransport.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -315,6 +321,7 @@
 				F226509B258B6B900004F833 /* NotificarePush.swift in Sources */,
 				1AF8E7D12BF21C0700DE2BC8 /* NotificareNotificationCenterDelegate.swift in Sources */,
 				F2128F022594E47700F7F68F /* NotificareSystemNotification.swift in Sources */,
+				F260F37D2C0F664D007D7A59 /* NotificareTransport.swift in Sources */,
 				F28553C5258B8848006674C1 /* NotificarePushDelegate.swift in Sources */,
 				F2E9221D2641A4D8005279C0 /* InboxIntegration.swift in Sources */,
 				1AF8E7CE2BF21AB500DE2BC8 /* NotificarePushAppDelegateInterceptor.swift in Sources */,
@@ -325,6 +332,7 @@
 				F2FF5CEC2955BAD5007E133E /* NotificareNotificationDeliveryMechanism.swift in Sources */,
 				F23A5569259C7D6D00B57CF1 /* NotificarePush+Events.swift in Sources */,
 				F21DD9E72718449800C88D7B /* NotificarePushImpl+UIApplicationDelegate.swift in Sources */,
+				F260F37F2C107E16007D7A59 /* PushTokenRequester.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

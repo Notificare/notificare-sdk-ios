@@ -8,26 +8,13 @@ import UIKit
 
 internal class NotificarePushAppDelegateInterceptor: NSObject, NotificareAppDelegateInterceptor {
     internal func application(_: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        guard Notificare.shared.isConfigured else {
-            // TODO: consider implementing a pending token strategy like in Android
-            NotificareLogger.warning("Notificare is not yet ready. Skipping...")
-            return
-        }
-
-        Notificare.shared.deviceInternal().registerAPNS(token: deviceToken.toHexString()) { result in
-            switch result {
-            case .success:
-                NotificareLogger.debug("Registered the device with an APNS token.")
-
-                Notificare.shared.pushImplementation().updateNotificationSettings { _ in }
-            case let .failure(error):
-                NotificareLogger.debug("Failed to register the device with an APNS token.", error: error)
-            }
-        }
+        Notificare.shared.pushImplementation().pushTokenRequester.signalTokenReceived(deviceToken)
     }
 
     internal func application(_: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         NotificareLogger.error("Failed to register for remote notifications.", error: error)
+
+        Notificare.shared.pushImplementation().pushTokenRequester.signalTokenRequestError(error)
 
         DispatchQueue.main.async {
             Notificare.shared.push().delegate?.notificare(Notificare.shared.push(), didFailToRegisterForRemoteNotificationsWithError: error)
@@ -76,16 +63,6 @@ internal class NotificarePushAppDelegateInterceptor: NSObject, NotificareAppDele
                     NotificareLogger.warning("Failed to refresh the application info.", error: error)
                 }
 
-                return
-
-            case "re.notifica.notification.system.Wallet":
-                // TODO: reserved for future implementation of in-app wallet
-                NotificareLogger.debug("Processing wallet system notification.")
-                return
-
-            case "re.notifica.notification.system.Products":
-                NotificareLogger.debug("Processing products system notification.")
-                // TODO: handle Products system notifications
                 return
 
             case "re.notifica.notification.system.Inbox":

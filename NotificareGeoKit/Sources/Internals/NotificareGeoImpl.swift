@@ -397,7 +397,7 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
 
         do {
             try await NotificareRequest.Builder()
-                .put("/device/\(device.id)", body: payload)
+                .put("/push/\(device.id)", body: payload)
                 .response()
 
             NotificareLogger.info("Updated location to '\(placemark.name ?? "unknown")'.")
@@ -540,7 +540,7 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
 
         do {
             try await NotificareRequest.Builder()
-                .put("/device/\(device.id)", body: payload)
+                .put("/push/\(device.id)", body: payload)
                 .response()
 
             NotificareLogger.debug("Device location cleared.")
@@ -1237,7 +1237,7 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
             Task {
                 do {
                     try await NotificareRequest.Builder()
-                        .put("/device/\(device.id)", body: payload)
+                        .put("/push/\(device.id)", body: payload)
                         .response()
 
                     NotificareLogger.debug("Bluetooth state updated.")
