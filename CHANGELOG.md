@@ -4,7 +4,6 @@
 
 - Device identifiers become long-lived
 - `launch()`, `unlaunch()`, `enableRemoteNotifications()` and `disableRemoteNotifications()` become suspending functions with a callback alternative
-- Fix `NotificarePass.type` decoding
 
 #### Breaking changes
 
@@ -14,6 +13,11 @@
 - `launch()`, `unlaunch()`, `enableRemoteNotifications()` and `disableRemoteNotifications()` become suspending functions that complete after all the work is done.
 - `NotificareTransport` was moved to the push module.
 - Drops support for the monetize module.
+
+## 3.9.1
+
+- Preload images before showing in-app messages
+- Fix `NotificarePass.type` decoding
 
 ## 3.9.0
 
