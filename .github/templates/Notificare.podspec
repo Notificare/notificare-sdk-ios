@@ -12,7 +12,7 @@ For support please use: http://support.notifica.re
   spec.documentation_url  = "https://docs.notifica.re"
   spec.license            = { :type => "MIT", :file => 'Notificare/LICENSE' }
   spec.author             = { "Notificare" => "info@notifica.re" }
-  spec.source             = { :http => "https://github.com/notificare/notificare-sdk-ios/releases/download/#{spec.version}/cocoapods.zip" }
+  spec.source             = { :http => "https://cdn.notifica.re/libs/ios/#{spec.version}/cocoapods.zip" }
   spec.swift_version      = "5.3"
 
   # Supported deployment targets

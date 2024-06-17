@@ -1,7 +1,8 @@
 # CHANGELOG
 
-## Upcoming release
+## 3.9.1
 
+- Preload images before showing in-app messages
 - Fix `NotificarePass.type` decoding
 
 #### Breaking changes

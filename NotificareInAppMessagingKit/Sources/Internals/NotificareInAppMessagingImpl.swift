@@ -101,6 +101,27 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
 
     @MainActor
     private func present(_ message: NotificareInAppMessage) {
+        Task {
+            let cache = NotificareImageCache()
+
+            do {
+                try await cache.preloadImages(for: message)
+            } catch {
+                NotificareLogger.error("Failed to preload the in-app message images.", error: error)
+
+                DispatchQueue.main.async {
+                    self.delegate?.notificare(self, didFailToPresentMessage: message)
+                }
+
+                return
+            }
+
+            await present(message, cache: cache)
+        }
+    }
+
+    @MainActor
+    private func present(_ message: NotificareInAppMessage, cache: NotificareImageCache) {
         guard presentedView == nil else {
             NotificareLogger.warning("Cannot display an in-app message while another is being presented.")
 
@@ -131,7 +152,7 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
             return
         }
 
-        guard let view = createMessageView(for: message) else {
+        guard let view = self.createMessageView(for: message, cache: cache) else {
             NotificareLogger.warning("Cannot display an in-app message without a view implementation for the given type.")
 
             DispatchQueue.main.async {
@@ -144,7 +165,7 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
         view.delegate = self
         view.present(in: parentView)
 
-        presentedView = view
+        self.presentedView = view
     }
 
     private func fetchInAppMessage(for context: ApplicationContext) async throws -> NotificareInAppMessage {
@@ -202,18 +223,18 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
         return rootViewController.view
     }
 
-    private func createMessageView(for message: NotificareInAppMessage) -> NotificareInAppMessagingView? {
+    private func createMessageView(for message: NotificareInAppMessage, cache: NotificareImageCache) -> NotificareInAppMessagingView? {
         let type = NotificareInAppMessage.MessageType(rawValue: message.type)
 
         switch type {
         case .banner:
-            return NotificareInAppMessagingBannerView(message: message)
+            return NotificareInAppMessagingBannerView(message: message, cache: cache)
 
         case .card:
-            return NotificareInAppMessagingCardView(message: message)
+            return NotificareInAppMessagingCardView(message: message, cache: cache)
 
         case .fullscreen:
-            return NotificareInAppMessagingFullscreenView(message: message)
+            return NotificareInAppMessagingFullscreenView(message: message, cache: cache)
 
         default:
             NotificareLogger.warning("Unsupported in-app message type '\(message.type)'.")
