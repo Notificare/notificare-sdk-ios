@@ -10,7 +10,6 @@
 		1A8B59F62B72304F00ED46B1 /* ApplicationInfoSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8B59F52B72304F00ED46B1 /* ApplicationInfoSection.swift */; };
 		1A8B59F92B72843800ED46B1 /* ApplicationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8B59F82B72843800ED46B1 /* ApplicationInfo.swift */; };
 		1A8C31102BFF20DA0000BFA6 /* SampleUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8C310F2BFF20DA0000BFA6 /* SampleUser.swift */; };
-		1A8C31122BFF24ED0000BFA6 /* SampleUser.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1A8C31112BFF24ED0000BFA6 /* SampleUser.plist */; };
 		E514687829C9CC41005E057D /* String+Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = E514687729C9CC41005E057D /* String+Localization.swift */; };
 		E51FD36D29D570EB000897D9 /* CoffeeBrewerActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E51FD36C29D570EB000897D9 /* CoffeeBrewerActivityAttributes.swift */; };
 		E51FD36F29D57104000897D9 /* LiveActivitiesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E51FD36E29D57104000897D9 /* LiveActivitiesController.swift */; };
@@ -173,7 +172,6 @@
 		1A8B59F52B72304F00ED46B1 /* ApplicationInfoSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationInfoSection.swift; sourceTree = "<group>"; };
 		1A8B59F82B72843800ED46B1 /* ApplicationInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationInfo.swift; sourceTree = "<group>"; };
 		1A8C310F2BFF20DA0000BFA6 /* SampleUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleUser.swift; sourceTree = "<group>"; };
-		1A8C31112BFF24ED0000BFA6 /* SampleUser.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = SampleUser.plist; sourceTree = "<group>"; };
 		E514687729C9CC41005E057D /* String+Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Localization.swift"; sourceTree = "<group>"; };
 		E51FD36C29D570EB000897D9 /* CoffeeBrewerActivityAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoffeeBrewerActivityAttributes.swift; sourceTree = "<group>"; };
 		E51FD36E29D57104000897D9 /* LiveActivitiesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivitiesController.swift; sourceTree = "<group>"; };
@@ -587,7 +585,6 @@
 				F2E8CF622AFD3CA300D7F2A0 /* Sample.dev.entitlements */,
 				F2E8CF632AFD3CA300D7F2A0 /* Sample.test.dev.entitlements */,
 				F2E8CF612AFD3CA300D7F2A0 /* Sample.test.entitlements */,
-				1A8C31112BFF24ED0000BFA6 /* SampleUser.plist */,
 			);
 			path = Sample;
 			sourceTree = "<group>";
@@ -732,7 +729,6 @@
 				E51FD38C29D6F2D2000897D9 /* Localizable.strings in Resources */,
 				F29FD20124CB1FE3004B166D /* Assets.xcassets in Resources */,
 				F267DA4A273E7CA900448A8F /* NotificareOptions.plist in Resources */,
-				1A8C31122BFF24ED0000BFA6 /* SampleUser.plist in Resources */,
 				E5C78F0229BB8905006BF1F6 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
