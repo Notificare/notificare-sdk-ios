@@ -64,8 +64,8 @@ internal class NotificareLoyaltyImpl: NSObject, NotificareModule, NotificareLoya
     }
 
     public func present(pass: NotificarePass, in controller: UIViewController) {
-        guard let host = Notificare.shared.servicesInfo?.services.pkPassHost,
-              let url = URL(string: "\(host)/\(pass.serial)")
+        guard let host = Notificare.shared.servicesInfo?.hosts.restApi,
+              let url = URL(string: "https://\(host)/pass/pkpass/\(pass.serial)")
         else {
             NotificareLogger.warning("Unable to determine the PKPass URL.")
             return

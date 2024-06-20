@@ -68,6 +68,12 @@ public class Notificare {
             return
         }
 
+        do {
+            try servicesInfo.validate()
+        } catch {
+            fatalError("Could not validate the provided services configuration. Please check the contents are valid.")
+        }
+
         self.servicesInfo = servicesInfo
         self.options = options
 
@@ -91,7 +97,7 @@ public class Notificare {
         }
 
         NotificareLogger.debug("Configuring network services.")
-        configureReachability(services: servicesInfo.services)
+        configureReachability(servicesInfo: servicesInfo)
 
         if options.swizzlingEnabled {
             var swizzleApns = false
@@ -122,6 +128,13 @@ public class Notificare {
 
         NotificareLogger.debug("Notificare configured all services.")
         state = .configured
+
+        if !servicesInfo.hasDefaultHosts {
+            NotificareLogger.info("Notificare configured with customized hosts.")
+            NotificareLogger.debug("REST API host: \(servicesInfo.hosts.restApi)")
+            NotificareLogger.debug("AppLinks host: \(servicesInfo.hosts.appLinks)")
+            NotificareLogger.debug("Short Links host: \(servicesInfo.hosts.shortLinks)")
+        }
     }
 
     public func launch(_ completion: @escaping NotificareCallback<Void>) {
@@ -419,9 +432,9 @@ public class Notificare {
             .post("/upload/reply", body: data, contentType: contentType)
             .responseDecodable(NotificareInternals.PushAPI.Responses.UploadAsset.self)
 
-        let host = Notificare.shared.servicesInfo!.services.pushHost
+        let host = Notificare.shared.servicesInfo!.hosts.restApi
 
-        return "\(host)/upload\(response.filename)"
+        return "https://\(host)/upload\(response.filename)"
     }
 
     public func removeNotificationFromNotificationCenter(_ notification: NotificareNotification) {
@@ -533,9 +546,9 @@ public class Notificare {
 
     // MARK: - Private API
 
-    private func configureReachability(services: NotificareServicesInfo.Services) {
+    private func configureReachability(servicesInfo: NotificareServicesInfo) {
         do {
-            let url = URL(string: services.pushHost)!
+            let url = URL(string: "https://\(servicesInfo.hosts.restApi)")!
             reachability = try NotificareReachability(hostname: url.host!)
 
             reachability?.whenReachable = { _ in
@@ -571,7 +584,7 @@ public class Notificare {
         }
 
         guard let servicesInfo = NotificareServicesInfo(contentsOfFile: path) else {
-            fatalError("Could not parse the Notificare plist. Please check the contents are valid.")
+            fatalError("Could not parse the NotificareServices plist. Please check the contents are valid.")
         }
 
         return servicesInfo
@@ -580,7 +593,7 @@ public class Notificare {
     private func loadOptionsFile() -> NotificareOptions {
         if let path = Bundle.main.path(forResource: NotificareOptions.fileName, ofType: NotificareOptions.fileExtension) {
             guard let options = NotificareOptions(contentsOfFile: path) else {
-                fatalError("Could not parse the Notificare options plist. Please check the contents are valid.")
+                fatalError("Could not parse the NotificareOptions plist. Please check the contents are valid.")
             }
 
             return options
@@ -596,8 +609,8 @@ public class Notificare {
 
         guard
             let application = Notificare.shared.application,
-            let appLinksDomain = Notificare.shared.servicesInfo?.services.appLinksDomain,
-            url.host == "\(application.id).\(appLinksDomain)",
+            let appLinksHost = Notificare.shared.servicesInfo?.hosts.appLinks,
+            url.host == "\(application.id).\(appLinksHost)",
             url.pathComponents.count >= 3,
             url.pathComponents[1] == "testdevice"
         else {
@@ -629,7 +642,7 @@ public class Notificare {
             return nil
         }
 
-        guard host.matches("^([a-z0-9-])+\\.\\Q\(servicesInfo.services.dynamicLinksDomain)\\E$".toRegex()) else {
+        guard host.matches("^([a-z0-9-])+\\.\\Q\(servicesInfo.hosts.shortLinks)\\E$".toRegex()) else {
             NotificareLogger.debug("Domain pattern wasn't a match.")
             return nil
         }
