@@ -4,6 +4,7 @@
 
 - Device identifiers become long-lived
 - `launch()`, `unlaunch()`, `enableRemoteNotifications()` and `disableRemoteNotifications()` become suspending functions with a callback alternative
+- Add support for customisable hosts
 
 #### Breaking changes
 

@@ -251,8 +251,12 @@ public struct NotificareRequest {
             }
 
             if !urlStr.starts(with: "http://"), !urlStr.starts(with: "https://") {
-                guard let baseUrl = baseUrl ?? Notificare.shared.servicesInfo?.services.pushHost else {
+                guard var baseUrl = baseUrl ?? Notificare.shared.servicesInfo?.hosts.restApi else {
                     throw NotificareError.invalidArgument(message: "Unable to determine the base url for the request.")
+                }
+
+                if !baseUrl.starts(with: "http://"), !baseUrl.starts(with: "https://") {
+                    baseUrl = "https://\(baseUrl)"
                 }
 
                 urlStr = !baseUrl.hasSuffix("/") && !urlStr.hasPrefix("/")

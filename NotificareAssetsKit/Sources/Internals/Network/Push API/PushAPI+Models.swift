@@ -27,8 +27,8 @@ extension NotificareInternals.PushAPI.Models {
 
         internal func toModel() -> NotificareAsset {
             let url: String?
-            if let key = key, let host = Notificare.shared.servicesInfo?.services.pushHost {
-                url = "\(host)/asset/file/\(key)"
+            if let key = key, let host = Notificare.shared.servicesInfo?.hosts.restApi {
+                url = "https://\(host)/asset/file/\(key)"
             } else {
                 url = nil
             }
