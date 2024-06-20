@@ -152,23 +152,21 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
             return
         }
 
-        // Run the task on a background queue.
-        Task(priority: .background) {
-            // Notify the system about a long running task.
-            self.processEventsTaskIdentifier = await UIApplication.shared.beginBackgroundTask(withName: UPLOAD_TASK_NAME) {
-                // Check the task is still running.
-                guard let taskId = self.processEventsTaskIdentifier else {
-                    return
-                }
-
-                // Stop the task if the given time expires.
-                NotificareLogger.debug("Completing background task after its expiration.")
-                DispatchQueue.main.async {
-                    UIApplication.shared.endBackgroundTask(taskId)
-                }
-                self.processEventsTaskIdentifier = nil
+        // Notify the system about a long running task.
+        self.processEventsTaskIdentifier = UIApplication.shared.beginBackgroundTask(withName: UPLOAD_TASK_NAME) {
+            // Check the task is still running.
+            guard let taskId = self.processEventsTaskIdentifier else {
+                return
             }
 
+            // Stop the task if the given time expires.
+            NotificareLogger.debug("Completing background task after its expiration.")
+                UIApplication.shared.endBackgroundTask(taskId)
+            self.processEventsTaskIdentifier = nil
+        }
+
+        // Run the task on a background queue.
+        Task(priority: .background) {
             // Load and process the stored events.
             if let events = try? Notificare.shared.database.fetchEvents() {
                 await self.process(events)
@@ -187,27 +185,25 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
     }
 
     private func process(_ managedEvents: [NotificareCoreDataEvent]) async {
-        guard processEventsTaskIdentifier != nil else {
-            NotificareLogger.debug("The background task was terminated before all the events could be processed.")
-            return
-        }
-
         var events = managedEvents
         guard !events.isEmpty else {
             NotificareLogger.debug("Nothing to process.")
             return
         }
 
-        let event = events.removeFirst()
-        await process(event)
+        for event in events {
+            guard processEventsTaskIdentifier != nil else {
+                NotificareLogger.debug("The background task was terminated before all the events could be processed.")
+                return
+            }
 
-        if events.isEmpty {
-            NotificareLogger.debug("Finished processing all the events.")
-            return
+            NotificareLogger.debug("\(events.count) events remaining. Processing...")
+            await process(event)
+
+            events.removeFirst()
         }
 
-        NotificareLogger.debug("\(events.count) events remaining. Processing next...")
-        await process(events)
+        NotificareLogger.debug("Finished processing all the events.")
     }
 
     private func process(_ managedEvent: NotificareCoreDataEvent) async {
