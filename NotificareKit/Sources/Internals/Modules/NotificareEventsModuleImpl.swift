@@ -191,16 +191,18 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
             return
         }
 
+        var numEvents = events.count
+
         for event in events {
             guard processEventsTaskIdentifier != nil else {
                 NotificareLogger.debug("The background task was terminated before all the events could be processed.")
                 return
             }
 
-            NotificareLogger.debug("\(events.count) events remaining. Processing...")
+            NotificareLogger.debug("\(numEvents) events remaining. Processing...")
             await process(event)
 
-            events.removeFirst()
+            numEvents -= 1
         }
 
         NotificareLogger.debug("Finished processing all the events.")
