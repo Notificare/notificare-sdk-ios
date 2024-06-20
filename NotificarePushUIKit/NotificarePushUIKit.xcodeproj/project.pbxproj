@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E5A878A92C23346100D53A91 /* URLExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A878A82C23346100D53A91 /* URLExtensions.swift */; };
 		F216F0BC26A84B2100F9EF56 /* NotificareWebPassViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F216F0BB26A84B2100F9EF56 /* NotificareWebPassViewController.swift */; };
 		F21CBCB025AF1F5000495F7A /* NotificareStoreController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21CBCAF25AF1F5000495F7A /* NotificareStoreController.swift */; };
 		F23ED157284E1B91007BE36C /* NotificareInAppBrowserController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F23ED156284E1B91007BE36C /* NotificareInAppBrowserController.swift */; };
@@ -55,6 +56,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E5A878A82C23346100D53A91 /* URLExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLExtensions.swift; sourceTree = "<group>"; };
 		F216F0BB26A84B2100F9EF56 /* NotificareWebPassViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareWebPassViewController.swift; sourceTree = "<group>"; };
 		F21CBCAF25AF1F5000495F7A /* NotificareStoreController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareStoreController.swift; sourceTree = "<group>"; };
 		F23ED156284E1B91007BE36C /* NotificareInAppBrowserController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareInAppBrowserController.swift; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 				F29B17F225A48CAF007ED6F9 /* NotificarePushUIImpl.swift */,
 				F293E2E5263048A1008C2010 /* LocalStorage.swift */,
 				F2DAB3A4271F14D3002B5F27 /* UIKitExtensions.swift */,
+				E5A878A82C23346100D53A91 /* URLExtensions.swift */,
 			);
 			path = Internals;
 			sourceTree = "<group>";
@@ -354,6 +357,7 @@
 				F289F52625B8395B0091AB97 /* NotificareUrlSchemeController.swift in Sources */,
 				F277EAAF25B084860026225C /* NotificareBaseActionHandler.swift in Sources */,
 				F2E9D41E25ADE98D00FF7827 /* NotificareVideoViewController.swift in Sources */,
+				E5A878A92C23346100D53A91 /* URLExtensions.swift in Sources */,
 				F289F51F25B836850091AB97 /* NotificareNotificationPresenter.swift in Sources */,
 				F28085A625B5EB4A00D3AD50 /* NotificarePushUIDelegate.swift in Sources */,
 				F2E9D45825AE1D4500FF7827 /* NotificareUrlViewController.swift in Sources */,
