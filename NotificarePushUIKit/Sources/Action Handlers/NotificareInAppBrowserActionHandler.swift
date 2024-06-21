@@ -16,7 +16,10 @@ public class NotificareInAppBrowserActionHandler: NotificareBaseActionHandler {
     }
 
     internal override func execute() {
-        if let target = action.target, let url = URL(string: target) {
+        if let target = action.target,
+           let url = URL(string: target),
+           url.isHttpUrl
+        {
             DispatchQueue.main.async {
                 let theme = Notificare.shared.options?.theme(for: self.sourceViewController)
                 let safariViewController = Notificare.shared.pushUIImplementation().createSafariViewController(url: url, theme: theme)

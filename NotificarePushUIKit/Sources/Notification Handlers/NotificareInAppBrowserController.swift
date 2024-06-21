@@ -16,7 +16,8 @@ internal class NotificareInAppBrowserController: NSObject, NotificareNotificatio
     internal func present(in controller: UIViewController) {
         guard let content = notification.content.first,
               let urlStr = content.data as? String,
-              let url = URL(string: urlStr)
+              let url = URL(string: urlStr),
+              url.isHttpUrl
         else {
             DispatchQueue.main.async {
                 Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToPresentNotification: self.notification)
