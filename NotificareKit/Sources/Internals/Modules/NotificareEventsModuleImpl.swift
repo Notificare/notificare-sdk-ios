@@ -161,7 +161,7 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
 
             // Stop the task if the given time expires.
             NotificareLogger.debug("Completing background task after its expiration.")
-                UIApplication.shared.endBackgroundTask(taskId)
+            UIApplication.shared.endBackgroundTask(taskId)
             self.processEventsTaskIdentifier = nil
         }
 
@@ -185,24 +185,23 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
     }
 
     private func process(_ managedEvents: [NotificareCoreDataEvent]) async {
-        var events = managedEvents
-        guard !events.isEmpty else {
+        guard !managedEvents.isEmpty else {
             NotificareLogger.debug("Nothing to process.")
             return
         }
 
-        var numEvents = events.count
+        var eventsRemaining = managedEvents.count
 
-        for event in events {
+        for event in managedEvents {
             guard processEventsTaskIdentifier != nil else {
                 NotificareLogger.debug("The background task was terminated before all the events could be processed.")
                 return
             }
 
-            NotificareLogger.debug("\(numEvents) events remaining. Processing...")
+            NotificareLogger.debug("\(eventsRemaining) events remaining. Processing...")
             await process(event)
 
-            numEvents -= 1
+            eventsRemaining -= 1
         }
 
         NotificareLogger.debug("Finished processing all the events.")
