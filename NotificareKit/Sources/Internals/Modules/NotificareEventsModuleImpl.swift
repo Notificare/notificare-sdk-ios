@@ -152,24 +152,24 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
             return
         }
 
-        // Run the task on a background queue.
-        DispatchQueue.global(qos: .background).async {
-            // Notify the system about a long running task.
-            self.processEventsTaskIdentifier = UIApplication.shared.beginBackgroundTask(withName: UPLOAD_TASK_NAME) {
-                // Check the task is still running.
-                guard let taskId = self.processEventsTaskIdentifier else {
-                    return
-                }
-
-                // Stop the task if the given time expires.
-                NotificareLogger.debug("Completing background task after its expiration.")
-                UIApplication.shared.endBackgroundTask(taskId)
-                self.processEventsTaskIdentifier = nil
+        // Notify the system about a long running task.
+        self.processEventsTaskIdentifier = UIApplication.shared.beginBackgroundTask(withName: UPLOAD_TASK_NAME) {
+            // Check the task is still running.
+            guard let taskId = self.processEventsTaskIdentifier else {
+                return
             }
 
+            // Stop the task if the given time expires.
+            NotificareLogger.debug("Completing background task after its expiration.")
+            UIApplication.shared.endBackgroundTask(taskId)
+            self.processEventsTaskIdentifier = nil
+        }
+
+        // Run the task on a background queue.
+        Task(priority: .background) {
             // Load and process the stored events.
             if let events = try? Notificare.shared.database.fetchEvents() {
-                self.process(events)
+                await self.process(events)
             }
 
             // Check the task is still running.
@@ -179,36 +179,35 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
 
             // Stop the task if the given time expires.
             NotificareLogger.debug("Completing background task after processing all the events.")
-            UIApplication.shared.endBackgroundTask(taskId)
+            await UIApplication.shared.endBackgroundTask(taskId)
             self.processEventsTaskIdentifier = nil
         }
     }
 
-    private func process(_ managedEvents: [NotificareCoreDataEvent]) {
-        guard processEventsTaskIdentifier != nil else {
-            NotificareLogger.debug("The background task was terminated before all the events could be processed.")
-            return
-        }
-
-        var events = managedEvents
-        guard !events.isEmpty else {
+    private func process(_ managedEvents: [NotificareCoreDataEvent]) async {
+        guard !managedEvents.isEmpty else {
             NotificareLogger.debug("Nothing to process.")
             return
         }
 
-        let event = events.removeFirst()
-        process(event)
+        var eventsRemaining = managedEvents.count
 
-        if events.isEmpty {
-            NotificareLogger.debug("Finished processing all the events.")
-            return
+        for event in managedEvents {
+            guard processEventsTaskIdentifier != nil else {
+                NotificareLogger.debug("The background task was terminated before all the events could be processed.")
+                return
+            }
+
+            NotificareLogger.debug("\(eventsRemaining) events remaining. Processing...")
+            await process(event)
+
+            eventsRemaining -= 1
         }
 
-        NotificareLogger.debug("\(events.count) events remaining. Processing next...")
-        process(events)
+        NotificareLogger.debug("Finished processing all the events.")
     }
 
-    private func process(_ managedEvent: NotificareCoreDataEvent) {
+    private func process(_ managedEvent: NotificareCoreDataEvent) async {
         let createdAt = Date(timeIntervalSince1970: Double(managedEvent.timestamp / 1000))
         let expiresAt = createdAt.addingTimeInterval(Double(managedEvent.ttl))
         let now = Date()
@@ -229,44 +228,32 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
             return
         }
 
-        // Leverage a DispatchGroup to wait for the request.
-        let group = DispatchGroup()
-        group.enter()
+        do {
+            try await NotificareRequest.Builder()
+                .post("/event", body: event)
+                .response()
 
-        // Perform the network request, which can retry internally.
-        Task {
-            do {
-                try await NotificareRequest.Builder()
-                    .post("/event", body: event)
-                    .response()
+            NotificareLogger.debug("Event processed. Removing from storage...")
+            Notificare.shared.database.remove(managedEvent)
+        } catch {
+            if let error = error as? NotificareNetworkError, error.recoverable {
+                NotificareLogger.debug("Failed to process event.")
 
-                NotificareLogger.debug("Event processed. Removing from storage...")
-                Notificare.shared.database.remove(managedEvent)
-            } catch {
-                if let error = error as? NotificareNetworkError, error.recoverable {
-                    NotificareLogger.debug("Failed to process event.")
+                // Increase the attempts counter.
+                managedEvent.retries += 1
 
-                    // Increase the attempts counter.
-                    managedEvent.retries += 1
-
-                    if managedEvent.retries < MAX_RETRIES {
-                        // Persist the attempts counter.
-                        Notificare.shared.database.saveChanges()
-                    } else {
-                        NotificareLogger.debug("Event was retried too many times. Removing...")
-                        Notificare.shared.database.remove(managedEvent)
-                    }
+                if managedEvent.retries < MAX_RETRIES {
+                    // Persist the attempts counter.
+                    Notificare.shared.database.saveChanges()
                 } else {
-                    NotificareLogger.debug("Failed to process event due to an unrecoverable error. Discarding it...")
+                    NotificareLogger.debug("Event was retried too many times. Removing...")
                     Notificare.shared.database.remove(managedEvent)
                 }
+            } else {
+                NotificareLogger.debug("Failed to process event due to an unrecoverable error. Discarding it...")
+                Notificare.shared.database.remove(managedEvent)
             }
-
-            group.leave()
         }
-
-        // Wait until the request finishes.
-        group.wait()
     }
 
     @objc private func onApplicationDidBecomeActiveNotification(_: Notification) {
