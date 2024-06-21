@@ -7,6 +7,7 @@ import NotificareKit
 import NotificationCenter
 
 internal class NotificareNotificationCenterDelegate: NSObject, UNUserNotificationCenterDelegate {
+    @MainActor
     internal func userNotificationCenter(_: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
         let userInfo = response.notification.request.content.userInfo
 
