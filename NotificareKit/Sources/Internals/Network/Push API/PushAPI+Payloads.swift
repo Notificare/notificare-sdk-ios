@@ -22,6 +22,44 @@ internal extension NotificareInternals.PushAPI.Payloads {
             let timeZoneOffset: Float
             let backgroundAppRefresh: Bool
             let allowedUI: Bool?
+
+            enum CodingKeys: String, CodingKey {
+                case deviceID
+                case oldDeviceID
+                case userID
+                case userName
+                case language
+                case region
+                case platform
+                case transport
+                case osVersion
+                case sdkVersion
+                case appVersion
+                case deviceString
+                case timeZoneOffset
+                case backgroundAppRefresh
+                case allowedUI
+            }
+
+            func encode(to encoder: any Encoder) throws {
+                var container = encoder.container(keyedBy: CodingKeys.self)
+
+                try container.encode(self.deviceID, forKey: .deviceID)
+                try container.encodeIfPresent(self.oldDeviceID, forKey: .oldDeviceID)
+                try container.encode(self.userID, forKey: .userID)
+                try container.encode(self.userName, forKey: .userName)
+                try container.encode(self.language, forKey: .language)
+                try container.encode(self.region, forKey: .region)
+                try container.encode(self.platform, forKey: .platform)
+                try container.encode(self.transport, forKey: .transport)
+                try container.encode(self.osVersion, forKey: .osVersion)
+                try container.encode(self.sdkVersion, forKey: .sdkVersion)
+                try container.encode(self.appVersion, forKey: .appVersion)
+                try container.encode(self.deviceString, forKey: .deviceString)
+                try container.encode(self.timeZoneOffset, forKey: .timeZoneOffset)
+                try container.encode(self.backgroundAppRefresh, forKey: .backgroundAppRefresh)
+                try container.encodeIfPresent(self.allowedUI, forKey: .allowedUI)
+            }
         }
 
         struct UpdateTimeZone: Encodable {
