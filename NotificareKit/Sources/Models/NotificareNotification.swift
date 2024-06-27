@@ -37,6 +37,7 @@ public struct NotificareNotification: Codable {
         case inAppBrowser = "re.notifica.notification.InAppBrowser"
         case webView = "re.notifica.notification.WebView"
         case url = "re.notifica.notification.URL"
+        case urlResolver = "re.notifica.notification.URLResolver"
         case urlScheme = "re.notifica.notification.URLScheme"
         case image = "re.notifica.notification.Image"
         case video = "re.notifica.notification.Video"
