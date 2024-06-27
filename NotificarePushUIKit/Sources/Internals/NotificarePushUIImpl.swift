@@ -60,6 +60,31 @@ internal class NotificarePushUIImpl: NotificareModule, NotificarePushUI {
 
             latestPresentableNotificationHandler = notificationController
 
+        case .urlResolver:
+            let result = NotificationUrlResolver.resolve(notification)
+
+            switch result {
+            case .none:
+                NotificareLogger.debug("Resolving as 'none' notification.")
+                return
+
+            case .urlScheme:
+                NotificareLogger.debug("Resolving as 'url scheme' notification.")
+                latestPresentableNotificationHandler = NotificareUrlSchemeController(notification: notification)
+
+            case .inAppBrowser:
+                NotificareLogger.debug("Resolving as 'in-app browser' notification.")
+                latestPresentableNotificationHandler = NotificareInAppBrowserController(notification: notification)
+
+            case .webView:
+                NotificareLogger.debug("Resolving as 'web view' notification.")
+
+                let notificationController = NotificareUrlViewController()
+                notificationController.notification = notification
+
+                latestPresentableNotificationHandler = notificationController
+            }
+
         case .urlScheme:
             latestPresentableNotificationHandler = NotificareUrlSchemeController(notification: notification)
 
