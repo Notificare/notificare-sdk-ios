@@ -2,6 +2,7 @@
 
 ## Upcoming release
 
+- Add support for the URLResolver notification type
 - Fix anonymous device registration
 
 ## 3.9.1
