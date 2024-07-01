@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## Upcoming release
+## 3.10.0
 
 - Add support for the URLResolver notification type
 - Fix anonymous device registration
