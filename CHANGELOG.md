@@ -15,6 +15,7 @@
 - `NotificareTransport` was moved to the push module.
 - Drops support for the monetize module.
 - Removed deprecated  `notificare(_:didReceiveNotification:)`. Use `notificare(_:didReceiveNotification:deliveryMechanism:)` instead.
+- Removed deprecated `notificare(_:didReceiveUnknownAction:for:responseText:)` delegate method. Renamed to `notificare(_:didOpenUnknownAction:for:responseText:)`.
 
 ## 3.9.1
 
