@@ -16,6 +16,7 @@
 - Drops support for the monetize module.
 - Removed deprecated  `notificare(_:didReceiveNotification:)`. Use `notificare(_:didReceiveNotification:deliveryMechanism:)` instead.
 - Removed deprecated `notificare(_:didReceiveUnknownAction:for:responseText:)` delegate method. Renamed to `notificare(_:didOpenUnknownAction:for:responseText:)`.
+- Removed deprecated `handleNotificationRequest()` from push module. Include the NotificareNotificationServiceExtensionKit and use `NotificareNotificationServiceExtension.handleNotificationRequest()` instead.
 
 ## 3.9.1
 
