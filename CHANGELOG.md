@@ -14,6 +14,7 @@
 - `launch()`, `unlaunch()`, `enableRemoteNotifications()` and `disableRemoteNotifications()` become suspending functions that complete after all the work is done.
 - `NotificareTransport` was moved to the push module.
 - Drops support for the monetize module.
+- Removed deprecated  `notificare(_:didReceiveNotification:)`. Use `notificare(_:didReceiveNotification:deliveryMechanism:)` instead.
 
 ## 3.9.1
 

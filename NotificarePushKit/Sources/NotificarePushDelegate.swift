@@ -15,9 +15,6 @@ public protocol NotificarePushDelegate: AnyObject {
 
     func notificare(_ notificarePush: NotificarePush, didReceiveUnknownNotification userInfo: [AnyHashable: Any])
 
-    @available(*, deprecated, message: "Use notificare(_:didReceiveNotification:deliveryMechanism:) instead.")
-    func notificare(_ notificarePush: NotificarePush, didReceiveNotification notification: NotificareNotification)
-
     func notificare(_ notificarePush: NotificarePush, didReceiveNotification notification: NotificareNotification, deliveryMechanism: NotificareNotificationDeliveryMechanism)
 
     func notificare(_ notificarePush: NotificarePush, didReceiveSystemNotification notification: NotificareSystemNotification)
@@ -44,8 +41,6 @@ extension NotificarePushDelegate {
     public func notificare(_: NotificarePush, didChangeNotificationSettings _: Bool) {}
 
     public func notificare(_: NotificarePush, didReceiveUnknownNotification _: [AnyHashable: Any]) {}
-
-    public func notificare(_: NotificarePush, didReceiveNotification _: NotificareNotification) {}
 
     public func notificare(_: NotificarePush, didReceiveNotification _: NotificareNotification, deliveryMechanism _: NotificareNotificationDeliveryMechanism) {}
 
