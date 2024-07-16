@@ -127,9 +127,6 @@ internal class NotificarePushAppDelegateInterceptor: NSObject, NotificareAppDele
         DispatchQueue.main.async {
             // Notify the delegate.
             Notificare.shared.push().delegate?.notificare(Notificare.shared.push(), didReceiveNotification: notification, deliveryMechanism: deliveryMechanism)
-
-            // Continue notifying the deprecated delegate method to preserve backwards compatibility.
-            Notificare.shared.push().delegate?.notificare(Notificare.shared.push(), didReceiveNotification: notification)
         }
     }
 

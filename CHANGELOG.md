@@ -14,6 +14,9 @@
 - `launch()`, `unlaunch()`, `enableRemoteNotifications()` and `disableRemoteNotifications()` become suspending functions that complete after all the work is done.
 - `NotificareTransport` was moved to the push module.
 - Drops support for the monetize module.
+- Removed deprecated  `notificare(_:didReceiveNotification:)`. Use `notificare(_:didReceiveNotification:deliveryMechanism:)` instead.
+- Removed deprecated `notificare(_:didReceiveUnknownAction:for:responseText:)` delegate method. Renamed to `notificare(_:didOpenUnknownAction:for:responseText:)`.
+- Removed deprecated `handleNotificationRequest()` from push module. Include the NotificareNotificationServiceExtensionKit and use `NotificareNotificationServiceExtension.handleNotificationRequest()` instead.
 
 ## 3.9.1
 
