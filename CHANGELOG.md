@@ -1,9 +1,9 @@
 # CHANGELOG
 
-## Upcoming release
+## 4.0.0-beta.1
 
 - Device identifiers become long-lived
-- `launch()`, `unlaunch()`, `enableRemoteNotifications()` and `disableRemoteNotifications()` become suspending functions with a callback alternative
+- `launch()`, `unlaunch()`, `enableRemoteNotifications()` and `disableRemoteNotifications()` become async functions with a callback alternative
 - Add support for customisable hosts
 
 #### Breaking changes
