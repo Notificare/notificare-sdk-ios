@@ -33,7 +33,7 @@ public protocol NotificarePushDelegate: AnyObject {
 extension NotificarePushDelegate {
     public func notificare(_: NotificarePush, didFailToRegisterForRemoteNotificationsWithError _: Error) {}
 
-    public func notificare(_ notificarePush: NotificarePush, didChangeSubscriptionId subscriptionId: String?) {}
+    public func notificare(_: NotificarePush, didChangeSubscriptionId _: String?) {}
 
     public func notificare(_: NotificarePush, didChangeNotificationSettings _: Bool) {}
 
