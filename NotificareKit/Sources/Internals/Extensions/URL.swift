@@ -26,7 +26,7 @@ extension URL {
         self = appendingQueryComponent(name: name, value: value)
     }
 
-    func removingQueryComponent(name: String) -> URL {
+    public func removingQueryComponent(name: String) -> URL {
         var components = URLComponents(url: self, resolvingAgainstBaseURL: true)!
         var queryItems = components.queryItems ?? []
 
@@ -39,7 +39,7 @@ extension URL {
         return components.url!
     }
 
-    mutating func removeQueryComponent(name: String) {
+    public mutating func removeQueryComponent(name: String) {
         self = removingQueryComponent(name: name)
     }
 }

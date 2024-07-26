@@ -74,7 +74,9 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
         self.subscriptionId = nil
         self.allowedUI = false
 
-        // TODO: subscriptionChanged event
+        DispatchQueue.main.async {
+            self.delegate?.notificare(self, didChangeSubscriptionId: nil)
+        }
 
         DispatchQueue.main.async {
             self.delegate?.notificare(self, didChangeNotificationSettings: false)
@@ -511,7 +513,9 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
         self.subscriptionId = token
         self.allowedUI = allowedUI
 
-        // TODO: notify subscriptionChanged event
+        DispatchQueue.main.async {
+            self.delegate?.notificare(self, didChangeSubscriptionId: token)
+        }
 
         DispatchQueue.main.async {
             self.delegate?.notificare(self, didChangeNotificationSettings: allowedUI)

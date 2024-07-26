@@ -126,6 +126,10 @@ extension AppDelegate: NotificarePushDelegate {
         Logger.main.error("Notificare: failed to register for remote notifications: \(error)")
     }
 
+    internal func notificare(_ notificarePush: any NotificarePush, didChangeSubscriptionId subscriptionId: String?) {
+        Logger.main.info("Notificare: subscription id changed: \(subscriptionId ?? "null")")
+    }
+
     internal func notificare(_: NotificarePush, didChangeNotificationSettings allowedUI: Bool) {
         Logger.main.info("Notificare: notification settings changed: \(allowedUI)")
 
