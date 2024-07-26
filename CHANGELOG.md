@@ -18,6 +18,11 @@
 - Removed deprecated `notificare(_:didReceiveUnknownAction:for:responseText:)` delegate method. Renamed to `notificare(_:didOpenUnknownAction:for:responseText:)`.
 - Removed deprecated `handleNotificationRequest()` from push module. Include the NotificareNotificationServiceExtensionKit and use `NotificareNotificationServiceExtension.handleNotificationRequest()` instead.
 
+## 3.10.0
+
+- Add support for the URLResolver notification type
+- Fix anonymous device registration
+
 ## 3.9.1
 
 - Preload images before showing in-app messages

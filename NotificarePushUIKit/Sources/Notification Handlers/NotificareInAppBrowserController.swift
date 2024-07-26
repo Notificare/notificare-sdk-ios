@@ -16,7 +16,7 @@ internal class NotificareInAppBrowserController: NSObject, NotificareNotificatio
     internal func present(in controller: UIViewController) {
         guard let content = notification.content.first,
               let urlStr = content.data as? String,
-              let url = URL(string: urlStr),
+              let url = URL(string: urlStr)?.removingQueryComponent(name: "notificareWebView"),
               url.isHttpUrl
         else {
             DispatchQueue.main.async {
