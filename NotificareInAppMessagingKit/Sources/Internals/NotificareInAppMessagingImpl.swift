@@ -116,7 +116,7 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
                 return
             }
 
-            await present(message, cache: cache)
+            present(message, cache: cache)
         }
     }
 
