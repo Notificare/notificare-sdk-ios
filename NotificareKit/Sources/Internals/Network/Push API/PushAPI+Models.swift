@@ -58,58 +58,6 @@ extension NotificareInternals.PushAPI.Models {
         public let extra: [String: Any]
         public let targetContentIdentifier: String?
 
-        internal enum CodingKeys: String, CodingKey {
-            case _id
-            case type
-            case time
-            case title
-            case subtitle
-            case message
-            case content
-            case actions
-            case attachments
-            case extra
-            case targetContentIdentifier
-        }
-
-        public init(from decoder: Decoder) throws {
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-
-            _id = try container.decode(String.self, forKey: ._id)
-            type = try container.decode(String.self, forKey: .type)
-            time = try container.decode(Date.self, forKey: .time)
-            title = try container.decodeIfPresent(String.self, forKey: .title)
-            subtitle = try container.decodeIfPresent(String.self, forKey: .subtitle)
-            message = try container.decode(String.self, forKey: .message)
-
-            if container.contains(.content) {
-                content = try container.decode([NotificareNotification.Content].self, forKey: .content)
-            } else {
-                content = []
-            }
-
-            if container.contains(.actions) {
-                actions = try container.decode([Action].self, forKey: .actions)
-            } else {
-                actions = []
-            }
-
-            if container.contains(.attachments) {
-                attachments = try container.decode([NotificareNotification.Attachment].self, forKey: .attachments)
-            } else {
-                attachments = []
-            }
-
-            if container.contains(.extra) {
-                let decoded = try container.decode(NotificareAnyCodable.self, forKey: .extra)
-                extra = decoded.value as! [String: Any]
-            } else {
-                extra = [:]
-            }
-
-            targetContentIdentifier = try container.decodeIfPresent(String.self, forKey: .targetContentIdentifier)
-        }
-
         public struct Action: Decodable {
             public let type: String
             public let label: String?
@@ -150,5 +98,59 @@ extension NotificareInternals.PushAPI.Models {
                 targetContentIdentifier: targetContentIdentifier
             )
         }
+    }
+}
+
+extension NotificareInternals.PushAPI.Models.Notification {
+    internal enum CodingKeys: String, CodingKey {
+        case _id
+        case type
+        case time
+        case title
+        case subtitle
+        case message
+        case content
+        case actions
+        case attachments
+        case extra
+        case targetContentIdentifier
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        _id = try container.decode(String.self, forKey: ._id)
+        type = try container.decode(String.self, forKey: .type)
+        time = try container.decode(Date.self, forKey: .time)
+        title = try container.decodeIfPresent(String.self, forKey: .title)
+        subtitle = try container.decodeIfPresent(String.self, forKey: .subtitle)
+        message = try container.decode(String.self, forKey: .message)
+
+        if container.contains(.content) {
+            content = try container.decode([NotificareNotification.Content].self, forKey: .content)
+        } else {
+            content = []
+        }
+
+        if container.contains(.actions) {
+            actions = try container.decode([Action].self, forKey: .actions)
+        } else {
+            actions = []
+        }
+
+        if container.contains(.attachments) {
+            attachments = try container.decode([NotificareNotification.Attachment].self, forKey: .attachments)
+        } else {
+            attachments = []
+        }
+
+        if container.contains(.extra) {
+            let decoded = try container.decode(NotificareAnyCodable.self, forKey: .extra)
+            extra = decoded.value as! [String: Any]
+        } else {
+            extra = [:]
+        }
+
+        targetContentIdentifier = try container.decodeIfPresent(String.self, forKey: .targetContentIdentifier)
     }
 }
