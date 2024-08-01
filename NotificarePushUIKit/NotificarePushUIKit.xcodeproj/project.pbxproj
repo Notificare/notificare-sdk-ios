@@ -29,7 +29,6 @@
 		F29017FA2BD27A40009DB80B /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = F29017F92BD27A40009DB80B /* PrivacyInfo.xcprivacy */; };
 		F293E2E6263048A1008C2010 /* LocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F293E2E5263048A1008C2010 /* LocalStorage.swift */; };
 		F29B17D525A48BF0007ED6F9 /* NotificarePushUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F29B17CB25A48BEF007ED6F9 /* NotificarePushUIKit.framework */; };
-		F29B17DA25A48BF0007ED6F9 /* NotificarePushUIKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29B17D925A48BF0007ED6F9 /* NotificarePushUIKitTests.swift */; };
 		F29B17DC25A48BF0007ED6F9 /* NotificarePushUIKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F29B17CE25A48BEF007ED6F9 /* NotificarePushUIKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F29B17F325A48CAF007ED6F9 /* NotificarePushUIImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29B17F225A48CAF007ED6F9 /* NotificarePushUIImpl.swift */; };
 		F29C96E725ACBE2500620E9B /* NotificareImageGalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29C96E625ACBE2500620E9B /* NotificareImageGalleryViewController.swift */; };
@@ -81,7 +80,6 @@
 		F29B17CE25A48BEF007ED6F9 /* NotificarePushUIKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificarePushUIKit.h; sourceTree = "<group>"; };
 		F29B17CF25A48BEF007ED6F9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F29B17D425A48BF0007ED6F9 /* NotificarePushUIKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NotificarePushUIKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		F29B17D925A48BF0007ED6F9 /* NotificarePushUIKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificarePushUIKitTests.swift; sourceTree = "<group>"; };
 		F29B17DB25A48BF0007ED6F9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F29B17F225A48CAF007ED6F9 /* NotificarePushUIImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificarePushUIImpl.swift; sourceTree = "<group>"; };
 		F29C96E625ACBE2500620E9B /* NotificareImageGalleryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareImageGalleryViewController.swift; sourceTree = "<group>"; };
@@ -192,7 +190,6 @@
 		F29B17D825A48BF0007ED6F9 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				F29B17D925A48BF0007ED6F9 /* NotificarePushUIKitTests.swift */,
 				F29B17DB25A48BF0007ED6F9 /* Info.plist */,
 			);
 			path = Tests;
@@ -270,6 +267,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				1A546F722C5B5DD40059F095 /* PBXTargetDependency */,
 				F29B17D725A48BF0007ED6F9 /* PBXTargetDependency */,
 			);
 			name = NotificarePushUIKitTests;
@@ -380,13 +378,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F29B17DA25A48BF0007ED6F9 /* NotificarePushUIKitTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		1A546F722C5B5DD40059F095 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 1A546F712C5B5DD40059F095 /* SwiftLintBuildToolPlugin */;
+		};
 		1A8C31032BF63A060000BFA6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			productRef = 1A8C31022BF63A060000BFA6 /* SwiftLintBuildToolPlugin */;
@@ -591,7 +592,6 @@
 		F29B17E325A48BF0007ED6F9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -609,7 +609,6 @@
 		F29B17E425A48BF0007ED6F9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -725,7 +724,6 @@
 		F2EAF9372AF51E1500A2CC0C /* Debug-Test */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -841,7 +839,6 @@
 		F2EAF93A2AF51E1C00A2CC0C /* Debug-Production */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -950,7 +947,6 @@
 		F2EAF93D2AF51E2200A2CC0C /* Release-Test */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1059,7 +1055,6 @@
 		F2EAF9402AF51E2700A2CC0C /* Release-Production */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1130,6 +1125,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		1A546F712C5B5DD40059F095 /* SwiftLintBuildToolPlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1A8C30EC2BF639720000BFA6 /* XCRemoteSwiftPackageReference "SwiftLint" */;
+			productName = "plugin:SwiftLintBuildToolPlugin";
+		};
 		1A8C31022BF63A060000BFA6 /* SwiftLintBuildToolPlugin */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 1A8C30EC2BF639720000BFA6 /* XCRemoteSwiftPackageReference "SwiftLint" */;
