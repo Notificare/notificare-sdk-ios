@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A32741A2C5AE254002B78BA /* NotificareSystemNotificationTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3274192C5AE254002B78BA /* NotificareSystemNotificationTest.swift */; };
 		1AF8E7CE2BF21AB500DE2BC8 /* NotificarePushAppDelegateInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF8E7CD2BF21AB500DE2BC8 /* NotificarePushAppDelegateInterceptor.swift */; };
 		1AF8E7D12BF21C0700DE2BC8 /* NotificareNotificationCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF8E7D02BF21C0700DE2BC8 /* NotificareNotificationCenterDelegate.swift */; };
 		F2128F022594E47700F7F68F /* NotificareSystemNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2128F012594E47700F7F68F /* NotificareSystemNotification.swift */; };
@@ -18,7 +19,6 @@
 		F226509B258B6B900004F833 /* NotificarePush.swift in Sources */ = {isa = PBXBuildFile; fileRef = F226509A258B6B900004F833 /* NotificarePush.swift */; };
 		F23A5569259C7D6D00B57CF1 /* NotificarePush+Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = F23A5568259C7D6D00B57CF1 /* NotificarePush+Events.swift */; };
 		F258DD9E24BC4EE2006F9ABD /* NotificarePushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F258DD9424BC4EE2006F9ABD /* NotificarePushKit.framework */; };
-		F258DDA324BC4EE2006F9ABD /* PushTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DDA224BC4EE2006F9ABD /* PushTests.swift */; };
 		F258DDA524BC4EE2006F9ABD /* NotificarePushKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F258DD9724BC4EE2006F9ABD /* NotificarePushKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F260F37D2C0F664D007D7A59 /* NotificareTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F260F37C2C0F664D007D7A59 /* NotificareTransport.swift */; };
 		F260F37F2C107E16007D7A59 /* PushTokenRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = F260F37E2C107E16007D7A59 /* PushTokenRequester.swift */; };
@@ -42,6 +42,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1A3274192C5AE254002B78BA /* NotificareSystemNotificationTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareSystemNotificationTest.swift; sourceTree = "<group>"; };
 		1AF8E7CD2BF21AB500DE2BC8 /* NotificarePushAppDelegateInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificarePushAppDelegateInterceptor.swift; sourceTree = "<group>"; };
 		1AF8E7D02BF21C0700DE2BC8 /* NotificareNotificationCenterDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareNotificationCenterDelegate.swift; sourceTree = "<group>"; };
 		F2128F012594E47700F7F68F /* NotificareSystemNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareSystemNotification.swift; sourceTree = "<group>"; };
@@ -56,7 +57,6 @@
 		F258DD9724BC4EE2006F9ABD /* NotificarePushKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificarePushKit.h; sourceTree = "<group>"; };
 		F258DD9824BC4EE2006F9ABD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F258DD9D24BC4EE2006F9ABD /* NotificarePushKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NotificarePushKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		F258DDA224BC4EE2006F9ABD /* PushTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushTests.swift; sourceTree = "<group>"; };
 		F258DDA424BC4EE2006F9ABD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F260F37C2C0F664D007D7A59 /* NotificareTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareTransport.swift; sourceTree = "<group>"; };
 		F260F37E2C107E16007D7A59 /* PushTokenRequester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushTokenRequester.swift; sourceTree = "<group>"; };
@@ -155,8 +155,8 @@
 		F258DDA124BC4EE2006F9ABD /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				F258DDA224BC4EE2006F9ABD /* PushTests.swift */,
 				F258DDA424BC4EE2006F9ABD /* Info.plist */,
+				1A3274192C5AE254002B78BA /* NotificareSystemNotificationTest.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -244,6 +244,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				1A546F702C5B5DC80059F095 /* PBXTargetDependency */,
 				F258DDA024BC4EE2006F9ABD /* PBXTargetDependency */,
 			);
 			name = NotificarePushKitTests;
@@ -268,6 +269,7 @@
 					};
 					F258DD9C24BC4EE2006F9ABD = {
 						CreatedOnToolsVersion = 11.5;
+						LastSwiftMigration = 1540;
 					};
 				};
 			};
@@ -340,13 +342,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F258DDA324BC4EE2006F9ABD /* PushTests.swift in Sources */,
+				1A32741A2C5AE254002B78BA /* NotificareSystemNotificationTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		1A546F702C5B5DC80059F095 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 1A546F6F2C5B5DC80059F095 /* SwiftLintBuildToolPlugin */;
+		};
 		1A8C31012BF63A010000BFA6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			productRef = 1A8C31002BF63A010000BFA6 /* SwiftLintBuildToolPlugin */;
@@ -552,6 +558,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Tests/Info.plist;
@@ -562,6 +569,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.PushTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -571,6 +579,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Tests/Info.plist;
@@ -688,6 +697,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Tests/Info.plist;
@@ -698,6 +708,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.PushTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -805,6 +816,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Tests/Info.plist;
@@ -815,6 +827,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.PushTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -915,6 +928,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Tests/Info.plist;
@@ -1025,6 +1039,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Tests/Info.plist;
@@ -1096,6 +1111,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		1A546F6F2C5B5DC80059F095 /* SwiftLintBuildToolPlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1A8C30EB2BF639690000BFA6 /* XCRemoteSwiftPackageReference "SwiftLint" */;
+			productName = "plugin:SwiftLintBuildToolPlugin";
+		};
 		1A8C31002BF63A010000BFA6 /* SwiftLintBuildToolPlugin */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 1A8C30EB2BF639690000BFA6 /* XCRemoteSwiftPackageReference "SwiftLint" */;
