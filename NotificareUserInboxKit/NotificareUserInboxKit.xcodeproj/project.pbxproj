@@ -7,13 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A3274272C5B4506002B78BA /* TestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3274262C5B4506002B78BA /* TestUtils.swift */; };
+		1ACA07D52C58FADE002CB47D /* NotificareUserInboxItemTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACA07D42C58FADE002CB47D /* NotificareUserInboxItemTest.swift */; };
+		1ACA07D72C58FFE2002CB47D /* NotificareUserInboxResponseTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACA07D62C58FFE2002CB47D /* NotificareUserInboxResponseTest.swift */; };
+		1ACA07D92C593AD3002CB47D /* RawUserInboxResponseTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACA07D82C593AD3002CB47D /* RawUserInboxResponseTest.swift */; };
 		F28CF5D4292D0FC000F44651 /* ConsumerUserInboxResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28CF5D3292D0FC000F44651 /* ConsumerUserInboxResponse.swift */; };
 		F28CF5D6292D0FF900F44651 /* RawUserInboxResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28CF5D5292D0FF900F44651 /* RawUserInboxResponse.swift */; };
 		F28CF5D8292D143E00F44651 /* NotificareUserInboxError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28CF5D7292D143E00F44651 /* NotificareUserInboxError.swift */; };
 		F28CF5DC292D39B400F44651 /* PushAPI+Responses.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28CF5DB292D39B400F44651 /* PushAPI+Responses.swift */; };
 		F29017FE2BD27AE4009DB80B /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = F29017FD2BD27AE4009DB80B /* PrivacyInfo.xcprivacy */; };
 		F2EA0713291E9BA7009DB7A0 /* NotificareUserInboxKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2EA070A291E9BA7009DB7A0 /* NotificareUserInboxKit.framework */; };
-		F2EA0718291E9BA7009DB7A0 /* NotificareUserInboxKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2EA0717291E9BA7009DB7A0 /* NotificareUserInboxKitTests.swift */; };
 		F2EA0719291E9BA7009DB7A0 /* NotificareUserInboxKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F2EA070D291E9BA7009DB7A0 /* NotificareUserInboxKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F2EA0726291EA89F009DB7A0 /* NotificareUserInbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2EA0725291EA89F009DB7A0 /* NotificareUserInbox.swift */; };
 		F2EA072B291EAD84009DB7A0 /* NotificareUserInboxImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2EA072A291EAD84009DB7A0 /* NotificareUserInboxImpl.swift */; };
@@ -34,6 +37,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1A3274262C5B4506002B78BA /* TestUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestUtils.swift; sourceTree = "<group>"; };
+		1ACA07D42C58FADE002CB47D /* NotificareUserInboxItemTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareUserInboxItemTest.swift; sourceTree = "<group>"; };
+		1ACA07D62C58FFE2002CB47D /* NotificareUserInboxResponseTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareUserInboxResponseTest.swift; sourceTree = "<group>"; };
+		1ACA07D82C593AD3002CB47D /* RawUserInboxResponseTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawUserInboxResponseTest.swift; sourceTree = "<group>"; };
 		F28CF5D3292D0FC000F44651 /* ConsumerUserInboxResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsumerUserInboxResponse.swift; sourceTree = "<group>"; };
 		F28CF5D5292D0FF900F44651 /* RawUserInboxResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawUserInboxResponse.swift; sourceTree = "<group>"; };
 		F28CF5D7292D143E00F44651 /* NotificareUserInboxError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareUserInboxError.swift; sourceTree = "<group>"; };
@@ -42,7 +49,6 @@
 		F2EA070A291E9BA7009DB7A0 /* NotificareUserInboxKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NotificareUserInboxKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2EA070D291E9BA7009DB7A0 /* NotificareUserInboxKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificareUserInboxKit.h; sourceTree = "<group>"; };
 		F2EA0712291E9BA7009DB7A0 /* NotificareUserInboxKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NotificareUserInboxKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		F2EA0717291E9BA7009DB7A0 /* NotificareUserInboxKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareUserInboxKitTests.swift; sourceTree = "<group>"; };
 		F2EA0725291EA89F009DB7A0 /* NotificareUserInbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareUserInbox.swift; sourceTree = "<group>"; };
 		F2EA072A291EAD84009DB7A0 /* NotificareUserInboxImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareUserInboxImpl.swift; sourceTree = "<group>"; };
 		F2EA072E291EAE10009DB7A0 /* NotificareKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -124,7 +130,10 @@
 		F2EA0716291E9BA7009DB7A0 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				F2EA0717291E9BA7009DB7A0 /* NotificareUserInboxKitTests.swift */,
+				1ACA07D42C58FADE002CB47D /* NotificareUserInboxItemTest.swift */,
+				1ACA07D62C58FFE2002CB47D /* NotificareUserInboxResponseTest.swift */,
+				1ACA07D82C593AD3002CB47D /* RawUserInboxResponseTest.swift */,
+				1A3274262C5B4506002B78BA /* TestUtils.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -208,6 +217,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				1A546F762C5B5DE50059F095 /* PBXTargetDependency */,
 				F2EA0715291E9BA7009DB7A0 /* PBXTargetDependency */,
 			);
 			name = NotificareUserInboxKitTests;
@@ -232,6 +242,7 @@
 					};
 					F2EA0711291E9BA7009DB7A0 = {
 						CreatedOnToolsVersion = 14.1;
+						LastSwiftMigration = 1540;
 					};
 				};
 			};
@@ -296,13 +307,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F2EA0718291E9BA7009DB7A0 /* NotificareUserInboxKitTests.swift in Sources */,
+				1ACA07D72C58FFE2002CB47D /* NotificareUserInboxResponseTest.swift in Sources */,
+				1ACA07D52C58FADE002CB47D /* NotificareUserInboxItemTest.swift in Sources */,
+				1ACA07D92C593AD3002CB47D /* RawUserInboxResponseTest.swift in Sources */,
+				1A3274272C5B4506002B78BA /* TestUtils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		1A546F762C5B5DE50059F095 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 1A546F752C5B5DE50059F095 /* SwiftLintBuildToolPlugin */;
+		};
 		1A8C31072BF63A110000BFA6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			productRef = 1A8C31062BF63A110000BFA6 /* SwiftLintBuildToolPlugin */;
@@ -516,6 +534,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
@@ -523,6 +542,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.inbox.UserTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -532,6 +552,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
@@ -650,6 +671,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
@@ -657,6 +679,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.inbox.UserTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -768,6 +791,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
@@ -775,6 +799,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.inbox.UserTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -879,6 +904,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
@@ -990,6 +1016,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
@@ -1058,6 +1085,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		1A546F752C5B5DE50059F095 /* SwiftLintBuildToolPlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1A8C30EE2BF639840000BFA6 /* XCRemoteSwiftPackageReference "SwiftLint" */;
+			productName = "plugin:SwiftLintBuildToolPlugin";
+		};
 		1A8C31062BF63A110000BFA6 /* SwiftLintBuildToolPlugin */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 1A8C30EE2BF639840000BFA6 /* XCRemoteSwiftPackageReference "SwiftLint" */;
