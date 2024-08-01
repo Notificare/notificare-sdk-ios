@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## Upcoming release
+
+- Fix `NotificarePass.data` decoding
+
 ## 4.0.0-beta.1
 
 - Device identifiers become long-lived
