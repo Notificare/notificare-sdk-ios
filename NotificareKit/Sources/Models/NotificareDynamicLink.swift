@@ -2,7 +2,7 @@
 // Copyright (c) 2021 Notificare. All rights reserved.
 //
 
-public struct NotificareDynamicLink: Codable {
+public struct NotificareDynamicLink: Codable, Equatable {
     public let target: String
 
     public init(target: String) {

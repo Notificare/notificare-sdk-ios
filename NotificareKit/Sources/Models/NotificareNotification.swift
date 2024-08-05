@@ -2,7 +2,7 @@
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
-public struct NotificareNotification: Codable {
+public struct NotificareNotification: Codable, Equatable {
     public let partial: Bool
     public let id: String
     public let type: String
@@ -13,7 +13,7 @@ public struct NotificareNotification: Codable {
     public let content: [Content]
     public let actions: [Action]
     public let attachments: [Attachment]
-    public let extra: [String: Any]
+    @NotificareExtraEquatable public private(set) var extra: [String: Any]
     public let targetContentIdentifier: String?
 
     public init(partial: Bool, id: String, type: String, time: Date, title: String?, subtitle: String?, message: String, content: [NotificareNotification.Content], actions: [NotificareNotification.Action], attachments: [NotificareNotification.Attachment], extra: [String: Any], targetContentIdentifier: String?) {
@@ -47,9 +47,9 @@ public struct NotificareNotification: Codable {
         case store = "re.notifica.notification.Store"
     }
 
-    public struct Content: Codable {
+    public struct Content: Codable, Equatable {
         public let type: String
-        public let data: Any
+        @NotificareExtraEquatable public private(set) var data: Any
 
         public init(type: String, data: Any) {
             self.type = type
@@ -57,7 +57,7 @@ public struct NotificareNotification: Codable {
         }
     }
 
-    public struct Action: Codable {
+    public struct Action: Codable, Equatable {
         public let type: String
         public let label: String
         public let target: String?
@@ -90,7 +90,7 @@ public struct NotificareNotification: Codable {
             case webView = "re.notifica.action.WebView"
         }
 
-        public struct Icon: Codable {
+        public struct Icon: Codable, Equatable {
             public let android: String?
             public let ios: String?
             public let web: String?
@@ -103,7 +103,7 @@ public struct NotificareNotification: Codable {
         }
     }
 
-    public struct Attachment: Codable {
+    public struct Attachment: Codable, Equatable {
         public let mimeType: String
         public let uri: String
 

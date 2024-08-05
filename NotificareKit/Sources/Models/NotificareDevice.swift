@@ -4,7 +4,7 @@
 
 public typealias NotificareUserData = [String: String]
 
-public struct NotificareDevice: Codable {
+public struct NotificareDevice: Codable, Equatable {
     public let id: String
     public let userId: String?
     public let userName: String?
