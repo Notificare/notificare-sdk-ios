@@ -4,7 +4,7 @@
 
 import Foundation
 
-internal struct ConsumerUserInboxResponse: Codable {
+internal struct ConsumerUserInboxResponse: Codable, Equatable {
     internal let count: Int
     internal let unread: Int
     internal let items: [NotificareUserInboxItem]
