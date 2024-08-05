@@ -6,7 +6,7 @@ import CoreLocation
 import Foundation
 import NotificareKit
 
-public struct NotificareLocation: Codable {
+public struct NotificareLocation: Codable, Equatable {
     public let latitude: Double
     public let longitude: Double
     public let altitude: Double
