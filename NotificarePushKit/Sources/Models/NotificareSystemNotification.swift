@@ -4,10 +4,10 @@
 
 import NotificareKit
 
-public struct NotificareSystemNotification: Codable {
+public struct NotificareSystemNotification: Codable, Equatable {
     public let id: String
     public let type: String
-    public let extra: [String: Any]
+    @NotificareExtraEquatable public private(set) var extra: [String: Any]
 
     public init(id: String, type: String, extra: [String: Any]) {
         self.id = id
