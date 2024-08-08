@@ -74,7 +74,9 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
         self.subscriptionId = nil
         self.allowedUI = false
 
-        // TODO: subscriptionChanged event
+        DispatchQueue.main.async {
+            self.delegate?.notificare(self, didChangeSubscriptionId: nil)
+        }
 
         DispatchQueue.main.async {
             self.delegate?.notificare(self, didChangeNotificationSettings: false)
@@ -178,42 +180,6 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
 
     public func isNotificareNotification(_ userInfo: [AnyHashable: Any]) -> Bool {
         userInfo["x-sender"] as? String == "notificare"
-    }
-
-    public func handleNotificationRequest(_ request: UNNotificationRequest, _ completion: @escaping NotificareCallback<UNNotificationContent>) {
-        let content = request.content.mutableCopy() as! UNMutableNotificationContent
-
-        if #available(iOS 15.0, *) {
-            if let interruptionLevel = request.content.userInfo["interruptionLevel"] as? String {
-                switch interruptionLevel {
-                case "active":
-                    content.interruptionLevel = .active
-                case "passive":
-                    content.interruptionLevel = .passive
-                case "timeSensitive":
-                    content.interruptionLevel = .timeSensitive
-                case "critical":
-                    content.interruptionLevel = .critical
-                default:
-                    NotificareLogger.warning("Unexpected interruption level '\(interruptionLevel)' in notification payload.")
-                }
-            }
-
-            if let relevanceScore = request.content.userInfo["relevanceScore"] as? Double, 0 ... 1 ~= relevanceScore {
-                content.relevanceScore = relevanceScore
-            }
-        }
-
-        fetchAttachment(for: request) { result in
-            switch result {
-            case let .success(attachment):
-                content.attachments = [attachment]
-                completion(.success(content))
-
-            case let .failure(error):
-                completion(.failure(error))
-            }
-        }
     }
 
     @available(iOS 16.1, *)
@@ -547,7 +513,9 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
         self.subscriptionId = token
         self.allowedUI = allowedUI
 
-        // TODO: notify subscriptionChanged event
+        DispatchQueue.main.async {
+            self.delegate?.notificare(self, didChangeSubscriptionId: token)
+        }
 
         DispatchQueue.main.async {
             self.delegate?.notificare(self, didChangeNotificationSettings: allowedUI)

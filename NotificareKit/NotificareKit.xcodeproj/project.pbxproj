@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A7906DD2C64ABD300BD3E30 /* NotificareExtraEquatableTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7906DC2C64ABC400BD3E30 /* NotificareExtraEquatableTest.swift */; };
+		1A89BA6E2C5D4F9900BF78FF /* NotificareExtraEquatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A89BA6D2C5D4F9900BF78FF /* NotificareExtraEquatable.swift */; };
 		1A32740C2C5A0FBF002B78BA /* NotificareNotificationTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A32740B2C5A0FBF002B78BA /* NotificareNotificationTest.swift */; };
 		1A32740E2C5A14FD002B78BA /* NotificareDynamicLinkTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A32740D2C5A14FD002B78BA /* NotificareDynamicLinkTest.swift */; };
 		1A3274102C5A158D002B78BA /* NotificareTimeTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A32740F2C5A158D002B78BA /* NotificareTimeTest.swift */; };
@@ -92,6 +94,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1A7906DC2C64ABC400BD3E30 /* NotificareExtraEquatableTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareExtraEquatableTest.swift; sourceTree = "<group>"; };
+		1A89BA6D2C5D4F9900BF78FF /* NotificareExtraEquatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareExtraEquatable.swift; sourceTree = "<group>"; };
 		1A32740B2C5A0FBF002B78BA /* NotificareNotificationTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareNotificationTest.swift; sourceTree = "<group>"; };
 		1A32740D2C5A14FD002B78BA /* NotificareDynamicLinkTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareDynamicLinkTest.swift; sourceTree = "<group>"; };
 		1A32740F2C5A158D002B78BA /* NotificareTimeTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareTimeTest.swift; sourceTree = "<group>"; };
@@ -189,6 +193,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1A546F7B2C5D3A8C0059F095 /* ExtraEquatable */ = {
+			isa = PBXGroup;
+			children = (
+				1A89BA6D2C5D4F9900BF78FF /* NotificareExtraEquatable.swift */,
+			);
+			path = ExtraEquatable;
+			sourceTree = "<group>";
+		};
 		42A20D17A4EF88ED36EA223F /* AutoConfig */ = {
 			isa = PBXGroup;
 			children = (
@@ -282,6 +294,7 @@
 		F258DD5924BC4DBC006F9ABD /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				1A7906DC2C64ABC400BD3E30 /* NotificareExtraEquatableTest.swift */,
 				F258DD5C24BC4DBC006F9ABD /* Info.plist */,
 				1A32740B2C5A0FBF002B78BA /* NotificareNotificationTest.swift */,
 				1A32740D2C5A14FD002B78BA /* NotificareDynamicLinkTest.swift */,
@@ -404,6 +417,7 @@
 		F2E4DBBD2525EC3C003FE29B /* Internals */ = {
 			isa = PBXGroup;
 			children = (
+				1A546F7B2C5D3A8C0059F095 /* ExtraEquatable */,
 				F293E27526302BDA008C2010 /* AnyCodable */,
 				42A20D17A4EF88ED36EA223F /* AutoConfig */,
 				F260F3832C120C2E007D7A59 /* Codable */,
@@ -603,6 +617,7 @@
 				F2B1817C25BAFDFE00384991 /* NotificareNotification.swift in Sources */,
 				F27DB180262EDAA5000C024D /* PushAPI+Responses.swift in Sources */,
 				F293E2B826303034008C2010 /* NotificareAnyEncodable.swift in Sources */,
+				1A89BA6E2C5D4F9900BF78FF /* NotificareExtraEquatable.swift in Sources */,
 				F29DA38325024753004CCB8F /* NotificareEvent+CoreData.swift in Sources */,
 				F2E07E7A2534B5DD00AF0C14 /* NotificareTime.swift in Sources */,
 				42A207D529B7F7770917822D /* NotificareDevice.swift in Sources */,
@@ -640,6 +655,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F258DD5B24BC4DBC006F9ABD /* CoreTests.swift in Sources */,
+				1A7906DD2C64ABD300BD3E30 /* NotificareExtraEquatableTest.swift in Sources */,
 				1A3274142C5A18C8002B78BA /* NotificareDeviceTest.swift in Sources */,
 				1A3274122C5A17C6002B78BA /* NotificareDoNotDisturbTest.swift in Sources */,
 				1A3274102C5A158D002B78BA /* NotificareTimeTest.swift in Sources */,
@@ -829,7 +846,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.9.1;
+				MARKETING_VERSION = 4.0.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica;
@@ -862,7 +879,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.9.1;
+				MARKETING_VERSION = 4.0.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica;
@@ -999,7 +1016,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.9.1;
+				MARKETING_VERSION = 4.0.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica;
@@ -1118,7 +1135,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.9.1;
+				MARKETING_VERSION = 4.0.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica;
@@ -1231,7 +1248,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.9.1;
+				MARKETING_VERSION = 4.0.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica;
@@ -1343,7 +1360,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.9.1;
+				MARKETING_VERSION = 4.0.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica;

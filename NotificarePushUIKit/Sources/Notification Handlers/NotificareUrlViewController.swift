@@ -99,7 +99,7 @@ public class NotificareUrlViewController: NotificareBaseNotificationViewControll
 
     private func setupContent() {
         guard let content = notification.content.first,
-              let url = URL(string: content.data as! String)
+              let url = URL(string: content.data as! String)?.removingQueryComponent(name: "notificareWebView")
         else {
             DispatchQueue.main.async {
                 Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToPresentNotification: self.notification)

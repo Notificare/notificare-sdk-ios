@@ -5,7 +5,7 @@
 import NotificareKit
 
 extension NotificareInternals.PushAPI.Models {
-    internal struct Asset: Decodable {
+    internal struct Asset: Decodable, Equatable {
         internal let _id: String
         internal let key: String?
         internal let title: String
@@ -14,12 +14,12 @@ extension NotificareInternals.PushAPI.Models {
         internal let button: Button?
         internal let metaData: MetaData?
 
-        internal struct Button: Decodable {
+        internal struct Button: Decodable, Equatable {
             internal let label: String?
             internal let action: String?
         }
 
-        internal struct MetaData: Decodable {
+        internal struct MetaData: Decodable, Equatable {
             internal let originalFileName: String
             internal let contentType: String
             internal let contentLength: Int

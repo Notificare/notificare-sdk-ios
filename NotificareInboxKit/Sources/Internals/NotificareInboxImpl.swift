@@ -590,7 +590,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
         )
 
         Task {
-            try? await refreshBadge()
+            _ = try? await refreshBadge()
 
             DispatchQueue.main.async {
                 self.delegate?.notificare(self, didUpdateInbox: self.items)
@@ -615,7 +615,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
         database.saveChanges()
 
         Task {
-            try? await refreshBadge()
+            _ = try? await refreshBadge()
 
             DispatchQueue.main.async {
                 self.delegate?.notificare(self, didUpdateInbox: self.items)

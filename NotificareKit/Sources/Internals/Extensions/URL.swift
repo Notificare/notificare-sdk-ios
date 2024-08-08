@@ -25,4 +25,21 @@ extension URL {
     public mutating func appendQueryComponent(name: String, value: String) {
         self = appendingQueryComponent(name: name, value: value)
     }
+
+    public func removingQueryComponent(name: String) -> URL {
+        var components = URLComponents(url: self, resolvingAgainstBaseURL: true)!
+        var queryItems = components.queryItems ?? []
+
+        // Remove the given query parameter
+        queryItems.removeAll(where: { $0.name == name })
+
+        // Update the query items.
+        components.queryItems = queryItems
+
+        return components.url!
+    }
+
+    public mutating func removeQueryComponent(name: String) {
+        self = removingQueryComponent(name: name)
+    }
 }

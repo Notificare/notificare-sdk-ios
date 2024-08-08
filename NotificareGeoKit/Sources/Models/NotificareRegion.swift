@@ -5,7 +5,7 @@
 import Foundation
 import NotificareKit
 
-public struct NotificareRegion: Codable {
+public struct NotificareRegion: Codable, Equatable {
     public let id: String
     public let name: String
     public let description: String?
@@ -30,7 +30,7 @@ public struct NotificareRegion: Codable {
         self.timeZoneOffset = timeZoneOffset
     }
 
-    public struct Geometry: Codable {
+    public struct Geometry: Codable, Equatable {
         public let type: String
         public let coordinate: Coordinate
 
@@ -40,7 +40,7 @@ public struct NotificareRegion: Codable {
         }
     }
 
-    public struct AdvancedGeometry: Codable {
+    public struct AdvancedGeometry: Codable, Equatable {
         public let type: String
         public let coordinates: [Coordinate]
 
@@ -50,7 +50,7 @@ public struct NotificareRegion: Codable {
         }
     }
 
-    public struct Coordinate: Codable {
+    public struct Coordinate: Codable, Equatable {
         public let latitude: Double
         public let longitude: Double
 

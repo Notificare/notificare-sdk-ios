@@ -5,7 +5,7 @@
 import Foundation
 import NotificareKit
 
-public struct NotificarePass: Codable {
+public struct NotificarePass: Codable, Equatable {
     public let id: String
     public let type: PassType?
     public let version: Int
@@ -17,7 +17,7 @@ public struct NotificarePass: Codable {
     public let redeemHistory: [Redemption]
     public let limit: Int
     public let token: String
-    public let data: [String: Any]
+    @NotificareExtraEquatable public private(set) var data: [String: Any]
     public let date: Date
     // public let googlePaySaveLink: String?
 
@@ -51,7 +51,7 @@ public struct NotificarePass: Codable {
         case always
     }
 
-    public struct Redemption: Codable {
+    public struct Redemption: Codable, Equatable {
         public let comments: String?
         public let date: Date
 
@@ -111,7 +111,7 @@ extension NotificarePass {
         redeemHistory = try container.decode([Redemption].self, forKey: .redeemHistory)
         limit = try container.decode(Int.self, forKey: .limit)
         token = try container.decode(String.self, forKey: .token)
-        data = try container.decodeIfPresent(NotificareAnyCodable.self, forKey: .token)?.value as? [String: Any] ?? [:]
+        data = try container.decodeIfPresent(NotificareAnyCodable.self, forKey: .data)?.value as? [String: Any] ?? [:]
         date = try container.decode(Date.self, forKey: .date)
     }
 

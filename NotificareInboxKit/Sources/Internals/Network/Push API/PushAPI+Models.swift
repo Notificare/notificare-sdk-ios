@@ -5,7 +5,7 @@
 import NotificareKit
 
 extension NotificareInternals.PushAPI.Models {
-    internal struct RemoteInboxItem: Decodable {
+    internal struct RemoteInboxItem: Decodable, Equatable {
         internal let _id: String
         internal let notification: String
         internal let type: String
@@ -14,7 +14,7 @@ extension NotificareInternals.PushAPI.Models {
         internal let subtitle: String?
         internal let message: String
         internal let attachment: NotificareNotification.Attachment?
-        internal let extra: [String: Any]
+        @NotificareExtraEquatable internal private(set) var extra: [String: Any]
         internal let opened: Bool
         internal let visible: Bool
         internal let expires: Date?

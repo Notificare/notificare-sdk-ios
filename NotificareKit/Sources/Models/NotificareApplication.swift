@@ -2,7 +2,7 @@
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
-public struct NotificareApplication: Codable {
+public struct NotificareApplication: Codable, Equatable {
     public let id: String
     public let name: String
     public let category: String
@@ -38,7 +38,7 @@ public struct NotificareApplication: Codable {
         case storage
     }
 
-    public struct InboxConfig: Codable {
+    public struct InboxConfig: Codable, Equatable {
         public let useInbox: Bool
         public let useUserInbox: Bool
         public let autoBadge: Bool
@@ -50,7 +50,7 @@ public struct NotificareApplication: Codable {
         }
     }
 
-    public struct RegionConfig: Codable {
+    public struct RegionConfig: Codable, Equatable {
         public let proximityUUID: String?
 
         public init(proximityUUID: String?) {
@@ -58,7 +58,7 @@ public struct NotificareApplication: Codable {
         }
     }
 
-    public struct UserDataField: Codable {
+    public struct UserDataField: Codable, Equatable {
         public let type: String
         public let key: String
         public let label: String
@@ -70,7 +70,7 @@ public struct NotificareApplication: Codable {
         }
     }
 
-    public struct ActionCategory: Codable {
+    public struct ActionCategory: Codable, Equatable {
         public let name: String
         public let description: String?
         public let type: String

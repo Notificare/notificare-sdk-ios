@@ -5,7 +5,7 @@
 import Foundation
 import NotificareKit
 
-public struct NotificareHeading: Codable {
+public struct NotificareHeading: Codable, Equatable {
     public let magneticHeading: Double
     public let trueHeading: Double
     public let headingAccuracy: Double

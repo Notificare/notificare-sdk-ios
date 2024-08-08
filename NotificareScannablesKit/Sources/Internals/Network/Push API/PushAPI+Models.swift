@@ -5,14 +5,14 @@
 import NotificareKit
 
 extension NotificareInternals.PushAPI.Models {
-    internal struct Scannable: Decodable {
+    internal struct Scannable: Decodable, Equatable {
         internal let _id: String
         internal let name: String
         internal let type: String
         internal let tag: String
         internal let data: ScannableData?
 
-        internal struct ScannableData: Decodable {
+        internal struct ScannableData: Decodable, Equatable {
             internal let notification: NotificareInternals.PushAPI.Models.Notification?
         }
 

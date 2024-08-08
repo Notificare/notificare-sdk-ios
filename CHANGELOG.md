@@ -2,8 +2,13 @@
 
 ## Upcoming release
 
+- Fix `NotificarePass.data` decoding
+- Add `Equatable` compliance to applicable data models
+
+## 4.0.0-beta.1
+
 - Device identifiers become long-lived
-- `launch()`, `unlaunch()`, `enableRemoteNotifications()` and `disableRemoteNotifications()` become suspending functions with a callback alternative
+- `launch()`, `unlaunch()`, `enableRemoteNotifications()` and `disableRemoteNotifications()` become async functions with a callback alternative
 - Add support for customisable hosts
 
 #### Breaking changes
@@ -14,6 +19,14 @@
 - `launch()`, `unlaunch()`, `enableRemoteNotifications()` and `disableRemoteNotifications()` become suspending functions that complete after all the work is done.
 - `NotificareTransport` was moved to the push module.
 - Drops support for the monetize module.
+- Removed deprecated  `notificare(_:didReceiveNotification:)`. Use `notificare(_:didReceiveNotification:deliveryMechanism:)` instead.
+- Removed deprecated `notificare(_:didReceiveUnknownAction:for:responseText:)` delegate method. Renamed to `notificare(_:didOpenUnknownAction:for:responseText:)`.
+- Removed deprecated `handleNotificationRequest()` from push module. Include the NotificareNotificationServiceExtensionKit and use `NotificareNotificationServiceExtension.handleNotificationRequest()` instead.
+
+## 3.10.0
+
+- Add support for the URLResolver notification type
+- Fix anonymous device registration
 
 ## 3.9.1
 

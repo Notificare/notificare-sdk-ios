@@ -5,7 +5,7 @@
 import Foundation
 
 extension NotificareInternals.PushAPI.Models {
-    public struct Application: Decodable {
+    public struct Application: Decodable, Equatable {
         public let _id: String
         public let name: String
         public let category: String
@@ -16,7 +16,7 @@ extension NotificareInternals.PushAPI.Models {
         public let userDataFields: [NotificareApplication.UserDataField]
         public let actionCategories: [ActionCategory]
 
-        public struct ActionCategory: Decodable {
+        public struct ActionCategory: Decodable, Equatable {
             public let name: String
             public let description: String?
             public let type: String
@@ -45,7 +45,7 @@ extension NotificareInternals.PushAPI.Models {
         }
     }
 
-    public struct Notification: Decodable {
+    public struct Notification: Decodable, Equatable {
         public let _id: String
         public let type: String
         public let time: Date
@@ -55,10 +55,10 @@ extension NotificareInternals.PushAPI.Models {
         public let content: [NotificareNotification.Content]
         public let actions: [Action]
         public let attachments: [NotificareNotification.Attachment]
-        public let extra: [String: Any]
+        @NotificareExtraEquatable public private(set) var extra: [String: Any]
         public let targetContentIdentifier: String?
 
-        public struct Action: Decodable {
+        public struct Action: Decodable, Equatable {
             public let type: String
             public let label: String?
             public let target: String?

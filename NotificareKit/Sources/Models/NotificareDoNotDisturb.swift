@@ -2,7 +2,7 @@
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
-public struct NotificareDoNotDisturb: Codable {
+public struct NotificareDoNotDisturb: Codable, Equatable {
     public let start: NotificareTime
     public let end: NotificareTime
 
