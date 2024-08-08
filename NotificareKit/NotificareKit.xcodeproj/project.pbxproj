@@ -177,12 +177,12 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1A546F7B2C5D3A8C0059F095 /* AnyEquatable */ = {
+		1A546F7B2C5D3A8C0059F095 /* ExtraEquatable */ = {
 			isa = PBXGroup;
 			children = (
 				1A89BA6D2C5D4F9900BF78FF /* NotificareExtraEquatable.swift */,
 			);
-			path = AnyEquatable;
+			path = ExtraEquatable;
 			sourceTree = "<group>";
 		};
 		42A20D17A4EF88ED36EA223F /* AutoConfig */ = {
@@ -393,7 +393,7 @@
 		F2E4DBBD2525EC3C003FE29B /* Internals */ = {
 			isa = PBXGroup;
 			children = (
-				1A546F7B2C5D3A8C0059F095 /* AnyEquatable */,
+				1A546F7B2C5D3A8C0059F095 /* ExtraEquatable */,
 				F293E27526302BDA008C2010 /* AnyCodable */,
 				42A20D17A4EF88ED36EA223F /* AutoConfig */,
 				F260F3832C120C2E007D7A59 /* Codable */,
