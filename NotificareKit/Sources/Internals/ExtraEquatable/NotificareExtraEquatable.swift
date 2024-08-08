@@ -13,12 +13,13 @@ public struct NotificareExtraEquatable<T>: Equatable {
     }
 
     public static func == (lhs: NotificareExtraEquatable<T>, rhs: NotificareExtraEquatable<T>) -> Bool {
-        if let lho = lhs.wrappedValue as? Any?, let rho = rhs.wrappedValue as? Any? {
-            switch (lho, rho) {
-            case (.none, .none):
+
+        if
+            let lhsOptional = lhs.wrappedValue as? Any?,
+            let rhsOptional = rhs.wrappedValue as? Any?
+        {
+            if case (.none, .none) = (lhsOptional, rhsOptional) {
                 return true
-            default:
-                break
             }
         }
 
@@ -56,15 +57,15 @@ public struct NotificareExtraEquatable<T>: Equatable {
                 return true
             }
 
-            if lhs.count != rhs.count {
+            guard lhs.count == rhs.count else {
                 return false
             }
 
-            for (lha, rha) in zip(lhs, rhs) {
-                let lhv = NotificareExtraEquatable<Any>(wrappedValue: lha)
-                let rhv = NotificareExtraEquatable<Any>(wrappedValue: rha)
+            for (lhsValue, rhsValue) in zip(lhs, rhs) {
+                let lhsEquatable = NotificareExtraEquatable<Any>(wrappedValue: lhsValue)
+                let rhsEquatable = NotificareExtraEquatable<Any>(wrappedValue: rhsValue)
 
-                guard lhv == rhv  else {
+                guard lhsEquatable == rhsEquatable else {
                     return false
                 }
             }
@@ -75,25 +76,26 @@ public struct NotificareExtraEquatable<T>: Equatable {
                 return true
             }
 
-            if lhs.count != rhs.count {
+            guard lhs.count == rhs.count else {
                 return false
             }
 
-            for (lhk, lhv) in lhs {
-                guard let rhv = rhs[lhk] else {
+            for (lhsKey, lhsValue) in lhs {
+                guard let rhsValue = rhs[lhsKey] else {
                     return false
                 }
 
-                let lhe = NotificareExtraEquatable<Any>(wrappedValue: lhv)
-                let rhe = NotificareExtraEquatable<Any>(wrappedValue: rhv)
+                let lhsEquatable = NotificareExtraEquatable<Any>(wrappedValue: lhsValue)
+                let rhsEquatable = NotificareExtraEquatable<Any>(wrappedValue: rhsValue)
 
-                guard lhe == rhe else {
+                guard lhsEquatable == rhsEquatable else {
                     return false
                 }
             }
+
             return true
         default:
-            NotificareLogger.warning("Unable to compare type provided.")
+            NotificareLogger.warning("Unable to compare types provided.")
             return false
         }
     }
