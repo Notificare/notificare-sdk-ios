@@ -4,7 +4,7 @@
 
 import NotificareKit
 
-public struct NotificareInAppMessage: Codable {
+public struct NotificareInAppMessage: Codable, Equatable {
     public let id: String
     public let name: String
     public let type: String
@@ -31,7 +31,7 @@ public struct NotificareInAppMessage: Codable {
         self.secondaryAction = secondaryAction
     }
 
-    public struct Action: Codable {
+    public struct Action: Codable, Equatable {
         public let label: String?
         public let destructive: Bool
         public let url: String?

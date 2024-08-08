@@ -6,14 +6,14 @@ import Foundation
 
 public typealias NotificareEventData = [String: Any]
 
-public struct NotificareEvent {
+public struct NotificareEvent: Equatable {
     public let type: String
     public let timestamp: Int64
     public let deviceId: String
     public let sessionId: String?
     public let notificationId: String?
     public let userId: String?
-    public let data: NotificareEventData?
+    @NotificareExtraEquatable public private(set) var data: NotificareEventData?
 }
 
 // MARK: - Codable

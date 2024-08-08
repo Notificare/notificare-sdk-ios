@@ -5,7 +5,7 @@
 import Foundation
 import NotificareKit
 
-public struct NotificareUserInboxResponse: Codable {
+public struct NotificareUserInboxResponse: Codable, Equatable {
     public let count: Int
     public let unread: Int
     public let items: [NotificareUserInboxItem]

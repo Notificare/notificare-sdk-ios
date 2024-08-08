@@ -5,7 +5,7 @@
 import Foundation
 import NotificareKit
 
-public struct NotificareUserInboxItem: Codable {
+public struct NotificareUserInboxItem: Codable, Equatable {
     public let id: String
     public let notification: NotificareNotification
     public let time: Date

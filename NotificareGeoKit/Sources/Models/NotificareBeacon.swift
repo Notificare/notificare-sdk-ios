@@ -6,7 +6,7 @@ import CoreLocation
 import Foundation
 import NotificareKit
 
-public struct NotificareBeacon: Codable, Hashable {
+public struct NotificareBeacon: Codable, Hashable, Equatable {
     public let id: String
     public let name: String
     public let major: Int
@@ -23,7 +23,7 @@ public struct NotificareBeacon: Codable, Hashable {
         self.proximity = proximity
     }
 
-    public enum Proximity: String, Codable {
+    public enum Proximity: String, Codable, Equatable {
         case unknown
         case immediate
         case near

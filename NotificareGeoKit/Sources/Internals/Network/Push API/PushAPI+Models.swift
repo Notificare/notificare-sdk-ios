@@ -6,7 +6,7 @@ import Foundation
 import NotificareKit
 
 extension NotificareInternals.PushAPI.Models {
-    internal struct Region: Decodable {
+    internal struct Region: Decodable, Equatable {
         internal let _id: String
         internal let name: String
         internal let description: String?
@@ -18,12 +18,12 @@ extension NotificareInternals.PushAPI.Models {
         internal let timezone: String
         internal let timeZoneOffset: Int
 
-        internal struct Geometry: Decodable {
+        internal struct Geometry: Decodable, Equatable {
             internal let type: String
             internal let coordinates: [Double]
         }
 
-        internal struct AdvancedGeometry: Decodable {
+        internal struct AdvancedGeometry: Decodable, Equatable {
             internal let type: String
             internal let coordinates: [[[Double]]]
         }

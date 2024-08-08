@@ -6,7 +6,7 @@ import Foundation
 import NotificareKit
 
 extension NotificareInternals.PushAPI.Models {
-    internal struct Message: Decodable {
+    internal struct Message: Decodable, Equatable {
         internal let _id: String
         internal let name: String
         internal let type: String
@@ -19,7 +19,7 @@ extension NotificareInternals.PushAPI.Models {
         internal let primaryAction: Action?
         internal let secondaryAction: Action?
 
-        internal struct Action: Decodable {
+        internal struct Action: Decodable, Equatable {
             internal let label: String?
             internal let destructive: Bool
             internal let url: String?

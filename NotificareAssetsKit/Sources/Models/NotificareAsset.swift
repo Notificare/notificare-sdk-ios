@@ -4,7 +4,7 @@
 
 import NotificareKit
 
-public struct NotificareAsset: Codable {
+public struct NotificareAsset: Codable, Equatable {
     public let id: String
     public let title: String
     public let description: String?
@@ -12,7 +12,7 @@ public struct NotificareAsset: Codable {
     public let url: String?
     public let button: Button?
     public let metaData: MetaData?
-    public let extra: [String: Any]
+    @NotificareExtraEquatable public private(set) var extra: [String: Any]
 
     public init(id: String, title: String, description: String?, key: String?, url: String?, button: NotificareAsset.Button?, metaData: NotificareAsset.MetaData?, extra: [String: Any]) {
         self.id = id
@@ -25,7 +25,7 @@ public struct NotificareAsset: Codable {
         self.extra = extra
     }
 
-    public struct Button: Codable {
+    public struct Button: Codable, Equatable {
         public let label: String?
         public let action: String?
 
@@ -35,7 +35,7 @@ public struct NotificareAsset: Codable {
         }
     }
 
-    public struct MetaData: Codable {
+    public struct MetaData: Codable, Equatable {
         public let originalFileName: String
         public let contentType: String
         public let contentLength: Int

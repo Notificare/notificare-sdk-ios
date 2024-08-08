@@ -5,7 +5,7 @@
 import Foundation
 import NotificareKit
 
-public struct NotificareVisit: Codable {
+public struct NotificareVisit: Codable, Equatable {
     public let departureDate: Date
     public let arrivalDate: Date
     public let latitude: Double

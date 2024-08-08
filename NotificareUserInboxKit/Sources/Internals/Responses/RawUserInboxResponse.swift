@@ -5,12 +5,12 @@
 import Foundation
 import NotificareKit
 
-internal struct RawUserInboxResponse: Decodable {
+internal struct RawUserInboxResponse: Decodable, Equatable {
     internal let count: Int
     internal let unread: Int
     internal let inboxItems: [RawUserInboxItem]
 
-    internal struct RawUserInboxItem: Decodable {
+    internal struct RawUserInboxItem: Decodable, Equatable {
         internal let _id: String
         internal let notification: String
         internal let type: String
@@ -19,7 +19,7 @@ internal struct RawUserInboxResponse: Decodable {
         internal let subtitle: String?
         internal let message: String
         internal let attachment: NotificareNotification.Attachment?
-        internal let extra: [String: Any]
+        @NotificareExtraEquatable internal private(set) var extra: [String: Any]
         internal let opened: Bool
         internal let expires: Date?
 
