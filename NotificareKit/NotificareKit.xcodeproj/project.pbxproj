@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A7906DD2C64ABD300BD3E30 /* NotificareExtraEquatableTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7906DC2C64ABC400BD3E30 /* NotificareExtraEquatableTest.swift */; };
 		1A89BA6E2C5D4F9900BF78FF /* NotificareExtraEquatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A89BA6D2C5D4F9900BF78FF /* NotificareExtraEquatable.swift */; };
 		42A2011DB7750225B7C9D3E2 /* NotificareBootstrap.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A205DF5970468FB18808F5 /* NotificareBootstrap.m */; };
 		42A201A3F80D5668FF5D6759 /* NotificareBootstrap.h in Headers */ = {isa = PBXBuildFile; fileRef = 42A20450A15AAC914DBC800F /* NotificareBootstrap.h */; };
@@ -86,6 +87,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1A7906DC2C64ABC400BD3E30 /* NotificareExtraEquatableTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareExtraEquatableTest.swift; sourceTree = "<group>"; };
 		1A89BA6D2C5D4F9900BF78FF /* NotificareExtraEquatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareExtraEquatable.swift; sourceTree = "<group>"; };
 		42A20228EB70EA83D835BF01 /* NotificareError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareError.swift; sourceTree = "<group>"; };
 		42A20450A15AAC914DBC800F /* NotificareBootstrap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificareBootstrap.h; sourceTree = "<group>"; };
@@ -278,6 +280,7 @@
 		F258DD5924BC4DBC006F9ABD /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				1A7906DC2C64ABC400BD3E30 /* NotificareExtraEquatableTest.swift */,
 				F258DD5A24BC4DBC006F9ABD /* CoreTests.swift */,
 				F258DD5C24BC4DBC006F9ABD /* Info.plist */,
 			);
@@ -631,6 +634,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F258DD5B24BC4DBC006F9ABD /* CoreTests.swift in Sources */,
+				1A7906DD2C64ABD300BD3E30 /* NotificareExtraEquatableTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
