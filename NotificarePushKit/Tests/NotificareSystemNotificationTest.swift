@@ -5,9 +5,9 @@
 @testable import NotificarePushKit
 import Testing
 
-struct NotificareSystemNotificationTest {
+internal struct NotificareSystemNotificationTest {
     @Test
-    func testNotificareSystemNotificationSerialization() {
+    internal func testNotificareSystemNotificationSerialization() {
         let notification = NotificareSystemNotification(
             id: "testId",
             type: "testType",
@@ -17,16 +17,14 @@ struct NotificareSystemNotificationTest {
         do {
             let convertedNotification = try NotificareSystemNotification.fromJson(json: notification.toJson())
 
-            #expect(notification.id == convertedNotification.id)
-            #expect(notification.type == convertedNotification.type)
-            #expect(NSDictionary( dictionary: notification.extra) == NSDictionary(dictionary: convertedNotification.extra))
+            #expect(notification == convertedNotification)
         } catch {
             Issue.record()
         }
     }
 
     @Test
-    func testNotificareSystemNotificationSerializationWithNilProps() {
+    internal func testNotificareSystemNotificationSerializationWithNilProps() {
         let notification = NotificareSystemNotification(
             id: "testId",
             type: "testType",
@@ -36,9 +34,7 @@ struct NotificareSystemNotificationTest {
         do {
             let convertedNotification = try NotificareSystemNotification.fromJson(json: notification.toJson())
 
-            #expect(notification.id == convertedNotification.id)
-            #expect(notification.type == convertedNotification.type)
-            #expect(NSDictionary( dictionary: notification.extra) == NSDictionary(dictionary: convertedNotification.extra))
+            #expect(notification == convertedNotification)
         } catch {
             Issue.record()
         }
