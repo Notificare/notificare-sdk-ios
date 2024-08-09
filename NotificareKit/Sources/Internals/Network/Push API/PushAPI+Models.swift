@@ -45,7 +45,7 @@ extension NotificareInternals.PushAPI.Models {
         }
     }
 
-    public struct Notification: Decodable, Equatable {
+    public struct Notification: Equatable {
         public let _id: String
         public let type: String
         public let time: Date
@@ -101,7 +101,7 @@ extension NotificareInternals.PushAPI.Models {
     }
 }
 
-extension NotificareInternals.PushAPI.Models.Notification {
+extension NotificareInternals.PushAPI.Models.Notification: Decodable {
     internal enum CodingKeys: String, CodingKey {
         case _id
         case type

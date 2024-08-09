@@ -5,7 +5,7 @@
 import NotificareKit
 
 extension NotificareInternals.PushAPI.Models {
-    internal struct RemoteInboxItem: Decodable, Equatable {
+    internal struct RemoteInboxItem: Equatable {
         internal let _id: String
         internal let notification: String
         internal let type: String
@@ -44,7 +44,7 @@ extension NotificareInternals.PushAPI.Models {
     }
 }
 
-extension NotificareInternals.PushAPI.Models.RemoteInboxItem {
+extension NotificareInternals.PushAPI.Models.RemoteInboxItem: Decodable {
     internal init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 

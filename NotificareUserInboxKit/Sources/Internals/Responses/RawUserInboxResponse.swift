@@ -10,7 +10,7 @@ internal struct RawUserInboxResponse: Decodable, Equatable {
     internal let unread: Int
     internal let inboxItems: [RawUserInboxItem]
 
-    internal struct RawUserInboxItem: Decodable, Equatable {
+    internal struct RawUserInboxItem: Equatable {
         internal let _id: String
         internal let notification: String
         internal let type: String
@@ -48,7 +48,7 @@ internal struct RawUserInboxResponse: Decodable, Equatable {
     }
 }
 
-extension RawUserInboxResponse.RawUserInboxItem {
+extension RawUserInboxResponse.RawUserInboxItem: Decodable {
     internal init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
