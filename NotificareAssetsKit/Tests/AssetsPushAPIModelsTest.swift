@@ -6,9 +6,9 @@
 @testable import NotificareAssetsKit
 import Testing
 
-struct AssetsPushAPIModelsTest {
+internal struct AssetsPushAPIModelsTest {
     @Test
-    func testAssetToModel() {
+    internal func testAssetToModel() {
         let expectedAsset = NotificareAsset(
             id: "testId",
             title: "testTitle",
@@ -44,11 +44,11 @@ struct AssetsPushAPIModelsTest {
             )
         ).toModel()
 
-        assertAsset(expectedAsset: expectedAsset, asset: asset)
+        #expect(expectedAsset == asset)
     }
 
     @Test
-    func testAssetWithNilPropsToModel() {
+    internal func testAssetWithNilPropsToModel() {
         let expectedAsset = NotificareAsset(
             id: "testId",
             title: "testTitle",
@@ -70,21 +70,6 @@ struct AssetsPushAPIModelsTest {
             metaData: nil
         ).toModel()
 
-        assertAsset(expectedAsset: expectedAsset, asset: asset)
-    }
-
-    func assertAsset(expectedAsset: NotificareAsset, asset: NotificareAsset) {
-        #expect(expectedAsset.id == asset.id)
-        #expect(expectedAsset.title == asset.title)
-        #expect(expectedAsset.description == asset.description)
-        #expect(expectedAsset.key == asset.key)
-        #expect(expectedAsset.url == asset.url)
-        #expect(expectedAsset.button?.label == asset.button?.label)
-        #expect(expectedAsset.button?.action == asset.button?.action)
-        #expect(expectedAsset.metaData?.originalFileName == asset.metaData?.originalFileName)
-        #expect(expectedAsset.metaData?.contentType == asset.metaData?.contentType)
-        #expect(expectedAsset.metaData?.contentLength == asset.metaData?.contentLength)
-        #expect(NSDictionary(dictionary: expectedAsset.extra) ==  NSDictionary(dictionary: asset.extra))
-
+        #expect(expectedAsset == asset)
     }
 }

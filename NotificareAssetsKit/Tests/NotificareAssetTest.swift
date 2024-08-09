@@ -4,9 +4,9 @@
 @testable import NotificareAssetsKit
 import Testing
 
-struct NotificareAssetTest {
+internal struct NotificareAssetTest {
     @Test
-    func testNotificareAssetSerialization() {
+    internal func testNotificareAssetSerialization() {
         let asset = NotificareAsset(
             id: "testId",
             title: "testTitle",
@@ -28,14 +28,14 @@ struct NotificareAssetTest {
         do {
             let convertedAsset = try NotificareAsset.fromJson(json: asset.toJson())
 
-            assertAsset(asset: asset, convertedAsset: convertedAsset)
+            #expect(asset == convertedAsset)
         } catch {
             Issue.record()
         }
     }
 
     @Test
-    func testNotificareAssetSerializationWithNilProps() {
+    internal func testNotificareAssetSerializationWithNilProps() {
         let asset = NotificareAsset(
             id: "testId",
             title: "testTitle",
@@ -50,14 +50,14 @@ struct NotificareAssetTest {
         do {
             let convertedAsset = try NotificareAsset.fromJson(json: asset.toJson())
 
-            assertAsset(asset: asset, convertedAsset: convertedAsset)
+            #expect(asset == convertedAsset)
         } catch {
             Issue.record()
         }
     }
 
     @Test
-    func testButtonSerialization() {
+    internal func testButtonSerialization() {
         let button = NotificareAsset.Button(
             label: "testLabel",
             action: "testAction"
@@ -66,15 +66,14 @@ struct NotificareAssetTest {
         do {
             let convertedButton = try NotificareAsset.Button.fromJson(json: button.toJson())
 
-            #expect(button.label == convertedButton.label)
-            #expect(button.action == convertedButton.action)
+            #expect(button == convertedButton)
         } catch {
             Issue.record()
         }
     }
 
     @Test
-    func testButtonSerializationWithNilProps() {
+    internal func testButtonSerializationWithNilProps() {
         let button = NotificareAsset.Button(
             label: nil,
             action: nil
@@ -83,15 +82,14 @@ struct NotificareAssetTest {
         do {
             let convertedButton = try NotificareAsset.Button.fromJson(json: button.toJson())
 
-            #expect(button.label == convertedButton.label)
-            #expect(button.action == convertedButton.action)
+            #expect(button == convertedButton)
         } catch {
             Issue.record()
         }
     }
 
     @Test
-    func testMetaDataSerialization() {
+    internal func testMetaDataSerialization() {
         let metadata = NotificareAsset.MetaData(
             originalFileName: "testOriginalName",
             contentType: "testContentType",
@@ -101,26 +99,9 @@ struct NotificareAssetTest {
         do {
             let convertedMetadata = try NotificareAsset.MetaData.fromJson(json: metadata.toJson())
 
-            #expect(metadata.originalFileName == convertedMetadata.originalFileName)
-            #expect(metadata.contentType == convertedMetadata.contentType)
-            #expect(metadata.contentLength == convertedMetadata.contentLength)
+            #expect(metadata == convertedMetadata)
         } catch {
             Issue.record()
         }
-    }
-
-    func assertAsset(asset: NotificareAsset, convertedAsset: NotificareAsset) {
-        #expect(asset.id == convertedAsset.id)
-        #expect(asset.title == convertedAsset.title)
-        #expect(asset.description == convertedAsset.description)
-        #expect(asset.key == convertedAsset.key)
-        #expect(asset.url == convertedAsset.url)
-        #expect(asset.button?.label == convertedAsset.button?.label)
-        #expect(asset.button?.action == convertedAsset.button?.action)
-        #expect(asset.metaData?.originalFileName == convertedAsset.metaData?.originalFileName)
-        #expect(asset.metaData?.contentType == convertedAsset.metaData?.contentType)
-        #expect(asset.metaData?.contentLength == convertedAsset.metaData?.contentLength)
-        #expect(NSDictionary(dictionary: asset.extra) ==  NSDictionary(dictionary: convertedAsset.extra))
-
     }
 }
