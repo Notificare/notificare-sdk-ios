@@ -5,9 +5,9 @@
 @testable import NotificareGeoKit
 import Testing
 
-struct NotificareRegionTest {
+internal struct NotificareRegionTest {
     @Test
-    func testNotificareRegionSerialization() {
+    internal func testNotificareRegionSerialization() {
         let region = NotificareRegion(
             id: "testId",
             name: "testName",
@@ -38,14 +38,14 @@ struct NotificareRegionTest {
         do {
             let convertedRegion = try NotificareRegion.fromJson(json: region.toJson())
 
-            assertRegion(region: region, convertedRegion: convertedRegion)
+            #expect(region == convertedRegion)
         } catch {
             Issue.record()
         }
     }
 
     @Test
-    func testNotificareRegionSerializationWithNilProps() {
+    internal func testNotificareRegionSerializationWithNilProps() {
         let region = NotificareRegion(
             id: "testId",
             name: "testName",
@@ -68,14 +68,14 @@ struct NotificareRegionTest {
         do {
             let convertedRegion = try NotificareRegion.fromJson(json: region.toJson())
 
-            assertRegion(region: region, convertedRegion: convertedRegion)
+            #expect(region == convertedRegion)
         } catch {
             Issue.record()
         }
     }
 
     @Test
-    func testGeometrySerialization() {
+    internal func testGeometrySerialization() {
         let geometry = NotificareRegion.Geometry(
             type: "testType",
             coordinate: NotificareRegion.Coordinate(
@@ -87,16 +87,14 @@ struct NotificareRegionTest {
         do {
             let convertedGeometry = try NotificareRegion.Geometry.fromJson(json: geometry.toJson())
 
-            #expect(geometry.type == convertedGeometry.type)
-            #expect(geometry.coordinate.latitude == convertedGeometry.coordinate.latitude)
-            #expect(geometry.coordinate.longitude == convertedGeometry.coordinate.longitude)
+            #expect(geometry == convertedGeometry)
         } catch {
             Issue.record()
         }
     }
 
     @Test
-    func testAdvancedGeometrySerialization() {
+    internal func testAdvancedGeometrySerialization() {
         let advancedGeometry = NotificareRegion.AdvancedGeometry(
             type: "testType",
             coordinates: [
@@ -110,18 +108,14 @@ struct NotificareRegionTest {
         do {
             let convertedAdvancedGeometry = try NotificareRegion.AdvancedGeometry.fromJson(json: advancedGeometry.toJson())
 
-            #expect(advancedGeometry.type == convertedAdvancedGeometry.type)
-            for index in advancedGeometry.coordinates.indices {
-                #expect(advancedGeometry.coordinates[index].latitude == convertedAdvancedGeometry.coordinates[index].latitude)
-                #expect(advancedGeometry.coordinates[index].longitude == convertedAdvancedGeometry.coordinates[index].longitude)
-            }
+            #expect(advancedGeometry == convertedAdvancedGeometry)
         } catch {
             Issue.record()
         }
     }
 
     @Test
-    func testAdvancedGeometryWithEmptyPropsSerialization() {
+    internal func testAdvancedGeometryWithEmptyPropsSerialization() {
         let advancedGeometry = NotificareRegion.AdvancedGeometry(
             type: "testType",
             coordinates: []
@@ -130,18 +124,14 @@ struct NotificareRegionTest {
         do {
             let convertedAdvancedGeometry = try NotificareRegion.AdvancedGeometry.fromJson(json: advancedGeometry.toJson())
 
-            #expect(advancedGeometry.type == convertedAdvancedGeometry.type)
-            for index in advancedGeometry.coordinates.indices {
-                #expect(advancedGeometry.coordinates[index].latitude == convertedAdvancedGeometry.coordinates[index].latitude)
-                #expect(advancedGeometry.coordinates[index].longitude == convertedAdvancedGeometry.coordinates[index].longitude)
-            }
+            #expect(advancedGeometry == convertedAdvancedGeometry)
         } catch {
             Issue.record()
         }
     }
 
     @Test
-    func testCoordinateSerialization() {
+    internal func testCoordinateSerialization() {
         let coordinate = NotificareRegion.Coordinate(
             latitude: 1.5,
             longitude: 2.5
@@ -150,36 +140,9 @@ struct NotificareRegionTest {
         do {
             let convertedCoordinate = try NotificareRegion.Coordinate.fromJson(json: coordinate.toJson())
 
-            #expect(coordinate.latitude == convertedCoordinate.latitude)
-            #expect(coordinate.longitude == convertedCoordinate.longitude)
+            #expect(coordinate == convertedCoordinate)
         } catch {
             Issue.record()
         }
-    }
-
-    func assertRegion(region: NotificareRegion, convertedRegion: NotificareRegion) {
-        #expect(region.id == convertedRegion.id)
-        #expect(region.name == convertedRegion.name)
-        #expect(region.description == convertedRegion.description)
-        #expect(region.referenceKey == convertedRegion.referenceKey)
-        #expect(region.geometry.type == convertedRegion.geometry.type)
-        #expect(region.geometry.coordinate.latitude == convertedRegion.geometry.coordinate.latitude)
-        #expect(region.geometry.coordinate.longitude == convertedRegion.geometry.coordinate.longitude)
-        if let advancedGeometry = region.advancedGeometry,
-           let convertedAdvancedGeometry = convertedRegion.advancedGeometry
-        {
-            #expect(advancedGeometry.type == convertedAdvancedGeometry.type)
-            for index in advancedGeometry.coordinates.indices {
-                #expect(advancedGeometry.coordinates[index].latitude == convertedAdvancedGeometry.coordinates[index].latitude)
-                #expect(advancedGeometry.coordinates[index].longitude == convertedAdvancedGeometry.coordinates[index].longitude)
-            }
-        } else {
-            #expect(region.advancedGeometry == nil)
-            #expect(convertedRegion.advancedGeometry == nil)
-        }
-        #expect(region.major == convertedRegion.major)
-        #expect(region.distance == convertedRegion.distance)
-        #expect(region.timeZone == convertedRegion.timeZone)
-        #expect(region.timeZoneOffset == convertedRegion.timeZoneOffset)
     }
 }

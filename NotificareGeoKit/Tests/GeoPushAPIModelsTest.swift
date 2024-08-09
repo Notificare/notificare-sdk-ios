@@ -6,9 +6,9 @@
 @testable import NotificareKit
 import Testing
 
-struct GeoPushAPIModelsTest {
+internal struct GeoPushAPIModelsTest {
     @Test
-    func testNotificareRegionToModel() {
+    internal func testNotificareRegionToModel() {
         let expectedRegion = NotificareRegion(
             id: "testId",
             name: "testName",
@@ -55,11 +55,11 @@ struct GeoPushAPIModelsTest {
             timeZoneOffset: 0
         ).toModel()
 
-        assertRegion(region: expectedRegion, convertedRegion: region)
+        #expect(expectedRegion == region)
     }
 
     @Test
-    func testNotificareRegionWithNilPropsToModel() {
+    internal func testNotificareRegionWithNilPropsToModel() {
         let expectedRegion = NotificareRegion(
             id: "testId",
             name: "testName",
@@ -95,32 +95,6 @@ struct GeoPushAPIModelsTest {
             timeZoneOffset: 0
         ).toModel()
 
-        assertRegion(region: expectedRegion, convertedRegion: region)
-    }
-
-    func assertRegion(region: NotificareRegion, convertedRegion: NotificareRegion) {
-        #expect(region.id == convertedRegion.id)
-        #expect(region.name == convertedRegion.name)
-        #expect(region.description == convertedRegion.description)
-        #expect(region.referenceKey == convertedRegion.referenceKey)
-        #expect(region.geometry.type == convertedRegion.geometry.type)
-        #expect(region.geometry.coordinate.latitude == convertedRegion.geometry.coordinate.latitude)
-        #expect(region.geometry.coordinate.longitude == convertedRegion.geometry.coordinate.longitude)
-        if let advancedGeometry = region.advancedGeometry,
-           let convertedAdvancedGeometry = convertedRegion.advancedGeometry
-        {
-            #expect(advancedGeometry.type == convertedAdvancedGeometry.type)
-            for index in advancedGeometry.coordinates.indices {
-                #expect(advancedGeometry.coordinates[index].latitude == convertedAdvancedGeometry.coordinates[index].latitude)
-                #expect(advancedGeometry.coordinates[index].longitude == convertedAdvancedGeometry.coordinates[index].longitude)
-            }
-        } else {
-            #expect(region.advancedGeometry == nil)
-            #expect(convertedRegion.advancedGeometry == nil)
-        }
-        #expect(region.major == convertedRegion.major)
-        #expect(region.distance == convertedRegion.distance)
-        #expect(region.timeZone == convertedRegion.timeZone)
-        #expect(region.timeZoneOffset == convertedRegion.timeZoneOffset)
+        #expect(expectedRegion == region)
     }
 }

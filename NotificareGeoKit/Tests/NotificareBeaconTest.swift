@@ -5,9 +5,9 @@
 @testable import NotificareGeoKit
 import Testing
 
-struct NotificareBeaconTest {
+internal struct NotificareBeaconTest {
     @Test
-    func testNotificareBeaconSerialization() {
+    internal func testNotificareBeaconSerialization() {
         let beacon = NotificareBeacon(
             id: "testId",
             name: "testName",
@@ -20,14 +20,14 @@ struct NotificareBeaconTest {
         do {
             let convertedBeacon = try NotificareBeacon.fromJson(json: beacon.toJson())
 
-            assertBeacon(beacon: beacon, convertedBeacon: convertedBeacon)
+            #expect(beacon == convertedBeacon)
         } catch {
             Issue.record()
         }
     }
 
     @Test
-    func testNotificareBeaconWithNilPropsSerialization() {
+    internal func testNotificareBeaconWithNilPropsSerialization() {
         let beacon = NotificareBeacon(
             id: "testId",
             name: "testName",
@@ -40,18 +40,9 @@ struct NotificareBeaconTest {
         do {
             let convertedBeacon = try NotificareBeacon.fromJson(json: beacon.toJson())
 
-            assertBeacon(beacon: beacon, convertedBeacon: convertedBeacon)
+            #expect(beacon == convertedBeacon)
         } catch {
             Issue.record()
         }
-    }
-
-    func assertBeacon(beacon: NotificareBeacon, convertedBeacon: NotificareBeacon) {
-        #expect(beacon.id == convertedBeacon.id)
-        #expect(beacon.name == convertedBeacon.name)
-        #expect(beacon.major == convertedBeacon.major)
-        #expect(beacon.minor == convertedBeacon.minor)
-        #expect(beacon.triggers == convertedBeacon.triggers)
-        #expect(beacon.proximity == convertedBeacon.proximity)
     }
 }

@@ -5,9 +5,9 @@
 @testable import NotificareGeoKit
 import Testing
 
-struct NotificareHeadingTest {
+internal struct NotificareHeadingTest {
     @Test
-    func testNotificareHeadingSerialization() {
+    internal func testNotificareHeadingSerialization() {
         let heading = NotificareHeading(
             magneticHeading: 0.5,
             trueHeading: 1.5,
@@ -21,13 +21,7 @@ struct NotificareHeadingTest {
         do {
             let convertedHeading = try NotificareHeading.fromJson(json: heading.toJson())
 
-            #expect(heading.magneticHeading == convertedHeading.magneticHeading)
-            #expect(heading.trueHeading == convertedHeading.trueHeading)
-            #expect(heading.headingAccuracy == convertedHeading.headingAccuracy)
-            #expect(heading.x == convertedHeading.x)
-            #expect(heading.y == convertedHeading.y)
-            #expect(heading.z == convertedHeading.z)
-            #expect(heading.timestamp == convertedHeading.timestamp)
+            #expect(heading == convertedHeading)
         } catch {
             Issue.record()
         }

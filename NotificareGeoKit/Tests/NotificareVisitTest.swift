@@ -5,9 +5,9 @@
 @testable import NotificareGeoKit
 import Testing
 
-struct NotificareVisitTest {
+internal struct NotificareVisitTest {
     @Test
-    func testNoificareVisitSerialization() {
+    internal func testNotificareVisitSerialization() {
         let visit = NotificareVisit(
             departureDate: Date(timeIntervalSince1970: 1),
             arrivalDate: Date(timeIntervalSince1970: 2),
@@ -18,10 +18,7 @@ struct NotificareVisitTest {
         do {
             let convertedVisit = try NotificareVisit.fromJson(json: visit.toJson())
 
-            #expect(visit.departureDate == convertedVisit.departureDate)
-            #expect(visit.arrivalDate == convertedVisit.arrivalDate)
-            #expect(visit.latitude == convertedVisit.latitude)
-            #expect(visit.longitude == convertedVisit.longitude)
+            #expect(visit == convertedVisit)
         } catch {
             Issue.record()
         }
