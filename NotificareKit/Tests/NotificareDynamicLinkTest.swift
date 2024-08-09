@@ -5,15 +5,15 @@
 @testable import NotificareKit
 import Testing
 
-struct NotificareDynamicLinkTest {
+internal struct NotificareDynamicLinkTest {
     @Test
-    func testNotificareDynamicLinkSerialization() {
+    internal func testNotificareDynamicLinkSerialization() {
         let link = NotificareDynamicLink(target: "testLink")
 
         do {
             let convertedLink = try NotificareDynamicLink.fromJson(json: link.toJson())
 
-            #expect(link.target == convertedLink.target)
+            #expect(link == convertedLink)
         } catch {
             Issue.record()
         }

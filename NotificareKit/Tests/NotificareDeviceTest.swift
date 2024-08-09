@@ -5,9 +5,9 @@
 @testable import NotificareKit
 import Testing
 
-struct NotificareDeviceTest {
+internal struct NotificareDeviceTest {
     @Test
-    func testNotificareDeviceSerialization() {
+    internal func testNotificareDeviceSerialization() {
         do {
             let device = NotificareDevice(
                 id: "testId",
@@ -24,14 +24,14 @@ struct NotificareDeviceTest {
 
             let convertedDevice = try NotificareDevice.fromJson(json: device.toJson())
 
-            assertDevice(device: device, convertedDevice: convertedDevice)
+            #expect(device == convertedDevice)
         } catch {
             Issue.record()
         }
     }
 
     @Test
-    func testNotificareDeviceSerializationWithNilProps() {
+    internal func testNotificareDeviceSerializationWithNilProps() {
         let device = NotificareDevice(
             id: "testId",
             userId: nil,
@@ -45,22 +45,9 @@ struct NotificareDeviceTest {
         do {
             let convertedDevice = try NotificareDevice.fromJson(json: device.toJson())
 
-            assertDevice(device: device, convertedDevice: convertedDevice)
+            #expect(device == convertedDevice)
         } catch {
             Issue.record()
         }
-    }
-
-    func assertDevice(device: NotificareDevice, convertedDevice: NotificareDevice) {
-        #expect(device.id == convertedDevice.id)
-        #expect(device.userId == convertedDevice.userId)
-        #expect(device.userName == convertedDevice.userName)
-        #expect(device.timeZoneOffset == convertedDevice.timeZoneOffset)
-        #expect(device.dnd?.start.hours == convertedDevice.dnd?.start.hours)
-        #expect(device.dnd?.start.minutes == convertedDevice.dnd?.start.minutes)
-        #expect(device.dnd?.end.hours == convertedDevice.dnd?.end.hours)
-        #expect(device.dnd?.end.minutes == convertedDevice.dnd?.end.minutes)
-        #expect(NSDictionary(dictionary: device.userData) == NSDictionary(dictionary: convertedDevice.userData))
-        #expect(device.backgroundAppRefresh == convertedDevice.backgroundAppRefresh)
     }
 }

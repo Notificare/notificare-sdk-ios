@@ -5,9 +5,9 @@
 @testable import NotificareKit
 import Testing
 
-struct NotificareDoNotDisturbTest {
+internal struct NotificareDoNotDisturbTest {
     @Test
-    func testNotificareDoNotDisturbSerialization() {
+    internal func testNotificareDoNotDisturbSerialization() {
         do {
             let dnd = NotificareDoNotDisturb(
                 start: try NotificareTime(hours: 21, minutes: 30),
@@ -16,10 +16,7 @@ struct NotificareDoNotDisturbTest {
 
             let convertedDnd = try NotificareDoNotDisturb.fromJson(json: dnd.toJson())
 
-            #expect(dnd.start.hours == convertedDnd.start.hours)
-            #expect(dnd.start.minutes == convertedDnd.start.minutes)
-            #expect(dnd.end.hours == convertedDnd.end.hours)
-            #expect(dnd.end.minutes == convertedDnd.end.minutes)
+            #expect(dnd == convertedDnd)
         } catch {
             Issue.record()
         }

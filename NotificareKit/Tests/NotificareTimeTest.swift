@@ -5,16 +5,28 @@
 @testable import NotificareKit
 import Testing
 
-struct NotificareTimeTest {
+internal struct NotificareTimeTest {
     @Test
-    func testInvalidNotificareTimeInitialization() {
+    internal func testInvalidNotificareTimeInitialization() {
         #expect(throws: (any Error).self) {
-            try NotificareTime(hours: -1, minutes: 60)
+            try NotificareTime(hours: -1, minutes: 00)
+        }
+
+        #expect(throws: (any Error).self) {
+            try NotificareTime(hours: 24, minutes: 00)
+        }
+
+        #expect(throws: (any Error).self) {
+            try NotificareTime(hours: 21, minutes: -1)
+        }
+
+        #expect(throws: (any Error).self) {
+            try NotificareTime(hours: 21, minutes: 60)
         }
     }
 
     @Test
-    func testInvalidStringNotificareTimeInitialization() {
+    internal func testInvalidNotificareTimeStringInitialization() {
         #expect(throws: (any Error).self) {
             try NotificareTime(string: "21h30")
         }
@@ -27,7 +39,7 @@ struct NotificareTimeTest {
     }
 
     @Test
-    func testNotificareTimeInitialization() {
+    internal func testNotificareTimeInitialization() {
         do {
             let time = try NotificareTime(hours: 21, minutes: 30)
 
@@ -39,7 +51,7 @@ struct NotificareTimeTest {
     }
 
     @Test
-    func testStringNotificareTimeInitialization() {
+    internal func testNotificareTimeStringInitialization() {
         do {
             let time = try NotificareTime(string: "21:30")
 
@@ -51,7 +63,7 @@ struct NotificareTimeTest {
     }
 
     @Test
-    func testNotificareTimeFormat() {
+    internal func testNotificareTimeFormat() {
         do {
             let time = try NotificareTime(string: "21:30").format()
 
