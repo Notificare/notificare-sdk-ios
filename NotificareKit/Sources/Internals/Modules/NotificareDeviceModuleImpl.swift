@@ -493,11 +493,6 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
             throw NotificareError.deviceUnavailable
         }
 
-        if !registrationChanged() {
-            NotificareLogger.debug("Skipping device update, nothing changed.")
-            return
-        }
-
         let backgroundRefreshStatus = await UIApplication.shared.backgroundRefreshStatus
 
         let payload = NotificareInternals.PushAPI.Payloads.UpdateDevice(
@@ -674,52 +669,6 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         try await NotificareRequest.Builder()
             .put("/support/testdevice/\(nonce)", body: payload)
             .response()
-    }
-
-    private func registrationChanged() -> Bool {
-        guard let device = storedDevice else {
-            NotificareLogger.debug("Registration check: fresh installation")
-            return true
-        }
-
-        var changed = false
-
-        if device.deviceString != NotificareUtils.deviceString {
-            NotificareLogger.debug("Registration check: device string changed")
-            changed = true
-        }
-
-        if device.appVersion != NotificareUtils.applicationVersion {
-            NotificareLogger.debug("Registration check: application version changed")
-            changed = true
-        }
-
-        if device.osVersion != NotificareUtils.osVersion {
-            NotificareLogger.debug("Registration check: OS version changed")
-            changed = true
-        }
-
-        if device.sdkVersion != Notificare.SDK_VERSION {
-            NotificareLogger.debug("Registration check: sdk version changed")
-            changed = true
-        }
-
-        if device.timeZoneOffset != NotificareUtils.timeZoneOffset {
-            NotificareLogger.debug("Registration check: timezone offset changed")
-            changed = true
-        }
-
-        if device.language != getDeviceLanguage() {
-            NotificareLogger.debug("Registration check: language changed")
-            changed = true
-        }
-
-        if device.region != getDeviceRegion() {
-            NotificareLogger.debug("Registration check: region changed")
-            changed = true
-        }
-
-        return changed
     }
 
     private func getDeviceLanguage() -> String {
