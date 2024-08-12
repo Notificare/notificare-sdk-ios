@@ -7,12 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A1FE0632C465CB200468B84 /* NotificareInboxItemTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1FE0622C465CB200468B84 /* NotificareInboxItemTest.swift */; };
+		1ACA07DB2C5946BB002CB47D /* InboxPushAPIModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACA07DA2C5946BB002CB47D /* InboxPushAPIModels.swift */; };
 		F21DD9EB27184CE500C88D7B /* NotificareInbox+Augment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21DD9EA27184CE500C88D7B /* NotificareInbox+Augment.swift */; };
 		F21DD9ED27185C4B00C88D7B /* NotificareInbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21DD9EC27185C4B00C88D7B /* NotificareInbox.swift */; };
 		F27DB1A0262F2B5C000C024D /* PushAPI+Responses.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27DB19F262F2B5C000C024D /* PushAPI+Responses.swift */; };
 		F27DB1A3262F2B94000C024D /* PushAPI+Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27DB1A2262F2B94000C024D /* PushAPI+Models.swift */; };
 		F289F53F25B85E020091AB97 /* NotificareInboxKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F289F53525B85E020091AB97 /* NotificareInboxKit.framework */; };
-		F289F54425B85E020091AB97 /* NotificareInboxKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F289F54325B85E020091AB97 /* NotificareInboxKitTests.swift */; };
 		F289F56125B85EAF0091AB97 /* NotificareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F289F56025B85EAF0091AB97 /* NotificareKit.framework */; };
 		F289F5E825B8643A0091AB97 /* NotificareInboxImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F289F5E725B8643A0091AB97 /* NotificareInboxImpl.swift */; };
 		F289F5ED25B8651F0091AB97 /* NotificareInboxDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F289F5EC25B8651F0091AB97 /* NotificareInboxDelegate.swift */; };
@@ -37,6 +38,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1A1FE0622C465CB200468B84 /* NotificareInboxItemTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareInboxItemTest.swift; sourceTree = "<group>"; };
+		1ACA07DA2C5946BB002CB47D /* InboxPushAPIModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxPushAPIModels.swift; sourceTree = "<group>"; };
 		F21DD9EA27184CE500C88D7B /* NotificareInbox+Augment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificareInbox+Augment.swift"; sourceTree = "<group>"; };
 		F21DD9EC27185C4B00C88D7B /* NotificareInbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareInbox.swift; sourceTree = "<group>"; };
 		F27DB19F262F2B5C000C024D /* PushAPI+Responses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PushAPI+Responses.swift"; sourceTree = "<group>"; };
@@ -44,7 +47,6 @@
 		F289F53525B85E020091AB97 /* NotificareInboxKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NotificareInboxKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F289F53925B85E020091AB97 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F289F53E25B85E020091AB97 /* NotificareInboxKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NotificareInboxKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		F289F54325B85E020091AB97 /* NotificareInboxKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareInboxKitTests.swift; sourceTree = "<group>"; };
 		F289F54525B85E020091AB97 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F289F56025B85EAF0091AB97 /* NotificareKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F289F5E725B8643A0091AB97 /* NotificareInboxImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareInboxImpl.swift; sourceTree = "<group>"; };
@@ -128,8 +130,9 @@
 		F289F54225B85E020091AB97 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				F289F54325B85E020091AB97 /* NotificareInboxKitTests.swift */,
 				F289F54525B85E020091AB97 /* Info.plist */,
+				1A1FE0622C465CB200468B84 /* NotificareInboxItemTest.swift */,
+				1ACA07DA2C5946BB002CB47D /* InboxPushAPIModels.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -222,6 +225,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				1A546F6A2C5B5DA70059F095 /* PBXTargetDependency */,
 				F289F54125B85E020091AB97 /* PBXTargetDependency */,
 			);
 			name = NotificareInboxKitTests;
@@ -246,6 +250,7 @@
 					};
 					F289F53D25B85E020091AB97 = {
 						CreatedOnToolsVersion = 12.3;
+						LastSwiftMigration = 1540;
 					};
 				};
 			};
@@ -314,13 +319,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F289F54425B85E020091AB97 /* NotificareInboxKitTests.swift in Sources */,
+				1A1FE0632C465CB200468B84 /* NotificareInboxItemTest.swift in Sources */,
+				1ACA07DB2C5946BB002CB47D /* InboxPushAPIModels.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		1A546F6A2C5B5DA70059F095 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 1A546F692C5B5DA70059F095 /* SwiftLintBuildToolPlugin */;
+		};
 		1A8C30F92BF639D50000BFA6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			productRef = 1A8C30F82BF639D50000BFA6 /* SwiftLintBuildToolPlugin */;
@@ -526,6 +536,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -535,6 +546,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.inbox.NotificareInboxKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -544,6 +556,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -660,6 +673,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -669,6 +683,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.inbox.NotificareInboxKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -776,6 +791,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -785,6 +801,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.inbox.NotificareInboxKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -885,6 +902,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -994,6 +1012,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1064,6 +1083,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		1A546F692C5B5DA70059F095 /* SwiftLintBuildToolPlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1A8C30E72BF639440000BFA6 /* XCRemoteSwiftPackageReference "SwiftLint" */;
+			productName = "plugin:SwiftLintBuildToolPlugin";
+		};
 		1A8C30F82BF639D50000BFA6 /* SwiftLintBuildToolPlugin */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 1A8C30E72BF639440000BFA6 /* XCRemoteSwiftPackageReference "SwiftLint" */;

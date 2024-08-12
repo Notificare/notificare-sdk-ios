@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A32740C2C5A0FBF002B78BA /* NotificareNotificationTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A32740B2C5A0FBF002B78BA /* NotificareNotificationTest.swift */; };
+		1A32740E2C5A14FD002B78BA /* NotificareDynamicLinkTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A32740D2C5A14FD002B78BA /* NotificareDynamicLinkTest.swift */; };
+		1A3274102C5A158D002B78BA /* NotificareTimeTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A32740F2C5A158D002B78BA /* NotificareTimeTest.swift */; };
+		1A3274122C5A17C6002B78BA /* NotificareDoNotDisturbTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3274112C5A17C6002B78BA /* NotificareDoNotDisturbTest.swift */; };
+		1A3274142C5A18C8002B78BA /* NotificareDeviceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3274132C5A18C8002B78BA /* NotificareDeviceTest.swift */; };
+		1A3274162C5A1B66002B78BA /* NotificareApplicationTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3274152C5A1B66002B78BA /* NotificareApplicationTest.swift */; };
+		1A3274182C5A8F13002B78BA /* PushAPIModelsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3274172C5A8F13002B78BA /* PushAPIModelsTest.swift */; };
 		1A7906DD2C64ABD300BD3E30 /* NotificareExtraEquatableTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7906DC2C64ABC400BD3E30 /* NotificareExtraEquatableTest.swift */; };
 		1A89BA6E2C5D4F9900BF78FF /* NotificareExtraEquatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A89BA6D2C5D4F9900BF78FF /* NotificareExtraEquatable.swift */; };
 		42A2011DB7750225B7C9D3E2 /* NotificareBootstrap.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A205DF5970468FB18808F5 /* NotificareBootstrap.m */; };
@@ -31,7 +38,6 @@
 		F2323002252F3886007778AA /* NotificareApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2323001252F3886007778AA /* NotificareApplication.swift */; };
 		F23E3C3324D8267000044574 /* NotificareDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F23E3C3224D8267000044574 /* NotificareDelegate.swift */; };
 		F258DD5624BC4DBC006F9ABD /* NotificareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F258DD4C24BC4DBB006F9ABD /* NotificareKit.framework */; };
-		F258DD5B24BC4DBC006F9ABD /* CoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DD5A24BC4DBC006F9ABD /* CoreTests.swift */; };
 		F258DD5D24BC4DBC006F9ABD /* NotificareKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F258DD4F24BC4DBB006F9ABD /* NotificareKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F258DE4424BC68CB006F9ABD /* Notificare.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DE4324BC68CB006F9ABD /* Notificare.swift */; };
 		F25A5A3527E89773004556E6 /* Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = F25A5A3427E89773004556E6 /* Version.swift */; };
@@ -87,6 +93,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1A32740B2C5A0FBF002B78BA /* NotificareNotificationTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareNotificationTest.swift; sourceTree = "<group>"; };
+		1A32740D2C5A14FD002B78BA /* NotificareDynamicLinkTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareDynamicLinkTest.swift; sourceTree = "<group>"; };
+		1A32740F2C5A158D002B78BA /* NotificareTimeTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareTimeTest.swift; sourceTree = "<group>"; };
+		1A3274112C5A17C6002B78BA /* NotificareDoNotDisturbTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareDoNotDisturbTest.swift; sourceTree = "<group>"; };
+		1A3274132C5A18C8002B78BA /* NotificareDeviceTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareDeviceTest.swift; sourceTree = "<group>"; };
+		1A3274152C5A1B66002B78BA /* NotificareApplicationTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareApplicationTest.swift; sourceTree = "<group>"; };
+		1A3274172C5A8F13002B78BA /* PushAPIModelsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAPIModelsTest.swift; sourceTree = "<group>"; };
 		1A7906DC2C64ABC400BD3E30 /* NotificareExtraEquatableTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareExtraEquatableTest.swift; sourceTree = "<group>"; };
 		1A89BA6D2C5D4F9900BF78FF /* NotificareExtraEquatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareExtraEquatable.swift; sourceTree = "<group>"; };
 		42A20228EB70EA83D835BF01 /* NotificareError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareError.swift; sourceTree = "<group>"; };
@@ -114,7 +127,6 @@
 		F258DD4F24BC4DBB006F9ABD /* NotificareKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificareKit.h; sourceTree = "<group>"; };
 		F258DD5024BC4DBB006F9ABD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F258DD5524BC4DBC006F9ABD /* NotificareKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NotificareKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		F258DD5A24BC4DBC006F9ABD /* CoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreTests.swift; sourceTree = "<group>"; };
 		F258DD5C24BC4DBC006F9ABD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F258DE4324BC68CB006F9ABD /* Notificare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notificare.swift; sourceTree = "<group>"; };
 		F25A5A3427E89773004556E6 /* Version.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Version.swift; sourceTree = "<group>"; };
@@ -281,8 +293,14 @@
 			isa = PBXGroup;
 			children = (
 				1A7906DC2C64ABC400BD3E30 /* NotificareExtraEquatableTest.swift */,
-				F258DD5A24BC4DBC006F9ABD /* CoreTests.swift */,
 				F258DD5C24BC4DBC006F9ABD /* Info.plist */,
+				1A32740B2C5A0FBF002B78BA /* NotificareNotificationTest.swift */,
+				1A32740D2C5A14FD002B78BA /* NotificareDynamicLinkTest.swift */,
+				1A32740F2C5A158D002B78BA /* NotificareTimeTest.swift */,
+				1A3274112C5A17C6002B78BA /* NotificareDoNotDisturbTest.swift */,
+				1A3274132C5A18C8002B78BA /* NotificareDeviceTest.swift */,
+				1A3274152C5A1B66002B78BA /* NotificareApplicationTest.swift */,
+				1A3274172C5A8F13002B78BA /* PushAPIModelsTest.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -492,6 +510,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				1A546F622C5B5D6A0059F095 /* PBXTargetDependency */,
 				F258DD5824BC4DBC006F9ABD /* PBXTargetDependency */,
 			);
 			name = NotificareKitTests;
@@ -633,14 +652,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F258DD5B24BC4DBC006F9ABD /* CoreTests.swift in Sources */,
 				1A7906DD2C64ABD300BD3E30 /* NotificareExtraEquatableTest.swift in Sources */,
+				1A3274142C5A18C8002B78BA /* NotificareDeviceTest.swift in Sources */,
+				1A3274122C5A17C6002B78BA /* NotificareDoNotDisturbTest.swift in Sources */,
+				1A3274102C5A158D002B78BA /* NotificareTimeTest.swift in Sources */,
+				1A32740C2C5A0FBF002B78BA /* NotificareNotificationTest.swift in Sources */,
+				1A3274182C5A8F13002B78BA /* PushAPIModelsTest.swift in Sources */,
+				1A3274162C5A1B66002B78BA /* NotificareApplicationTest.swift in Sources */,
+				1A32740E2C5A14FD002B78BA /* NotificareDynamicLinkTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		1A546F622C5B5D6A0059F095 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 1A546F612C5B5D6A0059F095 /* SwiftLintBuildToolPlugin */;
+		};
 		1A8C30F12BF639B30000BFA6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			productRef = 1A8C30F02BF639B30000BFA6 /* SwiftLintBuildToolPlugin */;
@@ -1414,6 +1443,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		1A546F612C5B5D6A0059F095 /* SwiftLintBuildToolPlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1A8C30E32BF639080000BFA6 /* XCRemoteSwiftPackageReference "SwiftLint" */;
+			productName = "plugin:SwiftLintBuildToolPlugin";
+		};
 		1A8C30F02BF639B30000BFA6 /* SwiftLintBuildToolPlugin */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 1A8C30E32BF639080000BFA6 /* XCRemoteSwiftPackageReference "SwiftLint" */;
