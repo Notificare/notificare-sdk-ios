@@ -9,7 +9,7 @@ import UserNotifications
 public protocol NotificarePushDelegate: AnyObject {
     func notificare(_ notificarePush: NotificarePush, didFailToRegisterForRemoteNotificationsWithError error: Error)
 
-    func notificare(_ notificarePush: NotificarePush, didChangeSubscriptionId subscriptionId: String?)
+    func notificare(_ notificarePush: NotificarePush, didChangeSubscription subscription: NotificarePushSubscription?)
 
     func notificare(_ notificarePush: NotificarePush, didChangeNotificationSettings allowedUI: Bool)
 
@@ -33,7 +33,7 @@ public protocol NotificarePushDelegate: AnyObject {
 extension NotificarePushDelegate {
     public func notificare(_: NotificarePush, didFailToRegisterForRemoteNotificationsWithError _: Error) {}
 
-    public func notificare(_: NotificarePush, didChangeSubscriptionId _: String?) {}
+    public func notificare(_: NotificarePush, didChangeSubscription _: NotificarePushSubscription?) {}
 
     public func notificare(_: NotificarePush, didChangeNotificationSettings _: Bool) {}
 

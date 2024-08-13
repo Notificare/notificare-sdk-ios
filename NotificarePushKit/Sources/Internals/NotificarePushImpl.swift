@@ -71,11 +71,11 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
         LocalStorage.firstRegistration = true
 
         self.transport = nil
-        self.subscriptionId = nil
+        self.subscription = nil
         self.allowedUI = false
 
         DispatchQueue.main.async {
-            self.delegate?.notificare(self, didChangeSubscriptionId: nil)
+            self.delegate?.notificare(self, didChangeSubscription: nil)
         }
 
         DispatchQueue.main.async {
@@ -108,9 +108,9 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
         set { LocalStorage.transport = newValue }
     }
 
-    public private(set) var subscriptionId: String? {
-        get { LocalStorage.subscriptionId }
-        set { LocalStorage.subscriptionId = newValue }
+    public private(set) var subscription: NotificarePushSubscription? {
+        get { LocalStorage.subscription }
+        set { LocalStorage.subscription = newValue }
     }
 
     public private(set) var allowedUI: Bool {
@@ -487,9 +487,9 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
         }
 
         let previousTransport = self.transport
-        let previousSubscriptionId = self.subscriptionId
+        let previousSubscription = self.subscription
 
-        if previousTransport == transport && previousSubscriptionId == token {
+        if previousTransport == transport && previousSubscription?.token == token {
             NotificareLogger.debug("Push subscription unmodified. Updating notification settings instead.")
             try await updateDeviceNotificationSettings()
             return
@@ -509,12 +509,14 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
             .put("/push/\(device.id)", body: payload)
             .response()
 
+        let subscription = token.map { NotificarePushSubscription(token: $0) }
+
         self.transport = transport
-        self.subscriptionId = token
+        self.subscription = subscription
         self.allowedUI = allowedUI
 
         DispatchQueue.main.async {
-            self.delegate?.notificare(self, didChangeSubscriptionId: token)
+            self.delegate?.notificare(self, didChangeSubscription: subscription)
         }
 
         DispatchQueue.main.async {

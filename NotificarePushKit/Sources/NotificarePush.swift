@@ -22,7 +22,7 @@ public protocol NotificarePush: AnyObject, NotificarePushUIApplicationDelegate, 
 
     var transport: NotificareTransport? { get }
 
-    var subscriptionId: String? { get }
+    var subscription: NotificarePushSubscription? { get }
 
     var allowedUI: Bool { get }
 
