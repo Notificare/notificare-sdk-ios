@@ -4,6 +4,7 @@
 
 - Fix `NotificarePass.data` decoding
 - Add `Equatable` compliance to applicable data models
+- Changed the `subscriptionId` properties to a more robust data model
 
 ## 4.0.0-beta.1
 
