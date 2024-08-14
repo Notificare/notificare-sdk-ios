@@ -9,7 +9,7 @@ internal enum LocalStorage {
     private enum Keys: String {
         case remoteNotificationsEnabled = "re.notifica.push.local_storage.remote_notifications_enabled"
         case transport = "re.notifica.push.local_storage.transport"
-        case subscriptionId = "re.notifica.push.local_storage.subscription_id"
+        case subscription = "re.notifica.push.local_storage.subscription"
         case allowedUI = "re.notifica.push.local_storage.allowed_ui"
         case firstRegistration = "re.notifica.push.local_storage.first_registration"
     }
@@ -61,18 +61,40 @@ internal enum LocalStorage {
         }
     }
 
-    internal static var subscriptionId: String? {
+    internal static var subscription: NotificarePushSubscription? {
         get {
-            UserDefaults.standard.string(forKey: Keys.subscriptionId.rawValue)
+            guard let data = UserDefaults.standard.object(forKey: Keys.subscription.rawValue) as? Data else {
+                return nil
+            }
+
+            do {
+                let decoder = NotificareUtils.jsonDecoder
+                return try decoder.decode(NotificarePushSubscription.self, from: data)
+            } catch {
+                NotificareLogger.warning("Failed to decode the stored subscription.", error: error)
+
+                // Remove the corrupted value from local storage.
+                UserDefaults.standard.removeObject(forKey: Keys.subscription.rawValue)
+                UserDefaults.standard.synchronize()
+
+                return nil
+            }
         }
         set {
-            guard let newValue else {
-                UserDefaults.standard.removeObject(forKey: Keys.subscriptionId.rawValue)
+            guard let newValue = newValue else {
+                UserDefaults.standard.removeObject(forKey: Keys.subscription.rawValue)
                 return
             }
 
-            UserDefaults.standard.set(newValue, forKey: Keys.subscriptionId.rawValue)
-            UserDefaults.standard.synchronize()
+            do {
+                let encoder = NotificareUtils.jsonEncoder
+                let data = try encoder.encode(newValue)
+
+                UserDefaults.standard.set(data, forKey: Keys.subscription.rawValue)
+                UserDefaults.standard.synchronize()
+            } catch {
+                NotificareLogger.warning("Failed to encode the stored subscription.", error: error)
+            }
         }
     }
 
