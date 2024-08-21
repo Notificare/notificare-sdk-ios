@@ -16,8 +16,7 @@ public struct NotificareExtraEquatable<T>: Equatable {
         let lhsOptional = lhs.wrappedValue as Any?
         let rhsOptional = rhs.wrappedValue as Any?
 
-        if case (.none, .none) = (lhsOptional, rhsOptional)
-        {
+        if case (.none, .none) = (lhsOptional, rhsOptional) {
             return true
         }
 
