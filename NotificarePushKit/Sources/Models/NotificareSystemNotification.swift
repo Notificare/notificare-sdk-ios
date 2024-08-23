@@ -20,9 +20,9 @@ public struct NotificareSystemNotification: Codable, Equatable {
         type = userInfo["systemType"] as! String
 
         let stringKeyedUserInfo = userInfo.filter { $0.key is String } as! [String: Any]
-        let ignoreKeys = ["aps", "system", "systemType", "attachment", "notificationId", "notificationType", "id", "x-sender"]
+        let ignoreKeys = ["aps", "system", "systemType", "attachment", "notificationId", "notificationType", "id"]
 
-        extra = stringKeyedUserInfo.filter { !ignoreKeys.contains($0.key) }
+        extra = stringKeyedUserInfo.filter { !ignoreKeys.contains($0.key) && !$0.key.hasPrefix("x-") }
     }
 }
 
