@@ -1263,6 +1263,8 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
     @objc private func onApplicationDidBecomeActiveNotification(_: Notification) {
         guard hasLocationServicesEnabled else { return }
 
+        guard Notificare.shared.isReady else { return }
+
         do {
             try checkPrerequisites()
             try checkPlistPrerequisites()
