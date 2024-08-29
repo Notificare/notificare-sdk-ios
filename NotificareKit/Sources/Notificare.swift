@@ -195,7 +195,7 @@ public class Notificare {
                 LocalStorage.clear()
             }
 
-            LocalStorage.application = application
+            self.application = application
 
             // Loop all possible modules and launch the available ones.
             for module in NotificareInternals.Module.allCases {
