@@ -121,4 +121,12 @@ internal enum LocalStorage {
             UserDefaults.standard.synchronize()
         }
     }
+
+    internal static func clear() {
+        UserDefaults.standard.removeObject(forKey: Keys.remoteNotificationsEnabled.rawValue)
+        UserDefaults.standard.removeObject(forKey: Keys.transport.rawValue)
+        UserDefaults.standard.removeObject(forKey: Keys.subscription.rawValue)
+        UserDefaults.standard.removeObject(forKey: Keys.allowedUI.rawValue)
+        UserDefaults.standard.removeObject(forKey: Keys.firstRegistration.rawValue)
+    }
 }

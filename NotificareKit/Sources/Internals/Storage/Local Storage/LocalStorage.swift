@@ -183,4 +183,15 @@ internal enum LocalStorage {
             }
         }
     }
+
+    internal static func clear() {
+        UserDefaults.standard.removeObject(forKey: Keys.migrated.rawValue)
+        UserDefaults.standard.removeObject(forKey: Keys.application.rawValue)
+        UserDefaults.standard.removeObject(forKey: Keys.device.rawValue)
+        UserDefaults.standard.removeObject(forKey: Keys.preferredLanguage.rawValue)
+        UserDefaults.standard.removeObject(forKey: Keys.preferredRegion.rawValue)
+        UserDefaults.standard.removeObject(forKey: Keys.crashReport.rawValue)
+        UserDefaults.standard.removeObject(forKey: Keys.currentDatabaseVersion.rawValue)
+        UserDefaults.standard.removeObject(forKey: Keys.deferredLinkChecked.rawValue)
+    }
 }

@@ -172,7 +172,30 @@ public class Notificare {
         }
 
         do {
-            let application = try await fetchApplication()
+            let application = try await fetchApplication(saveToLocalStorage: false)
+            let storedApplication = LocalStorage.application
+
+            if let storedApplication, storedApplication.id != application.id {
+                NotificareLogger.warning("Incorrect application keys detected. Resetting Notificare to a clean state.")
+
+                for module in NotificareInternals.Module.allCases {
+                    if let instance = module.klass?.instance {
+                        NotificareLogger.debug("Resetting module: \(module)")
+
+                        do {
+                            try await instance.clearStorage()
+                        } catch {
+                            NotificareLogger.debug("Failed to reset '\(module)'.", error: error)
+                            throw error
+                        }
+                    }
+                }
+
+                try database.clear()
+                LocalStorage.clear()
+            }
+
+            LocalStorage.application = application
 
             // Loop all possible modules and launch the available ones.
             for module in NotificareInternals.Module.allCases {
@@ -272,14 +295,7 @@ public class Notificare {
     }
 
     public func fetchApplication() async throws -> NotificareApplication {
-        let response = try await NotificareRequest.Builder()
-            .get("/application/info")
-            .responseDecodable(NotificareInternals.PushAPI.Responses.Application.self)
-
-        let application = response.application.toModel()
-        self.application = application
-
-        return application
+        return try await fetchApplication(saveToLocalStorage: true)
     }
 
     public func fetchDynamicLink(_ link: String, _ completion: @escaping NotificareCallback<NotificareDynamicLink>) {
@@ -659,5 +675,19 @@ public class Notificare {
         }
 
         return url
+    }
+
+    private func fetchApplication(saveToLocalStorage: Bool) async throws -> NotificareApplication {
+        let response = try await NotificareRequest.Builder()
+            .get("/application/info")
+            .responseDecodable(NotificareInternals.PushAPI.Responses.Application.self)
+
+        let application = response.application.toModel()
+
+        if saveToLocalStorage {
+            self.application = application
+        }
+
+        return application
     }
 }

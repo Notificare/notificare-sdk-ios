@@ -181,4 +181,15 @@ internal enum LocalStorage {
             }
         }
     }
+
+    internal static func clear() {
+        UserDefaults.standard.removeObject(forKey: KEY_LOCATION_SERVICES_ENABLED)
+        UserDefaults.standard.removeObject(forKey: KEY_BLUETOOTH_ENABLED)
+        UserDefaults.standard.removeObject(forKey: KEY_ENTERED_REGIONS)
+        UserDefaults.standard.removeObject(forKey: KEY_ENTERED_BEACONS)
+        UserDefaults.standard.removeObject(forKey: KEY_MONITORED_REGIONS)
+        UserDefaults.standard.removeObject(forKey: KEY_MONITORED_BEACONS)
+        UserDefaults.standard.removeObject(forKey: KEY_REGION_SESSIONS)
+        UserDefaults.standard.removeObject(forKey: KEY_BEACON_SESSIONS)
+    }
 }

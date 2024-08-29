@@ -13,6 +13,8 @@ public protocol NotificareModule {
 
     func configure()
 
+    func clearStorage() async throws
+
     func launch() async throws
 
     func postLaunch() async throws
@@ -24,6 +26,8 @@ extension NotificareModule {
     public func migrate() {}
 
     public func configure() {}
+
+    public func clearStorage() async throws {}
 
     public func launch() async throws {}
 

@@ -54,6 +54,10 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
                                                object: nil)
     }
 
+    internal func clearStorage() async throws {
+        LocalStorage.clear()
+    }
+
     internal func postLaunch() async throws {
         if hasRemoteNotificationsEnabled {
             NotificareLogger.debug("Enabling remote notifications automatically.")

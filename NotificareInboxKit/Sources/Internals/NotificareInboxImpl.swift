@@ -107,6 +107,11 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
                                                object: nil)
     }
 
+    internal func clearStorage() async throws {
+        try database.clear()
+        LocalStorage.clear()
+    }
+
     internal func launch() async throws {
         sync()
     }
