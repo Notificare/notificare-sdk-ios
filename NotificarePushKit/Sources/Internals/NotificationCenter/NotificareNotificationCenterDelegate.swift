@@ -50,13 +50,29 @@ internal class NotificareNotificationCenterDelegate: NSObject, UNUserNotificatio
             return
         }
 
+        guard let application = Notificare.shared.application else {
+            NotificareLogger.warning("Notificare application unavailable. Ensure Notificare is configured during the application launch.")
+            return
+        }
+
+        guard application.id == userInfo["x-application"] as? String else {
+            NotificareLogger.warning("Incoming notification originated from another application.")
+            return
+        }
+
         let notification: NotificareNotification
 
         do {
             notification = try await Notificare.shared.fetchNotification(id)
         } catch {
             NotificareLogger.error("Failed to fetch notification with id '\(id)'.", error: error)
-            return
+
+            if let partialNotification = NotificareNotification(apnsDictionary: userInfo) {
+                notification = partialNotification
+            } else {
+                NotificareLogger.debug("Unable to create a partial notification from the APNS payload.")
+                return
+            }
         }
 
         do {
@@ -116,6 +132,16 @@ internal class NotificareNotificationCenterDelegate: NSObject, UNUserNotificatio
         guard Notificare.shared.push().isNotificareNotification(userInfo) else {
             // Unrecognizable notification
             return Notificare.shared.push().presentationOptions
+        }
+
+        guard let application = Notificare.shared.application else {
+            NotificareLogger.warning("Notificare application unavailable. Ensure Notificare is configured during the application launch.")
+            return []
+        }
+
+        guard application.id == userInfo["x-application"] as? String else {
+            NotificareLogger.warning("Incoming notification originated from another application.")
+            return []
         }
 
         // Check if we should force-set the presentation options.
