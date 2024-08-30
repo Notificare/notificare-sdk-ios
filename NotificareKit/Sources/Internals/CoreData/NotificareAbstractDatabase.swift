@@ -105,6 +105,21 @@ open class NotificareAbstractDatabase {
     }
 
     private func loadStore() {
+        let stores = persistentContainer.persistentStoreCoordinator.persistentStores
+
+        if !stores.isEmpty {
+            NotificareLogger.debug("Reloading CoreData stores for '\(self.name)'.")
+
+            for store in stores {
+                do {
+                    try persistentContainer.persistentStoreCoordinator.remove(store)
+                } catch {
+                    NotificareLogger.error("Failed to reload store.", error: error)
+                    return
+                }
+            }
+        }
+
         persistentContainer.loadPersistentStores { _, error in
             if let error {
                 NotificareLogger.error("Failed to load CoreData store '\(self.name)'.", error: error)
