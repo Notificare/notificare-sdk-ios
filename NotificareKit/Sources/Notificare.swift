@@ -63,9 +63,13 @@ public class Notificare {
     }
 
     public func configure(servicesInfo: NotificareServicesInfo, options: NotificareOptions) {
-        guard state == .none else {
-            NotificareLogger.warning("Notificare has already been configured. Skipping...")
+        guard state <= .configured else {
+            NotificareLogger.warning("Unable to reconfigure Notificare once launched.")
             return
+        }
+
+        if state == .configured {
+            NotificareLogger.info("Reconfiguring Notificare with another set of application keys.")
         }
 
         do {
