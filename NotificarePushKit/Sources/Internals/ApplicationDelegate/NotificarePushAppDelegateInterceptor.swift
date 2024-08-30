@@ -33,6 +33,18 @@ internal class NotificarePushAppDelegateInterceptor: NSObject, NotificareAppDele
             return
         }
 
+        guard let application = Notificare.shared.application else {
+            NotificareLogger.warning("Notificare application unavailable. Ensure Notificare is configured during the application launch.")
+            completionHandler(.newData)
+            return
+        }
+
+        guard application.id == userInfo["x-application"] as? String else {
+            NotificareLogger.warning("Incoming notification originated from another application.")
+            completionHandler(.newData)
+            return
+        }
+
         Task {
             let isSystemNotification = userInfo["system"] as? Bool ?? false
 

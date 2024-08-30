@@ -17,4 +17,8 @@ internal enum LocalStorage {
             UserDefaults.standard.setValue(newValue, forKey: Keys.currentBadge.rawValue)
         }
     }
+
+    internal static func clear() {
+        UserDefaults.standard.removeObject(forKey: Keys.currentBadge.rawValue)
+    }
 }

@@ -32,4 +32,19 @@ internal class NotificareDatabase: NotificareAbstractDatabase {
 
         return result
     }
+
+    internal func clearEvents() throws {
+        ensureLoadedStores()
+
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "NotificareCoreDataEvent")
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: request)
+
+        try persistentContainer.persistentStoreCoordinator.execute(deleteRequest, with: context)
+
+        saveChanges()
+    }
+
+    internal func clear() throws {
+        try clearEvents()
+    }
 }

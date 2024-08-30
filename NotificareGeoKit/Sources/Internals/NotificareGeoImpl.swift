@@ -106,6 +106,13 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
                                                object: nil)
     }
 
+    internal func clearStorage() async throws {
+        stopMonitoringLocationUpdates()
+        stopMonitoringGeofences()
+
+        LocalStorage.clear()
+    }
+
     internal func postLaunch() async throws {
         if hasLocationServicesEnabled {
             NotificareLogger.debug("Enabling locations updates automatically.")
@@ -1255,6 +1262,8 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
 
     @objc private func onApplicationDidBecomeActiveNotification(_: Notification) {
         guard hasLocationServicesEnabled else { return }
+
+        guard Notificare.shared.isReady else { return }
 
         do {
             try checkPrerequisites()

@@ -141,7 +141,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1150;
-				LastUpgradeCheck = 1530;
+				LastUpgradeCheck = 1540;
 				ORGANIZATIONNAME = Notificare;
 				TargetAttributes = {
 					F258DDB724BC4F09006F9ABD = {
