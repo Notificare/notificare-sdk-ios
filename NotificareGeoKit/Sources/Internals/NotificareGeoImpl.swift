@@ -236,12 +236,11 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
     private func checkPlistPrerequisites() throws {
         guard
             Bundle.main.object(forInfoDictionaryKey: "NSLocationAlwaysAndWhenInUseUsageDescription") != nil,
-            Bundle.main.object(forInfoDictionaryKey: "NSLocationAlwaysUsageDescription") != nil,
             Bundle.main.object(forInfoDictionaryKey: "NSLocationWhenInUseUsageDescription") != nil
         else {
             NotificareLogger.warning("/==================================================================================/")
             NotificareLogger.warning("We've detected that you did not add mandatory Info.plist entries for location services.")
-            NotificareLogger.warning("Please add a text explaning why you need location updates in \"NSLocationAlwaysAndWhenInUseUsageDescription\", \"NSLocationAlwaysUsageDescription\" and \"NSLocationWhenInUseUsageDescription\" entries of your app's Info.plist before proceeding.")
+            NotificareLogger.warning("Please add a text explaining why you need location updates in \"NSLocationAlwaysAndWhenInUseUsageDescription\" and \"NSLocationWhenInUseUsageDescription\" entries of your app's Info.plist before proceeding.")
             NotificareLogger.warning("/==================================================================================/")
 
             throw NotificareGeoError.permissionEntriesMissing
@@ -1490,7 +1489,7 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
             }
 
             // Prevent the didExitRegion for polygons.
-            // Although leaving the circular region guarantees we exit the polygon, we don't want to emit multiple 
+            // Although leaving the circular region guarantees we exit the polygon, we don't want to emit multiple
             // events. A location update will process the exit event instead.
             if !region.isPolygon {
                 DispatchQueue.main.async {
