@@ -222,6 +222,10 @@
 		F22443D4286CBBBE0015CBD6 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		F22650C5258B6E890004F833 /* NotificareKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F22650C9258B6E900004F833 /* NotificarePushKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificarePushKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F236118E2C77581C0063C446 /* NotificareServices.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = NotificareServices.plist; sourceTree = "<group>"; };
+		F23611902C77581C0063C446 /* NotificareServices.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = NotificareServices.plist; sourceTree = "<group>"; };
+		F23611932C77581C0063C446 /* NotificareServices.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = NotificareServices.plist; sourceTree = "<group>"; };
+		F23611952C77581C0063C446 /* NotificareServices.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = NotificareServices.plist; sourceTree = "<group>"; };
 		F251694424D4077D0025B51F /* Notificare.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Notificare.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F251694524D4077D0025B51F /* NotificareAssets.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareAssets.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F251694624D4077D0025B51F /* NotificareLocation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareLocation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -437,6 +441,65 @@
 			path = Home;
 			sourceTree = "<group>";
 		};
+		F236118F2C77581C0063C446 /* Production */ = {
+			isa = PBXGroup;
+			children = (
+				F236118E2C77581C0063C446 /* NotificareServices.plist */,
+			);
+			path = Production;
+			sourceTree = "<group>";
+		};
+		F23611912C77581C0063C446 /* Test */ = {
+			isa = PBXGroup;
+			children = (
+				F23611902C77581C0063C446 /* NotificareServices.plist */,
+			);
+			path = Test;
+			sourceTree = "<group>";
+		};
+		F23611922C77581C0063C446 /* Debug */ = {
+			isa = PBXGroup;
+			children = (
+				F236118F2C77581C0063C446 /* Production */,
+				F23611912C77581C0063C446 /* Test */,
+			);
+			path = Debug;
+			sourceTree = "<group>";
+		};
+		F23611942C77581C0063C446 /* Production */ = {
+			isa = PBXGroup;
+			children = (
+				F23611932C77581C0063C446 /* NotificareServices.plist */,
+			);
+			path = Production;
+			sourceTree = "<group>";
+		};
+		F23611962C77581C0063C446 /* Test */ = {
+			isa = PBXGroup;
+			children = (
+				F23611952C77581C0063C446 /* NotificareServices.plist */,
+			);
+			path = Test;
+			sourceTree = "<group>";
+		};
+		F23611972C77581C0063C446 /* Release */ = {
+			isa = PBXGroup;
+			children = (
+				F23611942C77581C0063C446 /* Production */,
+				F23611962C77581C0063C446 /* Test */,
+			);
+			path = Release;
+			sourceTree = "<group>";
+		};
+		F23611982C77581C0063C446 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				F23611922C77581C0063C446 /* Debug */,
+				F23611972C77581C0063C446 /* Release */,
+			);
+			path = Configuration;
+			sourceTree = "<group>";
+		};
 		F251694324D4077D0025B51F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -543,6 +606,7 @@
 		F29FD1F624CB1FE1004B166D /* Sample */ = {
 			isa = PBXGroup;
 			children = (
+				F23611982C77581C0063C446 /* Configuration */,
 				1A8B59F72B72842000ED46B1 /* Models */,
 				F25B6DC825CAC58C007BC2C8 /* Extensions */,
 				E51FD36B29D570B9000897D9 /* Live Activities */,
@@ -602,6 +666,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				F236119E2C7E3AAD0063C446 /* PBXTargetDependency */,
 				F2F41D7B25CD651D0010260B /* PBXTargetDependency */,
 				F2EB435129350B3700AFDBD3 /* PBXTargetDependency */,
 			);
@@ -655,7 +720,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1410;
-				LastUpgradeCheck = 1530;
+				LastUpgradeCheck = 1540;
 				ORGANIZATIONNAME = Notificare;
 				TargetAttributes = {
 					F29FD1F324CB1FE1004B166D = {
@@ -825,9 +890,9 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		1A8C31092BF63A170000BFA6 /* PBXTargetDependency */ = {
+		F236119E2C7E3AAD0063C446 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			productRef = 1A8C31082BF63A170000BFA6 /* SwiftLintBuildToolPlugin */;
+			productRef = F236119D2C7E3AAD0063C446 /* SwiftLintBuildToolPlugin */;
 		};
 		F2EB435129350B3700AFDBD3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1454,7 +1519,7 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		1A8C31082BF63A170000BFA6 /* SwiftLintBuildToolPlugin */ = {
+		F236119D2C7E3AAD0063C446 /* SwiftLintBuildToolPlugin */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 1A8C30EF2BF639940000BFA6 /* XCRemoteSwiftPackageReference "SwiftLint" */;
 			productName = "plugin:SwiftLintBuildToolPlugin";
