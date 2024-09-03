@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## Upcoming release
+## 4.0.0-beta.2
 
 - Fix `NotificarePass.data` decoding
 - Add `Equatable` compliance to applicable data models
