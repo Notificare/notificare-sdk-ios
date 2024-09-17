@@ -4,6 +4,7 @@
 
 import Foundation
 import NotificareKit
+import NotificareUtilitiesKit
 
 public struct NotificarePass: Codable, Equatable {
     public let id: String

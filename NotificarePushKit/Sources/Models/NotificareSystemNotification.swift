@@ -3,6 +3,7 @@
 //
 
 import NotificareKit
+import NotificareUtilitiesKit
 
 public struct NotificareSystemNotification: Codable, Equatable {
     public let id: String

@@ -4,6 +4,7 @@
 
 import Foundation
 import NotificareKit
+import NotificareUtilitiesKit
 
 internal struct RawUserInboxResponse: Decodable, Equatable {
     internal let count: Int

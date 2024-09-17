@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A0E1F772C982FBE00E15FC7 /* NotificareUtilitiesKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A0E1F762C982FBE00E15FC7 /* NotificareUtilitiesKit.framework */; };
 		1ACA07CD2C5780D0002CB47D /* NotificarePassTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACA07CC2C5780D0002CB47D /* NotificarePassTest.swift */; };
 		F216F0B126A825F700F9EF56 /* NotificareLoyaltyImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F216F0B026A825F700F9EF56 /* NotificareLoyaltyImpl.swift */; };
 		F216F0B626A8266700F9EF56 /* PassKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F216F0B526A8266700F9EF56 /* PassKit.framework */; };
@@ -32,6 +33,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1A0E1F762C982FBE00E15FC7 /* NotificareUtilitiesKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareUtilitiesKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1ACA07CC2C5780D0002CB47D /* NotificarePassTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificarePassTest.swift; sourceTree = "<group>"; };
 		F216F0B026A825F700F9EF56 /* NotificareLoyaltyImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareLoyaltyImpl.swift; sourceTree = "<group>"; };
 		F216F0B526A8266700F9EF56 /* PassKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PassKit.framework; path = System/Library/Frameworks/PassKit.framework; sourceTree = SDKROOT; };
@@ -56,6 +58,7 @@
 			files = (
 				F216F0B626A8266700F9EF56 /* PassKit.framework in Frameworks */,
 				F289F5CC25B861320091AB97 /* NotificareKit.framework in Frameworks */,
+				1A0E1F772C982FBE00E15FC7 /* NotificareUtilitiesKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -115,6 +118,7 @@
 		F258DEA524BC96DA006F9ABD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1A0E1F762C982FBE00E15FC7 /* NotificareUtilitiesKit.framework */,
 				F216F0B526A8266700F9EF56 /* PassKit.framework */,
 				F289F5C925B861320091AB97 /* NotificareKit.framework */,
 			);

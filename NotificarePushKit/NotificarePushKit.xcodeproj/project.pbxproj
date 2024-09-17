@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A0E1F6F2C982F5600E15FC7 /* NotificareUtilitiesKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A0E1F6E2C982F5600E15FC7 /* NotificareUtilitiesKit.framework */; };
 		1A32741A2C5AE254002B78BA /* NotificareSystemNotificationTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3274192C5AE254002B78BA /* NotificareSystemNotificationTest.swift */; };
 		1AF8E7CE2BF21AB500DE2BC8 /* NotificarePushAppDelegateInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF8E7CD2BF21AB500DE2BC8 /* NotificarePushAppDelegateInterceptor.swift */; };
 		1AF8E7D12BF21C0700DE2BC8 /* NotificareNotificationCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF8E7D02BF21C0700DE2BC8 /* NotificareNotificationCenterDelegate.swift */; };
@@ -43,6 +44,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1A0E1F6E2C982F5600E15FC7 /* NotificareUtilitiesKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareUtilitiesKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A3274192C5AE254002B78BA /* NotificareSystemNotificationTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareSystemNotificationTest.swift; sourceTree = "<group>"; };
 		1AF8E7CD2BF21AB500DE2BC8 /* NotificarePushAppDelegateInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificarePushAppDelegateInterceptor.swift; sourceTree = "<group>"; };
 		1AF8E7D02BF21C0700DE2BC8 /* NotificareNotificationCenterDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareNotificationCenterDelegate.swift; sourceTree = "<group>"; };
@@ -76,6 +78,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A0E1F6F2C982F5600E15FC7 /* NotificareUtilitiesKit.framework in Frameworks */,
 				F29ECB652A054619001961B0 /* NotificareKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -167,6 +170,7 @@
 		F258DE7524BC7FFA006F9ABD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1A0E1F6E2C982F5600E15FC7 /* NotificareUtilitiesKit.framework */,
 				F29ECB642A054619001961B0 /* NotificareKit.framework */,
 			);
 			name = Frameworks;

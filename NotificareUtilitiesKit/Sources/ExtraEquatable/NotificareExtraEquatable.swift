@@ -92,7 +92,7 @@ public struct NotificareExtraEquatable<T>: Equatable {
 
             return true
         default:
-            NotificareLogger.warning("Unable to compare types provided.")
+            // NotificareLogger.warning("Unable to compare types provided.")
             return false
         }
     }

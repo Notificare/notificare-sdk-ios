@@ -3,6 +3,7 @@
 //
 
 import Foundation
+import NotificareUtilitiesKit
 
 extension NotificareInternals.PushAPI.Models {
     public struct Application: Decodable, Equatable {

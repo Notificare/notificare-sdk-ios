@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A0E1F732C982F8600E15FC7 /* NotificareUtilitiesKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A0E1F722C982F8600E15FC7 /* NotificareUtilitiesKit.framework */; };
 		1ACA07D52C58FADE002CB47D /* NotificareUserInboxItemTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACA07D42C58FADE002CB47D /* NotificareUserInboxItemTest.swift */; };
 		1ACA07D72C58FFE2002CB47D /* NotificareUserInboxResponseTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACA07D62C58FFE2002CB47D /* NotificareUserInboxResponseTest.swift */; };
 		1ACA07D92C593AD3002CB47D /* RawUserInboxResponseTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACA07D82C593AD3002CB47D /* RawUserInboxResponseTest.swift */; };
@@ -36,6 +37,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1A0E1F722C982F8600E15FC7 /* NotificareUtilitiesKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareUtilitiesKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1ACA07D42C58FADE002CB47D /* NotificareUserInboxItemTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareUserInboxItemTest.swift; sourceTree = "<group>"; };
 		1ACA07D62C58FFE2002CB47D /* NotificareUserInboxResponseTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareUserInboxResponseTest.swift; sourceTree = "<group>"; };
 		1ACA07D82C593AD3002CB47D /* RawUserInboxResponseTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawUserInboxResponseTest.swift; sourceTree = "<group>"; };
@@ -60,6 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A0E1F732C982F8600E15FC7 /* NotificareUtilitiesKit.framework in Frameworks */,
 				F2EA072F291EAE10009DB7A0 /* NotificareKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -165,6 +168,7 @@
 		F2EA072D291EAE10009DB7A0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1A0E1F722C982F8600E15FC7 /* NotificareUtilitiesKit.framework */,
 				F2EA072E291EAE10009DB7A0 /* NotificareKit.framework */,
 			);
 			name = Frameworks;

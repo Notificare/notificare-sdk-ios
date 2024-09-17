@@ -2,6 +2,8 @@
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
+import NotificareUtilitiesKit
+
 public struct NotificareNotification: Codable, Equatable {
     public let partial: Bool
     public let id: String

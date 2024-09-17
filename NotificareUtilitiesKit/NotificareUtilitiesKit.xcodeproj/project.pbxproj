@@ -10,6 +10,8 @@
 		1A0E1F4C2C982C3000E15FC7 /* NotificareUtilitiesKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A0E1F412C982C3000E15FC7 /* NotificareUtilitiesKit.framework */; };
 		1A0E1F512C982C3000E15FC7 /* NotificareUtilitiesKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0E1F502C982C3000E15FC7 /* NotificareUtilitiesKitTests.swift */; };
 		1A0E1F522C982C3000E15FC7 /* NotificareUtilitiesKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A0E1F442C982C3000E15FC7 /* NotificareUtilitiesKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1A0E1F692C982E8000E15FC7 /* NotificareExtraEquatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0E1F682C982E8000E15FC7 /* NotificareExtraEquatable.swift */; };
+		1A0E1F8D2C99EC2D00E15FC7 /* NotificareExtraEquatableTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0E1F8C2C99EC2D00E15FC7 /* NotificareExtraEquatableTest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,6 +29,8 @@
 		1A0E1F442C982C3000E15FC7 /* NotificareUtilitiesKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificareUtilitiesKit.h; sourceTree = "<group>"; };
 		1A0E1F4B2C982C3000E15FC7 /* NotificareUtilitiesKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NotificareUtilitiesKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A0E1F502C982C3000E15FC7 /* NotificareUtilitiesKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareUtilitiesKitTests.swift; sourceTree = "<group>"; };
+		1A0E1F682C982E8000E15FC7 /* NotificareExtraEquatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareExtraEquatable.swift; sourceTree = "<group>"; };
+		1A0E1F8C2C99EC2D00E15FC7 /* NotificareExtraEquatableTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareExtraEquatableTest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +73,7 @@
 		1A0E1F432C982C3000E15FC7 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				1A0E1F672C982E6700E15FC7 /* ExtraEquatable */,
 				1A0E1F442C982C3000E15FC7 /* NotificareUtilitiesKit.h */,
 			);
 			path = Sources;
@@ -78,8 +83,17 @@
 			isa = PBXGroup;
 			children = (
 				1A0E1F502C982C3000E15FC7 /* NotificareUtilitiesKitTests.swift */,
+				1A0E1F8C2C99EC2D00E15FC7 /* NotificareExtraEquatableTest.swift */,
 			);
 			path = Tests;
+			sourceTree = "<group>";
+		};
+		1A0E1F672C982E6700E15FC7 /* ExtraEquatable */ = {
+			isa = PBXGroup;
+			children = (
+				1A0E1F682C982E8000E15FC7 /* NotificareExtraEquatable.swift */,
+			);
+			path = ExtraEquatable;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -144,6 +158,7 @@
 				TargetAttributes = {
 					1A0E1F402C982C3000E15FC7 = {
 						CreatedOnToolsVersion = 15.4;
+						LastSwiftMigration = 1540;
 					};
 					1A0E1F4A2C982C3000E15FC7 = {
 						CreatedOnToolsVersion = 15.4;
@@ -191,6 +206,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A0E1F692C982E8000E15FC7 /* NotificareExtraEquatable.swift in Sources */,
+				1A0E1F8D2C99EC2D00E15FC7 /* NotificareExtraEquatableTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -342,6 +359,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -367,6 +385,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -376,6 +395,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -409,6 +429,7 @@
 		1A0E1F592C982C3000E15FC7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -424,6 +445,7 @@
 		1A0E1F5A2C982C3000E15FC7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -506,6 +528,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -531,6 +554,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -539,6 +563,7 @@
 		1A0E1F5D2C982C4F00E15FC7 /* Debug-Production */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -621,6 +646,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -646,6 +672,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -654,6 +681,7 @@
 		1A0E1F602C982C5200E15FC7 /* Debug-Test */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -729,6 +757,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -762,6 +791,7 @@
 		1A0E1F632C982C5400E15FC7 /* Release-Test */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -837,6 +867,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -870,6 +901,7 @@
 		1A0E1F662C982C5600E15FC7 /* Release-Production */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
