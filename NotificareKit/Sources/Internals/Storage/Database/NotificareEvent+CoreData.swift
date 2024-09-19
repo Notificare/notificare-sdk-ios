@@ -4,6 +4,7 @@
 
 import CoreData
 import Foundation
+import NotificareUtilitiesKit
 
 extension NotificareEvent {
     internal func toManaged(context: NSManagedObjectContext) -> NotificareCoreDataEvent {

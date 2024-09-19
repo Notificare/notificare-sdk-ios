@@ -11,7 +11,10 @@
 		1A0E1F512C982C3000E15FC7 /* NotificareUtilitiesKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0E1F502C982C3000E15FC7 /* NotificareUtilitiesKitTests.swift */; };
 		1A0E1F522C982C3000E15FC7 /* NotificareUtilitiesKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A0E1F442C982C3000E15FC7 /* NotificareUtilitiesKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1A0E1F692C982E8000E15FC7 /* NotificareExtraEquatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0E1F682C982E8000E15FC7 /* NotificareExtraEquatable.swift */; };
-		1A0E1F8D2C99EC2D00E15FC7 /* NotificareExtraEquatableTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0E1F8C2C99EC2D00E15FC7 /* NotificareExtraEquatableTest.swift */; };
+		1A0E1F902C9B1C3900E15FC7 /* NotificareAnyCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0E1F8F2C9B1C3900E15FC7 /* NotificareAnyCodable.swift */; };
+		1A0E1F922C9B1C6600E15FC7 /* NotificareAnyDecodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0E1F912C9B1C6600E15FC7 /* NotificareAnyDecodable.swift */; };
+		1A0E1F942C9B1C8E00E15FC7 /* NotificareAnyEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0E1F932C9B1C8E00E15FC7 /* NotificareAnyEncodable.swift */; };
+		1A0E1F952C9B1CE600E15FC7 /* NotificareExtraEquatableTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0E1F8C2C99EC2D00E15FC7 /* NotificareExtraEquatableTest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,6 +34,9 @@
 		1A0E1F502C982C3000E15FC7 /* NotificareUtilitiesKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareUtilitiesKitTests.swift; sourceTree = "<group>"; };
 		1A0E1F682C982E8000E15FC7 /* NotificareExtraEquatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareExtraEquatable.swift; sourceTree = "<group>"; };
 		1A0E1F8C2C99EC2D00E15FC7 /* NotificareExtraEquatableTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareExtraEquatableTest.swift; sourceTree = "<group>"; };
+		1A0E1F8F2C9B1C3900E15FC7 /* NotificareAnyCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareAnyCodable.swift; sourceTree = "<group>"; };
+		1A0E1F912C9B1C6600E15FC7 /* NotificareAnyDecodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareAnyDecodable.swift; sourceTree = "<group>"; };
+		1A0E1F932C9B1C8E00E15FC7 /* NotificareAnyEncodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareAnyEncodable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +79,7 @@
 		1A0E1F432C982C3000E15FC7 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				1A0E1F8E2C9B1C1D00E15FC7 /* AnyCodable */,
 				1A0E1F672C982E6700E15FC7 /* ExtraEquatable */,
 				1A0E1F442C982C3000E15FC7 /* NotificareUtilitiesKit.h */,
 			);
@@ -94,6 +101,16 @@
 				1A0E1F682C982E8000E15FC7 /* NotificareExtraEquatable.swift */,
 			);
 			path = ExtraEquatable;
+			sourceTree = "<group>";
+		};
+		1A0E1F8E2C9B1C1D00E15FC7 /* AnyCodable */ = {
+			isa = PBXGroup;
+			children = (
+				1A0E1F8F2C9B1C3900E15FC7 /* NotificareAnyCodable.swift */,
+				1A0E1F912C9B1C6600E15FC7 /* NotificareAnyDecodable.swift */,
+				1A0E1F932C9B1C8E00E15FC7 /* NotificareAnyEncodable.swift */,
+			);
+			path = AnyCodable;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -206,8 +223,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A0E1F942C9B1C8E00E15FC7 /* NotificareAnyEncodable.swift in Sources */,
 				1A0E1F692C982E8000E15FC7 /* NotificareExtraEquatable.swift in Sources */,
-				1A0E1F8D2C99EC2D00E15FC7 /* NotificareExtraEquatableTest.swift in Sources */,
+				1A0E1F902C9B1C3900E15FC7 /* NotificareAnyCodable.swift in Sources */,
+				1A0E1F922C9B1C6600E15FC7 /* NotificareAnyDecodable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -215,6 +234,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A0E1F952C9B1CE600E15FC7 /* NotificareExtraEquatableTest.swift in Sources */,
 				1A0E1F512C982C3000E15FC7 /* NotificareUtilitiesKitTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
