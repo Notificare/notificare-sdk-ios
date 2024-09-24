@@ -1,0 +1,7 @@
+# Ignored files for the Sample project
+#
+
+Notificare.plist
+NotificareServices.plist
+SampleUserInboxClient.plist
+Auth0.plist
