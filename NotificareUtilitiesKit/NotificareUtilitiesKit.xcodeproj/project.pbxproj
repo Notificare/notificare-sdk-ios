@@ -20,6 +20,7 @@
 		1A52DE522CA160BF00B5F56C /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A52DE512CA160B800B5F56C /* UIColor+Hex.swift */; };
 		1A52DE542CA1612600B5F56C /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A52DE532CA1612400B5F56C /* URL.swift */; };
 		1A52DE562CA1631800B5F56C /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A52DE552CA1631100B5F56C /* StringExtensions.swift */; };
+		1A52DE582CA1653700B5F56C /* JSON_Decode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A52DE572CA1653200B5F56C /* JSON_Decode.swift */; };
 		1A52DE5A2CA165F400B5F56C /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A52DE592CA165EF00B5F56C /* Dictionary.swift */; };
 		1A52DE5D2CA167A500B5F56C /* NotificareIsoDateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A52DE5C2CA1679C00B5F56C /* NotificareIsoDateUtils.swift */; };
 /* End PBXBuildFile section */
@@ -49,6 +50,7 @@
 		1A52DE512CA160B800B5F56C /* UIColor+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
 		1A52DE532CA1612400B5F56C /* URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
 		1A52DE552CA1631100B5F56C /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
+		1A52DE572CA1653200B5F56C /* JSON_Decode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSON_Decode.swift; sourceTree = "<group>"; };
 		1A52DE592CA165EF00B5F56C /* Dictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dictionary.swift; sourceTree = "<group>"; };
 		1A52DE5C2CA1679C00B5F56C /* NotificareIsoDateUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareIsoDateUtils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -94,6 +96,7 @@
 			isa = PBXGroup;
 			children = (
 				1A52DE872CA4675F00B5F56C /* Dictionary */,
+				1A52DE862CA4674C00B5F56C /* JSON */,
 				1A52DE852CA4656600B5F56C /* String */,
 				1A52DE842CA4655500B5F56C /* URL */,
 				1A52DE832CA4654400B5F56C /* Data */,
@@ -180,6 +183,14 @@
 				1A52DE552CA1631100B5F56C /* StringExtensions.swift */,
 			);
 			path = String;
+			sourceTree = "<group>";
+		};
+		1A52DE862CA4674C00B5F56C /* JSON */ = {
+			isa = PBXGroup;
+			children = (
+				1A52DE572CA1653200B5F56C /* JSON_Decode.swift */,
+			);
+			path = JSON;
 			sourceTree = "<group>";
 		};
 		1A52DE872CA4675F00B5F56C /* Dictionary */ = {
@@ -301,6 +312,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1A52DE522CA160BF00B5F56C /* UIColor+Hex.swift in Sources */,
+				1A52DE582CA1653700B5F56C /* JSON_Decode.swift in Sources */,
 				1A0E1F942C9B1C8E00E15FC7 /* NotificareAnyEncodable.swift in Sources */,
 				1A0E1F692C982E8000E15FC7 /* NotificareExtraEquatable.swift in Sources */,
 				1A52DE562CA1631800B5F56C /* StringExtensions.swift in Sources */,

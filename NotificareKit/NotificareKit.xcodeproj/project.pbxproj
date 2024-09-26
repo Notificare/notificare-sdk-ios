@@ -57,7 +57,6 @@
 		F293E2B226303008008C2010 /* NotificareAbstractDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F293E2B126303008008C2010 /* NotificareAbstractDatabase.swift */; };
 		F293E2BF26303056008C2010 /* NotificareSwizzler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F293E2BD26303055008C2010 /* NotificareSwizzler.swift */; };
 		F293E2C026303056008C2010 /* NotificareAppDelegateInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F293E2BE26303056008C2010 /* NotificareAppDelegateInterceptor.swift */; };
-		F293E2C926303073008C2010 /* JSON_Decode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F293E2C526303073008C2010 /* JSON_Decode.swift */; };
 		F293E2DB26304675008C2010 /* LocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F293E2DA26304675008C2010 /* LocalStorage.swift */; };
 		F293E3232630524B008C2010 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F293E3252630524B008C2010 /* Localizable.strings */; };
 		F293E32C263053C8008C2010 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F293E32B263053C8008C2010 /* Assets.xcassets */; };
@@ -136,8 +135,6 @@
 		F293E2B126303008008C2010 /* NotificareAbstractDatabase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareAbstractDatabase.swift; sourceTree = "<group>"; };
 		F293E2BD26303055008C2010 /* NotificareSwizzler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareSwizzler.swift; sourceTree = "<group>"; };
 		F293E2BE26303056008C2010 /* NotificareAppDelegateInterceptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareAppDelegateInterceptor.swift; sourceTree = "<group>"; };
-		F293E2C526303073008C2010 /* JSON_Decode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSON_Decode.swift; sourceTree = "<group>"; };
-		F293E2C726303073008C2010 /* URL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
 		F293E2DA26304675008C2010 /* LocalStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorage.swift; sourceTree = "<group>"; };
 		F293E3242630524B008C2010 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F293E3282630531B008C2010 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -327,14 +324,6 @@
 				F293E3252630524B008C2010 /* Localizable.strings */,
 			);
 			path = Resources;
-			sourceTree = "<group>";
-		};
-		F293E29A26302CC9008C2010 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				F293E2C526303073008C2010 /* JSON_Decode.swift */,
-			);
-			path = Extensions;
 			sourceTree = "<group>";
 		};
 		F293E29C26302CDB008C2010 /* CoreData */ = {
@@ -564,7 +553,6 @@
 				F293E27B26302C48008C2010 /* NotificareUtils.swift in Sources */,
 				F25E62F925CAA924007C1202 /* NotificareServicesInfo.swift in Sources */,
 				F293E2BF26303056008C2010 /* NotificareSwizzler.swift in Sources */,
-				F293E2C926303073008C2010 /* JSON_Decode.swift in Sources */,
 				F26718F0250157C200B70A40 /* NotificareEvent.swift in Sources */,
 				F21DD9F427187BC000C88D7B /* NotificareDeviceModule.swift in Sources */,
 				42A20F732AE3E8130EA533BF /* NotificareReachability.swift in Sources */,
