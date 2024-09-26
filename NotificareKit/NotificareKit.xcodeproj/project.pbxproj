@@ -59,7 +59,6 @@
 		F293E2BF26303056008C2010 /* NotificareSwizzler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F293E2BD26303055008C2010 /* NotificareSwizzler.swift */; };
 		F293E2C026303056008C2010 /* NotificareAppDelegateInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F293E2BE26303056008C2010 /* NotificareAppDelegateInterceptor.swift */; };
 		F293E2C926303073008C2010 /* JSON_Decode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F293E2C526303073008C2010 /* JSON_Decode.swift */; };
-		F293E2CA26303073008C2010 /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = F293E2C626303073008C2010 /* Dictionary.swift */; };
 		F293E2CC26303073008C2010 /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = F293E2C826303073008C2010 /* UIColor+Hex.swift */; };
 		F293E2DB26304675008C2010 /* LocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F293E2DA26304675008C2010 /* LocalStorage.swift */; };
 		F293E3232630524B008C2010 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F293E3252630524B008C2010 /* Localizable.strings */; };
@@ -142,7 +141,6 @@
 		F293E2BD26303055008C2010 /* NotificareSwizzler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareSwizzler.swift; sourceTree = "<group>"; };
 		F293E2BE26303056008C2010 /* NotificareAppDelegateInterceptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareAppDelegateInterceptor.swift; sourceTree = "<group>"; };
 		F293E2C526303073008C2010 /* JSON_Decode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSON_Decode.swift; sourceTree = "<group>"; };
-		F293E2C626303073008C2010 /* Dictionary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dictionary.swift; sourceTree = "<group>"; };
 		F293E2C726303073008C2010 /* URL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
 		F293E2C826303073008C2010 /* UIColor+Hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
 		F293E2DA26304675008C2010 /* LocalStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorage.swift; sourceTree = "<group>"; };
@@ -348,7 +346,6 @@
 		F293E29A26302CC9008C2010 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				F293E2C626303073008C2010 /* Dictionary.swift */,
 				F293E2C526303073008C2010 /* JSON_Decode.swift */,
 				F293E2C826303073008C2010 /* UIColor+Hex.swift */,
 				F2D3894126678D8B00EAEF44 /* StringExtensions.swift */,
@@ -601,7 +598,6 @@
 				F293E28A26302C76008C2010 /* NotificareLocalizable.swift in Sources */,
 				F27DDD9A29266B5F0020036D /* NotificareLoyaltyIntegration.swift in Sources */,
 				F219FADD252DEB3900464B4E /* NotificareSessionModuleImpl.swift in Sources */,
-				F293E2CA26303073008C2010 /* Dictionary.swift in Sources */,
 				42A20845E1262C362CD05DB2 /* NotificareDeviceModuleImpl.swift in Sources */,
 				42A204EEDC52B164B27D6563 /* NotificareEventsModuleImpl.swift in Sources */,
 				42A20BCB911114B0BCBEF371 /* NotificareCrashReporterModuleImpl.swift in Sources */,
