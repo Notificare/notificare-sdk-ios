@@ -15,6 +15,7 @@
 		1A0E1F922C9B1C6600E15FC7 /* NotificareAnyDecodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0E1F912C9B1C6600E15FC7 /* NotificareAnyDecodable.swift */; };
 		1A0E1F942C9B1C8E00E15FC7 /* NotificareAnyEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0E1F932C9B1C8E00E15FC7 /* NotificareAnyEncodable.swift */; };
 		1A0E1F952C9B1CE600E15FC7 /* NotificareExtraEquatableTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0E1F8C2C99EC2D00E15FC7 /* NotificareExtraEquatableTest.swift */; };
+		1A52DE542CA1612600B5F56C /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A52DE532CA1612400B5F56C /* URL.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,6 +38,7 @@
 		1A0E1F8F2C9B1C3900E15FC7 /* NotificareAnyCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareAnyCodable.swift; sourceTree = "<group>"; };
 		1A0E1F912C9B1C6600E15FC7 /* NotificareAnyDecodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareAnyDecodable.swift; sourceTree = "<group>"; };
 		1A0E1F932C9B1C8E00E15FC7 /* NotificareAnyEncodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareAnyEncodable.swift; sourceTree = "<group>"; };
+		1A52DE532CA1612400B5F56C /* URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +81,7 @@
 		1A0E1F432C982C3000E15FC7 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				1A52DE842CA4655500B5F56C /* URL */,
 				1A0E1F8E2C9B1C1D00E15FC7 /* AnyCodable */,
 				1A0E1F672C982E6700E15FC7 /* ExtraEquatable */,
 				1A0E1F442C982C3000E15FC7 /* NotificareUtilitiesKit.h */,
@@ -111,6 +114,14 @@
 				1A0E1F932C9B1C8E00E15FC7 /* NotificareAnyEncodable.swift */,
 			);
 			path = AnyCodable;
+			sourceTree = "<group>";
+		};
+		1A52DE842CA4655500B5F56C /* URL */ = {
+			isa = PBXGroup;
+			children = (
+				1A52DE532CA1612400B5F56C /* URL.swift */,
+			);
+			path = URL;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -227,6 +238,7 @@
 				1A0E1F692C982E8000E15FC7 /* NotificareExtraEquatable.swift in Sources */,
 				1A0E1F902C9B1C3900E15FC7 /* NotificareAnyCodable.swift in Sources */,
 				1A0E1F922C9B1C6600E15FC7 /* NotificareAnyDecodable.swift in Sources */,
+				1A52DE542CA1612600B5F56C /* URL.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

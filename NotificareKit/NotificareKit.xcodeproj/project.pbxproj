@@ -61,7 +61,6 @@
 		F293E2C026303056008C2010 /* NotificareAppDelegateInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F293E2BE26303056008C2010 /* NotificareAppDelegateInterceptor.swift */; };
 		F293E2C926303073008C2010 /* JSON_Decode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F293E2C526303073008C2010 /* JSON_Decode.swift */; };
 		F293E2CA26303073008C2010 /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = F293E2C626303073008C2010 /* Dictionary.swift */; };
-		F293E2CB26303073008C2010 /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = F293E2C726303073008C2010 /* URL.swift */; };
 		F293E2CC26303073008C2010 /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = F293E2C826303073008C2010 /* UIColor+Hex.swift */; };
 		F293E2DB26304675008C2010 /* LocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F293E2DA26304675008C2010 /* LocalStorage.swift */; };
 		F293E3232630524B008C2010 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F293E3252630524B008C2010 /* Localizable.strings */; };
@@ -357,7 +356,6 @@
 				F293E2C626303073008C2010 /* Dictionary.swift */,
 				F293E2C526303073008C2010 /* JSON_Decode.swift */,
 				F293E2C826303073008C2010 /* UIColor+Hex.swift */,
-				F293E2C726303073008C2010 /* URL.swift */,
 				F2D3894126678D8B00EAEF44 /* StringExtensions.swift */,
 			);
 			path = Extensions;
@@ -578,7 +576,6 @@
 				F27DB17C262EDA9B000C024D /* PushAPI+Payloads.swift in Sources */,
 				F23E3C3324D8267000044574 /* NotificareDelegate.swift in Sources */,
 				F22650A5258B6D250004F833 /* NotificareModule.swift in Sources */,
-				F293E2CB26303073008C2010 /* URL.swift in Sources */,
 				42A20FD7791BD275D8A3A0E5 /* NotificareError.swift in Sources */,
 				F2323002252F3886007778AA /* NotificareApplication.swift in Sources */,
 				F293E28526302C70008C2010 /* NotificareLogger.swift in Sources */,
