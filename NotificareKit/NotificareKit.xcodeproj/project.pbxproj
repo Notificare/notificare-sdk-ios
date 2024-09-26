@@ -42,7 +42,6 @@
 		F25A5A3527E89773004556E6 /* Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = F25A5A3427E89773004556E6 /* Version.swift */; };
 		F25E62F925CAA924007C1202 /* NotificareServicesInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F25E62F825CAA924007C1202 /* NotificareServicesInfo.swift */; };
 		F260F3822C11EFA2007D7A59 /* StoredDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = F260F3812C11EFA2007D7A59 /* StoredDevice.swift */; };
-		F260F3852C120C45007D7A59 /* EncodeNull.swift in Sources */ = {isa = PBXBuildFile; fileRef = F260F3842C120C45007D7A59 /* EncodeNull.swift */; };
 		F26718F0250157C200B70A40 /* NotificareEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F26718EF250157C200B70A40 /* NotificareEvent.swift */; };
 		F268F8442BD02EA5008987AC /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = F268F8432BCD9BB7008987AC /* PrivacyInfo.xcprivacy */; };
 		F27DB17C262EDA9B000C024D /* PushAPI+Payloads.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27DB17B262EDA9B000C024D /* PushAPI+Payloads.swift */; };
@@ -122,7 +121,6 @@
 		F25A5A3427E89773004556E6 /* Version.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Version.swift; sourceTree = "<group>"; };
 		F25E62F825CAA924007C1202 /* NotificareServicesInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareServicesInfo.swift; sourceTree = "<group>"; };
 		F260F3812C11EFA2007D7A59 /* StoredDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoredDevice.swift; sourceTree = "<group>"; };
-		F260F3842C120C45007D7A59 /* EncodeNull.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncodeNull.swift; sourceTree = "<group>"; };
 		F26718EF250157C200B70A40 /* NotificareEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareEvent.swift; sourceTree = "<group>"; };
 		F268F8432BCD9BB7008987AC /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		F27DB17B262EDA9B000C024D /* PushAPI+Payloads.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PushAPI+Payloads.swift"; sourceTree = "<group>"; };
@@ -289,14 +287,6 @@
 			path = Entities;
 			sourceTree = "<group>";
 		};
-		F260F3832C120C2E007D7A59 /* Codable */ = {
-			isa = PBXGroup;
-			children = (
-				F260F3842C120C45007D7A59 /* EncodeNull.swift */,
-			);
-			path = Codable;
-			sourceTree = "<group>";
-		};
 		F27DDD9829266B400020036D /* Integrations */ = {
 			isa = PBXGroup;
 			children = (
@@ -377,7 +367,6 @@
 			isa = PBXGroup;
 			children = (
 				42A20D17A4EF88ED36EA223F /* AutoConfig */,
-				F260F3832C120C2E007D7A59 /* Codable */,
 				F293E29C26302CDB008C2010 /* CoreData */,
 				F21DD9F22718665200C88D7B /* Modules */,
 				42A20E1B11DBCE03A4402205 /* Network */,
@@ -556,7 +545,6 @@
 				F29DA38125022170004CCB8F /* NotificareDatabase.swift in Sources */,
 				F27DB188262EDEB5000C024D /* PushAPI+Models.swift in Sources */,
 				F2DB0C1325A8692C00AD93C7 /* NotificareDynamicLink.swift in Sources */,
-				F260F3852C120C45007D7A59 /* EncodeNull.swift in Sources */,
 				F27DB17C262EDA9B000C024D /* PushAPI+Payloads.swift in Sources */,
 				F23E3C3324D8267000044574 /* NotificareDelegate.swift in Sources */,
 				F22650A5258B6D250004F833 /* NotificareModule.swift in Sources */,

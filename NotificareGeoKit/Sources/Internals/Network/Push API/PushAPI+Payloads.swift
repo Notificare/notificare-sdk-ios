@@ -4,6 +4,7 @@
 
 import Foundation
 import NotificareKit
+import NotificareUtilitiesKit
 
 extension NotificareInternals.PushAPI.Payloads {
     internal struct UpdateDeviceLocation: Encodable {
