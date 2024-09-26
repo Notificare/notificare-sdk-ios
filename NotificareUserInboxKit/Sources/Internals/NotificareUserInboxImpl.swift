@@ -11,6 +11,10 @@ internal class NotificareUserInboxImpl: NotificareModule, NotificareUserInbox {
 
     internal static let instance = NotificareUserInboxImpl()
 
+    internal func configure() {
+        logger.hasDebugLoggingEnabled = Notificare.shared.options?.debugLoggingEnabled ?? false
+    }
+
     // MARK: - Notificare user inbox
 
     public func parseResponse(string: String) throws -> NotificareUserInboxResponse {
@@ -95,27 +99,27 @@ internal class NotificareUserInboxImpl: NotificareModule, NotificareUserInbox {
 
     private func checkPrerequisites() throws {
         guard Notificare.shared.isReady else {
-            NotificareLogger.warning("Notificare is not ready yet.")
+            logger.warning("Notificare is not ready yet.")
             throw NotificareError.notReady
         }
 
         guard let application = Notificare.shared.application else {
-            NotificareLogger.warning("Notificare application is not yet available.")
+            logger.warning("Notificare application is not yet available.")
             throw NotificareError.applicationUnavailable
         }
 
         guard application.services[NotificareApplication.ServiceKey.inbox.rawValue] == true else {
-            NotificareLogger.warning("Notificare inbox functionality is not enabled.")
+            logger.warning("Notificare inbox functionality is not enabled.")
             throw NotificareError.serviceUnavailable(service: NotificareApplication.ServiceKey.inbox.rawValue)
         }
 
         guard application.inboxConfig?.useInbox == true else {
-            NotificareLogger.warning("Notificare inbox functionality is not enabled.")
+            logger.warning("Notificare inbox functionality is not enabled.")
             throw NotificareError.serviceUnavailable(service: NotificareApplication.ServiceKey.inbox.rawValue)
         }
 
         guard application.inboxConfig?.useUserInbox == true else {
-            NotificareLogger.warning("Notificare user inbox functionality is not enabled.")
+            logger.warning("Notificare user inbox functionality is not enabled.")
             throw NotificareError.serviceUnavailable(service: NotificareApplication.ServiceKey.inbox.rawValue)
         }
     }

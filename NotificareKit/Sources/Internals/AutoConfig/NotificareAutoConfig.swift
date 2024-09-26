@@ -34,7 +34,7 @@ public class NotificareAutoConfig: NSObject {
 
     private static func autoConfigure() {
         guard shouldAutoConfigure() else {
-            NotificareLogger.debug("Skipping automatic configuration...")
+            logger.debug("Skipping automatic configuration...")
             return
         }
 
@@ -43,7 +43,7 @@ public class NotificareAutoConfig: NSObject {
 
     private static func shouldAutoConfigure() -> Bool {
         guard Notificare.shared.state == .none else {
-            NotificareLogger.debug("Notificare has already been configured.")
+            logger.debug("Notificare has already been configured.")
             return false
         }
 
@@ -52,7 +52,7 @@ public class NotificareAutoConfig: NSObject {
         }
 
         if !options.autoConfig {
-            NotificareLogger.debug("Notificare auto config is disabled.")
+            logger.debug("Notificare auto config is disabled.")
         }
 
         return options.autoConfig

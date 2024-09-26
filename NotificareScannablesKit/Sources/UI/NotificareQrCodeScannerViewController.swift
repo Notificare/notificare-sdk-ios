@@ -48,7 +48,7 @@ internal class NotificareQrCodeScannerViewController: UIViewController {
 
     private func setupCaptureSession() {
         guard let device = AVCaptureDevice.default(for: .video) else {
-            NotificareLogger.warning("Failed to acquire the default device for video.")
+            logger.warning("Failed to acquire the default device for video.")
             return
         }
 
@@ -57,14 +57,14 @@ internal class NotificareQrCodeScannerViewController: UIViewController {
         do {
             input = try AVCaptureDeviceInput(device: device)
         } catch {
-            NotificareLogger.warning("Failed to get input device for video.", error: error)
+            logger.warning("Failed to get input device for video.", error: error)
             return
         }
 
         if captureSession.canAddInput(input) {
             captureSession.addInput(input)
         } else {
-            NotificareLogger.warning("Unable to add video input to capture session.")
+            logger.warning("Unable to add video input to capture session.")
             return
         }
 
@@ -75,7 +75,7 @@ internal class NotificareQrCodeScannerViewController: UIViewController {
             output.setMetadataObjectsDelegate(self, queue: .main)
             output.metadataObjectTypes = [.qr]
         } else {
-            NotificareLogger.warning("Unable to add video input to capture session.")
+            logger.warning("Unable to add video input to capture session.")
             return
         }
 

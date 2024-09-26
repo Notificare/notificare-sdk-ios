@@ -23,7 +23,7 @@ extension NotificareUserInboxResponse {
 
             return
         } catch {
-            NotificareLogger.debug("Unable to parse user inbox response from the raw format.", error: error)
+            logger.debug("Unable to parse user inbox response from the raw format.", error: error)
         }
 
         do {
@@ -33,7 +33,7 @@ extension NotificareUserInboxResponse {
             unread = consumer.unread
             items = consumer.items
         } catch {
-            NotificareLogger.debug("Unable to parse user inbox response from the consumer format.", error: error)
+            logger.debug("Unable to parse user inbox response from the consumer format.", error: error)
             throw error
         }
     }

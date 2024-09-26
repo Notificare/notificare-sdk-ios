@@ -52,11 +52,11 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
 
             if isApplicationUpgrade {
                 // It's not the same version, let's log it as an upgrade.
-                NotificareLogger.debug("New version detected")
+                logger.debug("New version detected")
                 try? await Notificare.shared.eventsImplementation().logApplicationUpgrade()
             }
         } else {
-            NotificareLogger.debug("New install detected")
+            logger.debug("New install detected")
 
             try await createDevice()
             hasPendingDeviceRegistrationEvent = true
@@ -160,7 +160,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
 
             // TODO: improve language validator
             guard parts.count == 2 else {
-                NotificareLogger.error("Not a valid preferred language. Use a ISO 639-1 language code and a ISO 3166-2 region code (e.g. en-US).")
+                logger.error("Not a valid preferred language. Use a ISO 639-1 language code and a ISO 3166-2 region code (e.g. en-US).")
                 throw NotificareError.invalidArgument(message: "Invalid preferred language value '\(preferredLanguage)'.")
             }
 
@@ -529,7 +529,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
             return
         }
 
-        NotificareLogger.info("Upgrading current device from legacy format.")
+        logger.info("Upgrading current device from legacy format.")
 
         let deviceId = device.id
         let transport = device.transport!
@@ -557,7 +557,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         let generatedDeviceId: String
 
         if response.statusCode == 201, let data {
-            NotificareLogger.debug("New device identifier created.")
+            logger.debug("New device identifier created.")
 
             let decoder = JSONUtils.jsonDecoder
             let decoded =  try decoder.decode(NotificareInternals.PushAPI.Responses.CreateDevice.self, from: data)
@@ -683,32 +683,32 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
     // MARK: - Notification Center listeners
 
     @objc private func updateDeviceTimezone() {
-        NotificareLogger.info("Device timezone changed.")
+        logger.info("Device timezone changed.")
 
         Task {
             try? await updateTimezone()
-            NotificareLogger.info("Device timezone updated.")
+            logger.info("Device timezone updated.")
         }
     }
 
     @objc private func updateDeviceLanguage() {
-        NotificareLogger.info("Device language changed.")
+        logger.info("Device language changed.")
 
         let language = getDeviceLanguage()
         let region = getDeviceRegion()
 
         Task {
             try? await updateLanguage(language, region: region)
-            NotificareLogger.info("Device language updated.")
+            logger.info("Device language updated.")
         }
     }
 
     @objc private func updateDeviceBackgroundAppRefresh() {
-        NotificareLogger.info("Device background app refresh status changed.")
+        logger.info("Device background app refresh status changed.")
 
         Task {
             try? await updateBackgroundAppRefresh()
-            NotificareLogger.info("Device background app refresh status updated.")
+            logger.info("Device background app refresh status updated.")
         }
     }
 }

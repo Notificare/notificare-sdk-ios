@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1A0E1F6F2C982F5600E15FC7 /* NotificareUtilitiesKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A0E1F6E2C982F5600E15FC7 /* NotificareUtilitiesKit.framework */; };
 		1A32741A2C5AE254002B78BA /* NotificareSystemNotificationTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3274192C5AE254002B78BA /* NotificareSystemNotificationTest.swift */; };
+		1A52DE7B2CA461DE00B5F56C /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A52DE7A2CA461DE00B5F56C /* Logger.swift */; };
 		1AF8E7CE2BF21AB500DE2BC8 /* NotificarePushAppDelegateInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF8E7CD2BF21AB500DE2BC8 /* NotificarePushAppDelegateInterceptor.swift */; };
 		1AF8E7D12BF21C0700DE2BC8 /* NotificareNotificationCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF8E7D02BF21C0700DE2BC8 /* NotificareNotificationCenterDelegate.swift */; };
 		F2128F022594E47700F7F68F /* NotificareSystemNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2128F012594E47700F7F68F /* NotificareSystemNotification.swift */; };
@@ -46,6 +47,7 @@
 /* Begin PBXFileReference section */
 		1A0E1F6E2C982F5600E15FC7 /* NotificareUtilitiesKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareUtilitiesKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A3274192C5AE254002B78BA /* NotificareSystemNotificationTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareSystemNotificationTest.swift; sourceTree = "<group>"; };
+		1A52DE7A2CA461DE00B5F56C /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		1AF8E7CD2BF21AB500DE2BC8 /* NotificarePushAppDelegateInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificarePushAppDelegateInterceptor.swift; sourceTree = "<group>"; };
 		1AF8E7D02BF21C0700DE2BC8 /* NotificareNotificationCenterDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareNotificationCenterDelegate.swift; sourceTree = "<group>"; };
 		F2128F012594E47700F7F68F /* NotificareSystemNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareSystemNotification.swift; sourceTree = "<group>"; };
@@ -203,6 +205,7 @@
 				F21DD9E227173A4300C88D7B /* NotificarePushImpl.swift */,
 				F21DD9E62718449800C88D7B /* NotificarePushImpl+UIApplicationDelegate.swift */,
 				F21DD9E8271844B200C88D7B /* NotificarePushImpl+UNUserNotificationCenterDelegate.swift */,
+				1A52DE7A2CA461DE00B5F56C /* Logger.swift */,
 			);
 			path = Internals;
 			sourceTree = "<group>";
@@ -325,6 +328,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A52DE7B2CA461DE00B5F56C /* Logger.swift in Sources */,
 				F21619F32642DCE90005BFF9 /* LocalStorage.swift in Sources */,
 				F21DD9E327173A4300C88D7B /* NotificarePushImpl.swift in Sources */,
 				F226509B258B6B900004F833 /* NotificarePush.swift in Sources */,

@@ -3,6 +3,7 @@
 //
 
 import Foundation
+import NotificareUtilitiesKit
 
 internal struct LocalStorageMigration {
     internal var hasLegacyData: Bool {
@@ -11,7 +12,7 @@ internal struct LocalStorageMigration {
 
     internal func migrate() {
         if let deviceId = UserDefaults.standard.string(forKey: "notificareDeviceToken") {
-            NotificareLogger.debug("Found v2 device stored.")
+            logger.debug("Found v2 device stored.")
 
             let device = StoredDevice(
                 id: deviceId,
@@ -22,8 +23,8 @@ internal struct LocalStorageMigration {
                 sdkVersion: UserDefaults.standard.string(forKey: "notificareSDKVersion") ?? "",
                 appVersion: UserDefaults.standard.string(forKey: "notificareAppVersion") ?? "",
                 deviceString: UserDefaults.standard.string(forKey: "notificareDeviceModel") ?? "",
-                language: UserDefaults.standard.string(forKey: "notificareDeviceLanguage") ?? NotificareUtils.deviceLanguage,
-                region: UserDefaults.standard.string(forKey: "notificareDeviceRegion") ?? NotificareUtils.deviceRegion,
+                language: UserDefaults.standard.string(forKey: "notificareDeviceLanguage") ?? DeviceUtils.deviceLanguage,
+                region: UserDefaults.standard.string(forKey: "notificareDeviceRegion") ?? DeviceUtils.deviceRegion,
                 transport: UserDefaults.standard.string(forKey: "notificareDeviceTransport"),
                 dnd: nil,
                 userData: [:],
@@ -34,12 +35,12 @@ internal struct LocalStorageMigration {
         }
 
         if let language = UserDefaults.standard.string(forKey: "notificarePreferredLanguage") {
-            NotificareLogger.debug("Found v2 language override stored.")
+            logger.debug("Found v2 language override stored.")
             LocalStorage.preferredLanguage = language
         }
 
         if let region = UserDefaults.standard.string(forKey: "notificarePreferredRegion") {
-            NotificareLogger.debug("Found v2 region override stored.")
+            logger.debug("Found v2 region override stored.")
             LocalStorage.preferredRegion = region
         }
 

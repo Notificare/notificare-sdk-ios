@@ -282,7 +282,7 @@ public struct NotificareRequest {
             guard let applicationKey = Notificare.shared.servicesInfo?.applicationKey,
                   let applicationSecret = Notificare.shared.servicesInfo?.applicationSecret
             else {
-                NotificareLogger.warning("Notificare application authentication not configured.")
+                logger.warning("Notificare application authentication not configured.")
                 return nil
             }
 

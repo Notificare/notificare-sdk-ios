@@ -23,12 +23,14 @@
 		1A52DE582CA1653700B5F56C /* JSON_Decode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A52DE572CA1653200B5F56C /* JSON_Decode.swift */; };
 		1A52DE5A2CA165F400B5F56C /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A52DE592CA165EF00B5F56C /* Dictionary.swift */; };
 		1A52DE5D2CA167A500B5F56C /* NotificareIsoDateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A52DE5C2CA1679C00B5F56C /* NotificareIsoDateUtils.swift */; };
+		1A52DE612CA1A63D00B5F56C /* NotificareLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A52DE602CA1A63800B5F56C /* NotificareLogger.swift */; };
 		1A52DE6B2CA413B700B5F56C /* UserAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A52DE6A2CA413B300B5F56C /* UserAgent.swift */; };
 		1A52DE8A2CA467AA00B5F56C /* DeviceUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A52DE892CA467A600B5F56C /* DeviceUtils.swift */; };
 		1A52DE8D2CA4684700B5F56C /* ApplicationUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A52DE8C2CA4684200B5F56C /* ApplicationUtils.swift */; };
 		1A52DE902CA468D200B5F56C /* PlistUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A52DE8F2CA468CD00B5F56C /* PlistUtils.swift */; };
 		1A52DE922CA4691F00B5F56C /* JSONUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A52DE912CA4691A00B5F56C /* JSONUtils.swift */; };
 		1A52DE952CA4698900B5F56C /* UIKitUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A52DE942CA4698500B5F56C /* UIKitUtils.swift */; };
+		1A52DEBA2CA569DC00B5F56C /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A52DEB92CA569D400B5F56C /* Logger.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,12 +61,14 @@
 		1A52DE572CA1653200B5F56C /* JSON_Decode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSON_Decode.swift; sourceTree = "<group>"; };
 		1A52DE592CA165EF00B5F56C /* Dictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dictionary.swift; sourceTree = "<group>"; };
 		1A52DE5C2CA1679C00B5F56C /* NotificareIsoDateUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareIsoDateUtils.swift; sourceTree = "<group>"; };
+		1A52DE602CA1A63800B5F56C /* NotificareLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareLogger.swift; sourceTree = "<group>"; };
 		1A52DE6A2CA413B300B5F56C /* UserAgent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAgent.swift; sourceTree = "<group>"; };
 		1A52DE892CA467A600B5F56C /* DeviceUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceUtils.swift; sourceTree = "<group>"; };
 		1A52DE8C2CA4684200B5F56C /* ApplicationUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationUtils.swift; sourceTree = "<group>"; };
 		1A52DE8F2CA468CD00B5F56C /* PlistUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlistUtils.swift; sourceTree = "<group>"; };
 		1A52DE912CA4691A00B5F56C /* JSONUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONUtils.swift; sourceTree = "<group>"; };
 		1A52DE942CA4698500B5F56C /* UIKitUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitUtils.swift; sourceTree = "<group>"; };
+		1A52DEB92CA569D400B5F56C /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,22 +111,24 @@
 		1A0E1F432C982C3000E15FC7 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				1A52DE932CA4697B00B5F56C /* UIKit */,
-				1A52DE8E2CA468B800B5F56C /* Plist */,
+				1A0E1F442C982C3000E15FC7 /* NotificareUtilitiesKit.h */,
+				1A52DEB92CA569D400B5F56C /* Logger.swift */,
+				1A0E1F8E2C9B1C1D00E15FC7 /* AnyCodable */,
 				1A52DE8B2CA4683900B5F56C /* Application */,
+				1A0E1F962C9C11BB00E15FC7 /* Codable */,
+				1A52DE832CA4654400B5F56C /* Data */,
+				1A52DE5B2CA1679500B5F56C /* Date */,
 				1A52DE882CA4678D00B5F56C /* Device */,
 				1A52DE872CA4675F00B5F56C /* Dictionary */,
-				1A52DE862CA4674C00B5F56C /* JSON */,
-				1A52DE852CA4656600B5F56C /* String */,
-				1A52DE842CA4655500B5F56C /* URL */,
-				1A52DE832CA4654400B5F56C /* Data */,
-				1A52DE822CA4653800B5F56C /* UIColor */,
-				1A52DE692CA413A600B5F56C /* Networking */,
-				1A52DE5B2CA1679500B5F56C /* Date */,
-				1A0E1F962C9C11BB00E15FC7 /* Codable */,
-				1A0E1F8E2C9B1C1D00E15FC7 /* AnyCodable */,
 				1A0E1F672C982E6700E15FC7 /* ExtraEquatable */,
-				1A0E1F442C982C3000E15FC7 /* NotificareUtilitiesKit.h */,
+				1A52DE862CA4674C00B5F56C /* JSON */,
+				1A52DE6C2CA43EAD00B5F56C /* Logging */,
+				1A52DE692CA413A600B5F56C /* Networking */,
+				1A52DE8E2CA468B800B5F56C /* Plist */,
+				1A52DE852CA4656600B5F56C /* String */,
+				1A52DE822CA4653800B5F56C /* UIColor */,
+				1A52DE932CA4697B00B5F56C /* UIKit */,
+				1A52DE842CA4655500B5F56C /* URL */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -384,6 +390,7 @@
 				1A0E1F942C9B1C8E00E15FC7 /* NotificareAnyEncodable.swift in Sources */,
 				1A52DE6B2CA413B700B5F56C /* UserAgent.swift in Sources */,
 				1A0E1F692C982E8000E15FC7 /* NotificareExtraEquatable.swift in Sources */,
+				1A52DE612CA1A63D00B5F56C /* NotificareLogger.swift in Sources */,
 				1A52DE562CA1631800B5F56C /* StringExtensions.swift in Sources */,
 				1A52DE952CA4698900B5F56C /* UIKitUtils.swift in Sources */,
 				1A52DE5D2CA167A500B5F56C /* NotificareIsoDateUtils.swift in Sources */,
@@ -391,6 +398,7 @@
 				1A52DE502CA15E7000B5F56C /* Data+Hex.swift in Sources */,
 				1A0E1F922C9B1C6600E15FC7 /* NotificareAnyDecodable.swift in Sources */,
 				1A0E1F982C9C11DC00E15FC7 /* EncodeNull.swift in Sources */,
+				1A52DEBA2CA569DC00B5F56C /* Logger.swift in Sources */,
 				1A52DE8A2CA467AA00B5F56C /* DeviceUtils.swift in Sources */,
 				1A52DE5A2CA165F400B5F56C /* Dictionary.swift in Sources */,
 				1A52DE542CA1612600B5F56C /* URL.swift in Sources */,

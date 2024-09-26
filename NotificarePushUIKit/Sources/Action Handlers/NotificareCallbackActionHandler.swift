@@ -223,7 +223,7 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
               Bundle.main.object(forInfoDictionaryKey: "NSCameraUsageDescription") != nil,
               Bundle.main.object(forInfoDictionaryKey: "NSMicrophoneUsageDescription") != nil
         else {
-            NotificareLogger.warning("Missing camera, microphone or photo library permissions. Skipping...")
+            logger.warning("Missing camera, microphone or photo library permissions. Skipping...")
             return
         }
 

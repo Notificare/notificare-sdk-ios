@@ -63,7 +63,7 @@ internal class NotificareUrlSchemeController: NotificareNotificationPresenter {
         }
 
         guard PlistUtils.getSupportedUrlSchemes().contains(urlScheme) else {
-            NotificareLogger.warning("Cannot open a deep link that's not supported by the application.")
+            logger.warning("Cannot open a deep link that's not supported by the application.")
 
             DispatchQueue.main.async {
                 Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToPresentNotification: self.notification)

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1A1FE05F2C4517A300468B84 /* NotificareInAppMessageTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1FE05E2C4517A300468B84 /* NotificareInAppMessageTest.swift */; };
 		1A3274212C5B3F51002B78BA /* InAppMessagingPushAPIModelsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3274202C5B3F51002B78BA /* InAppMessagingPushAPIModelsTest.swift */; };
+		1A52DE752CA460E300B5F56C /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A52DE742CA460E300B5F56C /* Logger.swift */; };
 		F206D6ED28A53E3500A35E60 /* NotificareInAppMessagingBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F206D6EC28A53E3500A35E60 /* NotificareInAppMessagingBannerView.swift */; };
 		F206D6F028A5427800A35E60 /* UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = F206D6EF28A5427800A35E60 /* UIKit.swift */; };
 		F206D6F428A65F3D00A35E60 /* NotificareInAppMessagingCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F206D6F328A65F3D00A35E60 /* NotificareInAppMessagingCardView.swift */; };
@@ -44,6 +45,7 @@
 /* Begin PBXFileReference section */
 		1A1FE05E2C4517A300468B84 /* NotificareInAppMessageTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareInAppMessageTest.swift; sourceTree = "<group>"; };
 		1A3274202C5B3F51002B78BA /* InAppMessagingPushAPIModelsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppMessagingPushAPIModelsTest.swift; sourceTree = "<group>"; };
+		1A52DE742CA460E300B5F56C /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		F206D6EC28A53E3500A35E60 /* NotificareInAppMessagingBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareInAppMessagingBannerView.swift; sourceTree = "<group>"; };
 		F206D6EF28A5427800A35E60 /* UIKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKit.swift; sourceTree = "<group>"; };
 		F206D6F328A65F3D00A35E60 /* NotificareInAppMessagingCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareInAppMessagingCardView.swift; sourceTree = "<group>"; };
@@ -175,6 +177,7 @@
 				F2E5141D28A50EA100D1E0BF /* Network */,
 				F2E5141128A2C85E00D1E0BF /* NotificareInAppMessagingImpl.swift */,
 				F25314A328A5133900A979EA /* ApplicationContext.swift */,
+				1A52DE742CA460E300B5F56C /* Logger.swift */,
 			);
 			path = Internals;
 			sourceTree = "<group>";
@@ -329,6 +332,7 @@
 				F225AC9728AFDA3500E4446A /* NotificareInAppMessagingDelegate.swift in Sources */,
 				F2E5141228A2C85E00D1E0BF /* NotificareInAppMessagingImpl.swift in Sources */,
 				F25314A428A5133900A979EA /* ApplicationContext.swift in Sources */,
+				1A52DE752CA460E300B5F56C /* Logger.swift in Sources */,
 				F2E5141428A2C86700D1E0BF /* NotificareInAppMessaging.swift in Sources */,
 				F2E5142228A50EBC00D1E0BF /* PushAPI+Responses.swift in Sources */,
 				F225AC9328AFA24E00E4446A /* NotificareInAppMessaging+Events.swift in Sources */,
