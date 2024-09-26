@@ -74,7 +74,6 @@
 		F2E07E5F25344D0700AF0C14 /* NotificareDoNotDisturb.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E07E5E25344D0700AF0C14 /* NotificareDoNotDisturb.swift */; };
 		F2E07E7A2534B5DD00AF0C14 /* NotificareTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E07E792534B5DD00AF0C14 /* NotificareTime.swift */; };
 		F2E801E9269F021800582DB8 /* NotificareInternals.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E801E8269F021800582DB8 /* NotificareInternals.swift */; };
-		F2F986672654149D00C8B068 /* NotificareIsoDateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F986662654149D00C8B068 /* NotificareIsoDateUtils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -160,7 +159,6 @@
 		F2E07E5E25344D0700AF0C14 /* NotificareDoNotDisturb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareDoNotDisturb.swift; sourceTree = "<group>"; };
 		F2E07E792534B5DD00AF0C14 /* NotificareTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareTime.swift; sourceTree = "<group>"; };
 		F2E801E8269F021800582DB8 /* NotificareInternals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareInternals.swift; sourceTree = "<group>"; };
-		F2F986662654149D00C8B068 /* NotificareIsoDateUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareIsoDateUtils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -560,7 +558,6 @@
 				F258DE4424BC68CB006F9ABD /* Notificare.swift in Sources */,
 				42A2011DB7750225B7C9D3E2 /* NotificareBootstrap.m in Sources */,
 				F27DB183262EDAC2000C024D /* PushAPI.swift in Sources */,
-				F2F986672654149D00C8B068 /* NotificareIsoDateUtils.swift in Sources */,
 				F21DD9F12718662000C88D7B /* NotificareEventsModule.swift in Sources */,
 				F293E2B226303008008C2010 /* NotificareAbstractDatabase.swift in Sources */,
 				F293E2DB26304675008C2010 /* LocalStorage.swift in Sources */,
