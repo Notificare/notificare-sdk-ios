@@ -70,13 +70,13 @@ extension NotificarePass: Identifiable {}
 // JSON: NotificarePass
 extension NotificarePass {
     public func toJson() throws -> [String: Any] {
-        let data = try NotificareUtils.jsonEncoder.encode(self)
+        let data = try JSONUtils.jsonEncoder.encode(self)
         return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
     }
 
     public static func fromJson(json: [String: Any]) throws -> NotificarePass {
         let data = try JSONSerialization.data(withJSONObject: json, options: [])
-        return try NotificareUtils.jsonDecoder.decode(NotificarePass.self, from: data)
+        return try JSONUtils.jsonDecoder.decode(NotificarePass.self, from: data)
     }
 }
 
@@ -138,12 +138,12 @@ extension NotificarePass {
 // JSON: NotificarePass.Redemption
 extension NotificarePass.Redemption {
     public func toJson() throws -> [String: Any] {
-        let data = try NotificareUtils.jsonEncoder.encode(self)
+        let data = try JSONUtils.jsonEncoder.encode(self)
         return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
     }
 
     public static func fromJson(json: [String: Any]) throws -> NotificarePass.Redemption {
         let data = try JSONSerialization.data(withJSONObject: json, options: [])
-        return try NotificareUtils.jsonDecoder.decode(NotificarePass.Redemption.self, from: data)
+        return try JSONUtils.jsonDecoder.decode(NotificarePass.Redemption.self, from: data)
     }
 }

@@ -3,7 +3,7 @@
 //
 
 import Foundation
-import NotificareKit
+import NotificareUtilitiesKit
 
 internal enum LocalStorage {
     private enum Keys: String {
@@ -31,7 +31,7 @@ internal enum LocalStorage {
             }
 
             do {
-                let decoder = NotificareUtils.jsonDecoder
+                let decoder = JSONUtils.jsonDecoder
                 return try decoder.decode(NotificareTransport.self, from: data)
             } catch {
                 NotificareLogger.warning("Failed to decode the stored transport.", error: error)
@@ -50,7 +50,7 @@ internal enum LocalStorage {
             }
 
             do {
-                let encoder = NotificareUtils.jsonEncoder
+                let encoder = JSONUtils.jsonEncoder
                 let data = try encoder.encode(newValue)
 
                 UserDefaults.standard.set(data, forKey: Keys.transport.rawValue)
@@ -68,7 +68,7 @@ internal enum LocalStorage {
             }
 
             do {
-                let decoder = NotificareUtils.jsonDecoder
+                let decoder = JSONUtils.jsonDecoder
                 return try decoder.decode(NotificarePushSubscription.self, from: data)
             } catch {
                 NotificareLogger.warning("Failed to decode the stored subscription.", error: error)
@@ -87,7 +87,7 @@ internal enum LocalStorage {
             }
 
             do {
-                let encoder = NotificareUtils.jsonEncoder
+                let encoder = JSONUtils.jsonEncoder
                 let data = try encoder.encode(newValue)
 
                 UserDefaults.standard.set(data, forKey: Keys.subscription.rawValue)

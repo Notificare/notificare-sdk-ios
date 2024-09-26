@@ -4,7 +4,7 @@
 
 import CoreLocation
 import Foundation
-import NotificareKit
+import NotificareUtilitiesKit
 
 public struct NotificareLocation: Codable, Equatable {
     public let latitude: Double
@@ -47,12 +47,12 @@ extension NotificareLocation {
 // JSON: NotificareLocation
 extension NotificareLocation {
     public func toJson() throws -> [String: Any] {
-        let data = try NotificareUtils.jsonEncoder.encode(self)
+        let data = try JSONUtils.jsonEncoder.encode(self)
         return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
     }
 
     public static func fromJson(json: [String: Any]) throws -> NotificareLocation {
         let data = try JSONSerialization.data(withJSONObject: json, options: [])
-        return try NotificareUtils.jsonDecoder.decode(NotificareLocation.self, from: data)
+        return try JSONUtils.jsonDecoder.decode(NotificareLocation.self, from: data)
     }
 }

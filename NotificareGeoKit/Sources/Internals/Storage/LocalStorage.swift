@@ -3,7 +3,7 @@
 //
 
 import Foundation
-import NotificareKit
+import NotificareUtilitiesKit
 
 private let KEY_LOCATION_SERVICES_ENABLED = "re.notifica.geo.location_services_enabled"
 private let KEY_BLUETOOTH_ENABLED = "re.notifica.geo.bluetooth_enabled"
@@ -60,7 +60,7 @@ internal enum LocalStorage {
             }
 
             do {
-                let decoder = NotificareUtils.jsonDecoder
+                let decoder = JSONUtils.jsonDecoder
                 return try decoder.decode([NotificareRegion].self, from: data)
             } catch {
                 NotificareLogger.warning("Failed to decode the monitored regions.", error: error)
@@ -74,7 +74,7 @@ internal enum LocalStorage {
         }
         set {
             do {
-                let encoder = NotificareUtils.jsonEncoder
+                let encoder = JSONUtils.jsonEncoder
                 let data = try encoder.encode(newValue)
 
                 UserDefaults.standard.set(data, forKey: KEY_MONITORED_REGIONS)
@@ -92,7 +92,7 @@ internal enum LocalStorage {
             }
 
             do {
-                let decoder = NotificareUtils.jsonDecoder
+                let decoder = JSONUtils.jsonDecoder
                 let arr = try decoder.decode([NotificareBeacon].self, from: data)
                 return Set(arr)
             } catch {
@@ -107,7 +107,7 @@ internal enum LocalStorage {
         }
         set {
             do {
-                let encoder = NotificareUtils.jsonEncoder
+                let encoder = JSONUtils.jsonEncoder
                 let data = try encoder.encode(Array(newValue))
 
                 UserDefaults.standard.set(data, forKey: KEY_MONITORED_BEACONS)
@@ -125,7 +125,7 @@ internal enum LocalStorage {
             }
 
             do {
-                let decoder = NotificareUtils.jsonDecoder
+                let decoder = JSONUtils.jsonDecoder
                 return try decoder.decode([NotificareRegionSession].self, from: data)
             } catch {
                 NotificareLogger.warning("Failed to decode the region sessions.", error: error)
@@ -139,7 +139,7 @@ internal enum LocalStorage {
         }
         set {
             do {
-                let encoder = NotificareUtils.jsonEncoder
+                let encoder = JSONUtils.jsonEncoder
                 let data = try encoder.encode(newValue)
 
                 UserDefaults.standard.set(data, forKey: KEY_REGION_SESSIONS)
@@ -157,7 +157,7 @@ internal enum LocalStorage {
             }
 
             do {
-                let decoder = NotificareUtils.jsonDecoder
+                let decoder = JSONUtils.jsonDecoder
                 return try decoder.decode([NotificareBeaconSession].self, from: data)
             } catch {
                 NotificareLogger.warning("Failed to decode the beacon sessions.", error: error)
@@ -171,7 +171,7 @@ internal enum LocalStorage {
         }
         set {
             do {
-                let encoder = NotificareUtils.jsonEncoder
+                let encoder = JSONUtils.jsonEncoder
                 let data = try encoder.encode(newValue)
 
                 UserDefaults.standard.set(data, forKey: KEY_BEACON_SESSIONS)

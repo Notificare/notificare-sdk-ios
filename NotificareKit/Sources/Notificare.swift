@@ -585,7 +585,7 @@ public class Notificare {
 
     private func printLaunchSummary(application: NotificareApplication) {
         let enabledServices = application.services.filter(\.value).map(\.key)
-        let enabledModules = NotificareUtils.getEnabledPeerModules()
+        let enabledModules = ModuleUtils.getEnabledPeerModules()
 
         NotificareLogger.info("Notificare is ready to use for application.")
         NotificareLogger.debug("/==================================================================================/")

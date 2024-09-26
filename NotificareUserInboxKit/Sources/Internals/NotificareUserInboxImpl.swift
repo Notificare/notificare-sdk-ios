@@ -4,6 +4,7 @@
 
 import Foundation
 import NotificareKit
+import NotificareUtilitiesKit
 
 internal class NotificareUserInboxImpl: NotificareModule, NotificareUserInbox {
     // MARK: - Notificare module
@@ -26,7 +27,7 @@ internal class NotificareUserInboxImpl: NotificareModule, NotificareUserInbox {
     }
 
     public func parseResponse(data: Data) throws -> NotificareUserInboxResponse {
-        try NotificareUtils.jsonDecoder.decode(NotificareUserInboxResponse.self, from: data)
+        try JSONUtils.jsonDecoder.decode(NotificareUserInboxResponse.self, from: data)
     }
 
     public func open(_ item: NotificareUserInboxItem, _ completion: @escaping NotificareCallback<NotificareNotification>) {

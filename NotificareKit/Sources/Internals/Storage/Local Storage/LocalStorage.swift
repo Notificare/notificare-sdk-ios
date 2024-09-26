@@ -3,6 +3,7 @@
 //
 
 import Foundation
+import NotificareUtilitiesKit
 
 internal enum LocalStorage {
     private enum Keys: String {
@@ -33,7 +34,7 @@ internal enum LocalStorage {
             }
 
             do {
-                let decoder = NotificareUtils.jsonDecoder
+                let decoder = JSONUtils.jsonDecoder
                 return try decoder.decode(NotificareApplication.self, from: data)
             } catch {
                 NotificareLogger.warning("Failed to decode the stored device.", error: error)
@@ -52,7 +53,7 @@ internal enum LocalStorage {
             }
 
             do {
-                let encoder = NotificareUtils.jsonEncoder
+                let encoder = JSONUtils.jsonEncoder
                 let data = try encoder.encode(newValue)
 
                 UserDefaults.standard.set(data, forKey: Keys.application.rawValue)
@@ -71,7 +72,7 @@ internal enum LocalStorage {
             }
 
             do {
-                let decoder = NotificareUtils.jsonDecoder
+                let decoder = JSONUtils.jsonDecoder
                 return try decoder.decode(StoredDevice.self, from: data)
             } catch {
                 NotificareLogger.warning("Failed to decode the stored device.", error: error)
@@ -91,7 +92,7 @@ internal enum LocalStorage {
             }
 
             do {
-                let encoder = NotificareUtils.jsonEncoder
+                let encoder = JSONUtils.jsonEncoder
                 let data = try encoder.encode(newValue)
 
                 settings.set(data, forKey: Keys.device.rawValue)
@@ -129,7 +130,7 @@ internal enum LocalStorage {
             }
 
             do {
-                return try NotificareUtils.jsonDecoder.decode(NotificareEvent.self, from: data)
+                return try JSONUtils.jsonDecoder.decode(NotificareEvent.self, from: data)
             } catch {
                 NotificareLogger.warning("Failed to decode the stored crash report.", error: error)
 
@@ -148,7 +149,7 @@ internal enum LocalStorage {
             }
 
             do {
-                let data = try NotificareUtils.jsonEncoder.encode(event)
+                let data = try JSONUtils.jsonEncoder.encode(event)
                 UserDefaults.standard.set(data, forKey: Keys.crashReport.rawValue)
                 UserDefaults.standard.synchronize()
             } catch {

@@ -3,6 +3,7 @@
 //
 
 import NotificareKit
+import NotificareUtilitiesKit
 import UIKit
 
 internal class NotificareUrlSchemeController: NotificareNotificationPresenter {
@@ -61,7 +62,7 @@ internal class NotificareUrlSchemeController: NotificareNotificationPresenter {
             return
         }
 
-        guard NotificareUtils.getSupportedUrlSchemes().contains(urlScheme) else {
+        guard PlistUtils.getSupportedUrlSchemes().contains(urlScheme) else {
             NotificareLogger.warning("Cannot open a deep link that's not supported by the application.")
 
             DispatchQueue.main.async {

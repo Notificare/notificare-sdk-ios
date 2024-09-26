@@ -2,7 +2,7 @@
 // Copyright (c) 2021 Notificare. All rights reserved.
 //
 
-import NotificareKit
+import NotificareUtilitiesKit
 
 internal enum LocalStorage {
     private enum Keys: String {
@@ -11,11 +11,11 @@ internal enum LocalStorage {
 
     internal static var hasReviewedCurrentVersion: Bool {
         get {
-            let version = NotificareUtils.applicationVersion
+            let version = ApplicationUtils.applicationVersion
             return UserDefaults.standard.bool(forKey: "\(Keys.reviewedVersion.rawValue)_\(version)")
         }
         set {
-            let version = NotificareUtils.applicationVersion
+            let version = ApplicationUtils.applicationVersion
             UserDefaults.standard.setValue(newValue, forKey: "\(Keys.reviewedVersion.rawValue)_\(version)")
         }
     }

@@ -20,7 +20,7 @@ extension NotificareEvent {
         event.retries = 0
 
         if let data = data {
-            event.data = try? NotificareUtils.jsonEncoder.encode(NotificareAnyCodable(data))
+            event.data = try? JSONUtils.jsonEncoder.encode(NotificareAnyCodable(data))
         } else {
             event.data = nil
         }
@@ -32,7 +32,7 @@ extension NotificareEvent {
         var eventData: NotificareEventData?
         if
             let data = managed.data,
-            let decoded = try? NotificareUtils.jsonDecoder.decode(NotificareAnyCodable.self, from: data)
+            let decoded = try? JSONUtils.jsonDecoder.decode(NotificareAnyCodable.self, from: data)
         {
             eventData = decoded.value as? NotificareEventData
         }

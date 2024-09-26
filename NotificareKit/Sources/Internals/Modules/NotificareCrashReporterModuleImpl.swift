@@ -3,6 +3,7 @@
 //
 
 import Foundation
+import NotificareUtilitiesKit
 
 internal class NotificareCrashReporterModuleImpl: NSObject, NotificareModule {
     // MARK: - Notificare Module
@@ -76,10 +77,10 @@ internal class NotificareCrashReporterModuleImpl: NSObject, NotificareModule {
             userId: device.userId,
             data: [
                 "platform": "iOS",
-                "osVersion": NotificareUtils.osVersion,
-                "deviceString": NotificareUtils.deviceString,
+                "osVersion": DeviceUtils.osVersion,
+                "deviceString": DeviceUtils.deviceString,
                 "sdkVersion": Notificare.SDK_VERSION,
-                "appVersion": NotificareUtils.applicationVersion,
+                "appVersion": ApplicationUtils.applicationVersion,
                 "timestamp": timestamp,
                 "name": exception.name.rawValue,
                 "reason": exception.reason as Any,
@@ -124,10 +125,10 @@ internal class NotificareCrashReporterModuleImpl: NSObject, NotificareModule {
             userId: device.userId,
             data: [
                 "platform": "iOS",
-                "osVersion": NotificareUtils.osVersion,
-                "deviceString": NotificareUtils.deviceString,
+                "osVersion": DeviceUtils.osVersion,
+                "deviceString": DeviceUtils.deviceString,
                 "sdkVersion": Notificare.SDK_VERSION,
-                "appVersion": NotificareUtils.applicationVersion,
+                "appVersion": ApplicationUtils.applicationVersion,
                 "timestamp": timestamp,
                 "name": name,
                 "reason": "Uncaught Signal \(name)",

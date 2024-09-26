@@ -3,6 +3,7 @@
 //
 
 import NotificareKit
+import NotificareUtilitiesKit
 import UIKit
 
 public class NotificareBaseNotificationViewController: UIViewController {
@@ -23,7 +24,7 @@ public class NotificareBaseNotificationViewController: UIViewController {
         theme = Notificare.shared.options!.theme(for: self)
 
         // Update the view controller's title.
-        title = notification.title ?? NotificareUtils.applicationName
+        title = notification.title ?? ApplicationUtils.applicationName
 
         // Check if we should show any possible actions
         isActionsButtonEnabled = !notification.actions.isEmpty
@@ -48,7 +49,7 @@ public class NotificareBaseNotificationViewController: UIViewController {
 
         if UIDevice.current.userInterfaceIdiom == .pad, let actionsButton {
             alert = UIAlertController(
-                title: NotificareUtils.applicationName,
+                title: ApplicationUtils.applicationName,
                 message: notification.message,
                 preferredStyle: .actionSheet
             )
@@ -58,7 +59,7 @@ public class NotificareBaseNotificationViewController: UIViewController {
             alert.popoverPresentationController?.permittedArrowDirections = .up
         } else if UIDevice.current.userInterfaceIdiom == .phone {
             alert = UIAlertController(
-                title: NotificareUtils.applicationName,
+                title: ApplicationUtils.applicationName,
                 message: notification.message,
                 preferredStyle: .actionSheet
             )
@@ -66,7 +67,7 @@ public class NotificareBaseNotificationViewController: UIViewController {
             alert.modalPresentationStyle = .currentContext
         } else {
             alert = UIAlertController(
-                title: NotificareUtils.applicationName,
+                title: ApplicationUtils.applicationName,
                 message: notification.message,
                 preferredStyle: .alert
             )
@@ -127,7 +128,7 @@ public class NotificareBaseNotificationViewController: UIViewController {
         queryItems.forEach { item in
             if item.name == "notificareCloseWindow" || item.name == Notificare.shared.options!.closeWindowQueryParameter {
                 if item.value == "1" || item.value == "true" {
-                    if let rootViewController = NotificareUtils.rootViewController, rootViewController.presentedViewController != nil {
+                    if let rootViewController = UIKitUtils.rootViewController, rootViewController.presentedViewController != nil {
                         rootViewController.dismiss(animated: true, completion: nil)
                     } else {
                         navigationController?.popViewController(animated: true)

@@ -4,6 +4,7 @@
 
 import Foundation
 import UIKit
+import NotificareUtilitiesKit
 
 internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, NotificareDeviceModule {
 
@@ -42,7 +43,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         try await upgradeToLongLivedDeviceWhenNeeded()
 
         if let storedDevice {
-            let isApplicationUpgrade = storedDevice.appVersion != NotificareUtils.applicationVersion
+            let isApplicationUpgrade = storedDevice.appVersion != ApplicationUtils.applicationVersion
 
             try await updateDevice()
 
@@ -176,8 +177,8 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
             LocalStorage.preferredLanguage = language
             LocalStorage.preferredRegion = region
         } else {
-            let language = NotificareUtils.deviceLanguage
-            let region = NotificareUtils.deviceRegion
+            let language = DeviceUtils.deviceLanguage
+            let region = DeviceUtils.deviceRegion
 
             try await updateLanguage(language, region: region)
 
@@ -459,11 +460,11 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
             language: getDeviceLanguage(),
             region: getDeviceRegion(),
             platform: "iOS",
-            osVersion: NotificareUtils.osVersion,
+            osVersion: DeviceUtils.osVersion,
             sdkVersion: NOTIFICARE_VERSION,
-            appVersion: NotificareUtils.applicationVersion,
-            deviceString: NotificareUtils.deviceString,
-            timeZoneOffset: NotificareUtils.timeZoneOffset,
+            appVersion: ApplicationUtils.applicationVersion,
+            deviceString: DeviceUtils.deviceString,
+            timeZoneOffset: DeviceUtils.timeZoneOffset,
             backgroundAppRefresh: backgroundRefreshStatus == .available
         )
 
@@ -499,11 +500,11 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
             language: getDeviceLanguage(),
             region: getDeviceRegion(),
             platform: "iOS",
-            osVersion: NotificareUtils.osVersion,
+            osVersion: DeviceUtils.osVersion,
             sdkVersion: NOTIFICARE_VERSION,
-            appVersion: NotificareUtils.applicationVersion,
-            deviceString: NotificareUtils.deviceString,
-            timeZoneOffset: NotificareUtils.timeZoneOffset,
+            appVersion: ApplicationUtils.applicationVersion,
+            deviceString: DeviceUtils.deviceString,
+            timeZoneOffset: DeviceUtils.timeZoneOffset,
             backgroundAppRefresh: backgroundRefreshStatus == .available
         )
 
@@ -558,7 +559,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         if response.statusCode == 201, let data {
             NotificareLogger.debug("New device identifier created.")
 
-            let decoder = NotificareUtils.jsonDecoder
+            let decoder = JSONUtils.jsonDecoder
             let decoded =  try decoder.decode(NotificareInternals.PushAPI.Responses.CreateDevice.self, from: data)
 
             generatedDeviceId = decoded.device.deviceID
@@ -606,7 +607,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         let payload = NotificareInternals.PushAPI.Payloads.Device.UpdateTimeZone(
             language: getDeviceLanguage(),
             region: getDeviceRegion(),
-            timeZoneOffset: NotificareUtils.timeZoneOffset
+            timeZoneOffset: DeviceUtils.timeZoneOffset
         )
 
         try await NotificareRequest.Builder()
@@ -672,11 +673,11 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
     }
 
     private func getDeviceLanguage() -> String {
-        LocalStorage.preferredLanguage ?? NotificareUtils.deviceLanguage
+        LocalStorage.preferredLanguage ?? DeviceUtils.deviceLanguage
     }
 
     private func getDeviceRegion() -> String {
-        LocalStorage.preferredRegion ?? NotificareUtils.deviceRegion
+        LocalStorage.preferredRegion ?? DeviceUtils.deviceRegion
     }
 
     // MARK: - Notification Center listeners

@@ -4,6 +4,7 @@
 
 import AVFoundation
 import NotificareKit
+import NotificareUtilitiesKit
 import UIKit
 
 private let kCrosshairMarginHorizontal: CGFloat = 20.0
@@ -20,7 +21,7 @@ internal class NotificareQrCodeScannerViewController: UIViewController {
     internal override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = NotificareUtils.applicationName
+        title = ApplicationUtils.applicationName
         navigationController?.isNavigationBarHidden = false
 
         setupCaptureSession()

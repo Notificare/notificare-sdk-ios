@@ -3,6 +3,7 @@
 //
 
 import NotificareKit
+import NotificareUtilitiesKit
 import UIKit
 
 public class NotificareBrowserActionHandler: NotificareBaseActionHandler {
@@ -11,7 +12,7 @@ public class NotificareBrowserActionHandler: NotificareBaseActionHandler {
             let target = action.target,
             let url = URL(string: target),
             let urlScheme = url.scheme,
-            NotificareUtils.getSupportedUrlSchemes().contains(urlScheme) || UIApplication.shared.canOpenURL(url)
+            PlistUtils.getSupportedUrlSchemes().contains(urlScheme) || UIApplication.shared.canOpenURL(url)
         {
             DispatchQueue.main.async {
                 UIApplication.shared.open(url, options: [:]) { _ in
