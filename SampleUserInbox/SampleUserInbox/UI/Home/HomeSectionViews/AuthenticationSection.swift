@@ -34,6 +34,7 @@ internal struct AuthenticationSection: View {
                 }
                 .buttonStyle(BorderlessButtonStyle())
                 .frame(maxWidth: .infinity)
+                .disabled(isLoggedIn)
 
                 Divider()
 
@@ -42,6 +43,7 @@ internal struct AuthenticationSection: View {
                 }
                 .buttonStyle(BorderlessButtonStyle())
                 .frame(maxWidth: .infinity)
+                .disabled(!isLoggedIn)
             }
         } header: {
             Text(String(localized: "home_authentication_flow"))

@@ -36,21 +36,21 @@ internal struct LaunchFlowSection: View {
             }
 
             HStack {
-                Button(String(localized: "home_unlaunch")) {
-                    unlaunch()
-                }
-                .buttonStyle(BorderlessButtonStyle())
-                .frame(maxWidth: .infinity)
-                .disabled(!isReady)
-
-                Divider()
-
                 Button(String(localized: "home_launch")) {
                     launch()
                 }
                 .buttonStyle(BorderlessButtonStyle())
                 .frame(maxWidth: .infinity)
                 .disabled(isReady)
+
+                Divider()
+
+                Button(String(localized: "home_unlaunch")) {
+                    unlaunch()
+                }
+                .buttonStyle(BorderlessButtonStyle())
+                .frame(maxWidth: .infinity)
+                .disabled(!isReady)
             }
         } header: {
             Text(String(localized: "home_launch_flow"))

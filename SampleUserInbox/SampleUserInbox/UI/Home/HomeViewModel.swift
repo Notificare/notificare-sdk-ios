@@ -64,6 +64,7 @@ internal class HomeViewModel: NSObject, ObservableObject {
                 self?.isReady = ready
                 self?.viewState = ready ? .isReady : .isNotReady
                 self?.applicationInfo = self?.getApplicationInfo()
+                self?.onNotificareStatusAuthUpdate(isReady: ready)
             }
             .store(in: &cancellables)
 
@@ -88,7 +89,6 @@ internal class HomeViewModel: NSObject, ObservableObject {
         // Load initial stats
 
         updateStats()
-        startAutoLoginFlow()
 
         applicationInfo = getApplicationInfo()
     }
@@ -356,7 +356,7 @@ extension HomeViewModel {
                 try await logoutWithBrowser()
                 isLoggedIn = false
 
-                Logger.main.info("Successfull logout.")
+                Logger.main.info("Successfully logout.")
             } catch {
                 Logger.main.error("Logout flow failed: \(error)")
 
@@ -367,17 +367,41 @@ extension HomeViewModel {
         }
     }
 
+    private func onNotificareStatusAuthUpdate(isReady: Bool) {
+        if !isReady {
+            isDeviceRegistered = false
+            return
+        }
+
+        startAutoLoginFlow()
+    }
+
     private func startAutoLoginFlow() {
         guard credentialsManager.canRenew() else {
             Logger.main.error("Auto login failed, no valid credentials found. Login required.")
             return
         }
 
-        isLoggedIn = true
-        isDeviceRegistered = true
-        updateBadge()
+        Task {
+            do {
+                let accessToken = try await credentialsManager.credentials().accessToken
+                isLoggedIn = true
 
-        Logger.main.info("Successfull auto login.")
+                try await registerDevice(accessToken: accessToken)
+                isDeviceRegistered = true
+                Logger.main.info("Register device success.")
+
+                updateBadge()
+
+                Logger.main.info("Successfully auto login.")
+            } catch {
+                userMessages.append(
+                    UserMessage(variant: .clientLoginFlowFailure)
+                )
+
+                Logger.main.error("Failed to auto login: \(error)")
+            }
+        }
     }
 
     private func loginWithBrowser() async throws -> Credentials {
