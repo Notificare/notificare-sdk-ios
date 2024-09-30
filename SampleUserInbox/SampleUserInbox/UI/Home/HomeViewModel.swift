@@ -330,7 +330,7 @@ extension HomeViewModel {
                     Logger.main.error("Failed to store credentials.")
                 }
 
-                try await registerDevice(accessToken: credentials.accessToken)
+                try await registerDeviceWithUser(accessToken: credentials.accessToken)
                 isDeviceRegistered = true
                 Logger.main.info("Register device success.")
 
@@ -346,17 +346,27 @@ extension HomeViewModel {
     }
 
     internal func startLogoutFlow() {
-        if !credentialsManager.clear() {
-            Logger.main.error("Failed to remove credentials. Skipping logout flow.")
-            return
-        }
-
         Task {
             do {
+                let accessToken = try await credentialsManager.credentials().accessToken
+                Logger.main.info("Successfully got token to register device as anonymous.")
+
+                if !credentialsManager.clear() {
+                    Logger.main.error("Failed to remove credentials. Skipping logout flow.")
+                    return
+                }
+
+                Logger.main.info("Successfully cleared local credentials.")
+
                 try await logoutWithBrowser()
                 isLoggedIn = false
+                Logger.main.info("Successfully logout from browser.")
 
-                Logger.main.info("Successfully logout.")
+                try await registerDeviceAsAnonymous(accessToken: accessToken)
+                isDeviceRegistered = false
+                Logger.main.info("Register device as anonymous success.")
+
+                Logger.main.info("Successfully logout flow.")
             } catch {
                 Logger.main.error("Logout flow failed: \(error)")
 
@@ -387,7 +397,7 @@ extension HomeViewModel {
                 let accessToken = try await credentialsManager.credentials().accessToken
                 isLoggedIn = true
 
-                try await registerDevice(accessToken: accessToken)
+                try await registerDeviceWithUser(accessToken: accessToken)
                 isDeviceRegistered = true
                 Logger.main.info("Register device success.")
 
@@ -419,7 +429,15 @@ extension HomeViewModel {
             .clearSession()
     }
 
-    private func registerDevice(accessToken: String) async throws {
+    private func registerDeviceWithUser(accessToken: String) async throws {
+        try await registerDevice(accessToken: accessToken, method: .put)
+    }
+
+    private func registerDeviceAsAnonymous(accessToken: String) async throws {
+        try await registerDevice(accessToken: accessToken, method: .delete)
+    }
+
+    private func registerDevice(accessToken: String, method: HTTPMethod) async throws {
         guard let userInboxClient = SampleUserInboxClient.loadFromPlist(), userInboxClient.isAllDataFilled else {
             throw UserInboxError.missingClientData
         }
@@ -428,7 +446,7 @@ extension HomeViewModel {
             throw UserInboxError.noDeviceIdAvailable
         }
 
-        let response = await AF.request("\(userInboxClient.registerDeviceUrl)/\(deviceId)", method: .put, headers: .authorizationHeader(accessToken: accessToken))
+        let response = await AF.request("\(userInboxClient.registerDeviceUrl)/\(deviceId)", method: method, headers: .authorizationHeader(accessToken: accessToken))
             .validate()
             .serializingString(emptyResponseCodes: [200, 204, 205])
             .response
