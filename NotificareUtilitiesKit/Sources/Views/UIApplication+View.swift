@@ -3,8 +3,8 @@
 //
 import  UIKit
 
-public enum UIKitUtils {
-    public static var rootViewController: UIViewController? {
+extension UIApplication {
+    public var rootViewController: UIViewController? {
         var window: UIWindow? = UIApplication.shared.delegate?.window ?? nil
 
         if window == nil {

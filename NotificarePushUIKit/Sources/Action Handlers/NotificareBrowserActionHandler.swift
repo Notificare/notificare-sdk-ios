@@ -12,7 +12,7 @@ public class NotificareBrowserActionHandler: NotificareBaseActionHandler {
             let target = action.target,
             let url = URL(string: target),
             let urlScheme = url.scheme,
-            PlistUtils.getSupportedUrlSchemes().contains(urlScheme) || UIApplication.shared.canOpenURL(url)
+            Bundle.main.getSupportedUrlSchemes().contains(urlScheme) || UIApplication.shared.canOpenURL(url)
         {
             DispatchQueue.main.async {
                 UIApplication.shared.open(url, options: [:]) { _ in

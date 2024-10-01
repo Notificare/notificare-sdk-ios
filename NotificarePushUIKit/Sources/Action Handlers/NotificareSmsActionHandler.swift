@@ -35,11 +35,11 @@ public class NotificareSmsActionHandler: NotificareBaseActionHandler {
     }
 
     private func dismiss() {
-        if let rootViewController = UIKitUtils.rootViewController, rootViewController.presentedViewController != nil {
+        if let rootViewController = UIApplication.shared.rootViewController, rootViewController.presentedViewController != nil {
             rootViewController.dismiss(animated: true, completion: nil)
         } else {
             if sourceViewController is UIAlertController {
-                UIKitUtils.rootViewController?.dismiss(animated: true, completion: nil)
+                UIApplication.shared.rootViewController?.dismiss(animated: true, completion: nil)
             } else {
                 sourceViewController.dismiss(animated: true) {
                     self.sourceViewController.becomeFirstResponder()

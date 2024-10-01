@@ -93,64 +93,64 @@ extension NotificareApplication: Identifiable {}
 // JSON: NotificareApplication
 extension NotificareApplication {
     public func toJson() throws -> [String: Any] {
-        let data = try JSONUtils.jsonEncoder.encode(self)
+        let data = try JSONEncoder.notificare.encode(self)
         return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
     }
 
     public static func fromJson(json: [String: Any]) throws -> NotificareApplication {
         let data = try JSONSerialization.data(withJSONObject: json, options: [])
-        return try JSONUtils.jsonDecoder.decode(NotificareApplication.self, from: data)
+        return try JSONDecoder.notificare.decode(NotificareApplication.self, from: data)
     }
 }
 
 // JSON: NotificareApplication.InboxConfig
 extension NotificareApplication.InboxConfig {
     public func toJson() throws -> [String: Any] {
-        let data = try JSONUtils.jsonEncoder.encode(self)
+        let data = try JSONEncoder.notificare.encode(self)
         return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
     }
 
     public static func fromJson(json: [String: Any]) throws -> NotificareApplication.InboxConfig {
         let data = try JSONSerialization.data(withJSONObject: json, options: [])
-        return try JSONUtils.jsonDecoder.decode(NotificareApplication.InboxConfig.self, from: data)
+        return try JSONDecoder.notificare.decode(NotificareApplication.InboxConfig.self, from: data)
     }
 }
 
 // JSON: NotificareApplication.RegionConfig
 extension NotificareApplication.RegionConfig {
     public func toJson() throws -> [String: Any] {
-        let data = try JSONUtils.jsonEncoder.encode(self)
+        let data = try JSONEncoder.notificare.encode(self)
         return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
     }
 
     public static func fromJson(json: [String: Any]) throws -> NotificareApplication.RegionConfig {
         let data = try JSONSerialization.data(withJSONObject: json, options: [])
-        return try JSONUtils.jsonDecoder.decode(NotificareApplication.RegionConfig.self, from: data)
+        return try JSONDecoder.notificare.decode(NotificareApplication.RegionConfig.self, from: data)
     }
 }
 
 // JSON: NotificareApplication.UserDataField
 extension NotificareApplication.UserDataField {
     public func toJson() throws -> [String: Any] {
-        let data = try JSONUtils.jsonEncoder.encode(self)
+        let data = try JSONEncoder.notificare.encode(self)
         return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
     }
 
     public static func fromJson(json: [String: Any]) throws -> NotificareApplication.UserDataField {
         let data = try JSONSerialization.data(withJSONObject: json, options: [])
-        return try JSONUtils.jsonDecoder.decode(NotificareApplication.UserDataField.self, from: data)
+        return try JSONDecoder.notificare.decode(NotificareApplication.UserDataField.self, from: data)
     }
 }
 
 // JSON: NotificareApplication.ActionCategory
 extension NotificareApplication.ActionCategory {
     public func toJson() throws -> [String: Any] {
-        let data = try JSONUtils.jsonEncoder.encode(self)
+        let data = try JSONEncoder.notificare.encode(self)
         return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
     }
 
     public static func fromJson(json: [String: Any]) throws -> NotificareApplication.ActionCategory {
         let data = try JSONSerialization.data(withJSONObject: json, options: [])
-        return try JSONUtils.jsonDecoder.decode(NotificareApplication.ActionCategory.self, from: data)
+        return try JSONDecoder.notificare.decode(NotificareApplication.ActionCategory.self, from: data)
     }
 }

@@ -21,7 +21,7 @@ internal class NotificareQrCodeScannerViewController: UIViewController {
     internal override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = ApplicationUtils.applicationName
+        title = Bundle.main.applicationName
         navigationController?.isNavigationBarHidden = false
 
         setupCaptureSession()

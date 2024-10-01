@@ -11,11 +11,11 @@ internal enum LocalStorage {
 
     internal static var hasReviewedCurrentVersion: Bool {
         get {
-            let version = ApplicationUtils.applicationVersion
+            let version = Bundle.main.applicationVersion
             return UserDefaults.standard.bool(forKey: "\(Keys.reviewedVersion.rawValue)_\(version)")
         }
         set {
-            let version = ApplicationUtils.applicationVersion
+            let version = Bundle.main.applicationVersion
             UserDefaults.standard.setValue(newValue, forKey: "\(Keys.reviewedVersion.rawValue)_\(version)")
         }
     }

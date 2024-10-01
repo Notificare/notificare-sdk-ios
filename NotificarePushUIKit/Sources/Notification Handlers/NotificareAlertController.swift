@@ -14,7 +14,7 @@ internal class NotificareAlertController: NotificareNotificationPresenter {
     }
 
     internal func present(in controller: UIViewController) {
-        let alert = UIAlertController(title: notification.title ?? ApplicationUtils.applicationName,
+        let alert = UIAlertController(title: notification.title ?? Bundle.main.applicationName,
                                       message: notification.message,
                                       preferredStyle: .alert)
 

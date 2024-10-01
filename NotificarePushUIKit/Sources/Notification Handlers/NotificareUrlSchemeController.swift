@@ -62,7 +62,7 @@ internal class NotificareUrlSchemeController: NotificareNotificationPresenter {
             return
         }
 
-        guard PlistUtils.getSupportedUrlSchemes().contains(urlScheme) else {
+        guard Bundle.main.getSupportedUrlSchemes().contains(urlScheme) else {
             logger.warning("Cannot open a deep link that's not supported by the application.")
 
             DispatchQueue.main.async {

@@ -2,9 +2,9 @@
 // Copyright (c) 2024 Notificare. All rights reserved.
 //
 
-public enum PlistUtils {
-    public static func getSupportedUrlSchemes() -> [String] {
-        guard let urlTypes = Bundle.main.object(forInfoDictionaryKey: "CFBundleURLTypes") as? [[String: Any]] else {
+extension Bundle {
+    public func getSupportedUrlSchemes() -> [String] {
+        guard let urlTypes = object(forInfoDictionaryKey: "CFBundleURLTypes") as? [[String: Any]] else {
             return []
         }
 

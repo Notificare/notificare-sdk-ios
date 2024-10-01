@@ -43,7 +43,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         try await upgradeToLongLivedDeviceWhenNeeded()
 
         if let storedDevice {
-            let isApplicationUpgrade = storedDevice.appVersion != ApplicationUtils.applicationVersion
+            let isApplicationUpgrade = storedDevice.appVersion != Bundle.main.applicationVersion
 
             try await updateDevice()
 
@@ -177,8 +177,8 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
             LocalStorage.preferredLanguage = language
             LocalStorage.preferredRegion = region
         } else {
-            let language = DeviceUtils.deviceLanguage
-            let region = DeviceUtils.deviceRegion
+            let language = Locale.current.deviceLanguage()
+            let region = Locale.current.deviceRegion()
 
             try await updateLanguage(language, region: region)
 
@@ -456,15 +456,15 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
     private func createDevice() async throws {
         let backgroundRefreshStatus = await UIApplication.shared.backgroundRefreshStatus
 
-        let payload = NotificareInternals.PushAPI.Payloads.CreateDevice(
+        let payload = await NotificareInternals.PushAPI.Payloads.CreateDevice(
             language: getDeviceLanguage(),
             region: getDeviceRegion(),
             platform: "iOS",
-            osVersion: DeviceUtils.osVersion,
+            osVersion: UIDevice.current.osVersion,
             sdkVersion: NOTIFICARE_VERSION,
-            appVersion: ApplicationUtils.applicationVersion,
-            deviceString: DeviceUtils.deviceString,
-            timeZoneOffset: DeviceUtils.timeZoneOffset,
+            appVersion: Bundle.main.applicationVersion,
+            deviceString: UIDevice.current.deviceString,
+            timeZoneOffset: TimeZone.current.timeZoneOffset,
             backgroundAppRefresh: backgroundRefreshStatus == .available
         )
 
@@ -496,15 +496,15 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
 
         let backgroundRefreshStatus = await UIApplication.shared.backgroundRefreshStatus
 
-        let payload = NotificareInternals.PushAPI.Payloads.UpdateDevice(
+        let payload = await NotificareInternals.PushAPI.Payloads.UpdateDevice(
             language: getDeviceLanguage(),
             region: getDeviceRegion(),
             platform: "iOS",
-            osVersion: DeviceUtils.osVersion,
+            osVersion: UIDevice.current.osVersion,
             sdkVersion: NOTIFICARE_VERSION,
-            appVersion: ApplicationUtils.applicationVersion,
-            deviceString: DeviceUtils.deviceString,
-            timeZoneOffset: DeviceUtils.timeZoneOffset,
+            appVersion: Bundle.main.applicationVersion,
+            deviceString: UIDevice.current.deviceString,
+            timeZoneOffset: TimeZone.current.timeZoneOffset,
             backgroundAppRefresh: backgroundRefreshStatus == .available
         )
 
@@ -559,7 +559,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         if response.statusCode == 201, let data {
             logger.debug("New device identifier created.")
 
-            let decoder = JSONUtils.jsonDecoder
+            let decoder = JSONDecoder.notificare
             let decoded =  try decoder.decode(NotificareInternals.PushAPI.Responses.CreateDevice.self, from: data)
 
             generatedDeviceId = decoded.device.deviceID
@@ -607,7 +607,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         let payload = NotificareInternals.PushAPI.Payloads.Device.UpdateTimeZone(
             language: getDeviceLanguage(),
             region: getDeviceRegion(),
-            timeZoneOffset: DeviceUtils.timeZoneOffset
+            timeZoneOffset: TimeZone.current.timeZoneOffset
         )
 
         try await NotificareRequest.Builder()
@@ -673,11 +673,11 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
     }
 
     private func getDeviceLanguage() -> String {
-        LocalStorage.preferredLanguage ?? DeviceUtils.deviceLanguage
+        LocalStorage.preferredLanguage ?? Locale.current.deviceLanguage()
     }
 
     private func getDeviceRegion() -> String {
-        LocalStorage.preferredRegion ?? DeviceUtils.deviceRegion
+        LocalStorage.preferredRegion ?? Locale.current.deviceRegion()
     }
 
     // MARK: - Notification Center listeners

@@ -2,8 +2,14 @@
 // Copyright (c) 2024 Notificare. All rights reserved.
 //
 
-public enum NetworkUtils {
-    public static func userAgent(sdkVersion: String) -> String {
-        "\(ApplicationUtils.applicationName)/\(ApplicationUtils.applicationVersion) Notificare/\(sdkVersion) iOS/\(DeviceUtils.osVersion)"
+import UIKit
+
+extension UIDevice {
+    public func userAgent(bundle: Bundle = Bundle.main, sdkVersion: String) -> String {
+        let appName = bundle.applicationName
+        let appVersion = bundle.applicationVersion
+        let osVersion = UIDevice.current.systemVersion
+
+        return "\(appName)/\(appVersion) Notificare/\(sdkVersion) iOS/\(osVersion)"
     }
 }

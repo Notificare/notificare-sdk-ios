@@ -115,7 +115,7 @@ extension NotificareWebViewController: WKNavigationDelegate, WKUIDelegate {
                 let url = navigationAction.request.url,
                 let urlScheme = url.scheme,
                 urlScheme != "http", urlScheme != "https",
-                PlistUtils.getSupportedUrlSchemes().contains(urlScheme) || UIApplication.shared.canOpenURL(url)
+                Bundle.main.getSupportedUrlSchemes().contains(urlScheme) || UIApplication.shared.canOpenURL(url)
             {
                 UIApplication.shared.open(url, options: [:]) { _ in
                     decisionHandler(.cancel)
@@ -133,7 +133,7 @@ extension NotificareWebViewController: WKNavigationDelegate, WKUIDelegate {
     }
 
     public func webView(_: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame _: WKFrameInfo, completionHandler: @escaping () -> Void) {
-        let alert = UIAlertController(title: ApplicationUtils.applicationName,
+        let alert = UIAlertController(title: Bundle.main.applicationName,
                                       message: message,
                                       preferredStyle: .alert)
 
@@ -147,7 +147,7 @@ extension NotificareWebViewController: WKNavigationDelegate, WKUIDelegate {
     }
 
     public func webView(_: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame _: WKFrameInfo, completionHandler: @escaping (Bool) -> Void) {
-        let alert = UIAlertController(title: ApplicationUtils.applicationName,
+        let alert = UIAlertController(title: Bundle.main.applicationName,
                                       message: message,
                                       preferredStyle: .alert)
 
@@ -167,7 +167,7 @@ extension NotificareWebViewController: WKNavigationDelegate, WKUIDelegate {
     }
 
     public func webView(_: WKWebView, runJavaScriptTextInputPanelWithPrompt prompt: String, defaultText: String?, initiatedByFrame _: WKFrameInfo, completionHandler: @escaping (String?) -> Void) {
-        let alert = UIAlertController(title: ApplicationUtils.applicationName,
+        let alert = UIAlertController(title: Bundle.main.applicationName,
                                       message: prompt,
                                       preferredStyle: .alert)
 

@@ -31,7 +31,7 @@ internal enum LocalStorage {
             }
 
             do {
-                let decoder = JSONUtils.jsonDecoder
+                let decoder = JSONDecoder.notificare
                 return try decoder.decode(NotificareTransport.self, from: data)
             } catch {
                 logger.warning("Failed to decode the stored transport.", error: error)
@@ -50,7 +50,7 @@ internal enum LocalStorage {
             }
 
             do {
-                let encoder = JSONUtils.jsonEncoder
+                let encoder = JSONEncoder.notificare
                 let data = try encoder.encode(newValue)
 
                 UserDefaults.standard.set(data, forKey: Keys.transport.rawValue)
@@ -68,7 +68,7 @@ internal enum LocalStorage {
             }
 
             do {
-                let decoder = JSONUtils.jsonDecoder
+                let decoder = JSONDecoder.notificare
                 return try decoder.decode(NotificarePushSubscription.self, from: data)
             } catch {
                 logger.warning("Failed to decode the stored subscription.", error: error)
@@ -87,7 +87,7 @@ internal enum LocalStorage {
             }
 
             do {
-                let encoder = JSONUtils.jsonEncoder
+                let encoder = JSONEncoder.notificare
                 let data = try encoder.encode(newValue)
 
                 UserDefaults.standard.set(data, forKey: Keys.subscription.rawValue)

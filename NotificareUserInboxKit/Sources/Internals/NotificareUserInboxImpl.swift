@@ -31,7 +31,7 @@ internal class NotificareUserInboxImpl: NotificareModule, NotificareUserInbox {
     }
 
     public func parseResponse(data: Data) throws -> NotificareUserInboxResponse {
-        try JSONUtils.jsonDecoder.decode(NotificareUserInboxResponse.self, from: data)
+        try JSONDecoder.notificare.decode(NotificareUserInboxResponse.self, from: data)
     }
 
     public func open(_ item: NotificareUserInboxItem, _ completion: @escaping NotificareCallback<NotificareNotification>) {

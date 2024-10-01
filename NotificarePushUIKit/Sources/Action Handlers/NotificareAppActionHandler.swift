@@ -8,7 +8,7 @@ import UIKit
 
 public class NotificareAppActionHandler: NotificareBaseActionHandler {
     internal override func execute() {
-        if let target = action.target, let url = URL(string: target), let urlScheme = url.scheme, PlistUtils.getSupportedUrlSchemes().contains(urlScheme) || UIApplication.shared.canOpenURL(url)
+        if let target = action.target, let url = URL(string: target), let urlScheme = url.scheme, Bundle.main.getSupportedUrlSchemes().contains(urlScheme) || UIApplication.shared.canOpenURL(url)
         {
             DispatchQueue.main.async {
                 UIApplication.shared.open(url, options: [:]) { _ in

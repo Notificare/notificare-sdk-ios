@@ -16,7 +16,7 @@ extension InboxItemEntity {
     }
 
     internal convenience init(from model: NotificareInboxItem, visible: Bool, context: NSManagedObjectContext) throws {
-        let encoder = JSONUtils.jsonEncoder
+        let encoder = JSONEncoder.notificare
 
         self.init(context: context)
         id = model.id
@@ -35,7 +35,7 @@ extension InboxItemEntity {
     }
 
     internal func setNotification(_ notification: NotificareNotification) throws {
-        let encoder = JSONUtils.jsonEncoder
+        let encoder = JSONEncoder.notificare
 
         do {
             self.notification = try encoder.encode(notification)
@@ -45,7 +45,7 @@ extension InboxItemEntity {
     }
 
     internal func toModel() throws -> NotificareInboxItem {
-        let decoder = JSONUtils.jsonDecoder
+        let decoder = JSONDecoder.notificare
 
         guard let id = id else {
             throw InboxDatabaseError.invalidArgument("id", cause: nil)

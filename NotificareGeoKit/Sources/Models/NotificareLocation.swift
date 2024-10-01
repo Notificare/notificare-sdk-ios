@@ -47,12 +47,12 @@ extension NotificareLocation {
 // JSON: NotificareLocation
 extension NotificareLocation {
     public func toJson() throws -> [String: Any] {
-        let data = try JSONUtils.jsonEncoder.encode(self)
+        let data = try JSONEncoder.notificare.encode(self)
         return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
     }
 
     public static func fromJson(json: [String: Any]) throws -> NotificareLocation {
         let data = try JSONSerialization.data(withJSONObject: json, options: [])
-        return try JSONUtils.jsonDecoder.decode(NotificareLocation.self, from: data)
+        return try JSONDecoder.notificare.decode(NotificareLocation.self, from: data)
     }
 }
