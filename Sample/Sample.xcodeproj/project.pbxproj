@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A52DF072CAC38D400B5F56C /* NotificareUtilitiesKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A52DF062CAC38D400B5F56C /* NotificareUtilitiesKit.framework */; };
+		1A52DF082CAC38D400B5F56C /* NotificareUtilitiesKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1A52DF062CAC38D400B5F56C /* NotificareUtilitiesKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1A8B59F62B72304F00ED46B1 /* ApplicationInfoSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8B59F52B72304F00ED46B1 /* ApplicationInfoSection.swift */; };
 		1A8B59F92B72843800ED46B1 /* ApplicationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8B59F82B72843800ED46B1 /* ApplicationInfo.swift */; };
 		1A8C31102BFF20DA0000BFA6 /* SampleUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8C310F2BFF20DA0000BFA6 /* SampleUser.swift */; };
@@ -130,6 +132,7 @@
 				F2ABF34B269CA32500401D3F /* NotificareAssetsKit.framework in Embed Frameworks */,
 				F20C9C3B27AD33DB00486217 /* NotificareNotificationServiceExtensionKit.framework in Embed Frameworks */,
 				F2EA0724291E9C63009DB7A0 /* NotificareUserInboxKit.framework in Embed Frameworks */,
+				1A52DF082CAC38D400B5F56C /* NotificareUtilitiesKit.framework in Embed Frameworks */,
 				F22650CB258B6E900004F833 /* NotificarePushKit.framework in Embed Frameworks */,
 				F2E801D7269D93C300582DB8 /* NotificareScannablesKit.framework in Embed Frameworks */,
 				F206D6EA28A5366300A35E60 /* NotificareInAppMessagingKit.framework in Embed Frameworks */,
@@ -162,6 +165,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1A52DF062CAC38D400B5F56C /* NotificareUtilitiesKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareUtilitiesKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A8B59F52B72304F00ED46B1 /* ApplicationInfoSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationInfoSection.swift; sourceTree = "<group>"; };
 		1A8B59F82B72843800ED46B1 /* ApplicationInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationInfo.swift; sourceTree = "<group>"; };
 		1A8C310F2BFF20DA0000BFA6 /* SampleUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleUser.swift; sourceTree = "<group>"; };
@@ -277,6 +281,7 @@
 				F2ABF34A269CA32500401D3F /* NotificareAssetsKit.framework in Frameworks */,
 				F22650CA258B6E900004F833 /* NotificarePushKit.framework in Frameworks */,
 				F22650C6258B6E890004F833 /* NotificareKit.framework in Frameworks */,
+				1A52DF072CAC38D400B5F56C /* NotificareUtilitiesKit.framework in Frameworks */,
 				F29B17FC25A4911C007ED6F9 /* NotificarePushUIKit.framework in Frameworks */,
 				F2696AAC26C2843F002EA653 /* NotificareGeoKit.framework in Frameworks */,
 				F216F0B326A8265500F9EF56 /* NotificareLoyaltyKit.framework in Frameworks */,
@@ -503,6 +508,7 @@
 		F251694324D4077D0025B51F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1A52DF062CAC38D400B5F56C /* NotificareUtilitiesKit.framework */,
 				F2EA0722291E9C63009DB7A0 /* NotificareUserInboxKit.framework */,
 				F206D6E828A5366300A35E60 /* NotificareInAppMessagingKit.framework */,
 				F22443D4286CBBBE0015CBD6 /* StoreKit.framework */,
