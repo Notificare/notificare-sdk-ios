@@ -29,10 +29,7 @@
 		1A52DE8D2CA4684700B5F56C /* Bundle+Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A52DE8C2CA4684200B5F56C /* Bundle+Application.swift */; };
 		1A52DE902CA468D200B5F56C /* Bundle+Plist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A52DE8F2CA468CD00B5F56C /* Bundle+Plist.swift */; };
 		1A52DE952CA4698900B5F56C /* UIApplication+View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A52DE942CA4698500B5F56C /* UIApplication+View.swift */; };
-		1A52DE9B2CA5442D00B5F56C /* UIKitUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A52DE9A2CA5442500B5F56C /* UIKitUtilsTests.swift */; };
 		1A52DEA42CA5469200B5F56C /* DictionaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A52DEA32CA5468A00B5F56C /* DictionaryTests.swift */; };
-		1A52DEB22CA54F9700B5F56C /* AnyCodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A52DEB12CA54F9200B5F56C /* AnyCodableTests.swift */; };
-		1A52DEB42CA54FA600B5F56C /* CodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A52DEB32CA54FA200B5F56C /* CodableTests.swift */; };
 		1A52DEB62CA54FAE00B5F56C /* Date+IsoDateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A52DEB52CA54FAA00B5F56C /* Date+IsoDateTests.swift */; };
 		1A52DEBA2CA569DC00B5F56C /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A52DEB92CA569D400B5F56C /* Logger.swift */; };
 		1A52DEC02CA5AB1100B5F56C /* StringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A52DEBF2CA5AB0800B5F56C /* StringTests.swift */; };
@@ -82,10 +79,7 @@
 		1A52DE8C2CA4684200B5F56C /* Bundle+Application.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Application.swift"; sourceTree = "<group>"; };
 		1A52DE8F2CA468CD00B5F56C /* Bundle+Plist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Plist.swift"; sourceTree = "<group>"; };
 		1A52DE942CA4698500B5F56C /* UIApplication+View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+View.swift"; sourceTree = "<group>"; };
-		1A52DE9A2CA5442500B5F56C /* UIKitUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitUtilsTests.swift; sourceTree = "<group>"; };
 		1A52DEA32CA5468A00B5F56C /* DictionaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryTests.swift; sourceTree = "<group>"; };
-		1A52DEB12CA54F9200B5F56C /* AnyCodableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyCodableTests.swift; sourceTree = "<group>"; };
-		1A52DEB32CA54FA200B5F56C /* CodableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableTests.swift; sourceTree = "<group>"; };
 		1A52DEB52CA54FAA00B5F56C /* Date+IsoDateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+IsoDateTests.swift"; sourceTree = "<group>"; };
 		1A52DEB92CA569D400B5F56C /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		1A52DEBF2CA5AB0800B5F56C /* StringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringTests.swift; sourceTree = "<group>"; };
@@ -167,9 +161,7 @@
 			isa = PBXGroup;
 			children = (
 				1A52DF032CAC130300B5F56C /* JSON */,
-				1A52DEB02CA54F7500B5F56C /* AnyCodable */,
 				1A52DED02CAAF09C00B5F56C /* Application */,
-				1A52DEAF2CA54F6E00B5F56C /* Codable */,
 				1A52DE972CA5429B00B5F56C /* Data */,
 				1A52DEAA2CA54F2800B5F56C /* Device */,
 				1A52DEA22CA5467D00B5F56C /* Dictionary */,
@@ -179,7 +171,6 @@
 				1A52DEE42CAB124500B5F56C /* Plist */,
 				1A52DEAB2CA54F3200B5F56C /* String */,
 				1A52DE962CA5416200B5F56C /* UIColor */,
-				1A52DE992CA5441E00B5F56C /* UIKit */,
 				1A52DE622CA1AFD000B5F56C /* URL */,
 			);
 			path = Tests;
@@ -341,14 +332,6 @@
 			path = ExtraEquatable;
 			sourceTree = "<group>";
 		};
-		1A52DE992CA5441E00B5F56C /* UIKit */ = {
-			isa = PBXGroup;
-			children = (
-				1A52DE9A2CA5442500B5F56C /* UIKitUtilsTests.swift */,
-			);
-			path = UIKit;
-			sourceTree = "<group>";
-		};
 		1A52DEA22CA5467D00B5F56C /* Dictionary */ = {
 			isa = PBXGroup;
 			children = (
@@ -380,22 +363,6 @@
 				1A52DEB52CA54FAA00B5F56C /* Date+IsoDateTests.swift */,
 			);
 			path = IsoDate;
-			sourceTree = "<group>";
-		};
-		1A52DEAF2CA54F6E00B5F56C /* Codable */ = {
-			isa = PBXGroup;
-			children = (
-				1A52DEB32CA54FA200B5F56C /* CodableTests.swift */,
-			);
-			path = Codable;
-			sourceTree = "<group>";
-		};
-		1A52DEB02CA54F7500B5F56C /* AnyCodable */ = {
-			isa = PBXGroup;
-			children = (
-				1A52DEB12CA54F9200B5F56C /* AnyCodableTests.swift */,
-			);
-			path = AnyCodable;
 			sourceTree = "<group>";
 		};
 		1A52DED02CAAF09C00B5F56C /* Application */ = {
@@ -582,11 +549,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				1A52DEA42CA5469200B5F56C /* DictionaryTests.swift in Sources */,
-				1A52DEB42CA54FA600B5F56C /* CodableTests.swift in Sources */,
 				1A52DEE32CAB0DB200B5F56C /* UserAgentTests.swift in Sources */,
-				1A52DEB22CA54F9700B5F56C /* AnyCodableTests.swift in Sources */,
 				1A52DE682CA1B76900B5F56C /* URLTests.swift in Sources */,
-				1A52DE9B2CA5442D00B5F56C /* UIKitUtilsTests.swift in Sources */,
 				1A52DEE62CABE23F00B5F56C /* Bundle+PlistTests.swift in Sources */,
 				1A0E1F952C9B1CE600E15FC7 /* NotificareExtraEquatableTest.swift in Sources */,
 				1A52DEDB2CAB048B00B5F56C /* JSONCodersTests.swift in Sources */,

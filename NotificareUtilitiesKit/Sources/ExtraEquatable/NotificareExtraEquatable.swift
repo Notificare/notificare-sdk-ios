@@ -13,10 +13,11 @@ public struct NotificareExtraEquatable<T>: Equatable {
     }
 
     public static func == (lhs: NotificareExtraEquatable<T>, rhs: NotificareExtraEquatable<T>) -> Bool {
-        let lhsOptional = lhs.wrappedValue as Any?
-        let rhsOptional = rhs.wrappedValue as Any?
+        let lhsOptional = lhs.wrappedValue as Any
+        let rhsOptional = rhs.wrappedValue as Any
 
-        if case (.none, .none) = (lhsOptional, rhsOptional) {
+        if case (Optional<Any>.none, Optional<Any>.none) = (lhsOptional, rhsOptional)
+        {
             return true
         }
 
