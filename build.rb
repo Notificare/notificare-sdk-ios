@@ -110,6 +110,9 @@ class Framework
         Framework.new(scheme: 'NotificareUserInboxKit',
                       spm_zip_filename: 'spm-notificare-user-inbox.zip',
                       spm_checksum_placeholder: '{{NOTIFICARE_USER_INBOX_CHECKSUM}}'),
+        Framework.new(scheme: 'NotificareUtilitiesKit',
+                      spm_zip_filename: 'spm-notificare-utilities.zip',
+                      spm_checksum_placeholder: '{{NOTIFICARE_UTILITIES_CHECKSUM}}'),
       ]
     end
   end

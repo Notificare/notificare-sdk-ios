@@ -52,6 +52,10 @@ let package = Package(
             name: "NotificareUserInboxKit",
             targets: ["NotificareUserInboxKit"]
         ),
+        .library(
+            name: "NotificareUtilitiesKit",
+            targets: ["NotificareUtilitiesKit"]
+        ),
     ],
     targets: [
         .binaryTarget(
@@ -108,6 +112,11 @@ let package = Package(
             name: "NotificareUserInboxKit",
             url: "https://cdn.notifica.re/libs/ios/{{VERSION}}/spm-notificare-user-inbox.zip",
             checksum: "{{NOTIFICARE_USER_INBOX_CHECKSUM}}"
+        ),
+        .binaryTarget(
+            name: "NotificareUtilitiesKit",
+            url: "https://cdn.notifica.re/libs/ios/{{VERSION}}/spm-notificare-utilities.zip",
+            checksum: "{{NOTIFICARE_UTILITIES_CHECKSUM}}"
         ),
     ]
 )
