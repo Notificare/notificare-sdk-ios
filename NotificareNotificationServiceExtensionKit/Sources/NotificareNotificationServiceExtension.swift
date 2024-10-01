@@ -48,12 +48,12 @@ public class NotificareNotificationServiceExtension {
         guard let attachment = request.content.userInfo["attachment"] as? [String: Any],
               let uri = attachment["uri"] as? String
         else {
-            logger.debug("Could not find an attachment URI. Please ensure you're calling this method with the correct payload.")
+            // NotificareLogger.debug("Could not find an attachment URI. Please ensure you're calling this method with the correct payload.")
             return nil
         }
 
         guard let url = URL(string: uri) else {
-            logger.warning("Invalid attachment URI. Please ensure it's a valid URL.")
+            // NotificareLogger.warning("Invalid attachment URI. Please ensure it's a valid URL.")
             throw NotificareNotificationServiceExtension.Error.invalidUrl
         }
 
