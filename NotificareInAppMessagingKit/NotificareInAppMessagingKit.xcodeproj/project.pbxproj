@@ -10,6 +10,7 @@
 		1A1FE05F2C4517A300468B84 /* NotificareInAppMessageTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1FE05E2C4517A300468B84 /* NotificareInAppMessageTest.swift */; };
 		1A3274212C5B3F51002B78BA /* InAppMessagingPushAPIModelsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3274202C5B3F51002B78BA /* InAppMessagingPushAPIModelsTest.swift */; };
 		1A52DE752CA460E300B5F56C /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A52DE742CA460E300B5F56C /* Logger.swift */; };
+		1A52DEF02CAC05B600B5F56C /* NotificareUtilitiesKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A52DEEF2CAC05B600B5F56C /* NotificareUtilitiesKit.framework */; };
 		F206D6ED28A53E3500A35E60 /* NotificareInAppMessagingBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F206D6EC28A53E3500A35E60 /* NotificareInAppMessagingBannerView.swift */; };
 		F206D6F028A5427800A35E60 /* UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = F206D6EF28A5427800A35E60 /* UIKit.swift */; };
 		F206D6F428A65F3D00A35E60 /* NotificareInAppMessagingCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F206D6F328A65F3D00A35E60 /* NotificareInAppMessagingCardView.swift */; };
@@ -46,6 +47,7 @@
 		1A1FE05E2C4517A300468B84 /* NotificareInAppMessageTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareInAppMessageTest.swift; sourceTree = "<group>"; };
 		1A3274202C5B3F51002B78BA /* InAppMessagingPushAPIModelsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppMessagingPushAPIModelsTest.swift; sourceTree = "<group>"; };
 		1A52DE742CA460E300B5F56C /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		1A52DEEF2CAC05B600B5F56C /* NotificareUtilitiesKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareUtilitiesKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F206D6EC28A53E3500A35E60 /* NotificareInAppMessagingBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareInAppMessagingBannerView.swift; sourceTree = "<group>"; };
 		F206D6EF28A5427800A35E60 /* UIKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKit.swift; sourceTree = "<group>"; };
 		F206D6F328A65F3D00A35E60 /* NotificareInAppMessagingCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareInAppMessagingCardView.swift; sourceTree = "<group>"; };
@@ -74,6 +76,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A52DEF02CAC05B600B5F56C /* NotificareUtilitiesKit.framework in Frameworks */,
 				F2E5140D28A2BBE600D1E0BF /* NotificareKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -164,6 +167,7 @@
 		F2E5140B28A2BBE600D1E0BF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1A52DEEF2CAC05B600B5F56C /* NotificareUtilitiesKit.framework */,
 				F2E5140C28A2BBE600D1E0BF /* NotificareKit.framework */,
 			);
 			name = Frameworks;

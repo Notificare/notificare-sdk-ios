@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1A32741C2C5B3765002B78BA /* NotificareVisitTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A32741B2C5B3765002B78BA /* NotificareVisitTest.swift */; };
 		1A52DE722CA45C2C00B5F56C /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A52DE712CA45C2C00B5F56C /* Logger.swift */; };
+		1A52DEFF2CAC0F1E00B5F56C /* NotificareUtilitiesKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A52DEEB2CAC05A200B5F56C /* NotificareUtilitiesKit.framework */; };
 		1ACA07DF2C59C4E8002CB47D /* NotificareHeadingTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACA07DE2C59C4E8002CB47D /* NotificareHeadingTest.swift */; };
 		1ACA07E12C59C63B002CB47D /* NotificareRegionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACA07E02C59C63B002CB47D /* NotificareRegionTest.swift */; };
 		1ACA07E32C59CD88002CB47D /* NotificareBeaconTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACA07E22C59CD88002CB47D /* NotificareBeaconTest.swift */; };
@@ -55,6 +56,7 @@
 /* Begin PBXFileReference section */
 		1A32741B2C5B3765002B78BA /* NotificareVisitTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareVisitTest.swift; sourceTree = "<group>"; };
 		1A52DE712CA45C2C00B5F56C /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		1A52DEEB2CAC05A200B5F56C /* NotificareUtilitiesKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareUtilitiesKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1ACA07DE2C59C4E8002CB47D /* NotificareHeadingTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareHeadingTest.swift; sourceTree = "<group>"; };
 		1ACA07E02C59C63B002CB47D /* NotificareRegionTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareRegionTest.swift; sourceTree = "<group>"; };
 		1ACA07E22C59CD88002CB47D /* NotificareBeaconTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareBeaconTest.swift; sourceTree = "<group>"; };
@@ -96,6 +98,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A52DEFF2CAC0F1E00B5F56C /* NotificareUtilitiesKit.framework in Frameworks */,
 				F289F5D425B8614B0091AB97 /* NotificareKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -163,6 +166,7 @@
 		F258DE8124BC8419006F9ABD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1A52DEEB2CAC05A200B5F56C /* NotificareUtilitiesKit.framework */,
 				F289F5D125B8614B0091AB97 /* NotificareKit.framework */,
 			);
 			name = Frameworks;

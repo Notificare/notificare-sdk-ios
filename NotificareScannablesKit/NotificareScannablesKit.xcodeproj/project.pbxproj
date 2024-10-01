@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1A52DE7F2CA4628000B5F56C /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A52DE7E2CA4628000B5F56C /* Logger.swift */; };
+		1A52DEFC2CAC0DA200B5F56C /* NotificareUtilitiesKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A52DEE72CAC044000B5F56C /* NotificareUtilitiesKit.framework */; };
 		1ACA07CF2C57AA87002CB47D /* NotificareScannableTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACA07CE2C57AA87002CB47D /* NotificareScannableTest.swift */; };
 		1ACA07D32C58F4D5002CB47D /* ScannablesPushApiModelsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACA07D22C58F4D5002CB47D /* ScannablesPushApiModelsTest.swift */; };
 		F258DE2E24BC4FAD006F9ABD /* NotificareScannablesKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F258DE2424BC4FAD006F9ABD /* NotificareScannablesKit.framework */; };
@@ -38,6 +39,7 @@
 
 /* Begin PBXFileReference section */
 		1A52DE7E2CA4628000B5F56C /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		1A52DEE72CAC044000B5F56C /* NotificareUtilitiesKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareUtilitiesKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1ACA07CE2C57AA87002CB47D /* NotificareScannableTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareScannableTest.swift; sourceTree = "<group>"; };
 		1ACA07D22C58F4D5002CB47D /* ScannablesPushApiModelsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannablesPushApiModelsTest.swift; sourceTree = "<group>"; };
 		F22650B0258B6E410004F833 /* NotificareKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -66,6 +68,7 @@
 			files = (
 				F289F5BD25B860E90091AB97 /* NotificareKit.framework in Frameworks */,
 				F2E801E7269DC9C600582DB8 /* CoreNFC.framework in Frameworks */,
+				1A52DEFC2CAC0DA200B5F56C /* NotificareUtilitiesKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -129,6 +132,7 @@
 		F258DE9B24BC96D0006F9ABD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1A52DEE72CAC044000B5F56C /* NotificareUtilitiesKit.framework */,
 				F2E801E6269DC9C500582DB8 /* CoreNFC.framework */,
 				F22650B0258B6E410004F833 /* NotificareKit.framework */,
 			);
