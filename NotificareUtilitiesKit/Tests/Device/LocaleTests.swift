@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2024 . All rights reserved.
+// Copyright (c) 2024 Notificare. All rights reserved.
 //
 
 import Foundation

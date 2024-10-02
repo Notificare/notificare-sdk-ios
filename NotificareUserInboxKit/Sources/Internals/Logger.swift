@@ -10,6 +10,7 @@ internal var logger: NotificareLogger = {
         subsystem: "re.notifica.inbox.user",
         category: "NotificareUserInbox"
     )
+
     logger.labelIgnoreList.append("NotificareUserInbox")
 
     return logger

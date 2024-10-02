@@ -7,9 +7,10 @@ import NotificareUtilitiesKit
 
 internal var logger: NotificareLogger = {
     var logger = NotificareLogger(
-        subsystem: "re.notifica.iap",
+        subsystem: "re.notifica.iam",
         category: "NotificareInAppMessaging"
     )
+
     logger.labelIgnoreList.append("NotificareInAppMessaging")
 
     return logger

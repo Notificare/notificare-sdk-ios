@@ -29,6 +29,7 @@ internal struct UIDeviceTests {
         let userAgent = UIDevice.current.userAgent(bundle: mockBundle, sdkVersion: sdkVersion)
 
         let expectedUserAgent = "TestApp/1.2.3 Notificare/\(sdkVersion) iOS/\(expectedOSVersion)"
+
         #expect(userAgent == expectedUserAgent)
     }
 }

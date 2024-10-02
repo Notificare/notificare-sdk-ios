@@ -10,6 +10,7 @@ internal var logger: NotificareLogger = {
         subsystem: "re.notifica.scannables",
         category: "NotificareScannables"
     )
+
     logger.labelIgnoreList.append("NotificareScannables")
 
     return logger

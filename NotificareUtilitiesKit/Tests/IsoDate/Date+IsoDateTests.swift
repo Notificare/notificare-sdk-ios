@@ -38,10 +38,13 @@ internal struct DateIsoDateTests {
 
     @Test
     internal func testToIsoString() {
-        let components = DateComponents(calendar: Calendar(identifier: .gregorian),
-                                        timeZone: TimeZone(identifier: "UTC"),
-                                        year: 2024, month: 9, day: 29,
-                                        hour: 15, minute: 30, second: 0)
+        let components = DateComponents(
+            calendar: Calendar(identifier: .gregorian),
+            timeZone: TimeZone(identifier: "UTC"),
+            year: 2024, month: 9, day: 29,
+            hour: 15, minute: 30, second: 0
+        )
+
         let date = components.date!
 
         let isoString = date.toIsoString()

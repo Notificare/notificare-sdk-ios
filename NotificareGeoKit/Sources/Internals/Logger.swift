@@ -10,6 +10,7 @@ internal var logger: NotificareLogger = {
         subsystem: "re.notifica.geo",
         category: "NotificareGeo"
     )
+
     logger.labelIgnoreList.append("NotificareGeo")
 
     return logger

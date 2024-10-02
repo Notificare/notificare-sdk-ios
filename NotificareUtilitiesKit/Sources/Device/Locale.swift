@@ -14,6 +14,7 @@ extension Locale {
                 language = comps[0]
             }
         }
+
         return language
     }
 
@@ -26,6 +27,7 @@ extension Locale {
                 region = comps[1]
             }
         }
+
         return region
     }
 }

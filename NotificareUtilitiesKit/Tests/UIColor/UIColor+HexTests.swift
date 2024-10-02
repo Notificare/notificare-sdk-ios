@@ -10,6 +10,7 @@ internal struct UIColorsHexTesting {
     @Test
     internal func testValidHexStringWithHash() {
         let color = UIColor(hexString: "#ff5733")
+
         #expect(color == UIColor(
             red: 255 / 255.0,
             green: 87 / 255.0,
@@ -21,6 +22,7 @@ internal struct UIColorsHexTesting {
     @Test
     internal func testValidHexStringWithoutHash() {
         let color = UIColor(hexString: "ff5733")
+
         #expect(color == UIColor(
             red: 255 / 255.0,
             green: 87 / 255.0,
@@ -32,6 +34,7 @@ internal struct UIColorsHexTesting {
     @Test
     internal func testValidHexStringWithAlpha() {
         let color = UIColor(hexString: "#ff5733", alpha: 0.5)
+
         #expect(color == UIColor(
             red: 255 / 255.0,
             green: 87 / 255.0,
@@ -43,7 +46,13 @@ internal struct UIColorsHexTesting {
     @Test
     internal func testInvalidHexString() {
         let color = UIColor(hexString: "zzzzzz")
-        #expect(color != UIColor(red: 255 / 255.0, green: 255 / 255.0, blue: 255 / 255.0, alpha: 1.0))
+
+        #expect(color != UIColor(
+            red: 255 / 255.0,
+            green: 255 / 255.0,
+            blue: 255 / 255.0,
+            alpha: 1.0
+        ))
     }
 
     @Test
@@ -62,6 +71,7 @@ internal struct UIColorsHexTesting {
         )
 
         let hexString = color.toHexString()
+
         #expect(hexString == "#ff5733")
     }
 
@@ -70,6 +80,7 @@ internal struct UIColorsHexTesting {
         let hexString = "#ff5733"
         let color = UIColor(hexString: hexString)
         let convertedHex = color.toHexString()
+
         #expect(convertedHex == hexString)
     }
 
@@ -83,6 +94,7 @@ internal struct UIColorsHexTesting {
         )
 
         let hexString = color.toHexString()
+
         #expect(hexString == "#7f7f7f")
     }
 

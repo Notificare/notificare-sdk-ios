@@ -9,6 +9,7 @@ extension Bundle {
         } else if let bundleName = infoDictionary?["CFBundleName"] as? String {
             return bundleName
         }
+
         return ""
     }
 
@@ -18,6 +19,7 @@ extension Bundle {
         } else if let bundleVersion = object(forInfoDictionaryKey: "CFBundleVersion") as? String {
             return bundleVersion
         }
+
         return "1.0.0"
     }
 }

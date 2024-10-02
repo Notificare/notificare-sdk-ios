@@ -10,6 +10,7 @@ internal var logger: NotificareLogger = {
         subsystem: "re.notifica.loyalty",
         category: "NotificareLoyalty"
     )
+
     logger.labelIgnoreList.append("NotificareLoyalty")
 
     return logger

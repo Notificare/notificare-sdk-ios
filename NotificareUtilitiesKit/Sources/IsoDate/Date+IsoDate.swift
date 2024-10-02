@@ -9,6 +9,7 @@ extension Date {
         guard let date = Date.isoDateParser.date(from: isoDateString) else {
             return nil
         }
+
         self.init(timeIntervalSince1970: date.timeIntervalSince1970)
     }
 
@@ -17,6 +18,7 @@ extension Date {
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
         formatter.locale = Locale(identifier: "en_US_POSIX")
         formatter.timeZone = TimeZone(identifier: "UTC")
+
         return formatter
     }()
 
@@ -25,6 +27,7 @@ extension Date {
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
         formatter.locale = Locale(identifier: "en_US_POSIX")
         formatter.timeZone = TimeZone(identifier: "UTC")
+
         return formatter
     }()
 
