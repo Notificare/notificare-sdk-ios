@@ -3,6 +3,7 @@
 //
 
 import Foundation
+import NotificareUtilitiesKit
 
 extension NotificareInternals.PushAPI.Payloads {
     internal struct CreateDevice: Encodable {

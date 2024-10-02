@@ -3,7 +3,7 @@
 //
 
 import Foundation
-import NotificareKit
+import NotificareUtilitiesKit
 
 internal enum LocalStorage {
     private enum Keys: String {
@@ -31,10 +31,10 @@ internal enum LocalStorage {
             }
 
             do {
-                let decoder = NotificareUtils.jsonDecoder
+                let decoder = JSONDecoder.notificare
                 return try decoder.decode(NotificareTransport.self, from: data)
             } catch {
-                NotificareLogger.warning("Failed to decode the stored transport.", error: error)
+                logger.warning("Failed to decode the stored transport.", error: error)
 
                 // Remove the corrupted transport from local storage.
                 UserDefaults.standard.removeObject(forKey: Keys.transport.rawValue)
@@ -50,13 +50,13 @@ internal enum LocalStorage {
             }
 
             do {
-                let encoder = NotificareUtils.jsonEncoder
+                let encoder = JSONEncoder.notificare
                 let data = try encoder.encode(newValue)
 
                 UserDefaults.standard.set(data, forKey: Keys.transport.rawValue)
                 UserDefaults.standard.synchronize()
             } catch {
-                NotificareLogger.warning("Failed to encode the stored transport.", error: error)
+                logger.warning("Failed to encode the stored transport.", error: error)
             }
         }
     }
@@ -68,10 +68,10 @@ internal enum LocalStorage {
             }
 
             do {
-                let decoder = NotificareUtils.jsonDecoder
+                let decoder = JSONDecoder.notificare
                 return try decoder.decode(NotificarePushSubscription.self, from: data)
             } catch {
-                NotificareLogger.warning("Failed to decode the stored subscription.", error: error)
+                logger.warning("Failed to decode the stored subscription.", error: error)
 
                 // Remove the corrupted value from local storage.
                 UserDefaults.standard.removeObject(forKey: Keys.subscription.rawValue)
@@ -87,13 +87,13 @@ internal enum LocalStorage {
             }
 
             do {
-                let encoder = NotificareUtils.jsonEncoder
+                let encoder = JSONEncoder.notificare
                 let data = try encoder.encode(newValue)
 
                 UserDefaults.standard.set(data, forKey: Keys.subscription.rawValue)
                 UserDefaults.standard.synchronize()
             } catch {
-                NotificareLogger.warning("Failed to encode the stored subscription.", error: error)
+                logger.warning("Failed to encode the stored subscription.", error: error)
             }
         }
     }

@@ -3,6 +3,7 @@
 //
 
 import NotificareKit
+import NotificareUtilitiesKit
 import UIKit
 
 internal class NotificareUrlSchemeController: NotificareNotificationPresenter {
@@ -61,8 +62,8 @@ internal class NotificareUrlSchemeController: NotificareNotificationPresenter {
             return
         }
 
-        guard NotificareUtils.getSupportedUrlSchemes().contains(urlScheme) else {
-            NotificareLogger.warning("Cannot open a deep link that's not supported by the application.")
+        guard Bundle.main.getSupportedUrlSchemes().contains(urlScheme) else {
+            logger.warning("Cannot open a deep link that's not supported by the application.")
 
             DispatchQueue.main.async {
                 Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToPresentNotification: self.notification)

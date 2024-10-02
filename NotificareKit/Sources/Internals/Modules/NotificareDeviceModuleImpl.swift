@@ -4,6 +4,7 @@
 
 import Foundation
 import UIKit
+import NotificareUtilitiesKit
 
 internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, NotificareDeviceModule {
 
@@ -42,7 +43,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         try await upgradeToLongLivedDeviceWhenNeeded()
 
         if let storedDevice {
-            let isApplicationUpgrade = storedDevice.appVersion != NotificareUtils.applicationVersion
+            let isApplicationUpgrade = storedDevice.appVersion != Bundle.main.applicationVersion
 
             try await updateDevice()
 
@@ -51,11 +52,11 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
 
             if isApplicationUpgrade {
                 // It's not the same version, let's log it as an upgrade.
-                NotificareLogger.debug("New version detected")
+                logger.debug("New version detected")
                 try? await Notificare.shared.eventsImplementation().logApplicationUpgrade()
             }
         } else {
-            NotificareLogger.debug("New install detected")
+            logger.debug("New install detected")
 
             try await createDevice()
             hasPendingDeviceRegistrationEvent = true
@@ -159,7 +160,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
 
             // TODO: improve language validator
             guard parts.count == 2 else {
-                NotificareLogger.error("Not a valid preferred language. Use a ISO 639-1 language code and a ISO 3166-2 region code (e.g. en-US).")
+                logger.error("Not a valid preferred language. Use a ISO 639-1 language code and a ISO 3166-2 region code (e.g. en-US).")
                 throw NotificareError.invalidArgument(message: "Invalid preferred language value '\(preferredLanguage)'.")
             }
 
@@ -176,8 +177,8 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
             LocalStorage.preferredLanguage = language
             LocalStorage.preferredRegion = region
         } else {
-            let language = NotificareUtils.deviceLanguage
-            let region = NotificareUtils.deviceRegion
+            let language = Locale.current.deviceLanguage()
+            let region = Locale.current.deviceRegion()
 
             try await updateLanguage(language, region: region)
 
@@ -455,15 +456,15 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
     private func createDevice() async throws {
         let backgroundRefreshStatus = await UIApplication.shared.backgroundRefreshStatus
 
-        let payload = NotificareInternals.PushAPI.Payloads.CreateDevice(
+        let payload = await NotificareInternals.PushAPI.Payloads.CreateDevice(
             language: getDeviceLanguage(),
             region: getDeviceRegion(),
             platform: "iOS",
-            osVersion: NotificareUtils.osVersion,
+            osVersion: UIDevice.current.osVersion,
             sdkVersion: NOTIFICARE_VERSION,
-            appVersion: NotificareUtils.applicationVersion,
-            deviceString: NotificareUtils.deviceString,
-            timeZoneOffset: NotificareUtils.timeZoneOffset,
+            appVersion: Bundle.main.applicationVersion,
+            deviceString: UIDevice.current.deviceString,
+            timeZoneOffset: TimeZone.current.timeZoneOffset,
             backgroundAppRefresh: backgroundRefreshStatus == .available
         )
 
@@ -495,15 +496,15 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
 
         let backgroundRefreshStatus = await UIApplication.shared.backgroundRefreshStatus
 
-        let payload = NotificareInternals.PushAPI.Payloads.UpdateDevice(
+        let payload = await NotificareInternals.PushAPI.Payloads.UpdateDevice(
             language: getDeviceLanguage(),
             region: getDeviceRegion(),
             platform: "iOS",
-            osVersion: NotificareUtils.osVersion,
+            osVersion: UIDevice.current.osVersion,
             sdkVersion: NOTIFICARE_VERSION,
-            appVersion: NotificareUtils.applicationVersion,
-            deviceString: NotificareUtils.deviceString,
-            timeZoneOffset: NotificareUtils.timeZoneOffset,
+            appVersion: Bundle.main.applicationVersion,
+            deviceString: UIDevice.current.deviceString,
+            timeZoneOffset: TimeZone.current.timeZoneOffset,
             backgroundAppRefresh: backgroundRefreshStatus == .available
         )
 
@@ -528,7 +529,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
             return
         }
 
-        NotificareLogger.info("Upgrading current device from legacy format.")
+        logger.info("Upgrading current device from legacy format.")
 
         let deviceId = device.id
         let transport = device.transport!
@@ -556,9 +557,9 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         let generatedDeviceId: String
 
         if response.statusCode == 201, let data {
-            NotificareLogger.debug("New device identifier created.")
+            logger.debug("New device identifier created.")
 
-            let decoder = NotificareUtils.jsonDecoder
+            let decoder = JSONDecoder.notificare
             let decoded =  try decoder.decode(NotificareInternals.PushAPI.Responses.CreateDevice.self, from: data)
 
             generatedDeviceId = decoded.device.deviceID
@@ -606,7 +607,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         let payload = NotificareInternals.PushAPI.Payloads.Device.UpdateTimeZone(
             language: getDeviceLanguage(),
             region: getDeviceRegion(),
-            timeZoneOffset: NotificareUtils.timeZoneOffset
+            timeZoneOffset: TimeZone.current.timeZoneOffset
         )
 
         try await NotificareRequest.Builder()
@@ -672,42 +673,42 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
     }
 
     private func getDeviceLanguage() -> String {
-        LocalStorage.preferredLanguage ?? NotificareUtils.deviceLanguage
+        LocalStorage.preferredLanguage ?? Locale.current.deviceLanguage()
     }
 
     private func getDeviceRegion() -> String {
-        LocalStorage.preferredRegion ?? NotificareUtils.deviceRegion
+        LocalStorage.preferredRegion ?? Locale.current.deviceRegion()
     }
 
     // MARK: - Notification Center listeners
 
     @objc private func updateDeviceTimezone() {
-        NotificareLogger.info("Device timezone changed.")
+        logger.info("Device timezone changed.")
 
         Task {
             try? await updateTimezone()
-            NotificareLogger.info("Device timezone updated.")
+            logger.info("Device timezone updated.")
         }
     }
 
     @objc private func updateDeviceLanguage() {
-        NotificareLogger.info("Device language changed.")
+        logger.info("Device language changed.")
 
         let language = getDeviceLanguage()
         let region = getDeviceRegion()
 
         Task {
             try? await updateLanguage(language, region: region)
-            NotificareLogger.info("Device language updated.")
+            logger.info("Device language updated.")
         }
     }
 
     @objc private func updateDeviceBackgroundAppRefresh() {
-        NotificareLogger.info("Device background app refresh status changed.")
+        logger.info("Device background app refresh status changed.")
 
         Task {
             try? await updateBackgroundAppRefresh()
-            NotificareLogger.info("Device background app refresh status updated.")
+            logger.info("Device background app refresh status updated.")
         }
     }
 }

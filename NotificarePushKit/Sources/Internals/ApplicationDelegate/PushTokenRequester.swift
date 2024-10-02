@@ -24,21 +24,21 @@ internal class PushTokenRequester {
 
     internal func signalTokenReceived(_ token: Data) {
         guard let continuation else {
-            NotificareLogger.warning("Received an APNS token without a continuation available.")
+            logger.warning("Received an APNS token without a continuation available.")
             return
         }
 
-        NotificareLogger.debug("Received an APNS token to continue.")
+        logger.debug("Received an APNS token to continue.")
         continuation.resume(returning: token.toHexString())
     }
 
     internal func signalTokenRequestError(_ error: Error) {
         guard let continuation else {
-            NotificareLogger.warning("Received an APNS token error without a continuation available.")
+            logger.warning("Received an APNS token error without a continuation available.")
             return
         }
 
-        NotificareLogger.debug("Received an APNS error to continue.")
+        logger.debug("Received an APNS error to continue.")
         continuation.resume(throwing: error)
     }
 
@@ -50,18 +50,18 @@ internal class PushTokenRequester {
         }
 
         if let task {
-            NotificareLogger.debug("Reusing pending APNS token task.")
+            logger.debug("Reusing pending APNS token task.")
             return task
         }
 
-        NotificareLogger.debug("Creating a new APNS token task.")
+        logger.debug("Creating a new APNS token task.")
 
         let task = Task {
             try await withCheckedThrowingContinuation { continuation in
                 self.continuation = continuation
 
                 DispatchQueue.main.async {
-                    NotificareLogger.debug("Registering for remote notifications with the operative system.")
+                    logger.debug("Registering for remote notifications with the operative system.")
                     UIApplication.shared.registerForRemoteNotifications()
                 }
             }

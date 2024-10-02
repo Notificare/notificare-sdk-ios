@@ -64,12 +64,12 @@ public class Notificare {
 
     public func configure(servicesInfo: NotificareServicesInfo, options: NotificareOptions) {
         guard state <= .configured else {
-            NotificareLogger.warning("Unable to reconfigure Notificare once launched.")
+            logger.warning("Unable to reconfigure Notificare once launched.")
             return
         }
 
         if state == .configured {
-            NotificareLogger.info("Reconfiguring Notificare with another set of application keys.")
+            logger.info("Reconfiguring Notificare with another set of application keys.")
         }
 
         do {
@@ -81,13 +81,15 @@ public class Notificare {
         self.servicesInfo = servicesInfo
         self.options = options
 
+        logger.hasDebugLoggingEnabled = self.options?.debugLoggingEnabled ?? false
+
         if !LocalStorage.migrated {
-            NotificareLogger.debug("Checking if there is legacy data that needs to be migrated.")
+            logger.debug("Checking if there is legacy data that needs to be migrated.")
             let migration = LocalStorageMigration()
 
             if migration.hasLegacyData {
                 migration.migrate()
-                NotificareLogger.info("Legacy data found and migrated to the new storage format.")
+                logger.info("Legacy data found and migrated to the new storage format.")
             }
 
             LocalStorage.migrated = true
@@ -100,7 +102,7 @@ public class Notificare {
             LocalStorage.deferredLinkChecked = LocalStorage.device != nil
         }
 
-        NotificareLogger.debug("Configuring network services.")
+        logger.debug("Configuring network services.")
         configureReachability(servicesInfo: servicesInfo)
 
         if options.swizzlingEnabled {
@@ -113,31 +115,31 @@ public class Notificare {
 
             NotificareSwizzler.setup(withRemoteNotifications: swizzleApns)
         } else {
-            NotificareLogger.warning("""
+            logger.warning("""
             Automatic App Delegate Proxy is not enabled. \
             You will need to forward UIAppDelegate events to Notificare manually. \
             Please check the documentation for which events to forward.
             """)
         }
 
-        NotificareLogger.debug("Configuring available modules.")
+        logger.debug("Configuring available modules.")
         database.configure()
 
         NotificareInternals.Module.allCases.forEach { module in
             if let instance = module.klass?.instance {
-                NotificareLogger.debug("Configuring module: \(module)")
+                logger.debug("Configuring module: \(module)")
                 instance.configure()
             }
         }
 
-        NotificareLogger.debug("Notificare configured all services.")
+        logger.debug("Notificare configured all services.")
         state = .configured
 
         if !servicesInfo.hasDefaultHosts {
-            NotificareLogger.info("Notificare configured with customized hosts.")
-            NotificareLogger.debug("REST API host: \(servicesInfo.hosts.restApi)")
-            NotificareLogger.debug("AppLinks host: \(servicesInfo.hosts.appLinks)")
-            NotificareLogger.debug("Short Links host: \(servicesInfo.hosts.shortLinks)")
+            logger.info("Notificare configured with customized hosts.")
+            logger.debug("REST API host: \(servicesInfo.hosts.restApi)")
+            logger.debug("AppLinks host: \(servicesInfo.hosts.appLinks)")
+            logger.debug("Short Links host: \(servicesInfo.hosts.shortLinks)")
         }
     }
 
@@ -154,24 +156,24 @@ public class Notificare {
 
     public func launch() async throws {
         if state == .none {
-            NotificareLogger.debug("Notificare wasn't configured. Configuring before launching.")
+            logger.debug("Notificare wasn't configured. Configuring before launching.")
             configure()
         }
 
         if state > .configured {
-            NotificareLogger.warning("Notificare has already been launched. Skipping...")
+            logger.warning("Notificare has already been launched. Skipping...")
             return
         }
 
-        NotificareLogger.info("Launching Notificare.")
+        logger.info("Launching Notificare.")
         state = .launching
 
         do {
             // Start listening for reachability events.
-            NotificareLogger.debug("Start listening to reachability events.")
+            logger.debug("Start listening to reachability events.")
             try reachability!.startNotifier()
         } catch {
-            NotificareLogger.error("Failed to start listening to reachability events.", error: error)
+            logger.error("Failed to start listening to reachability events.", error: error)
             fatalError("Failed to start listening to reachability events.")
         }
 
@@ -180,16 +182,16 @@ public class Notificare {
             let storedApplication = LocalStorage.application
 
             if let storedApplication, storedApplication.id != application.id {
-                NotificareLogger.warning("Incorrect application keys detected. Resetting Notificare to a clean state.")
+                logger.warning("Incorrect application keys detected. Resetting Notificare to a clean state.")
 
                 for module in NotificareInternals.Module.allCases {
                     if let instance = module.klass?.instance {
-                        NotificareLogger.debug("Resetting module: \(module)")
+                        logger.debug("Resetting module: \(module)")
 
                         do {
                             try await instance.clearStorage()
                         } catch {
-                            NotificareLogger.debug("Failed to reset '\(module)'.", error: error)
+                            logger.debug("Failed to reset '\(module)'.", error: error)
                             throw error
                         }
                     }
@@ -204,12 +206,12 @@ public class Notificare {
             // Loop all possible modules and launch the available ones.
             for module in NotificareInternals.Module.allCases {
                 if let instance = module.klass?.instance {
-                    NotificareLogger.debug("Launching module: \(module)")
+                    logger.debug("Launching module: \(module)")
 
                     do {
                         try await instance.launch()
                     } catch {
-                        NotificareLogger.debug("Failed to launch '\(module)'.", error: error)
+                        logger.debug("Failed to launch '\(module)'.", error: error)
                         throw error
                     }
                 }
@@ -223,7 +225,7 @@ public class Notificare {
                 self.delegate?.notificare(self, onReady: application)
             }
         } catch {
-            NotificareLogger.error("Failed to launch Notificare.", error: error)
+            logger.error("Failed to launch Notificare.", error: error)
             state = .configured
             throw error
         }
@@ -233,10 +235,10 @@ public class Notificare {
             for module in NotificareInternals.Module.allCases {
                 if let instance = module.klass?.instance {
                     do {
-                        NotificareLogger.debug("Post-launching module: \(module)")
+                        logger.debug("Post-launching module: \(module)")
                         try await instance.postLaunch()
                     } catch {
-                        NotificareLogger.error("Failed to post-launch '\(module)'.", error: error)
+                        logger.error("Failed to post-launch '\(module)'.", error: error)
                     }
                 }
             }
@@ -256,30 +258,30 @@ public class Notificare {
 
     public func unlaunch() async throws {
         guard isReady else {
-            NotificareLogger.warning("Cannot un-launch Notificare before it has been launched.")
+            logger.warning("Cannot un-launch Notificare before it has been launched.")
             return
         }
 
-        NotificareLogger.info("Un-launching Notificare.")
+        logger.info("Un-launching Notificare.")
 
         // Loop all possible modules and un-launch the available ones.
         for module in NotificareInternals.Module.allCases.reversed() {
             if let instance = module.klass?.instance {
-                NotificareLogger.debug("Un-launching module: \(module)")
+                logger.debug("Un-launching module: \(module)")
 
                 do {
                     try await instance.unlaunch()
                 } catch {
-                    NotificareLogger.debug("Failed to un-launch '\(module)'.", error: error)
+                    logger.debug("Failed to un-launch '\(module)'.", error: error)
                     throw error
                 }
             }
         }
 
-        NotificareLogger.debug("Removing device.")
+        logger.debug("Removing device.")
         try await self.deviceImplementation().delete()
 
-        NotificareLogger.info("Un-launched Notificare.")
+        logger.info("Un-launched Notificare.")
         self.state = .configured
 
         DispatchQueue.main.async {
@@ -462,7 +464,7 @@ public class Notificare {
     }
 
     public func removeNotificationFromNotificationCenter(_ notificationId: String) {
-        NotificareLogger.debug("Removing notification '\(notificationId)' from the notification center.")
+        logger.debug("Removing notification '\(notificationId)' from the notification center.")
         UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [notificationId])
     }
 
@@ -474,9 +476,9 @@ public class Notificare {
         Task {
             do {
                 try await deviceImplementation().registerTestDevice(nonce: nonce)
-                NotificareLogger.info("Device registered for testing.")
+                logger.info("Device registered for testing.")
             } catch {
-                NotificareLogger.error("Failed to register the device for testing.", error: error)
+                logger.error("Failed to register the device for testing.", error: error)
             }
         }
 
@@ -490,23 +492,23 @@ public class Notificare {
 
         Task {
             do {
-                NotificareLogger.debug("Handling a dynamic link.")
+                logger.debug("Handling a dynamic link.")
                 let link = try await fetchDynamicLink(url.absoluteString)
 
                 guard let targetUrl = URL(string: link.target) else {
-                    NotificareLogger.warning("Failed to parse the dynamic link target url.")
+                    logger.warning("Failed to parse the dynamic link target url.")
                     return
                 }
 
                 DispatchQueue.main.async {
                     UIApplication.shared.open(targetUrl, options: [:]) { opened in
                         if !opened {
-                            NotificareLogger.warning("The dynamic link's target was not handled by the application.")
+                            logger.warning("The dynamic link's target was not handled by the application.")
                         }
                     }
                 }
             } catch {
-                NotificareLogger.warning("Failed to fetch the dynamic link.", error: error)
+                logger.warning("Failed to fetch the dynamic link.", error: error)
             }
         }
 
@@ -516,7 +518,7 @@ public class Notificare {
     @MainActor
     public func evaluateDeferredLink() async throws -> Bool {
         guard LocalStorage.deferredLinkChecked == false else {
-            NotificareLogger.debug("Deferred link already evaluated.")
+            logger.debug("Deferred link already evaluated.")
             return false
         }
 
@@ -525,24 +527,24 @@ public class Notificare {
         }
 
         guard UIPasteboard.general.hasURLs else {
-            NotificareLogger.debug("Detected URLs in the clipboard.")
+            logger.debug("Detected URLs in the clipboard.")
             return false
         }
 
         guard let deferredUrl = UIPasteboard.general.url else {
-            NotificareLogger.warning("Detected URLs in the clipboard but the user denied access.")
+            logger.warning("Detected URLs in the clipboard but the user denied access.")
             return false
         }
 
         let dynamicLink = try await fetchDynamicLink(deferredUrl.absoluteString)
 
         guard let url = URL(string: dynamicLink.target) else {
-            NotificareLogger.warning("Failed to parse the dynamic link target url.")
+            logger.warning("Failed to parse the dynamic link target url.")
             return false
         }
 
         guard UIApplication.shared.canOpenURL(url) else {
-            NotificareLogger.warning("Cannot open a deep link that's not supported by the application.")
+            logger.warning("Cannot open a deep link that's not supported by the application.")
             return false
         }
 
@@ -572,11 +574,11 @@ public class Notificare {
             reachability = try NotificareReachability(hostname: url.host!)
 
             reachability?.whenReachable = { _ in
-                NotificareLogger.debug("Notificare is reachable.")
+                logger.debug("Notificare is reachable.")
             }
 
             reachability?.whenUnreachable = { _ in
-                NotificareLogger.debug("Notificare is unreachable.")
+                logger.debug("Notificare is unreachable.")
             }
         } catch {
             fatalError("Failed to configure the reachability module: \(error.localizedDescription)")
@@ -585,17 +587,17 @@ public class Notificare {
 
     private func printLaunchSummary(application: NotificareApplication) {
         let enabledServices = application.services.filter(\.value).map(\.key)
-        let enabledModules = NotificareUtils.getEnabledPeerModules()
+        let enabledModules = ModuleUtils.getEnabledPeerModules()
 
-        NotificareLogger.info("Notificare is ready to use for application.")
-        NotificareLogger.debug("/==================================================================================/")
-        NotificareLogger.debug("App name: \(application.name)")
-        NotificareLogger.debug("App ID: \(application.id)")
-        NotificareLogger.debug("App services: \(enabledServices.joined(separator: ", "))")
-        NotificareLogger.debug("/==================================================================================/")
-        NotificareLogger.debug("SDK version: \(Notificare.SDK_VERSION)")
-        NotificareLogger.debug("SDK modules: \(enabledModules.joined(separator: ", "))")
-        NotificareLogger.debug("/==================================================================================/")
+        logger.info("Notificare is ready to use for application.")
+        logger.debug("/==================================================================================/")
+        logger.debug("App name: \(application.name)")
+        logger.debug("App ID: \(application.id)")
+        logger.debug("App services: \(enabledServices.joined(separator: ", "))")
+        logger.debug("/==================================================================================/")
+        logger.debug("SDK version: \(Notificare.SDK_VERSION)")
+        logger.debug("SDK modules: \(enabledModules.joined(separator: ", "))")
+        logger.debug("/==================================================================================/")
     }
 
     private func loadServiceInfoFile() -> NotificareServicesInfo {
@@ -658,23 +660,23 @@ public class Notificare {
         }
 
         guard let servicesInfo = servicesInfo else {
-            NotificareLogger.warning("Unable to parse dynamic link. Notificare services have not been configured.")
+            logger.warning("Unable to parse dynamic link. Notificare services have not been configured.")
             return nil
         }
 
         guard host.matches("^([a-z0-9-])+\\.\\Q\(servicesInfo.hosts.shortLinks)\\E$".toRegex()) else {
-            NotificareLogger.debug("Domain pattern wasn't a match.")
+            logger.debug("Domain pattern wasn't a match.")
             return nil
         }
 
         guard url.pathComponents.count == 2 else {
-            NotificareLogger.debug("Path components length wasn't a match.")
+            logger.debug("Path components length wasn't a match.")
             return nil
         }
 
         let code = url.pathComponents[1]
         guard code.matches("^[a-zA-Z0-9_-]+$".toRegex()) else {
-            NotificareLogger.debug("First path component value wasn't a match.")
+            logger.debug("First path component value wasn't a match.")
             return nil
         }
 

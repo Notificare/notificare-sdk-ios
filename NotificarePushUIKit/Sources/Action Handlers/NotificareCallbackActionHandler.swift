@@ -7,6 +7,7 @@ import CoreGraphics
 import CoreMedia
 import MobileCoreServices
 import NotificareKit
+import NotificareUtilitiesKit
 import UIKit
 
 public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
@@ -55,7 +56,7 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
             }
         }
 
-        viewController.title = notification.title ?? NotificareUtils.applicationName
+        viewController.title = notification.title ?? Bundle.main.applicationName
         setupNavigationActions()
 
         NotificationCenter.default.addObserver(self,
@@ -222,7 +223,7 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
               Bundle.main.object(forInfoDictionaryKey: "NSCameraUsageDescription") != nil,
               Bundle.main.object(forInfoDictionaryKey: "NSMicrophoneUsageDescription") != nil
         else {
-            NotificareLogger.warning("Missing camera, microphone or photo library permissions. Skipping...")
+            logger.warning("Missing camera, microphone or photo library permissions. Skipping...")
             return
         }
 
@@ -404,11 +405,11 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
     }
 
     private func dismiss() {
-        if let rootViewController = NotificareUtils.rootViewController, rootViewController.presentedViewController != nil {
+        if let rootViewController = UIApplication.shared.rootViewController, rootViewController.presentedViewController != nil {
             rootViewController.dismiss(animated: true, completion: nil)
         } else {
             if sourceViewController is UIAlertController {
-                NotificareUtils.rootViewController?.dismiss(animated: true, completion: nil)
+                UIApplication.shared.rootViewController?.dismiss(animated: true, completion: nil)
             } else {
                 sourceViewController.dismiss(animated: true) {
                     self.sourceViewController.becomeFirstResponder()
@@ -455,7 +456,7 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
 
         let data: Data
         do {
-            data = try NotificareUtils.jsonEncoder.encode(params)
+            data = try JSONEncoder.notificare.encode(params)
         } catch {
             DispatchQueue.main.async {
                 Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToExecuteAction: self.action, for: self.notification, error: error)

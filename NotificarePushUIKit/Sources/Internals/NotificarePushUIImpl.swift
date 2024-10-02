@@ -15,6 +15,10 @@ internal class NotificarePushUIImpl: NotificareModule, NotificarePushUI {
 
     internal static let instance = NotificarePushUIImpl()
 
+    internal func configure() {
+        logger.hasDebugLoggingEnabled = Notificare.shared.options?.debugLoggingEnabled ?? false
+    }
+
     // MARK: - Notificare Push UI
 
     public weak var delegate: NotificarePushUIDelegate?
@@ -30,16 +34,16 @@ internal class NotificarePushUIImpl: NotificareModule, NotificarePushUI {
 //    func presentNotification(_ notification: NotificareNotification, in controller: UITabBarController, for tab: UITabBarItem) {}
 
     public func presentNotification(_ notification: NotificareNotification, in controller: UIViewController) {
-        NotificareLogger.debug("Presenting notification '\(notification.id)'.")
+        logger.debug("Presenting notification '\(notification.id)'.")
 
         guard let type = NotificareNotification.NotificationType(rawValue: notification.type) else {
-            NotificareLogger.warning("Unhandled notification type '\(notification.type)'.")
+            logger.warning("Unhandled notification type '\(notification.type)'.")
             return
         }
 
         switch type {
         case .none:
-            NotificareLogger.debug("Attempting to present a notification of type 'none'. These should be handled by the application instead.")
+            logger.debug("Attempting to present a notification of type 'none'. These should be handled by the application instead.")
             return
 
         case .alert:
@@ -65,19 +69,19 @@ internal class NotificarePushUIImpl: NotificareModule, NotificarePushUI {
 
             switch result {
             case .none:
-                NotificareLogger.debug("Resolving as 'none' notification.")
+                logger.debug("Resolving as 'none' notification.")
                 return
 
             case .urlScheme:
-                NotificareLogger.debug("Resolving as 'url scheme' notification.")
+                logger.debug("Resolving as 'url scheme' notification.")
                 latestPresentableNotificationHandler = NotificareUrlSchemeController(notification: notification)
 
             case .inAppBrowser:
-                NotificareLogger.debug("Resolving as 'in-app browser' notification.")
+                logger.debug("Resolving as 'in-app browser' notification.")
                 latestPresentableNotificationHandler = NotificareInAppBrowserController(notification: notification)
 
             case .webView:
-                NotificareLogger.debug("Resolving as 'web view' notification.")
+                logger.debug("Resolving as 'web view' notification.")
 
                 let notificationController = NotificareUrlViewController()
                 notificationController.notification = notification
@@ -128,7 +132,7 @@ internal class NotificarePushUIImpl: NotificareModule, NotificarePushUI {
             latestPresentableNotificationHandler = notificationController
 
         @unknown default:
-            NotificareLogger.warning("Unknown notification type '\(notification.type)'.")
+            logger.warning("Unknown notification type '\(notification.type)'.")
             return
         }
 
@@ -140,10 +144,10 @@ internal class NotificarePushUIImpl: NotificareModule, NotificarePushUI {
     }
 
     public func presentAction(_ action: NotificareNotification.Action, for notification: NotificareNotification, in controller: UIViewController) {
-        NotificareLogger.debug("Presenting notification action '\(action.type)' for notification '\(notification.id)'.")
+        logger.debug("Presenting notification action '\(action.type)' for notification '\(notification.id)'.")
 
         guard let type = NotificareNotification.Action.ActionType(rawValue: action.type) else {
-            NotificareLogger.warning("Unhandled notification action type '\(action.type)'.")
+            logger.warning("Unhandled notification action type '\(action.type)'.")
             return
         }
 
@@ -178,7 +182,7 @@ internal class NotificarePushUIImpl: NotificareModule, NotificarePushUI {
                                                                                  sourceViewController: controller)
 
         @unknown default:
-            NotificareLogger.warning("Unknown notification action type '\(action.type)'.")
+            logger.warning("Unknown notification action type '\(action.type)'.")
             return
         }
 

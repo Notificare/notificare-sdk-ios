@@ -10,8 +10,8 @@ extension URL {
         var queryItems = components.queryItems ?? []
 
         // Upsert the given query parameter
-        if var existing = queryItems.first(where: { $0.name == name }) {
-            existing.value = value
+        if let index = queryItems.firstIndex(where: { $0.name == name }) {
+            queryItems[index].value = value
         } else {
             queryItems.append(URLQueryItem(name: name, value: value))
         }

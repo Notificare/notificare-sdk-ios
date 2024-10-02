@@ -2,7 +2,7 @@
 // Copyright (c) 2022 Notificare. All rights reserved.
 //
 
-import NotificareKit
+import NotificareUtilitiesKit
 
 public struct NotificareInAppMessage: Codable, Equatable {
     public let id: String
@@ -67,25 +67,25 @@ extension NotificareInAppMessage: Identifiable {}
 // JSON: NotificareInAppMessage
 extension NotificareInAppMessage {
     public func toJson() throws -> [String: Any] {
-        let data = try NotificareUtils.jsonEncoder.encode(self)
+        let data = try JSONEncoder.notificare.encode(self)
         return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
     }
 
     public static func fromJson(json: [String: Any]) throws -> NotificareInAppMessage {
         let data = try JSONSerialization.data(withJSONObject: json, options: [])
-        return try NotificareUtils.jsonDecoder.decode(NotificareInAppMessage.self, from: data)
+        return try JSONDecoder.notificare.decode(NotificareInAppMessage.self, from: data)
     }
 }
 
 // JSON: NotificareInAppMessage.Action
 extension NotificareInAppMessage.Action {
     public func toJson() throws -> [String: Any] {
-        let data = try NotificareUtils.jsonEncoder.encode(self)
+        let data = try JSONEncoder.notificare.encode(self)
         return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
     }
 
     public static func fromJson(json: [String: Any]) throws -> NotificareInAppMessage.Action {
         let data = try JSONSerialization.data(withJSONObject: json, options: [])
-        return try NotificareUtils.jsonDecoder.decode(NotificareInAppMessage.Action.self, from: data)
+        return try JSONDecoder.notificare.decode(NotificareInAppMessage.Action.self, from: data)
     }
 }

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A0E1F772C982FBE00E15FC7 /* NotificareUtilitiesKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A0E1F762C982FBE00E15FC7 /* NotificareUtilitiesKit.framework */; };
+		1A52DE792CA461AF00B5F56C /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A52DE782CA461AF00B5F56C /* Logger.swift */; };
 		1ACA07CD2C5780D0002CB47D /* NotificarePassTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACA07CC2C5780D0002CB47D /* NotificarePassTest.swift */; };
 		F216F0B126A825F700F9EF56 /* NotificareLoyaltyImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F216F0B026A825F700F9EF56 /* NotificareLoyaltyImpl.swift */; };
 		F216F0B626A8266700F9EF56 /* PassKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F216F0B526A8266700F9EF56 /* PassKit.framework */; };
@@ -32,6 +34,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1A0E1F762C982FBE00E15FC7 /* NotificareUtilitiesKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareUtilitiesKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1A52DE782CA461AF00B5F56C /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		1ACA07CC2C5780D0002CB47D /* NotificarePassTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificarePassTest.swift; sourceTree = "<group>"; };
 		F216F0B026A825F700F9EF56 /* NotificareLoyaltyImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareLoyaltyImpl.swift; sourceTree = "<group>"; };
 		F216F0B526A8266700F9EF56 /* PassKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PassKit.framework; path = System/Library/Frameworks/PassKit.framework; sourceTree = SDKROOT; };
@@ -56,6 +60,7 @@
 			files = (
 				F216F0B626A8266700F9EF56 /* PassKit.framework in Frameworks */,
 				F289F5CC25B861320091AB97 /* NotificareKit.framework in Frameworks */,
+				1A0E1F772C982FBE00E15FC7 /* NotificareUtilitiesKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -115,6 +120,7 @@
 		F258DEA524BC96DA006F9ABD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1A0E1F762C982FBE00E15FC7 /* NotificareUtilitiesKit.framework */,
 				F216F0B526A8266700F9EF56 /* PassKit.framework */,
 				F289F5C925B861320091AB97 /* NotificareKit.framework */,
 			);
@@ -134,6 +140,7 @@
 			children = (
 				F2BB224626A870C300B20BF3 /* Network */,
 				F216F0B026A825F700F9EF56 /* NotificareLoyaltyImpl.swift */,
+				1A52DE782CA461AF00B5F56C /* Logger.swift */,
 			);
 			path = Internals;
 			sourceTree = "<group>";
@@ -277,6 +284,7 @@
 				F2BB224926A870D500B20BF3 /* PushAPI+Responses.swift in Sources */,
 				F2DAB391271F0ADB002B5F27 /* NotificareLoyalty.swift in Sources */,
 				F2DAB393271F0B88002B5F27 /* NotificareLoyalty+Augment.swift in Sources */,
+				1A52DE792CA461AF00B5F56C /* Logger.swift in Sources */,
 				F2BB224426A867AF00B20BF3 /* NotificarePass.swift in Sources */,
 				F2BB224B26A8710300B20BF3 /* PushAPI+Models.swift in Sources */,
 			);

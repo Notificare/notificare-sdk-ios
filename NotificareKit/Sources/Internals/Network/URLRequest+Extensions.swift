@@ -1,6 +1,7 @@
 //
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
+import NotificareUtilitiesKit
 
 extension URLRequest {
 //    mutating func setBasicAuthentication(username: String, password: String) {
@@ -17,7 +18,7 @@ extension URLRequest {
 
     public mutating func setNotificareHeaders() {
         setValue(Notificare.SDK_VERSION, forHTTPHeaderField: "X-Notificare-SDK-Version")
-        setValue(NotificareUtils.applicationVersion, forHTTPHeaderField: "X-Notificare-App-Version")
+        setValue(Bundle.main.applicationVersion, forHTTPHeaderField: "X-Notificare-App-Version")
     }
 
     public mutating func setMethod(_ method: String, payload: Data? = nil) {

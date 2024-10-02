@@ -3,6 +3,7 @@
 //
 
 import NotificareKit
+import NotificareUtilitiesKit
 
 extension NotificareInternals.PushAPI.Models {
     internal struct RemoteInboxItem: Equatable {
@@ -56,7 +57,11 @@ extension NotificareInternals.PushAPI.Models.RemoteInboxItem: Decodable {
         subtitle = try container.decodeIfPresent(String.self, forKey: .subtitle)
         message = try container.decode(String.self, forKey: .message)
         attachment = try container.decodeIfPresent(NotificareNotification.Attachment.self, forKey: .attachment)
-        extra = try container.decodeIfPresent([String: Any].self, forKey: .extra) ?? [:]
+        if let extra = try container.decodeIfPresent(NotificareAnyCodable.self, forKey: .extra) {
+            self.extra = extra.value as! [String: Any]
+        } else {
+            extra = [:]
+        }
         opened = try container.decodeIfPresent(Bool.self, forKey: .opened) ?? false
         visible = try container.decodeIfPresent(Bool.self, forKey: .visible) ?? true
         expires = try container.decodeIfPresent(Date.self, forKey: .expires)

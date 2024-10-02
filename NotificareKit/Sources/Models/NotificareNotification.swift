@@ -2,6 +2,8 @@
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
+import NotificareUtilitiesKit
+
 public struct NotificareNotification: Codable, Equatable {
     public let partial: Bool
     public let id: String
@@ -121,13 +123,13 @@ extension NotificareNotification: Identifiable {}
 // JSON: NotificareNotification
 extension NotificareNotification {
     public func toJson() throws -> [String: Any] {
-        let data = try NotificareUtils.jsonEncoder.encode(self)
+        let data = try JSONEncoder.notificare.encode(self)
         return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
     }
 
     public static func fromJson(json: [String: Any]) throws -> NotificareNotification {
         let data = try JSONSerialization.data(withJSONObject: json, options: [])
-        return try NotificareUtils.jsonDecoder.decode(NotificareNotification.self, from: data)
+        return try JSONDecoder.notificare.decode(NotificareNotification.self, from: data)
     }
 }
 
@@ -189,13 +191,13 @@ extension NotificareNotification {
 // JSON: NotificareNotification.Content
 extension NotificareNotification.Content {
     public func toJson() throws -> [String: Any] {
-        let data = try NotificareUtils.jsonEncoder.encode(self)
+        let data = try JSONEncoder.notificare.encode(self)
         return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
     }
 
     public static func fromJson(json: [String: Any]) throws -> NotificareNotification.Content {
         let data = try JSONSerialization.data(withJSONObject: json, options: [])
-        return try NotificareUtils.jsonDecoder.decode(NotificareNotification.Content.self, from: data)
+        return try JSONDecoder.notificare.decode(NotificareNotification.Content.self, from: data)
     }
 }
 
@@ -225,38 +227,38 @@ extension NotificareNotification.Content {
 // JSON: NotificareNotification.Action
 extension NotificareNotification.Action {
     public func toJson() throws -> [String: Any] {
-        let data = try NotificareUtils.jsonEncoder.encode(self)
+        let data = try JSONEncoder.notificare.encode(self)
         return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
     }
 
     public static func fromJson(json: [String: Any]) throws -> NotificareNotification.Action {
         let data = try JSONSerialization.data(withJSONObject: json, options: [])
-        return try NotificareUtils.jsonDecoder.decode(NotificareNotification.Action.self, from: data)
+        return try JSONDecoder.notificare.decode(NotificareNotification.Action.self, from: data)
     }
 }
 
 // JSON: NotificareNotification.Action.Icon
 extension NotificareNotification.Action.Icon {
     public func toJson() throws -> [String: Any] {
-        let data = try NotificareUtils.jsonEncoder.encode(self)
+        let data = try JSONEncoder.notificare.encode(self)
         return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
     }
 
     public static func fromJson(json: [String: Any]) throws -> NotificareNotification.Action.Icon {
         let data = try JSONSerialization.data(withJSONObject: json, options: [])
-        return try NotificareUtils.jsonDecoder.decode(NotificareNotification.Action.Icon.self, from: data)
+        return try JSONDecoder.notificare.decode(NotificareNotification.Action.Icon.self, from: data)
     }
 }
 
 // JSON: NotificareNotification.Attachment
 extension NotificareNotification.Attachment {
     public func toJson() throws -> [String: Any] {
-        let data = try NotificareUtils.jsonEncoder.encode(self)
+        let data = try JSONEncoder.notificare.encode(self)
         return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
     }
 
     public static func fromJson(json: [String: Any]) throws -> NotificareNotification.Attachment {
         let data = try JSONSerialization.data(withJSONObject: json, options: [])
-        return try NotificareUtils.jsonDecoder.decode(NotificareNotification.Attachment.self, from: data)
+        return try JSONDecoder.notificare.decode(NotificareNotification.Attachment.self, from: data)
     }
 }

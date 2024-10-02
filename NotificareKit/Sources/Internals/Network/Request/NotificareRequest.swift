@@ -2,6 +2,9 @@
 // Copyright (c) 2021 Notificare. All rights reserved.
 //
 
+import UIKit
+import NotificareUtilitiesKit
+
 public struct NotificareRequest {
     private static let session: URLSession = {
         let configuration = URLSessionConfiguration.default
@@ -34,7 +37,7 @@ public struct NotificareRequest {
                 }
 
                 do {
-                    let model = try NotificareUtils.jsonDecoder.decode(type, from: data)
+                    let model = try JSONDecoder.notificare.decode(type, from: data)
                     completion(.success(model))
                 } catch {
                     completion(.failure(error))
@@ -191,13 +194,13 @@ public struct NotificareRequest {
             }
 
             let language = Notificare.shared.device().preferredLanguage
-                ?? "\(NotificareUtils.deviceLanguage)-\(NotificareUtils.deviceRegion)"
+            ?? "\(Locale.current.deviceLanguage())-\(Locale.current.deviceRegion())"
 
             // Ensure the standard Notificare headers are added.
             request.setValue(language, forHTTPHeaderField: "Accept-Language")
-            request.setValue(NotificareUtils.userAgent, forHTTPHeaderField: "User-Agent")
+            request.setValue(UIDevice.current.userAgent(sdkVersion: Notificare.SDK_VERSION), forHTTPHeaderField: "User-Agent")
             request.setValue(Notificare.SDK_VERSION, forHTTPHeaderField: "X-Notificare-SDK-Version")
-            request.setValue(NotificareUtils.applicationVersion, forHTTPHeaderField: "X-Notificare-App-Version")
+            request.setValue(Bundle.main.applicationVersion, forHTTPHeaderField: "X-Notificare-App-Version")
 
             // Add application authentication when available
             if let authentication = authentication {
@@ -281,7 +284,7 @@ public struct NotificareRequest {
             guard let applicationKey = Notificare.shared.servicesInfo?.applicationKey,
                   let applicationSecret = Notificare.shared.servicesInfo?.applicationSecret
             else {
-                NotificareLogger.warning("Notificare application authentication not configured.")
+                logger.warning("Notificare application authentication not configured.")
                 return nil
             }
 
@@ -291,7 +294,7 @@ public struct NotificareRequest {
         private func encode<T: Encodable>(_ body: T?) {
             if let body = body {
                 do {
-                    self.body = try NotificareUtils.jsonEncoder.encode(body)
+                    self.body = try JSONEncoder.notificare.encode(body)
                     headers["Content-Type"] = "application/json"
                 } catch {
                     bodyEncodingError = error

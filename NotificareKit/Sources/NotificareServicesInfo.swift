@@ -85,17 +85,17 @@ extension NotificareServicesInfo {
 
     internal func validate() throws {
         guard hosts.restApi.matches(HOST_REGEX) else {
-            NotificareLogger.warning("Invalid REST API host.")
+            logger.warning("Invalid REST API host.")
             throw ValidationError.invalidHost
         }
 
         guard hosts.appLinks.matches(HOST_REGEX) else {
-            NotificareLogger.warning("Invalid AppLinks host.")
+            logger.warning("Invalid AppLinks host.")
             throw ValidationError.invalidHost
         }
 
         guard hosts.shortLinks.matches(HOST_REGEX) else {
-            NotificareLogger.warning("Invalid short links host.")
+            logger.warning("Invalid short links host.")
             throw ValidationError.invalidHost
         }
     }

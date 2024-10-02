@@ -41,22 +41,22 @@ internal class NotificareNotificationCenterDelegate: NSObject, UNUserNotificatio
         }
 
         guard let id = userInfo["id"] as? String else {
-            NotificareLogger.warning("Missing 'id' property in notification payload.")
+            logger.warning("Missing 'id' property in notification payload.")
             return
         }
 
         guard Notificare.shared.isConfigured else {
-            NotificareLogger.warning("Notificare has not been configured.")
+            logger.warning("Notificare has not been configured.")
             return
         }
 
         guard let application = Notificare.shared.application else {
-            NotificareLogger.warning("Notificare application unavailable. Ensure Notificare is configured during the application launch.")
+            logger.warning("Notificare application unavailable. Ensure Notificare is configured during the application launch.")
             return
         }
 
         guard application.id == userInfo["x-application"] as? String else {
-            NotificareLogger.warning("Incoming notification originated from another application.")
+            logger.warning("Incoming notification originated from another application.")
             return
         }
 
@@ -65,12 +65,12 @@ internal class NotificareNotificationCenterDelegate: NSObject, UNUserNotificatio
         do {
             notification = try await Notificare.shared.fetchNotification(id)
         } catch {
-            NotificareLogger.error("Failed to fetch notification with id '\(id)'.", error: error)
+            logger.error("Failed to fetch notification with id '\(id)'.", error: error)
 
             if let partialNotification = NotificareNotification(apnsDictionary: userInfo) {
                 notification = partialNotification
             } else {
-                NotificareLogger.debug("Unable to create a partial notification from the APNS payload.")
+                logger.debug("Unable to create a partial notification from the APNS payload.")
                 return
             }
         }
@@ -78,7 +78,7 @@ internal class NotificareNotificationCenterDelegate: NSObject, UNUserNotificatio
         do {
             try await Notificare.shared.events().logNotificationOpen(id)
         } catch {
-            NotificareLogger.error("Failed to log the notification as open.", error: error)
+            logger.error("Failed to log the notification as open.", error: error)
             return
         }
 
@@ -87,7 +87,7 @@ internal class NotificareNotificationCenterDelegate: NSObject, UNUserNotificatio
                 let responseText = (response as? UNTextInputNotificationResponse)?.userText
 
                 if clickedAction.type == NotificareNotification.Action.ActionType.callback.rawValue, !clickedAction.camera, !clickedAction.keyboard || responseText != nil {
-                    NotificareLogger.debug("Handling a notification action without UI.")
+                    logger.debug("Handling a notification action without UI.")
                     handleQuickResponse(userInfo: userInfo, notification: notification, action: clickedAction, responseText: responseText)
                     return
                 }
@@ -95,7 +95,7 @@ internal class NotificareNotificationCenterDelegate: NSObject, UNUserNotificatio
                 do {
                     try await Notificare.shared.events().logNotificationInfluenced(id)
                 } catch {
-                    NotificareLogger.error("Failed to log the notification influenced open.", error: error)
+                    logger.error("Failed to log the notification influenced open.", error: error)
                     return
                 }
 
@@ -114,7 +114,7 @@ internal class NotificareNotificationCenterDelegate: NSObject, UNUserNotificatio
             do {
                 try await Notificare.shared.events().logNotificationInfluenced(id)
             } catch {
-                NotificareLogger.error("Failed to log the notification influenced open.", error: error)
+                logger.error("Failed to log the notification influenced open.", error: error)
                 return
             }
 
@@ -135,12 +135,12 @@ internal class NotificareNotificationCenterDelegate: NSObject, UNUserNotificatio
         }
 
         guard let application = Notificare.shared.application else {
-            NotificareLogger.warning("Notificare application unavailable. Ensure Notificare is configured during the application launch.")
+            logger.warning("Notificare application unavailable. Ensure Notificare is configured during the application launch.")
             return []
         }
 
         guard application.id == userInfo["x-application"] as? String else {
-            NotificareLogger.warning("Incoming notification originated from another application.")
+            logger.warning("Incoming notification originated from another application.")
             return []
         }
 
@@ -168,17 +168,17 @@ internal class NotificareNotificationCenterDelegate: NSObject, UNUserNotificatio
         let userInfo = notification.request.content.userInfo
 
         guard Notificare.shared.pushImplementation().isNotificareNotification(userInfo) else {
-            NotificareLogger.debug("Cannot handle a notification from a provider other than Notificare.")
+            logger.debug("Cannot handle a notification from a provider other than Notificare.")
             return
         }
 
         guard let id = userInfo["id"] as? String else {
-            NotificareLogger.warning("Missing 'id' property in notification payload.")
+            logger.warning("Missing 'id' property in notification payload.")
             return
         }
 
         guard Notificare.shared.isConfigured else {
-            NotificareLogger.warning("Notificare has not been configured.")
+            logger.warning("Notificare has not been configured.")
             return
         }
 
@@ -189,7 +189,7 @@ internal class NotificareNotificationCenterDelegate: NSObject, UNUserNotificatio
                     Notificare.shared.push().delegate?.notificare(Notificare.shared.push(), shouldOpenSettings: notification)
                 }
             case .failure:
-                NotificareLogger.error("Failed to fetch notification with id '\(id)' for notification settings.")
+                logger.error("Failed to fetch notification with id '\(id)' for notification settings.")
             }
         }
     }
@@ -224,7 +224,7 @@ internal class NotificareNotificationCenterDelegate: NSObject, UNUserNotificatio
         do {
             try await Notificare.shared.callNotificationReplyWebhook(url: url, data: params)
         } catch {
-            NotificareLogger.debug("Failed to call the notification reply webhook.", error: error)
+            logger.debug("Failed to call the notification reply webhook.", error: error)
         }
 
         try await sendQuickResponseAction(notification: notification, action: action, responseText: responseText)
@@ -234,7 +234,7 @@ internal class NotificareNotificationCenterDelegate: NSObject, UNUserNotificatio
         do {
             try await Notificare.shared.createNotificationReply(notification: notification, action: action, message: responseText, media: nil, mimeType: nil)
         } catch {
-            NotificareLogger.debug("Failed to create a notification reply.", error: error)
+            logger.debug("Failed to create a notification reply.", error: error)
             throw error
         }
     }

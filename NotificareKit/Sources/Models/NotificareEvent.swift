@@ -3,6 +3,7 @@
 //
 
 import Foundation
+import NotificareUtilitiesKit
 
 public typealias NotificareEventData = [String: Any]
 

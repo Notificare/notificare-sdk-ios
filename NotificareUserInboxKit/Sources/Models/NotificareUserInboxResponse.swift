@@ -3,7 +3,7 @@
 //
 
 import Foundation
-import NotificareKit
+import NotificareUtilitiesKit
 
 public struct NotificareUserInboxResponse: Codable, Equatable {
     public let count: Int
@@ -23,7 +23,7 @@ extension NotificareUserInboxResponse {
 
             return
         } catch {
-            NotificareLogger.debug("Unable to parse user inbox response from the raw format.", error: error)
+            logger.debug("Unable to parse user inbox response from the raw format.", error: error)
         }
 
         do {
@@ -33,7 +33,7 @@ extension NotificareUserInboxResponse {
             unread = consumer.unread
             items = consumer.items
         } catch {
-            NotificareLogger.debug("Unable to parse user inbox response from the consumer format.", error: error)
+            logger.debug("Unable to parse user inbox response from the consumer format.", error: error)
             throw error
         }
     }
@@ -47,12 +47,12 @@ extension NotificareUserInboxResponse {
 // JSON: NotificareUserInboxResponse
 extension NotificareUserInboxResponse {
     public func toJson() throws -> [String: Any] {
-        let data = try NotificareUtils.jsonEncoder.encode(self)
+        let data = try JSONEncoder.notificare.encode(self)
         return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
     }
 
     public static func fromJson(json: [String: Any]) throws -> NotificareUserInboxResponse {
         let data = try JSONSerialization.data(withJSONObject: json, options: [])
-        return try NotificareUtils.jsonDecoder.decode(NotificareUserInboxResponse.self, from: data)
+        return try JSONDecoder.notificare.decode(NotificareUserInboxResponse.self, from: data)
     }
 }

@@ -4,6 +4,7 @@
 
 import CoreData
 import Foundation
+import NotificareUtilitiesKit
 
 extension NotificareEvent {
     internal func toManaged(context: NSManagedObjectContext) -> NotificareCoreDataEvent {
@@ -19,7 +20,7 @@ extension NotificareEvent {
         event.retries = 0
 
         if let data = data {
-            event.data = try? NotificareUtils.jsonEncoder.encode(NotificareAnyCodable(data))
+            event.data = try? JSONEncoder.notificare.encode(NotificareAnyCodable(data))
         } else {
             event.data = nil
         }
@@ -31,7 +32,7 @@ extension NotificareEvent {
         var eventData: NotificareEventData?
         if
             let data = managed.data,
-            let decoded = try? NotificareUtils.jsonDecoder.decode(NotificareAnyCodable.self, from: data)
+            let decoded = try? JSONDecoder.notificare.decode(NotificareAnyCodable.self, from: data)
         {
             eventData = decoded.value as? NotificareEventData
         }
