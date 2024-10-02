@@ -26,8 +26,8 @@ public protocol NotificareInAppMessagingView: UIView {
     func handleActionClicked(_ actionType: NotificareInAppMessage.ActionType)
 }
 
-public extension NotificareInAppMessagingView {
-    func present(in parentView: UIView) {
+extension NotificareInAppMessagingView {
+    public func present(in parentView: UIView) {
         parentView.addSubview(self)
         parentView.bringSubviewToFront(self)
 
@@ -45,19 +45,22 @@ public extension NotificareInAppMessagingView {
             Notificare.shared.inAppMessaging().delegate?.notificare(Notificare.shared.inAppMessaging(), didPresentMessage: self.message)
         }
 
-        NotificareLogger.debug("Tracking in-app message viewed event.")
-        Notificare.shared.events().logInAppMessageViewed(message) { result in
-            if case let .failure(error) = result {
-                NotificareLogger.error("Failed to log in-message viewed event.", error: error)
+        logger.debug("Tracking in-app message viewed event.")
+
+        Task {
+            do {
+                try await Notificare.shared.events().logInAppMessageViewed(message)
+            } catch {
+                logger.error("Failed to log in-message viewed event.", error: error)
             }
         }
     }
 
-    func animate(transition: NotificareInAppMessagingViewTransition) {
+    public func animate(transition: NotificareInAppMessagingViewTransition) {
         animate(transition: transition) {}
     }
 
-    func dismiss() {
+    public func dismiss() {
         animate(transition: .exit) {
             self.removeFromSuperview()
             self.delegate?.onViewDismissed()
@@ -68,7 +71,7 @@ public extension NotificareInAppMessagingView {
         }
     }
 
-    func handleActionClicked(_ actionType: NotificareInAppMessage.ActionType) {
+    public func handleActionClicked(_ actionType: NotificareInAppMessage.ActionType) {
         let action: NotificareInAppMessage.Action?
 
         switch actionType {
@@ -80,49 +83,50 @@ public extension NotificareInAppMessagingView {
         }
 
         guard let action = action else {
-            NotificareLogger.debug("There is no '\(actionType.rawValue)' action to process.")
+            logger.debug("There is no '\(actionType.rawValue)' action to process.")
             dismiss()
 
             return
         }
 
         guard let urlStr = action.url, let url = URL(string: urlStr) else {
-            NotificareLogger.debug("There is no URL for '\(actionType.rawValue)' action.")
+            logger.debug("There is no URL for '\(actionType.rawValue)' action.")
             dismiss()
 
             return
         }
 
-        Notificare.shared.events().logInAppMessageActionClicked(message, action: actionType) { result in
-            if case let .failure(error) = result {
-                NotificareLogger.error("Failed to log in-app message action.", error: error)
-            }
+        Task { @MainActor in
+            do {
+                try await Notificare.shared.events().logInAppMessageActionClicked(message, action: actionType)
 
-            if UIApplication.shared.canOpenURL(url) {
-                UIApplication.shared.open(url, options: [:]) { success in
-                    if success {
-                        NotificareLogger.info("In-app message action '\(actionType.rawValue)' successfully processed.")
+                if UIApplication.shared.canOpenURL(url) {
+                    if await UIApplication.shared.open(url, options: [:]) {
+                        logger.info("In-app message action '\(actionType.rawValue)' successfully processed.")
 
                         DispatchQueue.main.async {
                             Notificare.shared.inAppMessaging().delegate?.notificare(Notificare.shared.inAppMessaging(), didExecuteAction: action, for: self.message)
                         }
                     } else {
-                        NotificareLogger.warning("Unable to open the action's URL.")
+                        logger.warning("Unable to open the action's URL.")
 
                         DispatchQueue.main.async {
                             Notificare.shared.inAppMessaging().delegate?.notificare(Notificare.shared.inAppMessaging(), didFailToExecuteAction: action, for: self.message, error: nil)
                         }
                     }
-                }
-            } else {
-                NotificareLogger.warning("Unable to open the action's URL.")
+                } else {
+                    logger.warning("Unable to open the action's URL.")
 
-                DispatchQueue.main.async {
-                    Notificare.shared.inAppMessaging().delegate?.notificare(Notificare.shared.inAppMessaging(), didFailToExecuteAction: action, for: self.message, error: nil)
+                    DispatchQueue.main.async {
+                        Notificare.shared.inAppMessaging().delegate?.notificare(Notificare.shared.inAppMessaging(), didFailToExecuteAction: action, for: self.message, error: nil)
+                    }
                 }
+
+                self.dismiss()
+            } catch {
+                logger.error("Failed to log in-app message action.", error: error)
+
             }
-
-            self.dismiss()
         }
     }
 }

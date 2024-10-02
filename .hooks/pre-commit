@@ -1,0 +1,33 @@
+#!/bin/bash
+
+BUILD_DIR=$(xcodebuild -showBuildSettings -workspace Notificare.xcworkspace -scheme Sample-Production | grep " BUILD_DIR " | cut -d " " -f 7) 
+
+SWIFTLINT=$(find ${BUILD_DIR%/Build/Products} -name swiftlint -type f)
+
+if [[ -e "${SWIFTLINT}" ]]; then
+    # Export files in SCRIPT_INPUT_FILE_$count to lint against later
+    count=0
+    while IFS= read -r file_path; do
+        export SCRIPT_INPUT_FILE_$count="$file_path"
+        count=$((count + 1))
+    done < <(git diff --name-only --cached --diff-filter=d | grep ".swift$")
+    export SCRIPT_INPUT_FILE_COUNT=$count
+
+    if [ "$count" -eq 0 ]; then
+        echo "No files to lint!"
+        exit 0
+    fi
+
+    echo "Found $count lintable files! Linting now.."
+    $SWIFTLINT --use-script-input-files --fix --config .swiftlint.yml
+    RESULT=$? # swiftlint exit value is number of errors
+
+    if [ $RESULT -eq 0 ]; then
+        echo "Well done. No violation."
+    fi
+    exit $RESULT
+else
+    echo "WARNING: SwiftLint not found in $SWIFTLINT"
+    echo "You might want to edit .git/hooks/pre-commit to locate your swiftlint"
+    exit 0
+fi

@@ -20,9 +20,6 @@
       location = "group:NotificareLoyaltyKit/NotificareLoyaltyKit.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:NotificareMonetizeKit/NotificareMonetizeKit.xcodeproj">
-   </FileRef>
-   <FileRef
       location = "group:NotificareNotificationServiceExtensionKit/NotificareNotificationServiceExtensionKit.xcodeproj">
    </FileRef>
    <FileRef
@@ -36,6 +33,9 @@
    </FileRef>
    <FileRef
       location = "group:NotificareUserInboxKit/NotificareUserInboxKit.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:NotificareUtilitiesKit/NotificareUtilitiesKit.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Sample/Sample.xcodeproj">

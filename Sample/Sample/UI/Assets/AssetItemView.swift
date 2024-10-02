@@ -6,10 +6,10 @@ import NotificareAssetsKit
 import NotificareKit
 import SwiftUI
 
-struct AssetItemView: View {
-    let asset: NotificareAsset
+internal struct AssetItemView: View {
+    internal let asset: NotificareAsset
 
-    var body: some View {
+    internal var body: some View {
         HStack(alignment: .center, spacing: 16) {
             Group {
                 if let urlStr = asset.url, let url = URL(string: urlStr) {
@@ -51,8 +51,8 @@ struct AssetItemView: View {
     }
 }
 
-struct AssetItemView_Previews: PreviewProvider {
-    static var previews: some View {
+internal struct AssetItemView_Previews: PreviewProvider {
+    internal static var previews: some View {
         AssetItemView(
             asset: NotificareAsset(
                 id: "Asset id",

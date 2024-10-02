@@ -9,83 +9,69 @@ import UIKit
 internal class NotificareLoyaltyImpl: NSObject, NotificareModule, NotificareLoyalty, NotificareLoyaltyIntegration {
     // MARK: - Notificare Module
 
-    static let instance = NotificareLoyaltyImpl()
+    internal static let instance = NotificareLoyaltyImpl()
+
+    internal func configure() {
+        logger.hasDebugLoggingEnabled = Notificare.shared.options?.debugLoggingEnabled ?? false
+    }
 
     // MARK: - Notificare Loyalty
 
-    func fetchPass(serial: String, _ completion: @escaping NotificareCallback<NotificarePass>) {
-        do {
-            try checkPrerequisites()
-        } catch {
-            completion(.failure(error))
-            return
+    public func fetchPass(serial: String, _ completion: @escaping NotificareCallback<NotificarePass>) {
+        Task {
+            do {
+                let result = try await fetchPass(serial: serial)
+                completion(.success(result))
+            } catch {
+                completion(.failure(error))
+            }
         }
+    }
+
+    public func fetchPass(serial: String) async throws -> NotificarePass {
+        try checkPrerequisites()
 
         guard let urlEncodedSerial = serial.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else {
-            completion(.failure(NotificareError.invalidArgument(message: "Invalid serial value.")))
-            return
+            throw NotificareError.invalidArgument(message: "Invalid serial value.")
         }
 
-        NotificareRequest.Builder()
+        let response = try await NotificareRequest.Builder()
             .get("/pass/forserial/\(urlEncodedSerial)")
-            .responseDecodable(NotificareInternals.PushAPI.Responses.Pass.self) { result in
-                switch result {
-                case let .success(response):
-                    self.enhancePass(response.pass, completion)
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
+            .responseDecodable(NotificareInternals.PushAPI.Responses.Pass.self)
+
+        return try await enhancePass(response.pass)
     }
 
-    @available(iOS 13.0, *)
-    func fetchPass(serial: String) async throws -> NotificarePass {
-        try await withCheckedThrowingContinuation { continuation in
-            fetchPass(serial: serial) { result in
-                continuation.resume(with: result)
+    public func fetchPass(barcode: String, _ completion: @escaping NotificareCallback<NotificarePass>) {
+        Task {
+            do {
+                let result = try await fetchPass(barcode: barcode)
+                completion(.success(result))
+            } catch {
+                completion(.failure(error))
             }
         }
     }
 
-    func fetchPass(barcode: String, _ completion: @escaping NotificareCallback<NotificarePass>) {
-        do {
-            try checkPrerequisites()
-        } catch {
-            completion(.failure(error))
-            return
-        }
+    public func fetchPass(barcode: String) async throws -> NotificarePass {
+        try checkPrerequisites()
 
         guard let urlEncodedBarcode = barcode.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else {
-            completion(.failure(NotificareError.invalidArgument(message: "Invalid barcode value.")))
-            return
+            throw NotificareError.invalidArgument(message: "Invalid barcode value.")
         }
 
-        NotificareRequest.Builder()
+        let response = try await NotificareRequest.Builder()
             .get("/pass/forbarcode/\(urlEncodedBarcode)")
-            .responseDecodable(NotificareInternals.PushAPI.Responses.Pass.self) { result in
-                switch result {
-                case let .success(response):
-                    self.enhancePass(response.pass, completion)
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
+            .responseDecodable(NotificareInternals.PushAPI.Responses.Pass.self)
+
+        return try await enhancePass(response.pass)
     }
 
-    @available(iOS 13.0, *)
-    func fetchPass(barcode: String) async throws -> NotificarePass {
-        try await withCheckedThrowingContinuation { continuation in
-            fetchPass(barcode: barcode) { result in
-                continuation.resume(with: result)
-            }
-        }
-    }
-
-    func present(pass: NotificarePass, in controller: UIViewController) {
-        guard let host = Notificare.shared.servicesInfo?.services.pkPassHost,
-              let url = URL(string: "\(host)/\(pass.serial)")
+    public func present(pass: NotificarePass, in controller: UIViewController) {
+        guard let host = Notificare.shared.servicesInfo?.hosts.restApi,
+              let url = URL(string: "https://\(host)/pass/pkpass/\(pass.serial)")
         else {
-            NotificareLogger.warning("Unable to determine the PKPass URL.")
+            logger.warning("Unable to determine the PKPass URL.")
             return
         }
 
@@ -95,22 +81,22 @@ internal class NotificareLoyaltyImpl: NSObject, NotificareModule, NotificareLoya
 
             present(pass, in: controller)
         } catch {
-            NotificareLogger.error("Failed to create PKPass from URL.", error: error)
+            logger.error("Failed to create PKPass from URL.", error: error)
         }
     }
 
     // MARK: - Notificare Loyalty Integration
 
-    var canPresentPasses: Bool {
+    internal var canPresentPasses: Bool {
         PKPassLibrary.isPassLibraryAvailable() && PKAddPassesViewController.canAddPasses()
     }
 
-    func present(notification: NotificareNotification, in viewController: UIViewController) {
+    internal func present(notification: NotificareNotification, in viewController: UIViewController) {
         guard let content = notification.content.first(where: { $0.type == "re.notifica.content.PKPass" }),
               let urlStr = content.data as? String,
               let url = URL(string: urlStr)
         else {
-            NotificareLogger.warning("Trying to present a notification that doesn't contain a pass.")
+            logger.warning("Trying to present a notification that doesn't contain a pass.")
             return
         }
 
@@ -120,7 +106,7 @@ internal class NotificareLoyaltyImpl: NSObject, NotificareModule, NotificareLoya
 
             present(pass, in: viewController)
         } catch {
-            NotificareLogger.error("Failed to create PKPass from URL.", error: error)
+            logger.error("Failed to create PKPass from URL.", error: error)
         }
     }
 
@@ -128,56 +114,42 @@ internal class NotificareLoyaltyImpl: NSObject, NotificareModule, NotificareLoya
 
     private func checkPrerequisites() throws {
         if !Notificare.shared.isReady {
-            NotificareLogger.warning("Notificare is not ready yet.")
+            logger.warning("Notificare is not ready yet.")
             throw NotificareError.notReady
         }
 
         if Notificare.shared.device().currentDevice == nil {
-            NotificareLogger.warning("Notificare device is not yet available.")
+            logger.warning("Notificare device is not yet available.")
             throw NotificareError.deviceUnavailable
         }
 
         guard let application = Notificare.shared.application else {
-            NotificareLogger.warning("Notificare application is not yet available.")
+            logger.warning("Notificare application is not yet available.")
             throw NotificareError.applicationUnavailable
         }
 
         guard application.services[NotificareApplication.ServiceKey.passbook.rawValue] == true else {
-            NotificareLogger.warning("Notificare loyalty functionality is not enabled.")
+            logger.warning("Notificare loyalty functionality is not enabled.")
             throw NotificareError.serviceUnavailable(service: NotificareApplication.ServiceKey.passbook.rawValue)
         }
     }
 
-    private func enhancePass(_ pass: NotificareInternals.PushAPI.Models.Pass, _ completion: @escaping NotificareCallback<NotificarePass>) {
+    private func enhancePass(_ pass: NotificareInternals.PushAPI.Models.Pass) async throws -> NotificarePass {
         if pass.version == 1, let passbook = pass.passbook {
-            fetchPassType(passbook: passbook) { result in
-                switch result {
-                case let .success(type):
-                    let model = self.createPassModel(pass, passType: type)
-                    completion(.success(model))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
+            let type = try await fetchPassType(passbook: passbook)
 
-            return
+            return createPassModel(pass, passType: type)
         }
 
-        let model = createPassModel(pass, passType: nil)
-        completion(.success(model))
+        return createPassModel(pass, passType: nil)
     }
 
-    private func fetchPassType(passbook: String, _ completion: @escaping NotificareCallback<NotificarePass.PassType>) {
-        NotificareRequest.Builder()
+    private func fetchPassType(passbook: String) async throws -> NotificarePass.PassType {
+        let response = try await NotificareRequest.Builder()
             .get("/passbook/\(passbook)")
-            .responseDecodable(NotificareInternals.PushAPI.Responses.FetchPassbookTemplate.self) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.passbook.passStyle))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
+            .responseDecodable(NotificareInternals.PushAPI.Responses.FetchPassbookTemplate.self)
+
+        return response.passbook.passStyle
     }
 
     private func createPassModel(_ pass: NotificareInternals.PushAPI.Models.Pass, passType: NotificarePass.PassType?) -> NotificarePass {
@@ -200,7 +172,7 @@ internal class NotificareLoyaltyImpl: NSObject, NotificareModule, NotificareLoya
 
     private func present(_ pass: PKPass, in controller: UIViewController) {
         guard let passController = PKAddPassesViewController(pass: pass) else {
-            NotificareLogger.warning("Failed to create pass view controller.")
+            logger.warning("Failed to create pass view controller.")
             return
         }
 

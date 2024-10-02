@@ -5,15 +5,15 @@
 import NotificareKit
 import SwiftUI
 
-struct DoNotDisturbSection: View {
-    @Binding var hasDndEnabled: Bool
-    @Binding var startTime: Date
-    @Binding var endTime: Date
+internal struct DoNotDisturbSection: View {
+    @Binding internal var hasDndEnabled: Bool
+    @Binding internal  var startTime: Date
+    @Binding internal var endTime: Date
 
-    let updateDndStatus: (Bool) -> Void
-    let updateDndTime: () -> Void
+    internal let updateDndStatus: (Bool) -> Void
+    internal let updateDndTime: () -> Void
 
-    var body: some View {
+    internal var body: some View {
         Section {
             Toggle(isOn: $hasDndEnabled) {
                 Label {
@@ -53,8 +53,8 @@ struct DoNotDisturbSection: View {
     }
 }
 
-struct DoNotDisturbSection_Previews: PreviewProvider {
-    static var previews: some View {
+internal struct DoNotDisturbSection_Previews: PreviewProvider {
+    internal static var previews: some View {
         @State var hasDndEnabled = false
         @State var startTime = NotificareTime.defaultStart.date
         @State var endTime = NotificareTime.defaultEnd.date

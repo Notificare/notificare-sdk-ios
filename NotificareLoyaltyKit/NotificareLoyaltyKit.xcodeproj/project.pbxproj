@@ -7,10 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A0E1F772C982FBE00E15FC7 /* NotificareUtilitiesKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A0E1F762C982FBE00E15FC7 /* NotificareUtilitiesKit.framework */; };
+		1A52DE792CA461AF00B5F56C /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A52DE782CA461AF00B5F56C /* Logger.swift */; };
+		1ACA07CD2C5780D0002CB47D /* NotificarePassTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACA07CC2C5780D0002CB47D /* NotificarePassTest.swift */; };
 		F216F0B126A825F700F9EF56 /* NotificareLoyaltyImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F216F0B026A825F700F9EF56 /* NotificareLoyaltyImpl.swift */; };
 		F216F0B626A8266700F9EF56 /* PassKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F216F0B526A8266700F9EF56 /* PassKit.framework */; };
 		F258DDE624BC4F32006F9ABD /* NotificareLoyaltyKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F258DDDC24BC4F31006F9ABD /* NotificareLoyaltyKit.framework */; };
-		F258DDEB24BC4F32006F9ABD /* LoyaltyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DDEA24BC4F32006F9ABD /* LoyaltyTests.swift */; };
 		F258DDED24BC4F32006F9ABD /* NotificareLoyaltyKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F258DDDF24BC4F31006F9ABD /* NotificareLoyaltyKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F289F5CC25B861320091AB97 /* NotificareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F289F5C925B861320091AB97 /* NotificareKit.framework */; };
 		F29017F22BD27968009DB80B /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = F29017F12BD27968009DB80B /* PrivacyInfo.xcprivacy */; };
@@ -32,13 +34,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1A0E1F762C982FBE00E15FC7 /* NotificareUtilitiesKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareUtilitiesKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1A52DE782CA461AF00B5F56C /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		1ACA07CC2C5780D0002CB47D /* NotificarePassTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificarePassTest.swift; sourceTree = "<group>"; };
 		F216F0B026A825F700F9EF56 /* NotificareLoyaltyImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareLoyaltyImpl.swift; sourceTree = "<group>"; };
 		F216F0B526A8266700F9EF56 /* PassKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PassKit.framework; path = System/Library/Frameworks/PassKit.framework; sourceTree = SDKROOT; };
 		F258DDDC24BC4F31006F9ABD /* NotificareLoyaltyKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NotificareLoyaltyKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F258DDDF24BC4F31006F9ABD /* NotificareLoyaltyKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificareLoyaltyKit.h; sourceTree = "<group>"; };
 		F258DDE024BC4F31006F9ABD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F258DDE524BC4F32006F9ABD /* NotificareLoyaltyKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NotificareLoyaltyKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		F258DDEA24BC4F32006F9ABD /* LoyaltyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoyaltyTests.swift; sourceTree = "<group>"; };
 		F258DDEC24BC4F32006F9ABD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F289F5C925B861320091AB97 /* NotificareKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F29017F12BD27968009DB80B /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
@@ -56,6 +60,7 @@
 			files = (
 				F216F0B626A8266700F9EF56 /* PassKit.framework in Frameworks */,
 				F289F5CC25B861320091AB97 /* NotificareKit.framework in Frameworks */,
+				1A0E1F772C982FBE00E15FC7 /* NotificareUtilitiesKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -106,8 +111,8 @@
 		F258DDE924BC4F32006F9ABD /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				F258DDEA24BC4F32006F9ABD /* LoyaltyTests.swift */,
 				F258DDEC24BC4F32006F9ABD /* Info.plist */,
+				1ACA07CC2C5780D0002CB47D /* NotificarePassTest.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -115,6 +120,7 @@
 		F258DEA524BC96DA006F9ABD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1A0E1F762C982FBE00E15FC7 /* NotificareUtilitiesKit.framework */,
 				F216F0B526A8266700F9EF56 /* PassKit.framework */,
 				F289F5C925B861320091AB97 /* NotificareKit.framework */,
 			);
@@ -134,6 +140,7 @@
 			children = (
 				F2BB224626A870C300B20BF3 /* Network */,
 				F216F0B026A825F700F9EF56 /* NotificareLoyaltyImpl.swift */,
+				1A52DE782CA461AF00B5F56C /* Logger.swift */,
 			);
 			path = Internals;
 			sourceTree = "<group>";
@@ -181,6 +188,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				1A8C30FB2BF639DB0000BFA6 /* PBXTargetDependency */,
 			);
 			name = NotificareLoyaltyKit;
 			productName = Loyalty;
@@ -198,6 +206,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				1A546F6C2C5B5DAF0059F095 /* PBXTargetDependency */,
 				F258DDE824BC4F32006F9ABD /* PBXTargetDependency */,
 			);
 			name = NotificareLoyaltyKitTests;
@@ -213,7 +222,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1150;
-				LastUpgradeCheck = 1530;
+				LastUpgradeCheck = 1540;
 				ORGANIZATIONNAME = Notificare;
 				TargetAttributes = {
 					F258DDDB24BC4F31006F9ABD = {
@@ -222,6 +231,7 @@
 					};
 					F258DDE424BC4F32006F9ABD = {
 						CreatedOnToolsVersion = 11.5;
+						LastSwiftMigration = 1540;
 					};
 				};
 			};
@@ -234,6 +244,9 @@
 				Base,
 			);
 			mainGroup = F258DDD224BC4F31006F9ABD;
+			packageReferences = (
+				1A8C30E82BF6394D0000BFA6 /* XCRemoteSwiftPackageReference "SwiftLint" */,
+			);
 			productRefGroup = F258DDDD24BC4F31006F9ABD /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -271,6 +284,7 @@
 				F2BB224926A870D500B20BF3 /* PushAPI+Responses.swift in Sources */,
 				F2DAB391271F0ADB002B5F27 /* NotificareLoyalty.swift in Sources */,
 				F2DAB393271F0B88002B5F27 /* NotificareLoyalty+Augment.swift in Sources */,
+				1A52DE792CA461AF00B5F56C /* Logger.swift in Sources */,
 				F2BB224426A867AF00B20BF3 /* NotificarePass.swift in Sources */,
 				F2BB224B26A8710300B20BF3 /* PushAPI+Models.swift in Sources */,
 			);
@@ -280,13 +294,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F258DDEB24BC4F32006F9ABD /* LoyaltyTests.swift in Sources */,
+				1ACA07CD2C5780D0002CB47D /* NotificarePassTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		1A546F6C2C5B5DAF0059F095 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 1A546F6B2C5B5DAF0059F095 /* SwiftLintBuildToolPlugin */;
+		};
+		1A8C30FB2BF639DB0000BFA6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 1A8C30FA2BF639DB0000BFA6 /* SwiftLintBuildToolPlugin */;
+		};
 		F258DDE824BC4F32006F9ABD /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = F258DDDB24BC4F31006F9ABD /* NotificareLoyaltyKit */;
@@ -440,7 +462,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.10.0;
+				MARKETING_VERSION = 4.0.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.loyalty;
@@ -472,7 +494,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.10.0;
+				MARKETING_VERSION = 4.0.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.loyalty;
@@ -488,6 +510,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Tests/Info.plist;
@@ -498,6 +521,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.LoyaltyTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -507,6 +531,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Tests/Info.plist;
@@ -607,7 +632,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.10.0;
+				MARKETING_VERSION = 4.0.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.loyalty;
@@ -624,6 +649,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Tests/Info.plist;
@@ -634,6 +660,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.LoyaltyTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -724,7 +751,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.10.0;
+				MARKETING_VERSION = 4.0.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.loyalty;
@@ -741,6 +768,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Tests/Info.plist;
@@ -751,6 +779,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.LoyaltyTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -835,7 +864,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.10.0;
+				MARKETING_VERSION = 4.0.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.loyalty;
@@ -851,6 +880,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Tests/Info.plist;
@@ -945,7 +975,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.10.0;
+				MARKETING_VERSION = 4.0.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.loyalty;
@@ -961,6 +991,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Tests/Info.plist;
@@ -1019,6 +1050,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1A8C30E82BF6394D0000BFA6 /* XCRemoteSwiftPackageReference "SwiftLint" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/SwiftLint";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.55.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1A546F6B2C5B5DAF0059F095 /* SwiftLintBuildToolPlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1A8C30E82BF6394D0000BFA6 /* XCRemoteSwiftPackageReference "SwiftLint" */;
+			productName = "plugin:SwiftLintBuildToolPlugin";
+		};
+		1A8C30FA2BF639DB0000BFA6 /* SwiftLintBuildToolPlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1A8C30E82BF6394D0000BFA6 /* XCRemoteSwiftPackageReference "SwiftLint" */;
+			productName = "plugin:SwiftLintBuildToolPlugin";
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F258DDD324BC4F31006F9ABD /* Project object */;
 }

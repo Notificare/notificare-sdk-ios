@@ -4,17 +4,21 @@
 
 import Foundation
 
-enum LocalStorage {
+internal enum LocalStorage {
     private enum Keys: String {
         case currentBadge = "re.notifica.inbox.local_storage.current_badge"
     }
 
-    static var currentBadge: Int {
+    internal static var currentBadge: Int {
         get {
             UserDefaults.standard.integer(forKey: Keys.currentBadge.rawValue)
         }
         set {
             UserDefaults.standard.setValue(newValue, forKey: Keys.currentBadge.rawValue)
         }
+    }
+
+    internal static func clear() {
+        UserDefaults.standard.removeObject(forKey: Keys.currentBadge.rawValue)
     }
 }

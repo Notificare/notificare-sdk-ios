@@ -2,9 +2,9 @@
 // Copyright (c) 2022 Notificare. All rights reserved.
 //
 
-import NotificareKit
+import NotificareUtilitiesKit
 
-public struct NotificareInAppMessage: Codable {
+public struct NotificareInAppMessage: Codable, Equatable {
     public let id: String
     public let name: String
     public let type: String
@@ -31,7 +31,7 @@ public struct NotificareInAppMessage: Codable {
         self.secondaryAction = secondaryAction
     }
 
-    public struct Action: Codable {
+    public struct Action: Codable, Equatable {
         public let label: String?
         public let destructive: Bool
         public let url: String?
@@ -65,27 +65,27 @@ public struct NotificareInAppMessage: Codable {
 extension NotificareInAppMessage: Identifiable {}
 
 // JSON: NotificareInAppMessage
-public extension NotificareInAppMessage {
-    func toJson() throws -> [String: Any] {
-        let data = try NotificareUtils.jsonEncoder.encode(self)
+extension NotificareInAppMessage {
+    public func toJson() throws -> [String: Any] {
+        let data = try JSONEncoder.notificare.encode(self)
         return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
     }
 
-    static func fromJson(json: [String: Any]) throws -> NotificareInAppMessage {
+    public static func fromJson(json: [String: Any]) throws -> NotificareInAppMessage {
         let data = try JSONSerialization.data(withJSONObject: json, options: [])
-        return try NotificareUtils.jsonDecoder.decode(NotificareInAppMessage.self, from: data)
+        return try JSONDecoder.notificare.decode(NotificareInAppMessage.self, from: data)
     }
 }
 
 // JSON: NotificareInAppMessage.Action
-public extension NotificareInAppMessage.Action {
-    func toJson() throws -> [String: Any] {
-        let data = try NotificareUtils.jsonEncoder.encode(self)
+extension NotificareInAppMessage.Action {
+    public func toJson() throws -> [String: Any] {
+        let data = try JSONEncoder.notificare.encode(self)
         return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
     }
 
-    static func fromJson(json: [String: Any]) throws -> NotificareInAppMessage.Action {
+    public static func fromJson(json: [String: Any]) throws -> NotificareInAppMessage.Action {
         let data = try JSONSerialization.data(withJSONObject: json, options: [])
-        return try NotificareUtils.jsonDecoder.decode(NotificareInAppMessage.Action.self, from: data)
+        return try JSONDecoder.notificare.decode(NotificareInAppMessage.Action.self, from: data)
     }
 }

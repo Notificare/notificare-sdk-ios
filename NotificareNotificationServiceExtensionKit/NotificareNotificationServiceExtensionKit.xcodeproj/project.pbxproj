@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		F258DDC224BC4F09006F9ABD /* NotificareNotificationServiceExtensionKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F258DDB824BC4F09006F9ABD /* NotificareNotificationServiceExtensionKit.framework */; };
-		F258DDC724BC4F09006F9ABD /* NotificareNotificationServiceExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DDC624BC4F09006F9ABD /* NotificareNotificationServiceExtensionTests.swift */; };
 		F258DDC924BC4F09006F9ABD /* NotificareNotificationServiceExtensionKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F258DDBB24BC4F09006F9ABD /* NotificareNotificationServiceExtensionKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F29017F62BD279BA009DB80B /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = F29017F52BD279BA009DB80B /* PrivacyInfo.xcprivacy */; };
 		F2DAB38D271F0467002B5F27 /* NotificareNotificationServiceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2DAB38C271F0467002B5F27 /* NotificareNotificationServiceExtension.swift */; };
@@ -29,7 +28,6 @@
 		F258DDBB24BC4F09006F9ABD /* NotificareNotificationServiceExtensionKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificareNotificationServiceExtensionKit.h; sourceTree = "<group>"; };
 		F258DDBC24BC4F09006F9ABD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F258DDC124BC4F09006F9ABD /* NotificareNotificationServiceExtensionKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NotificareNotificationServiceExtensionKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		F258DDC624BC4F09006F9ABD /* NotificareNotificationServiceExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareNotificationServiceExtensionTests.swift; sourceTree = "<group>"; };
 		F258DDC824BC4F09006F9ABD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F29017F52BD279BA009DB80B /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		F2DAB38C271F0467002B5F27 /* NotificareNotificationServiceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareNotificationServiceExtension.swift; sourceTree = "<group>"; };
@@ -79,7 +77,6 @@
 		F258DDC524BC4F09006F9ABD /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				F258DDC624BC4F09006F9ABD /* NotificareNotificationServiceExtensionTests.swift */,
 				F258DDC824BC4F09006F9ABD /* Info.plist */,
 			);
 			path = Tests;
@@ -110,6 +107,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				1A8C30FF2BF639F70000BFA6 /* PBXTargetDependency */,
 			);
 			name = NotificareNotificationServiceExtensionKit;
 			productName = NotificareNotificationServiceExtensionKit;
@@ -127,6 +125,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				1A546F6E2C5B5DBC0059F095 /* PBXTargetDependency */,
 				F258DDC424BC4F09006F9ABD /* PBXTargetDependency */,
 			);
 			name = NotificareNotificationServiceExtensionKitTests;
@@ -142,7 +141,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1150;
-				LastUpgradeCheck = 1530;
+				LastUpgradeCheck = 1540;
 				ORGANIZATIONNAME = Notificare;
 				TargetAttributes = {
 					F258DDB724BC4F09006F9ABD = {
@@ -163,6 +162,9 @@
 				Base,
 			);
 			mainGroup = F258DDAE24BC4F09006F9ABD;
+			packageReferences = (
+				1A8C30EA2BF6395E0000BFA6 /* XCRemoteSwiftPackageReference "SwiftLint" */,
+			);
 			productRefGroup = F258DDB924BC4F09006F9ABD /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -204,13 +206,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F258DDC724BC4F09006F9ABD /* NotificareNotificationServiceExtensionTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		1A546F6E2C5B5DBC0059F095 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 1A546F6D2C5B5DBC0059F095 /* SwiftLintBuildToolPlugin */;
+		};
+		1A8C30FF2BF639F70000BFA6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 1A8C30FE2BF639F70000BFA6 /* SwiftLintBuildToolPlugin */;
+		};
 		F258DDC424BC4F09006F9ABD /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = F258DDB724BC4F09006F9ABD /* NotificareNotificationServiceExtensionKit */;
@@ -366,7 +375,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.10.0;
+				MARKETING_VERSION = 4.0.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.notificationServiceExtension;
@@ -398,7 +407,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.10.0;
+				MARKETING_VERSION = 4.0.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.notificationServiceExtension;
@@ -413,7 +422,6 @@
 		F258DDD024BC4F09006F9ABD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Tests/Info.plist;
@@ -432,7 +440,6 @@
 		F258DDD124BC4F09006F9ABD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Tests/Info.plist;
@@ -534,7 +541,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.10.0;
+				MARKETING_VERSION = 4.0.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.notificationServiceExtension;
@@ -550,7 +557,6 @@
 		F2EAF94F2AF51E5200A2CC0C /* Debug-Test */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Tests/Info.plist;
@@ -652,7 +658,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.10.0;
+				MARKETING_VERSION = 4.0.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.notificationServiceExtension;
@@ -668,7 +674,6 @@
 		F2EAF9522AF51E5700A2CC0C /* Debug-Production */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Tests/Info.plist;
@@ -764,7 +769,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.10.0;
+				MARKETING_VERSION = 4.0.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.notificationServiceExtension;
@@ -779,7 +784,6 @@
 		F2EAF9552AF51E5C00A2CC0C /* Release-Test */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Tests/Info.plist;
@@ -875,7 +879,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.10.0;
+				MARKETING_VERSION = 4.0.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.notificationServiceExtension;
@@ -890,7 +894,6 @@
 		F2EAF9582AF51E6300A2CC0C /* Release-Production */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Tests/Info.plist;
@@ -949,6 +952,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1A8C30EA2BF6395E0000BFA6 /* XCRemoteSwiftPackageReference "SwiftLint" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/SwiftLint";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.55.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1A546F6D2C5B5DBC0059F095 /* SwiftLintBuildToolPlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1A8C30EA2BF6395E0000BFA6 /* XCRemoteSwiftPackageReference "SwiftLint" */;
+			productName = "plugin:SwiftLintBuildToolPlugin";
+		};
+		1A8C30FE2BF639F70000BFA6 /* SwiftLintBuildToolPlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1A8C30EA2BF6395E0000BFA6 /* XCRemoteSwiftPackageReference "SwiftLint" */;
+			productName = "plugin:SwiftLintBuildToolPlugin";
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F258DDAF24BC4F09006F9ABD /* Project object */;
 }

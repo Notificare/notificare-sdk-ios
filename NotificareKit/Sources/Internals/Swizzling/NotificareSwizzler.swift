@@ -48,13 +48,13 @@ public class NotificareSwizzler: NSProxy {
         let id = String(describing: type(of: interceptor))
 
         if NotificareSwizzler.interceptors[id] != nil {
-            NotificareLogger.debug("Interceptor '\(id)' is already registered. Replacing...")
+            logger.debug("Interceptor '\(id)' is already registered. Replacing...")
         }
 
         // Save the interceptor.
         NotificareSwizzler.interceptors[id] = interceptor
 
-        NotificareLogger.debug("Interceptor saved with ID: '\(id)'")
+        logger.debug("Interceptor saved with ID: '\(id)'")
 
         return id
     }
@@ -63,7 +63,7 @@ public class NotificareSwizzler: NSProxy {
         let id = String(describing: type(of: interceptor))
 
         if NotificareSwizzler.interceptors[id] == nil {
-            NotificareLogger.debug("Interceptor '\(id)' not registered. Skipping removal...")
+            logger.debug("Interceptor '\(id)' not registered. Skipping removal...")
             return
         }
 
@@ -73,7 +73,7 @@ public class NotificareSwizzler: NSProxy {
 
     private static func proxyAppDelegate(_ appDelegate: UIApplicationDelegate?) {
         guard let appDelegate = appDelegate else {
-            NotificareLogger.warning(
+            logger.warning(
                 "Could not create the App Delegate Proxy. The original App Delegate instance is nil."
             )
             return
@@ -102,13 +102,13 @@ public class NotificareSwizzler: NSProxy {
         let newClassName = "\(originalClass)_\(UUID().uuidString)"
 
         guard NSClassFromString(newClassName) == nil else {
-            NotificareLogger.warning("Could not create the App Delegate Proxy. The subclass already exists.")
+            logger.warning("Could not create the App Delegate Proxy. The subclass already exists.")
             return nil
         }
 
         // Register the new class as subclass of the real one. Do not allocate more than the real class size.
         guard let subClass = objc_allocateClassPair(originalClass, newClassName, 0) else {
-            NotificareLogger.warning("Could not create the App Delegate Proxy. The subclass already exists.")
+            logger.warning("Could not create the App Delegate Proxy. The subclass already exists.")
             return nil
         }
 
@@ -131,7 +131,7 @@ public class NotificareSwizzler: NSProxy {
         // cannot have more ivars/properties than its superclass since it will cause an offset in memory
         // that can lead to overwriting the isa of an object in the next frame.
         guard class_getInstanceSize(originalClass) == class_getInstanceSize(subClass) else {
-            NotificareLogger.warning("""
+            logger.warning("""
             Could not create the App Delegate Proxy. \
             The original class' and subclass' sizes do not match.
             """)
@@ -141,7 +141,7 @@ public class NotificareSwizzler: NSProxy {
         // Make the newly created class to be the subclass of the real App Delegate class.
         objc_registerClassPair(subClass)
         if object_setClass(originalDelegate, subClass) != nil {
-            NotificareLogger.info("""
+            logger.info("""
             Successfully created the App Delegate Proxy. \
             To disable automatic proxy, set the flag 'SWIZZLING_ENABLED' to NO on the NotificareOptions.plist.
             """)
@@ -208,12 +208,12 @@ public class NotificareSwizzler: NSProxy {
 
     private static func createAPNSMethodImplementations() {
         guard let originalDelegate = gOriginalAppDelegate else {
-            NotificareLogger.error("Could not proxy APNS methods. The orignal App Delegate was nil.")
+            logger.error("Could not proxy APNS methods. The orignal App Delegate was nil.")
             return
         }
 
         guard let subClass = gAppDelegateSubClass else {
-            NotificareLogger.error("Could not proxy APNS methods. The subclass was nil.")
+            logger.error("Could not proxy APNS methods. The subclass was nil.")
             return
         }
 
@@ -221,7 +221,7 @@ public class NotificareSwizzler: NSProxy {
             originalDelegate,
             &AssociatedObjectKeys.originalImplementations
         ) as? [String: NSValue] else {
-            NotificareLogger.error("Could not proxy APNS methods. The original implementations store was nil.")
+            logger.error("Could not proxy APNS methods. The original implementations store was nil.")
             return
         }
 
@@ -300,7 +300,7 @@ public class NotificareSwizzler: NSProxy {
         let methodTypeEncoding = method_getTypeEncoding(method)
 
         if !class_addMethod(destinationClass, destinationSelector, methodImplementation, methodTypeEncoding) {
-            NotificareLogger.warning("""
+            logger.warning("""
             Could not add instance method with selector '\(destinationSelector)' as it already exists in the \
             destination class.
             """)

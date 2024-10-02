@@ -2,9 +2,9 @@
 // Copyright (c) 2021 Notificare. All rights reserved.
 //
 
-import NotificareKit
+import NotificareUtilitiesKit
 
-public struct NotificareAsset: Codable {
+public struct NotificareAsset: Codable, Equatable {
     public let id: String
     public let title: String
     public let description: String?
@@ -12,7 +12,7 @@ public struct NotificareAsset: Codable {
     public let url: String?
     public let button: Button?
     public let metaData: MetaData?
-    public let extra: [String: Any]
+    @NotificareExtraEquatable public private(set) var extra: [String: Any]
 
     public init(id: String, title: String, description: String?, key: String?, url: String?, button: NotificareAsset.Button?, metaData: NotificareAsset.MetaData?, extra: [String: Any]) {
         self.id = id
@@ -25,7 +25,7 @@ public struct NotificareAsset: Codable {
         self.extra = extra
     }
 
-    public struct Button: Codable {
+    public struct Button: Codable, Equatable {
         public let label: String?
         public let action: String?
 
@@ -35,7 +35,7 @@ public struct NotificareAsset: Codable {
         }
     }
 
-    public struct MetaData: Codable {
+    public struct MetaData: Codable, Equatable {
         public let originalFileName: String
         public let contentType: String
         public let contentLength: Int
@@ -53,20 +53,20 @@ public struct NotificareAsset: Codable {
 extension NotificareAsset: Identifiable {}
 
 // JSON: NotificareAsset
-public extension NotificareAsset {
-    func toJson() throws -> [String: Any] {
-        let data = try NotificareUtils.jsonEncoder.encode(self)
+extension NotificareAsset {
+    public func toJson() throws -> [String: Any] {
+        let data = try JSONEncoder.notificare.encode(self)
         return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
     }
 
-    static func fromJson(json: [String: Any]) throws -> NotificareAsset {
+    public static func fromJson(json: [String: Any]) throws -> NotificareAsset {
         let data = try JSONSerialization.data(withJSONObject: json, options: [])
-        return try NotificareUtils.jsonDecoder.decode(NotificareAsset.self, from: data)
+        return try JSONDecoder.notificare.decode(NotificareAsset.self, from: data)
     }
 }
 
 // Codable: NotificareAsset
-public extension NotificareAsset {
+extension NotificareAsset {
     internal enum CodingKeys: String, CodingKey {
         case id
         case title
@@ -78,7 +78,7 @@ public extension NotificareAsset {
         case extra
     }
 
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         id = try container.decode(String.self, forKey: .id)
@@ -96,7 +96,7 @@ public extension NotificareAsset {
         }
     }
 
-    func encode(to encoder: Encoder) throws {
+    public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(id, forKey: .id)
@@ -111,27 +111,27 @@ public extension NotificareAsset {
 }
 
 // JSON: NotificareAsset.Button
-public extension NotificareAsset.Button {
-    func toJson() throws -> [String: Any] {
-        let data = try NotificareUtils.jsonEncoder.encode(self)
+extension NotificareAsset.Button {
+    public func toJson() throws -> [String: Any] {
+        let data = try JSONEncoder.notificare.encode(self)
         return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
     }
 
-    static func fromJson(json: [String: Any]) throws -> NotificareAsset.Button {
+    public static func fromJson(json: [String: Any]) throws -> NotificareAsset.Button {
         let data = try JSONSerialization.data(withJSONObject: json, options: [])
-        return try NotificareUtils.jsonDecoder.decode(NotificareAsset.Button.self, from: data)
+        return try JSONDecoder.notificare.decode(NotificareAsset.Button.self, from: data)
     }
 }
 
 // JSON: NotificareAsset.MetaData
-public extension NotificareAsset.MetaData {
-    func toJson() throws -> [String: Any] {
-        let data = try NotificareUtils.jsonEncoder.encode(self)
+extension NotificareAsset.MetaData {
+    public func toJson() throws -> [String: Any] {
+        let data = try JSONEncoder.notificare.encode(self)
         return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
     }
 
-    static func fromJson(json: [String: Any]) throws -> NotificareAsset.MetaData {
+    public static func fromJson(json: [String: Any]) throws -> NotificareAsset.MetaData {
         let data = try JSONSerialization.data(withJSONObject: json, options: [])
-        return try NotificareUtils.jsonDecoder.decode(NotificareAsset.MetaData.self, from: data)
+        return try JSONDecoder.notificare.decode(NotificareAsset.MetaData.self, from: data)
     }
 }

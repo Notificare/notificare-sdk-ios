@@ -4,15 +4,20 @@
 
 import Foundation
 import NotificareKit
+import NotificareUtilitiesKit
 
 internal class NotificareUserInboxImpl: NotificareModule, NotificareUserInbox {
     // MARK: - Notificare module
 
-    static let instance = NotificareUserInboxImpl()
+    internal static let instance = NotificareUserInboxImpl()
+
+    internal func configure() {
+        logger.hasDebugLoggingEnabled = Notificare.shared.options?.debugLoggingEnabled ?? false
+    }
 
     // MARK: - Notificare user inbox
 
-    func parseResponse(string: String) throws -> NotificareUserInboxResponse {
+    public func parseResponse(string: String) throws -> NotificareUserInboxResponse {
         guard let data = string.data(using: .utf8) else {
             throw NotificareUserInboxError.dataCorrupted
         }
@@ -20,159 +25,118 @@ internal class NotificareUserInboxImpl: NotificareModule, NotificareUserInbox {
         return try parseResponse(data: data)
     }
 
-    func parseResponse(json: [String: Any]) throws -> NotificareUserInboxResponse {
+    public func parseResponse(json: [String: Any]) throws -> NotificareUserInboxResponse {
         let data = try JSONSerialization.data(withJSONObject: json, options: [])
         return try parseResponse(data: data)
     }
 
-    func parseResponse(data: Data) throws -> NotificareUserInboxResponse {
-        try NotificareUtils.jsonDecoder.decode(NotificareUserInboxResponse.self, from: data)
+    public func parseResponse(data: Data) throws -> NotificareUserInboxResponse {
+        try JSONDecoder.notificare.decode(NotificareUserInboxResponse.self, from: data)
     }
 
-    func open(_ item: NotificareUserInboxItem, _ completion: @escaping NotificareCallback<NotificareNotification>) {
-        do {
-            try checkPrerequisites()
-        } catch {
-            completion(.failure(error))
-            return
-        }
-
-        // User inbox items are always partial.
-        fetchUserInboxNotification(item) { result in
-            switch result {
-            case let .success(notification):
-                // Mark the item as read & send a notification open event.
-                self.markAsRead(item) { result in
-                    switch result {
-                    case .success:
-                        completion(.success(notification))
-
-                    case let .failure(error):
-                        completion(.failure(error))
-                    }
-                }
-
-            case let .failure(error):
+    public func open(_ item: NotificareUserInboxItem, _ completion: @escaping NotificareCallback<NotificareNotification>) {
+        Task {
+            do {
+                let result = try await open(item)
+                completion(.success(result))
+            } catch {
                 completion(.failure(error))
             }
         }
     }
 
-    @available(iOS 13.0, *)
-    func open(_ item: NotificareUserInboxItem) async throws -> NotificareNotification {
-        try await withCheckedThrowingContinuation { continuation in
-            open(item) { result in
-                continuation.resume(with: result)
+    public func open(_ item: NotificareUserInboxItem) async throws -> NotificareNotification {
+        try checkPrerequisites()
+
+        let notification = try await fetchUserInboxNotification(item)
+
+        // Mark the item as read & send a notification open event.
+        try await markAsRead(item)
+        return notification
+    }
+
+    public func markAsRead(_ item: NotificareUserInboxItem, _ completion: @escaping NotificareCallback<Void>) {
+        Task {
+            do {
+                try await markAsRead(item)
+                completion(.success(()))
+            } catch {
+                completion(.failure(error))
             }
         }
     }
 
-    func markAsRead(_ item: NotificareUserInboxItem, _ completion: @escaping NotificareCallback<Void>) {
-        do {
-            try checkPrerequisites()
-        } catch {
-            completion(.failure(error))
-            return
-        }
+    public func markAsRead(_ item: NotificareUserInboxItem) async throws {
+        try checkPrerequisites()
 
-        Notificare.shared.events().logNotificationOpen(item.notification.id) { result in
-            completion(result)
-        }
+        return try await Notificare.shared.events().logNotificationOpen(item.notification.id)
     }
 
-    @available(iOS 13.0, *)
-    func markAsRead(_ item: NotificareUserInboxItem) async throws {
-        try await withCheckedThrowingContinuation { continuation in
-            markAsRead(item) { result in
-                continuation.resume(with: result)
+    public func remove(_ item: NotificareUserInboxItem, _ completion: @escaping NotificareCallback<Void>) {
+        Task {
+            do {
+                try await remove(item)
+                completion(.success(()))
+            } catch {
+                completion(.failure(error))
             }
         }
     }
 
-    func remove(_ item: NotificareUserInboxItem, _ completion: @escaping NotificareCallback<Void>) {
-        do {
-            try checkPrerequisites()
-        } catch {
-            completion(.failure(error))
-            return
-        }
+    public func remove(_ item: NotificareUserInboxItem) async throws {
+        try checkPrerequisites()
 
         guard let device = Notificare.shared.device().currentDevice else {
-            completion(.failure(NotificareError.deviceUnavailable))
-            return
+            throw NotificareError.deviceUnavailable
         }
 
-        NotificareRequest.Builder()
+        try await NotificareRequest.Builder()
             .delete("/notification/userinbox/\(item.id)/fordevice/\(device.id)")
-            .response { result in
-                switch result {
-                case .success:
-                    completion(.success(()))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-    }
-
-    @available(iOS 13.0, *)
-    func remove(_ item: NotificareUserInboxItem) async throws {
-        try await withCheckedThrowingContinuation { continuation in
-            remove(item) { result in
-                continuation.resume(with: result)
-            }
-        }
+            .response()
     }
 
     // MARK: - Private API
 
     private func checkPrerequisites() throws {
         guard Notificare.shared.isReady else {
-            NotificareLogger.warning("Notificare is not ready yet.")
+            logger.warning("Notificare is not ready yet.")
             throw NotificareError.notReady
         }
 
         guard let application = Notificare.shared.application else {
-            NotificareLogger.warning("Notificare application is not yet available.")
+            logger.warning("Notificare application is not yet available.")
             throw NotificareError.applicationUnavailable
         }
 
         guard application.services[NotificareApplication.ServiceKey.inbox.rawValue] == true else {
-            NotificareLogger.warning("Notificare inbox functionality is not enabled.")
+            logger.warning("Notificare inbox functionality is not enabled.")
             throw NotificareError.serviceUnavailable(service: NotificareApplication.ServiceKey.inbox.rawValue)
         }
 
         guard application.inboxConfig?.useInbox == true else {
-            NotificareLogger.warning("Notificare inbox functionality is not enabled.")
+            logger.warning("Notificare inbox functionality is not enabled.")
             throw NotificareError.serviceUnavailable(service: NotificareApplication.ServiceKey.inbox.rawValue)
         }
 
         guard application.inboxConfig?.useUserInbox == true else {
-            NotificareLogger.warning("Notificare user inbox functionality is not enabled.")
+            logger.warning("Notificare user inbox functionality is not enabled.")
             throw NotificareError.serviceUnavailable(service: NotificareApplication.ServiceKey.inbox.rawValue)
         }
     }
 
-    private func fetchUserInboxNotification(_ item: NotificareUserInboxItem, _ completion: @escaping NotificareCallback<NotificareNotification>) {
+    private func fetchUserInboxNotification(_ item: NotificareUserInboxItem) async throws -> NotificareNotification {
         guard Notificare.shared.isConfigured else {
-            completion(.failure(NotificareError.notConfigured))
-            return
+            throw NotificareError.notConfigured
         }
 
         guard let device = Notificare.shared.device().currentDevice else {
-            completion(.failure(NotificareError.notConfigured))
-            return
+            throw NotificareError.notConfigured
         }
 
-        NotificareRequest.Builder()
+        let response = try await NotificareRequest.Builder()
             .get("/notification/userinbox/\(item.id)/fordevice/\(device.id)")
-            .responseDecodable(NotificareInternals.PushAPI.Responses.UserInboxNotification.self) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.notification.toModel()))
+            .responseDecodable(NotificareInternals.PushAPI.Responses.UserInboxNotification.self)
 
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
+        return response.notification.toModel()
     }
 }

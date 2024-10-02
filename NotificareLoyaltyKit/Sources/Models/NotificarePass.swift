@@ -4,8 +4,9 @@
 
 import Foundation
 import NotificareKit
+import NotificareUtilitiesKit
 
-public struct NotificarePass: Codable {
+public struct NotificarePass: Codable, Equatable {
     public let id: String
     public let type: PassType?
     public let version: Int
@@ -17,7 +18,7 @@ public struct NotificarePass: Codable {
     public let redeemHistory: [Redemption]
     public let limit: Int
     public let token: String
-    public let data: [String: Any]
+    @NotificareExtraEquatable public private(set) var data: [String: Any]
     public let date: Date
     // public let googlePaySaveLink: String?
 
@@ -51,7 +52,7 @@ public struct NotificarePass: Codable {
         case always
     }
 
-    public struct Redemption: Codable {
+    public struct Redemption: Codable, Equatable {
         public let comments: String?
         public let date: Date
 
@@ -67,20 +68,20 @@ public struct NotificarePass: Codable {
 extension NotificarePass: Identifiable {}
 
 // JSON: NotificarePass
-public extension NotificarePass {
-    func toJson() throws -> [String: Any] {
-        let data = try NotificareUtils.jsonEncoder.encode(self)
+extension NotificarePass {
+    public func toJson() throws -> [String: Any] {
+        let data = try JSONEncoder.notificare.encode(self)
         return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
     }
 
-    static func fromJson(json: [String: Any]) throws -> NotificarePass {
+    public static func fromJson(json: [String: Any]) throws -> NotificarePass {
         let data = try JSONSerialization.data(withJSONObject: json, options: [])
-        return try NotificareUtils.jsonDecoder.decode(NotificarePass.self, from: data)
+        return try JSONDecoder.notificare.decode(NotificarePass.self, from: data)
     }
 }
 
 // Codable: NotificarePass
-public extension NotificarePass {
+extension NotificarePass {
     internal enum CodingKeys: String, CodingKey {
         case id
         case type
@@ -97,7 +98,7 @@ public extension NotificarePass {
         case date
     }
 
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         id = try container.decode(String.self, forKey: .id)
@@ -111,11 +112,11 @@ public extension NotificarePass {
         redeemHistory = try container.decode([Redemption].self, forKey: .redeemHistory)
         limit = try container.decode(Int.self, forKey: .limit)
         token = try container.decode(String.self, forKey: .token)
-        data = try container.decodeIfPresent(NotificareAnyCodable.self, forKey: .token)?.value as? [String: Any] ?? [:]
+        data = try container.decodeIfPresent(NotificareAnyCodable.self, forKey: .data)?.value as? [String: Any] ?? [:]
         date = try container.decode(Date.self, forKey: .date)
     }
 
-    func encode(to encoder: Encoder) throws {
+    public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(id, forKey: .id)
@@ -135,14 +136,14 @@ public extension NotificarePass {
 }
 
 // JSON: NotificarePass.Redemption
-public extension NotificarePass.Redemption {
-    func toJson() throws -> [String: Any] {
-        let data = try NotificareUtils.jsonEncoder.encode(self)
+extension NotificarePass.Redemption {
+    public func toJson() throws -> [String: Any] {
+        let data = try JSONEncoder.notificare.encode(self)
         return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
     }
 
-    static func fromJson(json: [String: Any]) throws -> NotificarePass.Redemption {
+    public static func fromJson(json: [String: Any]) throws -> NotificarePass.Redemption {
         let data = try JSONSerialization.data(withJSONObject: json, options: [])
-        return try NotificareUtils.jsonDecoder.decode(NotificarePass.Redemption.self, from: data)
+        return try JSONDecoder.notificare.decode(NotificarePass.Redemption.self, from: data)
     }
 }

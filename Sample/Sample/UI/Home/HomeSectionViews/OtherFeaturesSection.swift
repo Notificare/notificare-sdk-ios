@@ -4,8 +4,8 @@
 
 import SwiftUI
 
-struct OtherFeaturesSection: View {
-    var body: some View {
+internal struct OtherFeaturesSection: View {
+    internal var body: some View {
         Section {
             NavigationLink {
                 ScannablesView()
@@ -36,20 +36,6 @@ struct OtherFeaturesSection: View {
             }
 
             NavigationLink {
-                MonetizeView()
-            } label: {
-                Label {
-                    Text(String(localized: "home_monetize"))
-                } icon: {
-                    ListIconView(
-                        icon: "bag.fill",
-                        foregroundColor: .white,
-                        backgroundColor: Color(.systemIndigo)
-                    )
-                }
-            }
-
-            NavigationLink {
                 EventsView()
             } label: {
                 Label {
@@ -68,8 +54,8 @@ struct OtherFeaturesSection: View {
     }
 }
 
-struct OtherFeaturesSection_Previews: PreviewProvider {
-    static var previews: some View {
+internal struct OtherFeaturesSection_Previews: PreviewProvider {
+    internal static var previews: some View {
         OtherFeaturesSection()
     }
 }

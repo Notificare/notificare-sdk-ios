@@ -4,18 +4,24 @@
 
 import Foundation
 
+private let DEFAULT_REST_API_HOST = "push.notifica.re"
+private let DEFAULT_SHORT_LINKS_HOST = "ntc.re"
+private let DEFAULT_APP_LINKS_HOST = "applinks.notifica.re"
+
+private let HOST_REGEX = "^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])$".toRegex()
+
 public struct NotificareServicesInfo: Decodable {
     internal static let fileName = "NotificareServices"
     internal static let fileExtension = "plist"
 
     public let applicationKey: String
     public let applicationSecret: String
-    public let services: Services
+    public let hosts: Hosts
 
-    public init(applicationKey: String, applicationSecret: String) {
+    public init(applicationKey: String, applicationSecret: String, hosts: Hosts = Hosts()) {
         self.applicationKey = applicationKey
         self.applicationSecret = applicationSecret
-        services = .production
+        self.hosts = hosts
     }
 
     public init?(contentsOfFile plistPath: String) {
@@ -27,7 +33,7 @@ public struct NotificareServicesInfo: Decodable {
 
             applicationKey = decoded.applicationKey
             applicationSecret = decoded.applicationSecret
-            services = decoded.services
+            hosts = decoded.hosts
         } catch {
             return nil
         }
@@ -38,57 +44,63 @@ public struct NotificareServicesInfo: Decodable {
 
         applicationKey = try container.decode(String.self, forKey: .applicationKey)
         applicationSecret = try container.decode(String.self, forKey: .applicationSecret)
-
-        let useTestApi = container.contains(.useTestApi)
-            ? try container.decode(Bool.self, forKey: .useTestApi)
-            : false
-
-        services = useTestApi ? .test : .production
+        hosts = try container.decodeIfPresent(Hosts.self, forKey: .hosts) ?? Hosts()
     }
 
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case applicationKey = "APPLICATION_KEY"
         case applicationSecret = "APPLICATION_SECRET"
-        case useTestApi = "USE_TEST_API"
+        case hosts = "HOSTS"
     }
 
-    public enum Services {
-        case test
-        case production
+    public struct Hosts: Decodable {
+        public let restApi: String
+        public let appLinks: String
+        public let shortLinks: String
 
-        public var pushHost: String {
-            switch self {
-            case .test: return "https://push-test.notifica.re"
-            case .production: return "https://push.notifica.re"
-            }
+        public init() {
+            self.restApi = DEFAULT_REST_API_HOST
+            self.appLinks = DEFAULT_APP_LINKS_HOST
+            self.shortLinks = DEFAULT_SHORT_LINKS_HOST
         }
 
-        public var cloudHost: String {
-            switch self {
-            case .test: return "https://cloud-test.notifica.re"
-            case .production: return "https://cloud.notifica.re"
-            }
+        public init(restApi: String, appLinks: String, shortLinks: String) {
+            self.restApi = restApi
+            self.appLinks = appLinks
+            self.shortLinks = shortLinks
         }
 
-        public var dynamicLinksDomain: String {
-            switch self {
-            case .test: return "test.ntc.re"
-            case .production: return "ntc.re"
-            }
+        private enum CodingKeys: String, CodingKey {
+            case restApi = "REST_API"
+            case appLinks = "APP_LINKS"
+            case shortLinks = "SHORT_LINKS"
+        }
+    }
+}
+
+extension NotificareServicesInfo {
+    internal var hasDefaultHosts: Bool {
+        hosts.restApi == DEFAULT_REST_API_HOST && hosts.appLinks == DEFAULT_APP_LINKS_HOST && hosts.shortLinks == DEFAULT_SHORT_LINKS_HOST
+    }
+
+    internal func validate() throws {
+        guard hosts.restApi.matches(HOST_REGEX) else {
+            logger.warning("Invalid REST API host.")
+            throw ValidationError.invalidHost
         }
 
-        public var appLinksDomain: String {
-            switch self {
-            case .test: return "applinks-test.notifica.re"
-            case .production: return "applinks.notifica.re"
-            }
+        guard hosts.appLinks.matches(HOST_REGEX) else {
+            logger.warning("Invalid AppLinks host.")
+            throw ValidationError.invalidHost
         }
 
-        public var pkPassHost: String {
-            switch self {
-            case .test: return "https://push-test.notifica.re/pass/pkpass"
-            case .production: return "https://push.notifica.re/pass/pkpass"
-            }
+        guard hosts.shortLinks.matches(HOST_REGEX) else {
+            logger.warning("Invalid short links host.")
+            throw ValidationError.invalidHost
         }
+    }
+
+    internal enum ValidationError: Error {
+        case invalidHost
     }
 }

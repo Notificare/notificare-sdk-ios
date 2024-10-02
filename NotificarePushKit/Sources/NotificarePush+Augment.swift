@@ -5,14 +5,14 @@
 import Foundation
 import NotificareKit
 
-public extension Notificare {
-    func push() -> NotificarePush {
+extension Notificare {
+    public func push() -> NotificarePush {
         NotificarePushImpl.instance
     }
 }
 
-internal extension Notificare {
-    func deviceInternal() -> NotificareInternalDeviceModule {
-        device() as! NotificareInternalDeviceModule
+extension Notificare {
+    internal func pushImplementation() -> NotificarePushImpl {
+        NotificarePushImpl.instance
     }
 }

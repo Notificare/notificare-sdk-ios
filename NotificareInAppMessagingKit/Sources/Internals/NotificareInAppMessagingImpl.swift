@@ -13,9 +13,11 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
 
     // MARK: - Notificare Module
 
-    static let instance = NotificareInAppMessagingImpl()
+    internal static let instance = NotificareInAppMessagingImpl()
 
-    func configure() {
+    internal func configure() {
+        logger.hasDebugLoggingEnabled = Notificare.shared.options?.debugLoggingEnabled ?? false
+
         // Listen to when the application comes into the foreground.
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(onApplicationForeground),
@@ -29,19 +31,17 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
                                                object: nil)
     }
 
-    func launch(_ completion: @escaping NotificareCallback<Void>) {
+    internal func launch() async throws {
         evaluateContext(.launch)
-
-        completion(.success(()))
     }
 
     // MARK: - Notificare In-App Messaging
 
-    weak var delegate: NotificareInAppMessagingDelegate?
+    public weak var delegate: NotificareInAppMessagingDelegate?
 
-    var hasMessagesSuppressed: Bool = false
+    public var hasMessagesSuppressed: Bool = false
 
-    func setMessagesSuppressed(_ suppressed: Bool, evaluateContext: Bool) {
+    public func setMessagesSuppressed(_ suppressed: Bool, evaluateContext: Bool) {
         let suppressChanged = suppressed != hasMessagesSuppressed
         let canEvaluate = evaluateContext && suppressChanged && !suppressed
 
@@ -55,16 +55,16 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
     // MARK: - Private API
 
     private func evaluateContext(_ context: ApplicationContext) {
-        NotificareLogger.debug("Checking in-app message for context '\(context.rawValue)'.")
+        logger.debug("Checking in-app message for context '\(context.rawValue)'.")
 
-        fetchInAppMessage(for: context) { result in
-            switch result {
-            case let .success(message):
-                self.processInAppMessage(message)
+        Task {
+            do {
+                let message = try await fetchInAppMessage(for: context)
 
-            case let .failure(error):
+                await processInAppMessage(message)
+            } catch {
                 if case let NotificareNetworkError.validationError(response, _, _) = error, response.statusCode == 404 {
-                    NotificareLogger.debug("There is no in-app message for '\(context.rawValue)' context to process.")
+                    logger.debug("There is no in-app message for '\(context.rawValue)' context to process.")
 
                     if context == .launch {
                         self.evaluateContext(.foreground)
@@ -73,16 +73,17 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
                     return
                 }
 
-                NotificareLogger.error("Failed to process in-app message for context '\(context.rawValue)'.", error: error)
+                logger.error("Failed to process in-app message for context '\(context.rawValue)'.", error: error)
             }
         }
     }
 
+    @MainActor
     private func processInAppMessage(_ message: NotificareInAppMessage) {
-        NotificareLogger.info("Processing in-app message '\(message.name)'.")
+        logger.info("Processing in-app message '\(message.name)'.")
 
         if message.delaySeconds > 0 {
-            NotificareLogger.debug("Waiting \(message.delaySeconds) seconds before presenting the in-app message.")
+            logger.debug("Waiting \(message.delaySeconds) seconds before presenting the in-app message.")
 
             let workItem = DispatchWorkItem {
                 self.present(message)
@@ -100,6 +101,7 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
         present(message)
     }
 
+    @MainActor
     private func present(_ message: NotificareInAppMessage) {
         Task {
             let cache = NotificareImageCache()
@@ -107,7 +109,7 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
             do {
                 try await cache.preloadImages(for: message)
             } catch {
-                NotificareLogger.error("Failed to preload the in-app message images.", error: error)
+                logger.error("Failed to preload the in-app message images.", error: error)
 
                 DispatchQueue.main.async {
                     self.delegate?.notificare(self, didFailToPresentMessage: message)
@@ -116,14 +118,14 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
                 return
             }
 
-            await present(message, cache: cache)
+            present(message, cache: cache)
         }
     }
 
     @MainActor
     private func present(_ message: NotificareInAppMessage, cache: NotificareImageCache) {
         guard presentedView == nil else {
-            NotificareLogger.warning("Cannot display an in-app message while another is being presented.")
+            logger.warning("Cannot display an in-app message while another is being presented.")
 
             DispatchQueue.main.async {
                 self.delegate?.notificare(self, didFailToPresentMessage: message)
@@ -133,7 +135,7 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
         }
 
         guard !hasMessagesSuppressed else {
-            NotificareLogger.debug("Cannot display an in-app message while messages are being suppressed.")
+            logger.debug("Cannot display an in-app message while messages are being suppressed.")
 
             DispatchQueue.main.async {
                 self.delegate?.notificare(self, didFailToPresentMessage: message)
@@ -143,7 +145,7 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
         }
 
         guard let parentView = findParentView() else {
-            NotificareLogger.warning("Cannot display an in-app message without a reference to the parent view.")
+            logger.warning("Cannot display an in-app message without a reference to the parent view.")
 
             DispatchQueue.main.async {
                 self.delegate?.notificare(self, didFailToPresentMessage: message)
@@ -153,7 +155,7 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
         }
 
         guard let view = self.createMessageView(for: message, cache: cache) else {
-            NotificareLogger.warning("Cannot display an in-app message without a view implementation for the given type.")
+            logger.warning("Cannot display an in-app message without a view implementation for the given type.")
 
             DispatchQueue.main.async {
                 self.delegate?.notificare(self, didFailToPresentMessage: message)
@@ -168,45 +170,39 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
         self.presentedView = view
     }
 
-    private func fetchInAppMessage(for context: ApplicationContext, _ completion: @escaping NotificareCallback<NotificareInAppMessage>) {
+    private func fetchInAppMessage(for context: ApplicationContext) async throws -> NotificareInAppMessage {
         guard let device = Notificare.shared.device().currentDevice else {
-            completion(.failure(NotificareError.deviceUnavailable))
-            return
+            throw NotificareError.deviceUnavailable
         }
 
-        NotificareRequest.Builder()
+        let response = try await NotificareRequest.Builder()
             .get("/inappmessage/forcontext/\(context.rawValue)")
             .query(name: "deviceID", value: device.id)
-            .responseDecodable(NotificareInternals.PushAPI.Responses.InAppMessage.self) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.message.toModel()))
+            .responseDecodable(NotificareInternals.PushAPI.Responses.InAppMessage.self)
 
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
+        return response.message.toModel()
     }
 
+    @MainActor
     private func findParentView() -> UIView? {
         let window: UIWindow
 
         if #available(iOS 13.0, *) {
             guard let scene = UIApplication.shared.connectedScenes.compactMap({ $0 as? UIWindowScene }).first else {
-                NotificareLogger.debug("Unable to acquire the first UIWindowScene.")
+                logger.debug("Unable to acquire the first UIWindowScene.")
                 return nil
             }
 
             if #available(iOS 15.0, *) {
                 guard let keyWindow = scene.keyWindow else {
-                    NotificareLogger.debug("Unable to acquire the key window.")
+                    logger.debug("Unable to acquire the key window.")
                     return nil
                 }
 
                 window = keyWindow
             } else {
                 guard let keyWindow = scene.windows.first(where: { $0.isKeyWindow }) else {
-                    NotificareLogger.debug("Unable to acquire the key window.")
+                    logger.debug("Unable to acquire the key window.")
                     return nil
                 }
 
@@ -214,7 +210,7 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
             }
         } else {
             guard let keyWindow = UIApplication.shared.delegate?.window ?? nil else {
-                NotificareLogger.debug("Unable to acquire the key window.")
+                logger.debug("Unable to acquire the key window.")
                 return nil
             }
 
@@ -222,7 +218,7 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
         }
 
         guard let rootViewController = window.rootViewController else {
-            NotificareLogger.debug("Unable to acquire the root view controller.")
+            logger.debug("Unable to acquire the root view controller.")
             return nil
         }
 
@@ -243,7 +239,7 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
             return NotificareInAppMessagingFullscreenView(message: message, cache: cache)
 
         default:
-            NotificareLogger.warning("Unsupported in-app message type '\(message.type)'.")
+            logger.warning("Unsupported in-app message type '\(message.type)'.")
             return nil
         }
     }
@@ -255,7 +251,7 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
             let expiredAt = presentedViewBackgroundTimestamp.timeIntervalSince1970 * 1000 + backgroundGracePeriod
 
             if now > expiredAt {
-                NotificareLogger.debug("Dismissing the current in-app message for being in the background for longer than the grace period.")
+                logger.debug("Dismissing the current in-app message for being in the background for longer than the grace period.")
                 presentedView.removeFromSuperview()
 
                 self.presentedView = nil
@@ -264,17 +260,17 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
         }
 
         guard Notificare.shared.isReady else {
-            NotificareLogger.debug("Postponing in-app message evaluation until Notificare is launched.")
+            logger.debug("Postponing in-app message evaluation until Notificare is launched.")
             return
         }
 
         guard presentedView == nil else {
-            NotificareLogger.debug("Skipping context evaluation since there is another in-app message being presented.")
+            logger.debug("Skipping context evaluation since there is another in-app message being presented.")
             return
         }
 
         guard !hasMessagesSuppressed else {
-            NotificareLogger.debug("Skipping context evaluation since in-app messages are being suppressed.")
+            logger.debug("Skipping context evaluation since in-app messages are being suppressed.")
             return
         }
 
@@ -285,7 +281,7 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
         presentedViewBackgroundTimestamp = Date()
 
         if messageWorkItem != nil {
-            NotificareLogger.info("Clearing delayed in-app message from being presented when going to the background.")
+            logger.info("Clearing delayed in-app message from being presented when going to the background.")
             messageWorkItem?.cancel()
             messageWorkItem = nil
         }
@@ -293,7 +289,7 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
 }
 
 extension NotificareInAppMessagingImpl: NotificareInAppMessagingViewDelegate {
-    func onViewDismissed() {
+    internal func onViewDismissed() {
         presentedView = nil
     }
 }

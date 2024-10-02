@@ -5,8 +5,8 @@
 import Foundation
 import NotificareKit
 
-public extension Notificare {
-    func loyalty() -> NotificareLoyalty {
+extension Notificare {
+    public func loyalty() -> NotificareLoyalty {
         NotificareLoyaltyImpl.instance
     }
 }

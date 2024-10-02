@@ -4,9 +4,10 @@
 
 import CoreData
 import NotificareKit
+import NotificareUtilitiesKit
 
-internal extension InboxItemEntity {
-    var expired: Bool {
+extension InboxItemEntity {
+    internal var expired: Bool {
         if let expiresAt = expires {
             return expiresAt <= Date()
         }
@@ -14,8 +15,8 @@ internal extension InboxItemEntity {
         return false
     }
 
-    convenience init(from model: NotificareInboxItem, visible: Bool, context: NSManagedObjectContext) throws {
-        let encoder = NotificareUtils.jsonEncoder
+    internal convenience init(from model: NotificareInboxItem, visible: Bool, context: NSManagedObjectContext) throws {
+        let encoder = JSONEncoder.notificare
 
         self.init(context: context)
         id = model.id
@@ -33,8 +34,8 @@ internal extension InboxItemEntity {
         expires = model.expires
     }
 
-    func setNotification(_ notification: NotificareNotification) throws {
-        let encoder = NotificareUtils.jsonEncoder
+    internal func setNotification(_ notification: NotificareNotification) throws {
+        let encoder = JSONEncoder.notificare
 
         do {
             self.notification = try encoder.encode(notification)
@@ -43,8 +44,8 @@ internal extension InboxItemEntity {
         }
     }
 
-    func toModel() throws -> NotificareInboxItem {
-        let decoder = NotificareUtils.jsonDecoder
+    internal func toModel() throws -> NotificareInboxItem {
+        let decoder = JSONDecoder.notificare
 
         guard let id = id else {
             throw InboxDatabaseError.invalidArgument("id", cause: nil)

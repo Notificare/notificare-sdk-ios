@@ -7,8 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A52DE7F2CA4628000B5F56C /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A52DE7E2CA4628000B5F56C /* Logger.swift */; };
+		1A52DEFC2CAC0DA200B5F56C /* NotificareUtilitiesKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A52DEE72CAC044000B5F56C /* NotificareUtilitiesKit.framework */; };
+		1ACA07CF2C57AA87002CB47D /* NotificareScannableTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACA07CE2C57AA87002CB47D /* NotificareScannableTest.swift */; };
+		1ACA07D32C58F4D5002CB47D /* ScannablesPushApiModelsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACA07D22C58F4D5002CB47D /* ScannablesPushApiModelsTest.swift */; };
 		F258DE2E24BC4FAD006F9ABD /* NotificareScannablesKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F258DE2424BC4FAD006F9ABD /* NotificareScannablesKit.framework */; };
-		F258DE3324BC4FAD006F9ABD /* ScannableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DE3224BC4FAD006F9ABD /* ScannableTests.swift */; };
 		F258DE3524BC4FAD006F9ABD /* NotificareScannablesKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F258DE2724BC4FAD006F9ABD /* NotificareScannablesKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F267DA50273EC00200448A8F /* NotificareScannablesError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F267DA4F273EC00200448A8F /* NotificareScannablesError.swift */; };
 		F289F5BD25B860E90091AB97 /* NotificareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F22650B0258B6E410004F833 /* NotificareKit.framework */; };
@@ -35,12 +38,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1A52DE7E2CA4628000B5F56C /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		1A52DEE72CAC044000B5F56C /* NotificareUtilitiesKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareUtilitiesKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1ACA07CE2C57AA87002CB47D /* NotificareScannableTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareScannableTest.swift; sourceTree = "<group>"; };
+		1ACA07D22C58F4D5002CB47D /* ScannablesPushApiModelsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannablesPushApiModelsTest.swift; sourceTree = "<group>"; };
 		F22650B0258B6E410004F833 /* NotificareKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F258DE2424BC4FAD006F9ABD /* NotificareScannablesKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NotificareScannablesKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F258DE2724BC4FAD006F9ABD /* NotificareScannablesKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificareScannablesKit.h; sourceTree = "<group>"; };
 		F258DE2824BC4FAD006F9ABD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F258DE2D24BC4FAD006F9ABD /* NotificareScannablesKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NotificareScannablesKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		F258DE3224BC4FAD006F9ABD /* ScannableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannableTests.swift; sourceTree = "<group>"; };
 		F258DE3424BC4FAD006F9ABD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F267DA4F273EC00200448A8F /* NotificareScannablesError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareScannablesError.swift; sourceTree = "<group>"; };
 		F29017FB2BD27AB0009DB80B /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
@@ -62,6 +68,7 @@
 			files = (
 				F289F5BD25B860E90091AB97 /* NotificareKit.framework in Frameworks */,
 				F2E801E7269DC9C600582DB8 /* CoreNFC.framework in Frameworks */,
+				1A52DEFC2CAC0DA200B5F56C /* NotificareUtilitiesKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -115,8 +122,9 @@
 		F258DE3124BC4FAD006F9ABD /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				F258DE3224BC4FAD006F9ABD /* ScannableTests.swift */,
 				F258DE3424BC4FAD006F9ABD /* Info.plist */,
+				1ACA07CE2C57AA87002CB47D /* NotificareScannableTest.swift */,
+				1ACA07D22C58F4D5002CB47D /* ScannablesPushApiModelsTest.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -124,6 +132,7 @@
 		F258DE9B24BC96D0006F9ABD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1A52DEE72CAC044000B5F56C /* NotificareUtilitiesKit.framework */,
 				F2E801E6269DC9C500582DB8 /* CoreNFC.framework */,
 				F22650B0258B6E410004F833 /* NotificareKit.framework */,
 			);
@@ -143,6 +152,7 @@
 			children = (
 				F2E801DA269D946D00582DB8 /* Network */,
 				F2E801D3269D93AA00582DB8 /* NotificareScannablesImpl.swift */,
+				1A52DE7E2CA4628000B5F56C /* Logger.swift */,
 			);
 			path = Internals;
 			sourceTree = "<group>";
@@ -198,6 +208,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				1A8C31052BF63A0C0000BFA6 /* PBXTargetDependency */,
 			);
 			name = NotificareScannablesKit;
 			productName = Scannable;
@@ -215,6 +226,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				1A546F742C5B5DDD0059F095 /* PBXTargetDependency */,
 				F258DE3024BC4FAD006F9ABD /* PBXTargetDependency */,
 			);
 			name = NotificareScannablesKitTests;
@@ -230,7 +242,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1150;
-				LastUpgradeCheck = 1530;
+				LastUpgradeCheck = 1540;
 				ORGANIZATIONNAME = Notificare;
 				TargetAttributes = {
 					F258DE2324BC4FAD006F9ABD = {
@@ -239,6 +251,7 @@
 					};
 					F258DE2C24BC4FAD006F9ABD = {
 						CreatedOnToolsVersion = 11.5;
+						LastSwiftMigration = 1540;
 					};
 				};
 			};
@@ -251,6 +264,9 @@
 				Base,
 			);
 			mainGroup = F258DE1A24BC4FAC006F9ABD;
+			packageReferences = (
+				1A8C30ED2BF6397A0000BFA6 /* XCRemoteSwiftPackageReference "SwiftLint" */,
+			);
 			productRefGroup = F258DE2524BC4FAD006F9ABD /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -289,6 +305,7 @@
 				F2E801D4269D93AA00582DB8 /* NotificareScannablesImpl.swift in Sources */,
 				F2DAB39F271F1115002B5F27 /* NotificareScannables+Augment.swift in Sources */,
 				F267DA50273EC00200448A8F /* NotificareScannablesError.swift in Sources */,
+				1A52DE7F2CA4628000B5F56C /* Logger.swift in Sources */,
 				F2E801E5269D957700582DB8 /* NotificareScannablesDelegate.swift in Sources */,
 				F2E801EC269F19BC00582DB8 /* NotificareQrCodeScannerViewController.swift in Sources */,
 				F2E801E3269D94CA00582DB8 /* PushAPI+Responses.swift in Sources */,
@@ -300,13 +317,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F258DE3324BC4FAD006F9ABD /* ScannableTests.swift in Sources */,
+				1ACA07D32C58F4D5002CB47D /* ScannablesPushApiModelsTest.swift in Sources */,
+				1ACA07CF2C57AA87002CB47D /* NotificareScannableTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		1A546F742C5B5DDD0059F095 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 1A546F732C5B5DDD0059F095 /* SwiftLintBuildToolPlugin */;
+		};
+		1A8C31052BF63A0C0000BFA6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 1A8C31042BF63A0C0000BFA6 /* SwiftLintBuildToolPlugin */;
+		};
 		F258DE3024BC4FAD006F9ABD /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = F258DE2324BC4FAD006F9ABD /* NotificareScannablesKit */;
@@ -460,7 +486,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.10.0;
+				MARKETING_VERSION = 4.0.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.scannables;
@@ -492,7 +518,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.10.0;
+				MARKETING_VERSION = 4.0.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.scannables;
@@ -508,6 +534,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Tests/Info.plist;
@@ -518,6 +545,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.ScannableTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -527,6 +555,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Tests/Info.plist;
@@ -627,7 +656,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.10.0;
+				MARKETING_VERSION = 4.0.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.scannables;
@@ -644,6 +673,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Tests/Info.plist;
@@ -654,6 +684,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.ScannableTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -744,7 +775,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.10.0;
+				MARKETING_VERSION = 4.0.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.scannables;
@@ -761,6 +792,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Tests/Info.plist;
@@ -771,6 +803,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.ScannableTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -855,7 +888,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.10.0;
+				MARKETING_VERSION = 4.0.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.scannables;
@@ -871,6 +904,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Tests/Info.plist;
@@ -965,7 +999,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.10.0;
+				MARKETING_VERSION = 4.0.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.scannables;
@@ -981,6 +1015,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Tests/Info.plist;
@@ -1039,6 +1074,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1A8C30ED2BF6397A0000BFA6 /* XCRemoteSwiftPackageReference "SwiftLint" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/SwiftLint";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.55.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1A546F732C5B5DDD0059F095 /* SwiftLintBuildToolPlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1A8C30ED2BF6397A0000BFA6 /* XCRemoteSwiftPackageReference "SwiftLint" */;
+			productName = "plugin:SwiftLintBuildToolPlugin";
+		};
+		1A8C31042BF63A0C0000BFA6 /* SwiftLintBuildToolPlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1A8C30ED2BF6397A0000BFA6 /* XCRemoteSwiftPackageReference "SwiftLint" */;
+			productName = "plugin:SwiftLintBuildToolPlugin";
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F258DE1B24BC4FAC006F9ABD /* Project object */;
 }

@@ -4,9 +4,9 @@
 
 import CoreLocation
 import Foundation
-import NotificareKit
+import NotificareUtilitiesKit
 
-public struct NotificareBeacon: Codable, Hashable {
+public struct NotificareBeacon: Codable, Hashable, Equatable {
     public let id: String
     public let name: String
     public let major: Int
@@ -23,7 +23,7 @@ public struct NotificareBeacon: Codable, Hashable {
         self.proximity = proximity
     }
 
-    public enum Proximity: String, Codable {
+    public enum Proximity: String, Codable, Equatable {
         case unknown
         case immediate
         case near
@@ -36,14 +36,14 @@ public struct NotificareBeacon: Codable, Hashable {
 extension NotificareBeacon: Identifiable {}
 
 // JSON: NotificareBeacon
-public extension NotificareBeacon {
-    func toJson() throws -> [String: Any] {
-        let data = try NotificareUtils.jsonEncoder.encode(self)
+extension NotificareBeacon {
+    public func toJson() throws -> [String: Any] {
+        let data = try JSONEncoder.notificare.encode(self)
         return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
     }
 
-    static func fromJson(json: [String: Any]) throws -> NotificareBeacon {
+    public static func fromJson(json: [String: Any]) throws -> NotificareBeacon {
         let data = try JSONSerialization.data(withJSONObject: json, options: [])
-        return try NotificareUtils.jsonDecoder.decode(NotificareBeacon.self, from: data)
+        return try JSONDecoder.notificare.decode(NotificareBeacon.self, from: data)
     }
 }

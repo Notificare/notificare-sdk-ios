@@ -5,8 +5,8 @@
 import Foundation
 import NotificareKit
 
-internal extension NotificareEventsModule {
-    func logRegionSession(_ session: NotificareRegionSession, _ completion: @escaping NotificareCallback<Void>) {
+extension NotificareEventsModule {
+    internal func logRegionSession(_ session: NotificareRegionSession) async throws {
         let sessionEnd = session.end ?? Date()
         let length = sessionEnd.timeIntervalSince(session.start)
 
@@ -36,10 +36,10 @@ internal extension NotificareEventsModule {
         ]
 
         let this = self as! NotificareInternalEventsModule
-        this.log("re.notifica.event.region.Session", data: data, completion)
+        try await this.log("re.notifica.event.region.Session", data: data)
     }
 
-    func logBeaconSession(_ session: NotificareBeaconSession, _ completion: @escaping NotificareCallback<Void>) {
+    internal func logBeaconSession(_ session: NotificareBeaconSession) async throws {
         let sessionEnd = session.end ?? Date()
         let length = sessionEnd.timeIntervalSince(session.start)
 
@@ -68,10 +68,10 @@ internal extension NotificareEventsModule {
         ]
 
         let this = self as! NotificareInternalEventsModule
-        this.log("re.notifica.event.beacon.Session", data: data, completion)
+        try await this.log("re.notifica.event.beacon.Session", data: data)
     }
 
-    func logVisit(_ visit: NotificareVisit, _ completion: @escaping NotificareCallback<Void>) {
+    internal func logVisit(_ visit: NotificareVisit) async throws {
         let data: NotificareEventData = [
             "departureDate": visit.departureDate,
             "arrivalDate": visit.arrivalDate,
@@ -80,6 +80,6 @@ internal extension NotificareEventsModule {
         ]
 
         let this = self as! NotificareInternalEventsModule
-        this.log("re.notifica.event.location.Visit", data: data, completion)
+        try await this.log("re.notifica.event.location.Visit", data: data)
     }
 }

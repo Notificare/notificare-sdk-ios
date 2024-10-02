@@ -24,7 +24,7 @@ open class NotificareAbstractDatabase {
         guard let path = bundle.url(forResource: name, withExtension: ".momd"),
               let model = NSManagedObjectModel(contentsOf: path)
         else {
-            NotificareLogger.error("Failed to load CoreData's models.")
+            logger.error("Failed to load CoreData's models.")
             fatalError("Failed to load CoreData's models")
         }
 
@@ -70,11 +70,11 @@ open class NotificareAbstractDatabase {
         }
 
         if let currentVersion = UserDefaults.standard.string(forKey: databaseVersionKey), currentVersion != Notificare.SDK_VERSION {
-            NotificareLogger.debug("Database version mismatch. Recreating...")
+            logger.debug("Database version mismatch. Recreating...")
             removeStore()
         }
 
-        NotificareLogger.debug("Loading database: \(name)")
+        logger.debug("Loading database: \(name)")
         loadStore()
     }
 
@@ -83,7 +83,7 @@ open class NotificareAbstractDatabase {
             return
         }
 
-        NotificareLogger.debug("Trying to load database: \(name)")
+        logger.debug("Trying to load database: \(name)")
         loadStore()
     }
 
@@ -93,21 +93,36 @@ open class NotificareAbstractDatabase {
         }
 
         guard hasLoadedPersistentStores else {
-            NotificareLogger.warning("Cannot save the database changes before the persistent stores are loaded.")
+            logger.warning("Cannot save the database changes before the persistent stores are loaded.")
             return
         }
 
         do {
             try context.save()
         } catch {
-            NotificareLogger.error("Failed to persist changes to CoreData.", error: error)
+            logger.error("Failed to persist changes to CoreData.", error: error)
         }
     }
 
     private func loadStore() {
+        let stores = persistentContainer.persistentStoreCoordinator.persistentStores
+
+        if !stores.isEmpty {
+            logger.debug("Reloading CoreData stores for '\(self.name)'.")
+
+            for store in stores {
+                do {
+                    try persistentContainer.persistentStoreCoordinator.remove(store)
+                } catch {
+                    logger.error("Failed to reload store.", error: error)
+                    return
+                }
+            }
+        }
+
         persistentContainer.loadPersistentStores { _, error in
             if let error {
-                NotificareLogger.error("Failed to load CoreData store '\(self.name)'.", error: error)
+                logger.error("Failed to load CoreData store '\(self.name)'.", error: error)
                 return
             }
 
@@ -118,15 +133,15 @@ open class NotificareAbstractDatabase {
 
     private func removeStore() {
         guard FileManager.default.fileExists(atPath: databaseUrl.path) else {
-            NotificareLogger.debug("Database file not found.")
+            logger.debug("Database file not found.")
             return
         }
 
         do {
             try persistentContainer.persistentStoreCoordinator.destroyPersistentStore(at: databaseUrl, ofType: "sqlite")
-            NotificareLogger.debug("Database removed.")
+            logger.debug("Database removed.")
         } catch {
-            NotificareLogger.debug("Failed to remove database.")
+            logger.debug("Failed to remove database.")
         }
     }
 }

@@ -5,12 +5,12 @@
 import Foundation
 import NotificareKit
 
-internal extension NotificareInternals.PushAPI.Responses {
-    struct FetchRegions: Decodable {
-        let regions: [NotificareInternals.PushAPI.Models.Region]
+extension NotificareInternals.PushAPI.Responses {
+    internal struct FetchRegions: Decodable {
+        internal let regions: [NotificareInternals.PushAPI.Models.Region]
     }
 
-    struct FetchBeacons: Decodable {
-        let beacons: [NotificareInternals.PushAPI.Models.Beacon]
+    internal struct FetchBeacons: Decodable {
+        internal let beacons: [NotificareInternals.PushAPI.Models.Beacon]
     }
 }

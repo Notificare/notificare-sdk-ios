@@ -4,59 +4,33 @@
 
 import Foundation
 import NotificareKit
+import NotificareUtilitiesKit
 
-internal extension NotificareInternals.PushAPI.Payloads {
-    struct UpdateDeviceLocation: Encodable {
-        let latitude: Double?
-        let longitude: Double?
-        let altitude: Double?
-        let locationAccuracy: Double?
-        let speed: Double?
-        let course: Double?
-        let country: String?
-        let floor: Int?
-        let locationServicesAuthStatus: NotificareGeoImpl.AuthorizationMode?
-        let locationServicesAccuracyAuth: NotificareGeoImpl.AccuracyMode?
-
-        private enum CodingKeys: String, CodingKey {
-            case latitude
-            case longitude
-            case altitude
-            case locationAccuracy
-            case speed
-            case course
-            case country
-            case floor
-            case locationServicesAuthStatus
-            case locationServicesAccuracyAuth
-        }
-
-        func encode(to encoder: Encoder) throws {
-            var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(latitude, forKey: .latitude)
-            try container.encode(longitude, forKey: .longitude)
-            try container.encode(altitude, forKey: .altitude)
-            try container.encode(locationAccuracy, forKey: .locationAccuracy)
-            try container.encode(speed, forKey: .speed)
-            try container.encode(course, forKey: .course)
-            try container.encode(country, forKey: .country)
-            try container.encode(floor, forKey: .floor)
-            try container.encode(locationServicesAuthStatus, forKey: .locationServicesAuthStatus)
-            try container.encode(locationServicesAccuracyAuth, forKey: .locationServicesAccuracyAuth)
-        }
+extension NotificareInternals.PushAPI.Payloads {
+    internal struct UpdateDeviceLocation: Encodable {
+        @EncodeNull internal var latitude: Double?
+        @EncodeNull internal var longitude: Double?
+        @EncodeNull internal var altitude: Double?
+        @EncodeNull internal var locationAccuracy: Double?
+        @EncodeNull internal var speed: Double?
+        @EncodeNull internal var course: Double?
+        @EncodeNull internal var country: String?
+        @EncodeNull internal var floor: Int?
+        @EncodeNull internal var locationServicesAuthStatus: NotificareGeoImpl.AuthorizationMode?
+        @EncodeNull internal var locationServicesAccuracyAuth: NotificareGeoImpl.AccuracyMode?
     }
 
-    struct RegionTrigger: Encodable {
-        let deviceID: String
-        let region: String
+    internal struct RegionTrigger: Encodable {
+        internal let deviceID: String
+        internal let region: String
     }
 
-    struct BeaconTrigger: Encodable {
-        let deviceID: String
-        let beacon: String
+    internal struct BeaconTrigger: Encodable {
+        internal let deviceID: String
+        internal let beacon: String
     }
 
-    struct BluetoothStateUpdate: Encodable {
-        let bluetoothEnabled: Bool
+    internal struct BluetoothStateUpdate: Encodable {
+        internal let bluetoothEnabled: Bool
     }
 }

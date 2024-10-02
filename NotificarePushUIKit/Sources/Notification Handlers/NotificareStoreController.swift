@@ -3,16 +3,17 @@
 //
 
 import NotificareKit
+import NotificareUtilitiesKit
 import StoreKit
 
-class NotificareStoreController: NSObject, SKStoreProductViewControllerDelegate, NotificareNotificationPresenter {
+internal class NotificareStoreController: NSObject, SKStoreProductViewControllerDelegate, NotificareNotificationPresenter {
     private let notification: NotificareNotification
 
-    init(notification: NotificareNotification) {
+    internal init(notification: NotificareNotification) {
         self.notification = notification
     }
 
-    func present(in controller: UIViewController) {
+    internal func present(in controller: UIViewController) {
         guard let content = notification.content.first, content.type == "re.notifica.content.AppStore" else {
             DispatchQueue.main.async {
                 Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToPresentNotification: self.notification)
@@ -64,7 +65,7 @@ class NotificareStoreController: NSObject, SKStoreProductViewControllerDelegate,
     }
 
     public func productViewControllerDidFinish(_: SKStoreProductViewController) {
-        NotificareUtils.rootViewController?.dismiss(animated: true, completion: {
+        UIApplication.shared.rootViewController?.dismiss(animated: true, completion: {
             DispatchQueue.main.async {
                 Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFinishPresentingNotification: self.notification)
             }

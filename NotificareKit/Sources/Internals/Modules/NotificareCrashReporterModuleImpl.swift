@@ -3,17 +3,19 @@
 //
 
 import Foundation
+import UIKit
+import NotificareUtilitiesKit
 
 internal class NotificareCrashReporterModuleImpl: NSObject, NotificareModule {
     // MARK: - Notificare Module
 
-    static let instance = NotificareCrashReporterModuleImpl()
+    internal static let instance = NotificareCrashReporterModuleImpl()
 
-    func configure() {
+    internal func configure() {
         let crashReportsEnabled = Notificare.shared.options!.crashReportsEnabled
 
         guard crashReportsEnabled else {
-            NotificareLogger.debug("Crash reports are not enabled.")
+            logger.debug("Crash reports are not enabled.")
             return
         }
 
@@ -36,35 +38,32 @@ internal class NotificareCrashReporterModuleImpl: NSObject, NotificareModule {
         signal(SIGXFSZ, signalReceiver)
     }
 
-    func launch(_ completion: @escaping NotificareCallback<Void>) {
+    internal func launch() async throws {
         guard let event = LocalStorage.crashReport else {
-            NotificareLogger.debug("No crash report to process.")
-            completion(.success(()))
+            logger.debug("No crash report to process.")
             return
         }
 
-        NotificareRequest.Builder()
-            .post("/event", body: event)
-            .response { result in
-                switch result {
-                case .success:
-                    NotificareLogger.info("Crash report processed.")
+        do {
+            try await NotificareRequest.Builder()
+                .post("/event", body: event)
+                .response()
 
-                    // Clean up the stored crash report
-                    LocalStorage.crashReport = nil
-                case let .failure(error):
-                    NotificareLogger.error("Failed to process a crash report.", error: error)
-                }
-            }
+            logger.info("Crash report processed.")
 
-        completion(.success(()))
+            // Clean up the stored crash report
+            LocalStorage.crashReport = nil
+        } catch {
+            logger.error("Failed to process a crash report.", error: error)
+
+        }
     }
 
     // MARK: - Internal API
 
     private let uncaughtExceptionHandler: @convention(c) (NSException) -> Void = { exception in
         guard let device = Notificare.shared.device().currentDevice else {
-            NotificareLogger.warning("Cannot process a crash report before the device becomes available.")
+            logger.warning("Cannot process a crash report before the device becomes available.")
             return
         }
 
@@ -79,10 +78,10 @@ internal class NotificareCrashReporterModuleImpl: NSObject, NotificareModule {
             userId: device.userId,
             data: [
                 "platform": "iOS",
-                "osVersion": NotificareUtils.osVersion,
-                "deviceString": NotificareUtils.deviceString,
+                "osVersion": UIDevice.current.osVersion,
+                "deviceString": UIDevice.current.deviceString,
                 "sdkVersion": Notificare.SDK_VERSION,
-                "appVersion": NotificareUtils.applicationVersion,
+                "appVersion": Bundle.main.applicationVersion,
                 "timestamp": timestamp,
                 "name": exception.name.rawValue,
                 "reason": exception.reason as Any,
@@ -93,7 +92,7 @@ internal class NotificareCrashReporterModuleImpl: NSObject, NotificareModule {
 
     private let signalReceiver: @convention(c) (Int32) -> Void = { signal in
         guard let device = Notificare.shared.device().currentDevice else {
-            NotificareLogger.warning("Cannot process a crash report before the device becomes available.")
+            logger.warning("Cannot process a crash report before the device becomes available.")
             return
         }
 
@@ -127,10 +126,10 @@ internal class NotificareCrashReporterModuleImpl: NSObject, NotificareModule {
             userId: device.userId,
             data: [
                 "platform": "iOS",
-                "osVersion": NotificareUtils.osVersion,
-                "deviceString": NotificareUtils.deviceString,
+                "osVersion": UIDevice.current.osVersion,
+                "deviceString": UIDevice.current.deviceString,
                 "sdkVersion": Notificare.SDK_VERSION,
-                "appVersion": NotificareUtils.applicationVersion,
+                "appVersion": Bundle.main.applicationVersion,
                 "timestamp": timestamp,
                 "name": name,
                 "reason": "Uncaught Signal \(name)",

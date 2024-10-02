@@ -13,25 +13,25 @@ public protocol NotificareModule {
 
     func configure()
 
-    func launch(_ completion: @escaping NotificareCallback<Void>)
+    func clearStorage() async throws
+
+    func launch() async throws
 
     func postLaunch() async throws
 
-    func unlaunch(_ completion: @escaping NotificareCallback<Void>)
+    func unlaunch() async throws
 }
 
-public extension NotificareModule {
-    func migrate() {}
+extension NotificareModule {
+    public func migrate() {}
 
-    func configure() {}
+    public func configure() {}
 
-    func launch(_ completion: @escaping NotificareCallback<Void>) {
-        completion(.success(()))
-    }
+    public func clearStorage() async throws {}
 
-    func postLaunch() async throws {}
+    public func launch() async throws {}
 
-    func unlaunch(_ completion: @escaping NotificareCallback<Void>) {
-        completion(.success(()))
-    }
+    public func postLaunch() async throws {}
+
+    public func unlaunch() async throws {}
 }

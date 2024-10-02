@@ -4,15 +4,15 @@
 
 import SwiftUI
 
-struct LocationSection: View {
-    @Binding var hasLocationAndPermission: Bool
+internal struct LocationSection: View {
+    @Binding internal var hasLocationAndPermission: Bool
 
-    let hasLocationEnabled: Bool
-    let hasBluetoothEnabled: Bool
-    let locationPermission: HomeViewModel.LocationPermissionStatus?
-    let updateLocationServicesStatus: (Bool) -> Void
+    internal let hasLocationEnabled: Bool
+    internal let hasBluetoothEnabled: Bool
+    internal let locationPermission: HomeViewModel.LocationPermissionStatus?
+    internal let updateLocationServicesStatus: (Bool) -> Void
 
-    var body: some View {
+    internal var body: some View {
         Section {
             Toggle(isOn: $hasLocationAndPermission) {
                 Label {
@@ -78,8 +78,8 @@ struct LocationSection: View {
     }
 }
 
-struct LocationSection_Previews: PreviewProvider {
-    static var previews: some View {
+internal struct LocationSection_Previews: PreviewProvider {
+    internal static var previews: some View {
         @State var hasLocationAndPermission = false
         LocationSection(
             hasLocationAndPermission: $hasLocationAndPermission,

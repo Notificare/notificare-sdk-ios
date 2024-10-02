@@ -11,7 +11,6 @@ import NotificareGeoKit
 import NotificareInboxKit
 import NotificareKit
 import NotificareLoyaltyKit
-import NotificareMonetizeKit
 import NotificarePushKit
 import NotificarePushUIKit
 import NotificareScannablesKit
@@ -21,7 +20,7 @@ import SwiftUI
 private let REQUESTED_LOCATION_ALWAYS_KEY = "re.notifica.geo.capacitor.requested_location_always"
 
 @MainActor
-class HomeViewModel: NSObject, ObservableObject {
+internal class HomeViewModel: NSObject, ObservableObject {
     private let notificationCenter = UNUserNotificationCenter.current()
     private let locationManager = CLLocationManager()
     private var requestedPermission: LocationPermissionGroup?
@@ -33,57 +32,57 @@ class HomeViewModel: NSObject, ObservableObject {
         }
     }
 
-    @Published private(set) var viewState: ViewState = .isNotReady
-    @Published private(set) var userMessages: [UserMessage] = []
-    @Published private(set) var badge = Notificare.shared.inbox().badge
+    @Published internal  private(set) var viewState: ViewState = .isNotReady
+    @Published internal private(set) var userMessages: [UserMessage] = []
+    @Published internal private(set) var badge = Notificare.shared.inbox().badge
 
     // Launch Flow
 
-    @Published private(set) var isConfigured = Notificare.shared.isConfigured
-    @Published private(set) var isReady = Notificare.shared.isReady
+    @Published internal private(set) var isConfigured = Notificare.shared.isConfigured
+    @Published internal private(set) var isReady = Notificare.shared.isReady
 
     // Notifications
 
-    @Published var hasNotificationsAndPermission = Notificare.shared.push().allowedUI && Notificare.shared.push().hasRemoteNotificationsEnabled
-    @Published private(set) var hasNotificationsEnabled = Notificare.shared.push().hasRemoteNotificationsEnabled
-    @Published private(set) var allowedUi = Notificare.shared.push().allowedUI
-    @Published private(set) var notificationsPermission: NotificationsPermissionStatus? = nil
+    @Published internal var hasNotificationsAndPermission = Notificare.shared.push().allowedUI && Notificare.shared.push().hasRemoteNotificationsEnabled
+    @Published internal private(set) var hasNotificationsEnabled = Notificare.shared.push().hasRemoteNotificationsEnabled
+    @Published internal private(set) var allowedUi = Notificare.shared.push().allowedUI
+    @Published internal private(set) var notificationsPermission: NotificationsPermissionStatus? = nil
 
     // Do not disturb
 
-    @Published var hasDndEnabled = false
-    @Published var startTime = NotificareTime.defaultStart.date
-    @Published var endTime = NotificareTime.defaultEnd.date
+    @Published internal var hasDndEnabled = false
+    @Published internal var startTime = NotificareTime.defaultStart.date
+    @Published internal var endTime = NotificareTime.defaultEnd.date
 
     // Geo
 
-    @Published var hasLocationAndPermission = Notificare.shared.geo().hasLocationServicesEnabled
-    @Published private(set) var hasLocationEnabled = false
-    @Published private(set) var locationPermission: LocationPermissionStatus? = nil
-    @Published private(set) var hasBluetoothEnabled = false
+    @Published internal var hasLocationAndPermission = Notificare.shared.geo().hasLocationServicesEnabled
+    @Published internal private(set) var hasLocationEnabled = false
+    @Published internal private(set) var locationPermission: LocationPermissionStatus? = nil
+    @Published internal private(set) var hasBluetoothEnabled = false
 
     // In app messaging
 
-    @Published var hasEvaluateContextOn = false
-    @Published var hasSuppressedOn = false
+    @Published internal var hasEvaluateContextOn = false
+    @Published internal var hasSuppressedOn = false
 
     // Device registration
 
-    @Published var userId = ""
-    @Published var userName = ""
-    @Published private(set) var isDeviceRegistered = false
+    @Published internal var userId = ""
+    @Published internal var userName = ""
+    @Published internal private(set) var isDeviceRegistered = false
 
     // Live Activities
 
-    @Published private(set) var coffeeBrewerLiveActivityState: CoffeeBrewerActivityAttributes.BrewingState?
+    @Published internal private(set) var coffeeBrewerLiveActivityState: CoffeeBrewerActivityAttributes.BrewingState?
 
     // Application Info
 
-    @Published private(set) var applicationInfo: ApplicationInfo?
+    @Published internal private(set) var applicationInfo: ApplicationInfo?
 
     private var cancellables = Set<AnyCancellable>()
 
-    override init() {
+    override internal init() {
         super.init()
         locationManager.delegate = self
 
@@ -136,7 +135,7 @@ class HomeViewModel: NSObject, ObservableObject {
         applicationInfo = getApplicationInfo()
     }
 
-    func updateStats() {
+    internal func updateStats() {
         checkNotificationsStatus()
         checkDndStatus()
         checkLocationStatus()
@@ -147,21 +146,21 @@ class HomeViewModel: NSObject, ObservableObject {
 // Launch Flow
 
 extension HomeViewModel {
-    func notificareLaunch() {
+    internal func notificareLaunch() {
         Logger.main.info("Notificare launch clicked")
-        Notificare.shared.launch()
+        Notificare.shared.launch { _ in }
     }
 
-    func notificareUnlaunch() {
+    internal func notificareUnlaunch() {
         Logger.main.info("Notificare unlaunch clicked")
-        Notificare.shared.unlaunch()
+        Notificare.shared.unlaunch { _ in }
     }
 }
 
 // Notifications
 
 extension HomeViewModel {
-    func updateNotificationsStatus(enabled: Bool) {
+    internal func updateNotificationsStatus(enabled: Bool) {
         Logger.main.info("Notifications Toggle switched \(enabled ? "ON" : "OFF")")
 
         if enabled {
@@ -227,10 +226,12 @@ extension HomeViewModel {
                 checkNotificationsStatus()
             }
         } else {
-            Logger.main.info("Disabling remote notifications")
-            Notificare.shared.push().disableRemoteNotifications()
+            Task {
+                Logger.main.info("Disabling remote notifications")
+                try await Notificare.shared.push().disableRemoteNotifications()
 
-            checkNotificationsStatus()
+                checkNotificationsStatus()
+            }
         }
     }
 
@@ -256,7 +257,7 @@ extension HomeViewModel {
         }
     }
 
-    func checkNotificationsStatus() {
+    internal func checkNotificationsStatus() {
         Task {
             let status = await checkNotificationsPermissionStatus()
 
@@ -280,7 +281,7 @@ extension HomeViewModel {
         hasDndEnabled = true
     }
 
-    func updateDndStatus(enabled: Bool) {
+    internal func updateDndStatus(enabled: Bool) {
         Logger.main.info("DnD Toggle switched \(enabled ? "ON" : "OFF")")
 
         if enabled {
@@ -307,7 +308,7 @@ extension HomeViewModel {
         }
     }
 
-    func updateDndTime() {
+    internal func updateDndTime() {
         Logger.main.info("Updating DnD time")
 
         Task {
@@ -358,7 +359,7 @@ extension HomeViewModel: CLLocationManagerDelegate {
         }
     }
 
-    func updateLocationServicesStatus(enabled: Bool) {
+    internal func updateLocationServicesStatus(enabled: Bool) {
         Logger.main.info("Location Toggle switched \(enabled ? "ON" : "OFF")")
 
         if enabled {
@@ -512,7 +513,7 @@ extension HomeViewModel: CLLocationManagerDelegate {
 // In App Messaging
 
 extension HomeViewModel {
-    func updateSuppressedIamStatus(enabled: Bool) {
+    internal func updateSuppressedIamStatus(enabled: Bool) {
 //        Logger.main.info("\(enabled ? "Supressing" : "Unsupressing") in app messages, evaluate context is \(hasEvaluateContextOn ? "ON" : "OFF")")
         Notificare.shared.inAppMessaging().setMessagesSuppressed(enabled, evaluateContext: hasEvaluateContextOn)
     }
@@ -529,12 +530,12 @@ extension HomeViewModel {
         isDeviceRegistered = device?.userId != nil
     }
 
-    func registerDevice() {
+    internal func registerDevice() {
         Logger.main.info("Registering device")
 
         Task {
             do {
-                try await Notificare.shared.device().register(userId: userId, userName: userName.isEmpty ? nil : userName)
+                try await Notificare.shared.device().updateUser(userId: userId, userName: userName.isEmpty ? nil : userName)
                 isDeviceRegistered = true
                 Logger.main.info("Device registered successfully")
 
@@ -551,12 +552,12 @@ extension HomeViewModel {
         }
     }
 
-    func cleanDeviceRegistration() {
+    internal func cleanDeviceRegistration() {
         Logger.main.info("Registering device as anonymous")
 
         Task {
             do {
-                try await Notificare.shared.device().register(userId: nil, userName: nil)
+                try await Notificare.shared.device().updateUser(userId: nil, userName: nil)
                 isDeviceRegistered = false
                 userId = ""
                 userName = ""
@@ -637,20 +638,20 @@ extension HomeViewModel {
 }
 
 extension HomeViewModel {
-    func processUserMessage(_ userMessageId: String) {
+    internal func processUserMessage(_ userMessageId: String) {
         userMessages.removeAll(where: { $0.uniqueId == userMessageId })
     }
 
-    enum ViewState {
+    internal enum ViewState {
         case isNotReady
         case isReady
     }
 
-    struct UserMessage: Equatable {
-        let uniqueId = UUID().uuidString
-        let variant: Variant
+    internal struct UserMessage: Equatable {
+        internal let uniqueId = UUID().uuidString
+        internal let variant: Variant
 
-        enum Variant {
+        internal enum Variant {
             case requestNotificationsPermissionSuccess
             case requestNotificationsPermissionFailure
             case enableRemoteNotificationsSuccess
@@ -665,61 +666,61 @@ extension HomeViewModel {
     }
 }
 
-internal extension HomeViewModel {
-    enum NotificationsPermissionStatus: String, CaseIterable {
+extension HomeViewModel {
+    internal enum NotificationsPermissionStatus: String, CaseIterable {
         case notDetermined = "permission_status_not_determined"
         case granted = "permission_status_granted"
         case denied = "permission_status_denied"
         case permanentlyDenied = "permission_status_permanently_denied"
 
-        var localized: String {
+        internal var localized: String {
             return NSLocalizedString(rawValue, comment: "")
         }
     }
 
-    enum LocationPermissionGroup: CaseIterable {
+    internal enum LocationPermissionGroup: CaseIterable {
         case locationWhenInUse
         case locationAlways
         case bluetoothScan
     }
 
-    enum LocationPermissionGroupStatus: CaseIterable {
+    internal enum LocationPermissionGroupStatus: CaseIterable {
         case notDetermined
         case granted
         case restricted
         case permanentlyDenied
     }
 
-    enum LocationPermissionStatus: String, CaseIterable {
+    internal enum LocationPermissionStatus: String, CaseIterable {
         case notDetermined = "permission_status_not_determined"
         case restricted = "permission_status_restricted"
         case permanentlyDenied = "permission_status_permanently_denied"
         case whenInUse = "permission_status_when_in_use"
         case always = "permission_status_always"
 
-        var localized: String {
+        internal var localized: String {
             return NSLocalizedString(rawValue, comment: "")
         }
     }
 }
 
 extension NotificareTime {
-    init(from date: Date) {
+    internal init(from date: Date) {
         let hours = Calendar.current.component(.hour, from: date)
         let minutes = Calendar.current.component(.minute, from: date)
 
         try! self.init(hours: hours, minutes: minutes)
     }
 
-    var date: Date {
+    internal var date: Date {
         Calendar.current.date(bySettingHour: hours, minute: minutes, second: 0, of: Date())!
     }
 
-    static var defaultStart: NotificareTime {
+    internal static var defaultStart: NotificareTime {
         try! NotificareTime(hours: 23, minutes: 0)
     }
 
-    static var defaultEnd: NotificareTime {
+    internal static var defaultEnd: NotificareTime {
         try! NotificareTime(hours: 8, minutes: 0)
     }
 }

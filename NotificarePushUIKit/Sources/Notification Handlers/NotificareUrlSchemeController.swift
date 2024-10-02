@@ -3,16 +3,17 @@
 //
 
 import NotificareKit
+import NotificareUtilitiesKit
 import UIKit
 
-class NotificareUrlSchemeController: NotificareNotificationPresenter {
+internal class NotificareUrlSchemeController: NotificareNotificationPresenter {
     private let notification: NotificareNotification
 
-    init(notification: NotificareNotification) {
+    internal init(notification: NotificareNotification) {
         self.notification = notification
     }
 
-    func present(in _: UIViewController) {
+    internal func present(in _: UIViewController) {
         guard let content = notification.content.first,
               let urlStr = content.data as? String,
               let url = URL(string: urlStr)
@@ -30,10 +31,11 @@ class NotificareUrlSchemeController: NotificareNotificationPresenter {
             return
         }
 
-        // It's an universal link from Notificare, let's get the target.
-        Notificare.shared.fetchDynamicLink(urlStr) { result in
-            switch result {
-            case let .success(link):
+        Task {
+            do {
+                // It's an universal link from Notificare, let's get the target.
+                let link = try await Notificare.shared.fetchDynamicLink(urlStr)
+
                 guard let url = URL(string: link.target) else {
                     DispatchQueue.main.async {
                         Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToPresentNotification: self.notification)
@@ -43,7 +45,7 @@ class NotificareUrlSchemeController: NotificareNotificationPresenter {
                 }
 
                 self.presentDeepLink(url)
-            case .failure:
+            } catch {
                 DispatchQueue.main.async {
                     Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToPresentNotification: self.notification)
                 }
@@ -60,8 +62,8 @@ class NotificareUrlSchemeController: NotificareNotificationPresenter {
             return
         }
 
-        guard NotificareUtils.getSupportedUrlSchemes().contains(urlScheme) else {
-            NotificareLogger.warning("Cannot open a deep link that's not supported by the application.")
+        guard Bundle.main.getSupportedUrlSchemes().contains(urlScheme) else {
+            logger.warning("Cannot open a deep link that's not supported by the application.")
 
             DispatchQueue.main.async {
                 Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToPresentNotification: self.notification)

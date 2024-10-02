@@ -24,9 +24,9 @@ internal class NotificareSessionModuleImpl: NSObject, NotificareModule {
 
     // MARK: - Notificare Module
 
-    static let instance = NotificareSessionModuleImpl()
+    internal static let instance = NotificareSessionModuleImpl()
 
-    func configure() {
+    internal func configure() {
         // Listen to 'application did become active'
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(applicationDidBecomeActive),
@@ -40,37 +40,29 @@ internal class NotificareSessionModuleImpl: NSObject, NotificareModule {
                                                object: nil)
     }
 
-    func launch(_ completion: @escaping NotificareCallback<Void>) {
-        if sessionId == nil, Notificare.shared.device().currentDevice != nil, UIApplication.shared.applicationState == .active {
+    internal func launch() async throws {
+        if sessionId == nil, Notificare.shared.device().currentDevice != nil, await UIApplication.shared.applicationState == .active {
             // Launch is taking place after the application came to the foreground.
             // Start the application session.
-            startSession { _ in
-                completion(.success(()))
-            }
-
-            return
+            await startSession()
         }
-
-        completion(.success(()))
     }
 
-    func unlaunch(_ completion: @escaping NotificareCallback<Void>) {
+    internal func unlaunch() async throws {
         sessionEnd = Date()
-        stopSession { _ in
-            completion(.success(()))
-        }
+        await stopSession()
     }
 
     // MARK: - Internal API
 
     @objc private func applicationDidBecomeActive() {
         guard UIApplication.shared.applicationState == .active else {
-            NotificareLogger.debug("The application is not active. Skipping...")
+            logger.debug("The application is not active. Skipping...")
             return
         }
 
         if sessionId != nil {
-            NotificareLogger.debug("Resuming previous session.")
+            logger.debug("Resuming previous session.")
         }
 
         // Cancel any session timeout.
@@ -80,16 +72,18 @@ internal class NotificareSessionModuleImpl: NSObject, NotificareModule {
         guard sessionId == nil else { return }
 
         guard Notificare.shared.isReady else {
-            NotificareLogger.debug("Postponing session start until Notificare is launched.")
+            logger.debug("Postponing session start until Notificare is launched.")
             return
         }
 
-        startSession { _ in }
+        Task {
+            await startSession()
+        }
     }
 
     @objc private func applicationWillResignActive() {
         guard UIApplication.shared.applicationState == .active else {
-            NotificareLogger.debug("The application is not active. Skipping...")
+            logger.debug("The application is not active. Skipping...")
             return
         }
 
@@ -102,12 +96,12 @@ internal class NotificareSessionModuleImpl: NSObject, NotificareModule {
         DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 10, execute: backgroundTask)
 
         backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(withName: SESSION_CLOSE_TASK_NAME) { [weak self] in
-            NotificareLogger.debug("Background task expiration handler triggered.")
+            logger.debug("Background task expiration handler triggered.")
             self?.cancelBackgroundTask()
         }
     }
 
-    private func startSession(_ completion: @escaping NotificareCallback<Void>) {
+    private func startSession() async {
         let sessionId = UUID().uuidString.lowercased()
         let sessionStart = Date()
 
@@ -115,24 +109,28 @@ internal class NotificareSessionModuleImpl: NSObject, NotificareModule {
         self.sessionStart = sessionStart
         sessionEnd = nil
 
-        NotificareLogger.debug("Session '\(sessionId)' started at \(dateFormatter.string(from: sessionStart)).")
+        logger.debug("Session '\(sessionId)' started at \(dateFormatter.string(from: sessionStart)).")
 
-        Notificare.shared.eventsImplementation().logApplicationOpen(sessionId: sessionId) { result in
-            if case let .failure(error) = result {
-                NotificareLogger.warning("Failed to process an application session start.", error: error)
-            }
-
-            completion(.success(()))
+        do {
+            try await Notificare.shared.eventsImplementation().logApplicationOpen(sessionId: sessionId)
+        } catch {
+            logger.warning("Failed to process an application session start.", error: error)
         }
     }
 
     private func stopSession(_ completion: @escaping NotificareCallback<Void>) {
+        Task {
+            await stopSession()
+            completion(.success(()))
+        }
+    }
+
+    private func stopSession() async {
         guard let sessionId = sessionId,
               let sessionStart = sessionStart,
               let sessionEnd = sessionEnd
         else {
             // Skip when no session has started. Should never happen.
-            completion(.success(()))
             return
         }
 
@@ -141,15 +139,14 @@ internal class NotificareSessionModuleImpl: NSObject, NotificareModule {
         self.sessionStart = nil
         self.sessionEnd = nil
 
-        NotificareLogger.debug("Session '\(sessionId)' stopped at \(dateFormatter.string(from: sessionEnd)).")
+        logger.debug("Session '\(sessionId)' stopped at \(dateFormatter.string(from: sessionEnd)).")
 
         let length = sessionEnd.timeIntervalSince(sessionStart)
-        Notificare.shared.eventsImplementation().logApplicationClose(sessionId: sessionId, sessionLength: length) { result in
-            if case let .failure(error) = result {
-                NotificareLogger.warning("Failed to process an application session stop.", error: error)
-            }
 
-            completion(.success(()))
+        do {
+            try await Notificare.shared.eventsImplementation().logApplicationClose(sessionId: sessionId, sessionLength: length)
+        } catch {
+            logger.warning("Failed to process an application session stop.", error: error)
         }
     }
 

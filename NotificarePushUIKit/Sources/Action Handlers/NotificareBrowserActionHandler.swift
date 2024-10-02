@@ -3,14 +3,16 @@
 //
 
 import NotificareKit
+import NotificareUtilitiesKit
 import UIKit
 
 public class NotificareBrowserActionHandler: NotificareBaseActionHandler {
-    override func execute() {
-        if let target = action.target,
-           let url = URL(string: target),
-           let urlScheme = url.scheme,
-           NotificareUtils.getSupportedUrlSchemes().contains(urlScheme) || UIApplication.shared.canOpenURL(url)
+    internal override func execute() {
+        if
+            let target = action.target,
+            let url = URL(string: target),
+            let urlScheme = url.scheme,
+            Bundle.main.getSupportedUrlSchemes().contains(urlScheme) || UIApplication.shared.canOpenURL(url)
         {
             DispatchQueue.main.async {
                 UIApplication.shared.open(url, options: [:]) { _ in
@@ -18,7 +20,9 @@ public class NotificareBrowserActionHandler: NotificareBaseActionHandler {
                         Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didExecuteAction: self.action, for: self.notification)
                     }
 
-                    Notificare.shared.createNotificationReply(notification: self.notification, action: self.action) { _ in }
+                    Task {
+                        try? await Notificare.shared.createNotificationReply(notification: self.notification, action: self.action)
+                    }
                 }
             }
         } else {
@@ -29,8 +33,8 @@ public class NotificareBrowserActionHandler: NotificareBaseActionHandler {
     }
 }
 
-public extension NotificareBrowserActionHandler {
-    enum ActionError: LocalizedError {
+extension NotificareBrowserActionHandler {
+    public enum ActionError: LocalizedError {
         case invalidUrl
 
         public var errorDescription: String? {

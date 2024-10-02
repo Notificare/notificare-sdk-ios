@@ -3,8 +3,9 @@
 //
 
 import Foundation
+import NotificareUtilitiesKit
 
-enum LocalStorage {
+internal enum LocalStorage {
     private enum Keys: String {
         case migrated = "re.notifica.local_storage.migrated"
         case application = "re.notifica.local_storage.application"
@@ -16,7 +17,7 @@ enum LocalStorage {
         case deferredLinkChecked = "re.notifica.preferences.deferred_link_checked"
     }
 
-    static var migrated: Bool {
+    internal static var migrated: Bool {
         get {
             UserDefaults.standard.bool(forKey: Keys.migrated.rawValue)
         }
@@ -26,17 +27,17 @@ enum LocalStorage {
         }
     }
 
-    static var application: NotificareApplication? {
+    internal static var application: NotificareApplication? {
         get {
             guard let data = UserDefaults.standard.object(forKey: Keys.application.rawValue) as? Data else {
                 return nil
             }
 
             do {
-                let decoder = NotificareUtils.jsonDecoder
+                let decoder = JSONDecoder.notificare
                 return try decoder.decode(NotificareApplication.self, from: data)
             } catch {
-                NotificareLogger.warning("Failed to decode the stored device.", error: error)
+                logger.warning("Failed to decode the stored device.", error: error)
 
                 // Remove the corrupted application from local storage.
                 UserDefaults.standard.removeObject(forKey: Keys.application.rawValue)
@@ -52,18 +53,18 @@ enum LocalStorage {
             }
 
             do {
-                let encoder = NotificareUtils.jsonEncoder
+                let encoder = JSONEncoder.notificare
                 let data = try encoder.encode(newValue)
 
                 UserDefaults.standard.set(data, forKey: Keys.application.rawValue)
                 UserDefaults.standard.synchronize()
             } catch {
-                NotificareLogger.warning("Failed to encode the stored application.", error: error)
+                logger.warning("Failed to encode the stored application.", error: error)
             }
         }
     }
 
-    static var device: NotificareDevice? {
+    internal static var device: StoredDevice? {
         get {
             let settings = UserDefaults.standard
             guard let data = settings.object(forKey: Keys.device.rawValue) as? Data else {
@@ -71,10 +72,10 @@ enum LocalStorage {
             }
 
             do {
-                let decoder = NotificareUtils.jsonDecoder
-                return try decoder.decode(NotificareDevice.self, from: data)
+                let decoder = JSONDecoder.notificare
+                return try decoder.decode(StoredDevice.self, from: data)
             } catch {
-                NotificareLogger.warning("Failed to decode the stored device.", error: error)
+                logger.warning("Failed to decode the stored device.", error: error)
 
                 // Remove the corrupted device from local storage.
                 settings.removeObject(forKey: Keys.device.rawValue)
@@ -91,18 +92,18 @@ enum LocalStorage {
             }
 
             do {
-                let encoder = NotificareUtils.jsonEncoder
+                let encoder = JSONEncoder.notificare
                 let data = try encoder.encode(newValue)
 
                 settings.set(data, forKey: Keys.device.rawValue)
                 settings.synchronize()
             } catch {
-                NotificareLogger.warning("Failed to encode the stored device.", error: error)
+                logger.warning("Failed to encode the stored device.", error: error)
             }
         }
     }
 
-    static var preferredLanguage: String? {
+    internal static var preferredLanguage: String? {
         get {
             UserDefaults.standard.string(forKey: Keys.preferredLanguage.rawValue)
         }
@@ -112,7 +113,7 @@ enum LocalStorage {
         }
     }
 
-    static var preferredRegion: String? {
+    internal static var preferredRegion: String? {
         get {
             UserDefaults.standard.string(forKey: Keys.preferredRegion.rawValue)
         }
@@ -122,16 +123,16 @@ enum LocalStorage {
         }
     }
 
-    static var crashReport: NotificareEvent? {
+    internal static var crashReport: NotificareEvent? {
         get {
             guard let data = UserDefaults.standard.data(forKey: Keys.crashReport.rawValue) else {
                 return nil
             }
 
             do {
-                return try NotificareUtils.jsonDecoder.decode(NotificareEvent.self, from: data)
+                return try JSONDecoder.notificare.decode(NotificareEvent.self, from: data)
             } catch {
-                NotificareLogger.warning("Failed to decode the stored crash report.", error: error)
+                logger.warning("Failed to decode the stored crash report.", error: error)
 
                 // Remove the corrupted crash report from local storage.
                 UserDefaults.standard.removeObject(forKey: Keys.crashReport.rawValue)
@@ -148,16 +149,16 @@ enum LocalStorage {
             }
 
             do {
-                let data = try NotificareUtils.jsonEncoder.encode(event)
+                let data = try JSONEncoder.notificare.encode(event)
                 UserDefaults.standard.set(data, forKey: Keys.crashReport.rawValue)
                 UserDefaults.standard.synchronize()
             } catch {
-                NotificareLogger.warning("Failed to encode the stored crash report.", error: error)
+                logger.warning("Failed to encode the stored crash report.", error: error)
             }
         }
     }
 
-    static var currentDatabaseVersion: String? {
+    internal static var currentDatabaseVersion: String? {
         get {
             UserDefaults.standard.string(forKey: Keys.currentDatabaseVersion.rawValue)
         }
@@ -182,5 +183,16 @@ enum LocalStorage {
                 UserDefaults.standard.removeObject(forKey: Keys.deferredLinkChecked.rawValue)
             }
         }
+    }
+
+    internal static func clear() {
+        UserDefaults.standard.removeObject(forKey: Keys.migrated.rawValue)
+        UserDefaults.standard.removeObject(forKey: Keys.application.rawValue)
+        UserDefaults.standard.removeObject(forKey: Keys.device.rawValue)
+        UserDefaults.standard.removeObject(forKey: Keys.preferredLanguage.rawValue)
+        UserDefaults.standard.removeObject(forKey: Keys.preferredRegion.rawValue)
+        UserDefaults.standard.removeObject(forKey: Keys.crashReport.rawValue)
+        UserDefaults.standard.removeObject(forKey: Keys.currentDatabaseVersion.rawValue)
+        UserDefaults.standard.removeObject(forKey: Keys.deferredLinkChecked.rawValue)
     }
 }

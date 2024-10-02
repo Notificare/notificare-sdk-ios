@@ -5,8 +5,8 @@
 import Foundation
 import NotificareKit
 
-public extension Notificare {
-    func assets() -> NotificareAssets {
+extension Notificare {
+    public func assets() -> NotificareAssets {
         NotificareAssetsImpl.instance
     }
 }
