@@ -52,10 +52,6 @@ let package = Package(
             name: "NotificareUserInboxKit",
             targets: ["NotificareUserInboxKit", "NotificareUtilitiesKit"]
         ),
-        .library(
-            name: "NotificareUtilitiesKit",
-            targets: ["NotificareUtilitiesKit"]
-        ),
     ],
     targets: [
         .binaryTarget(
