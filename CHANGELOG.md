@@ -1,5 +1,26 @@
 # CHANGELOG
 
+## 4.0.0
+
+- Device identifiers become long-lived
+- `launch()`, `unlaunch()`, `enableRemoteNotifications()` and `disableRemoteNotifications()` become async functions with a callback alternative
+- Add support for customisable hosts
+- Fix `NotificarePass.data` decoding
+- Add `Equatable` compliance to applicable data models
+- Allow `configure()` to be called more than once, provided Notificare is unlaunched.
+
+#### Breaking changes
+
+- `NotificareDevice.id` attribute no longer contains the push token. Use `Notificare.shared.push().subscription` instead.
+- The `NotificareDevice` data model was reduced to only publicly relevant attributes.
+- `didRegisterDevice` only triggers once, when the device is created.
+- `launch()`, `unlaunch()`, `enableRemoteNotifications()` and `disableRemoteNotifications()` become suspending functions that complete after all the work is done.
+- `NotificareTransport` was moved to the push module.
+- Drops support for the monetize module.
+- Removed deprecated  `notificare(_:didReceiveNotification:)`. Use `notificare(_:didReceiveNotification:deliveryMechanism:)` instead.
+- Removed deprecated `notificare(_:didReceiveUnknownAction:for:responseText:)` delegate method. Renamed to `notificare(_:didOpenUnknownAction:for:responseText:)`.
+- Removed deprecated `handleNotificationRequest()` from push module. Include the NotificareNotificationServiceExtensionKit and use `NotificareNotificationServiceExtension.handleNotificationRequest()` instead.
+
 ## 4.0.0-beta.2
 
 - Fix `NotificarePass.data` decoding
@@ -15,7 +36,7 @@
 
 #### Breaking changes
 
-- `NotificareDevice.id` attribute no longer contains the push token. Use `Notificare.push().subscriptionId` instead.
+- `NotificareDevice.id` attribute no longer contains the push token. Use `Notificare.shared.push().subscriptionId` instead.
 - The `NotificareDevice` data model was reduced to only publicly relevant attributes.
 - `didRegisterDevice` only triggers once, when the device is created.
 - `launch()`, `unlaunch()`, `enableRemoteNotifications()` and `disableRemoteNotifications()` become suspending functions that complete after all the work is done.
