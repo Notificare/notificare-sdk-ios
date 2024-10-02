@@ -5,12 +5,12 @@
 import Foundation
 import NotificareKit
 
-internal extension NotificareInternals.PushAPI.Responses {
-    struct Pass: Decodable {
-        let pass: NotificareInternals.PushAPI.Models.Pass
+extension NotificareInternals.PushAPI.Responses {
+    internal struct Pass: Decodable {
+        internal let pass: NotificareInternals.PushAPI.Models.Pass
     }
 
-    struct FetchPassbookTemplate: Decodable {
-        let passbook: NotificareInternals.PushAPI.Models.Passbook
+    internal struct FetchPassbookTemplate: Decodable {
+        internal let passbook: NotificareInternals.PushAPI.Models.Passbook
     }
 }

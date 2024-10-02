@@ -63,21 +63,33 @@ public class Notificare {
     }
 
     public func configure(servicesInfo: NotificareServicesInfo, options: NotificareOptions) {
-        guard state == .none else {
-            NotificareLogger.warning("Notificare has already been configured. Skipping...")
+        guard state <= .configured else {
+            logger.warning("Unable to reconfigure Notificare once launched.")
             return
+        }
+
+        if state == .configured {
+            logger.info("Reconfiguring Notificare with another set of application keys.")
+        }
+
+        do {
+            try servicesInfo.validate()
+        } catch {
+            fatalError("Could not validate the provided services configuration. Please check the contents are valid.")
         }
 
         self.servicesInfo = servicesInfo
         self.options = options
 
+        logger.hasDebugLoggingEnabled = self.options?.debugLoggingEnabled ?? false
+
         if !LocalStorage.migrated {
-            NotificareLogger.debug("Checking if there is legacy data that needs to be migrated.")
+            logger.debug("Checking if there is legacy data that needs to be migrated.")
             let migration = LocalStorageMigration()
 
             if migration.hasLegacyData {
                 migration.migrate()
-                NotificareLogger.info("Legacy data found and migrated to the new storage format.")
+                logger.info("Legacy data found and migrated to the new storage format.")
             }
 
             LocalStorage.migrated = true
@@ -90,8 +102,8 @@ public class Notificare {
             LocalStorage.deferredLinkChecked = LocalStorage.device != nil
         }
 
-        NotificareLogger.debug("Configuring network services.")
-        configureReachability(services: servicesInfo.services)
+        logger.debug("Configuring network services.")
+        configureReachability(servicesInfo: servicesInfo)
 
         if options.swizzlingEnabled {
             var swizzleApns = false
@@ -103,245 +115,270 @@ public class Notificare {
 
             NotificareSwizzler.setup(withRemoteNotifications: swizzleApns)
         } else {
-            NotificareLogger.warning("""
+            logger.warning("""
             Automatic App Delegate Proxy is not enabled. \
             You will need to forward UIAppDelegate events to Notificare manually. \
             Please check the documentation for which events to forward.
             """)
         }
 
-        NotificareLogger.debug("Configuring available modules.")
+        logger.debug("Configuring available modules.")
         database.configure()
 
         NotificareInternals.Module.allCases.forEach { module in
             if let instance = module.klass?.instance {
-                NotificareLogger.debug("Configuring module: \(module)")
+                logger.debug("Configuring module: \(module)")
                 instance.configure()
             }
         }
 
-        NotificareLogger.debug("Notificare configured all services.")
+        logger.debug("Notificare configured all services.")
         state = .configured
+
+        if !servicesInfo.hasDefaultHosts {
+            logger.info("Notificare configured with customized hosts.")
+            logger.debug("REST API host: \(servicesInfo.hosts.restApi)")
+            logger.debug("AppLinks host: \(servicesInfo.hosts.appLinks)")
+            logger.debug("Short Links host: \(servicesInfo.hosts.shortLinks)")
+        }
     }
 
-    public func launch() {
+    public func launch(_ completion: @escaping NotificareCallback<Void>) {
+        Task {
+            do {
+                try await launch()
+                completion(.success(()))
+            } catch {
+                completion(.failure(error))
+            }
+        }
+    }
+
+    public func launch() async throws {
         if state == .none {
-            NotificareLogger.debug("Notificare wasn't configured. Configuring before launching.")
+            logger.debug("Notificare wasn't configured. Configuring before launching.")
             configure()
         }
 
         if state > .configured {
-            NotificareLogger.warning("Notificare has already been launched. Skipping...")
+            logger.warning("Notificare has already been launched. Skipping...")
             return
         }
 
-        NotificareLogger.info("Launching Notificare.")
+        logger.info("Launching Notificare.")
         state = .launching
 
         do {
             // Start listening for reachability events.
-            NotificareLogger.debug("Start listening to reachability events.")
+            logger.debug("Start listening to reachability events.")
             try reachability!.startNotifier()
         } catch {
-            NotificareLogger.error("Failed to start listening to reachability events.", error: error)
+            logger.error("Failed to start listening to reachability events.", error: error)
             fatalError("Failed to start listening to reachability events.")
         }
 
-        // Fetch the application info.
-        fetchApplication { result in
-            switch result {
-            case let .success(application):
-                // Loop all possible modules and launch the available ones.
-                LaunchSequence(NotificareInternals.Module.allCases)
-                    .run { module, instance, completion in
-                        NotificareLogger.debug("Launching module: \(module)")
-                        instance.launch { result in
-                            if case let .failure(error) = result {
-                                NotificareLogger.debug("Failed to launch '\(module)'.", error: error)
-                            }
+        do {
+            let application = try await fetchApplication(saveToLocalStorage: false)
+            let storedApplication = LocalStorage.application
 
-                            completion(result)
-                        }
-                    } onDone: { result in
-                        switch result {
-                        case .success:
-                            self.handleLaunchResult(.success(application))
-                        case let .failure(error):
-                            self.handleLaunchResult(.failure(error))
+            if let storedApplication, storedApplication.id != application.id {
+                logger.warning("Incorrect application keys detected. Resetting Notificare to a clean state.")
+
+                for module in NotificareInternals.Module.allCases {
+                    if let instance = module.klass?.instance {
+                        logger.debug("Resetting module: \(module)")
+
+                        do {
+                            try await instance.clearStorage()
+                        } catch {
+                            logger.debug("Failed to reset '\(module)'.", error: error)
+                            throw error
                         }
                     }
-            case let .failure(error):
-                NotificareLogger.error("Failed to load the application info.")
-                self.handleLaunchResult(.failure(error))
+                }
+
+                try database.clear()
+                LocalStorage.clear()
+            }
+
+            self.application = application
+
+            // Loop all possible modules and launch the available ones.
+            for module in NotificareInternals.Module.allCases {
+                if let instance = module.klass?.instance {
+                    logger.debug("Launching module: \(module)")
+
+                    do {
+                        try await instance.launch()
+                    } catch {
+                        logger.debug("Failed to launch '\(module)'.", error: error)
+                        throw error
+                    }
+                }
+            }
+
+            state = .ready
+            printLaunchSummary(application: application)
+
+            DispatchQueue.main.async {
+                // We're done launching. Notify the delegate.
+                self.delegate?.notificare(self, onReady: application)
+            }
+        } catch {
+            logger.error("Failed to launch Notificare.", error: error)
+            state = .configured
+            throw error
+        }
+
+        Task {
+            // Loop all possible modules and post-launch the available ones.
+            for module in NotificareInternals.Module.allCases {
+                if let instance = module.klass?.instance {
+                    do {
+                        logger.debug("Post-launching module: \(module)")
+                        try await instance.postLaunch()
+                    } catch {
+                        logger.error("Failed to post-launch '\(module)'.", error: error)
+                    }
+                }
             }
         }
     }
 
-    public func unlaunch() {
+    public func unlaunch(_ completion: @escaping NotificareCallback<Void>) {
+        Task {
+            do {
+                try await unlaunch()
+                completion(.success(()))
+            } catch {
+                completion(.failure(error))
+            }
+        }
+    }
+
+    public func unlaunch() async throws {
         guard isReady else {
-            NotificareLogger.warning("Cannot un-launch Notificare before it has been launched.")
+            logger.warning("Cannot un-launch Notificare before it has been launched.")
             return
         }
 
-        NotificareLogger.info("Un-launching Notificare.")
+        logger.info("Un-launching Notificare.")
 
         // Loop all possible modules and un-launch the available ones.
-        LaunchSequence(NotificareInternals.Module.allCases.reversed())
-            .run { module, instance, completion in
-                NotificareLogger.debug("Un-launching module: \(module)")
-                instance.unlaunch { result in
-                    if case let .failure(error) = result {
-                        NotificareLogger.debug("Failed to un-launch '\(module)'.", error: error)
-                    }
+        for module in NotificareInternals.Module.allCases.reversed() {
+            if let instance = module.klass?.instance {
+                logger.debug("Un-launching module: \(module)")
 
-                    completion(result)
-                }
-            } onDone: { result in
-                switch result {
-                case .success:
-                    self.device().clearTags { result in
-                        switch result {
-                        case .success:
-                            NotificareLogger.debug("Removed all device tags.")
-
-                            self.deviceImplementation().registerTemporary { result in
-                                switch result {
-                                case .success:
-                                    NotificareLogger.debug("Registered device as temporary.")
-
-                                    self.deviceImplementation().delete { result in
-                                        switch result {
-                                        case .success:
-                                            NotificareLogger.debug("Removed the device.")
-
-                                            NotificareLogger.info("Un-launched Notificare.")
-                                            self.state = .configured
-
-                                            DispatchQueue.main.async {
-                                                self.delegate?.notificareDidUnlaunch(self)
-                                            }
-
-                                        case let .failure(error):
-                                            NotificareLogger.error("Failed to delete device.", error: error)
-                                        }
-                                    }
-                                case let .failure(error):
-                                    NotificareLogger.error("Failed to register temporary device.", error: error)
-                                }
-                            }
-                        case let .failure(error):
-                            NotificareLogger.error("Failed to clear device tags.", error: error)
-                        }
-                    }
-                case let .failure(error):
-                    NotificareLogger.error("Failed to un-launch a peer module.", error: error)
+                do {
+                    try await instance.unlaunch()
+                } catch {
+                    logger.debug("Failed to un-launch '\(module)'.", error: error)
+                    throw error
                 }
             }
+        }
+
+        logger.debug("Removing device.")
+        try await self.deviceImplementation().delete()
+
+        logger.info("Un-launched Notificare.")
+        self.state = .configured
+
+        DispatchQueue.main.async {
+            self.delegate?.notificareDidUnlaunch(self)
+        }
     }
 
     public func fetchApplication(_ completion: @escaping NotificareCallback<NotificareApplication>) {
-        NotificareRequest.Builder()
-            .get("/application/info")
-            .responseDecodable(NotificareInternals.PushAPI.Responses.Application.self) { result in
-                switch result {
-                case let .success(response):
-                    let application = response.application.toModel()
-                    self.application = application
-                    completion(.success(application))
-
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-    }
-
-    @available(iOS 13.0, *)
-    public func fetchApplication() async throws -> NotificareApplication {
-        try await withCheckedThrowingContinuation { continuation in
-            fetchApplication { result in
-                continuation.resume(with: result)
+        Task {
+            do {
+                let result = try await fetchApplication()
+                completion(.success(result))
+            } catch {
+                completion(.failure(error))
             }
         }
+    }
+
+    public func fetchApplication() async throws -> NotificareApplication {
+        return try await fetchApplication(saveToLocalStorage: true)
     }
 
     public func fetchDynamicLink(_ link: String, _ completion: @escaping NotificareCallback<NotificareDynamicLink>) {
+        Task {
+            do {
+                let result = try await fetchDynamicLink(link)
+                completion(.success(result))
+            } catch {
+                completion(.failure(error))
+            }
+        }
+    }
+
+    public func fetchDynamicLink(_ link: String) async throws -> NotificareDynamicLink {
         guard isConfigured else {
-            completion(.failure(NotificareError.notConfigured))
-            return
+            throw NotificareError.notConfigured
         }
 
         guard let urlEncodedLink = link.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else {
-            completion(.failure(NotificareError.invalidArgument(message: "Invalid link value.")))
-            return
+            throw NotificareError.invalidArgument(message: "Invalid link value.")
         }
 
-        NotificareRequest.Builder()
+        let response = try await NotificareRequest.Builder()
             .get("/link/dynamic/\(urlEncodedLink)")
             .query(name: "platform", value: "iOS")
             .query(name: "deviceID", value: Notificare.shared.device().currentDevice?.id)
             .query(name: "userID", value: Notificare.shared.device().currentDevice?.userId)
-            .responseDecodable(NotificareInternals.PushAPI.Responses.DynamicLink.self) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.link))
+            .responseDecodable(NotificareInternals.PushAPI.Responses.DynamicLink.self)
 
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-    }
-
-    @available(iOS 13.0, *)
-    public func fetchDynamicLink(_ link: String) async throws -> NotificareDynamicLink {
-        try await withCheckedThrowingContinuation { continuation in
-            fetchDynamicLink(link) { result in
-                continuation.resume(with: result)
-            }
-        }
+        return response.link
     }
 
     public func fetchNotification(_ id: String, _ completion: @escaping NotificareCallback<NotificareNotification>) {
+        Task {
+            do {
+                let result = try await fetchNotification(id)
+                completion(.success(result))
+            } catch {
+                completion(.failure(error))
+            }
+        }
+    }
+
+    public func fetchNotification(_ id: String) async throws -> NotificareNotification {
         guard isConfigured else {
-            completion(.failure(NotificareError.notConfigured))
-            return
+            throw NotificareError.notConfigured
         }
 
         guard let urlEncodedId = id.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else {
-            completion(.failure(NotificareError.invalidArgument(message: "Invalid id value.")))
-            return
+            throw NotificareError.invalidArgument(message: "Invalid id value.")
         }
 
-        NotificareRequest.Builder()
+        let response = try await NotificareRequest.Builder()
             .get("/notification/\(urlEncodedId)")
-            .responseDecodable(NotificareInternals.PushAPI.Responses.Notification.self) { result in
-                switch result {
-                case let .success(response):
-                    completion(.success(response.notification.toModel()))
+            .responseDecodable(NotificareInternals.PushAPI.Responses.Notification.self)
 
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-    }
-
-    @available(iOS 13.0, *)
-    public func fetchNotification(_ id: String) async throws -> NotificareNotification {
-        try await withCheckedThrowingContinuation { continuation in
-            fetchNotification(id) { result in
-                continuation.resume(with: result)
-            }
-        }
+        return response.notification.toModel()
     }
 
     public func createNotificationReply(notification: NotificareNotification, action: NotificareNotification.Action, message: String? = nil, media: String? = nil, mimeType: String? = nil, _ completion: @escaping NotificareCallback<Void>) {
+        Task {
+            do {
+                try await createNotificationReply(notification: notification, action: action, message: message, media: media, mimeType: mimeType)
+                completion(.success(()))
+            } catch {
+                completion(.failure(error))
+            }
+        }
+    }
+
+    public func createNotificationReply(notification: NotificareNotification, action: NotificareNotification.Action, message: String? = nil, media: String? = nil, mimeType: String? = nil) async throws {
         guard isConfigured else {
-            completion(.failure(NotificareError.notConfigured))
-            return
+            throw NotificareError.notConfigured
         }
 
         guard let device = device().currentDevice else {
-            completion(.failure(NotificareError.deviceUnavailable))
-            return
+            throw NotificareError.deviceUnavailable
         }
 
         let payload = NotificareInternals.PushAPI.Payloads.CreateNotificationReply(
@@ -357,33 +394,28 @@ public class Notificare {
             )
         )
 
-        NotificareRequest.Builder()
+        try await NotificareRequest.Builder()
             .post("/reply", body: payload)
-            .response { result in
-                switch result {
-                case .success:
-                    completion(.success(()))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
+            .response()
     }
 
-    @available(iOS 13.0, *)
-    public func createNotificationReply(notification: NotificareNotification, action: NotificareNotification.Action, message: String? = nil, media: String? = nil, mimeType: String? = nil) async throws {
-        try await withCheckedThrowingContinuation { continuation in
-            createNotificationReply(notification: notification, action: action, message: message, media: media, mimeType: mimeType) { result in
-                continuation.resume(with: result)
+    public func callNotificationReplyWebhook(url: URL, data: [String: String], _ completion: @escaping NotificareCallback<Void>) {
+        Task {
+            do {
+                try await callNotificationReplyWebhook(url: url, data: data)
+                completion(.success(()))
+            } catch {
+                completion(.failure(error))
             }
         }
     }
 
-    public func callNotificationReplyWebhook(url: URL, data: [String: String], _ completion: @escaping NotificareCallback<Void>) {
+    public func callNotificationReplyWebhook(url: URL, data: [String: String]) async throws {
         var params = [String: String]()
 
         // Add all query params to the POST body.
         if let components = URLComponents(url: url, resolvingAgainstBaseURL: false), let queryItems = components.queryItems {
-            queryItems.forEach { item in
+            for item in queryItems {
                 if let value = item.value {
                     params[item.name] = value
                 }
@@ -397,53 +429,34 @@ public class Notificare {
         // Add all the items passed via data.
         data.forEach { params[$0.key] = $0.value }
 
-        NotificareRequest.Builder()
+        try await NotificareRequest.Builder()
             .post(url.absoluteString, body: params)
-            .response { result in
-                switch result {
-                case .success:
-                    completion(.success(()))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-    }
-
-    @available(iOS 13.0, *)
-    public func callNotificationReplyWebhook(url: URL, data: [String: String]) async throws {
-        try await withCheckedThrowingContinuation { continuation in
-            callNotificationReplyWebhook(url: url, data: data) { result in
-                continuation.resume(with: result)
-            }
-        }
+            .response()
     }
 
     public func uploadNotificationReplyAsset(_ data: Data, contentType: String, _ completion: @escaping NotificareCallback<String>) {
-        guard isConfigured else {
-            completion(.failure(NotificareError.notConfigured))
-            return
-        }
-
-        NotificareRequest.Builder()
-            .post("/upload/reply", body: data, contentType: contentType)
-            .responseDecodable(NotificareInternals.PushAPI.Responses.UploadAsset.self) { result in
-                switch result {
-                case let .success(response):
-                    let host = Notificare.shared.servicesInfo!.services.pushHost
-                    completion(.success("\(host)/upload\(response.filename)"))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
+        Task {
+            do {
+                let result = try await uploadNotificationReplyAsset(data, contentType: contentType)
+                completion(.success(result))
+            } catch {
+                completion(.failure(error))
             }
+        }
     }
 
-    @available(iOS 13.0, *)
     public func uploadNotificationReplyAsset(_ data: Data, contentType: String) async throws -> String {
-        try await withCheckedThrowingContinuation { continuation in
-            uploadNotificationReplyAsset(data, contentType: contentType) { result in
-                continuation.resume(with: result)
-            }
+        guard isConfigured else {
+            throw NotificareError.notConfigured
         }
+
+        let response = try await NotificareRequest.Builder()
+            .post("/upload/reply", body: data, contentType: contentType)
+            .responseDecodable(NotificareInternals.PushAPI.Responses.UploadAsset.self)
+
+        let host = Notificare.shared.servicesInfo!.hosts.restApi
+
+        return "https://\(host)/upload\(response.filename)"
     }
 
     public func removeNotificationFromNotificationCenter(_ notification: NotificareNotification) {
@@ -451,7 +464,7 @@ public class Notificare {
     }
 
     public func removeNotificationFromNotificationCenter(_ notificationId: String) {
-        NotificareLogger.debug("Removing notification '\(notificationId)' from the notification center.")
+        logger.debug("Removing notification '\(notificationId)' from the notification center.")
         UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [notificationId])
     }
 
@@ -460,12 +473,12 @@ public class Notificare {
             return false
         }
 
-        deviceImplementation().registerTestDevice(nonce: nonce) { result in
-            switch result {
-            case .success:
-                NotificareLogger.info("Device registered for testing.")
-            case let .failure(error):
-                NotificareLogger.error("Failed to register the device for testing.", error: error)
+        Task {
+            do {
+                try await deviceImplementation().registerTestDevice(nonce: nonce)
+                logger.info("Device registered for testing.")
+            } catch {
+                logger.error("Failed to register the device for testing.", error: error)
             }
         }
 
@@ -477,24 +490,25 @@ public class Notificare {
             return false
         }
 
-        NotificareLogger.debug("Handling a dynamic link.")
-        fetchDynamicLink(url.absoluteString) { result in
-            switch result {
-            case let .success(link):
+        Task {
+            do {
+                logger.debug("Handling a dynamic link.")
+                let link = try await fetchDynamicLink(url.absoluteString)
+
                 guard let targetUrl = URL(string: link.target) else {
-                    NotificareLogger.warning("Failed to parse the dynamic link target url.")
+                    logger.warning("Failed to parse the dynamic link target url.")
                     return
                 }
 
                 DispatchQueue.main.async {
                     UIApplication.shared.open(targetUrl, options: [:]) { opened in
                         if !opened {
-                            NotificareLogger.warning("The dynamic link's target was not handled by the application.")
+                            logger.warning("The dynamic link's target was not handled by the application.")
                         }
                     }
                 }
-            case let .failure(error):
-                NotificareLogger.warning("Failed to fetch the dynamic link.", error: error)
+            } catch {
+                logger.warning("Failed to fetch the dynamic link.", error: error)
             }
         }
 
@@ -504,7 +518,7 @@ public class Notificare {
     @MainActor
     public func evaluateDeferredLink() async throws -> Bool {
         guard LocalStorage.deferredLinkChecked == false else {
-            NotificareLogger.debug("Deferred link already evaluated.")
+            logger.debug("Deferred link already evaluated.")
             return false
         }
 
@@ -513,24 +527,24 @@ public class Notificare {
         }
 
         guard UIPasteboard.general.hasURLs else {
-            NotificareLogger.debug("Detected URLs in the clipboard.")
+            logger.debug("Detected URLs in the clipboard.")
             return false
         }
 
         guard let deferredUrl = UIPasteboard.general.url else {
-            NotificareLogger.warning("Detected URLs in the clipboard but the user denied access.")
+            logger.warning("Detected URLs in the clipboard but the user denied access.")
             return false
         }
 
         let dynamicLink = try await fetchDynamicLink(deferredUrl.absoluteString)
 
         guard let url = URL(string: dynamicLink.target) else {
-            NotificareLogger.warning("Failed to parse the dynamic link target url.")
+            logger.warning("Failed to parse the dynamic link target url.")
             return false
         }
 
         guard UIApplication.shared.canOpenURL(url) else {
-            NotificareLogger.warning("Cannot open a deep link that's not supported by the application.")
+            logger.warning("Cannot open a deep link that's not supported by the application.")
             return false
         }
 
@@ -554,63 +568,36 @@ public class Notificare {
 
     // MARK: - Private API
 
-    private func configureReachability(services: NotificareServicesInfo.Services) {
+    private func configureReachability(servicesInfo: NotificareServicesInfo) {
         do {
-            let url = URL(string: services.pushHost)!
+            let url = URL(string: "https://\(servicesInfo.hosts.restApi)")!
             reachability = try NotificareReachability(hostname: url.host!)
 
             reachability?.whenReachable = { _ in
-                NotificareLogger.debug("Notificare is reachable.")
+                logger.debug("Notificare is reachable.")
             }
 
             reachability?.whenUnreachable = { _ in
-                NotificareLogger.debug("Notificare is unreachable.")
+                logger.debug("Notificare is unreachable.")
             }
         } catch {
             fatalError("Failed to configure the reachability module: \(error.localizedDescription)")
         }
     }
 
-    private func handleLaunchResult(_ result: Result<NotificareApplication, Error>) {
-        switch result {
-        case let .success(application):
-            state = .ready
+    private func printLaunchSummary(application: NotificareApplication) {
+        let enabledServices = application.services.filter(\.value).map(\.key)
+        let enabledModules = ModuleUtils.getEnabledPeerModules()
 
-            let enabledServices = application.services.filter(\.value).map(\.key)
-            let enabledModules = NotificareUtils.getEnabledPeerModules()
-
-            NotificareLogger.debug("/==================================================================================/")
-            NotificareLogger.debug("Notificare SDK is ready to use for application")
-            NotificareLogger.debug("App name: \(application.name)")
-            NotificareLogger.debug("App ID: \(application.id)")
-            NotificareLogger.debug("App services: \(enabledServices.joined(separator: ", "))")
-            NotificareLogger.debug("/==================================================================================/")
-            NotificareLogger.debug("SDK version: \(Notificare.SDK_VERSION)")
-            NotificareLogger.debug("SDK modules: \(enabledModules.joined(separator: ", "))")
-            NotificareLogger.debug("/==================================================================================/")
-
-            DispatchQueue.main.async {
-                // We're done launching. Notify the delegate.
-                self.delegate?.notificare(self, onReady: application)
-            }
-
-            Task {
-                // Loop all possible modules and post-launch the available ones.
-                for module in NotificareInternals.Module.allCases {
-                    if let instance = module.klass?.instance {
-                        do {
-                            NotificareLogger.debug("Post-launching module: \(module)")
-                            try await instance.postLaunch()
-                        } catch {
-                            NotificareLogger.error("Failed to post-launch '\(module)'.", error: error)
-                        }
-                    }
-                }
-            }
-        case let .failure(error):
-            NotificareLogger.error("Failed to launch Notificare.", error: error)
-            state = .configured
-        }
+        logger.info("Notificare is ready to use for application.")
+        logger.debug("/==================================================================================/")
+        logger.debug("App name: \(application.name)")
+        logger.debug("App ID: \(application.id)")
+        logger.debug("App services: \(enabledServices.joined(separator: ", "))")
+        logger.debug("/==================================================================================/")
+        logger.debug("SDK version: \(Notificare.SDK_VERSION)")
+        logger.debug("SDK modules: \(enabledModules.joined(separator: ", "))")
+        logger.debug("/==================================================================================/")
     }
 
     private func loadServiceInfoFile() -> NotificareServicesInfo {
@@ -619,7 +606,7 @@ public class Notificare {
         }
 
         guard let servicesInfo = NotificareServicesInfo(contentsOfFile: path) else {
-            fatalError("Could not parse the Notificare plist. Please check the contents are valid.")
+            fatalError("Could not parse the NotificareServices plist. Please check the contents are valid.")
         }
 
         return servicesInfo
@@ -628,7 +615,7 @@ public class Notificare {
     private func loadOptionsFile() -> NotificareOptions {
         if let path = Bundle.main.path(forResource: NotificareOptions.fileName, ofType: NotificareOptions.fileExtension) {
             guard let options = NotificareOptions(contentsOfFile: path) else {
-                fatalError("Could not parse the Notificare options plist. Please check the contents are valid.")
+                fatalError("Could not parse the NotificareOptions plist. Please check the contents are valid.")
             }
 
             return options
@@ -644,8 +631,8 @@ public class Notificare {
 
         guard
             let application = Notificare.shared.application,
-            let appLinksDomain = Notificare.shared.servicesInfo?.services.appLinksDomain,
-            url.host == "\(application.id).\(appLinksDomain)",
+            let appLinksHost = Notificare.shared.servicesInfo?.hosts.appLinks,
+            url.host == "\(application.id).\(appLinksHost)",
             url.pathComponents.count >= 3,
             url.pathComponents[1] == "testdevice"
         else {
@@ -673,26 +660,40 @@ public class Notificare {
         }
 
         guard let servicesInfo = servicesInfo else {
-            NotificareLogger.warning("Unable to parse dynamic link. Notificare services have not been configured.")
+            logger.warning("Unable to parse dynamic link. Notificare services have not been configured.")
             return nil
         }
 
-        guard host.matches("^([a-z0-9-])+\\.\\Q\(servicesInfo.services.dynamicLinksDomain)\\E$".toRegex()) else {
-            NotificareLogger.debug("Domain pattern wasn't a match.")
+        guard host.matches("^([a-z0-9-])+\\.\\Q\(servicesInfo.hosts.shortLinks)\\E$".toRegex()) else {
+            logger.debug("Domain pattern wasn't a match.")
             return nil
         }
 
         guard url.pathComponents.count == 2 else {
-            NotificareLogger.debug("Path components length wasn't a match.")
+            logger.debug("Path components length wasn't a match.")
             return nil
         }
 
         let code = url.pathComponents[1]
         guard code.matches("^[a-zA-Z0-9_-]+$".toRegex()) else {
-            NotificareLogger.debug("First path component value wasn't a match.")
+            logger.debug("First path component value wasn't a match.")
             return nil
         }
 
         return url
+    }
+
+    private func fetchApplication(saveToLocalStorage: Bool) async throws -> NotificareApplication {
+        let response = try await NotificareRequest.Builder()
+            .get("/application/info")
+            .responseDecodable(NotificareInternals.PushAPI.Responses.Application.self)
+
+        let application = response.application.toModel()
+
+        if saveToLocalStorage {
+            self.application = application
+        }
+
+        return application
     }
 }

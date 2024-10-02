@@ -3,105 +3,100 @@
 //
 
 import Foundation
+import NotificareUtilitiesKit
 
-internal extension NotificareInternals.PushAPI.Payloads {
-    enum Device {
-        struct Registration: Encodable {
-            let deviceID: String
-            let oldDeviceID: String?
-            let userID: String?
-            let userName: String?
-            let language: String
-            let region: String
-            let platform: String
-            let transport: NotificareTransport
-            let osVersion: String
-            let sdkVersion: String
-            let appVersion: String
-            let deviceString: String
-            let timeZoneOffset: Float
-            let backgroundAppRefresh: Bool
-            let allowedUI: Bool?
+extension NotificareInternals.PushAPI.Payloads {
+    internal struct CreateDevice: Encodable {
+        internal var language: String
+        internal var region: String
+        internal var platform: String
+        internal var osVersion: String
+        internal var sdkVersion: String
+        internal var appVersion: String
+        internal var deviceString: String
+        internal var timeZoneOffset: Float
+        internal var backgroundAppRefresh: Bool
+    }
 
-            enum CodingKeys: String, CodingKey {
-                case deviceID
-                case oldDeviceID
-                case userID
-                case userName
-                case language
-                case region
-                case platform
-                case transport
-                case osVersion
-                case sdkVersion
-                case appVersion
-                case deviceString
-                case timeZoneOffset
-                case backgroundAppRefresh
-                case allowedUI
-            }
+    internal struct UpdateDevice: Encodable {
+        internal var language: String
+        internal var region: String
+        internal var platform: String
+        internal var osVersion: String
+        internal var sdkVersion: String
+        internal var appVersion: String
+        internal var deviceString: String
+        internal var timeZoneOffset: Float
+        internal var backgroundAppRefresh: Bool
+    }
 
-            func encode(to encoder: any Encoder) throws {
-                var container = encoder.container(keyedBy: CodingKeys.self)
+    internal struct UpdateDeviceUser: Encodable {
+        @EncodeNull internal var userID: String?
+        @EncodeNull internal var userName: String?
+    }
 
-                try container.encode(self.deviceID, forKey: .deviceID)
-                try container.encodeIfPresent(self.oldDeviceID, forKey: .oldDeviceID)
-                try container.encode(self.userID, forKey: .userID)
-                try container.encode(self.userName, forKey: .userName)
-                try container.encode(self.language, forKey: .language)
-                try container.encode(self.region, forKey: .region)
-                try container.encode(self.platform, forKey: .platform)
-                try container.encode(self.transport, forKey: .transport)
-                try container.encode(self.osVersion, forKey: .osVersion)
-                try container.encode(self.sdkVersion, forKey: .sdkVersion)
-                try container.encode(self.appVersion, forKey: .appVersion)
-                try container.encode(self.deviceString, forKey: .deviceString)
-                try container.encode(self.timeZoneOffset, forKey: .timeZoneOffset)
-                try container.encode(self.backgroundAppRefresh, forKey: .backgroundAppRefresh)
-                try container.encodeIfPresent(self.allowedUI, forKey: .allowedUI)
-            }
+    internal struct UpdateDeviceDoNotDisturb: Encodable {
+        @EncodeNull internal var dnd: NotificareDoNotDisturb?
+    }
+
+    internal struct UpdateDeviceUserData: Encodable {
+        internal let userData: NotificareUserData
+    }
+
+    internal struct UpgradeToLongLivedDevice: Encodable {
+        internal let deviceID: String
+        internal let transport: String
+        internal let subscriptionId: String?
+        internal let language: String
+        internal let region: String
+        internal let platform: String
+        internal let osVersion: String
+        internal let sdkVersion: String
+        internal let appVersion: String
+        internal let deviceString: String
+        internal let timeZoneOffset: Float
+        internal let backgroundAppRefresh: Bool
+    }
+
+    internal enum Device {
+        internal struct UpdateTimeZone: Encodable {
+            internal let language: String
+            internal let region: String
+            internal let timeZoneOffset: Float
         }
 
-        struct UpdateTimeZone: Encodable {
-            let language: String
-            let region: String
-            let timeZoneOffset: Float
+        internal struct UpdateLanguage: Encodable {
+            internal let language: String
+            internal let region: String
         }
 
-        struct UpdateLanguage: Encodable {
-            let language: String
-            let region: String
+        internal struct UpdateBackgroundAppRefresh: Encodable {
+            internal let language: String
+            internal let region: String
+            internal let backgroundAppRefresh: Bool
         }
 
-        struct UpdateBackgroundAppRefresh: Encodable {
-            let language: String
-            let region: String
-            let backgroundAppRefresh: Bool
-        }
-
-        struct Tags: Encodable {
-            let tags: [String]
+        internal struct Tags: Encodable {
+            internal let tags: [String]
         }
     }
 
-    struct CreateEvent: Encodable {}
+    internal struct CreateNotificationReply: Encodable {
+        internal let notification: String
+        internal let deviceID: String
+        internal let userID: String?
+        internal let label: String
+        internal let data: ReplyData
 
-    struct CreateNotificationReply: Encodable {
-        let notification: String
-        let deviceID: String
-        let userID: String?
-        let label: String
-        let data: ReplyData
-
-        struct ReplyData: Encodable {
-            let target: String?
-            let message: String?
-            let media: String?
-            let mimeType: String?
+        internal struct ReplyData: Encodable {
+            internal let target: String?
+            internal let message: String?
+            internal let media: String?
+            internal let mimeType: String?
         }
     }
 
-    struct TestDeviceRegistration: Encodable {
-        let deviceID: String
+    internal struct TestDeviceRegistration: Encodable {
+        internal let deviceID: String
     }
 }

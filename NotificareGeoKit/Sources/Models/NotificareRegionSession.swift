@@ -4,7 +4,7 @@
 
 import Foundation
 
-public struct NotificareRegionSession: Codable {
+public struct NotificareRegionSession: Codable, Equatable {
     public let regionId: String
     public let start: Date
     public let end: Date?

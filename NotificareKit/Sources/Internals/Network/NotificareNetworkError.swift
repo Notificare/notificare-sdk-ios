@@ -36,7 +36,7 @@ extension NotificareNetworkError {
     /// In mobile context, this can happen as you move through the building or traffic and may not represent serious or more permanent connection issues.
     ///
     /// Upper layers of the app architecture may build on this to add more specific cases when the request should be retried.
-    var shouldRetry: Bool {
+    internal var shouldRetry: Bool {
         switch self {
         case let .urlError(urlError):
             // if temporary network issues, retry
@@ -116,12 +116,14 @@ extension NotificareNetworkError: LocalizedError {
     }
 }
 
+// swiftlint:disable:next no_extension_access_modifier
 private extension HTTPURLResponse {
     var formattedHeaders: String {
         allHeaderFields.map { "\($0.key) : \($0.value)" }.joined(separator: "\n")
     }
 }
 
+// swiftlint:disable:next no_extension_access_modifier
 private extension Data {
     var utf8StringRepresentation: String? {
         String(data: self, encoding: .utf8)

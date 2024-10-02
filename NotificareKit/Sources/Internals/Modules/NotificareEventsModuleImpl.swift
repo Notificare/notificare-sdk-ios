@@ -13,9 +13,9 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
 
     // MARK: - Notificare Module
 
-    static let instance = NotificareEventsModuleImpl()
+    internal static let instance = NotificareEventsModuleImpl()
 
-    func configure() {
+    internal func configure() {
         // Listen to application did become active events.
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(onApplicationDidBecomeActiveNotification(_:)),
@@ -29,150 +29,147 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
                                                object: nil)
     }
 
-    func launch(_ completion: @escaping NotificareCallback<Void>) {
+    internal func launch() async throws {
         processStoredEvents()
-        completion(.success(()))
     }
 
     // MARK: - Notificare Events
 
-    func logNotificationOpen(_ id: String, _ completion: @escaping NotificareCallback<Void>) {
-        log("re.notifica.event.notification.Open", data: nil, notificationId: id, completion)
-    }
-
-    @available(iOS 13.0, *)
-    func logNotificationOpen(_ id: String) async throws {
-        try await withCheckedThrowingContinuation { continuation in
-            logNotificationOpen(id) { result in
-                continuation.resume(with: result)
+    internal func logNotificationOpen(_ id: String, _ completion: @escaping NotificareCallback<Void>) {
+        Task {
+            do {
+                try await logNotificationOpen(id)
+                completion(.success(()))
+            } catch {
+                completion(.failure(error))
             }
         }
     }
 
-    func logCustom(_ event: String, data: NotificareEventData?, _ completion: @escaping NotificareCallback<Void>) {
+    internal func logNotificationOpen(_ id: String) async throws {
+        try await log("re.notifica.event.notification.Open", data: nil, notificationId: id)
+    }
+
+    internal func logCustom(_ event: String, data: NotificareEventData?, _ completion: @escaping NotificareCallback<Void>) {
+        Task {
+            do {
+                try await logCustom(event, data: data)
+                completion(.success(()))
+            } catch {
+                completion(.failure(error))
+            }
+        }
+    }
+
+    internal func logCustom(_ event: String, data: NotificareEventData?) async throws {
         guard Notificare.shared.isReady else {
-            completion(.failure(NotificareError.notReady))
-            return
+            throw NotificareError.notReady
         }
 
-        log("re.notifica.event.custom.\(event)", data: data, completion)
-    }
-
-    @available(iOS 13.0, *)
-    func logCustom(_ event: String, data: NotificareEventData?) async throws {
-        try await withCheckedThrowingContinuation { continuation in
-            logCustom(event, data: data) { result in
-                continuation.resume(with: result)
-            }
-        }
+        try await log("re.notifica.event.custom.\(event)", data: data)
     }
 
     // MARK: - Notificare Internal Events
 
-    func log(_ event: String, data: NotificareEventData?, sessionId: String?, notificationId: String?, _ completion: @escaping NotificareCallback<Void>) {
-        guard let device = Notificare.shared.device().currentDevice else {
-            completion(.failure(NotificareError.deviceUnavailable))
-            return
+    internal func log(_ event: String, data: NotificareEventData?, sessionId: String?, notificationId: String?) async throws {
+            guard let device = Notificare.shared.device().currentDevice else {
+                throw NotificareError.deviceUnavailable
+            }
+
+            let event = NotificareEvent(
+                type: event,
+                timestamp: Int64(Date().timeIntervalSince1970 * 1000),
+                deviceId: device.id,
+                sessionId: sessionId ?? Notificare.shared.session().sessionId,
+                notificationId: notificationId,
+                userId: device.userId,
+                data: data
+            )
+
+            try await log(event)
         }
-
-        let event = NotificareEvent(
-            type: event,
-            timestamp: Int64(Date().timeIntervalSince1970 * 1000),
-            deviceId: device.id,
-            sessionId: sessionId ?? Notificare.shared.session().sessionId,
-            notificationId: notificationId,
-            userId: device.userId,
-            data: data
-        )
-
-        log(event, completion)
-    }
 
     // MARK: - Internal API
 
-    internal func logApplicationInstall(_ completion: @escaping NotificareCallback<Void>) {
-        log("re.notifica.event.application.Install", completion)
+    internal func logApplicationInstall() async throws {
+        try await log("re.notifica.event.application.Install")
     }
 
-    internal func logApplicationRegistration(_ completion: @escaping NotificareCallback<Void>) {
-        log("re.notifica.event.application.Registration", completion)
+    internal func logApplicationRegistration() async throws {
+        try await log("re.notifica.event.application.Registration")
     }
 
-    internal func logApplicationUpgrade(_ completion: @escaping NotificareCallback<Void>) {
-        log("re.notifica.event.application.Upgrade", completion)
+    internal func logApplicationUpgrade() async throws {
+        try await log("re.notifica.event.application.Upgrade")
     }
 
-    internal func logApplicationOpen(sessionId: String, _ completion: @escaping NotificareCallback<Void>) {
-        log("re.notifica.event.application.Open", sessionId: sessionId, completion)
+    internal func logApplicationOpen(sessionId: String) async throws {
+        try await log("re.notifica.event.application.Open", sessionId: sessionId)
     }
 
-    internal func logApplicationClose(sessionId: String, sessionLength: Double, _ completion: @escaping NotificareCallback<Void>) {
-        log("re.notifica.event.application.Close", data: ["length": String(sessionLength)], sessionId: sessionId, completion)
+    internal func logApplicationClose(sessionId: String, sessionLength: Double) async throws {
+        try await log("re.notifica.event.application.Close", data: ["length": String(sessionLength)], sessionId: sessionId)
     }
 
-    private func log(_ event: NotificareEvent, _ completion: @escaping NotificareCallback<Void>) {
+    private func log(_ event: NotificareEvent) async throws {
         guard Notificare.shared.isConfigured else {
-            NotificareLogger.debug("Notificare is not configured. Cannot log the event.")
-            completion(.failure(NotificareError.notConfigured))
-            return
+            logger.debug("Notificare is not configured. Cannot log the event.")
+            throw NotificareError.notConfigured
         }
 
-        NotificareRequest.Builder()
-            .post("/event", body: event)
-            .response { result in
-                switch result {
-                case .success:
-                    NotificareLogger.info("Event '\(event.type)' sent successfully.")
-                    completion(.success(()))
-                case let .failure(error):
-                    NotificareLogger.warning("Failed to send the event '\(event.type)'.", error: error)
+        do {
+            try await NotificareRequest.Builder()
+                .post("/event", body: event)
+                .response()
 
-                    if !self.discardableEvents.contains(event.type), let error = error as? NotificareNetworkError, error.recoverable {
-                        NotificareLogger.info("Queuing event to be sent whenever possible.")
+            logger.info("Event '\(event.type)' sent successfully.")
+        } catch {
+            logger.warning("Failed to send the event '\(event.type)'.", error: error)
 
-                        Notificare.shared.database.add(event)
-                        self.processStoredEvents()
+            if !discardableEvents.contains(event.type), let error = error as? NotificareNetworkError, error.recoverable {
+                logger.info("Queuing event to be sent whenever possible.")
 
-                        completion(.success(()))
-                        return
-                    }
+                Notificare.shared.database.add(event)
+                processStoredEvents()
 
-                    completion(.failure(error))
-                }
+                return
             }
+
+            throw error
+        }
     }
 
     private func processStoredEvents() {
         // Check that Notificare is ready to process the events.
         guard Notificare.shared.state >= .configured else {
-            NotificareLogger.debug("Notificare is not ready yet. Skipping...")
+            logger.debug("Notificare is not ready yet. Skipping...")
             return
         }
 
         // Ensure there is no running task.
         guard processEventsTaskIdentifier == nil else {
-            NotificareLogger.debug("There's an upload task running. Skipping...")
+            logger.debug("There's an upload task running. Skipping...")
             return
         }
 
-        // Run the task on a background queue.
-        DispatchQueue.global(qos: .background).async {
-            // Notify the system about a long running task.
-            self.processEventsTaskIdentifier = UIApplication.shared.beginBackgroundTask(withName: UPLOAD_TASK_NAME) {
-                // Check the task is still running.
-                guard let taskId = self.processEventsTaskIdentifier else {
-                    return
-                }
-
-                // Stop the task if the given time expires.
-                NotificareLogger.debug("Completing background task after its expiration.")
-                UIApplication.shared.endBackgroundTask(taskId)
-                self.processEventsTaskIdentifier = nil
+        // Notify the system about a long running task.
+        self.processEventsTaskIdentifier = UIApplication.shared.beginBackgroundTask(withName: UPLOAD_TASK_NAME) {
+            // Check the task is still running.
+            guard let taskId = self.processEventsTaskIdentifier else {
+                return
             }
 
+            // Stop the task if the given time expires.
+            logger.debug("Completing background task after its expiration.")
+            UIApplication.shared.endBackgroundTask(taskId)
+            self.processEventsTaskIdentifier = nil
+        }
+
+        // Run the task on a background queue.
+        Task(priority: .background) {
             // Load and process the stored events.
             if let events = try? Notificare.shared.database.fetchEvents() {
-                self.process(events)
+                await self.process(events)
             }
 
             // Check the task is still running.
@@ -181,43 +178,42 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
             }
 
             // Stop the task if the given time expires.
-            NotificareLogger.debug("Completing background task after processing all the events.")
-            UIApplication.shared.endBackgroundTask(taskId)
+            logger.debug("Completing background task after processing all the events.")
+            await UIApplication.shared.endBackgroundTask(taskId)
             self.processEventsTaskIdentifier = nil
         }
     }
 
-    private func process(_ managedEvents: [NotificareCoreDataEvent]) {
-        guard processEventsTaskIdentifier != nil else {
-            NotificareLogger.debug("The background task was terminated before all the events could be processed.")
+    private func process(_ managedEvents: [NotificareCoreDataEvent]) async {
+        guard !managedEvents.isEmpty else {
+            logger.debug("Nothing to process.")
             return
         }
 
-        var events = managedEvents
-        guard !events.isEmpty else {
-            NotificareLogger.debug("Nothing to process.")
-            return
+        var eventsRemaining = managedEvents.count
+
+        for event in managedEvents {
+            guard processEventsTaskIdentifier != nil else {
+                logger.debug("The background task was terminated before all the events could be processed.")
+                return
+            }
+
+            logger.debug("\(eventsRemaining) events remaining. Processing...")
+            await process(event)
+
+            eventsRemaining -= 1
         }
 
-        let event = events.removeFirst()
-        process(event)
-
-        if events.isEmpty {
-            NotificareLogger.debug("Finished processing all the events.")
-            return
-        }
-
-        NotificareLogger.debug("\(events.count) events remaining. Processing next...")
-        process(events)
+        logger.debug("Finished processing all the events.")
     }
 
-    private func process(_ managedEvent: NotificareCoreDataEvent) {
+    private func process(_ managedEvent: NotificareCoreDataEvent) async {
         let createdAt = Date(timeIntervalSince1970: Double(managedEvent.timestamp / 1000))
         let expiresAt = createdAt.addingTimeInterval(Double(managedEvent.ttl))
         let now = Date()
 
         if now > expiresAt {
-            NotificareLogger.debug("Event expired. Removing...")
+            logger.debug("Event expired. Removing...")
             Notificare.shared.database.remove(managedEvent)
             return
         }
@@ -227,48 +223,37 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
         do {
             event = try NotificareEvent(from: managedEvent)
         } catch {
-            NotificareLogger.debug("Cleaning up a corrupted event in the database.")
+            logger.debug("Cleaning up a corrupted event in the database.")
             Notificare.shared.database.remove(managedEvent)
             return
         }
 
-        // Leverage a DispatchGroup to wait for the request.
-        let group = DispatchGroup()
-        group.enter()
+        do {
+            try await NotificareRequest.Builder()
+                .post("/event", body: event)
+                .response()
 
-        // Perform the network request, which can retry internally.
-        NotificareRequest.Builder()
-            .post("/event", body: event)
-            .response { result in
-                switch result {
-                case .success:
-                    NotificareLogger.debug("Event processed. Removing from storage...")
+            logger.debug("Event processed. Removing from storage...")
+            Notificare.shared.database.remove(managedEvent)
+        } catch {
+            if let error = error as? NotificareNetworkError, error.recoverable {
+                logger.debug("Failed to process event.")
+
+                // Increase the attempts counter.
+                managedEvent.retries += 1
+
+                if managedEvent.retries < MAX_RETRIES {
+                    // Persist the attempts counter.
+                    Notificare.shared.database.saveChanges()
+                } else {
+                    logger.debug("Event was retried too many times. Removing...")
                     Notificare.shared.database.remove(managedEvent)
-                case let .failure(error):
-                    if let error = error as? NotificareNetworkError, error.recoverable {
-                        NotificareLogger.debug("Failed to process event.")
-
-                        // Increase the attempts counter.
-                        managedEvent.retries += 1
-
-                        if managedEvent.retries < MAX_RETRIES {
-                            // Persist the attempts counter.
-                            Notificare.shared.database.saveChanges()
-                        } else {
-                            NotificareLogger.debug("Event was retried too many times. Removing...")
-                            Notificare.shared.database.remove(managedEvent)
-                        }
-                    } else {
-                        NotificareLogger.debug("Failed to process event due to an unrecoverable error. Discarding it...")
-                        Notificare.shared.database.remove(managedEvent)
-                    }
                 }
-
-                group.leave()
+            } else {
+                logger.debug("Failed to process event due to an unrecoverable error. Discarding it...")
+                Notificare.shared.database.remove(managedEvent)
             }
-
-        // Wait until the request finishes.
-        group.wait()
+        }
     }
 
     @objc private func onApplicationDidBecomeActiveNotification(_: Notification) {
@@ -279,7 +264,7 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
 
     @objc private func onReachabilityChanged(_: Notification) {
         guard let reachability = Notificare.shared.reachability else {
-            NotificareLogger.debug("Reachbility module not configure.")
+            logger.debug("Reachbility module not configure.")
             return
         }
 
@@ -292,11 +277,11 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
             }
 
             // Stop the task if there is no connectivity.
-            NotificareLogger.debug("Stopping background task due to lack of connectivity.")
+            logger.debug("Stopping background task due to lack of connectivity.")
             UIApplication.shared.endBackgroundTask(taskId)
             processEventsTaskIdentifier = nil
         case .cellular, .wifi:
-            NotificareLogger.debug("Starting background task to upload stored events.")
+            logger.debug("Starting background task to upload stored events.")
             processStoredEvents()
         }
     }
@@ -304,6 +289,7 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
 
 // MARK: - Recoverable NotificareError
 
+// swiftlint:disable:next no_extension_access_modifier
 private extension NotificareNetworkError {
     var recoverable: Bool {
         switch self {

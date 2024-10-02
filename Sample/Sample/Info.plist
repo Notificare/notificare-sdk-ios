@@ -47,8 +47,6 @@
 	<string>Atlantis would use Bonjour Service to discover Proxyman app from your local network.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>We will need to make use of your location to present relevant information about offers around you.</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>We will need to make use of your location to present relevant information about offers around you.</string>
 	<key>NSLocationUsageDescription</key>
 	<string>We will need to make use of your location to present relevant information about offers around you.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>

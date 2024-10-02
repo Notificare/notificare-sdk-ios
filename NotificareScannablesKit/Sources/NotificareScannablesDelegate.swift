@@ -10,8 +10,8 @@ public protocol NotificareScannablesDelegate: AnyObject {
     func notificare(_ notificareScannables: NotificareScannables, didDetectScannable scannable: NotificareScannable)
 }
 
-public extension NotificareScannablesDelegate {
-    func notificare(_: NotificareScannables, didInvalidateScannerSession _: Error) {}
+extension NotificareScannablesDelegate {
+    public func notificare(_: NotificareScannables, didInvalidateScannerSession _: Error) {}
 
-    func notificare(_: NotificareScannables, didDetectScannable _: NotificareScannable) {}
+    public func notificare(_: NotificareScannables, didDetectScannable _: NotificareScannable) {}
 }

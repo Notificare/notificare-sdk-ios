@@ -4,8 +4,8 @@
 
 import NotificareKit
 
-public extension NotificareNotification {
-    var requiresViewController: Bool {
+extension NotificareNotification {
+    public var requiresViewController: Bool {
         guard let type = NotificareNotification.NotificationType(rawValue: type) else {
             return true
         }

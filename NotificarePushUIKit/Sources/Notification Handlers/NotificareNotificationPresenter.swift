@@ -4,6 +4,6 @@
 
 import UIKit
 
-protocol NotificareNotificationPresenter {
+internal protocol NotificareNotificationPresenter {
     func present(in controller: UIViewController)
 }

@@ -3,6 +3,7 @@
 //
 
 import NotificareKit
+import NotificareUtilitiesKit
 import UIKit
 import WebKit
 
@@ -110,10 +111,11 @@ extension NotificareWebViewController: WKNavigationDelegate, WKUIDelegate {
             handleNotificareQueryParameters(for: url)
 
             // Let's handle custom URLs if not http or https.
-            if let url = navigationAction.request.url,
-               let urlScheme = url.scheme,
-               urlScheme != "http", urlScheme != "https",
-               NotificareUtils.getSupportedUrlSchemes().contains(urlScheme) || UIApplication.shared.canOpenURL(url)
+            if
+                let url = navigationAction.request.url,
+                let urlScheme = url.scheme,
+                urlScheme != "http", urlScheme != "https",
+                Bundle.main.getSupportedUrlSchemes().contains(urlScheme) || UIApplication.shared.canOpenURL(url)
             {
                 UIApplication.shared.open(url, options: [:]) { _ in
                     decisionHandler(.cancel)
@@ -131,7 +133,7 @@ extension NotificareWebViewController: WKNavigationDelegate, WKUIDelegate {
     }
 
     public func webView(_: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame _: WKFrameInfo, completionHandler: @escaping () -> Void) {
-        let alert = UIAlertController(title: NotificareUtils.applicationName,
+        let alert = UIAlertController(title: Bundle.main.applicationName,
                                       message: message,
                                       preferredStyle: .alert)
 
@@ -145,7 +147,7 @@ extension NotificareWebViewController: WKNavigationDelegate, WKUIDelegate {
     }
 
     public func webView(_: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame _: WKFrameInfo, completionHandler: @escaping (Bool) -> Void) {
-        let alert = UIAlertController(title: NotificareUtils.applicationName,
+        let alert = UIAlertController(title: Bundle.main.applicationName,
                                       message: message,
                                       preferredStyle: .alert)
 
@@ -165,7 +167,7 @@ extension NotificareWebViewController: WKNavigationDelegate, WKUIDelegate {
     }
 
     public func webView(_: WKWebView, runJavaScriptTextInputPanelWithPrompt prompt: String, defaultText: String?, initiatedByFrame _: WKFrameInfo, completionHandler: @escaping (String?) -> Void) {
-        let alert = UIAlertController(title: NotificareUtils.applicationName,
+        let alert = UIAlertController(title: Bundle.main.applicationName,
                                       message: prompt,
                                       preferredStyle: .alert)
 
@@ -194,7 +196,7 @@ extension NotificareWebViewController: WKNavigationDelegate, WKUIDelegate {
 }
 
 extension NotificareWebViewController: NotificareNotificationPresenter {
-    func present(in controller: UIViewController) {
+    internal func present(in controller: UIViewController) {
         controller.presentOrPush(self)
     }
 }

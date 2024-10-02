@@ -6,7 +6,7 @@ import NotificareInboxKit
 import NotificareKit
 import SwiftUI
 
-struct InboxItemView: View {
+internal struct InboxItemView: View {
     private static var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "d MMM"
@@ -23,9 +23,9 @@ struct InboxItemView: View {
 
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
 
-    let item: NotificareInboxItem
+    internal let item: NotificareInboxItem
 
-    var body: some View {
+    internal var body: some View {
         HStack(alignment: .top, spacing: 16) {
             Group {
                 if let urlStr = item.notification.attachments.first?.uri, let url = URL(string: urlStr) {
@@ -91,8 +91,8 @@ struct InboxItemView: View {
     }
 }
 
-struct InboxItemView_Previews: PreviewProvider {
-    static var previews: some View {
+internal struct InboxItemView_Previews: PreviewProvider {
+    internal static var previews: some View {
         let item = NotificareInboxItem(
             id: UUID().uuidString,
             notification: NotificareNotification(

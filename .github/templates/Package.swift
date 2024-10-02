@@ -10,31 +10,27 @@ let package = Package(
     products: [
         .library(
             name: "NotificareKit",
-            targets: ["NotificareKit"]
+            targets: ["NotificareKit", "NotificareUtilitiesKit"]
         ),
         .library(
             name: "NotificareAssetsKit",
-            targets: ["NotificareAssetsKit"]
+            targets: ["NotificareAssetsKit", "NotificareUtilitiesKit"]
         ),
         .library(
             name: "NotificareGeoKit",
-            targets: ["NotificareGeoKit"]
+            targets: ["NotificareGeoKit", "NotificareUtilitiesKit"]
         ),
         .library(
             name: "NotificareInAppMessagingKit",
-            targets: ["NotificareInAppMessagingKit"]
+            targets: ["NotificareInAppMessagingKit", "NotificareUtilitiesKit"]
         ),
         .library(
             name: "NotificareInboxKit",
-            targets: ["NotificareInboxKit"]
+            targets: ["NotificareInboxKit", "NotificareUtilitiesKit"]
         ),
         .library(
             name: "NotificareLoyaltyKit",
-            targets: ["NotificareLoyaltyKit"]
-        ),
-        .library(
-            name: "NotificareMonetizeKit",
-            targets: ["NotificareMonetizeKit"]
+            targets: ["NotificareLoyaltyKit", "NotificareUtilitiesKit"]
         ),
         .library(
             name: "NotificareNotificationServiceExtensionKit",
@@ -42,19 +38,19 @@ let package = Package(
         ),
         .library(
             name: "NotificarePushKit",
-            targets: ["NotificarePushKit"]
+            targets: ["NotificarePushKit", "NotificareUtilitiesKit"]
         ),
         .library(
             name: "NotificarePushUIKit",
-            targets: ["NotificarePushUIKit"]
+            targets: ["NotificarePushUIKit", "NotificareUtilitiesKit"]
         ),
         .library(
             name: "NotificareScannablesKit",
-            targets: ["NotificareScannablesKit"]
+            targets: ["NotificareScannablesKit", "NotificareUtilitiesKit"]
         ),
         .library(
             name: "NotificareUserInboxKit",
-            targets: ["NotificareUserInboxKit"]
+            targets: ["NotificareUserInboxKit", "NotificareUtilitiesKit"]
         ),
     ],
     targets: [
@@ -89,11 +85,6 @@ let package = Package(
             checksum: "{{NOTIFICARE_LOYALTY_CHECKSUM}}"
         ),
         .binaryTarget(
-            name: "NotificareMonetizeKit",
-            url: "https://cdn.notifica.re/libs/ios/{{VERSION}}/spm-notificare-monetize.zip",
-            checksum: "{{NOTIFICARE_MONETIZE_CHECKSUM}}"
-        ),
-        .binaryTarget(
             name: "NotificarePushKit",
             url: "https://cdn.notifica.re/libs/ios/{{VERSION}}/spm-notificare-push.zip",
             checksum: "{{NOTIFICARE_PUSH_CHECKSUM}}"
@@ -117,6 +108,11 @@ let package = Package(
             name: "NotificareUserInboxKit",
             url: "https://cdn.notifica.re/libs/ios/{{VERSION}}/spm-notificare-user-inbox.zip",
             checksum: "{{NOTIFICARE_USER_INBOX_CHECKSUM}}"
+        ),
+        .binaryTarget(
+            name: "NotificareUtilitiesKit",
+            url: "https://cdn.notifica.re/libs/ios/{{VERSION}}/spm-notificare-utilities.zip",
+            checksum: "{{NOTIFICARE_UTILITIES_CHECKSUM}}"
         ),
     ]
 )

@@ -7,8 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A0E1F7B2C9830FA00E15FC7 /* NotificareUtilitiesKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A0E1F7A2C9830FA00E15FC7 /* NotificareUtilitiesKit.framework */; };
+		1A32740A2C5A0EE1002B78BA /* AssetsPushAPIModelsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A3274092C5A0EE1002B78BA /* AssetsPushAPIModelsTest.swift */; };
+		1A52DE702CA4526900B5F56C /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A52DE6F2CA4526900B5F56C /* Logger.swift */; };
+		1ACA07E92C5A0AC5002CB47D /* NotificareAssetTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACA07E82C5A0AC5002CB47D /* NotificareAssetTest.swift */; };
 		F258DDC224BC4F09006F9ABD /* NotificareAssetsKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F258DDB824BC4F09006F9ABD /* NotificareAssetsKit.framework */; };
-		F258DDC724BC4F09006F9ABD /* AssetsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F258DDC624BC4F09006F9ABD /* AssetsTests.swift */; };
 		F258DDC924BC4F09006F9ABD /* NotificareAssetsKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F258DDBB24BC4F09006F9ABD /* NotificareAssetsKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F289F5DC25B861670091AB97 /* NotificareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F289F5D925B861670091AB97 /* NotificareKit.framework */; };
 		F29017E82BD27730009DB80B /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = F29017E72BD2772C009DB80B /* PrivacyInfo.xcprivacy */; };
@@ -31,11 +34,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1A0E1F7A2C9830FA00E15FC7 /* NotificareUtilitiesKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareUtilitiesKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1A3274092C5A0EE1002B78BA /* AssetsPushAPIModelsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetsPushAPIModelsTest.swift; sourceTree = "<group>"; };
+		1A52DE6F2CA4526900B5F56C /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		1ACA07E82C5A0AC5002CB47D /* NotificareAssetTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareAssetTest.swift; sourceTree = "<group>"; };
 		F258DDB824BC4F09006F9ABD /* NotificareAssetsKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NotificareAssetsKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F258DDBB24BC4F09006F9ABD /* NotificareAssetsKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificareAssetsKit.h; sourceTree = "<group>"; };
 		F258DDBC24BC4F09006F9ABD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F258DDC124BC4F09006F9ABD /* NotificareAssetsKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NotificareAssetsKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		F258DDC624BC4F09006F9ABD /* AssetsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetsTests.swift; sourceTree = "<group>"; };
 		F258DDC824BC4F09006F9ABD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F289F5D925B861670091AB97 /* NotificareKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F29017E72BD2772C009DB80B /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
@@ -52,6 +58,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A0E1F7B2C9830FA00E15FC7 /* NotificareUtilitiesKit.framework in Frameworks */,
 				F289F5DC25B861670091AB97 /* NotificareKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -103,8 +110,9 @@
 		F258DDC524BC4F09006F9ABD /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				F258DDC624BC4F09006F9ABD /* AssetsTests.swift */,
 				F258DDC824BC4F09006F9ABD /* Info.plist */,
+				1ACA07E82C5A0AC5002CB47D /* NotificareAssetTest.swift */,
+				1A3274092C5A0EE1002B78BA /* AssetsPushAPIModelsTest.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -112,6 +120,7 @@
 		F258DEAA24BC96DF006F9ABD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1A0E1F7A2C9830FA00E15FC7 /* NotificareUtilitiesKit.framework */,
 				F289F5D925B861670091AB97 /* NotificareKit.framework */,
 			);
 			name = Frameworks;
@@ -139,6 +148,7 @@
 			children = (
 				F2ABF342269C575F00401D3F /* Network */,
 				F2ABF33B269C43AB00401D3F /* NotificareAssetsImpl.swift */,
+				1A52DE6F2CA4526900B5F56C /* Logger.swift */,
 			);
 			path = Internals;
 			sourceTree = "<group>";
@@ -177,6 +187,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				1A8C30F32BF639C00000BFA6 /* PBXTargetDependency */,
 			);
 			name = NotificareAssetsKit;
 			productName = Assets;
@@ -194,6 +205,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				1A546F642C5B5D830059F095 /* PBXTargetDependency */,
 				F258DDC424BC4F09006F9ABD /* PBXTargetDependency */,
 			);
 			name = NotificareAssetsKitTests;
@@ -209,7 +221,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1150;
-				LastUpgradeCheck = 1530;
+				LastUpgradeCheck = 1540;
 				ORGANIZATIONNAME = Notificare;
 				TargetAttributes = {
 					F258DDB724BC4F09006F9ABD = {
@@ -230,6 +242,9 @@
 				Base,
 			);
 			mainGroup = F258DDAE24BC4F09006F9ABD;
+			packageReferences = (
+				1A8C30E42BF639250000BFA6 /* XCRemoteSwiftPackageReference "SwiftLint" */,
+			);
 			productRefGroup = F258DDB924BC4F09006F9ABD /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -267,6 +282,7 @@
 				F2DAB38D271F0467002B5F27 /* NotificareAssets.swift in Sources */,
 				F2DAB38F271F0473002B5F27 /* NotificareAssets+Augment.swift in Sources */,
 				F2ABF346269C579900401D3F /* PushAPI+Responses.swift in Sources */,
+				1A52DE702CA4526900B5F56C /* Logger.swift in Sources */,
 				F2ABF33F269C45A900401D3F /* NotificareAsset.swift in Sources */,
 				F2ABF348269C57C500401D3F /* PushAPI+Models.swift in Sources */,
 			);
@@ -276,13 +292,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F258DDC724BC4F09006F9ABD /* AssetsTests.swift in Sources */,
+				1A32740A2C5A0EE1002B78BA /* AssetsPushAPIModelsTest.swift in Sources */,
+				1ACA07E92C5A0AC5002CB47D /* NotificareAssetTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		1A546F642C5B5D830059F095 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 1A546F632C5B5D830059F095 /* SwiftLintBuildToolPlugin */;
+		};
+		1A8C30F32BF639C00000BFA6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 1A8C30F22BF639C00000BFA6 /* SwiftLintBuildToolPlugin */;
+		};
 		F258DDC424BC4F09006F9ABD /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = F258DDB724BC4F09006F9ABD /* NotificareAssetsKit */;
@@ -436,7 +461,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.10.0;
+				MARKETING_VERSION = 4.0.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.assets;
@@ -468,7 +493,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.10.0;
+				MARKETING_VERSION = 4.0.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.assets;
@@ -603,7 +628,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.10.0;
+				MARKETING_VERSION = 4.0.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.assets;
@@ -720,7 +745,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.10.0;
+				MARKETING_VERSION = 4.0.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.assets;
@@ -831,7 +856,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.10.0;
+				MARKETING_VERSION = 4.0.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.assets;
@@ -941,7 +966,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.10.0;
+				MARKETING_VERSION = 4.0.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.assets;
@@ -1015,6 +1040,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1A8C30E42BF639250000BFA6 /* XCRemoteSwiftPackageReference "SwiftLint" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/SwiftLint";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.55.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1A546F632C5B5D830059F095 /* SwiftLintBuildToolPlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1A8C30E42BF639250000BFA6 /* XCRemoteSwiftPackageReference "SwiftLint" */;
+			productName = "plugin:SwiftLintBuildToolPlugin";
+		};
+		1A8C30F22BF639C00000BFA6 /* SwiftLintBuildToolPlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1A8C30E42BF639250000BFA6 /* XCRemoteSwiftPackageReference "SwiftLint" */;
+			productName = "plugin:SwiftLintBuildToolPlugin";
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F258DDAF24BC4F09006F9ABD /* Project object */;
 }

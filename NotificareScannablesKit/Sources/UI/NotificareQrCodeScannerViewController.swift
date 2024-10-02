@@ -4,23 +4,24 @@
 
 import AVFoundation
 import NotificareKit
+import NotificareUtilitiesKit
 import UIKit
 
 private let kCrosshairMarginHorizontal: CGFloat = 20.0
 private let kCrosshairMarginVertical: CGFloat = 100.0
 
 internal class NotificareQrCodeScannerViewController: UIViewController {
-    typealias OnQrCodeDetected = (_ qrCode: String) -> Void
+    internal typealias OnQrCodeDetected = (_ qrCode: String) -> Void
 
     private let captureSession = AVCaptureSession()
     private var detectedQrCode = false
 
-    var onQrCodeDetected: OnQrCodeDetected?
+    internal var onQrCodeDetected: OnQrCodeDetected?
 
-    override func viewDidLoad() {
+    internal override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = NotificareUtils.applicationName
+        title = Bundle.main.applicationName
         navigationController?.isNavigationBarHidden = false
 
         setupCaptureSession()
@@ -29,7 +30,7 @@ internal class NotificareQrCodeScannerViewController: UIViewController {
         captureSession.startRunning()
     }
 
-    override func viewDidAppear(_ animated: Bool) {
+    internal override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
         if !captureSession.isRunning {
@@ -37,7 +38,7 @@ internal class NotificareQrCodeScannerViewController: UIViewController {
         }
     }
 
-    override func viewDidDisappear(_ animated: Bool) {
+    internal override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
 
         if captureSession.isRunning {
@@ -47,7 +48,7 @@ internal class NotificareQrCodeScannerViewController: UIViewController {
 
     private func setupCaptureSession() {
         guard let device = AVCaptureDevice.default(for: .video) else {
-            NotificareLogger.warning("Failed to acquire the default device for video.")
+            logger.warning("Failed to acquire the default device for video.")
             return
         }
 
@@ -56,14 +57,14 @@ internal class NotificareQrCodeScannerViewController: UIViewController {
         do {
             input = try AVCaptureDeviceInput(device: device)
         } catch {
-            NotificareLogger.warning("Failed to get input device for video.", error: error)
+            logger.warning("Failed to get input device for video.", error: error)
             return
         }
 
         if captureSession.canAddInput(input) {
             captureSession.addInput(input)
         } else {
-            NotificareLogger.warning("Unable to add video input to capture session.")
+            logger.warning("Unable to add video input to capture session.")
             return
         }
 
@@ -74,7 +75,7 @@ internal class NotificareQrCodeScannerViewController: UIViewController {
             output.setMetadataObjectsDelegate(self, queue: .main)
             output.metadataObjectTypes = [.qr]
         } else {
-            NotificareLogger.warning("Unable to add video input to capture session.")
+            logger.warning("Unable to add video input to capture session.")
             return
         }
 
@@ -116,11 +117,12 @@ internal class NotificareQrCodeScannerViewController: UIViewController {
 }
 
 extension NotificareQrCodeScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
-    func metadataOutput(_: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from _: AVCaptureConnection) {
+    internal func metadataOutput(_: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from _: AVCaptureConnection) {
         metadataObjects.forEach { metadata in
-            if let metadata = metadata as? AVMetadataMachineReadableCodeObject,
-               let qrCode = metadata.stringValue,
-               !detectedQrCode
+            if
+                let metadata = metadata as? AVMetadataMachineReadableCodeObject,
+                let qrCode = metadata.stringValue,
+                !detectedQrCode
             {
                 detectedQrCode = true
                 captureSession.stopRunning()

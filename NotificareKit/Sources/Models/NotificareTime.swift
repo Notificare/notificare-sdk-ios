@@ -4,7 +4,7 @@
 
 import Foundation
 
-public struct NotificareTime {
+public struct NotificareTime: Equatable {
     public let hours: Int
     public let minutes: Int
 

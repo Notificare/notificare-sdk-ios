@@ -3,27 +3,18 @@
 //
 
 import Foundation
+import NotificareUtilitiesKit
 
 internal struct LocalStorageMigration {
-    var hasLegacyData: Bool {
+    internal var hasLegacyData: Bool {
         UserDefaults.standard.object(forKey: "notificareDeviceToken") != nil
     }
 
-    func migrate() {
+    internal func migrate() {
         if let deviceId = UserDefaults.standard.string(forKey: "notificareDeviceToken") {
-            NotificareLogger.debug("Found v2 device stored.")
+            logger.debug("Found v2 device stored.")
 
-            let transport: NotificareTransport
-            if let transportStr = UserDefaults.standard.string(forKey: "notificareDeviceTransport") {
-                transport = NotificareTransport(rawValue: transportStr) ?? .notificare
-            } else {
-                transport = .notificare
-            }
-
-            let lastRegistered = UserDefaults.standard.value(forKey: "notificareDeviceLastRegistered") as? Date
-                ?? Calendar.current.date(byAdding: .day, value: -7, to: Date())!
-
-            let device = NotificareDevice(
+            let device = StoredDevice(
                 id: deviceId,
                 userId: UserDefaults.standard.string(forKey: "notificareUserID"),
                 userName: UserDefaults.standard.string(forKey: "notificareUserName"),
@@ -32,12 +23,11 @@ internal struct LocalStorageMigration {
                 sdkVersion: UserDefaults.standard.string(forKey: "notificareSDKVersion") ?? "",
                 appVersion: UserDefaults.standard.string(forKey: "notificareAppVersion") ?? "",
                 deviceString: UserDefaults.standard.string(forKey: "notificareDeviceModel") ?? "",
-                language: UserDefaults.standard.string(forKey: "notificareDeviceLanguage") ?? NotificareUtils.deviceLanguage,
-                region: UserDefaults.standard.string(forKey: "notificareDeviceRegion") ?? NotificareUtils.deviceRegion,
-                transport: transport,
+                language: UserDefaults.standard.string(forKey: "notificareDeviceLanguage") ?? Locale.current.deviceLanguage(),
+                region: UserDefaults.standard.string(forKey: "notificareDeviceRegion") ?? Locale.current.deviceRegion(),
+                transport: UserDefaults.standard.string(forKey: "notificareDeviceTransport"),
                 dnd: nil,
                 userData: [:],
-                lastRegistered: lastRegistered,
                 backgroundAppRefresh: UserDefaults.standard.bool(forKey: "notificareBackgroundAppRefresh")
             )
 
@@ -45,12 +35,12 @@ internal struct LocalStorageMigration {
         }
 
         if let language = UserDefaults.standard.string(forKey: "notificarePreferredLanguage") {
-            NotificareLogger.debug("Found v2 language override stored.")
+            logger.debug("Found v2 language override stored.")
             LocalStorage.preferredLanguage = language
         }
 
         if let region = UserDefaults.standard.string(forKey: "notificarePreferredRegion") {
-            NotificareLogger.debug("Found v2 region override stored.")
+            logger.debug("Found v2 region override stored.")
             LocalStorage.preferredRegion = region
         }
 

@@ -92,7 +92,7 @@ public class NotificareWebPassViewController: NotificareBaseNotificationViewCont
     private func setupContent() {
         guard let content = notification.content.first,
               let passUrlStr = content.data as? String,
-              let host = Notificare.shared.servicesInfo?.services.pushHost
+              let host = Notificare.shared.servicesInfo?.hosts.restApi
         else {
             DispatchQueue.main.async {
                 Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToPresentNotification: self.notification)
@@ -104,7 +104,7 @@ public class NotificareWebPassViewController: NotificareBaseNotificationViewCont
         let components = passUrlStr.components(separatedBy: "/")
         let id = components[components.count - 1]
 
-        guard let url = URL(string: "\(host)/pass/web/\(id)?showWebVersion=1") else {
+        guard let url = URL(string: "https://\(host)/pass/web/\(id)?showWebVersion=1") else {
             DispatchQueue.main.async {
                 Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToPresentNotification: self.notification)
             }
@@ -173,7 +173,7 @@ extension NotificareWebPassViewController: WKNavigationDelegate, WKUIDelegate {
 }
 
 extension NotificareWebPassViewController: NotificareNotificationPresenter {
-    func present(in controller: UIViewController) {
+    internal func present(in controller: UIViewController) {
         controller.presentOrPush(self)
     }
 }

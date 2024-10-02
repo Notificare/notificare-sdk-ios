@@ -4,9 +4,9 @@
 
 import CoreLocation
 import Foundation
-import NotificareKit
+import NotificareUtilitiesKit
 
-public struct NotificareLocation: Codable {
+public struct NotificareLocation: Codable, Equatable {
     public let latitude: Double
     public let longitude: Double
     public let altitude: Double
@@ -30,8 +30,8 @@ public struct NotificareLocation: Codable {
     }
 }
 
-internal extension NotificareLocation {
-    init(cl location: CLLocation) {
+extension NotificareLocation {
+    internal init(cl location: CLLocation) {
         latitude = location.coordinate.latitude
         longitude = location.coordinate.longitude
         altitude = location.altitude
@@ -45,14 +45,14 @@ internal extension NotificareLocation {
 }
 
 // JSON: NotificareLocation
-public extension NotificareLocation {
-    func toJson() throws -> [String: Any] {
-        let data = try NotificareUtils.jsonEncoder.encode(self)
+extension NotificareLocation {
+    public func toJson() throws -> [String: Any] {
+        let data = try JSONEncoder.notificare.encode(self)
         return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
     }
 
-    static func fromJson(json: [String: Any]) throws -> NotificareLocation {
+    public static func fromJson(json: [String: Any]) throws -> NotificareLocation {
         let data = try JSONSerialization.data(withJSONObject: json, options: [])
-        return try NotificareUtils.jsonDecoder.decode(NotificareLocation.self, from: data)
+        return try JSONDecoder.notificare.decode(NotificareLocation.self, from: data)
     }
 }

@@ -4,8 +4,8 @@
 
 import NotificareKit
 
-internal extension NotificareNotification {
-    init?(apnsDictionary: [AnyHashable: Any]) {
+extension NotificareNotification {
+    internal init?(apnsDictionary: [AnyHashable: Any]) {
         let aps = apnsDictionary["aps"] as? [String: Any]
         let alert = aps?["alert"] as? [String: Any] ?? apnsDictionary["alert"] as? [String: Any]
 
@@ -26,11 +26,11 @@ internal extension NotificareNotification {
             attachments = []
         }
 
-        let ignoreKeys = ["aps", "alert", "inboxItemId", "inboxItemVisible", "inboxItemExpires", "system", "systemType", "attachment", "notificationId", "notificationType", "id", "x-sender"]
+        let ignoreKeys = ["aps", "alert", "inboxItemId", "inboxItemVisible", "inboxItemExpires", "system", "systemType", "attachment", "notificationId", "notificationType", "id"]
         let extra = apnsDictionary
             .filter { $0.key is String }
             .mapKeys { $0 as! String }
-            .filter { !ignoreKeys.contains($0.key) }
+            .filter { !ignoreKeys.contains($0.key) && !$0.key.hasPrefix("x-") }
 
         self.init(
             partial: true,

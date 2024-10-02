@@ -4,32 +4,40 @@
 
 import Foundation
 
-internal extension NotificareInternals.PushAPI.Responses {
-    struct Application: Decodable {
-        let application: NotificareInternals.PushAPI.Models.Application
+extension NotificareInternals.PushAPI.Responses {
+    internal struct Application: Decodable {
+        internal let application: NotificareInternals.PushAPI.Models.Application
     }
 
-    struct Tags: Decodable {
-        let tags: [String]
+    internal struct CreateDevice: Decodable {
+        internal let device: Device
+
+        internal struct Device: Decodable {
+            internal let deviceID: String
+        }
     }
 
-    struct DoNotDisturb: Decodable {
-        let dnd: NotificareDoNotDisturb?
+    internal struct Tags: Decodable {
+        internal let tags: [String]
     }
 
-    struct UserData: Decodable {
-        let userData: [String: String?]?
+    internal struct DoNotDisturb: Decodable {
+        internal let dnd: NotificareDoNotDisturb?
     }
 
-    struct DynamicLink: Decodable {
-        let link: NotificareDynamicLink
+    internal struct UserData: Decodable {
+        internal let userData: [String: String?]?
     }
 
-    struct Notification: Decodable {
-        let notification: NotificareInternals.PushAPI.Models.Notification
+    internal struct DynamicLink: Decodable {
+        internal let link: NotificareDynamicLink
     }
 
-    struct UploadAsset: Decodable {
-        let filename: String
+    internal struct Notification: Decodable {
+        internal let notification: NotificareInternals.PushAPI.Models.Notification
+    }
+
+    internal struct UploadAsset: Decodable {
+        internal let filename: String
     }
 }

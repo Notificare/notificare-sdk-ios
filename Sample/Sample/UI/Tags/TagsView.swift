@@ -4,11 +4,11 @@
 
 import SwiftUI
 
-struct TagsView: View {
+internal  struct TagsView: View {
     @StateObject private var viewModel = TagsViewModel()
     @State private var presentedAlert: PresentedAlert?
 
-    var body: some View {
+    internal var body: some View {
         ZStack {
             switch viewModel.viewState {
             case .idle:
@@ -251,8 +251,8 @@ private struct SelectableTagsSectionView: View {
     }
 }
 
-struct TagsView_Previews: PreviewProvider {
-    static var previews: some View {
+internal struct TagsView_Previews: PreviewProvider {
+    internal static var previews: some View {
         TagsView()
     }
 }

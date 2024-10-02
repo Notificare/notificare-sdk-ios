@@ -5,10 +5,10 @@
 import NotificareAssetsKit
 import SwiftUI
 
-struct AssetDetailsView: View {
-    let asset: NotificareAsset
+internal struct AssetDetailsView: View {
+    internal let asset: NotificareAsset
 
-    var body: some View {
+    internal var body: some View {
         List {
             Section {
                 AssetDetailsFieldView(key: String(localized: "asset_id"), value: asset.id)
@@ -65,8 +65,8 @@ private struct AssetDetailsFieldView: View {
     }
 }
 
-struct AssetDetailsView_Previews: PreviewProvider {
-    static var previews: some View {
+internal struct AssetDetailsView_Previews: PreviewProvider {
+    internal static var previews: some View {
         AssetDetailsView(
             asset: NotificareAsset(
                 id: "12345",

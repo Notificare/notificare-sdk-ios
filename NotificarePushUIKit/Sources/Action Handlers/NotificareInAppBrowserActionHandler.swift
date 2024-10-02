@@ -9,14 +9,17 @@ import UIKit
 public class NotificareInAppBrowserActionHandler: NotificareBaseActionHandler {
     private let sourceViewController: UIViewController
 
-    init(notification: NotificareNotification, action: NotificareNotification.Action, sourceViewController: UIViewController) {
+    internal init(notification: NotificareNotification, action: NotificareNotification.Action, sourceViewController: UIViewController) {
         self.sourceViewController = sourceViewController
 
         super.init(notification: notification, action: action)
     }
 
-    override func execute() {
-        if let target = action.target, let url = URL(string: target) {
+    internal override func execute() {
+        if let target = action.target,
+           let url = URL(string: target),
+           url.isHttpUrl
+        {
             DispatchQueue.main.async {
                 let theme = Notificare.shared.options?.theme(for: self.sourceViewController)
                 let safariViewController = Notificare.shared.pushUIImplementation().createSafariViewController(url: url, theme: theme)
@@ -39,7 +42,9 @@ extension NotificareInAppBrowserActionHandler: SFSafariViewControllerDelegate {
                 Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didExecuteAction: self.action, for: self.notification)
             }
 
-            Notificare.shared.createNotificationReply(notification: notification, action: action) { _ in }
+            Task {
+                try? await Notificare.shared.createNotificationReply(notification: notification, action: action)
+            }
         } else {
             DispatchQueue.main.async {
                 Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToExecuteAction: self.action, for: self.notification, error: nil)
@@ -48,8 +53,8 @@ extension NotificareInAppBrowserActionHandler: SFSafariViewControllerDelegate {
     }
 }
 
-public extension NotificareInAppBrowserActionHandler {
-    enum ActionError: LocalizedError {
+extension NotificareInAppBrowserActionHandler {
+    public enum ActionError: LocalizedError {
         case invalidUrl
 
         public var errorDescription: String? {

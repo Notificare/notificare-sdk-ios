@@ -5,27 +5,27 @@
 import Foundation
 import NotificareKit
 
-internal extension NotificareInternals.PushAPI.Models {
-    struct Message: Decodable {
-        let _id: String
-        let name: String
-        let type: String
-        let context: [String]
-        let title: String?
-        let message: String?
-        let image: String?
-        let landscapeImage: String?
-        let delaySeconds: Int
-        let primaryAction: Action?
-        let secondaryAction: Action?
+extension NotificareInternals.PushAPI.Models {
+    internal struct Message: Decodable, Equatable {
+        internal let _id: String
+        internal let name: String
+        internal let type: String
+        internal let context: [String]
+        internal let title: String?
+        internal let message: String?
+        internal let image: String?
+        internal let landscapeImage: String?
+        internal let delaySeconds: Int
+        internal let primaryAction: Action?
+        internal let secondaryAction: Action?
 
-        struct Action: Decodable {
-            let label: String?
-            let destructive: Bool
-            let url: String?
+        internal struct Action: Decodable, Equatable {
+            internal let label: String?
+            internal let destructive: Bool
+            internal let url: String?
         }
 
-        func toModel() -> NotificareInAppMessage {
+        internal func toModel() -> NotificareInAppMessage {
             NotificareInAppMessage(
                 id: _id,
                 name: name,
@@ -55,7 +55,7 @@ internal extension NotificareInternals.PushAPI.Models {
     }
 }
 
-internal extension NotificareInternals.PushAPI.Models.Message {
+extension NotificareInternals.PushAPI.Models.Message {
     private enum CodingKeys: String, CodingKey {
         case _id
         case name
@@ -70,7 +70,7 @@ internal extension NotificareInternals.PushAPI.Models.Message {
         case secondaryAction
     }
 
-    init(from decoder: Decoder) throws {
+    internal init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         _id = try container.decode(String.self, forKey: ._id)

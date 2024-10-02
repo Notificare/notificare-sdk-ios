@@ -95,9 +95,6 @@ class Framework
         Framework.new(scheme: 'NotificareLoyaltyKit',
                       spm_zip_filename: 'spm-notificare-loyalty.zip',
                       spm_checksum_placeholder: '{{NOTIFICARE_LOYALTY_CHECKSUM}}'),
-        Framework.new(scheme: 'NotificareMonetizeKit',
-                      spm_zip_filename: 'spm-notificare-monetize.zip',
-                      spm_checksum_placeholder: '{{NOTIFICARE_MONETIZE_CHECKSUM}}'),
         Framework.new(scheme: 'NotificareNotificationServiceExtensionKit',
                       spm_zip_filename: 'spm-notificare-notification-service-extension.zip',
                       spm_checksum_placeholder: '{{NOTIFICARE_NOTIFICATION_SERVICE_EXTENSION_CHECKSUM}}'),
@@ -113,6 +110,9 @@ class Framework
         Framework.new(scheme: 'NotificareUserInboxKit',
                       spm_zip_filename: 'spm-notificare-user-inbox.zip',
                       spm_checksum_placeholder: '{{NOTIFICARE_USER_INBOX_CHECKSUM}}'),
+        Framework.new(scheme: 'NotificareUtilitiesKit',
+                      spm_zip_filename: 'spm-notificare-utilities.zip',
+                      spm_checksum_placeholder: '{{NOTIFICARE_UTILITIES_CHECKSUM}}'),
       ]
     end
   end

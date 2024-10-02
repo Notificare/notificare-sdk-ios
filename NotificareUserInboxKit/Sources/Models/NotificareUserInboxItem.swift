@@ -4,8 +4,9 @@
 
 import Foundation
 import NotificareKit
+import NotificareUtilitiesKit
 
-public struct NotificareUserInboxItem: Codable {
+public struct NotificareUserInboxItem: Codable, Equatable {
     public let id: String
     public let notification: NotificareNotification
     public let time: Date
@@ -26,14 +27,14 @@ public struct NotificareUserInboxItem: Codable {
 extension NotificareUserInboxItem: Identifiable {}
 
 // JSON: NotificareUserInboxItem
-public extension NotificareUserInboxItem {
-    func toJson() throws -> [String: Any] {
-        let data = try NotificareUtils.jsonEncoder.encode(self)
+extension NotificareUserInboxItem {
+    public func toJson() throws -> [String: Any] {
+        let data = try JSONEncoder.notificare.encode(self)
         return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
     }
 
-    static func fromJson(json: [String: Any]) throws -> NotificareUserInboxItem {
+    public static func fromJson(json: [String: Any]) throws -> NotificareUserInboxItem {
         let data = try JSONSerialization.data(withJSONObject: json, options: [])
-        return try NotificareUtils.jsonDecoder.decode(NotificareUserInboxItem.self, from: data)
+        return try JSONDecoder.notificare.decode(NotificareUserInboxItem.self, from: data)
     }
 }

@@ -4,19 +4,19 @@
 
 import NotificareKit
 
-internal extension NotificareInternals.PushAPI.Models {
-    struct Scannable: Decodable {
-        let _id: String
-        let name: String
-        let type: String
-        let tag: String
-        let data: ScannableData?
+extension NotificareInternals.PushAPI.Models {
+    internal struct Scannable: Decodable, Equatable {
+        internal let _id: String
+        internal let name: String
+        internal let type: String
+        internal let tag: String
+        internal let data: ScannableData?
 
-        struct ScannableData: Decodable {
-            let notification: NotificareInternals.PushAPI.Models.Notification?
+        internal struct ScannableData: Decodable, Equatable {
+            internal let notification: NotificareInternals.PushAPI.Models.Notification?
         }
 
-        func toModel() -> NotificareScannable {
+        internal func toModel() -> NotificareScannable {
             NotificareScannable(
                 id: _id,
                 name: name,

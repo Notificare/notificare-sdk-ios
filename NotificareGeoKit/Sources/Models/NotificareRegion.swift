@@ -3,9 +3,9 @@
 //
 
 import Foundation
-import NotificareKit
+import NotificareUtilitiesKit
 
-public struct NotificareRegion: Codable {
+public struct NotificareRegion: Codable, Equatable {
     public let id: String
     public let name: String
     public let description: String?
@@ -30,7 +30,7 @@ public struct NotificareRegion: Codable {
         self.timeZoneOffset = timeZoneOffset
     }
 
-    public struct Geometry: Codable {
+    public struct Geometry: Codable, Equatable {
         public let type: String
         public let coordinate: Coordinate
 
@@ -40,7 +40,7 @@ public struct NotificareRegion: Codable {
         }
     }
 
-    public struct AdvancedGeometry: Codable {
+    public struct AdvancedGeometry: Codable, Equatable {
         public let type: String
         public let coordinates: [Coordinate]
 
@@ -50,7 +50,7 @@ public struct NotificareRegion: Codable {
         }
     }
 
-    public struct Coordinate: Codable {
+    public struct Coordinate: Codable, Equatable {
         public let latitude: Double
         public let longitude: Double
 
@@ -66,53 +66,53 @@ public struct NotificareRegion: Codable {
 extension NotificareRegion: Identifiable {}
 
 // JSON: NotificareRegion
-public extension NotificareRegion {
-    func toJson() throws -> [String: Any] {
-        let data = try NotificareUtils.jsonEncoder.encode(self)
+extension NotificareRegion {
+    public func toJson() throws -> [String: Any] {
+        let data = try JSONEncoder.notificare.encode(self)
         return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
     }
 
-    static func fromJson(json: [String: Any]) throws -> NotificareRegion {
+    public static func fromJson(json: [String: Any]) throws -> NotificareRegion {
         let data = try JSONSerialization.data(withJSONObject: json, options: [])
-        return try NotificareUtils.jsonDecoder.decode(NotificareRegion.self, from: data)
+        return try JSONDecoder.notificare.decode(NotificareRegion.self, from: data)
     }
 }
 
 // JSON: NotificareRegion.Geometry
-public extension NotificareRegion.Geometry {
-    func toJson() throws -> [String: Any] {
-        let data = try NotificareUtils.jsonEncoder.encode(self)
+extension NotificareRegion.Geometry {
+    public func toJson() throws -> [String: Any] {
+        let data = try JSONEncoder.notificare.encode(self)
         return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
     }
 
-    static func fromJson(json: [String: Any]) throws -> NotificareRegion.Geometry {
+    public static func fromJson(json: [String: Any]) throws -> NotificareRegion.Geometry {
         let data = try JSONSerialization.data(withJSONObject: json, options: [])
-        return try NotificareUtils.jsonDecoder.decode(NotificareRegion.Geometry.self, from: data)
+        return try JSONDecoder.notificare.decode(NotificareRegion.Geometry.self, from: data)
     }
 }
 
 // JSON: NotificareRegion.AdvancedGeometry
-public extension NotificareRegion.AdvancedGeometry {
-    func toJson() throws -> [String: Any] {
-        let data = try NotificareUtils.jsonEncoder.encode(self)
+extension NotificareRegion.AdvancedGeometry {
+    public func toJson() throws -> [String: Any] {
+        let data = try JSONEncoder.notificare.encode(self)
         return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
     }
 
-    static func fromJson(json: [String: Any]) throws -> NotificareRegion.AdvancedGeometry {
+    public static func fromJson(json: [String: Any]) throws -> NotificareRegion.AdvancedGeometry {
         let data = try JSONSerialization.data(withJSONObject: json, options: [])
-        return try NotificareUtils.jsonDecoder.decode(NotificareRegion.AdvancedGeometry.self, from: data)
+        return try JSONDecoder.notificare.decode(NotificareRegion.AdvancedGeometry.self, from: data)
     }
 }
 
 // JSON: NotificareRegion.Coordinate
-public extension NotificareRegion.Coordinate {
-    func toJson() throws -> [String: Any] {
-        let data = try NotificareUtils.jsonEncoder.encode(self)
+extension NotificareRegion.Coordinate {
+    public func toJson() throws -> [String: Any] {
+        let data = try JSONEncoder.notificare.encode(self)
         return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
     }
 
-    static func fromJson(json: [String: Any]) throws -> NotificareRegion.Coordinate {
+    public static func fromJson(json: [String: Any]) throws -> NotificareRegion.Coordinate {
         let data = try JSONSerialization.data(withJSONObject: json, options: [])
-        return try NotificareUtils.jsonDecoder.decode(NotificareRegion.Coordinate.self, from: data)
+        return try JSONDecoder.notificare.decode(NotificareRegion.Coordinate.self, from: data)
     }
 }
