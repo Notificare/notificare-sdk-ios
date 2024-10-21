@@ -4,6 +4,7 @@
 
 import MessageUI
 import NotificareKit
+import NotificareUtilitiesKit
 
 public class NotificareSmsActionHandler: NotificareBaseActionHandler {
     private let sourceViewController: UIViewController
@@ -34,11 +35,11 @@ public class NotificareSmsActionHandler: NotificareBaseActionHandler {
     }
 
     private func dismiss() {
-        if let rootViewController = NotificareUtils.rootViewController, rootViewController.presentedViewController != nil {
+        if let rootViewController = UIApplication.shared.rootViewController, rootViewController.presentedViewController != nil {
             rootViewController.dismiss(animated: true, completion: nil)
         } else {
             if sourceViewController is UIAlertController {
-                NotificareUtils.rootViewController?.dismiss(animated: true, completion: nil)
+                UIApplication.shared.rootViewController?.dismiss(animated: true, completion: nil)
             } else {
                 sourceViewController.dismiss(animated: true) {
                     self.sourceViewController.becomeFirstResponder()

@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name               = "Notificare"
-  spec.version            = "4.0.0-beta.2"
+  spec.version            = "4.0.0"
   spec.summary            = "Notificare Library for iOS apps"
   spec.description        = <<-DESC
 The Notificare iOS Library implements the power of smart notifications, location services, contextual marketing and powerful loyalty solutions provided by the Notificare platform in iOS applications.
@@ -22,26 +22,32 @@ For support please use: http://support.notifica.re
 
   spec.subspec 'NotificareKit' do |subspec|
     subspec.vendored_frameworks = "Notificare/NotificareKit.xcframework"
+    subspec.dependency 'Notificare/NotificareUtilitiesKit'
   end
 
   spec.subspec 'NotificareAssetsKit' do |subspec|
     subspec.vendored_frameworks = "Notificare/NotificareAssetsKit.xcframework"
+    subspec.dependency 'Notificare/NotificareUtilitiesKit'
   end
 
   spec.subspec 'NotificareGeoKit' do |subspec|
     subspec.vendored_frameworks = "Notificare/NotificareGeoKit.xcframework"
+    subspec.dependency 'Notificare/NotificareUtilitiesKit'
   end
 
   spec.subspec 'NotificareInAppMessagingKit' do |subspec|
     subspec.vendored_frameworks = "Notificare/NotificareInAppMessagingKit.xcframework"
+    subspec.dependency 'Notificare/NotificareUtilitiesKit'
   end
 
   spec.subspec 'NotificareInboxKit' do |subspec|
     subspec.vendored_frameworks = "Notificare/NotificareInboxKit.xcframework"
+    subspec.dependency 'Notificare/NotificareUtilitiesKit'
   end
 
   spec.subspec 'NotificareLoyaltyKit' do |subspec|
     subspec.vendored_frameworks = "Notificare/NotificareLoyaltyKit.xcframework"
+    subspec.dependency 'Notificare/NotificareUtilitiesKit'
   end
 
   spec.subspec 'NotificareNotificationServiceExtensionKit' do |subspec|
@@ -50,18 +56,26 @@ For support please use: http://support.notifica.re
 
   spec.subspec 'NotificarePushKit' do |subspec|
     subspec.vendored_frameworks = "Notificare/NotificarePushKit.xcframework"
+    subspec.dependency 'Notificare/NotificareUtilitiesKit'
   end
 
   spec.subspec 'NotificarePushUIKit' do |subspec|
     subspec.vendored_frameworks = "Notificare/NotificarePushUIKit.xcframework"
+    subspec.dependency 'Notificare/NotificareUtilitiesKit'
   end
 
   spec.subspec 'NotificareScannablesKit' do |subspec|
     subspec.vendored_frameworks = "Notificare/NotificareScannablesKit.xcframework"
+    subspec.dependency 'Notificare/NotificareUtilitiesKit'
   end
 
   spec.subspec 'NotificareUserInboxKit' do |subspec|
     subspec.vendored_frameworks = "Notificare/NotificareUserInboxKit.xcframework"
+    subspec.dependency 'Notificare/NotificareUtilitiesKit'
+  end
+
+  spec.subspec 'NotificareUtilitiesKit' do |subspec|
+    subspec.vendored_frameworks = "Notificare/NotificareUtilitiesKit.xcframework"
   end
 
 end

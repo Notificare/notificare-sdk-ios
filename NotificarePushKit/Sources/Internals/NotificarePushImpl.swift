@@ -34,11 +34,13 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
     }
 
     internal func configure() {
+        logger.hasDebugLoggingEnabled = Notificare.shared.options?.debugLoggingEnabled ?? false
+
         if Notificare.shared.options!.userNotificationCenterDelegateEnabled {
-            NotificareLogger.debug("Notificare will set itself as the UNUserNotificationCenter delegate.")
+            logger.debug("Notificare will set itself as the UNUserNotificationCenter delegate.")
             notificationCenter.delegate = notificationCenterDelegate
         } else {
-            NotificareLogger.warning("""
+            logger.warning("""
             Please configure your plist settings to allow Notificare to become the UNUserNotificationCenter delegate. \
             Alternatively forward the UNUserNotificationCenter delegate events to Notificare.
             """)
@@ -60,7 +62,7 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
 
     internal func postLaunch() async throws {
         if hasRemoteNotificationsEnabled {
-            NotificareLogger.debug("Enabling remote notifications automatically.")
+            logger.debug("Enabling remote notifications automatically.")
             try await updateDeviceSubscription()
         }
     }
@@ -68,7 +70,7 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
     internal func unlaunch() async throws {
         // Unregister from APNS
         await UIApplication.shared.unregisterForRemoteNotifications()
-        NotificareLogger.info("Unregistered from APNS.")
+        logger.info("Unregistered from APNS.")
 
         // Reset local storage
         LocalStorage.remoteNotificationsEnabled = false
@@ -145,10 +147,10 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
         try await updateDeviceSubscription()
 
         if granted {
-            NotificareLogger.info("User granted permission to receive alerts, badge and sounds.")
+            logger.info("User granted permission to receive alerts, badge and sounds.")
             await reloadActionCategories()
         } else {
-            NotificareLogger.info("User did not grant permission to receive alerts, badge and sounds.")
+            logger.info("User did not grant permission to receive alerts, badge and sounds.")
         }
 
         return granted
@@ -179,7 +181,7 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
         // Unregister from APNS
         await UIApplication.shared.unregisterForRemoteNotifications()
 
-        NotificareLogger.info("Unregistered from push provider.")
+        logger.info("Unregistered from push provider.")
     }
 
     public func isNotificareNotification(_ userInfo: [AnyHashable: Any]) -> Bool {
@@ -246,23 +248,23 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
 
     private func checkPrerequisites() throws {
         if !Notificare.shared.isReady {
-            NotificareLogger.warning("Notificare is not ready yet.")
+            logger.warning("Notificare is not ready yet.")
             throw NotificareError.notReady
         }
 
         guard let application = Notificare.shared.application else {
-            NotificareLogger.warning("Notificare application is not yet available.")
+            logger.warning("Notificare application is not yet available.")
             throw NotificareError.applicationUnavailable
         }
 
         guard application.services[NotificareApplication.ServiceKey.apns.rawValue] == true else {
-            NotificareLogger.warning("Notificare APNS functionality is not enabled.")
+            logger.warning("Notificare APNS functionality is not enabled.")
             throw NotificareError.serviceUnavailable(service: NotificareApplication.ServiceKey.apns.rawValue)
         }
     }
 
     internal func reloadActionCategories(_ completion: @escaping () -> Void) {
-        NotificareLogger.debug("Reloading action categories.")
+        logger.debug("Reloading action categories.")
 
         if Notificare.shared.options?.preserveExistingNotificationCategories == true {
             notificationCenter.getNotificationCategories { existingCategories in
@@ -280,7 +282,7 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
     }
 
     internal func reloadActionCategories() async {
-        NotificareLogger.debug("Reloading action categories.")
+        logger.debug("Reloading action categories.")
 
         if Notificare.shared.options?.preserveExistingNotificationCategories == true {
             let existingCategories = await notificationCenter.notificationCategories()
@@ -420,13 +422,13 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
         guard let attachment = request.content.userInfo["attachment"] as? [String: Any],
               let uri = attachment["uri"] as? String
         else {
-            NotificareLogger.warning("Could not find an attachment URI. Please ensure you're calling this method with the correct payload.")
+            logger.warning("Could not find an attachment URI. Please ensure you're calling this method with the correct payload.")
             completion(.failure(NotificareError.invalidArgument(message: "Notification request has no attachment URI.")))
             return
         }
 
         guard let url = URL(string: uri) else {
-            NotificareLogger.warning("Invalid attachment URI. Please ensure it's a valid URL.")
+            logger.warning("Invalid attachment URI. Please ensure it's a valid URL.")
             completion(.failure(NotificareError.invalidArgument(message: "Invalid attachment URI.")))
             return
         }
@@ -484,7 +486,7 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
     }
 
     private func updateDeviceSubscription(transport: NotificareTransport, token: String?) async throws {
-        NotificareLogger.debug("Updating push subscription.")
+        logger.debug("Updating push subscription.")
 
         guard let device = Notificare.shared.device().currentDevice else {
             throw NotificareError.deviceUnavailable
@@ -494,7 +496,7 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
         let previousSubscription = self.subscription
 
         if previousTransport == transport && previousSubscription?.token == token {
-            NotificareLogger.debug("Push subscription unmodified. Updating notification settings instead.")
+            logger.debug("Push subscription unmodified. Updating notification settings instead.")
             try await updateDeviceNotificationSettings()
             return
         }
@@ -531,7 +533,7 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
     }
 
     private func updateDeviceNotificationSettings() async throws {
-        NotificareLogger.debug("Updating user notification settings.")
+        logger.debug("Updating user notification settings.")
 
         guard let device = Notificare.shared.device().currentDevice else {
             throw NotificareError.deviceUnavailable
@@ -553,14 +555,14 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
                 .put("/push/\(device.id)", body: payload)
                 .response()
 
-            NotificareLogger.debug("User notification settings updated.")
+            logger.debug("User notification settings updated.")
             self.allowedUI = allowedUI
 
             DispatchQueue.main.async {
                 self.delegate?.notificare(self, didChangeNotificationSettings: allowedUI)
             }
         } else {
-            NotificareLogger.debug("User notification settings update skipped, nothing changed.")
+            logger.debug("User notification settings update skipped, nothing changed.")
         }
 
         await ensureLoggedPushRegistration()
@@ -592,7 +594,7 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
 
             try await Notificare.shared.events().logPushRegistration()
         } catch {
-            NotificareLogger.warning("Failed to log the push registration event.", error: error)
+            logger.warning("Failed to log the push registration event.", error: error)
             LocalStorage.firstRegistration = true
         }
     }

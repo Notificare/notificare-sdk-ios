@@ -3,7 +3,7 @@
 //
 
 import Foundation
-import NotificareKit
+import NotificareUtilitiesKit
 
 public struct NotificareHeading: Codable, Equatable {
     public let magneticHeading: Double
@@ -28,12 +28,12 @@ public struct NotificareHeading: Codable, Equatable {
 // JSON: NotificareHeading
 extension NotificareHeading {
     public func toJson() throws -> [String: Any] {
-        let data = try NotificareUtils.jsonEncoder.encode(self)
+        let data = try JSONEncoder.notificare.encode(self)
         return try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
     }
 
     public static func fromJson(json: [String: Any]) throws -> NotificareHeading {
         let data = try JSONSerialization.data(withJSONObject: json, options: [])
-        return try NotificareUtils.jsonDecoder.decode(NotificareHeading.self, from: data)
+        return try JSONDecoder.notificare.decode(NotificareHeading.self, from: data)
     }
 }

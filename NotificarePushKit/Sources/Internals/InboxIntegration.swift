@@ -30,7 +30,7 @@ internal class InboxIntegration {
 
     internal static func addItemToInbox(userInfo: [AnyHashable: Any], notification: NotificareNotification) {
         guard let inboxItemId = userInfo["inboxItemId"] as? String else {
-            NotificareLogger.debug("Received a notification payload without an inbox item id. Inbox functionality disabled.")
+            logger.debug("Received a notification payload without an inbox item id. Inbox functionality disabled.")
             return
         }
 
@@ -54,7 +54,7 @@ internal class InboxIntegration {
 
     internal static func markItemAsRead(userInfo: [AnyHashable: Any]) {
         guard let inboxItemId = userInfo["inboxItemId"] as? String else {
-            NotificareLogger.debug("Received a notification payload without an inbox item id. Inbox functionality disabled.")
+            logger.debug("Received a notification payload without an inbox item id. Inbox functionality disabled.")
             return
         }
 

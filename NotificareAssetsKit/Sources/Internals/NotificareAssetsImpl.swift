@@ -9,6 +9,10 @@ internal class NotificareAssetsImpl: NSObject, NotificareModule, NotificareAsset
 
     internal static let instance = NotificareAssetsImpl()
 
+    internal func configure() {
+        logger.hasDebugLoggingEnabled = Notificare.shared.options?.debugLoggingEnabled ?? false
+    }
+
     // MARK: - Notificare Assets
 
     public func fetch(group: String, _ completion: @escaping NotificareCallback<[NotificareAsset]>) {
@@ -44,17 +48,17 @@ internal class NotificareAssetsImpl: NSObject, NotificareModule, NotificareAsset
 
     private func checkPrerequisites() throws {
         if !Notificare.shared.isReady {
-            NotificareLogger.warning("Notificare is not ready yet.")
+            logger.warning("Notificare is not ready yet.")
             throw NotificareError.notReady
         }
 
         guard let application = Notificare.shared.application else {
-            NotificareLogger.warning("Notificare application is not yet available.")
+            logger.warning("Notificare application is not yet available.")
             throw NotificareError.applicationUnavailable
         }
 
         if application.services[NotificareApplication.ServiceKey.storage.rawValue] != true {
-            NotificareLogger.warning("Notificare storage functionality is not enabled.")
+            logger.warning("Notificare storage functionality is not enabled.")
             throw NotificareError.serviceUnavailable(service: NotificareApplication.ServiceKey.storage.rawValue)
         }
     }

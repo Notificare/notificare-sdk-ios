@@ -11,6 +11,10 @@ internal class NotificareLoyaltyImpl: NSObject, NotificareModule, NotificareLoya
 
     internal static let instance = NotificareLoyaltyImpl()
 
+    internal func configure() {
+        logger.hasDebugLoggingEnabled = Notificare.shared.options?.debugLoggingEnabled ?? false
+    }
+
     // MARK: - Notificare Loyalty
 
     public func fetchPass(serial: String, _ completion: @escaping NotificareCallback<NotificarePass>) {
@@ -67,7 +71,7 @@ internal class NotificareLoyaltyImpl: NSObject, NotificareModule, NotificareLoya
         guard let host = Notificare.shared.servicesInfo?.hosts.restApi,
               let url = URL(string: "https://\(host)/pass/pkpass/\(pass.serial)")
         else {
-            NotificareLogger.warning("Unable to determine the PKPass URL.")
+            logger.warning("Unable to determine the PKPass URL.")
             return
         }
 
@@ -77,7 +81,7 @@ internal class NotificareLoyaltyImpl: NSObject, NotificareModule, NotificareLoya
 
             present(pass, in: controller)
         } catch {
-            NotificareLogger.error("Failed to create PKPass from URL.", error: error)
+            logger.error("Failed to create PKPass from URL.", error: error)
         }
     }
 
@@ -92,7 +96,7 @@ internal class NotificareLoyaltyImpl: NSObject, NotificareModule, NotificareLoya
               let urlStr = content.data as? String,
               let url = URL(string: urlStr)
         else {
-            NotificareLogger.warning("Trying to present a notification that doesn't contain a pass.")
+            logger.warning("Trying to present a notification that doesn't contain a pass.")
             return
         }
 
@@ -102,7 +106,7 @@ internal class NotificareLoyaltyImpl: NSObject, NotificareModule, NotificareLoya
 
             present(pass, in: viewController)
         } catch {
-            NotificareLogger.error("Failed to create PKPass from URL.", error: error)
+            logger.error("Failed to create PKPass from URL.", error: error)
         }
     }
 
@@ -110,22 +114,22 @@ internal class NotificareLoyaltyImpl: NSObject, NotificareModule, NotificareLoya
 
     private func checkPrerequisites() throws {
         if !Notificare.shared.isReady {
-            NotificareLogger.warning("Notificare is not ready yet.")
+            logger.warning("Notificare is not ready yet.")
             throw NotificareError.notReady
         }
 
         if Notificare.shared.device().currentDevice == nil {
-            NotificareLogger.warning("Notificare device is not yet available.")
+            logger.warning("Notificare device is not yet available.")
             throw NotificareError.deviceUnavailable
         }
 
         guard let application = Notificare.shared.application else {
-            NotificareLogger.warning("Notificare application is not yet available.")
+            logger.warning("Notificare application is not yet available.")
             throw NotificareError.applicationUnavailable
         }
 
         guard application.services[NotificareApplication.ServiceKey.passbook.rawValue] == true else {
-            NotificareLogger.warning("Notificare loyalty functionality is not enabled.")
+            logger.warning("Notificare loyalty functionality is not enabled.")
             throw NotificareError.serviceUnavailable(service: NotificareApplication.ServiceKey.passbook.rawValue)
         }
     }
@@ -168,7 +172,7 @@ internal class NotificareLoyaltyImpl: NSObject, NotificareModule, NotificareLoya
 
     private func present(_ pass: PKPass, in controller: UIViewController) {
         guard let passController = PKAddPassesViewController(pass: pass) else {
-            NotificareLogger.warning("Failed to create pass view controller.")
+            logger.warning("Failed to create pass view controller.")
             return
         }
 

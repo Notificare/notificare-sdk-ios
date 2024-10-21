@@ -3,6 +3,8 @@
 //
 
 import Foundation
+import UIKit
+import NotificareUtilitiesKit
 
 internal class NotificareCrashReporterModuleImpl: NSObject, NotificareModule {
     // MARK: - Notificare Module
@@ -13,7 +15,7 @@ internal class NotificareCrashReporterModuleImpl: NSObject, NotificareModule {
         let crashReportsEnabled = Notificare.shared.options!.crashReportsEnabled
 
         guard crashReportsEnabled else {
-            NotificareLogger.debug("Crash reports are not enabled.")
+            logger.debug("Crash reports are not enabled.")
             return
         }
 
@@ -38,7 +40,7 @@ internal class NotificareCrashReporterModuleImpl: NSObject, NotificareModule {
 
     internal func launch() async throws {
         guard let event = LocalStorage.crashReport else {
-            NotificareLogger.debug("No crash report to process.")
+            logger.debug("No crash report to process.")
             return
         }
 
@@ -47,12 +49,12 @@ internal class NotificareCrashReporterModuleImpl: NSObject, NotificareModule {
                 .post("/event", body: event)
                 .response()
 
-            NotificareLogger.info("Crash report processed.")
+            logger.info("Crash report processed.")
 
             // Clean up the stored crash report
             LocalStorage.crashReport = nil
         } catch {
-            NotificareLogger.error("Failed to process a crash report.", error: error)
+            logger.error("Failed to process a crash report.", error: error)
 
         }
     }
@@ -61,7 +63,7 @@ internal class NotificareCrashReporterModuleImpl: NSObject, NotificareModule {
 
     private let uncaughtExceptionHandler: @convention(c) (NSException) -> Void = { exception in
         guard let device = Notificare.shared.device().currentDevice else {
-            NotificareLogger.warning("Cannot process a crash report before the device becomes available.")
+            logger.warning("Cannot process a crash report before the device becomes available.")
             return
         }
 
@@ -76,10 +78,10 @@ internal class NotificareCrashReporterModuleImpl: NSObject, NotificareModule {
             userId: device.userId,
             data: [
                 "platform": "iOS",
-                "osVersion": NotificareUtils.osVersion,
-                "deviceString": NotificareUtils.deviceString,
+                "osVersion": UIDevice.current.osVersion,
+                "deviceString": UIDevice.current.deviceString,
                 "sdkVersion": Notificare.SDK_VERSION,
-                "appVersion": NotificareUtils.applicationVersion,
+                "appVersion": Bundle.main.applicationVersion,
                 "timestamp": timestamp,
                 "name": exception.name.rawValue,
                 "reason": exception.reason as Any,
@@ -90,7 +92,7 @@ internal class NotificareCrashReporterModuleImpl: NSObject, NotificareModule {
 
     private let signalReceiver: @convention(c) (Int32) -> Void = { signal in
         guard let device = Notificare.shared.device().currentDevice else {
-            NotificareLogger.warning("Cannot process a crash report before the device becomes available.")
+            logger.warning("Cannot process a crash report before the device becomes available.")
             return
         }
 
@@ -124,10 +126,10 @@ internal class NotificareCrashReporterModuleImpl: NSObject, NotificareModule {
             userId: device.userId,
             data: [
                 "platform": "iOS",
-                "osVersion": NotificareUtils.osVersion,
-                "deviceString": NotificareUtils.deviceString,
+                "osVersion": UIDevice.current.osVersion,
+                "deviceString": UIDevice.current.deviceString,
                 "sdkVersion": Notificare.SDK_VERSION,
-                "appVersion": NotificareUtils.applicationVersion,
+                "appVersion": Bundle.main.applicationVersion,
                 "timestamp": timestamp,
                 "name": name,
                 "reason": "Uncaught Signal \(name)",

@@ -57,12 +57,12 @@ internal class NotificareSessionModuleImpl: NSObject, NotificareModule {
 
     @objc private func applicationDidBecomeActive() {
         guard UIApplication.shared.applicationState == .active else {
-            NotificareLogger.debug("The application is not active. Skipping...")
+            logger.debug("The application is not active. Skipping...")
             return
         }
 
         if sessionId != nil {
-            NotificareLogger.debug("Resuming previous session.")
+            logger.debug("Resuming previous session.")
         }
 
         // Cancel any session timeout.
@@ -72,7 +72,7 @@ internal class NotificareSessionModuleImpl: NSObject, NotificareModule {
         guard sessionId == nil else { return }
 
         guard Notificare.shared.isReady else {
-            NotificareLogger.debug("Postponing session start until Notificare is launched.")
+            logger.debug("Postponing session start until Notificare is launched.")
             return
         }
 
@@ -83,7 +83,7 @@ internal class NotificareSessionModuleImpl: NSObject, NotificareModule {
 
     @objc private func applicationWillResignActive() {
         guard UIApplication.shared.applicationState == .active else {
-            NotificareLogger.debug("The application is not active. Skipping...")
+            logger.debug("The application is not active. Skipping...")
             return
         }
 
@@ -96,7 +96,7 @@ internal class NotificareSessionModuleImpl: NSObject, NotificareModule {
         DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 10, execute: backgroundTask)
 
         backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(withName: SESSION_CLOSE_TASK_NAME) { [weak self] in
-            NotificareLogger.debug("Background task expiration handler triggered.")
+            logger.debug("Background task expiration handler triggered.")
             self?.cancelBackgroundTask()
         }
     }
@@ -109,12 +109,12 @@ internal class NotificareSessionModuleImpl: NSObject, NotificareModule {
         self.sessionStart = sessionStart
         sessionEnd = nil
 
-        NotificareLogger.debug("Session '\(sessionId)' started at \(dateFormatter.string(from: sessionStart)).")
+        logger.debug("Session '\(sessionId)' started at \(dateFormatter.string(from: sessionStart)).")
 
         do {
             try await Notificare.shared.eventsImplementation().logApplicationOpen(sessionId: sessionId)
         } catch {
-            NotificareLogger.warning("Failed to process an application session start.", error: error)
+            logger.warning("Failed to process an application session start.", error: error)
         }
     }
 
@@ -139,14 +139,14 @@ internal class NotificareSessionModuleImpl: NSObject, NotificareModule {
         self.sessionStart = nil
         self.sessionEnd = nil
 
-        NotificareLogger.debug("Session '\(sessionId)' stopped at \(dateFormatter.string(from: sessionEnd)).")
+        logger.debug("Session '\(sessionId)' stopped at \(dateFormatter.string(from: sessionEnd)).")
 
         let length = sessionEnd.timeIntervalSince(sessionStart)
 
         do {
             try await Notificare.shared.eventsImplementation().logApplicationClose(sessionId: sessionId, sessionLength: length)
         } catch {
-            NotificareLogger.warning("Failed to process an application session stop.", error: error)
+            logger.warning("Failed to process an application session stop.", error: error)
         }
     }
 

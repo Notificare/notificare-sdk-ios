@@ -12,7 +12,7 @@ internal class NotificarePushAppDelegateInterceptor: NSObject, NotificareAppDele
     }
 
     internal func application(_: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        NotificareLogger.error("Failed to register for remote notifications.", error: error)
+        logger.error("Failed to register for remote notifications.", error: error)
 
         Notificare.shared.pushImplementation().pushTokenRequester.signalTokenRequestError(error)
 
@@ -23,7 +23,7 @@ internal class NotificarePushAppDelegateInterceptor: NSObject, NotificareAppDele
 
     internal func application(_: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         guard Notificare.shared.push().isNotificareNotification(userInfo) else {
-            NotificareLogger.info("Received an unknown notification from APNS.")
+            logger.info("Received an unknown notification from APNS.")
 
             DispatchQueue.main.async {
                 Notificare.shared.push().delegate?.notificare(Notificare.shared.push(), didReceiveUnknownNotification: userInfo)
@@ -34,13 +34,13 @@ internal class NotificarePushAppDelegateInterceptor: NSObject, NotificareAppDele
         }
 
         guard let application = Notificare.shared.application else {
-            NotificareLogger.warning("Notificare application unavailable. Ensure Notificare is configured during the application launch.")
+            logger.warning("Notificare application unavailable. Ensure Notificare is configured during the application launch.")
             completionHandler(.newData)
             return
         }
 
         guard application.id == userInfo["x-application"] as? String else {
-            NotificareLogger.warning("Incoming notification originated from another application.")
+            logger.warning("Incoming notification originated from another application.")
             completionHandler(.newData)
             return
         }
@@ -49,10 +49,10 @@ internal class NotificarePushAppDelegateInterceptor: NSObject, NotificareAppDele
             let isSystemNotification = userInfo["system"] as? Bool ?? false
 
             if isSystemNotification {
-                NotificareLogger.info("Received a system notification from APNS.")
+                logger.info("Received a system notification from APNS.")
                 await handleSystemNotification(userInfo)
             } else {
-                NotificareLogger.info("Received a notification from APNS.")
+                logger.info("Received a notification from APNS.")
                 await handleNotification(userInfo)
             }
 
@@ -62,35 +62,35 @@ internal class NotificarePushAppDelegateInterceptor: NSObject, NotificareAppDele
 
     private func handleSystemNotification(_ userInfo: [AnyHashable: Any]) async {
         if let type = userInfo["systemType"] as? String, type.hasPrefix("re.notifica.") {
-            NotificareLogger.info("Processing system notification: \(type)")
+            logger.info("Processing system notification: \(type)")
 
             switch type {
             case "re.notifica.notification.system.Application":
-                NotificareLogger.debug("Processing application system notification.")
+                logger.debug("Processing application system notification.")
 
                 do {
                     _ = try await Notificare.shared.fetchApplication()
                     await Notificare.shared.pushImplementation().reloadActionCategories()
                 } catch {
-                    NotificareLogger.warning("Failed to refresh the application info.", error: error)
+                    logger.warning("Failed to refresh the application info.", error: error)
                 }
 
                 return
 
             case "re.notifica.notification.system.Inbox":
-                NotificareLogger.debug("Processing inbox system notification.")
+                logger.debug("Processing inbox system notification.")
                 InboxIntegration.reloadInbox()
 
                 return
 
             default:
-                NotificareLogger.warning("Unhandled system notification: \(type)")
+                logger.warning("Unhandled system notification: \(type)")
             }
 
             return
         }
 
-        NotificareLogger.info("Processing custom system notification.")
+        logger.info("Processing custom system notification.")
 
         let notification = NotificareSystemNotification(userInfo: userInfo)
 
@@ -101,17 +101,17 @@ internal class NotificarePushAppDelegateInterceptor: NSObject, NotificareAppDele
 
     private func handleNotification(_ userInfo: [AnyHashable: Any]) async {
         guard let id = userInfo["id"] as? String else {
-            NotificareLogger.warning("Missing 'id' property in notification payload.")
+            logger.warning("Missing 'id' property in notification payload.")
             return
         }
 
         guard let notificationId = userInfo["notificationId"] as? String else {
-            NotificareLogger.warning("Missing 'notificationId' property in notification payload.")
+            logger.warning("Missing 'notificationId' property in notification payload.")
             return
         }
 
         guard Notificare.shared.isConfigured else {
-            NotificareLogger.warning("Notificare has not been configured.")
+            logger.warning("Notificare has not been configured.")
             return
         }
 
@@ -123,12 +123,12 @@ internal class NotificarePushAppDelegateInterceptor: NSObject, NotificareAppDele
         do {
             notification = try await Notificare.shared.fetchNotification(id)
         } catch {
-            NotificareLogger.error("Failed to fetch notification.", error: error)
+            logger.error("Failed to fetch notification.", error: error)
 
             if let partialNotification = NotificareNotification(apnsDictionary: userInfo) {
                 notification = partialNotification
             } else {
-                NotificareLogger.debug("Unable to create a partial notification from the APNS payload.")
+                logger.debug("Unable to create a partial notification from the APNS payload.")
                 return
             }
         }

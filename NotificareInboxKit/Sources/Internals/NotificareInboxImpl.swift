@@ -15,12 +15,12 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
 
     public var items: [NotificareInboxItem] {
         guard let application = Notificare.shared.application else {
-            NotificareLogger.warning("Notificare application is not yet available.")
+            logger.warning("Notificare application is not yet available.")
             return []
         }
 
         guard application.inboxConfig?.useInbox == true else {
-            NotificareLogger.warning("Notificare inbox functionality is not enabled.")
+            logger.warning("Notificare inbox functionality is not enabled.")
             return []
         }
 
@@ -30,7 +30,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
                 do {
                     return try entity.toModel()
                 } catch {
-                    NotificareLogger.warning("Unable to decode inbox item '\(entity.id ?? "")' from the database.", error: error)
+                    logger.warning("Unable to decode inbox item '\(entity.id ?? "")' from the database.", error: error)
                     return nil
                 }
             }
@@ -38,17 +38,17 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
 
     public var badge: Int {
         guard let application = Notificare.shared.application else {
-            NotificareLogger.warning("Notificare application is not yet available.")
+            logger.warning("Notificare application is not yet available.")
             return 0
         }
 
         guard application.inboxConfig?.useInbox == true else {
-            NotificareLogger.warning("Notificare inbox functionality is not enabled.")
+            logger.warning("Notificare inbox functionality is not enabled.")
             return 0
         }
 
         guard application.inboxConfig?.autoBadge == true else {
-            NotificareLogger.warning("Notificare auto badge functionality is not enabled.")
+            logger.warning("Notificare auto badge functionality is not enabled.")
             return 0
         }
 
@@ -73,6 +73,8 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
     internal static let instance = NotificareInboxImpl()
 
     internal func configure() {
+        logger.hasDebugLoggingEnabled = Notificare.shared.options?.debugLoggingEnabled ?? false
+
         database.configure()
         loadCachedItems()
 
@@ -133,12 +135,12 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
 
     public func refresh() {
         guard let application = Notificare.shared.application else {
-            NotificareLogger.warning("Notificare application not yet available.")
+            logger.warning("Notificare application not yet available.")
             return
         }
 
         guard application.inboxConfig?.useInbox == true else {
-            NotificareLogger.warning("Notificare inbox functionality is not enabled.")
+            logger.warning("Notificare inbox functionality is not enabled.")
             return
         }
 
@@ -165,7 +167,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
         }
 
         guard Notificare.shared.application?.inboxConfig?.autoBadge == true else {
-            NotificareLogger.warning("Notificare auto badge functionality is not enabled.")
+            logger.warning("Notificare auto badge functionality is not enabled.")
             throw NotificareInboxError.autoBadgeUnavailable
         }
 
@@ -185,7 +187,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
 
             return response.unread
         } catch {
-            NotificareLogger.error("Failed to refresh the badge.", error: error)
+            logger.error("Failed to refresh the badge.", error: error)
             throw error
         }
     }
@@ -213,7 +215,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
                     try entity.setNotification(notification)
                     database.saveChanges()
                 } catch {
-                    NotificareLogger.warning("Unable to encode updated inbox item '\(item.id)' into the database.", error: error)
+                    logger.warning("Unable to encode updated inbox item '\(item.id)' into the database.", error: error)
                 }
             }
 
@@ -264,7 +266,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
             // Refresh the badge if applicable.
             try await refreshBadge()
         } catch {
-            NotificareLogger.warning("Failed to mark item as read.", error: error)
+            logger.warning("Failed to mark item as read.", error: error)
             throw error
         }
     }
@@ -387,34 +389,34 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
 
     private func checkPrerequisites() throws {
         guard Notificare.shared.isReady else {
-            NotificareLogger.warning("Notificare is not ready yet.")
+            logger.warning("Notificare is not ready yet.")
             throw NotificareError.notReady
         }
 
         guard let application = Notificare.shared.application else {
-            NotificareLogger.warning("Notificare application is not yet available.")
+            logger.warning("Notificare application is not yet available.")
             throw NotificareError.applicationUnavailable
         }
 
         guard application.services[NotificareApplication.ServiceKey.inbox.rawValue] == true else {
-            NotificareLogger.warning("Notificare inbox functionality is not enabled.")
+            logger.warning("Notificare inbox functionality is not enabled.")
             throw NotificareError.serviceUnavailable(service: NotificareApplication.ServiceKey.inbox.rawValue)
         }
 
         guard application.inboxConfig?.useInbox == true else {
-            NotificareLogger.warning("Notificare inbox functionality is not enabled.")
+            logger.warning("Notificare inbox functionality is not enabled.")
             throw NotificareError.serviceUnavailable(service: NotificareApplication.ServiceKey.inbox.rawValue)
         }
     }
 
     private func sync() {
         guard let device = Notificare.shared.device().currentDevice else {
-            NotificareLogger.warning("No device registered yet. Skipping...")
+            logger.warning("No device registered yet. Skipping...")
             return
         }
 
         guard let firstItem = cachedEntities.first else {
-            NotificareLogger.debug("The local inbox contains no items. Checking remotely.")
+            logger.debug("The local inbox contains no items. Checking remotely.")
             reloadInbox()
 
             return
@@ -424,16 +426,16 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
 
         Task {
             do {
-                NotificareLogger.debug("Checking if the inbox has been modified since \(timestamp).")
+                logger.debug("Checking if the inbox has been modified since \(timestamp).")
 
                 _ = try await fetchRemoteInbox(for: device.id, since: timestamp)
 
-                NotificareLogger.info("The inbox has been modified. Performing a full sync.")
+                logger.info("The inbox has been modified. Performing a full sync.")
                 self.reloadInbox()
             } catch {
                 if case let NotificareNetworkError.validationError(response, _, _) = error {
                     if response.statusCode == 304 {
-                        NotificareLogger.debug("The inbox has not been modified. Proceeding with locally stored data.")
+                        logger.debug("The inbox has not been modified. Proceeding with locally stored data.")
 
                         try await refreshBadge()
 
@@ -445,7 +447,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
                     }
                 }
 
-                NotificareLogger.error("Failed to fetch the remote inbox.", error: error)
+                logger.error("Failed to fetch the remote inbox.", error: error)
             }
         }
     }
@@ -459,7 +461,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
         do {
             cachedEntities = try database.find()
         } catch {
-            NotificareLogger.error("Failed to query the local database.", error: error)
+            logger.error("Failed to query the local database.", error: error)
         }
     }
 
@@ -480,7 +482,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
             let entity = try database.add(item, visible: visible)
             cachedEntities.append(entity)
         } catch {
-            NotificareLogger.warning("Unable to encode inbox item '\(item.id)' into the database.", error: error)
+            logger.warning("Unable to encode inbox item '\(item.id)' into the database.", error: error)
         }
     }
 
@@ -489,7 +491,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
             try database.clear()
             cachedEntities.removeAll()
         } catch {
-            NotificareLogger.error("Failed to clear the local inbox.", error: error)
+            logger.error("Failed to clear the local inbox.", error: error)
         }
     }
 
@@ -502,7 +504,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
     }
 
     private func clearNotificationCenter() {
-        NotificareLogger.debug("Removing all messages from the notification center.")
+        logger.debug("Removing all messages from the notification center.")
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
     }
 
@@ -521,7 +523,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
 
     private func requestRemoteInboxItems(step: Int = 0) {
         guard let device = Notificare.shared.device().currentDevice else {
-            NotificareLogger.warning("Notificare has not been configured yet.")
+            logger.warning("Notificare has not been configured yet.")
             return
         }
 
@@ -535,10 +537,10 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
                 }
 
                 if response.count > (step + 1) * 100 {
-                    NotificareLogger.debug("Loading more inbox items.")
+                    logger.debug("Loading more inbox items.")
                     self.requestRemoteInboxItems(step: step + 1)
                 } else {
-                    NotificareLogger.debug("Done loading inbox items.")
+                    logger.debug("Done loading inbox items.")
 
                     DispatchQueue.main.async {
                         // Notify the delegate.
@@ -549,7 +551,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
                     try await self.refreshBadge()
                 }
             } catch {
-                NotificareLogger.error("Failed to fetch inbox items.", error: error)
+                logger.error("Failed to fetch inbox items.", error: error)
             }
         }
     }
@@ -572,14 +574,14 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
     // MARK: - NotificationCenter events
 
     @objc private func onAddItemNotification(_ notificationSignal: Notification) {
-        NotificareLogger.debug("Received a signal to add an item to the inbox.")
+        logger.debug("Received a signal to add an item to the inbox.")
 
         guard let userInfo = notificationSignal.userInfo,
               let notification = userInfo["notification"] as? NotificareNotification,
               let inboxItemId = userInfo["inboxItemId"] as? String,
               let inboxItemVisible = userInfo["inboxItemVisible"] as? Bool
         else {
-            NotificareLogger.warning("Unable to handle 'add to inbox' signal.")
+            logger.warning("Unable to handle 'add to inbox' signal.")
             return
         }
 
@@ -604,10 +606,10 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
     }
 
     @objc private func onReadItemNotification(_ notification: Notification) {
-        NotificareLogger.debug("Received a signal to mark an item as read.")
+        logger.debug("Received a signal to mark an item as read.")
 
         guard let userInfo = notification.userInfo, let inboxItemId = userInfo["inboxItemId"] as? String else {
-            NotificareLogger.warning("Unable to handle the notification read request.")
+            logger.warning("Unable to handle the notification read request.")
             return
         }
 
@@ -629,7 +631,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
     }
 
     @objc private func onRefreshBadgeNotification(_: Notification) {
-        NotificareLogger.debug("Received a signal to refresh the badge.")
+        logger.debug("Received a signal to refresh the badge.")
 
         Task {
             try? await refreshBadge()
@@ -637,7 +639,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
     }
 
     @objc private func onReloadInboxNotification(_: Notification) {
-        NotificareLogger.debug("Received a signal to reload the inbox.")
+        logger.debug("Received a signal to reload the inbox.")
         reloadInbox()
     }
 
@@ -653,12 +655,12 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
             self.removeExpiredItemsFromNotificationCenter()
 
             guard let device = Notificare.shared.device().currentDevice else {
-                NotificareLogger.warning("Notificare has not been configured yet.")
+                logger.warning("Notificare has not been configured yet.")
                 return
             }
 
             guard !self.cachedEntities.isEmpty else {
-                NotificareLogger.debug("The inbox is empty. No need to do a full sync.")
+                logger.debug("The inbox is empty. No need to do a full sync.")
                 return
             }
 
@@ -669,10 +671,10 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
                     let unread = self.items.filter { !$0.opened }.count
 
                     if response.count != total || response.unread != unread {
-                        NotificareLogger.debug("The inbox needs an update. The count/unread don't match with the local data.")
+                        logger.debug("The inbox needs an update. The count/unread don't match with the local data.")
                         self.reloadInbox()
                     } else {
-                        NotificareLogger.debug("The inbox doesn't need an update. Proceeding as is.")
+                        logger.debug("The inbox doesn't need an update. Proceeding as is.")
                     }
             }
         }

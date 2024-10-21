@@ -11,6 +11,10 @@ internal class NotificareScannablesImpl: NSObject, NotificareModule, NotificareS
 
     internal static let instance = NotificareScannablesImpl()
 
+    internal func configure() {
+        logger.hasDebugLoggingEnabled = Notificare.shared.options?.debugLoggingEnabled ?? false
+    }
+
     // MARK: - Notificare Scannables
 
     public weak var delegate: NotificareScannablesDelegate?
@@ -36,7 +40,7 @@ internal class NotificareScannablesImpl: NSObject, NotificareModule, NotificareS
             let session = NFCNDEFReaderSession(delegate: self, queue: nil, invalidateAfterFirstRead: true)
             session.begin()
         } else {
-            NotificareLogger.warning("NFC scanning is not available. Please start a QR Code scannable session instead.")
+            logger.warning("NFC scanning is not available. Please start a QR Code scannable session instead.")
         }
     }
 

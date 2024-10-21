@@ -4,6 +4,7 @@
 
 import Foundation
 import NotificareKit
+import NotificareUtilitiesKit
 
 internal struct RawUserInboxResponse: Decodable, Equatable {
     internal let count: Int
@@ -60,7 +61,11 @@ extension RawUserInboxResponse.RawUserInboxItem: Decodable {
         subtitle = try container.decodeIfPresent(String.self, forKey: .subtitle)
         message = try container.decode(String.self, forKey: .message)
         attachment = try container.decodeIfPresent(NotificareNotification.Attachment.self, forKey: .attachment)
-        extra = try container.decodeIfPresent([String: Any].self, forKey: .extra) ?? [:]
+        if let extra = try container.decodeIfPresent(NotificareAnyCodable.self, forKey: .extra) {
+            self.extra = extra.value as! [String: Any]
+        } else {
+            extra = [:]
+        }
         opened = try container.decodeIfPresent(Bool.self, forKey: .opened) ?? false
         expires = try container.decodeIfPresent(Date.self, forKey: .expires)
     }

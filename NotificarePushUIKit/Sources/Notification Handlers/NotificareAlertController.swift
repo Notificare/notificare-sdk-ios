@@ -3,6 +3,7 @@
 //
 
 import NotificareKit
+import NotificareUtilitiesKit
 import UIKit
 
 internal class NotificareAlertController: NotificareNotificationPresenter {
@@ -13,7 +14,7 @@ internal class NotificareAlertController: NotificareNotificationPresenter {
     }
 
     internal func present(in controller: UIViewController) {
-        let alert = UIAlertController(title: notification.title ?? NotificareUtils.applicationName,
+        let alert = UIAlertController(title: notification.title ?? Bundle.main.applicationName,
                                       message: notification.message,
                                       preferredStyle: .alert)
 

@@ -3,6 +3,7 @@
 //
 
 import NotificareKit
+import NotificareUtilitiesKit
 import StoreKit
 import UIKit
 
@@ -14,7 +15,7 @@ internal class NotificareRateController: NotificareNotificationPresenter {
     }
 
     internal func present(in controller: UIViewController) {
-        let alert = UIAlertController(title: notification.title ?? NotificareUtils.applicationName,
+        let alert = UIAlertController(title: notification.title ?? Bundle.main.applicationName,
                                       message: notification.message,
                                       preferredStyle: .alert)
 
@@ -38,7 +39,7 @@ internal class NotificareRateController: NotificareNotificationPresenter {
                         UIApplication.shared.open(url, options: [:], completionHandler: nil)
                     }
                 } else {
-                    NotificareLogger.warning("Cannot open the App Store.")
+                    logger.warning("Cannot open the App Store.")
                 }
             }
 

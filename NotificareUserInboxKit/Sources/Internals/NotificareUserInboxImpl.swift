@@ -4,11 +4,16 @@
 
 import Foundation
 import NotificareKit
+import NotificareUtilitiesKit
 
 internal class NotificareUserInboxImpl: NotificareModule, NotificareUserInbox {
     // MARK: - Notificare module
 
     internal static let instance = NotificareUserInboxImpl()
+
+    internal func configure() {
+        logger.hasDebugLoggingEnabled = Notificare.shared.options?.debugLoggingEnabled ?? false
+    }
 
     // MARK: - Notificare user inbox
 
@@ -26,7 +31,7 @@ internal class NotificareUserInboxImpl: NotificareModule, NotificareUserInbox {
     }
 
     public func parseResponse(data: Data) throws -> NotificareUserInboxResponse {
-        try NotificareUtils.jsonDecoder.decode(NotificareUserInboxResponse.self, from: data)
+        try JSONDecoder.notificare.decode(NotificareUserInboxResponse.self, from: data)
     }
 
     public func open(_ item: NotificareUserInboxItem, _ completion: @escaping NotificareCallback<NotificareNotification>) {
@@ -94,27 +99,27 @@ internal class NotificareUserInboxImpl: NotificareModule, NotificareUserInbox {
 
     private func checkPrerequisites() throws {
         guard Notificare.shared.isReady else {
-            NotificareLogger.warning("Notificare is not ready yet.")
+            logger.warning("Notificare is not ready yet.")
             throw NotificareError.notReady
         }
 
         guard let application = Notificare.shared.application else {
-            NotificareLogger.warning("Notificare application is not yet available.")
+            logger.warning("Notificare application is not yet available.")
             throw NotificareError.applicationUnavailable
         }
 
         guard application.services[NotificareApplication.ServiceKey.inbox.rawValue] == true else {
-            NotificareLogger.warning("Notificare inbox functionality is not enabled.")
+            logger.warning("Notificare inbox functionality is not enabled.")
             throw NotificareError.serviceUnavailable(service: NotificareApplication.ServiceKey.inbox.rawValue)
         }
 
         guard application.inboxConfig?.useInbox == true else {
-            NotificareLogger.warning("Notificare inbox functionality is not enabled.")
+            logger.warning("Notificare inbox functionality is not enabled.")
             throw NotificareError.serviceUnavailable(service: NotificareApplication.ServiceKey.inbox.rawValue)
         }
 
         guard application.inboxConfig?.useUserInbox == true else {
-            NotificareLogger.warning("Notificare user inbox functionality is not enabled.")
+            logger.warning("Notificare user inbox functionality is not enabled.")
             throw NotificareError.serviceUnavailable(service: NotificareApplication.ServiceKey.inbox.rawValue)
         }
     }

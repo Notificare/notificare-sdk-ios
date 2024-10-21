@@ -45,13 +45,13 @@ extension NotificareInAppMessagingView {
             Notificare.shared.inAppMessaging().delegate?.notificare(Notificare.shared.inAppMessaging(), didPresentMessage: self.message)
         }
 
-        NotificareLogger.debug("Tracking in-app message viewed event.")
+        logger.debug("Tracking in-app message viewed event.")
 
         Task {
             do {
                 try await Notificare.shared.events().logInAppMessageViewed(message)
             } catch {
-                NotificareLogger.error("Failed to log in-message viewed event.", error: error)
+                logger.error("Failed to log in-message viewed event.", error: error)
             }
         }
     }
@@ -83,14 +83,14 @@ extension NotificareInAppMessagingView {
         }
 
         guard let action = action else {
-            NotificareLogger.debug("There is no '\(actionType.rawValue)' action to process.")
+            logger.debug("There is no '\(actionType.rawValue)' action to process.")
             dismiss()
 
             return
         }
 
         guard let urlStr = action.url, let url = URL(string: urlStr) else {
-            NotificareLogger.debug("There is no URL for '\(actionType.rawValue)' action.")
+            logger.debug("There is no URL for '\(actionType.rawValue)' action.")
             dismiss()
 
             return
@@ -102,20 +102,20 @@ extension NotificareInAppMessagingView {
 
                 if UIApplication.shared.canOpenURL(url) {
                     if await UIApplication.shared.open(url, options: [:]) {
-                        NotificareLogger.info("In-app message action '\(actionType.rawValue)' successfully processed.")
+                        logger.info("In-app message action '\(actionType.rawValue)' successfully processed.")
 
                         DispatchQueue.main.async {
                             Notificare.shared.inAppMessaging().delegate?.notificare(Notificare.shared.inAppMessaging(), didExecuteAction: action, for: self.message)
                         }
                     } else {
-                        NotificareLogger.warning("Unable to open the action's URL.")
+                        logger.warning("Unable to open the action's URL.")
 
                         DispatchQueue.main.async {
                             Notificare.shared.inAppMessaging().delegate?.notificare(Notificare.shared.inAppMessaging(), didFailToExecuteAction: action, for: self.message, error: nil)
                         }
                     }
                 } else {
-                    NotificareLogger.warning("Unable to open the action's URL.")
+                    logger.warning("Unable to open the action's URL.")
 
                     DispatchQueue.main.async {
                         Notificare.shared.inAppMessaging().delegate?.notificare(Notificare.shared.inAppMessaging(), didFailToExecuteAction: action, for: self.message, error: nil)
@@ -124,7 +124,7 @@ extension NotificareInAppMessagingView {
 
                 self.dismiss()
             } catch {
-                NotificareLogger.error("Failed to log in-app message action.", error: error)
+                logger.error("Failed to log in-app message action.", error: error)
 
             }
         }
