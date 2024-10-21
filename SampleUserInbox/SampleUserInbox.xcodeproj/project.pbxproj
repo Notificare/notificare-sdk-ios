@@ -18,6 +18,8 @@
 		E5351A722C8AF8B200C1F790 /* NotificareUserInboxKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2EA0722291E9C63009DB7A0 /* NotificareUserInboxKit.framework */; };
 		E547CE432C9B4049007FC448 /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E547CE402C9B4049007FC448 /* BadgeView.swift */; };
 		E547CE442C9B4049007FC448 /* DetermineSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = E547CE412C9B4049007FC448 /* DetermineSize.swift */; };
+		E554BCD02CC6B77500FB6C4D /* NotificareUtilitiesKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E554BCCF2CC6B77500FB6C4D /* NotificareUtilitiesKit.framework */; };
+		E554BCD12CC6B77500FB6C4D /* NotificareUtilitiesKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E554BCCF2CC6B77500FB6C4D /* NotificareUtilitiesKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E5590E0129C321DE006E593B /* InboxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5590E0029C321DE006E593B /* InboxView.swift */; };
 		E5590E0329C32415006E593B /* InboxViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5590E0229C32415006E593B /* InboxViewModel.swift */; };
 		E5590E0629C33389006E593B /* Date+Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5590E0529C33389006E593B /* Date+Utilities.swift */; };
@@ -80,6 +82,7 @@
 			files = (
 				F29B17FD25A4911C007ED6F9 /* NotificarePushUIKit.framework in Embed Frameworks */,
 				F22650C7258B6E890004F833 /* NotificareKit.framework in Embed Frameworks */,
+				E554BCD12CC6B77500FB6C4D /* NotificareUtilitiesKit.framework in Embed Frameworks */,
 				F20C9C3B27AD33DB00486217 /* NotificareNotificationServiceExtensionKit.framework in Embed Frameworks */,
 				F2EA0724291E9C63009DB7A0 /* NotificareUserInboxKit.framework in Embed Frameworks */,
 				F22650CB258B6E900004F833 /* NotificarePushKit.framework in Embed Frameworks */,
@@ -120,6 +123,7 @@
 		E534D10D2B03810800A6EF62 /* ListIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListIconView.swift; sourceTree = "<group>"; };
 		E547CE402C9B4049007FC448 /* BadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeView.swift; sourceTree = "<group>"; };
 		E547CE412C9B4049007FC448 /* DetermineSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetermineSize.swift; sourceTree = "<group>"; };
+		E554BCCF2CC6B77500FB6C4D /* NotificareUtilitiesKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NotificareUtilitiesKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E5590E0029C321DE006E593B /* InboxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxView.swift; sourceTree = "<group>"; };
 		E5590E0229C32415006E593B /* InboxViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxViewModel.swift; sourceTree = "<group>"; };
 		E5590E0529C33389006E593B /* Date+Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Utilities.swift"; sourceTree = "<group>"; };
@@ -189,6 +193,7 @@
 			files = (
 				F20C9C3A27AD33DB00486217 /* NotificareNotificationServiceExtensionKit.framework in Frameworks */,
 				E5671F842CA2E9D50053AA7E /* Alamofire in Frameworks */,
+				E554BCD02CC6B77500FB6C4D /* NotificareUtilitiesKit.framework in Frameworks */,
 				F2EA0723291E9C63009DB7A0 /* NotificareUserInboxKit.framework in Frameworks */,
 				F22650CA258B6E900004F833 /* NotificarePushKit.framework in Frameworks */,
 				F22650C6258B6E890004F833 /* NotificareKit.framework in Frameworks */,
@@ -314,6 +319,7 @@
 		F251694324D4077D0025B51F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E554BCCF2CC6B77500FB6C4D /* NotificareUtilitiesKit.framework */,
 				F2EA0722291E9C63009DB7A0 /* NotificareUserInboxKit.framework */,
 				F206D6E828A5366300A35E60 /* NotificareInAppMessagingKit.framework */,
 				F22443D4286CBBBE0015CBD6 /* StoreKit.framework */,
