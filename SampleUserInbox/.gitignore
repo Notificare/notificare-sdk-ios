@@ -3,4 +3,5 @@
 
 Notificare.plist
 NotificareServices.plist
-SampleUser.plist
+SampleUserInboxClient.plist
+Auth0.plist
