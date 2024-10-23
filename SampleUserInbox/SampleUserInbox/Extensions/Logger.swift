@@ -6,5 +6,5 @@ import Foundation
 import OSLog
 
 extension Logger {
-    internal static let main = Logger(subsystem: "re.notifica.sample", category: "Sample")
+    internal static let main = Logger(subsystem: "re.notifica.sample.user.inbox", category: "SampleUserInbox")
 }
