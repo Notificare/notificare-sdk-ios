@@ -5,7 +5,7 @@
 import Foundation
 
 public protocol NotificareDelegate: AnyObject {
-    /// Called when the Notificare SDK is fully ready and the application metadata is available.
+    /// Called when the Notificare SDK is launched and fully ready.
     ///
     /// - Parameters:
     ///   - notificare: The Notificare object instance.
