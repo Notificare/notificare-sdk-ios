@@ -13,7 +13,7 @@ public protocol NotificareDeviceModule: AnyObject {
 
     /// Registers a user for the device, with a callback.
     ///
-    /// To register the device anonymously, set both `userId` and `userName` to `null`.
+    /// To register the device anonymously, set both `userId` and `userName` to `nil`.
     ///
     /// - Parameters:
     ///   - userId: Optional user identifier.
@@ -24,7 +24,7 @@ public protocol NotificareDeviceModule: AnyObject {
 
     /// Registers a user for the device.
     ///
-    /// To register the device anonymously, set both `userId` and `userName` to `null`.
+    /// To register the device anonymously, set both `userId` and `userName` to `nil`.
     ///
     /// - Parameters:
     ///   - userId: Optional user identifier.
@@ -34,7 +34,7 @@ public protocol NotificareDeviceModule: AnyObject {
 
     /// Updates the user information for the device, with a callback.
     ///
-    /// To register the device anonymously, set both `userId` and `userName` to `null`.
+    /// To register the device anonymously, set both `userId` and `userName` to `nil`.
     ///
     /// - Parameters:
     ///   - userId: Optional user identifier.
@@ -44,7 +44,7 @@ public protocol NotificareDeviceModule: AnyObject {
 
     /// Updates the user information for the device.
     ///
-    /// To register the device anonymously, set both `userId` and `userName` to `null`.
+    /// To register the device anonymously, set both `userId` and `userName` to `nil`.
     ///
     /// - Parameters:
     ///   - userId: Optional user identifier.
@@ -53,12 +53,12 @@ public protocol NotificareDeviceModule: AnyObject {
 
     /// Updates the preferred language setting for the device, with a callback.
     /// - Parameters:
-    ///   - preferredLanguage: The preferred language code.
+    ///   - preferredLanguage: The preferred language code, or `nil` to use the current local language.
     ///   - completion: A callback that will be invoked with the result of the update preferred language operation.
     func updatePreferredLanguage(_ preferredLanguage: String?, _ completion: @escaping NotificareCallback<Void>)
 
     /// Updates the preferred language setting for the device.
-    /// - Parameter preferredLanguage: The preferred language code.
+    /// - Parameter preferredLanguage: The preferred language code, or `nil` to use the current local language.
     func updatePreferredLanguage(_ preferredLanguage: String?) async throws
 
     /// Fetches the tags associated with the device, with a callback.
@@ -90,7 +90,7 @@ public protocol NotificareDeviceModule: AnyObject {
     /// - Parameter tags: A list of tags to add.
     func addTags(_ tags: [String]) async throws
 
-    /// Removes a specific tag from the device., wit a callback
+    /// Removes a specific tag from the device, with a callback
     /// - Parameters:
     ///   - tag: The tag to remove.
     ///   - completion: A callback that will be invoked with the result of the remove tag operation.
@@ -122,7 +122,7 @@ public protocol NotificareDeviceModule: AnyObject {
     func fetchDoNotDisturb(_ completion: @escaping NotificareCallback<NotificareDoNotDisturb?>)
 
     /// Fetches the "Do Not Disturb" (DND) settings for the device.
-    /// - Returns: The current DND settings, or `null` if none are set.
+    /// - Returns: The current DND settings, or `nil` if none are set.
     func fetchDoNotDisturb() async throws -> NotificareDoNotDisturb?
 
     /// Updates the "Do Not Disturb" (DND) settings for the device, with a callback.

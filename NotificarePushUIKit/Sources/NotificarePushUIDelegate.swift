@@ -51,10 +51,10 @@ public protocol NotificarePushUIDelegate: AnyObject {
     /// - Parameters:
     ///   - notificarePushUI: The NotificarePushUI object instance.
     ///   - action: The ``NotificareNotification.Action`` that was executed.
-    ///   - notification: The ``NotificareNotification` containing the action.
+    ///   - notification: The ``NotificareNotification`` containing the action.
     func notificare(_ notificarePushUI: NotificarePushUI, didExecuteAction action: NotificareNotification.Action, for notification: NotificareNotification)
 
-    /// Called when an action associated with a notification has not executed.
+    /// Called when an action associated with a notification is available but has not been executed by the user.
     /// - Parameters:
     ///   - notificarePushUI: The NotificarePushUI object instance.
     ///   - action: The ``NotificareNotification.Action`` that was not executed.

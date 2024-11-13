@@ -44,9 +44,8 @@ public protocol NotificareGeo: AnyObject {
     ///
     /// The behavior varies based on granted permissions:
     /// - **Permission denied**: Clears the device's location information.
-    /// - **Foreground location permission granted**: Tracks location only while the app is in use.
-    /// - **Background location permission granted**: Enables geofencing capabilities.
-    /// - **Background location + Bluetooth permissions granted**: Enables geofencing and beacon detection.
+    /// - **While In Use permission granted**: Tracks location only while the app is in use.
+    /// - **Always permissions granted**: Enables geofencing and beacon detection.
     func enableLocationUpdates()
 
     /// Disables location updates.

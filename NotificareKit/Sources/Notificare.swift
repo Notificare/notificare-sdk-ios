@@ -353,10 +353,10 @@ public class Notificare {
         return try await fetchApplication(saveToLocalStorage: true)
     }
 
-    /// Fetches a ``NotificareDynamicLink`` from a String URI, with a callback.
+    /// Fetches a ``NotificareDynamicLink`` from a String URL, with a callback.
     ///
     /// - Parameters:
-    ///   - link: The string URI to fetch the dynamic link from.
+    ///   - link: The string URL to fetch the dynamic link from.
     ///   - completion: A callback tha will be invoked with the result of the fetch dynamic link operation.
     public func fetchDynamicLink(_ link: String, _ completion: @escaping NotificareCallback<NotificareDynamicLink>) {
         Task {
@@ -369,10 +369,10 @@ public class Notificare {
         }
     }
 
-    /// Fetches a ``NotificareDynamicLink`` from a String URI.
+    /// Fetches a ``NotificareDynamicLink`` from a String URL.
     ///
     /// - Parameters:
-    ///   - link: The string URI to fetch the dynamic link from.
+    ///   - link: The string URL to fetch the dynamic link from.
     /// - Returns: The ``NotificareDynamicLink`` object.
     public func fetchDynamicLink(_ link: String) async throws -> NotificareDynamicLink {
         guard isConfigured else {
@@ -409,7 +409,7 @@ public class Notificare {
         }
     }
 
-    /// Fetches a ``NotificareNotification`` by its ID, with a callback.
+    /// Fetches a ``NotificareNotification`` by its ID.
     ///
     /// - Parameters:
     ///   - id: The ID of the notification to fetch.
@@ -580,7 +580,7 @@ public class Notificare {
         return "https://\(host)/upload\(response.filename)"
     }
 
-    /// Removes a notification form the Notification Center.
+    /// Removes a notification from the Notification Center.
     ///
     /// - Parameters:
     ///   - notification: The ``NotificareNotification`` to remove.
@@ -588,7 +588,7 @@ public class Notificare {
         removeNotificationFromNotificationCenter(notification.id)
     }
 
-    /// Removes a notification form the Notification Center, by its ID.
+    /// Removes a notification from the Notification Center, by its ID.
     ///
     /// - Parameters:
     ///   - notificationId: The ID of the notification to remove.
@@ -597,7 +597,7 @@ public class Notificare {
         UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [notificationId])
     }
 
-    /// Handles an URL to register the current device as a test device for Notificare services.
+    /// Handles an URL by validating it and registering the current device as a test device for Notificare Services.
     ///
     /// - Parameters:
     ///   - url: The URL containing the test device nonce.
@@ -654,7 +654,9 @@ public class Notificare {
         return true
     }
 
-    /// Evaluates the deferred link, openning the resolved deferred link.
+    /// Evaluates the deferred link, opening the resolved deferred link.
+    ///
+    /// It should be called only after verifying deferred link eligibility with `canEvaluateDeferredLink`.
     ///
     /// - Returns: `true` if the deferred link was successfully evaluated, `false` otherwise.
     @MainActor
@@ -697,8 +699,9 @@ public class Notificare {
         return await UIApplication.shared.open(url)
     }
 
-    /// Evaluates the deferred link, opening resolved deferred link, with a callback.
+    /// Evaluates the deferred link, opening the resolved deferred link, with a callback.
     ///
+    /// It should be called only after verifying deferred link eligibility with `canEvaluateDeferredLink()`.
     /// - Parameters:
     ///   - completion: A callback that will be invoked with the result of the evaluate deferred link operation.
     public func evaluateDeferredLink(_ completion: @escaping NotificareCallback<Bool>) {

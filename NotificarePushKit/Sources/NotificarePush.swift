@@ -16,13 +16,13 @@ public protocol NotificarePush: AnyObject, NotificarePushUIApplicationDelegate, 
     /// such as receiving, opening, or interacting with notifications.
     var delegate: NotificarePushDelegate? { get set }
 
-    /// Provides the authorization options for requesting push notification permissions.
+    /// Defines the authorization options used when requesting push notification permissions.
     var authorizationOptions: UNAuthorizationOptions { get set }
 
-    /// Provides the notification category options for custom notification actions.
+    /// Defines the notification category options for custom notification actions.
     var categoryOptions: UNNotificationCategoryOptions { get set }
 
-    /// Provides the presentation options for displaying notifications while the app is in the foreground.
+    /// Defines the presentation options for displaying notifications while the app is in the foreground.
     var presentationOptions: UNNotificationPresentationOptions { get set }
 
     /// Indicates whether remote notifications are enabled.
@@ -40,7 +40,7 @@ public protocol NotificarePush: AnyObject, NotificarePushUIApplicationDelegate, 
     /// Provides the current push subscription token.
     ///
     /// This property returns the ``NotificarePushSubscription`` object containing the device's current push subscription
-    /// token, or `null` if no token is available.
+    /// token, or `nil` if no token is available.
     ///
     var subscription: NotificarePushSubscription? { get }
 
@@ -63,7 +63,7 @@ public protocol NotificarePush: AnyObject, NotificarePushUIApplicationDelegate, 
     /// - Returns: `true`if the remote notifications were enabled, `false` otherwise.
     func enableRemoteNotifications() async throws -> Bool
 
-    /// Disables remote notifications.
+    /// Disables remote notifications, with a callback.
     /// - Parameters:
     ///   - completion: A callback that will be invoked with the result of the disable notifications operation.
     func disableRemoteNotifications(_ completion: @escaping NotificareCallback<Void>)
@@ -128,7 +128,7 @@ extension NotificarePush {
         try await registerLiveActivity(activityId, token: token, topics: [])
     }
 
-    /// Registers a live activity.
+    /// Registers a live activity, with a callback.
     /// - Parameters:
     ///   - activityId: The ID of the live activity to register.
     ///   - token: The current subscription token.
@@ -179,7 +179,7 @@ public protocol NotificarePushUIApplicationDelegate {
 }
 
 public protocol NotificarePushUNUserNotificationCenterDelegate {
-    /// Called when the user opens the app’s notification settings.
+    /// Called when a notification prompts the app to open its settings screen..
     /// - Parameters:
     ///   - center: The notification center managing notifications for the app.
     ///   - notification: The notification that prompted the settings to be opened, if applicable.

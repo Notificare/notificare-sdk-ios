@@ -16,7 +16,7 @@ public protocol NotificarePushDelegate: AnyObject {
     /// Called when the device's push subscription changes.
     /// - Parameters:
     ///   - notificarePush: The NotificarePush object instance.
-    ///   - subscription: The updated ``NotificarePushSubscription``, or `null` if the subscription token is unavailable.
+    ///   - subscription: The updated ``NotificarePushSubscription``, or `nil` if the subscription token is unavailable.
     func notificare(_ notificarePush: NotificarePush, didChangeSubscription subscription: NotificarePushSubscription?)
 
     /// Called when the notification settings are changed.

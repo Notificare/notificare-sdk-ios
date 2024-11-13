@@ -83,7 +83,7 @@ public protocol NotificareGeoDelegate: AnyObject {
     ///   - beacon: The ``NotificareBeacon`` being monitored.
     func notificare(_ notificareGeo: NotificareGeo, didExit beacon: NotificareBeacon)
 
-    /// Called when the app registers a significant location visit.
+    /// Called when the device registers a location visit.
     /// - Parameters:
     ///   - notificareGeo: The NotificareGeo object instance.
     ///   - visit: The ``NotificareVisit`` object representing the details of the visit.

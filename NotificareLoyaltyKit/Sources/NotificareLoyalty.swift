@@ -24,7 +24,7 @@ public protocol NotificareLoyalty: AnyObject {
     ///   - completion: A callback that will be invoked with the result of the fetch operation.
     func fetchPass(serial: String, _ completion: @escaping NotificareCallback<NotificarePass>)
 
-    /// Fetches a pass by its serial number, with a callback.
+    /// Fetches a pass by its serial number.
     /// 
     /// - Parameters:
     ///   - serial: The serial number of the pass to be fetched.
@@ -38,7 +38,7 @@ public protocol NotificareLoyalty: AnyObject {
     ///   - completion: A callback that will be invoked with the result of the fetch operation.
     func fetchPass(barcode: String, _ completion: @escaping NotificareCallback<NotificarePass>)
 
-    /// Fetches a pass by its barcode, with a callback.
+    /// Fetches a pass by its barcode.
     /// 
     /// - Parameters:
     ///   - barcode: The barcode of the pass to be fetched.

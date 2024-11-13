@@ -47,7 +47,7 @@ public protocol NotificareUserInbox: AnyObject {
     /// - Returns: The ``NotificareNotification`` associated with the opened inbox item.
     func open(_ item: NotificareUserInboxItem) async throws -> NotificareNotification
 
-    /// Marks an inbox item as read.
+    /// Marks an inbox item as read, with a callback.
     ///
     /// - Parameters:
     ///   - item: The ``NotificareUserInboxItem`` to mark as read.

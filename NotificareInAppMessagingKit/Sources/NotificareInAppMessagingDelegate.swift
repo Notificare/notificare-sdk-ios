@@ -35,7 +35,7 @@ public protocol NotificareInAppMessagingDelegate: AnyObject {
     ///   - notificare: The NotificareInAppMessaging object instance.
     ///   - action: The ``NotificareInAppMessage.Action`` that failed to execute.
     ///   - message: The ``NotificareInAppMessage`` for which the action was attempted.
-    ///   - error: An optional ``Error``describing the error, or `null` if no specific error was provided.
+    ///   - error: An optional ``Error`` describing the error, or `nil` if no specific error was provided.
     func notificare(_ notificare: NotificareInAppMessaging, didFailToExecuteAction action: NotificareInAppMessage.Action, for message: NotificareInAppMessage, error: Error?)
 }
 
