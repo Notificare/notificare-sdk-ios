@@ -47,7 +47,7 @@ public protocol NotificarePush: AnyObject, NotificarePushUIApplicationDelegate, 
     /// Indicates whether the device is capable of receiving remote notifications.
     ///
     /// This property returns `true` if the user has granted permission to receive push notifications and the device
-    /// has successfully obtained a push token from the notification service. It reflects whether the UI can present
+    /// has successfully obtained a push token from the notification service. It reflects whether the app can present
     /// notifications as allowed by the system and user settings.
     var allowedUI: Bool { get }
 

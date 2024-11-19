@@ -38,7 +38,7 @@ public protocol NotificarePushDelegate: AnyObject {
     ///   - deliveryMechanism: The mechanism used to deliver the notification.
     func notificare(_ notificarePush: NotificarePush, didReceiveNotification notification: NotificareNotification, deliveryMechanism: NotificareNotificationDeliveryMechanism)
 
-    /// Called when a system notification is received.
+    /// Called when a custom system notification is received.
     /// - Parameters:
     ///   - notificarePush: The NotificarePush object instance.
     ///   - notification: The received ``NotificareSystemNotification``.

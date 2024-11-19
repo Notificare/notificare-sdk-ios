@@ -6,7 +6,7 @@ import Foundation
 import NotificareKit
 
 public protocol NotificareAssets: AnyObject {
-    /// Fetches a list of ``NotificareAsset`` for a specified group and returns the result via a callback.
+    /// Fetches a list of ``NotificareAsset`` for a specified group, with a callback.
     ///
     /// - Parameters:
     ///   - group: The name of the group whose assets are to be fetched.

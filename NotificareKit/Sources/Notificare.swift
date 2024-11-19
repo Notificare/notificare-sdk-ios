@@ -70,8 +70,8 @@ public class Notificare {
     /// Configures Notificare, optionally  with the provided services info and options objects.
     ///
     /// This method configures the SDK with the provided ``NotificareServicesInfo`` and ``NotificareOptions`` objects.
-    /// If not provided, this method will auto-configure using the services info and options provided in the  `NotificareServices.plist` and
-    /// `NotificareOptions.plist` files, respectivelly.
+    /// If not provided, this method will try to auto-configure using the services info and options provided in the  `NotificareServices.plist` and
+    /// `NotificareOptions.plist` files, if they exist.
     ///
     /// - Parameters:
     ///   - servicesInfo: The optional ``NotificareServicesInfo`` object to use for configuration.
@@ -432,7 +432,7 @@ public class Notificare {
 
     /// Sends a reply to a notification action, with a callback.
     ///
-    /// This method sends a reply to the specified ``NotificareNotification` and ``NotificareNotification.Action``,
+    /// This method sends a reply to the specified ``NotificareNotification`` and ``NotificareNotification.Action``,
     /// optionally including a message and media.
     /// - Parameters:
     ///   - notification: The notification to reply to.
@@ -454,7 +454,7 @@ public class Notificare {
 
     /// Sends a reply to a notification action.
     /// 
-    /// This method sends a reply to the specified ``NotificareNotification` and ``NotificareNotification.Action``,
+    /// This method sends a reply to the specified ``NotificareNotification`` and ``NotificareNotification.Action``,
     /// optionally including a message and media.
     /// - Parameters:
     ///   - notification: The notification to reply to.
@@ -558,7 +558,7 @@ public class Notificare {
         }
     }
 
-    /// Uploads an asset for a notification reply, with a callback.
+    /// Uploads an asset for a notification reply.
     /// 
     /// This method uploads a data object as part of a notification reply.
     /// 
