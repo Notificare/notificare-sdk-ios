@@ -13,7 +13,6 @@ public protocol NotificareScannables: AnyObject {
     ///
     /// This property allows setting a delegate conforming to ``NotificareScannablesDelegate`` to respond to various scannables session events,
     /// such as such as when a scannable item is detected (either via NFC or QR code), or when an error occurs during the session.
-
     var delegate: NotificareScannablesDelegate? { get set }
 
     /// Indicates whether an NFC scannable session can be started on the current device.
@@ -58,6 +57,7 @@ public protocol NotificareScannables: AnyObject {
     /// 
     /// - Parameters:
     ///   - tag: The tag identifier for the scannable item to be fetched.
+    ///
     /// - Returns: The ``NotificareScannable`` object corresponding to the provided tag.
     func fetch(tag: String) async throws -> NotificareScannable
 }

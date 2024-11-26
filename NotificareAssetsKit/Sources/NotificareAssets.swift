@@ -17,6 +17,7 @@ public protocol NotificareAssets: AnyObject {
     ///
     /// - Parameters:
     ///   - group: The name of the group whose assets are to be fetched.
-    /// - Returns: A list of `NotificareAssets` belonging to a specified group.
+    ///
+    /// - Returns: A list of ``NotificareAsset`` belonging to a specified group.
     func fetch(group: String) async throws -> [NotificareAsset]
 }

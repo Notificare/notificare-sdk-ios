@@ -60,10 +60,12 @@ public protocol NotificarePush: AnyObject, NotificarePushUIApplicationDelegate, 
     func enableRemoteNotifications(_ completion: @escaping NotificareCallback<Bool>)
 
     /// Enables remote notifications.
+    ///
     /// - Returns: `true`if the remote notifications were enabled, `false` otherwise.
     func enableRemoteNotifications() async throws -> Bool
 
     /// Disables remote notifications, with a callback.
+    ///
     /// - Parameters:
     ///   - completion: A callback that will be invoked with the result of the disable notifications operation.
     func disableRemoteNotifications(_ completion: @escaping NotificareCallback<Void>)
@@ -72,12 +74,15 @@ public protocol NotificarePush: AnyObject, NotificarePushUIApplicationDelegate, 
     func disableRemoteNotifications() async throws
 
     /// Determines whether a remote message is a Notificare notification.
+    ///
     /// - Parameters:
     ///   - userInfo: A dictionary containing the payload data of the notification.
+    ///
     /// - Returns: `true` if the message is a Notificare notification, `false` otherwise.
     func isNotificareNotification(_ userInfo: [AnyHashable: Any]) -> Bool
 
     /// Registers a live activity categorized by a list of topics, with a callback.
+    ///
     /// - Parameters:
     ///   - activityId: The ID of the live activity to register.
     ///   - token: The current subscription token.
@@ -87,6 +92,7 @@ public protocol NotificarePush: AnyObject, NotificarePushUIApplicationDelegate, 
     func registerLiveActivity(_ activityId: String, token: String, topics: [String], _ completion: @escaping NotificareCallback<Void>)
 
     /// Registers a live activity categorized by a list of topics.
+    ///
     /// - Parameters:
     ///   - activityId: The ID of the live activity to register.
     ///   - token: The current subscription token.
@@ -95,6 +101,7 @@ public protocol NotificarePush: AnyObject, NotificarePushUIApplicationDelegate, 
     func registerLiveActivity(_ activityId: String, token: String, topics: [String]) async throws
 
     /// Ends a live activity, with a callback.
+    ///
     /// - Parameters:
     ///   - activityId: The ID of the live activity to end.
     ///   - completion: A callback that will be invoked with the result of the end live activity operation.
@@ -102,6 +109,7 @@ public protocol NotificarePush: AnyObject, NotificarePushUIApplicationDelegate, 
     func endLiveActivity(_ activityId: String, _ completion: @escaping NotificareCallback<Void>)
 
     /// Ends a live activity.
+    ///
     /// - Parameters:
     ///   - activityId: The ID of the live activity to end.
     @available(iOS 16.1, *)
@@ -110,6 +118,7 @@ public protocol NotificarePush: AnyObject, NotificarePushUIApplicationDelegate, 
 
 extension NotificarePush {
     /// Registers a live activity, with a callback.
+    ///
     /// - Parameters:
     ///   - activityId: The ID of the live activity to register.
     ///   - token: The current subscription token.
@@ -120,6 +129,7 @@ extension NotificarePush {
     }
 
     /// Registers a live activity.
+    ///
     /// - Parameters:
     ///   - activityId: The ID of the live activity to register.
     ///   - token: The current subscription token.
@@ -129,6 +139,7 @@ extension NotificarePush {
     }
 
     /// Registers a live activity, with a callback.
+    ///
     /// - Parameters:
     ///   - activityId: The ID of the live activity to register.
     ///   - token: The current subscription token.
@@ -140,6 +151,7 @@ extension NotificarePush {
     }
 
     /// Registers a live activity.
+    ///
     /// - Parameters:
     ///   - activityId: The ID of the live activity to register.
     ///   - token: The current subscription token.
@@ -152,18 +164,21 @@ extension NotificarePush {
 
 public protocol NotificarePushUIApplicationDelegate {
     /// Called when the app successfully registers with Apple Push Notification Service (APNS).
+    ///
     /// - Parameters:
     ///   - application: The singleton app instance.
     ///   - token:  The device token data for remote notifications.
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken token: Data)
 
     /// Called when the app fails to register for remote notifications.
+    ///
     /// - Parameters:
     ///   - application: The singleton app instance.
     ///   - error: An error object describing why registration failed.
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error)
 
     /// Called when a remote notification is received. Used to handle notification content and initiate background processing if necessary.
+    ///
     /// - Parameters:
     ///   - application: The singleton app instance.
     ///   - userInfo: The payload of the received remote notification.
@@ -171,21 +186,25 @@ public protocol NotificarePushUIApplicationDelegate {
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void)
 
     /// Called when a remote notification is received. Provides async support for handling the notification.
+    ///
     /// - Parameters:
     ///   - application: The singleton app instance.
     ///   - userInfo: The payload of the received remote notification.
+    ///
     /// - Returns: A `UIBackgroundFetchResult` indicating the result of the background fetch operation.
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) async -> UIBackgroundFetchResult
 }
 
 public protocol NotificarePushUNUserNotificationCenterDelegate {
-    /// Called when a notification prompts the app to open its settings screen..
+    /// Called when a notification prompts the app to open its settings screen.
+    ///
     /// - Parameters:
     ///   - center: The notification center managing notifications for the app.
     ///   - notification: The notification that prompted the settings to be opened, if applicable.
     func userNotificationCenter(_ center: UNUserNotificationCenter, openSettingsFor notification: UNNotification?)
 
     /// Called when the user interacts with a notification.
+    ///
     /// - Parameters:
     ///   - center: The notification center managing notifications for the app.
     ///   - response: The user’s response to the notification.
@@ -193,12 +212,14 @@ public protocol NotificarePushUNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void)
 
     /// Called asynchronously when the user interacts with a notification.
+    ///
     /// - Parameters:
     ///   - center: The notification center managing notifications for the app.
     ///   - response: The user’s response to the notification.
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async
 
     /// Called when a notification is delivered to the app while it’s in the foreground.
+    ///
     /// - Parameters:
     ///   - center: The notification center managing notifications for the app.
     ///   - notification: The notification being presented.
@@ -206,9 +227,11 @@ public protocol NotificarePushUNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void)
 
     /// Called asynchronously when a notification is delivered to the app while it’s in the foreground.
+    ///
     /// - Parameters:
     ///   - center: The notification center managing notifications for the app.
     ///   - notification: The notification being presented.
+    ///
     /// - Returns: The desired presentation options for the notification.
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification) async -> UNNotificationPresentationOptions
 }

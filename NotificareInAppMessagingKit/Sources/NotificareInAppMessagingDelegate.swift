@@ -6,24 +6,28 @@ import Foundation
 
 public protocol NotificareInAppMessagingDelegate: AnyObject {
     /// Called when an in-app message is successfully presented to the user.
+    ///
     /// - Parameters:
     ///   - notificare: The NotificareInAppMessaging object instance.
     ///   - message: The ``NotificareInAppMessage`` that was presented.
     func notificare(_ notificare: NotificareInAppMessaging, didPresentMessage message: NotificareInAppMessage)
 
     /// Called when the presentation of an in-app message has finished.
+    ///
     /// - Parameters:
     ///   - notificare: The NotificareInAppMessaging object instance.
     ///   - message: The ``NotificareInAppMessage` that finished presenting.
     func notificare(_ notificare: NotificareInAppMessaging, didFinishPresentingMessage message: NotificareInAppMessage)
 
     /// Called when an in-app message failed to present.
+    ///
     /// - Parameters:
     ///   - notificare: The NotificareInAppMessaging object instance.
     ///   - message: The ``NotificareInAppMessage` that failed to be presented.
     func notificare(_ notificare: NotificareInAppMessaging, didFailToPresentMessage message: NotificareInAppMessage)
 
     /// Called when an action is successfully executed for an in-app message.
+    ///
     /// - Parameters:
     ///   - notificare: The NotificareInAppMessaging object instance.
     ///   - action: The ``NotificareInAppMessage` for which the action was executed.
@@ -31,6 +35,7 @@ public protocol NotificareInAppMessagingDelegate: AnyObject {
     func notificare(_ notificare: NotificareInAppMessaging, didExecuteAction action: NotificareInAppMessage.Action, for message: NotificareInAppMessage)
 
     /// Called when an action execution failed for an in-app message.
+    ///
     /// - Parameters:
     ///   - notificare: The NotificareInAppMessaging object instance.
     ///   - action: The ``NotificareInAppMessage.Action`` that failed to execute.

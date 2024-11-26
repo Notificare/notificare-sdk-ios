@@ -32,6 +32,7 @@ public protocol NotificareInbox: AnyObject {
     func refreshBadge(_ completion: @escaping NotificareCallback<Int>)
 
     /// Refreshes the current badge count to match the number of unread inbox items.
+    ///
     /// - Returns: The updated number of unread messages.
     func refreshBadge() async throws -> Int
 
@@ -46,6 +47,7 @@ public protocol NotificareInbox: AnyObject {
     /// 
     /// - Parameters:
     ///   - item: The ``NotificareInboxItem`` to open.
+    ///
     /// - Returns: The ``NotificareNotification`` associated with the inbox item.
     func open(_ item: NotificareInboxItem) async throws -> NotificareNotification
 
@@ -63,6 +65,7 @@ public protocol NotificareInbox: AnyObject {
     func markAsRead(_ item: NotificareInboxItem) async throws
 
     /// Marks all inbox items as read, with a callback.
+    ///
     /// - Parameters:
     ///   - completion: A callback that will be invoked with the result of the mark all as read operation.
     func markAllAsRead(_ completion: @escaping NotificareCallback<Void>)

@@ -373,6 +373,7 @@ public class Notificare {
     ///
     /// - Parameters:
     ///   - link: The string URL to fetch the dynamic link from.
+    ///
     /// - Returns: The ``NotificareDynamicLink`` object.
     public func fetchDynamicLink(_ link: String) async throws -> NotificareDynamicLink {
         guard isConfigured else {
@@ -413,6 +414,7 @@ public class Notificare {
     ///
     /// - Parameters:
     ///   - id: The ID of the notification to fetch.
+    ///
     /// - Returns: The ``NotificareNotification` object associated with the provided ID.
     public func fetchNotification(_ id: String) async throws -> NotificareNotification {
         guard isConfigured else {
@@ -434,6 +436,7 @@ public class Notificare {
     ///
     /// This method sends a reply to the specified ``NotificareNotification`` and ``NotificareNotification.Action``,
     /// optionally including a message and media.
+    ///
     /// - Parameters:
     ///   - notification: The notification to reply to.
     ///   - action: The action associated with the reply.
@@ -456,6 +459,7 @@ public class Notificare {
     /// 
     /// This method sends a reply to the specified ``NotificareNotification`` and ``NotificareNotification.Action``,
     /// optionally including a message and media.
+    ///
     /// - Parameters:
     ///   - notification: The notification to reply to.
     ///   - action: The action associated with the reply.
@@ -565,6 +569,7 @@ public class Notificare {
     /// - Parameters:
     ///   - data: The ``Data`` object containing the asset data.
     ///   - contentType: The MIME type of the asset.
+    ///
     /// - Returns: The URL of the uploaded asset.
     public func uploadNotificationReplyAsset(_ data: Data, contentType: String) async throws -> String {
         guard isConfigured else {
@@ -601,6 +606,7 @@ public class Notificare {
     ///
     /// - Parameters:
     ///   - url: The URL containing the test device nonce.
+    ///
     /// - Returns: `true` if the device registration process was initiated, or `false` if no valid nonce was found in the URL.
     public func handleTestDeviceUrl(_ url: URL) -> Bool {
         guard let nonce = parseTestDeviceNonce(url: url) else {
@@ -623,6 +629,7 @@ public class Notificare {
     ///
     /// - Parameters:
     ///   - url: The URL to handle.
+    ///
     /// - Returns: `true` if the URL was handled, `false` otherwise.
     public func handleDynamicLinkUrl(_ url: URL) -> Bool {
         guard let url = parseDynamicLink(url: url) else {
@@ -702,6 +709,7 @@ public class Notificare {
     /// Evaluates the deferred link, opening the resolved deferred link, with a callback.
     ///
     /// It should be called only after verifying deferred link eligibility with `canEvaluateDeferredLink()`.
+    ///
     /// - Parameters:
     ///   - completion: A callback that will be invoked with the result of the evaluate deferred link operation.
     public func evaluateDeferredLink(_ completion: @escaping NotificareCallback<Bool>) {

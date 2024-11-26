@@ -8,30 +8,35 @@ public protocol NotificarePushUIDelegate: AnyObject {
     // MARK: - Notifications
 
     /// Called when a notification is about to be presented.
+    ///
     /// - Parameters:
     ///   - notificarePushUI: The NotificarePushUI object instance.
     ///   - notification: The ``NotificareNotification`` that will be presented.
     func notificare(_ notificarePushUI: NotificarePushUI, willPresentNotification notification: NotificareNotification)
 
     /// Called when a notification has been presented.
+    ///
     /// - Parameters:
     ///   - notificarePushUI: The NotificarePushUI object instance.
     ///   - notification: The ``NotificareNotification`` that was presented.
     func notificare(_ notificarePushUI: NotificarePushUI, didPresentNotification notification: NotificareNotification)
 
     /// Called when the presentation of a notification has finished.
+    ///
     /// - Parameters:
     ///   - notificarePushUI: The NotificarePushUI object instance.
     ///   - notification: The ``NotificareNotification`` that finished presenting.
     func notificare(_ notificarePushUI: NotificarePushUI, didFinishPresentingNotification notification: NotificareNotification)
 
     /// Called when a notification fails to present.
+    ///
     /// - Parameters:
     ///   - notificarePushUI: The NotificarePushUI object instance.
     ///   - notification: The ``NotificareNotification` that failed to present.
     func notificare(_ notificarePushUI: NotificarePushUI, didFailToPresentNotification notification: NotificareNotification)
 
     /// Called when a URL within a notification is clicked.
+    ///
     /// - Parameters:
     ///   - notificarePushUI: The NotificarePushUI object instance.
     ///   - url: The clicked URL.
@@ -41,6 +46,7 @@ public protocol NotificarePushUIDelegate: AnyObject {
     // MARK: - Actions
 
     /// Called when an action associated with a notification is about to execute.
+    ///
     /// - Parameters:
     ///   - notificarePushUI: The NotificarePushUI object instance.
     ///   - action: The ``NotificareNotification.Action`` that will be executed.
@@ -48,6 +54,7 @@ public protocol NotificarePushUIDelegate: AnyObject {
     func notificare(_ notificarePushUI: NotificarePushUI, willExecuteAction action: NotificareNotification.Action, for notification: NotificareNotification)
 
     /// Called when an action associated with a notification has been executed.
+    ///
     /// - Parameters:
     ///   - notificarePushUI: The NotificarePushUI object instance.
     ///   - action: The ``NotificareNotification.Action`` that was executed.
@@ -55,6 +62,7 @@ public protocol NotificarePushUIDelegate: AnyObject {
     func notificare(_ notificarePushUI: NotificarePushUI, didExecuteAction action: NotificareNotification.Action, for notification: NotificareNotification)
 
     /// Called when an action associated with a notification is available but has not been executed by the user.
+    ///
     /// - Parameters:
     ///   - notificarePushUI: The NotificarePushUI object instance.
     ///   - action: The ``NotificareNotification.Action`` that was not executed.
@@ -62,6 +70,7 @@ public protocol NotificarePushUIDelegate: AnyObject {
     func notificare(_ notificarePushUI: NotificarePushUI, didNotExecuteAction action: NotificareNotification.Action, for notification: NotificareNotification)
 
     /// Called when an action associated with a notification fails to execute.
+    ///
     /// - Parameters:
     ///   - notificarePushUI: The NotificarePushUI object instance.
     ///   - action: The ``NotificareNotification.Action` that failed to execute.
@@ -70,6 +79,7 @@ public protocol NotificarePushUIDelegate: AnyObject {
     func notificare(_ notificarePushUI: NotificarePushUI, didFailToExecuteAction action: NotificareNotification.Action, for notification: NotificareNotification, error: Error?)
 
     /// Called when a custom action associated with a notification is received.
+    ///
     /// - Parameters:
     ///   - notificarePushUI: The NotificarePushUI object instance.
     ///   - url: The URL representing the custom action.

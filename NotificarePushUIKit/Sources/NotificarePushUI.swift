@@ -28,7 +28,7 @@ public protocol NotificarePushUI: AnyObject {
 
     /// Presents an action associated with a notification.
     ///
-    /// This method presents the UI for executing a specific ``NotificareNotification.Action`` associated with the provided ``NotificareNotification`.
+    /// This method presents the UI for executing a specific ``NotificareNotification.Action`` associated with the provided ``NotificareNotification``.
     ///
     /// - Parameters:
     ///   - action: The ``NotificareNotification.Action`` to execute.

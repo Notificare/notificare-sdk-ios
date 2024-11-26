@@ -26,6 +26,7 @@ public protocol NotificareInAppMessaging: AnyObject {
     ///  
     /// To trigger a new context evaluation after stopping in-app message suppression, set the `evaluateContext`
     /// parameter to `true`.
+    ///
     /// - Parameters:
     ///   - suppressed: Set to *true* to supress in-app messages, or *false* to stop supressing them.
     ///   - evaluateContext: Set to *true* to re-evaluate the foreground context when stopping in-app messaging supression.

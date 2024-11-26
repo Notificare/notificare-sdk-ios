@@ -11,6 +11,7 @@ public protocol NotificareEventsModule: AnyObject {
     ///
     /// This function logs in Notificare the opening of a notification, enabling insight into user engagement with
     /// specific notifications.
+    ///
     /// - Parameters:
     ///   - id: The unique identifier of the opened notification.
     ///   - completion: A callback that will be invoked with the result of the log notification open operation.
@@ -20,6 +21,7 @@ public protocol NotificareEventsModule: AnyObject {
     ///
     /// This function logs in Notificare the opening of a notification, enabling insight into user engagement with
     /// specific notifications.
+    ///
     /// - Parameter id: The unique identifier of the opened notification.
     func logNotificationOpen(_ id: String) async throws
 
@@ -27,6 +29,7 @@ public protocol NotificareEventsModule: AnyObject {
     ///
     /// This function allows logging, in Notificare, of application-specific events, optionally associating structured
     /// data for more detailed event tracking and analysis.
+    ///
     /// - Parameters:
     ///   - event: The name of the custom event to log.
     ///   - data: Optional structured event data for further details.
@@ -37,6 +40,7 @@ public protocol NotificareEventsModule: AnyObject {
     ///
     /// This function allows logging, in Notificare, of application-specific events, optionally associating structured
     /// data for more detailed event tracking and analysis.
+    ///
     /// - Parameters:
     ///   - event: The name of the custom event to log.
     ///   - data: Optional structured event data for further details.
@@ -48,6 +52,7 @@ extension NotificareEventsModule {
     ///
     /// This function allows logging, in Notificare, of application-specific events, optionally associating structured
     /// data for more detailed event tracking and analysis.
+    ///
     /// - Parameters:
     ///   - event: The name of the custom event to log.
     ///   - data: Optional structured event data for further details.
@@ -60,6 +65,7 @@ extension NotificareEventsModule {
     ///
     /// This function allows logging, in Notificare, of application-specific events, optionally associating structured
     /// data for more detailed event tracking and analysis.
+    ///
     /// - Parameters:
     ///   - event: The name of the custom event to log.
     ///   - data: Optional structured event data for further details.

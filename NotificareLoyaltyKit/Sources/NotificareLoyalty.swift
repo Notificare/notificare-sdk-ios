@@ -28,6 +28,7 @@ public protocol NotificareLoyalty: AnyObject {
     /// 
     /// - Parameters:
     ///   - serial: The serial number of the pass to be fetched.
+    ///
     /// - Returns: The fetched ``NotificarePass`` corresponding to the given serial number.
     func fetchPass(serial: String) async throws -> NotificarePass
 
@@ -42,6 +43,7 @@ public protocol NotificareLoyalty: AnyObject {
     /// 
     /// - Parameters:
     ///   - barcode: The barcode of the pass to be fetched.
+    ///
     /// - Returns: The fetched ``NotificarePass`` corresponding to the given barcode.
     func fetchPass(barcode: String) async throws -> NotificarePass
 }

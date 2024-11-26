@@ -12,6 +12,7 @@ public protocol NotificareUserInbox: AnyObject {
     ///
     /// - Parameters:
     ///   - string: The JSON string representing the user inbox response.
+    ///
     /// - Returns: A ``NotificareUserInboxResponse`` object parsed from the provided JSON string.
     func parseResponse(string: String) throws -> NotificareUserInboxResponse
 
@@ -21,6 +22,7 @@ public protocol NotificareUserInbox: AnyObject {
     ///
     /// - Parameters:
     ///   - json: The dictionary representing the user inbox response.
+    ///
     /// - Returns: A ``NotificareUserInboxResponse`` object parsed from the provided string.
     func parseResponse(json: [String: Any]) throws -> NotificareUserInboxResponse
 
@@ -30,6 +32,7 @@ public protocol NotificareUserInbox: AnyObject {
     ///
     /// - Parameters:
     ///   - data: The ``Data`` object representing the user inbox response.
+    ///
     /// - Returns: A ``NotificareUserInboxResponse`` object parsed from the provided ``Data`` object.
     func parseResponse(data: Data) throws -> NotificareUserInboxResponse
 
@@ -50,12 +53,14 @@ public protocol NotificareUserInbox: AnyObject {
     ///
     /// - Parameters:
     ///   - item: The ``NotificareUserInboxItem`` to open.
+    ///
     /// - Returns: The ``NotificareNotification`` associated with the opened inbox item.
     func open(_ item: NotificareUserInboxItem) async throws -> NotificareNotification
 
     /// Marks an inbox item as read, with a callback.
     ///
     /// This function updates the status of the provided ``NotificareUserInboxItem`` to read.
+    ///
     /// - Parameters:
     ///   - item: The ``NotificareUserInboxItem`` to mark as read.
     ///   - completion: A callback that will be inboked with the result of the mark as read operation.
@@ -72,6 +77,7 @@ public protocol NotificareUserInbox: AnyObject {
     /// Removes an inbox item from the user's inbox, with a callback.
     ///
     /// This method deletes the provided ``NotificareUserInboxItem`` from the user's inbox.
+    ///
     /// - Parameters:
     ///   - item: The ``NotificareUserInboxItem`` to be removed.
     ///   - completion: A callback that will be invoked with the result of the remove operation.
