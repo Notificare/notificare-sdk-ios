@@ -168,7 +168,7 @@ public protocol NotificareDeviceModule: AnyObject {
     /// - Returns: The current user data.
     func fetchUserData() async throws -> NotificareUserData
 
-    /// Updates the custom user data associated with the device.
+    /// Updates the custom user data associated with the device, with a callback.
     ///
     /// - Parameters:
     ///   - userData: The updated user data to associate with the device.

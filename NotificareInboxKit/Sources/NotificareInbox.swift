@@ -86,7 +86,7 @@ public protocol NotificareInbox: AnyObject {
     ///   - item: The ``NotificareInboxItem`` to remove.
     func remove(_ item: NotificareInboxItem) async throws
 
-    /// Clears all inbox items, permanently deleting them from the inbox.
+    /// Clears all inbox items, permanently deleting them from the inbox., with a callback
     /// 
     /// - Parameters:
     ///   - completion: A callback that will be invoked with the result of the clear operation.

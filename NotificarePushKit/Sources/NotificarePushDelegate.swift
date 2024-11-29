@@ -40,7 +40,7 @@ public protocol NotificarePushDelegate: AnyObject {
     /// - Parameters:
     ///   - notificarePush: The NotificarePush object instance.
     ///   - notification: The received ``NotificareNotification`` object.
-    ///   - deliveryMechanism: The mechanism used to deliver the notification.
+    ///   - deliveryMechanism: The ``NotificareNotificationDeliveryMechanism`` used to deliver the notification.
     func notificare(_ notificarePush: NotificarePush, didReceiveNotification notification: NotificareNotification, deliveryMechanism: NotificareNotificationDeliveryMechanism)
 
     /// Called when a custom system notification is received.
@@ -75,7 +75,7 @@ public protocol NotificarePushDelegate: AnyObject {
     ///
     /// - Parameters:
     ///   - notificarePush: The NotificarePush object instance.
-    ///   - action: The specific action opened by the user.
+    ///   - action: The specific ``NotificareNotification.Action`` opened by the user.
     ///   - notification: The ``NotificareNotification`` containing the action.
     func notificare(_ notificarePush: NotificarePush, didOpenAction action: NotificareNotification.Action, for notification: NotificareNotification)
 
