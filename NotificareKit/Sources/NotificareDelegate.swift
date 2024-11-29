@@ -26,8 +26,10 @@ public protocol NotificareDelegate: AnyObject {
 
     /// Called when the device has been successfully registered with the Notificare platform.
     ///
-    /// This method is triggered once after the device has been registered, and will only be triggered again when a new
-    /// device is created after an unlaunch() is called.
+    /// This method is triggered after the device is initially created, which
+    /// happens the first time `launch()` is called.
+    /// Once created, the method will not trigger again unless the device is
+    /// deleted by calling `unlaunch()` and created again on a new `launch()`.
     /// Implement this method to perform additional actions, such as updating user data or updating device attributes.
     /// 
     /// - Parameters:
