@@ -69,7 +69,9 @@ internal class NotificareUserInboxImpl: NotificareModule, NotificareUserInbox {
     public func markAsRead(_ item: NotificareUserInboxItem) async throws {
         try checkPrerequisites()
 
-        return try await Notificare.shared.events().logNotificationOpen(item.notification.id)
+        try await Notificare.shared.events().logNotificationOpen(item.notification.id)
+
+        Notificare.shared.removeNotificationFromNotificationCenter(item.notification)
     }
 
     public func remove(_ item: NotificareUserInboxItem, _ completion: @escaping NotificareCallback<Void>) {
@@ -93,6 +95,8 @@ internal class NotificareUserInboxImpl: NotificareModule, NotificareUserInbox {
         try await NotificareRequest.Builder()
             .delete("/notification/userinbox/\(item.id)/fordevice/\(device.id)")
             .response()
+
+        Notificare.shared.removeNotificationFromNotificationCenter(item.notification)
     }
 
     // MARK: - Private API
