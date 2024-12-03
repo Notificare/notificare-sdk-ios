@@ -13,6 +13,7 @@ extension NotificarePushImpl: NotificarePushUNUserNotificationCenterDelegate {
     internal func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         Task {
             await notificationCenterDelegate.userNotificationCenter(center, didReceive: response)
+
             await MainActor.run {
                 completionHandler()
             }
@@ -26,6 +27,7 @@ extension NotificarePushImpl: NotificarePushUNUserNotificationCenterDelegate {
     internal func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         Task {
             let result = await notificationCenterDelegate.userNotificationCenter(center, willPresent: notification)
+
             await MainActor.run {
                 completionHandler(result)
             }
