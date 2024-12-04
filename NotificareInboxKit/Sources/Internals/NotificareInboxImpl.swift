@@ -128,7 +128,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
             self.delegate?.notificare(self, didUpdateInbox: self.items)
         }
 
-        try await refreshBadge()
+        _ = try? await refreshBadge()
     }
 
     // MARK: - Notificare Inbox
@@ -264,7 +264,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
             }
 
             // Refresh the badge if applicable.
-            try await refreshBadge()
+            _ = try? await refreshBadge()
         } catch {
             logger.warning("Failed to mark item as read.", error: error)
             throw error
@@ -312,7 +312,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
         }
 
         // Refresh the badge if applicable.
-        try await refreshBadge()
+        _ = try? await refreshBadge()
     }
 
     public func remove(_ item: NotificareInboxItem, _ completion: @escaping NotificareCallback<Void>) {
@@ -349,7 +349,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
         }
 
         // Refresh the badge if applicable.
-        try await refreshBadge()
+        _ = try? await refreshBadge()
     }
 
     public func clear(_ completion: @escaping NotificareCallback<Void>) {
@@ -382,7 +382,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
             self.delegate?.notificare(self, didUpdateInbox: self.items)
         }
 
-        try await refreshBadge()
+        _ = try? await refreshBadge()
     }
 
     // MARK: - Internal API
@@ -437,7 +437,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
                     if response.statusCode == 304 {
                         logger.debug("The inbox has not been modified. Proceeding with locally stored data.")
 
-                        try await refreshBadge()
+                        _ = try? await refreshBadge()
 
                         DispatchQueue.main.async {
                             self.delegate?.notificare(self, didUpdateInbox: self.items)
@@ -548,7 +548,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
                     }
 
                     // Refresh the badge if applicable.
-                    try await self.refreshBadge()
+                    _ = try? await self.refreshBadge()
                 }
             } catch {
                 logger.error("Failed to fetch inbox items.", error: error)
