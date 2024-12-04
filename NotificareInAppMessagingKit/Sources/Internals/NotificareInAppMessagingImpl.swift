@@ -42,12 +42,22 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
     public var hasMessagesSuppressed: Bool = false
 
     public func setMessagesSuppressed(_ suppressed: Bool, evaluateContext: Bool) {
-        let suppressChanged = suppressed != hasMessagesSuppressed
-        let canEvaluate = evaluateContext && suppressChanged && !suppressed
+        if hasMessagesSuppressed == suppressed { return }
 
         hasMessagesSuppressed = suppressed
 
-        if canEvaluate {
+        if suppressed {
+            if messageWorkItem != nil {
+                logger.info("Clearing delayed in-app message from being presented when suppressed.")
+
+                messageWorkItem?.cancel()
+                messageWorkItem = nil
+            }
+
+            return
+        }
+
+        if evaluateContext {
             self.evaluateContext(.foreground)
         }
     }
