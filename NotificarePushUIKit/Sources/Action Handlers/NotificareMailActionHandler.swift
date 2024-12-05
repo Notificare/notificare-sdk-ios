@@ -35,7 +35,6 @@ public class NotificareMailActionHandler: NotificareBaseActionHandler {
         sourceViewController.presentOrPush(composer)
     }
 
-    @MainActor
     private func dismiss() {
         if let rootViewController = UIApplication.shared.rootViewController, rootViewController.presentedViewController != nil {
             rootViewController.dismiss(animated: true, completion: nil)
@@ -79,9 +78,7 @@ extension NotificareMailActionHandler: MFMailComposeViewControllerDelegate {
             }
         }
 
-        Task {
-            await dismiss()
-        }
+        dismiss()
     }
 }
 

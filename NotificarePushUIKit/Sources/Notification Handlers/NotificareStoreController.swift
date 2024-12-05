@@ -65,9 +65,10 @@ internal class NotificareStoreController: NSObject, SKStoreProductViewController
     }
 
     public func productViewControllerDidFinish(_: SKStoreProductViewController) {
-        Task { @MainActor in
-            UIApplication.shared.rootViewController?.dismiss(animated: true)
-            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFinishPresentingNotification: self.notification)
-        }
+        UIApplication.shared.rootViewController?.dismiss(animated: true, completion: {
+            DispatchQueue.main.async {
+                Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFinishPresentingNotification: self.notification)
+            }
+        })
     }
 }

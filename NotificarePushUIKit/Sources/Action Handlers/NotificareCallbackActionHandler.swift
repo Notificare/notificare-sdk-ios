@@ -166,56 +166,57 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
         }
 
         // No properties. Just send an empty reply.
-        send()
+        Task {
+            await send()
+        }
     }
 
     @objc private func onCloseClicked() {
         DispatchQueue.main.async {
             Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didNotExecuteAction: self.action, for: self.notification)
-
-            self.dismiss()
         }
 
+        dismiss()
     }
 
     @objc private func onSendClicked() {
         sendButton.isEnabled = false
         activityIndicatorView.startAnimating()
 
-        if let imageData = imageData {
-            Task {
+        Task {
+            if let imageData = imageData {
                 do {
                     let url = try await Notificare.shared.uploadNotificationReplyAsset(imageData, contentType: "image/jpeg")
 
-                    self.mediaUrl = url
-                    self.mediaMimeType = "image/jpeg"
-                    self.send()
+                    mediaUrl = url
+                    mediaMimeType = "image/jpeg"
+
+                    await send()
                 } catch {
-                    DispatchQueue.main.async {
+                    await MainActor.run {
                         Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToExecuteAction: self.action, for: self.notification, error: error)
                     }
 
-                    await dismiss()
+                    dismiss()
                 }
-            }
-        } else if let videoData = videoData {
-            Task {
+            } else  if let videoData = videoData {
                 do {
                     let url = try await Notificare.shared.uploadNotificationReplyAsset(videoData, contentType: "video/quicktime")
 
-                    self.mediaUrl = url
-                    self.mediaMimeType = "video/quicktime"
-                    self.send()
+                    mediaUrl = url
+                    mediaMimeType = "video/quicktime"
+
+                    await send()
                 } catch {
-                    DispatchQueue.main.async {
+                    await MainActor.run {
                         Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToExecuteAction: self.action, for: self.notification, error: error)
                     }
 
-                    await dismiss()
+                    dismiss()
                 }
+            } else if message != nil {
+                await send()
             }
-        } else if message != nil {
-            send()
         }
     }
 
@@ -405,7 +406,6 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
         toolbarBottomConstraint?.constant = 0
     }
 
-    @MainActor
     private func dismiss() {
         if let rootViewController = UIApplication.shared.rootViewController, rootViewController.presentedViewController != nil {
             rootViewController.dismiss(animated: true, completion: nil)
@@ -420,10 +420,9 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
         }
     }
 
+    @MainActor
     private func send() {
-        Task {
-            await dismiss()
-        }
+        dismiss()
 
         guard let target = action.target, let url = URL(string: target), url.scheme != nil, url.host != nil else {
             DispatchQueue.main.async {

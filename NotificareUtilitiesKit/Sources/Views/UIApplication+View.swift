@@ -3,7 +3,6 @@
 //
 import  UIKit
 
-@MainActor
 extension UIApplication {
     public var rootViewController: UIViewController? {
         var window: UIWindow? = UIApplication.shared.delegate?.window ?? nil
