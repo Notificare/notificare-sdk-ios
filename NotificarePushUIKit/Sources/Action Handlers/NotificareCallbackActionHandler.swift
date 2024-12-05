@@ -174,9 +174,9 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
     @objc private func onCloseClicked() {
         DispatchQueue.main.async {
             Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didNotExecuteAction: self.action, for: self.notification)
-        }
 
-        dismiss()
+            self.dismiss()
+        }
     }
 
     @objc private func onSendClicked() {
@@ -195,9 +195,9 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
                 } catch {
                     await MainActor.run {
                         Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToExecuteAction: self.action, for: self.notification, error: error)
-
-                        dismiss()
                     }
+
+                    await dismiss()
                 }
             } else  if let videoData = videoData {
                 do {
@@ -210,9 +210,9 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
                 } catch {
                     await MainActor.run {
                         Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToExecuteAction: self.action, for: self.notification, error: error)
-
-                        dismiss()
                     }
+
+                    await dismiss()
                 }
             } else if message != nil {
                 await send()
@@ -406,6 +406,7 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
         toolbarBottomConstraint?.constant = 0
     }
 
+    @MainActor
     private func dismiss() {
         if let rootViewController = UIApplication.shared.rootViewController, rootViewController.presentedViewController != nil {
             rootViewController.dismiss(animated: true, completion: nil)
@@ -421,9 +422,7 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
     }
 
     private func send() async {
-        await MainActor.run {
-            dismiss()
-        }
+        await dismiss()
 
         guard let target = action.target, let url = URL(string: target), url.scheme != nil, url.host != nil else {
             DispatchQueue.main.async {
