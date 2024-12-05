@@ -195,9 +195,9 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
                 } catch {
                     await MainActor.run {
                         Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToExecuteAction: self.action, for: self.notification, error: error)
-                    }
 
-                    dismiss()
+                        dismiss()
+                    }
                 }
             } else  if let videoData = videoData {
                 do {
@@ -210,9 +210,9 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
                 } catch {
                     await MainActor.run {
                         Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToExecuteAction: self.action, for: self.notification, error: error)
-                    }
 
-                    dismiss()
+                        dismiss()
+                    }
                 }
             } else if message != nil {
                 await send()
@@ -420,9 +420,10 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
         }
     }
 
-    @MainActor
-    private func send() {
-        dismiss()
+    private func send() async {
+        await MainActor.run {
+            dismiss()
+        }
 
         guard let target = action.target, let url = URL(string: target), url.scheme != nil, url.host != nil else {
             DispatchQueue.main.async {
