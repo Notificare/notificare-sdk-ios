@@ -202,10 +202,9 @@ public class Notificare {
         do {
             // Start listening for reachability events.
             logger.debug("Start listening to reachability events.")
-            try reachability!.startNotifier()
+            try reachability?.startNotifier()
         } catch {
-            logger.error("Failed to start listening to reachability events.", error: error)
-            fatalError("Failed to start listening to reachability events.")
+            logger.warning("Failed to start listening to reachability events.", error: error)
         }
 
         do {
@@ -738,7 +737,7 @@ public class Notificare {
                 logger.debug("Notificare is unreachable.")
             }
         } catch {
-            fatalError("Failed to configure the reachability module: \(error.localizedDescription)")
+            logger.warning("Failed to configure the reachability module.", error: error)
         }
     }
 
