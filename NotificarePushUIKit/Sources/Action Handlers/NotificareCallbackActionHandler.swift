@@ -229,6 +229,12 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
             return
         }
 
+        guard UIImagePickerController.isSourceTypeAvailable(.camera) else {
+            logger.warning("Camera is not available. Falling back to photo library.")
+            openPhotoLibrary()
+            return
+        }
+
         let cameraAuthorizationStatus = AVCaptureDevice.authorizationStatus(for: .video)
         switch cameraAuthorizationStatus {
         case .authorized:
@@ -249,7 +255,7 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
             openPhotoLibrary()
 
         @unknown default:
-            logger.error("Unknown camera authorization status.")
+            logger.warning("Unknown camera authorization status.")
             openPhotoLibrary()
         }
     }
