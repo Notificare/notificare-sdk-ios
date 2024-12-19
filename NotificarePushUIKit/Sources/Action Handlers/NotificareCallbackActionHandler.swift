@@ -229,17 +229,49 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
             return
         }
 
-        imagePickerController = UIImagePickerController()
+        let cameraAuthorizationStatus = AVCaptureDevice.authorizationStatus(for: .video)
+        switch cameraAuthorizationStatus {
+        case .authorized:
+            presentImagePicker(sourceType: .camera)
 
-        if UIImagePickerController.isSourceTypeAvailable(.camera) {
-            imagePickerController.sourceType = .camera
-            imagePickerController.mediaTypes = [kUTTypeImage as String, kUTTypeMovie as String]
-            imagePickerController.allowsEditing = true
-            imagePickerController.videoMaximumDuration = 10
-        } else {
-            imagePickerController.sourceType = .photoLibrary
+        case .notDetermined:
+            AVCaptureDevice.requestAccess(for: .video) { granted in
+                DispatchQueue.main.async {
+                    if granted {
+                        self.presentImagePicker(sourceType: .camera)
+                    } else {
+                        self.openPhotoLibrary()
+                    }
+                }
+            }
+
+        case .denied, .restricted:
+            openPhotoLibrary()
+
+        @unknown default:
+            logger.error("Unknown camera authorization status.")
+            openPhotoLibrary()
+        }
+    }
+
+    private func openPhotoLibrary() {
+        guard UIImagePickerController.isSourceTypeAvailable(.photoLibrary) else {
+            logger.warning("Photo library is not available.")
+            return
         }
 
+        presentImagePicker(sourceType: .photoLibrary)
+    }
+
+    private func presentImagePicker(sourceType: UIImagePickerController.SourceType) {
+        imagePickerController = UIImagePickerController()
+        imagePickerController.sourceType = sourceType
+
+        if sourceType == .camera {
+            imagePickerController.mediaTypes = [kUTTypeImage as String, kUTTypeMovie as String]
+            imagePickerController.videoMaximumDuration = 10
+        }
+        imagePickerController.allowsEditing = true
         imagePickerController.delegate = self
 
         sourceViewController.presentOrPush(imagePickerController)
