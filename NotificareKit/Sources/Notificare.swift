@@ -199,12 +199,14 @@ public class Notificare {
         logger.info("Launching Notificare.")
         state = .launching
 
-        do {
-            // Start listening for reachability events.
-            logger.debug("Start listening to reachability events.")
-            try reachability?.startNotifier()
-        } catch {
-            logger.warning("Failed to start listening to reachability events.", error: error)
+        if let reachability {
+            do {
+                // Start listening for reachability events.
+                logger.debug("Start listening to reachability events.")
+                try reachability.startNotifier()
+            } catch {
+                logger.warning("Failed to start listening to reachability events.", error: error)
+            }
         }
 
         do {
