@@ -232,6 +232,7 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
         guard UIImagePickerController.isSourceTypeAvailable(.camera) else {
             logger.warning("Camera is not available. Falling back to photo library.")
             openPhotoLibrary()
+
             return
         }
 
@@ -277,6 +278,7 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
             imagePickerController.mediaTypes = [kUTTypeImage as String, kUTTypeMovie as String]
             imagePickerController.videoMaximumDuration = 10
         }
+
         imagePickerController.allowsEditing = true
         imagePickerController.delegate = self
 
