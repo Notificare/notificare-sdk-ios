@@ -7,7 +7,7 @@
 - Remove User Inbox messages from the notification center when apropriate.
 - Fix `refreshBadge()` calls error handling when auto badge is off.
 - Fix crash when sending photos using the camera notification action.
-- Fix camera notification action beahviour when no camera permission is granted, opening the photo library.
+- Fix camera notification action behaviour when no camera permission is granted, opening the photo library.
 
 ## 4.0.0
 
