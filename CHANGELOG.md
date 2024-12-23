@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## Upcoming Release
+## 4.0.1
 
 - Add documentation to public methods.
 - Fix crash when executing the completion handlers in the implemented `UNUserNotificationCenter` after disabling the default Notificare implementation.
