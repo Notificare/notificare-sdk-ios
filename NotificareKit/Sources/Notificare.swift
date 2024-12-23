@@ -24,6 +24,7 @@ public class Notificare {
     // Launch / application state
     internal private(set) var state: NotificareLaunchState = .none
 
+    /// Provides the current application metadata, if available.
     public private(set) var application: NotificareApplication? {
         get {
             LocalStorage.application
@@ -33,20 +34,31 @@ public class Notificare {
         }
     }
 
+    /// Specifies the delegate that handles Notificare state events.
+    ///
+    /// This property allows setting a delegate conforming to ``NotificareDelegate`` to respond to various SDK state events ,
+    /// such as sdk ready for use, and unlaunched.
     public weak var delegate: NotificareDelegate?
 
     private init() {}
 
     // MARK: - Public API
 
+    /// Indicates whether Notificare has been configured.
+    ///
+    /// This property returns `true` if Notificare is successfully configured, and `false` otherwise.
     public var isConfigured: Bool {
         state >= .configured
     }
 
+    /// Indicates whether Notificare is ready.
+    ///
+    /// This property returns `true` once the SDK has completed the initialization process and is ready for use.
     public var isReady: Bool {
         state == .ready
     }
 
+    /// Checks if a deferred link exists and can be evaluated.
     public var canEvaluateDeferredLink: Bool {
         guard LocalStorage.deferredLinkChecked == false else {
             return false
@@ -55,6 +67,15 @@ public class Notificare {
         return UIPasteboard.general.hasURLs
     }
 
+    /// Configures Notificare, optionally  with the provided services info and options objects.
+    ///
+    /// This method configures the SDK with the provided ``NotificareServicesInfo`` and ``NotificareOptions`` objects.
+    /// If not provided, this method will try to auto-configure using the services info and options provided in the  `NotificareServices.plist` and
+    /// `NotificareOptions.plist` files, if they exist.
+    ///
+    /// - Parameters:
+    ///   - servicesInfo: The optional ``NotificareServicesInfo`` object to use for configuration.
+    ///   - options: The optional ``NotificareOptions`` object to use for configuration.
     public func configure(servicesInfo: NotificareServicesInfo? = nil, options: NotificareOptions? = nil) {
         configure(
             servicesInfo: servicesInfo ?? loadServiceInfoFile(),
@@ -62,6 +83,11 @@ public class Notificare {
         )
     }
 
+    /// Configures Notificare with the provided services info and options objects.
+    ///
+    /// - Parameters:
+    ///   - servicesInfo: The ``NotificareServicesInfo`` object to use for configuration.
+    ///   - options: The ``NotificareOptions`` object to use for configuration.
     public func configure(servicesInfo: NotificareServicesInfo, options: NotificareOptions) {
         guard state <= .configured else {
             logger.warning("Unable to reconfigure Notificare once launched.")
@@ -143,6 +169,10 @@ public class Notificare {
         }
     }
 
+    /// Launches the Notificare SDK, and all the additional available modules, preparing them for use, with a callback.
+    ///
+    /// - Parameters:
+    ///   - completion: A callback that will be invoked with the result of the launch operation.
     public func launch(_ completion: @escaping NotificareCallback<Void>) {
         Task {
             do {
@@ -154,6 +184,7 @@ public class Notificare {
         }
     }
 
+    /// Launches the Notificare SDK, and all the additional available modules, preparing them for use.
     public func launch() async throws {
         if state == .none {
             logger.debug("Notificare wasn't configured. Configuring before launching.")
@@ -168,13 +199,14 @@ public class Notificare {
         logger.info("Launching Notificare.")
         state = .launching
 
-        do {
-            // Start listening for reachability events.
-            logger.debug("Start listening to reachability events.")
-            try reachability!.startNotifier()
-        } catch {
-            logger.error("Failed to start listening to reachability events.", error: error)
-            fatalError("Failed to start listening to reachability events.")
+        if let reachability {
+            do {
+                // Start listening for reachability events.
+                logger.debug("Start listening to reachability events.")
+                try reachability.startNotifier()
+            } catch {
+                logger.warning("Failed to start listening to reachability events.", error: error)
+            }
         }
 
         do {
@@ -245,6 +277,13 @@ public class Notificare {
         }
     }
 
+    /// Unlaunches the Notificare SDK, with a callback.
+    ///
+    /// This method shuts down the SDK, removing all data, both locally and remotely in
+    /// the servers. It destroys all the device's data permanently.
+    ///
+    /// - Parameters:
+    ///   - completion: A callback that will be invoked with the result of the unlaunch operation.
     public func unlaunch(_ completion: @escaping NotificareCallback<Void>) {
         Task {
             do {
@@ -256,6 +295,10 @@ public class Notificare {
         }
     }
 
+    /// Unlaunches the Notificare SDK.
+    ///
+    /// This method shuts down the SDK, removing all data, both locally and remotely in
+    /// the servers. It destroys all the device's data permanently.
     public func unlaunch() async throws {
         guard isReady else {
             logger.warning("Cannot un-launch Notificare before it has been launched.")
@@ -289,6 +332,10 @@ public class Notificare {
         }
     }
 
+    /// Fetches the application metadata, with a callback.
+    ///
+    /// - Parameters:
+    ///   - completion: A callback that will be invoked with the result of the fetch application operation.
     public func fetchApplication(_ completion: @escaping NotificareCallback<NotificareApplication>) {
         Task {
             do {
@@ -300,10 +347,18 @@ public class Notificare {
         }
     }
 
+    /// Fetches the application metadata.
+    ///
+    /// - Returns: The ``NotificareApplication`` metadata.
     public func fetchApplication() async throws -> NotificareApplication {
         return try await fetchApplication(saveToLocalStorage: true)
     }
 
+    /// Fetches a ``NotificareDynamicLink`` from a String URL, with a callback.
+    ///
+    /// - Parameters:
+    ///   - link: The string URL to fetch the dynamic link from.
+    ///   - completion: A callback tha will be invoked with the result of the fetch dynamic link operation.
     public func fetchDynamicLink(_ link: String, _ completion: @escaping NotificareCallback<NotificareDynamicLink>) {
         Task {
             do {
@@ -315,6 +370,12 @@ public class Notificare {
         }
     }
 
+    /// Fetches a ``NotificareDynamicLink`` from a String URL.
+    ///
+    /// - Parameters:
+    ///   - link: The string URL to fetch the dynamic link from.
+    ///
+    /// - Returns: The ``NotificareDynamicLink`` object.
     public func fetchDynamicLink(_ link: String) async throws -> NotificareDynamicLink {
         guard isConfigured else {
             throw NotificareError.notConfigured
@@ -334,6 +395,11 @@ public class Notificare {
         return response.link
     }
 
+    /// Fetches a ``NotificareNotification`` by its ID, with a callback.
+    ///
+    /// - Parameters:
+    ///   - id: The ID of the notification to fetch.
+    ///   - completion: A callback that will be invoked with the result of the fetch notification operation.
     public func fetchNotification(_ id: String, _ completion: @escaping NotificareCallback<NotificareNotification>) {
         Task {
             do {
@@ -345,6 +411,12 @@ public class Notificare {
         }
     }
 
+    /// Fetches a ``NotificareNotification`` by its ID.
+    ///
+    /// - Parameters:
+    ///   - id: The ID of the notification to fetch.
+    ///
+    /// - Returns: The ``NotificareNotification` object associated with the provided ID.
     public func fetchNotification(_ id: String) async throws -> NotificareNotification {
         guard isConfigured else {
             throw NotificareError.notConfigured
@@ -361,6 +433,18 @@ public class Notificare {
         return response.notification.toModel()
     }
 
+    /// Sends a reply to a notification action, with a callback.
+    ///
+    /// This method sends a reply to the specified ``NotificareNotification`` and ``NotificareNotification.Action``,
+    /// optionally including a message and media.
+    ///
+    /// - Parameters:
+    ///   - notification: The notification to reply to.
+    ///   - action: The action associated with the reply.
+    ///   - message: An optional message to include with the reply.
+    ///   - media: An optional media file to attach with the reply.
+    ///   - mimeType: The MIME type of the media.
+    ///   - completion: A callback that will be invoked with the result of the create notification reply operation
     public func createNotificationReply(notification: NotificareNotification, action: NotificareNotification.Action, message: String? = nil, media: String? = nil, mimeType: String? = nil, _ completion: @escaping NotificareCallback<Void>) {
         Task {
             do {
@@ -372,6 +456,17 @@ public class Notificare {
         }
     }
 
+    /// Sends a reply to a notification action.
+    /// 
+    /// This method sends a reply to the specified ``NotificareNotification`` and ``NotificareNotification.Action``,
+    /// optionally including a message and media.
+    ///
+    /// - Parameters:
+    ///   - notification: The notification to reply to.
+    ///   - action: The action associated with the reply.
+    ///   - message: An optional message to include with the reply.
+    ///   - media: An optional media file to attach with the reply.
+    ///   - mimeType: The MIME type of the media.
     public func createNotificationReply(notification: NotificareNotification, action: NotificareNotification.Action, message: String? = nil, media: String? = nil, mimeType: String? = nil) async throws {
         guard isConfigured else {
             throw NotificareError.notConfigured
@@ -399,6 +494,14 @@ public class Notificare {
             .response()
     }
 
+    /// Calls a notification reply webhook, with a callback.
+    ///
+    /// This method sends data to the specified webhook ``URL``.
+    ///
+    /// - Parameters:
+    ///   - url: The webhook URL.
+    ///   - data: The data to send in the request.
+    ///   - completion: A callback that will be invoked with the result of the call notificatio reply webhook operation.
     public func callNotificationReplyWebhook(url: URL, data: [String: String], _ completion: @escaping NotificareCallback<Void>) {
         Task {
             do {
@@ -410,6 +513,13 @@ public class Notificare {
         }
     }
 
+    /// Calls a notification reply webhook.
+    /// 
+    /// This method sends data to the specified webhook ``URL``.
+    /// 
+    /// - Parameters:
+    ///   - url: The webhook URL.
+    ///   - data: The data to send in the request.
     public func callNotificationReplyWebhook(url: URL, data: [String: String]) async throws {
         var params = [String: String]()
 
@@ -434,6 +544,14 @@ public class Notificare {
             .response()
     }
 
+    /// Uploads an asset for a notification reply, with a callback.
+    ///
+    /// This method uploads a data object as part of a notification reply.
+    ///
+    /// - Parameters:
+    ///   - data: The ``Data`` object containing the asset data.
+    ///   - contentType: The MIME type of the asset.
+    ///   - completion: A callback that will be invoked with the result of the upload notification reply operation.
     public func uploadNotificationReplyAsset(_ data: Data, contentType: String, _ completion: @escaping NotificareCallback<String>) {
         Task {
             do {
@@ -445,6 +563,15 @@ public class Notificare {
         }
     }
 
+    /// Uploads an asset for a notification reply.
+    /// 
+    /// This method uploads a data object as part of a notification reply.
+    /// 
+    /// - Parameters:
+    ///   - data: The ``Data`` object containing the asset data.
+    ///   - contentType: The MIME type of the asset.
+    ///
+    /// - Returns: The URL of the uploaded asset.
     public func uploadNotificationReplyAsset(_ data: Data, contentType: String) async throws -> String {
         guard isConfigured else {
             throw NotificareError.notConfigured
@@ -459,15 +586,29 @@ public class Notificare {
         return "https://\(host)/upload\(response.filename)"
     }
 
+    /// Removes a notification from the Notification Center.
+    ///
+    /// - Parameters:
+    ///   - notification: The ``NotificareNotification`` to remove.
     public func removeNotificationFromNotificationCenter(_ notification: NotificareNotification) {
         removeNotificationFromNotificationCenter(notification.id)
     }
 
+    /// Removes a notification from the Notification Center, by its ID.
+    ///
+    /// - Parameters:
+    ///   - notificationId: The ID of the notification to remove.
     public func removeNotificationFromNotificationCenter(_ notificationId: String) {
         logger.debug("Removing notification '\(notificationId)' from the notification center.")
         UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [notificationId])
     }
 
+    /// Handles an URL by validating it and registering the current device as a test device for Notificare Services.
+    ///
+    /// - Parameters:
+    ///   - url: The URL containing the test device nonce.
+    ///
+    /// - Returns: `true` if the device registration process was initiated, or `false` if no valid nonce was found in the URL.
     public func handleTestDeviceUrl(_ url: URL) -> Bool {
         guard let nonce = parseTestDeviceNonce(url: url) else {
             return false
@@ -485,6 +626,12 @@ public class Notificare {
         return true
     }
 
+    /// Handles an URL for dynamic links.
+    ///
+    /// - Parameters:
+    ///   - url: The URL to handle.
+    ///
+    /// - Returns: `true` if the URL was handled, `false` otherwise.
     public func handleDynamicLinkUrl(_ url: URL) -> Bool {
         guard let url = parseDynamicLink(url: url) else {
             return false
@@ -515,6 +662,11 @@ public class Notificare {
         return true
     }
 
+    /// Evaluates the deferred link, opening the resolved deferred link.
+    ///
+    /// It should be called only after verifying deferred link eligibility with `canEvaluateDeferredLink`.
+    ///
+    /// - Returns: `true` if the deferred link was successfully evaluated, `false` otherwise.
     @MainActor
     public func evaluateDeferredLink() async throws -> Bool {
         guard LocalStorage.deferredLinkChecked == false else {
@@ -555,6 +707,12 @@ public class Notificare {
         return await UIApplication.shared.open(url)
     }
 
+    /// Evaluates the deferred link, opening the resolved deferred link, with a callback.
+    ///
+    /// It should be called only after verifying deferred link eligibility with `canEvaluateDeferredLink()`.
+    ///
+    /// - Parameters:
+    ///   - completion: A callback that will be invoked with the result of the evaluate deferred link operation.
     public func evaluateDeferredLink(_ completion: @escaping NotificareCallback<Bool>) {
         Task {
             do {
@@ -581,7 +739,7 @@ public class Notificare {
                 logger.debug("Notificare is unreachable.")
             }
         } catch {
-            fatalError("Failed to configure the reachability module: \(error.localizedDescription)")
+            logger.warning("Failed to configure the reachability module.", error: error)
         }
     }
 

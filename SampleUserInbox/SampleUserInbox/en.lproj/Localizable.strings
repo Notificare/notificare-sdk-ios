@@ -1,0 +1,72 @@
+/* 
+  Localizable.strings
+  Sample
+
+  Created by Yevhenii Smirnov on 21/03/2023.
+*/
+
+"sdk" = "SDK";
+
+"main_deep_link_opened_title" = "Deep link opened";
+
+"button_send" = "Send";
+"button_ok" = "Ok";
+
+"result" = "Result";
+"error" = "Error";
+"done" = "Done";
+"event_registered" = "Event Registered";
+
+"home_title" = "Sample User Inbox";
+"home_logged_in" = "Logged in";
+"home_configured" = "Configured";
+"home_ready" = "Ready";
+"home_access_token" = "Access Token";
+"home_device_registered" = "Device Registered";
+"home_login" = "Login";
+"home_logout" = "Logout";
+"home_launch" = "Launch";
+"home_unlaunch" = "Unlaunch";
+"home_authentication_flow" = "Authentication Flow";
+"home_launch_flow" = "Launch Flow";
+"home_notifications" = "Notifications";
+"home_enabled" = "Enabled";
+"home_allowed_ui" = "Allowed UI";
+"home_permission" = "Permission";
+"home_inbox" = "Inbox";
+"home_remote_notifications" = "Remote Notifications";
+"home_do_not_disturb" = "Do Not Disturb";
+"home_do_not_disturb_start" = "From";
+"home_do_not_disturb_end" = "To";
+"home_location" = "Location";
+"home_application_info" = "Application Info";
+"home_application_name" = "Name";
+"home_application_identifier" = "Identifier";
+
+"inbox_title" = "Inbox";
+"inbox_no_messages" = "No messages found!";
+"inbox_sheet_select_option" = "Select Option";
+"inbox_sheet_open" = "Open";
+"inbox_sheet_mark_as_read" = "Mark as Read";
+"inbox_sheet_remove" = "Remove";
+"inbox_sheet_cancel" = "Cancel";
+
+"permission_status_granted" = "Granted";
+"permission_status_denied" = "Denied";
+"permission_status_permanently_denied" = "Permanently Denied";
+"permission_status_not_determined" = "Not Determined";
+"permission_status_restricted" = "Restricted";
+
+"error_message_inbox_present" = "Failed to present inbox item";
+"error_message_inbox_mark_as_read" = "Failed to mark as read inbox item";
+"error_message_inbox_mark_all_as_read" = "Failed to mark all inbox items as read";
+"error_message_inbox_remove" = "Failed remove inbox item";
+"error_message_inbox_clear" = "Failed to clear inbox";
+"error_message_inbox_refresh" = "Failed to refresh inbox";
+"error_message_home_notifications_permission" = "Failed to request notifications permission";
+"error_message_home_enable_remote_notifications" = "Failed to enable remote notifications";
+"error_message_home_clear_dnd" = "Failed to clear do not disturb";
+"error_message_home_update_dnd" = "Failed to update do not disturb";
+"error_message_home_client_login" = "Failed to login";
+"error_message_home_client_logout" = "Failed to logout";
+"error_message_home_update_badge" = "Failed to update badge";

@@ -166,55 +166,57 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
         }
 
         // No properties. Just send an empty reply.
-        send()
+        Task {
+            await send()
+        }
     }
 
     @objc private func onCloseClicked() {
         DispatchQueue.main.async {
             Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didNotExecuteAction: self.action, for: self.notification)
-        }
 
-        dismiss()
+            self.dismiss()
+        }
     }
 
     @objc private func onSendClicked() {
         sendButton.isEnabled = false
         activityIndicatorView.startAnimating()
 
-        if let imageData = imageData {
-            Task {
+        Task {
+            if let imageData = imageData {
                 do {
                     let url = try await Notificare.shared.uploadNotificationReplyAsset(imageData, contentType: "image/jpeg")
 
-                    self.mediaUrl = url
-                    self.mediaMimeType = "image/jpeg"
-                    self.send()
+                    mediaUrl = url
+                    mediaMimeType = "image/jpeg"
+
+                    await send()
                 } catch {
-                    DispatchQueue.main.async {
+                    await MainActor.run {
                         Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToExecuteAction: self.action, for: self.notification, error: error)
                     }
 
-                    self.dismiss()
+                    await dismiss()
                 }
-            }
-        } else if let videoData = videoData {
-            Task {
+            } else  if let videoData = videoData {
                 do {
                     let url = try await Notificare.shared.uploadNotificationReplyAsset(videoData, contentType: "video/quicktime")
 
-                    self.mediaUrl = url
-                    self.mediaMimeType = "video/quicktime"
-                    self.send()
+                    mediaUrl = url
+                    mediaMimeType = "video/quicktime"
+
+                    await send()
                 } catch {
-                    DispatchQueue.main.async {
+                    await MainActor.run {
                         Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToExecuteAction: self.action, for: self.notification, error: error)
                     }
 
-                    self.dismiss()
+                    await dismiss()
                 }
+            } else if message != nil {
+                await send()
             }
-        } else if message != nil {
-            send()
         }
     }
 
@@ -227,17 +229,57 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
             return
         }
 
-        imagePickerController = UIImagePickerController()
+        guard UIImagePickerController.isSourceTypeAvailable(.camera) else {
+            logger.warning("Camera is not available. Falling back to photo library.")
+            openPhotoLibrary()
 
-        if UIImagePickerController.isSourceTypeAvailable(.camera) {
-            imagePickerController.sourceType = .camera
-            imagePickerController.mediaTypes = [kUTTypeImage as String, kUTTypeMovie as String]
-            imagePickerController.allowsEditing = true
-            imagePickerController.videoMaximumDuration = 10
-        } else {
-            imagePickerController.sourceType = .photoLibrary
+            return
         }
 
+        let cameraAuthorizationStatus = AVCaptureDevice.authorizationStatus(for: .video)
+        switch cameraAuthorizationStatus {
+        case .authorized:
+            presentImagePicker(sourceType: .camera)
+
+        case .notDetermined:
+            AVCaptureDevice.requestAccess(for: .video) { granted in
+                DispatchQueue.main.async {
+                    if granted {
+                        self.presentImagePicker(sourceType: .camera)
+                    } else {
+                        self.openPhotoLibrary()
+                    }
+                }
+            }
+
+        case .denied, .restricted:
+            openPhotoLibrary()
+
+        @unknown default:
+            logger.warning("Unknown camera authorization status.")
+            openPhotoLibrary()
+        }
+    }
+
+    private func openPhotoLibrary() {
+        guard UIImagePickerController.isSourceTypeAvailable(.photoLibrary) else {
+            logger.warning("Photo library is not available.")
+            return
+        }
+
+        presentImagePicker(sourceType: .photoLibrary)
+    }
+
+    private func presentImagePicker(sourceType: UIImagePickerController.SourceType) {
+        imagePickerController = UIImagePickerController()
+        imagePickerController.sourceType = sourceType
+
+        if sourceType == .camera {
+            imagePickerController.mediaTypes = [kUTTypeImage as String, kUTTypeMovie as String]
+            imagePickerController.videoMaximumDuration = 10
+        }
+
+        imagePickerController.allowsEditing = true
         imagePickerController.delegate = self
 
         sourceViewController.presentOrPush(imagePickerController)
@@ -404,6 +446,7 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
         toolbarBottomConstraint?.constant = 0
     }
 
+    @MainActor
     private func dismiss() {
         if let rootViewController = UIApplication.shared.rootViewController, rootViewController.presentedViewController != nil {
             rootViewController.dismiss(animated: true, completion: nil)
@@ -418,8 +461,8 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
         }
     }
 
-    private func send() {
-        dismiss()
+    private func send() async {
+        await dismiss()
 
         guard let target = action.target, let url = URL(string: target), url.scheme != nil, url.host != nil else {
             DispatchQueue.main.async {
