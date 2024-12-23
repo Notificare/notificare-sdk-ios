@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## Upcoming Release
+
+- Add documentation to public methods.
+- Fix crash when executing the completion handlers in the implemented `UNUserNotificationCenter` after disabling the default Notificare implementation.
+- Remove User Inbox messages from the notification center when apropriate.
+- Fix `refreshBadge()` calls error handling when auto badge is off.
+- Fix crash when sending photos using the camera notification action.
+- Fix camera notification action behaviour when no camera permission is granted, opening the photo library.
+
 ## 4.0.0
 
 - Device identifiers become long-lived
