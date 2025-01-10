@@ -101,17 +101,20 @@ internal class HomeViewModel: NSObject, ObservableObject {
             }
             .store(in: &cancellables)
 
-        // Listening for badge updates
+        // Listening for inbox items and badge updates
 
-        NotificationCenter.default
-            .publisher(for: .badgeUpdated, object: nil)
-            .sink { [weak self] notification in
-                guard let badge = notification.userInfo?["badge"] as? Int else {
-                    Logger.main.error("Invalid notification payload.")
-                    return
-                }
+        Notificare.shared.inbox().itemsStream
+            .sink { items in
+                Logger.main.info("Combine publisher inbox update. Total = \(items.count)")
+            }
+            .store(in: &cancellables)
 
+        Notificare.shared.inbox().badgeStream
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] badge in
                 self?.badge = badge
+
+                Logger.main.info("Combine publisher badge update. Unread = \(badge)")
             }
             .store(in: &cancellables)
 

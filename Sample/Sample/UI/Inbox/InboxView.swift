@@ -13,17 +13,18 @@ internal struct InboxView: View {
     @StateObject private var viewModel = InboxViewModel()
     @State private var actionableItem: NotificareInboxItem?
     @State private var presentedAlert: PresentedAlert?
+    @State private var items: [NotificareInboxItem] = []
 
     internal var body: some View {
         ZStack {
-            if viewModel.items.isEmpty {
+            if items.isEmpty {
                 Text(String(localized: "inbox_no_messages"))
                     .multilineTextAlignment(.center)
                     .font(.callout)
                     .padding(.all, 32)
             } else {
                 List {
-                    ForEach(viewModel.items) { item in
+                    ForEach(items) { item in
                         InboxItemView(item: item)
                             .contentShape(Rectangle())
                             .onTapGesture {
@@ -40,11 +41,14 @@ internal struct InboxView: View {
                 }
             }
         }
+        .onReceive(Notificare.shared.inbox().itemsStream.receive(on: DispatchQueue.main)) { items in
+            self.items = items
+        }
         .navigationTitle(String(localized: "inbox_title"))
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItemGroup(placement: .navigationBarTrailing) {
-                if !viewModel.items.isEmpty {
+                if !items.isEmpty {
                     Button(action: { viewModel.markAllItemsAsRead() }) {
                         Image(systemName: "envelope.open")
                     }

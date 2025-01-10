@@ -228,23 +228,11 @@ extension AppDelegate: NotificarePushUIDelegate {
 
 extension AppDelegate: NotificareInboxDelegate {
     internal func notificare(_: NotificareInbox, didUpdateInbox items: [NotificareInboxItem]) {
-        Logger.main.info("Inbox has loaded. Total = \(items.count)")
-
-        NotificationCenter.default.post(
-            name: .inboxUpdated,
-            object: nil,
-            userInfo: ["items": items]
-        )
+        Logger.main.info("Delegate inbox update. Total = \(items.count)")
     }
 
     internal func notificare(_: NotificareInbox, didUpdateBadge badge: Int) {
-        Logger.main.info("Badge update. Unread = \(badge)")
-
-        NotificationCenter.default.post(
-            name: .badgeUpdated,
-            object: nil,
-            userInfo: ["badge": badge]
-        )
+        Logger.main.info("Delegate badge update. Unread = \(badge)")
     }
 }
 
