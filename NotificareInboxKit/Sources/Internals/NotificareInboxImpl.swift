@@ -374,7 +374,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
             self.delegate?.notificare(self, didUpdateInbox: self.items)
         }
 
-        self._itemsStream.value = items
+        _itemsStream.value = items
     }
 
     private func notifyBadgeUpdated(_ badge: Int) {
@@ -382,7 +382,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
             self.delegate?.notificare(self, didUpdateBadge: badge)
         }
 
-        self._badgeStream.value = badge
+        _badgeStream.value = badge
     }
 
     private func checkPrerequisites() throws {
