@@ -1,9 +1,5 @@
 # CHANGELOG
 
-## Upcoming Release
-
-- Update dependencies.
-
 ## 4.0.1
 
 - Add documentation to public methods.
