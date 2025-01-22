@@ -110,13 +110,11 @@ internal class HomeViewModel: NSObject, ObservableObject {
             .store(in: &cancellables)
 
         Notificare.shared.inbox().badgeStream
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] badge in
-                self?.badge = badge
-
+            .handleEvents(receiveOutput: { badge in
                 Logger.main.info("Combine publisher badge update. Unread = \(badge)")
-            }
-            .store(in: &cancellables)
+            })
+            .receive(on: DispatchQueue.main)
+            .assign(to: &$badge)
 
         // Listening for notification changes (only when has remote notifications enabled)
 
