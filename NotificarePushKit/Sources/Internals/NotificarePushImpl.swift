@@ -84,8 +84,8 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
         self.subscription = nil
         self.allowedUI = false
 
-        updateSubscriptionPublishers(nil)
-        updateAllowedUIPublishers(false)
+        notifySubscriptionUpdated(nil)
+        notifyAllowedUIUpdated(false)
     }
 
     // MARK: Notificare Push Module
@@ -248,7 +248,7 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
 
     // MARK: Internal API
 
-    private func updateSubscriptionPublishers(_ subscription: NotificarePushSubscription?) {
+    private func notifySubscriptionUpdated(_ subscription: NotificarePushSubscription?) {
         DispatchQueue.main.async {
             self.delegate?.notificare(self, didChangeSubscription: subscription)
         }
@@ -256,7 +256,7 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
         _subscriptionStream.value = subscription
     }
 
-    private func updateAllowedUIPublishers(_ allowedUI: Bool) {
+    private func notifyAllowedUIUpdated(_ allowedUI: Bool) {
         DispatchQueue.main.async {
             self.delegate?.notificare(self, didChangeNotificationSettings: allowedUI)
         }
@@ -539,8 +539,8 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
         self.subscription = subscription
         self.allowedUI = allowedUI
 
-        updateSubscriptionPublishers(subscription)
-        updateAllowedUIPublishers(allowedUI)
+        notifySubscriptionUpdated(subscription)
+        notifyAllowedUIUpdated(allowedUI)
 
         await ensureLoggedPushRegistration()
     }
@@ -571,7 +571,7 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
             logger.debug("User notification settings updated.")
             self.allowedUI = allowedUI
 
-            updateAllowedUIPublishers(allowedUI)
+            notifyAllowedUIUpdated(allowedUI)
         } else {
             logger.debug("User notification settings update skipped, nothing changed.")
         }
