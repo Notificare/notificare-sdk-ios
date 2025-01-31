@@ -127,16 +127,11 @@ extension AppDelegate: NotificarePushDelegate {
     }
 
     internal func notificare(_ notificarePush: any NotificarePush, didChangeSubscription subscription: NotificarePushSubscription?) {
-        Logger.main.info("Notificare: subscription changed: \(String(describing: subscription))")
+        Logger.main.info("Notification center subscription changed: \(String(describing: subscription))")
     }
 
     internal func notificare(_: NotificarePush, didChangeNotificationSettings allowedUI: Bool) {
-        Logger.main.info("Notificare: notification settings changed: \(allowedUI)")
-
-        NotificationCenter.default.post(
-            name: .notificationSettingsChanged,
-            object: nil
-        )
+        Logger.main.info("Notification center allowedUI changed: \(allowedUI)")
     }
 
     internal func notificare(_: NotificarePush, didReceiveSystemNotification notification: NotificareSystemNotification) {
