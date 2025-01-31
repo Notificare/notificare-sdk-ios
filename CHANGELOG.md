@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## Upcoming Release
+
+- Introduce `itemsStream` and `badgeStream` Combine publishers for inbox module
+
 ## 4.0.1
 
 - Add documentation to public methods.

@@ -2,6 +2,7 @@
 // Copyright (c) 2021 Notificare. All rights reserved.
 //
 
+import Combine
 import NotificareKit
 import UIKit
 
@@ -12,6 +13,9 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
     private static let reloadInboxNotification = NSNotification.Name(rawValue: "NotificareInboxKit.ReloadInbox")
 
     public weak var delegate: NotificareInboxDelegate?
+
+    public var itemsStream: AnyPublisher<[NotificareInboxItem], Never> { _itemsStream.eraseToAnyPublisher() }
+    public var badgeStream: AnyPublisher<Int, Never> { _badgeStream.eraseToAnyPublisher() }
 
     public var items: [NotificareInboxItem] {
         guard let application = Notificare.shared.application else {
@@ -67,6 +71,9 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
             })
         }
     }
+
+    private var _itemsStream: CurrentValueSubject<[NotificareInboxItem], Never> = .init([])
+    private var _badgeStream: CurrentValueSubject<Int, Never> = .init(0)
 
     // MARK: - Notificare Module
 
@@ -124,10 +131,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
 
         try await clearRemoteInbox()
 
-        DispatchQueue.main.async {
-            self.delegate?.notificare(self, didUpdateInbox: self.items)
-        }
-
+        notifyItemsUpdated(self.items)
         _ = try? await refreshBadge()
     }
 
@@ -180,10 +184,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
             // Update the application badge.
             await setApplicationBadge(response.unread)
 
-            DispatchQueue.main.async {
-                // Notify the delegate.
-                self.delegate?.notificare(self, didUpdateBadge: response.unread)
-            }
+            notifyBadgeUpdated(response.unread)
 
             return response.unread
         } catch {
@@ -258,12 +259,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
             // No need to keep the item in the notification center.
             Notificare.shared.removeNotificationFromNotificationCenter(item.notification)
 
-            DispatchQueue.main.async {
-                // Notify the delegate.
-                self.delegate?.notificare(self, didUpdateInbox: self.items)
-            }
-
-            // Refresh the badge if applicable.
+            notifyItemsUpdated(self.items)
             _ = try? await refreshBadge()
         } catch {
             logger.warning("Failed to mark item as read.", error: error)
@@ -306,12 +302,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
         // Clear all items from the notification center.
         clearNotificationCenter()
 
-        DispatchQueue.main.async {
-            // Notify the delegate.
-            self.delegate?.notificare(self, didUpdateInbox: self.items)
-        }
-
-        // Refresh the badge if applicable.
+        notifyItemsUpdated(self.items)
         _ = try? await refreshBadge()
     }
 
@@ -343,12 +334,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
             Notificare.shared.removeNotificationFromNotificationCenter(item.notification)
         }
 
-        DispatchQueue.main.async {
-            // Notify the delegate.
-            self.delegate?.notificare(self, didUpdateInbox: self.items)
-        }
-
-        // Refresh the badge if applicable.
+        notifyItemsUpdated(self.items)
         _ = try? await refreshBadge()
     }
 
@@ -377,15 +363,27 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
         clearLocalInbox()
         clearNotificationCenter()
 
-        DispatchQueue.main.async {
-            // Notify the delegate.
-            self.delegate?.notificare(self, didUpdateInbox: self.items)
-        }
-
+        notifyItemsUpdated(self.items)
         _ = try? await refreshBadge()
     }
 
     // MARK: - Internal API
+
+    private func notifyItemsUpdated(_ items: [NotificareInboxItem]) {
+        DispatchQueue.main.async {
+            self.delegate?.notificare(self, didUpdateInbox: self.items)
+        }
+
+        _itemsStream.value = items
+    }
+
+    private func notifyBadgeUpdated(_ badge: Int) {
+        DispatchQueue.main.async {
+            self.delegate?.notificare(self, didUpdateBadge: badge)
+        }
+
+        _badgeStream.value = badge
+    }
 
     private func checkPrerequisites() throws {
         guard Notificare.shared.isReady else {
@@ -438,10 +436,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
                         logger.debug("The inbox has not been modified. Proceeding with locally stored data.")
 
                         _ = try? await refreshBadge()
-
-                        DispatchQueue.main.async {
-                            self.delegate?.notificare(self, didUpdateInbox: self.items)
-                        }
+                        notifyItemsUpdated(self.items)
 
                         return
                     }
@@ -542,12 +537,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
                 } else {
                     logger.debug("Done loading inbox items.")
 
-                    DispatchQueue.main.async {
-                        // Notify the delegate.
-                        self.delegate?.notificare(self, didUpdateInbox: self.items)
-                    }
-
-                    // Refresh the badge if applicable.
+                    notifyItemsUpdated(self.items)
                     _ = try? await self.refreshBadge()
                 }
             } catch {
@@ -598,10 +588,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
 
         Task {
             _ = try? await refreshBadge()
-
-            DispatchQueue.main.async {
-                self.delegate?.notificare(self, didUpdateInbox: self.items)
-            }
+            notifyItemsUpdated(self.items)
         }
     }
 
@@ -623,10 +610,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
 
         Task {
             _ = try? await refreshBadge()
-
-            DispatchQueue.main.async {
-                self.delegate?.notificare(self, didUpdateInbox: self.items)
-            }
+            notifyItemsUpdated(self.items)
         }
     }
 
