@@ -118,10 +118,16 @@ internal class HomeViewModel: NSObject, ObservableObject {
 
         // Listening for notification changes (only when has remote notifications enabled)
 
-        NotificationCenter.default
-            .publisher(for: .notificationSettingsChanged, object: nil)
-            .sink { [weak self] _ in
+        Notificare.shared.push().allowedUIStream
+            .sink { [weak self] allowedUI in
                 self?.checkNotificationsStatus()
+                Logger.main.info("Combine publisher allowedUI: \(allowedUI)")
+            }
+            .store(in: &cancellables)
+
+        Notificare.shared.push().subscriptionStream
+            .sink { subscription in
+                Logger.main.info("Combine publisher subscription: \(String(describing: subscription))")
             }
             .store(in: &cancellables)
 
@@ -515,7 +521,7 @@ extension HomeViewModel: CLLocationManagerDelegate {
 
 extension HomeViewModel {
     internal func updateSuppressedIamStatus(enabled: Bool) {
-//        Logger.main.info("\(enabled ? "Supressing" : "Unsupressing") in app messages, evaluate context is \(hasEvaluateContextOn ? "ON" : "OFF")")
+        //        Logger.main.info("\(enabled ? "Supressing" : "Unsupressing") in app messages, evaluate context is \(hasEvaluateContextOn ? "ON" : "OFF")")
         Notificare.shared.inAppMessaging().setMessagesSuppressed(enabled, evaluateContext: hasEvaluateContextOn)
     }
 }

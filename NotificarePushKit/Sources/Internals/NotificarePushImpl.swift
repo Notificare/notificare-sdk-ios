@@ -2,6 +2,7 @@
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
+import Combine
 import Foundation
 import MobileCoreServices
 import NotificareKit
@@ -12,6 +13,9 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
     private var notificationCenter: UNUserNotificationCenter {
         UNUserNotificationCenter.current()
     }
+
+    private var _subscriptionStream: CurrentValueSubject<NotificarePushSubscription?, Never> = .init(LocalStorage.subscription)
+    private var _allowedUIStream: CurrentValueSubject<Bool, Never> = .init(LocalStorage.allowedUI)
 
     internal let applicationDelegateInterceptor = NotificarePushAppDelegateInterceptor()
     internal let notificationCenterDelegate = NotificareNotificationCenterDelegate()
@@ -80,18 +84,16 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
         self.subscription = nil
         self.allowedUI = false
 
-        DispatchQueue.main.async {
-            self.delegate?.notificare(self, didChangeSubscription: nil)
-        }
-
-        DispatchQueue.main.async {
-            self.delegate?.notificare(self, didChangeNotificationSettings: false)
-        }
+        notifySubscriptionUpdated(nil)
+        notifyAllowedUIUpdated(false)
     }
 
     // MARK: Notificare Push Module
 
     public weak var delegate: NotificarePushDelegate?
+
+    public var subscriptionStream: AnyPublisher<NotificarePushSubscription?, Never> { _subscriptionStream.eraseToAnyPublisher() }
+    public var allowedUIStream: AnyPublisher<Bool, Never> { _allowedUIStream.eraseToAnyPublisher() }
 
     public var authorizationOptions: UNAuthorizationOptions = [.badge, .sound, .alert]
 
@@ -245,6 +247,22 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
     }
 
     // MARK: Internal API
+
+    private func notifySubscriptionUpdated(_ subscription: NotificarePushSubscription?) {
+        DispatchQueue.main.async {
+            self.delegate?.notificare(self, didChangeSubscription: subscription)
+        }
+
+        _subscriptionStream.value = subscription
+    }
+
+    private func notifyAllowedUIUpdated(_ allowedUI: Bool) {
+        DispatchQueue.main.async {
+            self.delegate?.notificare(self, didChangeNotificationSettings: allowedUI)
+        }
+
+        _allowedUIStream.value = allowedUI
+    }
 
     private func checkPrerequisites() throws {
         if !Notificare.shared.isReady {
@@ -521,13 +539,8 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
         self.subscription = subscription
         self.allowedUI = allowedUI
 
-        DispatchQueue.main.async {
-            self.delegate?.notificare(self, didChangeSubscription: subscription)
-        }
-
-        DispatchQueue.main.async {
-            self.delegate?.notificare(self, didChangeNotificationSettings: allowedUI)
-        }
+        notifySubscriptionUpdated(subscription)
+        notifyAllowedUIUpdated(allowedUI)
 
         await ensureLoggedPushRegistration()
     }
@@ -558,9 +571,7 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
             logger.debug("User notification settings updated.")
             self.allowedUI = allowedUI
 
-            DispatchQueue.main.async {
-                self.delegate?.notificare(self, didChangeNotificationSettings: allowedUI)
-            }
+            notifyAllowedUIUpdated(allowedUI)
         } else {
             logger.debug("User notification settings update skipped, nothing changed.")
         }
