@@ -538,7 +538,7 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
 extension NotificareCallbackActionHandler: UIImagePickerControllerDelegate {
     public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         if info[.mediaType] as? String == kUTTypeImage as String {
-            if let image = info[.originalImage] as? UIImage {
+            if let image = info[.editedImage] as? UIImage {
                 imageData = image.fixedOrientation()?.jpegData(compressionQuality: 0.9)
 
                 picker.dismiss(animated: true) {
