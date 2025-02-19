@@ -9,4 +9,11 @@ public struct NotificareRegionSession: Codable, Equatable {
     public let start: Date
     public let end: Date?
     public let locations: [NotificareLocation]
+
+    public init(regionId: String, start: Date, end: Date?, locations: [NotificareLocation]) {
+        self.regionId = regionId
+        self.start = start
+        self.end = end
+        self.locations = locations
+    }
 }
