@@ -421,7 +421,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         return userData
     }
 
-    public func updateUserData(_ userData: NotificareUserData, _ completion: @escaping NotificareCallback<Void>) {
+    public func updateUserData(_ userData: [String: String?], _ completion: @escaping NotificareCallback<Void>) {
         Task {
             do {
                 try await updateUserData(userData)
@@ -432,7 +432,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         }
     }
 
-    public func updateUserData(_ userData: NotificareUserData) async throws {
+    public func updateUserData(_ userData: [String: String?]) async throws {
         guard Notificare.shared.isReady, let device = storedDevice else {
             throw NotificareError.notReady
         }
@@ -446,7 +446,7 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
             .response()
 
         // Update current device properties.
-        storedDevice?.userData = userData
+        storedDevice?.userData = userData.compactMapValues { $0 }
     }
 
     // MARK: - Internal API

@@ -4,6 +4,7 @@
 
 - Introduce `itemsStream` and `badgeStream` Combine publishers for inbox module
 - Introduce `subscriptionStream` and `allowedUIStream` Combine publishers for push module
+- Allow unsetting user data fields
 
 ## 4.0.1
 
