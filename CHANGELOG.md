@@ -6,6 +6,10 @@
 - Introduce `subscriptionStream` and `allowedUIStream` Combine publishers for push module
 - Allow unsetting user data fields
 
+#### Breaking changes
+
+- Change `NotificareRegion.timeZoneOffset` attribute from `int` to `float` to support half-hour timezones.
+
 ## 4.0.1
 
 - Add documentation to public methods.
