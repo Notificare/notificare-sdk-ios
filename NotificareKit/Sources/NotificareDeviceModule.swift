@@ -173,10 +173,10 @@ public protocol NotificareDeviceModule: AnyObject {
     /// - Parameters:
     ///   - userData: The updated user data to associate with the device.
     ///   - completion: A callback that will be invoked with the result of the update user data operation.
-    func updateUserData(_ userData: NotificareUserData, _ completion: @escaping NotificareCallback<Void>)
+    func updateUserData(_ userData: [String: String?], _ completion: @escaping NotificareCallback<Void>)
 
     /// Updates the custom user data associated with the device.
     ///
     /// - Parameter userData: The updated user data to associate with the device.
-    func updateUserData(_ userData: NotificareUserData) async throws
+    func updateUserData(_ userData: [String: String?]) async throws
 }

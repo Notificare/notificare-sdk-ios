@@ -5,6 +5,7 @@
 - Introduce `itemsStream` and `badgeStream` Combine publishers for inbox module
 - Introduce `subscriptionStream` and `allowedUIStream` Combine publishers for push module
 - Fix issue where the notification UI was not dismissed when an action was executed through a custom markup or actions context sheet
+- Allow unsetting user data fields
 
 ## 4.0.1
 
