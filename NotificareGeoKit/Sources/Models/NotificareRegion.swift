@@ -15,9 +15,9 @@ public struct NotificareRegion: Codable, Equatable {
     public let major: Int?
     public let distance: Double
     public let timeZone: String
-    public let timeZoneOffset: Int
+    public let timeZoneOffset: Float
 
-    public init(id: String, name: String, description: String?, referenceKey: String?, geometry: NotificareRegion.Geometry, advancedGeometry: NotificareRegion.AdvancedGeometry?, major: Int?, distance: Double, timeZone: String, timeZoneOffset: Int) {
+    public init(id: String, name: String, description: String?, referenceKey: String?, geometry: NotificareRegion.Geometry, advancedGeometry: NotificareRegion.AdvancedGeometry?, major: Int?, distance: Double, timeZone: String, timeZoneOffset: Float) {
         self.id = id
         self.name = name
         self.description = description

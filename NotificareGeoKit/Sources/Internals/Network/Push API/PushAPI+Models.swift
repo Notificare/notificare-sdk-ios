@@ -16,7 +16,7 @@ extension NotificareInternals.PushAPI.Models {
         internal let major: Int?
         internal let distance: Double
         internal let timezone: String
-        internal let timeZoneOffset: Int
+        internal let timeZoneOffset: Float
 
         internal struct Geometry: Decodable, Equatable {
             internal let type: String

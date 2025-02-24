@@ -7,6 +7,10 @@
 - Fix issue where the notification UI was not dismissed when an action was executed through a custom markup or actions context sheet
 - Allow unsetting user data fields
 
+#### Breaking changes
+
+- Change `NotificareRegion.timeZoneOffset` attribute from `int` to `float` to support half-hour timezones.
+
 ## 4.0.1
 
 - Add documentation to public methods.
