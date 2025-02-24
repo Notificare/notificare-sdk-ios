@@ -9,6 +9,12 @@ public struct NotificareUserInboxResponse: Codable, Equatable {
     public let count: Int
     public let unread: Int
     public let items: [NotificareUserInboxItem]
+
+    public init(count: Int, unread: Int, items: [NotificareUserInboxItem]) {
+        self.count = count
+        self.unread = unread
+        self.items = items
+    }
 }
 
 // Codable: NotificareUserInboxResponse
