@@ -63,20 +63,22 @@ internal struct NotificationsSection: View {
             NavigationLink {
                 InboxView()
             } label: {
-                Label {
-                    Text(String(localized: "home_inbox"))
+                HStack {
+                    Label {
+                        Text(String(localized: "home_inbox"))
+                    } icon: {
+                        ListIconView(
+                            icon: "tray.and.arrow.down.fill",
+                            foregroundColor: .white,
+                            backgroundColor: .blue
+                        )
+                    }
 
-                    Spacer(minLength: 16)
+                    Spacer()
 
                     if badge > 0 {
                         BadgeView(badge: badge)
                     }
-                } icon: {
-                    ListIconView(
-                        icon: "tray.and.arrow.down.fill",
-                        foregroundColor: .white,
-                        backgroundColor: .blue
-                    )
                 }
             }
 
