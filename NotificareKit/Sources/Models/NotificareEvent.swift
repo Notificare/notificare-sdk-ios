@@ -15,16 +15,6 @@ public struct NotificareEvent: Equatable {
     public let notificationId: String?
     public let userId: String?
     @NotificareExtraEquatable public private(set) var data: NotificareEventData?
-
-    public init(type: String, timestamp: Int64, deviceId: String, sessionId: String?, notificationId: String?, userId: String?, data: NotificareEventData? = nil) {
-        self.type = type
-        self.timestamp = timestamp
-        self.deviceId = deviceId
-        self.sessionId = sessionId
-        self.notificationId = notificationId
-        self.userId = userId
-        self.data = data
-    }
 }
 
 // MARK: - Codable
