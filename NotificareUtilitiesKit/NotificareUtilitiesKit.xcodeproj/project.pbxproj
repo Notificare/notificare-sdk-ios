@@ -43,6 +43,7 @@
 		1A52DEDB2CAB048B00B5F56C /* JSONCodersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A52DEDA2CAB048200B5F56C /* JSONCodersTests.swift */; };
 		1A52DEE32CAB0DB200B5F56C /* UserAgentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A52DEE22CAB0DAC00B5F56C /* UserAgentTests.swift */; };
 		1A52DEE62CABE23F00B5F56C /* Bundle+PlistTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A52DEE52CABE23600B5F56C /* Bundle+PlistTests.swift */; };
+		1AE8F7EC2D76213900462CAB /* NotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE8F7EB2D76212A00462CAB /* NotificationCenter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,6 +94,7 @@
 		1A52DEDA2CAB048200B5F56C /* JSONCodersTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONCodersTests.swift; sourceTree = "<group>"; };
 		1A52DEE22CAB0DAC00B5F56C /* UserAgentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAgentTests.swift; sourceTree = "<group>"; };
 		1A52DEE52CABE23600B5F56C /* Bundle+PlistTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+PlistTests.swift"; sourceTree = "<group>"; };
+		1AE8F7EB2D76212A00462CAB /* NotificationCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +137,7 @@
 		1A0E1F432C982C3000E15FC7 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				1AE8F7EA2D761FF600462CAB /* NotificationCenter */,
 				1A52DF022CAC12DF00B5F56C /* JSON */,
 				1A0E1F8E2C9B1C1D00E15FC7 /* AnyCodable */,
 				1A52DE8B2CA4683900B5F56C /* Application */,
@@ -405,6 +408,14 @@
 			path = JSON;
 			sourceTree = "<group>";
 		};
+		1AE8F7EA2D761FF600462CAB /* NotificationCenter */ = {
+			isa = PBXGroup;
+			children = (
+				1AE8F7EB2D76212A00462CAB /* NotificationCenter.swift */,
+			);
+			path = NotificationCenter;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -538,6 +549,7 @@
 				1A0E1F922C9B1C6600E15FC7 /* NotificareAnyDecodable.swift in Sources */,
 				1A0E1F982C9C11DC00E15FC7 /* EncodeNull.swift in Sources */,
 				1A52DEBA2CA569DC00B5F56C /* Logger.swift in Sources */,
+				1AE8F7EC2D76213900462CAB /* NotificationCenter.swift in Sources */,
 				1A52DECB2CAAA31700B5F56C /* UIDevice.swift in Sources */,
 				1A52DE5A2CA165F400B5F56C /* Dictionary.swift in Sources */,
 				1A52DE542CA1612600B5F56C /* URL.swift in Sources */,
