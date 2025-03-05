@@ -3,6 +3,7 @@
 //
 
 import UIKit
+import NotificareUtilitiesKit
 
 private let MAX_RETRIES = 5
 private let UPLOAD_TASK_NAME = "re.notifica.tasks.events.Upload"
@@ -17,16 +18,20 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
 
     internal func configure() {
         // Listen to application did become active events.
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(onApplicationDidBecomeActiveNotification(_:)),
-                                               name: UIApplication.didBecomeActiveNotification,
-                                               object: nil)
+        NotificationCenter.default.upsertObserver(
+            self,
+            selector: #selector(onApplicationDidBecomeActiveNotification(_:)),
+            name: UIApplication.didBecomeActiveNotification,
+            object: nil
+        )
 
         // Listen to reachability changed events.
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(onReachabilityChanged(_:)),
-                                               name: .reachabilityChanged,
-                                               object: nil)
+        NotificationCenter.default.upsertObserver(
+            self,
+            selector: #selector(onReachabilityChanged(_:)),
+            name: .reachabilityChanged,
+            object: nil
+        )
     }
 
     internal func launch() async throws {

@@ -86,34 +86,44 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
         loadCachedItems()
 
         // Listen to inbox addition requests.
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(onAddItemNotification(_:)),
-                                               name: NotificareInboxImpl.addInboxItemNotification,
-                                               object: nil)
+        NotificationCenter.default.upsertObserver(
+            self,
+            selector: #selector(onAddItemNotification(_:)),
+            name: NotificareInboxImpl.addInboxItemNotification,
+            object: nil
+        )
 
         // Listen to inbox read requests.
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(onReadItemNotification(_:)),
-                                               name: NotificareInboxImpl.readInboxItemNotification,
-                                               object: nil)
+        NotificationCenter.default.upsertObserver(
+            self,
+            selector: #selector(onReadItemNotification(_:)),
+            name: NotificareInboxImpl.readInboxItemNotification,
+            object: nil
+        )
 
         // Listen to badge refresh requests.
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(onRefreshBadgeNotification(_:)),
-                                               name: NotificareInboxImpl.refreshBadgeNotification,
-                                               object: nil)
+        NotificationCenter.default.upsertObserver(
+            self,
+            selector: #selector(onRefreshBadgeNotification(_:)),
+            name: NotificareInboxImpl.refreshBadgeNotification,
+            object: nil
+        )
 
         // Listen to inbox reload requests.
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(onReloadInboxNotification(_:)),
-                                               name: NotificareInboxImpl.reloadInboxNotification,
-                                               object: nil)
+        NotificationCenter.default.upsertObserver(
+            self,
+            selector: #selector(onReloadInboxNotification(_:)),
+            name: NotificareInboxImpl.reloadInboxNotification,
+            object: nil
+        )
 
         // Listen to application did become active events.
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(onApplicationDidBecomeActiveNotification(_:)),
-                                               name: UIApplication.didBecomeActiveNotification,
-                                               object: nil)
+        NotificationCenter.default.upsertObserver(
+            self,
+            selector: #selector(onApplicationDidBecomeActiveNotification(_:)),
+            name: UIApplication.didBecomeActiveNotification,
+            object: nil
+        )
     }
 
     internal func clearStorage() async throws {

@@ -21,22 +21,28 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
 
     internal func configure() {
         // Listen to timezone changes
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(updateDeviceTimezone),
-                                               name: UIApplication.significantTimeChangeNotification,
-                                               object: nil)
+        NotificationCenter.default.upsertObserver(
+            self,
+            selector: #selector(updateDeviceTimezone),
+            name: UIApplication.significantTimeChangeNotification,
+            object: nil
+        )
 
         // Listen to language changes
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(updateDeviceLanguage),
-                                               name: NSLocale.currentLocaleDidChangeNotification,
-                                               object: nil)
+        NotificationCenter.default.upsertObserver(
+            self,
+            selector: #selector(updateDeviceLanguage),
+            name: NSLocale.currentLocaleDidChangeNotification,
+            object: nil
+        )
 
         // Listen to 'background refresh status' changes
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(updateDeviceBackgroundAppRefresh),
-                                               name: UIApplication.backgroundRefreshStatusDidChangeNotification,
-                                               object: nil)
+        NotificationCenter.default.upsertObserver(
+            self,
+            selector: #selector(updateDeviceBackgroundAppRefresh),
+            name: UIApplication.backgroundRefreshStatusDidChangeNotification,
+            object: nil
+        )
     }
 
     internal func launch() async throws {

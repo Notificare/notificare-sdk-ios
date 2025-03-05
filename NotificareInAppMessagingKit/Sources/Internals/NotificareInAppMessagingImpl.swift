@@ -19,16 +19,20 @@ internal class NotificareInAppMessagingImpl: NSObject, NotificareModule, Notific
         logger.hasDebugLoggingEnabled = Notificare.shared.options?.debugLoggingEnabled ?? false
 
         // Listen to when the application comes into the foreground.
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(onApplicationForeground),
-                                               name: UIApplication.didBecomeActiveNotification,
-                                               object: nil)
+        NotificationCenter.default.upsertObserver(
+            self,
+            selector: #selector(onApplicationForeground),
+            name: UIApplication.didBecomeActiveNotification,
+            object: nil
+        )
 
         // Listen to when the application goes into the background.
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(onApplicationBackground),
-                                               name: UIApplication.willResignActiveNotification,
-                                               object: nil)
+        NotificationCenter.default.upsertObserver(
+            self,
+            selector: #selector(onApplicationBackground),
+            name: UIApplication.willResignActiveNotification,
+            object: nil
+        )
     }
 
     internal func launch() async throws {

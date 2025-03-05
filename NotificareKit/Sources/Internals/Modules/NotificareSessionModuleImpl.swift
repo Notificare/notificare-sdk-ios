@@ -4,6 +4,7 @@
 
 import Foundation
 import UIKit
+import NotificareUtilitiesKit
 
 private let SESSION_CLOSE_TASK_NAME = "re.notifica.tasks.session.Close"
 
@@ -28,16 +29,20 @@ internal class NotificareSessionModuleImpl: NSObject, NotificareModule {
 
     internal func configure() {
         // Listen to 'application did become active'
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(applicationDidBecomeActive),
-                                               name: UIApplication.didBecomeActiveNotification,
-                                               object: nil)
+        NotificationCenter.default.upsertObserver(
+            self,
+            selector: #selector(applicationDidBecomeActive),
+            name: UIApplication.didBecomeActiveNotification,
+            object: nil
+        )
 
         // Listen to 'application will resign active'
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(applicationWillResignActive),
-                                               name: UIApplication.willResignActiveNotification,
-                                               object: nil)
+        NotificationCenter.default.upsertObserver(
+            self,
+            selector: #selector(applicationWillResignActive),
+            name: UIApplication.willResignActiveNotification,
+            object: nil
+        )
     }
 
     internal func launch() async throws {

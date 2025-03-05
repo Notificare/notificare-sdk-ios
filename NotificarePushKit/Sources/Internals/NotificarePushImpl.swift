@@ -54,10 +54,12 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
         _ = NotificareSwizzler.addInterceptor(applicationDelegateInterceptor)
 
         // Listen to 'application did become active'.
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(onApplicationForeground),
-                                               name: UIApplication.didBecomeActiveNotification,
-                                               object: nil)
+        NotificationCenter.default.upsertObserver(
+            self,
+            selector: #selector(onApplicationForeground),
+            name: UIApplication.didBecomeActiveNotification,
+            object: nil
+        )
     }
 
     internal func clearStorage() async throws {
