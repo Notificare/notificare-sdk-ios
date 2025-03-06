@@ -6,6 +6,7 @@
 - Introduce `subscriptionStream` and `allowedUIStream` Combine publishers for push module
 - Fix issue where the notification UI was not dismissed when an action was executed through a custom markup or actions context sheet
 - Allow unsetting user data fields
+- Run the configuration flow on the main thread
 
 #### Breaking changes
 
