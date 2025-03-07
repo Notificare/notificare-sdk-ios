@@ -46,6 +46,7 @@ internal class HomeViewModel: NSObject, ObservableObject {
     @Published internal var hasNotificationsAndPermission = Notificare.shared.push().allowedUI && Notificare.shared.push().hasRemoteNotificationsEnabled
     @Published internal private(set) var hasNotificationsEnabled = Notificare.shared.push().hasRemoteNotificationsEnabled
     @Published internal private(set) var allowedUi = Notificare.shared.push().allowedUI
+    @Published internal private(set) var subscription = Notificare.shared.push().subscription
     @Published internal private(set) var notificationsPermission: NotificationsPermissionStatus? = nil
 
     // Do not disturb
@@ -126,10 +127,11 @@ internal class HomeViewModel: NSObject, ObservableObject {
             .store(in: &cancellables)
 
         Notificare.shared.push().subscriptionStream
-            .sink { subscription in
+            .handleEvents(receiveOutput: { subscription in
                 Logger.main.info("Combine publisher subscription: \(String(describing: subscription))")
-            }
-            .store(in: &cancellables)
+            })
+            .receive(on: DispatchQueue.main)
+            .assign(to: &$subscription)
 
         // Load initial stats
 

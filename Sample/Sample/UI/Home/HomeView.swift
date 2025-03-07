@@ -21,6 +21,7 @@ internal struct HomeView: View {
                 hasNotificationsAndPermission: $viewModel.hasNotificationsAndPermission,
                 hasNotificationsEnabled: viewModel.hasNotificationsEnabled,
                 allowedUi: viewModel.allowedUi,
+                subscriptionToken: viewModel.subscription?.token,
                 notificationsPermission: viewModel.notificationsPermission,
                 badge: viewModel.badge,
                 updateNotificationsStatus: { enable in viewModel.updateNotificationsStatus(enabled: enable) }
