@@ -6,6 +6,14 @@ import NotificareKit
 import UIKit
 
 public class NotificareTelephoneActionHandler: NotificareBaseActionHandler {
+    private let sourceViewController: UIViewController
+
+    internal init(notification: NotificareNotification, action: NotificareNotification.Action, sourceViewController: UIViewController) {
+        self.sourceViewController = sourceViewController
+
+        super.init(notification: notification, action: action)
+    }
+
     internal override func execute() {
         if
             let target = action.target,
@@ -21,11 +29,27 @@ public class NotificareTelephoneActionHandler: NotificareBaseActionHandler {
                     Task {
                         try? await Notificare.shared.createNotificationReply(notification: self.notification, action: self.action)
                     }
+
+                    self.dismiss()
                 }
             }
         } else {
             DispatchQueue.main.async {
                 Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToExecuteAction: self.action, for: self.notification, error: ActionError.notSupported)
+            }
+        }
+    }
+
+    private func dismiss() {
+        if let rootViewController = UIApplication.shared.rootViewController, rootViewController.presentedViewController != nil {
+            rootViewController.dismiss(animated: true, completion: nil)
+        } else {
+            if sourceViewController is UIAlertController {
+                UIApplication.shared.rootViewController?.dismiss(animated: true, completion: nil)
+            } else {
+                sourceViewController.dismiss(animated: true) {
+                    self.sourceViewController.becomeFirstResponder()
+                }
             }
         }
     }
