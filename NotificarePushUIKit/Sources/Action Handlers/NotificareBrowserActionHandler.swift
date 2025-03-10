@@ -7,14 +7,6 @@ import NotificareUtilitiesKit
 import UIKit
 
 public class NotificareBrowserActionHandler: NotificareBaseActionHandler {
-    private let sourceViewController: UIViewController
-
-    internal init(notification: NotificareNotification, action: NotificareNotification.Action, sourceViewController: UIViewController) {
-        self.sourceViewController = sourceViewController
-
-        super.init(notification: notification, action: action)
-    }
-
     internal override func execute() {
         if
             let target = action.target,

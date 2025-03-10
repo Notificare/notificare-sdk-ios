@@ -11,8 +11,6 @@ import NotificareUtilitiesKit
 import UIKit
 
 public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
-    private let sourceViewController: UIViewController
-
     private var theme: NotificareOptions.Theme?
 
     private var navigationController: UINavigationController!
@@ -38,9 +36,8 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
     private var mediaUrl: String?
     private var mediaMimeType: String?
 
-    internal init(notification: NotificareNotification, action: NotificareNotification.Action, sourceViewController: UIViewController) {
-        self.sourceViewController = sourceViewController
-        super.init(notification: notification, action: action)
+    internal override init(notification: NotificareNotification, action: NotificareNotification.Action, sourceViewController: UIViewController) {
+        super.init(notification: notification, action: action, sourceViewController: sourceViewController)
 
         viewController = UIViewController()
         navigationController = UINavigationController(rootViewController: viewController)

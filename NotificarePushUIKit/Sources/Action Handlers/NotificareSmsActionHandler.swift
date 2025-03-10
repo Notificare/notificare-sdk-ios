@@ -7,14 +7,6 @@ import NotificareKit
 import NotificareUtilitiesKit
 
 public class NotificareSmsActionHandler: NotificareBaseActionHandler {
-    private let sourceViewController: UIViewController
-
-    internal init(notification: NotificareNotification, action: NotificareNotification.Action, sourceViewController: UIViewController) {
-        self.sourceViewController = sourceViewController
-
-        super.init(notification: notification, action: action)
-    }
-
     internal override func execute() {
         guard let target = action.target, MFMessageComposeViewController.canSendText() else {
             DispatchQueue.main.async {
