@@ -14,8 +14,8 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
 
     public weak var delegate: NotificareInboxDelegate?
 
-    public var itemsStream: AnyPublisher<[NotificareInboxItem], Never> { _itemsStream.eraseToAnyPublisher() }
-    public var badgeStream: AnyPublisher<Int, Never> { _badgeStream.eraseToAnyPublisher() }
+    public let itemsStream: AnyPublisher<[NotificareInboxItem], Never>
+    public let badgeStream: AnyPublisher<Int, Never>
 
     internal var _items: [NotificareInboxItem] = []
     public var items: [NotificareInboxItem] {
@@ -54,8 +54,18 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
     private let database = InboxDatabase()
     private var cachedEntities: [InboxItemEntity] = []
 
-    private var _itemsStream: CurrentValueSubject<[NotificareInboxItem], Never> = .init([])
-    private var _badgeStream: CurrentValueSubject<Int, Never> = .init(0)
+    private var _badgeStream = CurrentValueSubject<Int, Never>(0)
+    private var _itemsStream = CurrentValueSubject<[NotificareInboxItem], Never>([])
+
+    override init() {
+        itemsStream = _itemsStream
+            .map { items in
+                items.filter { !$0.isExpired }
+            }
+            .eraseToAnyPublisher()
+
+        badgeStream = _badgeStream.eraseToAnyPublisher()
+    }
 
     // MARK: - Notificare Module
 
