@@ -43,9 +43,9 @@ open class NotificareAbstractDatabase {
         return container
     }()
 
-    public var context: NSManagedObjectContext {
-        persistentContainer.viewContext
-    }
+    public lazy var backgroundContext: NSManagedObjectContext = {
+        persistentContainer.newBackgroundContext()
+    }()
 
     private var hasLoadedPersistentStores: Bool {
         !persistentContainer.persistentStoreCoordinator.persistentStores.isEmpty
@@ -65,10 +65,6 @@ open class NotificareAbstractDatabase {
         // Force the container to be loaded.
         _ = persistentContainer
 
-        if let mergePolicy {
-            persistentContainer.viewContext.mergePolicy = mergePolicy
-        }
-
         if let currentVersion = UserDefaults.standard.string(forKey: databaseVersionKey), currentVersion != Notificare.SDK_VERSION {
             logger.debug("Database version mismatch. Recreating...")
             removeStore()
@@ -76,6 +72,10 @@ open class NotificareAbstractDatabase {
 
         logger.debug("Loading database: \(name)")
         loadStore()
+
+        if let mergePolicy {
+            backgroundContext.mergePolicy = mergePolicy
+        }
     }
 
     public func ensureLoadedStores() {
@@ -87,20 +87,22 @@ open class NotificareAbstractDatabase {
         loadStore()
     }
 
-    public func saveChanges() {
-        guard context.hasChanges else {
-            return
-        }
+    public func saveChanges() async {
+        await backgroundContext.performCompat {
+            guard self.backgroundContext.hasChanges else {
+                return
+            }
 
-        guard hasLoadedPersistentStores else {
-            logger.warning("Cannot save the database changes before the persistent stores are loaded.")
-            return
-        }
+            guard self.hasLoadedPersistentStores else {
+                logger.warning("Cannot save the database changes before the persistent stores are loaded.")
+                return
+            }
 
-        do {
-            try context.save()
-        } catch {
-            logger.error("Failed to persist changes to CoreData.", error: error)
+            do {
+                try self.backgroundContext.save()
+            } catch {
+                logger.error("Failed to persist changes to CoreData.", error: error)
+            }
         }
     }
 
