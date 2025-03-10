@@ -9,6 +9,7 @@ internal struct NotificationsSection: View {
 
     internal let hasNotificationsEnabled: Bool
     internal let allowedUi: Bool
+    internal let subscriptionToken: String?
     internal let notificationsPermission: HomeViewModel.NotificationsPermissionStatus?
     internal let badge: Int
     internal let updateNotificationsStatus: (Bool) -> Void
@@ -50,6 +51,17 @@ internal struct NotificationsSection: View {
                 Spacer()
 
                 Text(String(allowedUi))
+            }
+
+            HStack {
+                Text(String(localized: "home_subscription_token"))
+
+                Text(String(localized: "sdk"))
+                    .font(.caption2)
+
+                Spacer()
+
+                Text(subscriptionToken.map { "...\($0.suffix(16))" } ?? "")
             }
 
             HStack {
@@ -106,7 +118,9 @@ internal struct NotificationsSection_Previews: PreviewProvider {
         @State var hasNotificationsAndPermission = false
         NotificationsSection(
             hasNotificationsAndPermission: $hasNotificationsAndPermission,
-            hasNotificationsEnabled: false, allowedUi: false,
+            hasNotificationsEnabled: false,
+            allowedUi: false,
+            subscriptionToken: "12345",
             notificationsPermission: HomeViewModel.NotificationsPermissionStatus.granted,
             badge: 2,
             updateNotificationsStatus: { _ in }
