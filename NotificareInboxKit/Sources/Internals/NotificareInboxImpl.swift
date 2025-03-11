@@ -665,6 +665,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
 
             // Persist the changes to the database.
             await database.saveChanges()
+            await updateCachedItems()
 
             _ = try? await refreshBadge()
             notifyItemsUpdated(self.items)
