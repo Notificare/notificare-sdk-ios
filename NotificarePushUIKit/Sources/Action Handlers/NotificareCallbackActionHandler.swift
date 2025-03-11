@@ -29,7 +29,7 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
     private var imageData: Data?
     private var videoData: Data?
 
-    private var message: String? {
+    @MainActor private var message: String? {
         messageField?.text ?? messageView?.text
     }
 
@@ -192,9 +192,9 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
                 } catch {
                     await MainActor.run {
                         Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToExecuteAction: self.action, for: self.notification, error: error)
-                    }
 
-                    await dismiss()
+                        dismiss()
+                    }
                 }
             } else  if let videoData = videoData {
                 do {
@@ -207,11 +207,11 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
                 } catch {
                     await MainActor.run {
                         Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToExecuteAction: self.action, for: self.notification, error: error)
-                    }
 
-                    await dismiss()
+                        dismiss()
+                    }
                 }
-            } else if message != nil {
+            } else if await message != nil {
                 await send()
             }
         }
@@ -443,23 +443,10 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
         toolbarBottomConstraint?.constant = 0
     }
 
-    @MainActor
-    private func dismiss() {
-        if let rootViewController = UIApplication.shared.rootViewController, rootViewController.presentedViewController != nil {
-            rootViewController.dismiss(animated: true, completion: nil)
-        } else {
-            if sourceViewController is UIAlertController {
-                UIApplication.shared.rootViewController?.dismiss(animated: true, completion: nil)
-            } else {
-                sourceViewController.dismiss(animated: true) {
-                    self.sourceViewController.becomeFirstResponder()
-                }
-            }
-        }
-    }
-
     private func send() async {
-        await dismiss()
+        await MainActor.run {
+            dismiss()
+        }
 
         guard let target = action.target, let url = URL(string: target), url.scheme != nil, url.host != nil else {
             DispatchQueue.main.async {
@@ -476,7 +463,7 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
             "notificationID": notification.id,
         ]
 
-        if let message = message {
+        if let message = await message {
             params["message"] = message
         }
 

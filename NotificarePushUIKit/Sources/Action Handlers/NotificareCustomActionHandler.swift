@@ -24,20 +24,6 @@ public class NotificareCustomActionHandler: NotificareBaseActionHandler {
             }
         }
     }
-
-    private func dismiss() {
-        if let rootViewController = UIApplication.shared.rootViewController, rootViewController.presentedViewController != nil {
-            rootViewController.dismiss(animated: true, completion: nil)
-        } else {
-            if sourceViewController is UIAlertController {
-                UIApplication.shared.rootViewController?.dismiss(animated: true, completion: nil)
-            } else {
-                sourceViewController.dismiss(animated: true) {
-                    self.sourceViewController.becomeFirstResponder()
-                }
-            }
-        }
-    }
 }
 
 extension NotificareCustomActionHandler {
