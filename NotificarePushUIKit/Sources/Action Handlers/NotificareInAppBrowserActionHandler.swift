@@ -43,6 +43,10 @@ extension NotificareInAppBrowserActionHandler: SFSafariViewControllerDelegate {
             }
         }
     }
+
+    public func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
+        dismiss()
+    }
 }
 
 extension NotificareInAppBrowserActionHandler {
