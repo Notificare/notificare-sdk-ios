@@ -343,13 +343,10 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
         if
             let entity = await database.backgroundContext.performCompat({
                 self.cachedEntities.first(where: { $0.id == item.id })
-            }),
-            let index = await database.backgroundContext.performCompat({
-                self.cachedEntities.firstIndex(of: entity)
             })
         {
             await database.remove(entity)
-            cachedEntities.remove(at: index)
+            cachedEntities.removeAll(where: { $0.id == item.id })
             await updateCachedItems()
 
             Notificare.shared.removeNotificationFromNotificationCenter(item.notification)
