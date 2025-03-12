@@ -41,6 +41,7 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
 
         viewController = UIViewController()
         navigationController = UINavigationController(rootViewController: viewController)
+        navigationController.presentationController?.delegate = self
 
         theme = Notificare.shared.options!.theme(for: viewController)
         if let colorStr = theme?.backgroundColor {
@@ -543,6 +544,16 @@ extension NotificareCallbackActionHandler: UIImagePickerControllerDelegate {
     }
 
     public func imagePickerControllerDidCancel(_: UIImagePickerController) {
+        DispatchQueue.main.async {
+            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didNotExecuteAction: self.action, for: self.notification)
+        }
+
+        dismiss()
+    }
+}
+
+extension NotificareCallbackActionHandler: UIAdaptivePresentationControllerDelegate {
+    public func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
         DispatchQueue.main.async {
             Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didNotExecuteAction: self.action, for: self.notification)
         }
