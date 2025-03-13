@@ -235,7 +235,7 @@ public class Notificare {
                     }
                 }
 
-                try database.clear()
+                try await database.clear()
                 LocalStorage.clear()
             }
 

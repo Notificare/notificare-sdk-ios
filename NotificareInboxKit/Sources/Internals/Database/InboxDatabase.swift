@@ -15,48 +15,57 @@ internal class InboxDatabase: NotificareAbstractDatabase {
         )
     }
 
-    internal func add(_ item: NotificareInboxItem, visible: Bool) throws -> InboxItemEntity {
+    internal func add(_ item: NotificareInboxItem, visible: Bool) async throws -> InboxItemEntity {
         ensureLoadedStores()
 
-        let entity = try InboxItemEntity(from: item, visible: visible, context: context)
-        saveChanges()
+        let entity = try await backgroundContext.performCompat {
+            try InboxItemEntity(from: item, visible: visible, context: self.backgroundContext)
+        }
+
+        await saveChanges()
 
         return entity
     }
 
-    internal func find() throws -> [InboxItemEntity] {
+    internal func find() async throws -> [InboxItemEntity] {
         ensureLoadedStores()
 
-        let request = NSFetchRequest<InboxItemEntity>(entityName: "InboxItemEntity")
-        let result = try context.fetch(request)
-
-        return result
+        return try await backgroundContext.performCompat {
+            let request = NSFetchRequest<InboxItemEntity>(entityName: "InboxItemEntity")
+            return try self.backgroundContext.fetch(request)
+        }
     }
 
-    internal func find(id: String) throws -> [InboxItemEntity] {
+    internal func find(id: String) async throws -> [InboxItemEntity] {
         ensureLoadedStores()
 
-        let request = NSFetchRequest<InboxItemEntity>(entityName: "InboxItemEntity")
-        request.predicate = NSPredicate(format: "id = %@", id)
+        return try await backgroundContext.performCompat {
+            let request = NSFetchRequest<InboxItemEntity>(entityName: "InboxItemEntity")
+            request.predicate = NSPredicate(format: "id = %@", id)
 
-        let result = try context.fetch(request)
-
-        return result
+            return try self.backgroundContext.fetch(request)
+        }
     }
 
-    internal func remove(_ item: InboxItemEntity) {
+    internal func remove(_ item: InboxItemEntity) async {
         ensureLoadedStores()
 
-        context.delete(item)
-        saveChanges()
+        await backgroundContext.performCompat {
+            let entity = self.backgroundContext.object(with: item.objectID)
+            self.backgroundContext.delete(entity)
+        }
+
+        await saveChanges()
     }
 
-    internal func clear() throws {
+    internal func clear() async throws {
         ensureLoadedStores()
 
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "InboxItemEntity")
-        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+        try await backgroundContext.performCompat {
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "InboxItemEntity")
+            let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
 
-        try persistentContainer.persistentStoreCoordinator.execute(deleteRequest, with: context)
+            try self.persistentContainer.persistentStoreCoordinator.execute(deleteRequest, with: self.backgroundContext)
+        }
     }
 }
