@@ -154,17 +154,20 @@ internal class NotificarePushUIImpl: NotificareModule, NotificarePushUI {
         switch type {
         case .app:
             latestPresentableActionHandler = NotificareAppActionHandler(notification: notification,
-                                                                        action: action)
+                                                                        action: action,
+                                                                        sourceViewController: controller)
         case .browser:
             latestPresentableActionHandler = NotificareBrowserActionHandler(notification: notification,
-                                                                            action: action)
+                                                                            action: action,
+                                                                            sourceViewController: controller)
         case .callback:
             latestPresentableActionHandler = NotificareCallbackActionHandler(notification: notification,
                                                                              action: action,
                                                                              sourceViewController: controller)
         case .custom:
             latestPresentableActionHandler = NotificareCustomActionHandler(notification: notification,
-                                                                           action: action)
+                                                                           action: action,
+                                                                           sourceViewController: controller)
         case .mail:
             latestPresentableActionHandler = NotificareMailActionHandler(notification: notification,
                                                                          action: action,
@@ -175,7 +178,8 @@ internal class NotificarePushUIImpl: NotificareModule, NotificarePushUI {
                                                                         sourceViewController: controller)
         case .telephone:
             latestPresentableActionHandler = NotificareTelephoneActionHandler(notification: notification,
-                                                                              action: action)
+                                                                              action: action,
+                                                                              sourceViewController: controller)
         case .webView, .inAppBrowser:
             latestPresentableActionHandler = NotificareInAppBrowserActionHandler(notification: notification,
                                                                                  action: action,

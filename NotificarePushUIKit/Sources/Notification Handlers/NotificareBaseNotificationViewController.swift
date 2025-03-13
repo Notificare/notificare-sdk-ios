@@ -91,7 +91,6 @@ public class NotificareBaseNotificationViewController: UIViewController {
     }
 
     internal func handleAction(_ action: NotificareNotification.Action) {
-        dismissViewController()
         Notificare.shared.pushUI().presentAction(action, for: notification, in: self)
     }
 

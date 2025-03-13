@@ -3,6 +3,7 @@
 //
 
 import NotificareKit
+import UIKit
 
 public class NotificareCustomActionHandler: NotificareBaseActionHandler {
     internal override func execute() {
@@ -15,6 +16,8 @@ public class NotificareCustomActionHandler: NotificareBaseActionHandler {
             Task {
                 try? await Notificare.shared.createNotificationReply(notification: notification, action: action)
             }
+
+            self.dismiss()
         } else {
             DispatchQueue.main.async {
                 Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToExecuteAction: self.action, for: self.notification, error: ActionError.invalidUrl)

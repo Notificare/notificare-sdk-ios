@@ -21,6 +21,8 @@ public class NotificareTelephoneActionHandler: NotificareBaseActionHandler {
                     Task {
                         try? await Notificare.shared.createNotificationReply(notification: self.notification, action: self.action)
                     }
+
+                    self.dismiss()
                 }
             }
         } else {

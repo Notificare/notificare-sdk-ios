@@ -11,8 +11,6 @@ import NotificareUtilitiesKit
 import UIKit
 
 public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
-    private let sourceViewController: UIViewController
-
     private var theme: NotificareOptions.Theme?
 
     private var navigationController: UINavigationController!
@@ -31,19 +29,19 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
     private var imageData: Data?
     private var videoData: Data?
 
-    private var message: String? {
+    @MainActor private var message: String? {
         messageField?.text ?? messageView?.text
     }
 
     private var mediaUrl: String?
     private var mediaMimeType: String?
 
-    internal init(notification: NotificareNotification, action: NotificareNotification.Action, sourceViewController: UIViewController) {
-        self.sourceViewController = sourceViewController
-        super.init(notification: notification, action: action)
+    internal override init(notification: NotificareNotification, action: NotificareNotification.Action, sourceViewController: UIViewController) {
+        super.init(notification: notification, action: action, sourceViewController: sourceViewController)
 
         viewController = UIViewController()
         navigationController = UINavigationController(rootViewController: viewController)
+        navigationController.presentationController?.delegate = self
 
         theme = Notificare.shared.options!.theme(for: viewController)
         if let colorStr = theme?.backgroundColor {
@@ -195,9 +193,9 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
                 } catch {
                     await MainActor.run {
                         Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToExecuteAction: self.action, for: self.notification, error: error)
-                    }
 
-                    await dismiss()
+                        dismiss()
+                    }
                 }
             } else  if let videoData = videoData {
                 do {
@@ -210,11 +208,11 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
                 } catch {
                     await MainActor.run {
                         Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToExecuteAction: self.action, for: self.notification, error: error)
-                    }
 
-                    await dismiss()
+                        dismiss()
+                    }
                 }
-            } else if message != nil {
+            } else if await message != nil {
                 await send()
             }
         }
@@ -446,23 +444,10 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
         toolbarBottomConstraint?.constant = 0
     }
 
-    @MainActor
-    private func dismiss() {
-        if let rootViewController = UIApplication.shared.rootViewController, rootViewController.presentedViewController != nil {
-            rootViewController.dismiss(animated: true, completion: nil)
-        } else {
-            if sourceViewController is UIAlertController {
-                UIApplication.shared.rootViewController?.dismiss(animated: true, completion: nil)
-            } else {
-                sourceViewController.dismiss(animated: true) {
-                    self.sourceViewController.becomeFirstResponder()
-                }
-            }
-        }
-    }
-
     private func send() async {
-        await dismiss()
+        await MainActor.run {
+            dismiss()
+        }
 
         guard let target = action.target, let url = URL(string: target), url.scheme != nil, url.host != nil else {
             DispatchQueue.main.async {
@@ -479,7 +464,7 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
             "notificationID": notification.id,
         ]
 
-        if let message = message {
+        if let message = await message {
             params["message"] = message
         }
 
@@ -559,6 +544,16 @@ extension NotificareCallbackActionHandler: UIImagePickerControllerDelegate {
     }
 
     public func imagePickerControllerDidCancel(_: UIImagePickerController) {
+        DispatchQueue.main.async {
+            Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didNotExecuteAction: self.action, for: self.notification)
+        }
+
+        dismiss()
+    }
+}
+
+extension NotificareCallbackActionHandler: UIAdaptivePresentationControllerDelegate {
+    public func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
         DispatchQueue.main.async {
             Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didNotExecuteAction: self.action, for: self.notification)
         }
