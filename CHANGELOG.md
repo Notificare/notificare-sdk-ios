@@ -7,6 +7,7 @@
 - Fix issue where the notification UI was not dismissed when some actions were executed
 - Allow unsetting user data fields
 - Run the configuration flow on the main thread
+- Fix callback with keyboard safe area insets
 
 #### Breaking changes
 
