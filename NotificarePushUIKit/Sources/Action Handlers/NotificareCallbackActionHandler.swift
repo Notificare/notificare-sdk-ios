@@ -319,7 +319,7 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
         viewController.view.addSubview(messageView)
         viewController.view.addSubview(toolbar)
 
-        let toolbarBottomConstraint = toolbar.bottomAnchor.constraint(equalTo: viewController.view.bottomAnchor)
+        let toolbarBottomConstraint = toolbar.bottomAnchor.constraint(equalTo: viewController.view.ncSafeAreaLayoutGuide.bottomAnchor)
         self.toolbarBottomConstraint = toolbarBottomConstraint
 
         NSLayoutConstraint.activate([
@@ -437,7 +437,7 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
             return
         }
 
-        toolbarBottomConstraint?.constant = -keyboardRect.height
+        toolbarBottomConstraint?.constant = -(keyboardRect.height - viewController.view.safeAreaInsets.bottom)
     }
 
     @objc private func keyboardWillDisappear(_ notification: Notification) {
