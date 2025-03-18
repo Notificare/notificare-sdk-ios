@@ -56,63 +56,63 @@ let package = Package(
     targets: [
         .binaryTarget(
             name: "NotificareKit",
-            url: "https://cdn.notifica.re/libs/ios/4.0.1/spm-notificare.zip",
-            checksum: "fd898e5ce6064877e5c4e229b3db72b44fe1a4a7e4ac69ce3069fb40ff90b004"
+            url: "https://cdn.notifica.re/libs/ios/4.1.0/spm-notificare.zip",
+            checksum: "7e79ad94aff0f7944b512b97aeb3d86ab18e2749b4465ce8973e09d133cc0b41"
         ),
         .binaryTarget(
             name: "NotificareAssetsKit",
-            url: "https://cdn.notifica.re/libs/ios/4.0.1/spm-notificare-assets.zip",
-            checksum: "f8a2cf8dad1f579500ed2b499512d89d050091433b763228f70caaa4fc88906d"
+            url: "https://cdn.notifica.re/libs/ios/4.1.0/spm-notificare-assets.zip",
+            checksum: "d4f8589b661b8a0ac6f23b462956be190552666ca4b84a2848c803c37151f970"
         ),
         .binaryTarget(
             name: "NotificareGeoKit",
-            url: "https://cdn.notifica.re/libs/ios/4.0.1/spm-notificare-geo.zip",
-            checksum: "ae8ebb5ebbe9a0b413e58fd41c3726b89e95ac8ab306babec9dd9d2013f3d336"
+            url: "https://cdn.notifica.re/libs/ios/4.1.0/spm-notificare-geo.zip",
+            checksum: "206941090b389a6aa51a538fafa22f1c0a9570c1eb69444bb2c0cd3735121312"
         ),
         .binaryTarget(
             name: "NotificareInAppMessagingKit",
-            url: "https://cdn.notifica.re/libs/ios/4.0.1/spm-notificare-in-app-messaging.zip",
-            checksum: "a1419d6c7fe601029cb0831511a0a4d6cdfff05a42800d75a4822deff644d7c2"
+            url: "https://cdn.notifica.re/libs/ios/4.1.0/spm-notificare-in-app-messaging.zip",
+            checksum: "84df16604f448d104d3b5175425dc76a7267e4f29fc0a45a27913090e4d29528"
         ),
         .binaryTarget(
             name: "NotificareInboxKit",
-            url: "https://cdn.notifica.re/libs/ios/4.0.1/spm-notificare-inbox.zip",
-            checksum: "39f24b07410e3c850c48ca947bf0410b03cda6ad087de31d04e6af813d65ca1b"
+            url: "https://cdn.notifica.re/libs/ios/4.1.0/spm-notificare-inbox.zip",
+            checksum: "c02069a7bd95e313a600dde7af005e139d59edbad5a3939c0362d5520ce75d58"
         ),
         .binaryTarget(
             name: "NotificareLoyaltyKit",
-            url: "https://cdn.notifica.re/libs/ios/4.0.1/spm-notificare-loyalty.zip",
-            checksum: "d5c6addfc8cbe29ecb4a8341c11b5f69c2dfd926c51ffb7bab60cc2309d3817b"
+            url: "https://cdn.notifica.re/libs/ios/4.1.0/spm-notificare-loyalty.zip",
+            checksum: "1585c7927863c952fc459e55b23c039b50a9ede5c447e460aa2ad5784598b4fe"
         ),
         .binaryTarget(
             name: "NotificarePushKit",
-            url: "https://cdn.notifica.re/libs/ios/4.0.1/spm-notificare-push.zip",
-            checksum: "8f7208bf916171dced82fdcbf94c1b3c2b3e6b57b868535f96c0a9df56077d1d"
+            url: "https://cdn.notifica.re/libs/ios/4.1.0/spm-notificare-push.zip",
+            checksum: "8385f410bb3b62d0fa34b4125a6fe86f8c0b4d829b6db3df2e875859b0870da9"
         ),
         .binaryTarget(
             name: "NotificareNotificationServiceExtensionKit",
-            url: "https://cdn.notifica.re/libs/ios/4.0.1/spm-notificare-notification-service-extension.zip",
-            checksum: "5341801055c34e8f42016cc71392ffea1b1cddfecf7da9af2140aa2af9881656"
+            url: "https://cdn.notifica.re/libs/ios/4.1.0/spm-notificare-notification-service-extension.zip",
+            checksum: "c1f2d139da8c01a1c0fbcd48b57b965af333d214d8a7f0b686631f9a582ef10e"
         ),
         .binaryTarget(
             name: "NotificarePushUIKit",
-            url: "https://cdn.notifica.re/libs/ios/4.0.1/spm-notificare-push-ui.zip",
-            checksum: "335ca00fe57947eaefe6b44c2ee827da0dbccd2107f9d8d17db7348c5e1bdca8"
+            url: "https://cdn.notifica.re/libs/ios/4.1.0/spm-notificare-push-ui.zip",
+            checksum: "2c29c665e646dac3efd97e42c692edaed1a6a82ceba62c129ab3cf8ca9c207d8"
         ),
         .binaryTarget(
             name: "NotificareScannablesKit",
-            url: "https://cdn.notifica.re/libs/ios/4.0.1/spm-notificare-scannables.zip",
-            checksum: "0aa416ad807add080c7a6188444f9cfc6003eec32926845c60740dc8de6b4e5d"
+            url: "https://cdn.notifica.re/libs/ios/4.1.0/spm-notificare-scannables.zip",
+            checksum: "fef559268c930ee1e40ae8eaa51ef3f4b8c5e74abda2b3b368986d6b03728604"
         ),
         .binaryTarget(
             name: "NotificareUserInboxKit",
-            url: "https://cdn.notifica.re/libs/ios/4.0.1/spm-notificare-user-inbox.zip",
-            checksum: "1d9f9c3ff8aa7764481e7d16702a64179cb9dafa4adbac470d63515b78b2b2d5"
+            url: "https://cdn.notifica.re/libs/ios/4.1.0/spm-notificare-user-inbox.zip",
+            checksum: "1875e420f06f890996c3088d11e2483bb1e362918a7d90492f7695b93287a5f0"
         ),
         .binaryTarget(
             name: "NotificareUtilitiesKit",
-            url: "https://cdn.notifica.re/libs/ios/4.0.1/spm-notificare-utilities.zip",
-            checksum: "ebdd37d3a2b57c546f8c8f16597557130be73f223367388d07783c26bb2adb4e"
+            url: "https://cdn.notifica.re/libs/ios/4.1.0/spm-notificare-utilities.zip",
+            checksum: "52ccf49487514c7775c700f2cd23581d66bc6bd6ec834e358588a5dcf91d580f"
         ),
     ]
 )
