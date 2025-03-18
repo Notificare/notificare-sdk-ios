@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## Upcoming Release
+## 4.1.0
 
 - Introduce `itemsStream` and `badgeStream` Combine publishers for inbox module
 - Introduce `subscriptionStream` and `allowedUIStream` Combine publishers for push module
@@ -8,10 +8,8 @@
 - Allow unsetting user data fields
 - Run the configuration flow on the main thread
 - Fix callback with keyboard safe area insets
-
-#### Breaking changes
-
-- Change `NotificareRegion.timeZoneOffset` attribute from `int` to `float` to support half-hour timezones.
+- Improve CoreData threading
+- Change `NotificareRegion.timeZoneOffset` attribute from `int` to `float` to support half-hour timezones
 
 ## 4.0.1
 
