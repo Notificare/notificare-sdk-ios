@@ -7,14 +7,6 @@ import SafariServices
 import UIKit
 
 public class NotificareInAppBrowserActionHandler: NotificareBaseActionHandler {
-    private let sourceViewController: UIViewController
-
-    internal init(notification: NotificareNotification, action: NotificareNotification.Action, sourceViewController: UIViewController) {
-        self.sourceViewController = sourceViewController
-
-        super.init(notification: notification, action: action)
-    }
-
     internal override func execute() {
         if let target = action.target,
            let url = URL(string: target),
@@ -50,6 +42,10 @@ extension NotificareInAppBrowserActionHandler: SFSafariViewControllerDelegate {
                 Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didFailToExecuteAction: self.action, for: self.notification, error: nil)
             }
         }
+    }
+
+    public func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
+        dismiss()
     }
 }
 

@@ -5,6 +5,7 @@
 import Foundation
 import UIKit
 
+@MainActor
 public class NotificareAutoConfig: NSObject {
     @objc public static func setup() {
         addApplicationLaunchListener()

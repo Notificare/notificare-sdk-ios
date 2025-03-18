@@ -40,7 +40,7 @@ extension NotificareInternals.PushAPI.Payloads {
     }
 
     internal struct UpdateDeviceUserData: Encodable {
-        internal let userData: NotificareUserData
+        internal let userData: [String: String?]
     }
 
     internal struct UpgradeToLongLivedDevice: Encodable {

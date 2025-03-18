@@ -2,6 +2,7 @@
 // Copyright (c) 2020 Notificare. All rights reserved.
 //
 
+import Combine
 import Foundation
 import NotificareKit
 import UIKit
@@ -44,12 +45,18 @@ public protocol NotificarePush: AnyObject, NotificarePushUIApplicationDelegate, 
     ///
     var subscription: NotificarePushSubscription? { get }
 
+    /// This property returns a Publisher that can be observed to track changes to the device's push subscription token.
+    var subscriptionStream: AnyPublisher<NotificarePushSubscription?, Never> { get }
+
     /// Indicates whether the device is capable of receiving remote notifications.
     ///
     /// This property returns `true` if the user has granted permission to receive push notifications and the device
     /// has successfully obtained a push token from the notification service. It reflects whether the app can present
     /// notifications as allowed by the system and user settings.
     var allowedUI: Bool { get }
+
+    /// This property returns a Publisher that can be observed to track any changes to whether the device can receive remote notifications.
+    var allowedUIStream: AnyPublisher<Bool, Never> { get }
 
     // MARK: Methods
 

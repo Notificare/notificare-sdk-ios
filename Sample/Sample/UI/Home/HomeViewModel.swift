@@ -46,6 +46,7 @@ internal class HomeViewModel: NSObject, ObservableObject {
     @Published internal var hasNotificationsAndPermission = Notificare.shared.push().allowedUI && Notificare.shared.push().hasRemoteNotificationsEnabled
     @Published internal private(set) var hasNotificationsEnabled = Notificare.shared.push().hasRemoteNotificationsEnabled
     @Published internal private(set) var allowedUi = Notificare.shared.push().allowedUI
+    @Published internal private(set) var subscription = Notificare.shared.push().subscription
     @Published internal private(set) var notificationsPermission: NotificationsPermissionStatus? = nil
 
     // Do not disturb
@@ -101,28 +102,36 @@ internal class HomeViewModel: NSObject, ObservableObject {
             }
             .store(in: &cancellables)
 
-        // Listening for badge updates
+        // Listening for inbox items and badge updates
 
-        NotificationCenter.default
-            .publisher(for: .badgeUpdated, object: nil)
-            .sink { [weak self] notification in
-                guard let badge = notification.userInfo?["badge"] as? Int else {
-                    Logger.main.error("Invalid notification payload.")
-                    return
-                }
-
-                self?.badge = badge
+        Notificare.shared.inbox().itemsStream
+            .sink { items in
+                Logger.main.info("Combine publisher inbox update. Total = \(items.count)")
             }
             .store(in: &cancellables)
+
+        Notificare.shared.inbox().badgeStream
+            .handleEvents(receiveOutput: { badge in
+                Logger.main.info("Combine publisher badge update. Unread = \(badge)")
+            })
+            .receive(on: DispatchQueue.main)
+            .assign(to: &$badge)
 
         // Listening for notification changes (only when has remote notifications enabled)
 
-        NotificationCenter.default
-            .publisher(for: .notificationSettingsChanged, object: nil)
-            .sink { [weak self] _ in
+        Notificare.shared.push().allowedUIStream
+            .sink { [weak self] allowedUI in
                 self?.checkNotificationsStatus()
+                Logger.main.info("Combine publisher allowedUI: \(allowedUI)")
             }
             .store(in: &cancellables)
+
+        Notificare.shared.push().subscriptionStream
+            .handleEvents(receiveOutput: { subscription in
+                Logger.main.info("Combine publisher subscription: \(String(describing: subscription))")
+            })
+            .receive(on: DispatchQueue.main)
+            .assign(to: &$subscription)
 
         // Load initial stats
 
@@ -514,7 +523,7 @@ extension HomeViewModel: CLLocationManagerDelegate {
 
 extension HomeViewModel {
     internal func updateSuppressedIamStatus(enabled: Bool) {
-//        Logger.main.info("\(enabled ? "Supressing" : "Unsupressing") in app messages, evaluate context is \(hasEvaluateContextOn ? "ON" : "OFF")")
+        //        Logger.main.info("\(enabled ? "Supressing" : "Unsupressing") in app messages, evaluate context is \(hasEvaluateContextOn ? "ON" : "OFF")")
         Notificare.shared.inAppMessaging().setMessagesSuppressed(enabled, evaluateContext: hasEvaluateContextOn)
     }
 }

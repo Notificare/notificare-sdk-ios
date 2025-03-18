@@ -2,6 +2,7 @@
 // Copyright (c) 2021 Notificare. All rights reserved.
 //
 
+import Combine
 import Foundation
 import NotificareKit
 
@@ -14,11 +15,17 @@ public protocol NotificareInbox: AnyObject {
     /// inbox and badges updates.
     var delegate: NotificareInboxDelegate? { get set }
 
-    /// A list of all ``NotificareInboxItems``, sorted by timestamp.
+    /// A list of all ``NotificareInboxItem``, sorted by timestamp.
     var items: [NotificareInboxItem] { get }
+
+    /// A Publisher for observing changes to inbox items, suitable for real-time UI updates to reflect inbox state changes.
+    var itemsStream: AnyPublisher<[NotificareInboxItem], Never> { get }
 
     /// The current badge count, representing the number of unread inbox items.
     var badge: Int { get }
+
+    /// A Publisher for observing changes to the badge count, providing real-time updates when the unread count changes.
+    var badgeStream: AnyPublisher<Int, Never> { get }
 
     // MARK: Methods
 

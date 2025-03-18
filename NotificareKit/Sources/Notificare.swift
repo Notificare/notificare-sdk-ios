@@ -76,6 +76,7 @@ public class Notificare {
     /// - Parameters:
     ///   - servicesInfo: The optional ``NotificareServicesInfo`` object to use for configuration.
     ///   - options: The optional ``NotificareOptions`` object to use for configuration.
+    @MainActor
     public func configure(servicesInfo: NotificareServicesInfo? = nil, options: NotificareOptions? = nil) {
         configure(
             servicesInfo: servicesInfo ?? loadServiceInfoFile(),
@@ -88,7 +89,12 @@ public class Notificare {
     /// - Parameters:
     ///   - servicesInfo: The ``NotificareServicesInfo`` object to use for configuration.
     ///   - options: The ``NotificareOptions`` object to use for configuration.
+    @MainActor
     public func configure(servicesInfo: NotificareServicesInfo, options: NotificareOptions) {
+        if !Thread.isMainThread {
+            logger.warning("Notificare must be configured on the main thread. Call configure() from the main thread.")
+        }
+
         guard state <= .configured else {
             logger.warning("Unable to reconfigure Notificare once launched.")
             return
@@ -188,7 +194,7 @@ public class Notificare {
     public func launch() async throws {
         if state == .none {
             logger.debug("Notificare wasn't configured. Configuring before launching.")
-            configure()
+            await configure()
         }
 
         if state > .configured {
@@ -229,7 +235,7 @@ public class Notificare {
                     }
                 }
 
-                try database.clear()
+                try await database.clear()
                 LocalStorage.clear()
             }
 
@@ -603,7 +609,7 @@ public class Notificare {
         UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [notificationId])
     }
 
-    /// Handles an URL by validating it and registering the current device as a test device for Notificare Services.
+    /// Handles a URL by validating it and registering the current device as a test device for Notificare Services.
     ///
     /// - Parameters:
     ///   - url: The URL containing the test device nonce.
@@ -626,7 +632,7 @@ public class Notificare {
         return true
     }
 
-    /// Handles an URL for dynamic links.
+    /// Handles a URL for dynamic links.
     ///
     /// - Parameters:
     ///   - url: The URL to handle.

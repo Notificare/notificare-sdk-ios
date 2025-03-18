@@ -62,6 +62,7 @@
 "home_notifications" = "Notifications";
 "home_enabled" = "Enabled";
 "home_allowed_ui" = "Allowed UI";
+"home_subscription_token" = "Token";
 "home_permission" = "Permission";
 "home_inbox" = "Inbox";
 "home_tags" = "Tags";

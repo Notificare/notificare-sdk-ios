@@ -11,29 +11,7 @@ import UIKit
 
 @MainActor
 internal class InboxViewModel: ObservableObject {
-    @Published internal private(set) var items: [NotificareInboxItem] = []
     @Published internal private(set) var userMessages: [UserMessage] = []
-
-    private var cancellables = Set<AnyCancellable>()
-
-    internal init() {
-        let items = Notificare.shared.inbox().items
-        self.items = items
-
-        NotificationCenter.default
-            .publisher(for: .inboxUpdated, object: nil)
-            .sink { [weak self] notification in
-                guard let self = self else { return }
-
-                guard let items = notification.userInfo?["items"] as? [NotificareInboxItem] else {
-                    Logger.main.error("Invalid notification payload.")
-                    return
-                }
-
-                self.items = items
-            }
-            .store(in: &cancellables)
-    }
 
     internal func presentInboxItem(_ item: NotificareInboxItem) {
         Logger.main.info("Inbox item clicked")

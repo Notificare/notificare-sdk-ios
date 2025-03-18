@@ -11,6 +11,14 @@ public struct NotificareScannable: Codable, Equatable {
     public let tag: String
     public let type: String
     public let notification: NotificareNotification?
+
+    public init(id: String, name: String, tag: String, type: String, notification: NotificareNotification?) {
+        self.id = id
+        self.name = name
+        self.tag = tag
+        self.type = type
+        self.notification = notification
+    }
 }
 
 // Identifiable: NotificareScannable

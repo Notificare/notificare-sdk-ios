@@ -10,41 +10,50 @@ internal class NotificareDatabase: NotificareAbstractDatabase {
         super.init(name: "NotificareDatabase", rebuildOnVersionChange: true)
     }
 
-    internal func add(_ event: NotificareEvent) {
+    internal func add(_ event: NotificareEvent) async {
         ensureLoadedStores()
 
-        _ = event.toManaged(context: context)
-        saveChanges()
+        await backgroundContext.performCompat {
+            _ = event.toManaged(context: self.backgroundContext)
+        }
+
+        await saveChanges()
     }
 
-    internal func remove(_ event: NotificareCoreDataEvent) {
+    internal func remove(_ event: NotificareCoreDataEvent) async {
         ensureLoadedStores()
 
-        context.delete(event)
-        saveChanges()
+        await backgroundContext.performCompat {
+            let entity = self.backgroundContext.object(with: event.objectID)
+            self.backgroundContext.delete(entity)
+        }
+
+        await saveChanges()
     }
 
-    internal func fetchEvents() throws -> [NotificareCoreDataEvent] {
+    internal func fetchEvents() async throws -> [NotificareCoreDataEvent] {
         ensureLoadedStores()
 
-        let request = NSFetchRequest<NotificareCoreDataEvent>(entityName: "NotificareCoreDataEvent")
-        let result = try context.fetch(request)
-
-        return result
+        return try await backgroundContext.performCompat {
+            let request = NSFetchRequest<NotificareCoreDataEvent>(entityName: "NotificareCoreDataEvent")
+            return try self.backgroundContext.fetch(request)
+        }
     }
 
-    internal func clearEvents() throws {
+    internal func clearEvents() async throws {
         ensureLoadedStores()
 
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "NotificareCoreDataEvent")
-        let deleteRequest = NSBatchDeleteRequest(fetchRequest: request)
+        try await backgroundContext.performCompat {
+            let request = NSFetchRequest<NSFetchRequestResult>(entityName: "NotificareCoreDataEvent")
+            let deleteRequest = NSBatchDeleteRequest(fetchRequest: request)
 
-        try persistentContainer.persistentStoreCoordinator.execute(deleteRequest, with: context)
+            try self.persistentContainer.persistentStoreCoordinator.execute(deleteRequest, with: self.backgroundContext)
+        }
 
-        saveChanges()
+        await saveChanges()
     }
 
-    internal func clear() throws {
-        try clearEvents()
+    internal func clear() async throws {
+        try await clearEvents()
     }
 }

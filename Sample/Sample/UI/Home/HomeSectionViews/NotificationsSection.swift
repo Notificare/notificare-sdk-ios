@@ -9,6 +9,7 @@ internal struct NotificationsSection: View {
 
     internal let hasNotificationsEnabled: Bool
     internal let allowedUi: Bool
+    internal let subscriptionToken: String?
     internal let notificationsPermission: HomeViewModel.NotificationsPermissionStatus?
     internal let badge: Int
     internal let updateNotificationsStatus: (Bool) -> Void
@@ -53,6 +54,17 @@ internal struct NotificationsSection: View {
             }
 
             HStack {
+                Text(String(localized: "home_subscription_token"))
+
+                Text(String(localized: "sdk"))
+                    .font(.caption2)
+
+                Spacer()
+
+                Text(subscriptionToken.map { "...\($0.suffix(16))" } ?? "")
+            }
+
+            HStack {
                 Text(String(localized: "home_permission"))
 
                 Spacer()
@@ -63,20 +75,22 @@ internal struct NotificationsSection: View {
             NavigationLink {
                 InboxView()
             } label: {
-                Label {
-                    Text(String(localized: "home_inbox"))
+                HStack {
+                    Label {
+                        Text(String(localized: "home_inbox"))
+                    } icon: {
+                        ListIconView(
+                            icon: "tray.and.arrow.down.fill",
+                            foregroundColor: .white,
+                            backgroundColor: .blue
+                        )
+                    }
 
-                    Spacer(minLength: 16)
+                    Spacer()
 
                     if badge > 0 {
                         BadgeView(badge: badge)
                     }
-                } icon: {
-                    ListIconView(
-                        icon: "tray.and.arrow.down.fill",
-                        foregroundColor: .white,
-                        backgroundColor: .blue
-                    )
                 }
             }
 
@@ -104,7 +118,9 @@ internal struct NotificationsSection_Previews: PreviewProvider {
         @State var hasNotificationsAndPermission = false
         NotificationsSection(
             hasNotificationsAndPermission: $hasNotificationsAndPermission,
-            hasNotificationsEnabled: false, allowedUi: false,
+            hasNotificationsEnabled: false,
+            allowedUi: false,
+            subscriptionToken: "12345",
             notificationsPermission: HomeViewModel.NotificationsPermissionStatus.granted,
             badge: 2,
             updateNotificationsStatus: { _ in }

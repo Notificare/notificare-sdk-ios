@@ -96,16 +96,20 @@ internal class NotificareGeoImpl: NSObject, NotificareModule, NotificareGeo, CLL
         }
 
         // Listen to application did become active events.
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(onApplicationDidBecomeActiveNotification(_:)),
-                                               name: UIApplication.didBecomeActiveNotification,
-                                               object: nil)
+        NotificationCenter.default.upsertObserver(
+            self,
+            selector: #selector(onApplicationDidBecomeActiveNotification(_:)),
+            name: UIApplication.didBecomeActiveNotification,
+            object: nil
+        )
 
         // Listen to application will resign active events.
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(onApplicationWillResignActiveNotification(_:)),
-                                               name: UIApplication.willResignActiveNotification,
-                                               object: nil)
+        NotificationCenter.default.upsertObserver(
+            self,
+            selector: #selector(onApplicationWillResignActiveNotification(_:)),
+            name: UIApplication.willResignActiveNotification,
+            object: nil
+        )
     }
 
     internal func clearStorage() async throws {

@@ -137,7 +137,7 @@ public class NotificareBaseNotificationViewController: UIViewController {
             } else if item.name == "notificareOpenActions", item.value == "1" || item.value == "true" {
                 showActions()
             } else if item.name == "notificareOpenAction" {
-                // A query param to open a single action is present, let's loop over the actins and match the label.
+                // A query param to open a single action is present, let's loop over the actions and match the label.
                 notification.actions.forEach { action in
                     if action.label == item.value {
                         handleAction(action)
