@@ -70,6 +70,11 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
         if hasRemoteNotificationsEnabled {
             logger.debug("Enabling remote notifications automatically.")
             try await updateDeviceSubscription()
+
+            if await hasNotificationPermission() {
+                logger.debug("Reloading action categories.")
+                await reloadActionCategories()
+            }
         }
     }
 
