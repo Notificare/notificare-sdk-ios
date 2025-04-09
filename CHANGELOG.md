@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## Upcoming release
+
+- Reload action categories during launch
+
 ## 4.1.0
 
 - Introduce `itemsStream` and `badgeStream` Combine publishers for inbox module
