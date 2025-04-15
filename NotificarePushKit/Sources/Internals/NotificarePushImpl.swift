@@ -75,7 +75,6 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
             try await updateDeviceSubscription()
 
             if await hasNotificationPermission() {
-                logger.debug("Reloading action categories.")
                 await reloadActionCategories()
             }
         }
