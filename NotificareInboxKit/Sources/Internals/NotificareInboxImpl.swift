@@ -57,7 +57,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
     private var _badgeStream = CurrentValueSubject<Int, Never>(0)
     private var _itemsStream = CurrentValueSubject<[NotificareInboxItem], Never>([])
 
-    override init() {
+    internal override init() {
         itemsStream = _itemsStream
             .map { items in
                 items.filter { !$0.isExpired }
