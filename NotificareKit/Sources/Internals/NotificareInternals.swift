@@ -7,9 +7,9 @@ import Foundation
 public enum NotificareInternals {
     public enum Module: String, CaseIterable {
         // Embedded modules
-        case events = "NotificareKit.NotificareEventsModuleImpl"
-        case session = "NotificareKit.NotificareSessionModuleImpl"
         case device = "NotificareKit.NotificareDeviceModuleImpl"
+        case session = "NotificareKit.NotificareSessionModuleImpl"
+        case events = "NotificareKit.NotificareEventsModuleImpl"
         case crashReporter = "NotificareKit.NotificareCrashReporterModuleImpl"
 
         // Peer modules
