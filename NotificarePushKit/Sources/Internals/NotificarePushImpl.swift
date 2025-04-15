@@ -64,6 +64,9 @@ internal class NotificarePushImpl: NSObject, NotificareModule, NotificarePush {
 
     internal func clearStorage() async throws {
         LocalStorage.clear()
+
+        _subscriptionStream.value = LocalStorage.subscription
+        _allowedUIStream.value = LocalStorage.allowedUI
     }
 
     internal func postLaunch() async throws {
