@@ -51,7 +51,31 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
         if let storedDevice {
             let isApplicationUpgrade = storedDevice.appVersion != Bundle.main.applicationVersion
 
-            try await updateDevice()
+            do {
+                try await updateDevice()
+            } catch {
+                if case let NotificareNetworkError.validationError(response, _, _) = error, response.statusCode == 404 {
+                    logger.warning("The device was removed from Notificare. Recovering...")
+
+                    logger.debug("Resetting local storage.")
+                    try await resetLocalStorage()
+
+                    logger.debug("Creating a new device")
+                    try await createDevice()
+                    hasPendingDeviceRegistrationEvent = true
+
+                    // Ensure a session exists for the current device.
+                    try await Notificare.shared.session().launch()
+
+                    // We will log the Install & Registration events here since this will execute only one time at the start.
+                    try? await Notificare.shared.eventsImplementation().logApplicationInstall()
+                    try? await Notificare.shared.eventsImplementation().logApplicationRegistration()
+
+                    return
+                }
+
+                throw error
+            }
 
             // Ensure a session exists for the current device.
             try await Notificare.shared.session().launch()
@@ -74,6 +98,28 @@ internal class NotificareDeviceModuleImpl: NSObject, NotificareModule, Notificar
             try? await Notificare.shared.eventsImplementation().logApplicationInstall()
             try? await Notificare.shared.eventsImplementation().logApplicationRegistration()
         }
+    }
+
+    private func resetLocalStorage() async throws {
+        for module in NotificareInternals.Module.allCases {
+            if let instance = module.klass?.instance {
+                logger.debug("Resetting module: \(module)")
+
+                do {
+                    try await instance.clearStorage()
+                } catch {
+                    logger.debug("Failed to reset '\(module)'.", error: error)
+                    throw error
+                }
+            }
+        }
+
+        try await Notificare.shared.database.clear()
+
+        // Should only clear device-related local storage properties.
+        LocalStorage.device = nil
+        LocalStorage.preferredLanguage = nil
+        LocalStorage.preferredRegion = nil
     }
 
     internal func postLaunch() async throws {

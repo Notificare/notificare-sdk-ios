@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 4.2.0
+
+- Reload action categories during launch
+- Recover when a device is removed remotely
+
 ## 4.1.0
 
 - Introduce `itemsStream` and `badgeStream` Combine publishers for inbox module
