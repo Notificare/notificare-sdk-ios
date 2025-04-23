@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## Upcoming release
+## 4.2.0
 
 - Reload action categories during launch
 - Recover when a device is removed remotely
