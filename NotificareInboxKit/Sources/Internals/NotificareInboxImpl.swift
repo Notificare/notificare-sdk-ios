@@ -17,7 +17,6 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
     public let itemsStream: AnyPublisher<[NotificareInboxItem], Never>
     public let badgeStream: AnyPublisher<Int, Never>
 
-    internal var _items: [NotificareInboxItem] = []
     public var items: [NotificareInboxItem] {
         guard let application = Notificare.shared.application else {
             logger.warning("Notificare application is not yet available.")
@@ -29,7 +28,19 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
             return []
         }
 
-        return _items.filter { !$0.isExpired }
+        return cachedItems.compactMap { item in
+            guard item.visible && !item.isExpired else {
+                return nil
+            }
+
+            return NotificareInboxItem(
+                id: item.id,
+                notification: item.notification,
+                time: item.time,
+                opened: item.opened,
+                expires: item.expires
+            )
+        }
     }
 
     public var badge: Int {
@@ -52,7 +63,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
     }
 
     private let database = InboxDatabase()
-    private var cachedEntities: [InboxItemEntity] = []
+    private var cachedItems: [LocalInboxItem] = []
 
     private var _badgeStream = CurrentValueSubject<Int, Never>(0)
     private var _itemsStream = CurrentValueSubject<[NotificareInboxItem], Never>([])
@@ -215,19 +226,19 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
         if item.notification.partial {
             let notification = try await Notificare.shared.fetchNotification(item.id)
 
-            // Update the entity in the database.
-            await database.backgroundContext.performCompat {
-                if let entity = self.cachedEntities.first(where: { $0.id == item.id }) {
-                    do {
-                        try entity.setNotification(notification)
-                    } catch {
-                        logger.warning("Unable to encode updated inbox item '\(item.id)' into the database.", error: error)
-                    }
+            if let index = self.cachedItems.firstIndex(where: { $0.id == item.id }) {
+                do {
+                    // Update the cache.
+                    var localItem = self.cachedItems[index]
+                    localItem.notification = notification
+                    self.cachedItems[index] = localItem
+
+                    // Update the database.
+                    try await self.database.update(localItem)
+                } catch {
+                    logger.warning("Unable to encode updated inbox item '\(item.id)' into the database.", error: error)
                 }
             }
-
-            await database.saveChanges()
-            await updateCachedItems()
 
             // Mark the item as read & send a notification open event.
             try await markAsRead(item)
@@ -257,16 +268,19 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
             // Send an event to mark the notification as read in the remote inbox.
             try await Notificare.shared.events().logNotificationOpen(item.notification.id)
 
-            // Mark entities as read.
-            await database.backgroundContext.performCompat {
-                self.cachedEntities
-                    .filter { $0.id == item.id }
-                    .forEach { $0.opened = true }
-            }
+            if let index = self.cachedItems.firstIndex(where: { $0.id == item.id }) {
+                do {
+                    // Update the cache.
+                    var localItem = self.cachedItems[index]
+                    localItem.opened = true
+                    self.cachedItems[index] = localItem
 
-            // Persist the changes to the database.
-            await database.saveChanges()
-            await updateCachedItems()
+                    // Update the database.
+                    try await self.database.update(localItem)
+                } catch {
+                    logger.warning("Unable to encode updated inbox item '\(item.id)' into the database.", error: error)
+                }
+            }
 
             // No need to keep the item in the notification center.
             Notificare.shared.removeNotificationFromNotificationCenter(item.notification)
@@ -301,19 +315,29 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
             .put("/notification/inbox/fordevice/\(device.id)")
             .response()
 
-        // Mark entities as read.
-        await database.backgroundContext.performCompat {
-            self.cachedEntities
-                .filter { !$0.opened && $0.visible }
-                .forEach { entity in
-                    // Mark entity as read.
-                    entity.opened = true
-                }
+        logger.warning("---> updating database: \(Date().timeIntervalSince1970)")
+
+        for index in self.cachedItems.indices {
+            var item = self.cachedItems[index]
+
+            // Skip update when nothing changes.
+            if item.opened || !item.visible {
+                continue
+            }
+
+            do {
+                // Update the cache.
+                item.opened = true
+                self.cachedItems[index] = item
+
+                // Update the database.
+                try await self.database.update(item)
+            } catch {
+                logger.warning("Unable to encode updated inbox item '\(item.id)' into the database.", error: error)
+            }
         }
 
-        // Persist the changes to the database.
-        await database.saveChanges()
-        await updateCachedItems()
+        logger.warning("---> finished updating database: \(Date().timeIntervalSince1970)")
 
         // Clear all items from the notification center.
         clearNotificationCenter()
@@ -340,17 +364,10 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
             .delete("/notification/inbox/\(item.id)")
             .response()
 
-        if
-            let entity = await database.backgroundContext.performCompat({
-                self.cachedEntities.first(where: { $0.id == item.id })
-            })
-        {
-            await database.remove(entity)
-            cachedEntities.removeAll(where: { $0.id == item.id })
-            await updateCachedItems()
+        try await database.remove(id: item.id)
+        cachedItems.removeAll(where: { $0.id == item.id })
 
-            Notificare.shared.removeNotificationFromNotificationCenter(item.notification)
-        }
+        Notificare.shared.removeNotificationFromNotificationCenter(item.notification)
 
         notifyItemsUpdated(self.items)
         _ = try? await refreshBadge()
@@ -370,13 +387,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
     public func clear() async throws {
         try checkPrerequisites()
 
-        guard let device = Notificare.shared.device().currentDevice else {
-            throw NotificareError.deviceUnavailable
-        }
-
-        try await NotificareRequest.Builder()
-            .delete("/notification/inbox/fordevice/\(device.id)")
-            .response()
+        try await clearRemoteInbox()
 
         try await clearLocalInbox()
         clearNotificationCenter()
@@ -432,18 +443,15 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
         }
 
         Task {
-            guard let firstItem = cachedEntities.first else {
+            guard let firstItem = cachedItems.first else {
                 logger.debug("The local inbox contains no items. Checking remotely.")
                 reloadInbox()
 
                 return
             }
 
-            let timestamp = await database.backgroundContext.performCompat {
-                Int64(firstItem.time!.timeIntervalSince1970 * 1000)
-            }
-
             do {
+                let timestamp = Int64(firstItem.time.timeIntervalSince1970 * 1000)
                 logger.debug("Checking if the inbox has been modified since \(timestamp).")
 
                 _ = try await fetchRemoteInbox(for: device.id, since: timestamp)
@@ -480,33 +488,21 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
 
     private func loadCachedItems() async {
         do {
-            let entities = try await database.find()
-            await updateCachedEntities(entities)
+            cachedItems = try await database.find()
         } catch {
             logger.error("Failed to query the local database.", error: error)
         }
     }
 
-    private func addToLocalInbox(_ item: NotificareInboxItem, visible: Bool) async throws {
+    private func addToLocalInbox(_ item: LocalInboxItem) async throws {
         // NOTE: Remove duplicates for a given notification before adding the item to the inbox.
         // When receiving a triggered notification, we may receive it more than once.
-
-        let filteredEntities = await database.backgroundContext.performCompat {
-            self.cachedEntities.filter({ $0.notificationId == item.notification.id })
-        }
-
-        for entity in filteredEntities {
-            await database.remove(entity)
-
-            if let index = cachedEntities.firstIndex(of: entity) {
-                cachedEntities.remove(at: index)
-            }
-        }
+        cachedItems.removeAll(where: { $0.notification.id == item.notification.id })
+        try await database.remove(notificationId: item.notification.id)
 
         do {
-            let entity = try await database.add(item, visible: visible)
-            cachedEntities.append(entity)
-            await updateCachedEntities(cachedEntities)
+            try await database.add(item)
+            cachedItems.insertSorted(item, by: { $0.time > $1.time})
         } catch {
             logger.warning("Unable to encode inbox item '\(item.id)' into the database.", error: error)
         }
@@ -514,16 +510,13 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
 
     private func clearLocalInbox() async throws {
         try await database.clear()
-        cachedEntities.removeAll()
-        await updateCachedItems()
+        cachedItems.removeAll()
     }
 
-    private func removeExpiredItemsFromNotificationCenter() async {
-        await database.backgroundContext.performCompat {
-            self.cachedEntities.forEach { entity in
-                if entity.expired, let notificationId = entity.notificationId {
-                    Notificare.shared.removeNotificationFromNotificationCenter(notificationId)
-                }
+    private func removeExpiredItemsFromNotificationCenter() {
+        cachedItems.forEach { item in
+            if item.isExpired {
+                Notificare.shared.removeNotificationFromNotificationCenter(item.notification.id)
             }
         }
     }
@@ -557,7 +550,7 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
 
         // Add all items to the database.
         for item in response.inboxItems {
-            try await addToLocalInbox(item.toModel(), visible: item.visible)
+            try await addToLocalInbox(item.toLocal())
         }
 
         if response.count > (step + 1) * 100 {
@@ -586,33 +579,6 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
         UIApplication.shared.applicationIconBadgeNumber = badge
     }
 
-    private func updateCachedEntities(_ entities: [InboxItemEntity]) async {
-        cachedEntities = await database.backgroundContext.performCompat {
-            // NOTE: Make sure the cached item are always sorted by date descending.
-            // The most recent one is important to be the first as the sync logic relies on it.
-            entities.sorted(by: { lhs, rhs -> Bool in
-                lhs.time!.compare(rhs.time!) == .orderedDescending
-            })
-        }
-
-        await updateCachedItems()
-    }
-
-    private func updateCachedItems() async {
-        _items = await database.backgroundContext.performCompat {
-            self.cachedEntities
-                .filter { $0.visible && !$0.expired }
-                .compactMap { entity in
-                    do {
-                        return try entity.toModel()
-                    } catch {
-                        logger.warning("Unable to decode inbox item '\(entity.id ?? "")' from the database.", error: error)
-                        return nil
-                    }
-                }
-        }
-    }
-
     // MARK: - NotificationCenter events
 
     @objc private func onAddItemNotification(_ notificationSignal: Notification) {
@@ -629,14 +595,14 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
 
         Task {
             try await addToLocalInbox(
-                NotificareInboxItem(
+                LocalInboxItem(
                     id: inboxItemId,
                     notification: notification,
                     time: Date(),
                     opened: false,
+                    visible: inboxItemVisible,
                     expires: userInfo["inboxItemExpires"] as? Date
-                ),
-                visible: inboxItemVisible
+                )
             )
 
             _ = try? await refreshBadge()
@@ -653,16 +619,19 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
         }
 
         Task {
-            await database.backgroundContext.performCompat {
-                // Mark entities as read.
-                self.cachedEntities
-                    .filter { $0.id == inboxItemId }
-                    .forEach { $0.opened = true }
-            }
+            if let index = self.cachedItems.firstIndex(where: { $0.id == inboxItemId }) {
+                do {
+                    // Update the cache.
+                    var localItem = self.cachedItems[index]
+                    localItem.opened = true
+                    self.cachedItems[index] = localItem
 
-            // Persist the changes to the database.
-            await database.saveChanges()
-            await updateCachedItems()
+                    // Update the database.
+                    try await self.database.update(localItem)
+                } catch {
+                    logger.warning("Unable to encode updated inbox item '\(inboxItemId)' into the database.", error: error)
+                }
+            }
 
             _ = try? await refreshBadge()
             notifyItemsUpdated(self.items)
@@ -692,14 +661,14 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             Task {
                 // Clear expired items from the notification center.
-                await self.removeExpiredItemsFromNotificationCenter()
+                self.removeExpiredItemsFromNotificationCenter()
 
                 guard let device = Notificare.shared.device().currentDevice else {
                     logger.warning("Notificare has not been configured yet.")
                     return
                 }
 
-                guard !self.cachedEntities.isEmpty else {
+                guard !self.cachedItems.isEmpty else {
                     logger.debug("The inbox is empty. No need to do a full sync.")
                     return
                 }
