@@ -315,8 +315,6 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
             .put("/notification/inbox/fordevice/\(device.id)")
             .response()
 
-        logger.warning("---> updating database: \(Date().timeIntervalSince1970)")
-
         for index in self.cachedItems.indices {
             var item = self.cachedItems[index]
 
@@ -336,8 +334,6 @@ internal class NotificareInboxImpl: NSObject, NotificareModule, NotificareInbox 
                 logger.warning("Unable to encode updated inbox item '\(item.id)' into the database.", error: error)
             }
         }
-
-        logger.warning("---> finished updating database: \(Date().timeIntervalSince1970)")
 
         // Clear all items from the notification center.
         clearNotificationCenter()
