@@ -20,8 +20,8 @@ extension NotificareInternals.PushAPI.Models {
         internal let visible: Bool
         internal let expires: Date?
 
-        internal func toModel() -> NotificareInboxItem {
-            NotificareInboxItem(
+        internal func toLocal() -> LocalInboxItem {
+            LocalInboxItem(
                 id: _id,
                 notification: NotificareNotification(
                     partial: true,
@@ -39,6 +39,7 @@ extension NotificareInternals.PushAPI.Models {
                 ),
                 time: time,
                 opened: opened,
+                visible: visible,
                 expires: expires
             )
         }

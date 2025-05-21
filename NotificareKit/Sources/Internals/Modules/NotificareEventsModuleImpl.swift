@@ -134,7 +134,7 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
             if !discardableEvents.contains(event.type), let error = error as? NotificareNetworkError, error.recoverable {
                 logger.info("Queuing event to be sent whenever possible.")
 
-                await Notificare.shared.database.add(event)
+                try await Notificare.shared.database.add(event.toLocal())
                 processStoredEvents()
 
                 return
@@ -189,15 +189,15 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
         }
     }
 
-    private func process(_ managedEvents: [NotificareCoreDataEvent]) async {
-        guard !managedEvents.isEmpty else {
+    private func process(_ events: [LocalEvent]) async {
+        guard !events.isEmpty else {
             logger.debug("Nothing to process.")
             return
         }
 
-        var eventsRemaining = managedEvents.count
+        var eventsRemaining = events.count
 
-        for event in managedEvents {
+        for event in events {
             guard processEventsTaskIdentifier != nil else {
                 logger.debug("The background task was terminated before all the events could be processed.")
                 return
@@ -212,59 +212,44 @@ internal class NotificareEventsModuleImpl: NSObject, NotificareModule, Notificar
         logger.debug("Finished processing all the events.")
     }
 
-    private func process(_ managedEvent: NotificareCoreDataEvent) async {
-        let createdAt = await Notificare.shared.database.backgroundContext.performCompat {
-            Date(timeIntervalSince1970: Double(managedEvent.timestamp / 1000))
-        }
-
-        let expiresAt = await Notificare.shared.database.backgroundContext.performCompat {
-            createdAt.addingTimeInterval(Double(managedEvent.ttl))
-        }
-
+    private func process(_ localEvent: LocalEvent) async {
+        let createdAt = Date(timeIntervalSince1970: Double(localEvent.timestamp / 1000))
+        let expiresAt = createdAt.addingTimeInterval(Double(localEvent.ttl))
         let now = Date()
 
         if now > expiresAt {
             logger.debug("Event expired. Removing...")
-            await Notificare.shared.database.remove(managedEvent)
-            return
-        }
-
-        let event: NotificareEvent
-
-        do {
-            event = try await Notificare.shared.database.backgroundContext.performCompat({
-                try NotificareEvent(from: managedEvent)
-            })
-        } catch {
-            logger.debug("Cleaning up a corrupted event in the database.")
-            await Notificare.shared.database.remove(managedEvent)
+            await Notificare.shared.database.remove(localEvent)
             return
         }
 
         do {
+            let event = NotificareEvent(from: localEvent)
+
             try await NotificareRequest.Builder()
                 .post("/event", body: event)
                 .response()
 
             logger.debug("Event processed. Removing from storage...")
-            await Notificare.shared.database.remove(managedEvent)
+            await Notificare.shared.database.remove(localEvent)
         } catch {
             if let error = error as? NotificareNetworkError, error.recoverable {
                 logger.debug("Failed to process event.")
 
-                // Increase the attempts counter.
-                managedEvent.retries += 1
+                var updatedLocalEvent = localEvent
 
-                if managedEvent.retries < MAX_RETRIES {
-                    // Persist the attempts counter.
-                    await Notificare.shared.database.saveChanges()
+                // Increase the attempts counter.
+                updatedLocalEvent.retries += 1
+
+                if updatedLocalEvent.retries < MAX_RETRIES {
+                    try? await Notificare.shared.database.update(updatedLocalEvent)
                 } else {
                     logger.debug("Event was retried too many times. Removing...")
-                    await Notificare.shared.database.remove(managedEvent)
+                    await Notificare.shared.database.remove(updatedLocalEvent)
                 }
             } else {
                 logger.debug("Failed to process event due to an unrecoverable error. Discarding it...")
-                await Notificare.shared.database.remove(managedEvent)
+                await Notificare.shared.database.remove(localEvent)
             }
         }
     }
