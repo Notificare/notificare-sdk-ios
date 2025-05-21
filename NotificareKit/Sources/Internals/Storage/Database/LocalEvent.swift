@@ -6,14 +6,14 @@ import CoreData
 import NotificareUtilitiesKit
 
 internal struct LocalEvent {
-    let objectID: NSManagedObjectID?
-    let type: String
-    let deviceId: String
-    let sessionId: String?
-    let notificationId: String?
-    let userId: String?
-    let data: NotificareAnyCodable?
-    let timestamp: Int64
-    let ttl: Int32
-    var retries: Int16
+    internal let objectID: NSManagedObjectID?
+    internal let type: String
+    internal let deviceId: String
+    internal let sessionId: String?
+    internal let notificationId: String?
+    internal let userId: String?
+    internal let data: NotificareAnyCodable?
+    internal let timestamp: Int64
+    internal let ttl: Int32
+    internal var retries: Int16
 }
