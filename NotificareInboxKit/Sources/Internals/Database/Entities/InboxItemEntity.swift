@@ -7,31 +7,23 @@ import NotificareKit
 import NotificareUtilitiesKit
 
 extension InboxItemEntity {
-    internal var expired: Bool {
-        if let expiresAt = expires {
-            return expiresAt <= Date()
-        }
-
-        return false
-    }
-
-    internal convenience init(from model: NotificareInboxItem, visible: Bool, context: NSManagedObjectContext) throws {
+    internal convenience init(from item: LocalInboxItem, context: NSManagedObjectContext) throws {
         let encoder = JSONEncoder.notificare
 
         self.init(context: context)
-        id = model.id
-        notificationId = model.notification.id
+        id = item.id
+        notificationId = item.notification.id
 
         do {
-            notification = try encoder.encode(model.notification)
+            notification = try encoder.encode(item.notification)
         } catch {
             throw InboxDatabaseError.invalidArgument("notification", cause: error)
         }
 
-        time = model.time
-        opened = model.opened
-        self.visible = visible
-        expires = model.expires
+        time = item.time
+        opened = item.opened
+        visible = item.visible
+        expires = item.expires
     }
 
     internal func setNotification(_ notification: NotificareNotification) throws {
@@ -39,12 +31,13 @@ extension InboxItemEntity {
 
         do {
             self.notification = try encoder.encode(notification)
+            self.notificationId = notification.id
         } catch {
             throw InboxDatabaseError.invalidArgument("notification", cause: error)
         }
     }
 
-    internal func toModel() throws -> NotificareInboxItem {
+    internal func toLocal() throws -> LocalInboxItem {
         let decoder = JSONDecoder.notificare
 
         guard let id = id else {
@@ -67,11 +60,12 @@ extension InboxItemEntity {
             throw InboxDatabaseError.invalidArgument("time", cause: nil)
         }
 
-        return NotificareInboxItem(
+        return LocalInboxItem(
             id: id,
             notification: notification,
             time: time,
             opened: opened,
+            visible: visible,
             expires: expires
         )
     }

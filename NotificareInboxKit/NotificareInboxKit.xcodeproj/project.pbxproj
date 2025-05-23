@@ -21,6 +21,7 @@
 		F289F5E825B8643A0091AB97 /* NotificareInboxImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F289F5E725B8643A0091AB97 /* NotificareInboxImpl.swift */; };
 		F289F5ED25B8651F0091AB97 /* NotificareInboxDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F289F5EC25B8651F0091AB97 /* NotificareInboxDelegate.swift */; };
 		F289F5F125B884EC0091AB97 /* NotificareInboxItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F289F5F025B884EC0091AB97 /* NotificareInboxItem.swift */; };
+		F28DB4192DD4B8C2000F86E1 /* LocalInboxItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28DB4182DD4B8BC000F86E1 /* LocalInboxItem.swift */; };
 		F28E583B25C0401800C83537 /* InboxDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28E583A25C0401800C83537 /* InboxDatabase.swift */; };
 		F28E584A25C041C900C83537 /* InboxItemEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28E584925C041C900C83537 /* InboxItemEntity.swift */; };
 		F29017F02BD27923009DB80B /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = F29017EF2BD27923009DB80B /* PrivacyInfo.xcprivacy */; };
@@ -60,6 +61,7 @@
 		F289F5EB25B864A90091AB97 /* NotificareInboxKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificareInboxKit.h; sourceTree = "<group>"; };
 		F289F5EC25B8651F0091AB97 /* NotificareInboxDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareInboxDelegate.swift; sourceTree = "<group>"; };
 		F289F5F025B884EC0091AB97 /* NotificareInboxItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareInboxItem.swift; sourceTree = "<group>"; };
+		F28DB4182DD4B8BC000F86E1 /* LocalInboxItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalInboxItem.swift; sourceTree = "<group>"; };
 		F28E583A25C0401800C83537 /* InboxDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxDatabase.swift; sourceTree = "<group>"; };
 		F28E584925C041C900C83537 /* InboxItemEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxItemEntity.swift; sourceTree = "<group>"; };
 		F29017EF2BD27923009DB80B /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
@@ -163,6 +165,14 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		F28DB41A2DD4B8D7000F86E1 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				F28E584925C041C900C83537 /* InboxItemEntity.swift */,
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
 		F28E583925C0400A00C83537 /* Internals */ = {
 			isa = PBXGroup;
 			children = (
@@ -179,9 +189,10 @@
 		F28E584825C041B000C83537 /* Database */ = {
 			isa = PBXGroup;
 			children = (
+				F28DB41A2DD4B8D7000F86E1 /* Entities */,
 				F28E583A25C0401800C83537 /* InboxDatabase.swift */,
 				F2B984C72850C123005CD6D6 /* InboxDatabaseError.swift */,
-				F28E584925C041C900C83537 /* InboxItemEntity.swift */,
+				F28DB4182DD4B8BC000F86E1 /* LocalInboxItem.swift */,
 			);
 			path = Database;
 			sourceTree = "<group>";
@@ -319,6 +330,7 @@
 				F27DB1A3262F2B94000C024D /* PushAPI+Models.swift in Sources */,
 				F2B984C82850C123005CD6D6 /* InboxDatabaseError.swift in Sources */,
 				F289F5ED25B8651F0091AB97 /* NotificareInboxDelegate.swift in Sources */,
+				F28DB4192DD4B8C2000F86E1 /* LocalInboxItem.swift in Sources */,
 				F27DB1A0262F2B5C000C024D /* PushAPI+Responses.swift in Sources */,
 				F293E2EA2630491E008C2010 /* LocalStorage.swift in Sources */,
 				F2DAB3AB271F18E1002B5F27 /* NotificareInboxDatabase.xcdatamodeld in Sources */,
@@ -497,7 +509,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.2.0;
+				MARKETING_VERSION = 4.2.1;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.inbox;
@@ -529,7 +541,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.2.0;
+				MARKETING_VERSION = 4.2.1;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.inbox;
@@ -663,7 +675,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.2.0;
+				MARKETING_VERSION = 4.2.1;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.inbox;
@@ -780,7 +792,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.2.0;
+				MARKETING_VERSION = 4.2.1;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.inbox;
@@ -891,7 +903,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.2.0;
+				MARKETING_VERSION = 4.2.1;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.inbox;
@@ -1000,7 +1012,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.2.0;
+				MARKETING_VERSION = 4.2.1;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica.inbox;

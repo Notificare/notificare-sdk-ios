@@ -51,6 +51,8 @@
 		F27DDD9A29266B5F0020036D /* NotificareLoyaltyIntegration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F27DDD9929266B5F0020036D /* NotificareLoyaltyIntegration.swift */; };
 		F286051E262D9A4300F6D582 /* NotificareRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F286051D262D9A4300F6D582 /* NotificareRequest.swift */; };
 		F289993525C97D35008ADC7E /* NotificareOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F289993425C97D35008ADC7E /* NotificareOptions.swift */; };
+		F28DB4232DDDE915000F86E1 /* LocalEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28DB4222DDDE911000F86E1 /* LocalEvent.swift */; };
+		F28DB4282DDDF49F000F86E1 /* LocalEvent+CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F28DB4272DDDF494000F86E1 /* LocalEvent+CoreData.swift */; };
 		F293E27B26302C48008C2010 /* ModuleUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F293E27A26302C48008C2010 /* ModuleUtils.swift */; };
 		F293E28A26302C76008C2010 /* NotificareLocalizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F293E28926302C76008C2010 /* NotificareLocalizable.swift */; };
 		F293E2B226303008008C2010 /* NotificareAbstractDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F293E2B126303008008C2010 /* NotificareAbstractDatabase.swift */; };
@@ -60,7 +62,7 @@
 		F293E3232630524B008C2010 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F293E3252630524B008C2010 /* Localizable.strings */; };
 		F293E32C263053C8008C2010 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F293E32B263053C8008C2010 /* Assets.xcassets */; };
 		F29DA38125022170004CCB8F /* NotificareDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29DA38025022170004CCB8F /* NotificareDatabase.swift */; };
-		F29DA38325024753004CCB8F /* NotificareEvent+CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29DA38225024753004CCB8F /* NotificareEvent+CoreData.swift */; };
+		F29DA38325024753004CCB8F /* NotificareEvent+Local.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29DA38225024753004CCB8F /* NotificareEvent+Local.swift */; };
 		F2B1817C25BAFDFE00384991 /* NotificareNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B1817B25BAFDFE00384991 /* NotificareNotification.swift */; };
 		F2D3894026664AAA00EAEF44 /* LocalStorageMigration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D3893F26664AAA00EAEF44 /* LocalStorageMigration.swift */; };
 		F2DAB3AE27202DEF002B5F27 /* NotificareDatabase.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F2DAB3AC27202DEF002B5F27 /* NotificareDatabase.xcdatamodeld */; };
@@ -128,6 +130,8 @@
 		F27DDD9929266B5F0020036D /* NotificareLoyaltyIntegration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareLoyaltyIntegration.swift; sourceTree = "<group>"; };
 		F286051D262D9A4300F6D582 /* NotificareRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareRequest.swift; sourceTree = "<group>"; };
 		F289993425C97D35008ADC7E /* NotificareOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareOptions.swift; sourceTree = "<group>"; };
+		F28DB4222DDDE911000F86E1 /* LocalEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalEvent.swift; sourceTree = "<group>"; };
+		F28DB4272DDDF494000F86E1 /* LocalEvent+CoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocalEvent+CoreData.swift"; sourceTree = "<group>"; };
 		F293E27A26302C48008C2010 /* ModuleUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleUtils.swift; sourceTree = "<group>"; };
 		F293E28926302C76008C2010 /* NotificareLocalizable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareLocalizable.swift; sourceTree = "<group>"; };
 		F293E2B126303008008C2010 /* NotificareAbstractDatabase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificareAbstractDatabase.swift; sourceTree = "<group>"; };
@@ -138,7 +142,7 @@
 		F293E3282630531B008C2010 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F293E32B263053C8008C2010 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F29DA38025022170004CCB8F /* NotificareDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareDatabase.swift; sourceTree = "<group>"; };
-		F29DA38225024753004CCB8F /* NotificareEvent+CoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificareEvent+CoreData.swift"; sourceTree = "<group>"; };
+		F29DA38225024753004CCB8F /* NotificareEvent+Local.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificareEvent+Local.swift"; sourceTree = "<group>"; };
 		F2B1817B25BAFDFE00384991 /* NotificareNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificareNotification.swift; sourceTree = "<group>"; };
 		F2D3893F26664AAA00EAEF44 /* LocalStorageMigration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorageMigration.swift; sourceTree = "<group>"; };
 		F2DAB3AD27202DEF002B5F27 /* NotificareDatabase.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = NotificareDatabase.xcdatamodel; sourceTree = "<group>"; };
@@ -343,8 +347,10 @@
 		F29DA37F25022154004CCB8F /* Database */ = {
 			isa = PBXGroup;
 			children = (
+				F28DB4222DDDE911000F86E1 /* LocalEvent.swift */,
+				F28DB4272DDDF494000F86E1 /* LocalEvent+CoreData.swift */,
 				F29DA38025022170004CCB8F /* NotificareDatabase.swift */,
-				F29DA38225024753004CCB8F /* NotificareEvent+CoreData.swift */,
+				F29DA38225024753004CCB8F /* NotificareEvent+Local.swift */,
 			);
 			path = Database;
 			sourceTree = "<group>";
@@ -527,6 +533,7 @@
 				F293E2DB26304675008C2010 /* LocalStorage.swift in Sources */,
 				F2E801E9269F021800582DB8 /* NotificareInternals.swift in Sources */,
 				1A52DE6E2CA44B3500B5F56C /* Logger.swift in Sources */,
+				F28DB4232DDDE915000F86E1 /* LocalEvent.swift in Sources */,
 				F2DAB3AE27202DEF002B5F27 /* NotificareDatabase.xcdatamodeld in Sources */,
 				F29DA38125022170004CCB8F /* NotificareDatabase.swift in Sources */,
 				F27DB188262EDEB5000C024D /* PushAPI+Models.swift in Sources */,
@@ -542,7 +549,7 @@
 				42A20F5A817E461AD741CEF0 /* NotificareAutoConfig.swift in Sources */,
 				F2B1817C25BAFDFE00384991 /* NotificareNotification.swift in Sources */,
 				F27DB180262EDAA5000C024D /* PushAPI+Responses.swift in Sources */,
-				F29DA38325024753004CCB8F /* NotificareEvent+CoreData.swift in Sources */,
+				F29DA38325024753004CCB8F /* NotificareEvent+Local.swift in Sources */,
 				F2E07E7A2534B5DD00AF0C14 /* NotificareTime.swift in Sources */,
 				42A207D529B7F7770917822D /* NotificareDevice.swift in Sources */,
 				F2D3894026664AAA00EAEF44 /* LocalStorageMigration.swift in Sources */,
@@ -552,6 +559,7 @@
 				F26718F0250157C200B70A40 /* NotificareEvent.swift in Sources */,
 				F21DD9F427187BC000C88D7B /* NotificareDeviceModule.swift in Sources */,
 				42A20F732AE3E8130EA533BF /* NotificareReachability.swift in Sources */,
+				F28DB4282DDDF49F000F86E1 /* LocalEvent+CoreData.swift in Sources */,
 				F260F3822C11EFA2007D7A59 /* StoredDevice.swift in Sources */,
 				F2E07E5F25344D0700AF0C14 /* NotificareDoNotDisturb.swift in Sources */,
 				42A20AD28857EBCB0A86A104 /* NotificareLaunchState.swift in Sources */,
@@ -761,7 +769,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.2.0;
+				MARKETING_VERSION = 4.2.1;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica;
@@ -794,7 +802,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.2.0;
+				MARKETING_VERSION = 4.2.1;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica;
@@ -931,7 +939,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.2.0;
+				MARKETING_VERSION = 4.2.1;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica;
@@ -1050,7 +1058,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.2.0;
+				MARKETING_VERSION = 4.2.1;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica;
@@ -1163,7 +1171,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.2.0;
+				MARKETING_VERSION = 4.2.1;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica;
@@ -1275,7 +1283,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.2.0;
+				MARKETING_VERSION = 4.2.1;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = re.notifica;
