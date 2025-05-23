@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 4.2.1
+
+- Refactor the integration with CoreData, fixing threading fatal errors
+
 ## 4.2.0
 
 - Reload action categories during launch
