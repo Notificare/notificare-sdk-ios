@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 4.2.2
+
+- Fix Swift Concurrency issues when synchronizing inbox items
+
 ## 4.2.1
 
 - Refactor the integration with CoreData, fixing threading fatal errors
