@@ -83,6 +83,10 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
 
         viewController.navigationItem.leftBarButtonItem = closeButton
         viewController.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: activityIndicatorView)
+
+        if #available(iOS 19.0, *) {
+            viewController.navigationItem.rightBarButtonItem?.isHidden = true
+        }
     }
 
     private func setupLegacyNavigationActions() {
@@ -179,6 +183,10 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
 
     @objc private func onSendClicked() {
         sendButton.isEnabled = false
+
+        if #available(iOS 19.0, *) {
+            viewController.navigationItem.rightBarButtonItem?.isHidden = false
+        }
         activityIndicatorView.startAnimating()
 
         Task {
