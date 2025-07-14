@@ -325,7 +325,7 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
 
             NSLayoutConstraint.activate([
                 // Message view
-                messageView.topAnchor.constraint(equalTo: viewController.view.ncSafeAreaLayoutGuide.topAnchor),
+                messageView.topAnchor.constraint(equalTo: viewController.view.safeAreaLayoutGuide.topAnchor),
                 messageView.bottomAnchor.constraint(equalTo: stackView.topAnchor),
                 messageView.leadingAnchor.constraint(equalTo: viewController.view.leadingAnchor),
                 messageView.trailingAnchor.constraint(equalTo: viewController.view.trailingAnchor),
@@ -357,12 +357,12 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
             viewController.view.addSubview(messageView)
             viewController.view.addSubview(toolbar)
 
-            let toolbarBottomConstraint = toolbar.bottomAnchor.constraint(equalTo: viewController.view.ncSafeAreaLayoutGuide.bottomAnchor)
+            let toolbarBottomConstraint = toolbar.bottomAnchor.constraint(equalTo: viewController.view.safeAreaLayoutGuide.bottomAnchor)
             self.toolbarBottomConstraint = toolbarBottomConstraint
 
             NSLayoutConstraint.activate([
                 // Message view
-                messageView.topAnchor.constraint(equalTo: viewController.view.ncSafeAreaLayoutGuide.topAnchor),
+                messageView.topAnchor.constraint(equalTo: viewController.view.safeAreaLayoutGuide.topAnchor),
                 messageView.bottomAnchor.constraint(equalTo: toolbar.topAnchor),
                 messageView.leadingAnchor.constraint(equalTo: viewController.view.leadingAnchor),
                 messageView.trailingAnchor.constraint(equalTo: viewController.view.trailingAnchor),
@@ -449,10 +449,10 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
                 NSLayoutConstraint.activate([
                     // Image view: square
                     imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor),
-                    imageView.topAnchor.constraint(equalTo: viewController.view.ncSafeAreaLayoutGuide.topAnchor),
-                    imageView.bottomAnchor.constraint(lessThanOrEqualTo: viewController.view.ncSafeAreaLayoutGuide.bottomAnchor),
-                    imageView.leadingAnchor.constraint(equalTo: viewController.view.ncSafeAreaLayoutGuide.leadingAnchor),
-                    imageView.trailingAnchor.constraint(equalTo: viewController.view.ncSafeAreaLayoutGuide.trailingAnchor),
+                    imageView.topAnchor.constraint(equalTo: viewController.view.safeAreaLayoutGuide.topAnchor),
+                    imageView.bottomAnchor.constraint(lessThanOrEqualTo: viewController.view.safeAreaLayoutGuide.bottomAnchor),
+                    imageView.leadingAnchor.constraint(equalTo: viewController.view.safeAreaLayoutGuide.leadingAnchor),
+                    imageView.trailingAnchor.constraint(equalTo: viewController.view.safeAreaLayoutGuide.trailingAnchor),
                     // StackView
                     stackView.heightAnchor.constraint(equalToConstant: 44),
                     stackViewBottomContraint,
@@ -493,10 +493,10 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
                 viewController.view.addSubview(toolbar)
                 NSLayoutConstraint.activate([
                     // Image view: available space
-                    imageView.topAnchor.constraint(equalTo: viewController.view.ncSafeAreaLayoutGuide.topAnchor),
+                    imageView.topAnchor.constraint(equalTo: viewController.view.safeAreaLayoutGuide.topAnchor),
                     imageView.bottomAnchor.constraint(equalTo: toolbar.topAnchor),
-                    imageView.leadingAnchor.constraint(equalTo: viewController.view.ncSafeAreaLayoutGuide.leadingAnchor),
-                    imageView.trailingAnchor.constraint(equalTo: viewController.view.ncSafeAreaLayoutGuide.trailingAnchor),
+                    imageView.leadingAnchor.constraint(equalTo: viewController.view.safeAreaLayoutGuide.leadingAnchor),
+                    imageView.trailingAnchor.constraint(equalTo: viewController.view.safeAreaLayoutGuide.trailingAnchor),
                     // Toolbar
                     toolbar.topAnchor.constraint(equalTo: imageView.bottomAnchor),
                     toolbarBottomConstraint,
@@ -508,10 +508,10 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
             NSLayoutConstraint.activate([
                 // Image view: square
                 imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor),
-                imageView.topAnchor.constraint(equalTo: viewController.view.ncSafeAreaLayoutGuide.topAnchor),
-                imageView.bottomAnchor.constraint(lessThanOrEqualTo: viewController.view.ncSafeAreaLayoutGuide.bottomAnchor),
-                imageView.leadingAnchor.constraint(equalTo: viewController.view.ncSafeAreaLayoutGuide.leadingAnchor),
-                imageView.trailingAnchor.constraint(equalTo: viewController.view.ncSafeAreaLayoutGuide.trailingAnchor),
+                imageView.topAnchor.constraint(equalTo: viewController.view.safeAreaLayoutGuide.topAnchor),
+                imageView.bottomAnchor.constraint(lessThanOrEqualTo: viewController.view.safeAreaLayoutGuide.bottomAnchor),
+                imageView.leadingAnchor.constraint(equalTo: viewController.view.safeAreaLayoutGuide.leadingAnchor),
+                imageView.trailingAnchor.constraint(equalTo: viewController.view.safeAreaLayoutGuide.trailingAnchor),
             ])
 
             let sendBarButton = UIBarButtonItem(customView: self.sendButton)
