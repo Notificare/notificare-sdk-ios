@@ -405,8 +405,6 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
             messageField.returnKeyType = .default
             messageField.clearButtonMode = .whileEditing
             messageField.contentVerticalAlignment = .center
-            messageField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: 0))
-            messageField.leftViewMode = .always
             messageField.becomeFirstResponder()
 
             self.messageField = messageField
@@ -425,8 +423,8 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
                 NSLayoutConstraint.activate([
                     messageField.topAnchor.constraint(equalTo: messageFieldEffectView.topAnchor),
                     messageField.bottomAnchor.constraint(equalTo: messageFieldEffectView.bottomAnchor),
-                    messageField.leadingAnchor.constraint(equalTo: messageFieldEffectView.leadingAnchor),
-                    messageField.trailingAnchor.constraint(equalTo: messageFieldEffectView.trailingAnchor),
+                    messageField.leadingAnchor.constraint(equalTo: messageFieldEffectView.leadingAnchor, constant: 16),
+                    messageField.trailingAnchor.constraint(equalTo: messageFieldEffectView.trailingAnchor, constant: -8),
                 ])
 
                 sendButton.configuration = .prominentGlass()
