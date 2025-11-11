@@ -137,7 +137,11 @@ public class NotificareVideoViewController: NotificareBaseNotificationViewContro
         </html>
         """
 
-        webView.loadHTMLString(html, baseURL: Bundle.main.resourceURL)
+        if let bundleId = Bundle.main.bundleIdentifier, let referrerUrl = URL(string: "https://\(bundleId)".lowercased()) {
+            webView.loadHTMLString(html, baseURL: referrerUrl)
+        } else {
+            webView.loadHTMLString(html, baseURL: nil)
+        }
     }
 
     private func renderVimeoVideo(_ videoId: String) {
