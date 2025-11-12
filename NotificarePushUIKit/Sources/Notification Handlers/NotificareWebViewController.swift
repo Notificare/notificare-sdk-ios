@@ -48,9 +48,9 @@ public class NotificareWebViewController: NotificareBaseNotificationViewControll
 
         // WebView constraints
         NSLayoutConstraint.activate([
-            webView.leadingAnchor.constraint(equalTo: view.ncSafeAreaLayoutGuide.leadingAnchor),
-            webView.trailingAnchor.constraint(equalTo: view.ncSafeAreaLayoutGuide.trailingAnchor),
-            webView.topAnchor.constraint(equalTo: view.ncSafeAreaLayoutGuide.topAnchor),
+            webView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            webView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            webView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             webView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
 
@@ -70,7 +70,12 @@ public class NotificareWebViewController: NotificareBaseNotificationViewControll
         }
 
         let html = content.data as! String
-        webView.loadHTMLString(html, baseURL: URL(string: ""))
+
+        if let bundleId = Bundle.main.bundleIdentifier, let referrerUrl = URL(string: "https://\(bundleId)".lowercased()) {
+            webView.loadHTMLString(html, baseURL: referrerUrl)
+        } else {
+            webView.loadHTMLString(html, baseURL: nil)
+        }
 
         DispatchQueue.main.async {
             Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didPresentNotification: self.notification)

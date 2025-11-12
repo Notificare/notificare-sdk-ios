@@ -65,16 +65,16 @@ public class NotificareImageGalleryViewController: NotificareBaseNotificationVie
 
         // Constrain the collection view.
         NSLayoutConstraint.activate([
-            collectionView.leadingAnchor.constraint(equalTo: view.ncSafeAreaLayoutGuide.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.ncSafeAreaLayoutGuide.trailingAnchor),
-            collectionView.topAnchor.constraint(equalTo: view.ncSafeAreaLayoutGuide.topAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
 
         // Constraint the page control.
         NSLayoutConstraint.activate([
-            pageControl.centerXAnchor.constraint(equalTo: view.ncSafeAreaLayoutGuide.centerXAnchor),
-            pageControl.bottomAnchor.constraint(equalTo: view.ncSafeAreaLayoutGuide.bottomAnchor, constant: -48),
+            pageControl.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+            pageControl.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -48),
         ])
     }
 

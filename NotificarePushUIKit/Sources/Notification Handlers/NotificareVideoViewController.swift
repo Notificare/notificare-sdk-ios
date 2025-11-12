@@ -44,10 +44,10 @@ public class NotificareVideoViewController: NotificareBaseNotificationViewContro
 
         view.addSubview(webView)
         NSLayoutConstraint.activate([
-            webView.topAnchor.constraint(equalTo: view.ncSafeAreaLayoutGuide.topAnchor),
-            webView.bottomAnchor.constraint(equalTo: view.ncSafeAreaLayoutGuide.bottomAnchor),
-            webView.leadingAnchor.constraint(equalTo: view.ncSafeAreaLayoutGuide.leadingAnchor),
-            webView.trailingAnchor.constraint(equalTo: view.ncSafeAreaLayoutGuide.trailingAnchor),
+            webView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            webView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            webView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            webView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
         ])
 
         // Clear cache.
@@ -137,7 +137,11 @@ public class NotificareVideoViewController: NotificareBaseNotificationViewContro
         </html>
         """
 
-        webView.loadHTMLString(html, baseURL: Bundle.main.resourceURL)
+        if let bundleId = Bundle.main.bundleIdentifier, let referrerUrl = URL(string: "https://\(bundleId)".lowercased()) {
+            webView.loadHTMLString(html, baseURL: referrerUrl)
+        } else {
+            webView.loadHTMLString(html, baseURL: nil)
+        }
     }
 
     private func renderVimeoVideo(_ videoId: String) {

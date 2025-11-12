@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 4.2.3
+
+- Add required referrer for embedded YouTube videos
+
 ## 4.2.2
 
 - Fix Swift Concurrency issues when synchronizing inbox items

@@ -19,12 +19,13 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
     private var activityIndicatorView: UIActivityIndicatorView!
     private var toolbar: UIToolbar!
     private var closeButton: UIBarButtonItem!
-    private var sendButton: UIBarButtonItem!
+    private var sendButton: UIButton!
     private var imagePickerController: UIImagePickerController!
     private var messageView: UITextView?
     private var messageField: UITextField?
 
     private var toolbarBottomConstraint: NSLayoutConstraint?
+    private var stackViewBottomContraint: NSLayoutConstraint?
 
     private var imageData: Data?
     private var videoData: Data?
@@ -83,6 +84,10 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
 
         viewController.navigationItem.leftBarButtonItem = closeButton
         viewController.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: activityIndicatorView)
+
+        if #available(iOS 19.0, *) {
+            viewController.navigationItem.rightBarButtonItem?.isHidden = true
+        }
     }
 
     private func setupLegacyNavigationActions() {
@@ -107,19 +112,17 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
         }
 
         if let image = NotificareLocalizable.image(resource: .send) {
-            sendButton = UIBarButtonItem(image: image,
-                                         style: .plain,
-                                         target: self,
-                                         action: #selector(onSendClicked))
+            sendButton = UIButton(type: .system)
+            sendButton.setImage(image, for: .normal)
+            sendButton.addTarget(self, action: #selector(onSendClicked), for: .touchUpInside)
 
             if let colorStr = theme?.buttonTextColor {
                 sendButton.tintColor = UIColor(hexString: colorStr)
             }
         } else {
-            sendButton = UIBarButtonItem(title: NotificareLocalizable.string(resource: .sendButton),
-                                         style: .plain,
-                                         target: self,
-                                         action: #selector(onSendClicked))
+            sendButton = UIButton(type: .system)
+            sendButton.setTitle(NotificareLocalizable.string(resource: .sendButton), for: .normal)
+            sendButton.addTarget(self, action: #selector(onSendClicked), for: .touchUpInside)
 
             if let colorStr = theme?.buttonTextColor {
                 sendButton.tintColor = UIColor(hexString: colorStr)
@@ -134,12 +137,9 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
             action: #selector(onCloseClicked)
         )
 
-        sendButton = UIBarButtonItem(
-            image: UIImage(systemName: "chevron.right"),
-            style: .plain,
-            target: self,
-            action: #selector(onSendClicked)
-        )
+        sendButton = UIButton()
+        sendButton.setImage(UIImage(systemName: "chevron.right"), for: .normal)
+        sendButton.addTarget(self, action: #selector(onSendClicked), for: .touchUpInside)
 
         if let colorStr = theme?.buttonTextColor {
             sendButton.tintColor = UIColor(hexString: colorStr)
@@ -179,6 +179,10 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
 
     @objc private func onSendClicked() {
         sendButton.isEnabled = false
+
+        if #available(iOS 19.0, *) {
+            viewController.navigationItem.rightBarButtonItem?.isHidden = false
+        }
         activityIndicatorView.startAnimating()
 
         Task {
@@ -300,40 +304,75 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
             messageView.textColor = UIColor(hexString: colorStr)
         }
 
-        toolbar = UIToolbar(frame: .zero)
-        toolbar.translatesAutoresizingMaskIntoConstraints = false
-        toolbar.setContentCompressionResistancePriority(UILayoutPriority(rawValue: 751), for: .vertical)
-        toolbar.setContentHuggingPriority(UILayoutPriority(rawValue: 751), for: .vertical)
-        if let colorStr = theme?.toolbarBackgroundColor {
-            toolbar.barTintColor = UIColor(hexString: colorStr)
+        if #available(iOS 19.0, *) {
+            sendButton.configuration = .prominentGlass()
+
+            NSLayoutConstraint.activate([
+                sendButton.widthAnchor.constraint(equalTo: sendButton.heightAnchor),
+            ])
+
+            let stackView = UIStackView(arrangedSubviews: [UIView(), sendButton])
+            stackView.translatesAutoresizingMaskIntoConstraints = false
+            stackView.axis = .horizontal
+            stackView.distribution = .fill
+            stackView.spacing = 8
+
+            viewController.view.addSubview(messageView)
+            viewController.view.addSubview(stackView)
+
+            let stackViewBottomContraint = stackView.bottomAnchor.constraint(equalTo: viewController.view.safeAreaLayoutGuide.bottomAnchor)
+            self.stackViewBottomContraint = stackViewBottomContraint
+
+            NSLayoutConstraint.activate([
+                // Message view
+                messageView.topAnchor.constraint(equalTo: viewController.view.safeAreaLayoutGuide.topAnchor),
+                messageView.bottomAnchor.constraint(equalTo: stackView.topAnchor),
+                messageView.leadingAnchor.constraint(equalTo: viewController.view.leadingAnchor),
+                messageView.trailingAnchor.constraint(equalTo: viewController.view.trailingAnchor),
+                // StackView
+                stackView.heightAnchor.constraint(equalToConstant: 44),
+                stackViewBottomContraint,
+                stackView.leadingAnchor.constraint(equalTo: viewController.view.leadingAnchor, constant: 16),
+                stackView.trailingAnchor.constraint(equalTo: viewController.view.trailingAnchor, constant: -16),
+            ])
+        } else {
+            toolbar = UIToolbar(frame: .zero)
+            toolbar.translatesAutoresizingMaskIntoConstraints = false
+            toolbar.setContentCompressionResistancePriority(UILayoutPriority(rawValue: 751), for: .vertical)
+            toolbar.setContentHuggingPriority(UILayoutPriority(rawValue: 751), for: .vertical)
+            if let colorStr = theme?.toolbarBackgroundColor {
+                toolbar.barTintColor = UIColor(hexString: colorStr)
+            }
+
+            let sendButton = UIBarButtonItem(customView: self.sendButton)
+
+            toolbar.setItems(
+                [
+                    UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+                    sendButton,
+                ],
+                animated: false
+            )
+
+            viewController.view.addSubview(messageView)
+            viewController.view.addSubview(toolbar)
+
+            let toolbarBottomConstraint = toolbar.bottomAnchor.constraint(equalTo: viewController.view.safeAreaLayoutGuide.bottomAnchor)
+            self.toolbarBottomConstraint = toolbarBottomConstraint
+
+            NSLayoutConstraint.activate([
+                // Message view
+                messageView.topAnchor.constraint(equalTo: viewController.view.safeAreaLayoutGuide.topAnchor),
+                messageView.bottomAnchor.constraint(equalTo: toolbar.topAnchor),
+                messageView.leadingAnchor.constraint(equalTo: viewController.view.leadingAnchor),
+                messageView.trailingAnchor.constraint(equalTo: viewController.view.trailingAnchor),
+                // Toolbar
+                toolbar.topAnchor.constraint(equalTo: messageView.bottomAnchor),
+                toolbarBottomConstraint,
+                toolbar.leadingAnchor.constraint(equalTo: viewController.view.leadingAnchor),
+                toolbar.trailingAnchor.constraint(equalTo: viewController.view.trailingAnchor),
+            ])
         }
-
-        toolbar.setItems(
-            [
-                UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-                sendButton,
-            ],
-            animated: false
-        )
-
-        viewController.view.addSubview(messageView)
-        viewController.view.addSubview(toolbar)
-
-        let toolbarBottomConstraint = toolbar.bottomAnchor.constraint(equalTo: viewController.view.ncSafeAreaLayoutGuide.bottomAnchor)
-        self.toolbarBottomConstraint = toolbarBottomConstraint
-
-        NSLayoutConstraint.activate([
-            // Message view
-            messageView.topAnchor.constraint(equalTo: viewController.view.ncSafeAreaLayoutGuide.topAnchor),
-            messageView.bottomAnchor.constraint(equalTo: toolbar.topAnchor),
-            messageView.leadingAnchor.constraint(equalTo: viewController.view.leadingAnchor),
-            messageView.trailingAnchor.constraint(equalTo: viewController.view.trailingAnchor),
-            // Toolbar
-            toolbar.topAnchor.constraint(equalTo: messageView.bottomAnchor),
-            toolbarBottomConstraint,
-            toolbar.leadingAnchor.constraint(equalTo: viewController.view.leadingAnchor),
-            toolbar.trailingAnchor.constraint(equalTo: viewController.view.trailingAnchor),
-        ])
 
         messageView.becomeFirstResponder()
 
@@ -370,57 +409,117 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
 
             self.messageField = messageField
 
-            toolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: viewController.view.frame.width, height: 44))
-            toolbar.translatesAutoresizingMaskIntoConstraints = false
-            toolbar.setContentCompressionResistancePriority(UILayoutPriority(rawValue: 751), for: .vertical)
-            toolbar.setContentHuggingPriority(UILayoutPriority(rawValue: 751), for: .vertical)
-            if let colorStr = theme?.toolbarBackgroundColor {
-                toolbar.barTintColor = UIColor(hexString: colorStr)
+            if #available(iOS 19.0, *) {
+                let messageFieldEffectView = UIVisualEffectView()
+                messageFieldEffectView.contentView.addSubview(messageField)
+                messageFieldEffectView.translatesAutoresizingMaskIntoConstraints = false
+                let glassEffect = UIGlassEffect()
+                glassEffect.isInteractive = true
+
+                UIView.animate {
+                    messageFieldEffectView.effect = glassEffect
+                }
+
+                NSLayoutConstraint.activate([
+                    messageField.topAnchor.constraint(equalTo: messageFieldEffectView.topAnchor),
+                    messageField.bottomAnchor.constraint(equalTo: messageFieldEffectView.bottomAnchor),
+                    messageField.leadingAnchor.constraint(equalTo: messageFieldEffectView.leadingAnchor, constant: 16),
+                    messageField.trailingAnchor.constraint(equalTo: messageFieldEffectView.trailingAnchor, constant: -8),
+                ])
+
+                sendButton.configuration = .prominentGlass()
+
+                NSLayoutConstraint.activate([
+                    sendButton.widthAnchor.constraint(equalTo: sendButton.heightAnchor),
+                ])
+
+                let stackView = UIStackView(arrangedSubviews: [messageFieldEffectView, sendButton])
+                stackView.translatesAutoresizingMaskIntoConstraints = false
+                stackView.axis = .horizontal
+                stackView.distribution = .fill
+                stackView.spacing = 8
+
+                viewController.view.addSubview(stackView)
+
+                let stackViewBottomContraint = stackView.bottomAnchor.constraint(equalTo: viewController.view.safeAreaLayoutGuide.bottomAnchor)
+                self.stackViewBottomContraint = stackViewBottomContraint
+
+                NSLayoutConstraint.activate([
+                    // Image view: square
+                    imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor),
+                    imageView.topAnchor.constraint(equalTo: viewController.view.safeAreaLayoutGuide.topAnchor),
+                    imageView.bottomAnchor.constraint(lessThanOrEqualTo: viewController.view.safeAreaLayoutGuide.bottomAnchor),
+                    imageView.leadingAnchor.constraint(equalTo: viewController.view.safeAreaLayoutGuide.leadingAnchor),
+                    imageView.trailingAnchor.constraint(equalTo: viewController.view.safeAreaLayoutGuide.trailingAnchor),
+                    // StackView
+                    stackView.heightAnchor.constraint(equalToConstant: 44),
+                    stackViewBottomContraint,
+                    stackView.leadingAnchor.constraint(equalTo: viewController.view.leadingAnchor, constant: 16),
+                    stackView.trailingAnchor.constraint(equalTo: viewController.view.trailingAnchor, constant: -16),
+                ])
+            } else {
+
+                toolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: viewController.view.frame.width, height: 44))
+                toolbar.translatesAutoresizingMaskIntoConstraints = false
+                toolbar.setContentCompressionResistancePriority(UILayoutPriority(rawValue: 751), for: .vertical)
+                toolbar.setContentHuggingPriority(UILayoutPriority(rawValue: 751), for: .vertical)
+                if let colorStr = theme?.toolbarBackgroundColor {
+                    toolbar.barTintColor = UIColor(hexString: colorStr)
+                }
+
+                let sendButton = UIBarButtonItem(customView: self.sendButton)
+
+                toolbar.setItems(
+                    [
+                        UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+                        sendButton,
+                    ],
+                    animated: false
+                )
+
+                toolbar.addSubview(messageField)
+                NSLayoutConstraint.activate([
+                    messageField.topAnchor.constraint(equalTo: toolbar.topAnchor),
+                    messageField.bottomAnchor.constraint(equalTo: toolbar.bottomAnchor),
+                    messageField.leadingAnchor.constraint(equalTo: toolbar.leadingAnchor, constant: 16),
+                    messageField.trailingAnchor.constraint(equalTo: toolbar.trailingAnchor, constant: -16 - 44),
+                ])
+
+                let toolbarBottomConstraint = toolbar.bottomAnchor.constraint(equalTo: viewController.view.safeAreaLayoutGuide.bottomAnchor)
+                self.toolbarBottomConstraint = toolbarBottomConstraint
+
+                viewController.view.addSubview(toolbar)
+                NSLayoutConstraint.activate([
+                    // Image view: available space
+                    imageView.topAnchor.constraint(equalTo: viewController.view.safeAreaLayoutGuide.topAnchor),
+                    imageView.bottomAnchor.constraint(equalTo: toolbar.topAnchor),
+                    imageView.leadingAnchor.constraint(equalTo: viewController.view.safeAreaLayoutGuide.leadingAnchor),
+                    imageView.trailingAnchor.constraint(equalTo: viewController.view.safeAreaLayoutGuide.trailingAnchor),
+                    // Toolbar
+                    toolbar.topAnchor.constraint(equalTo: imageView.bottomAnchor),
+                    toolbarBottomConstraint,
+                    toolbar.leadingAnchor.constraint(equalTo: viewController.view.leadingAnchor),
+                    toolbar.trailingAnchor.constraint(equalTo: viewController.view.trailingAnchor),
+                ])
             }
-
-            toolbar.setItems(
-                [
-                    UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-                    sendButton,
-                ],
-                animated: false
-            )
-
-            toolbar.addSubview(messageField)
-            NSLayoutConstraint.activate([
-                messageField.topAnchor.constraint(equalTo: toolbar.topAnchor),
-                messageField.bottomAnchor.constraint(equalTo: toolbar.bottomAnchor),
-                messageField.leadingAnchor.constraint(equalTo: toolbar.leadingAnchor, constant: 16),
-                messageField.trailingAnchor.constraint(equalTo: toolbar.trailingAnchor, constant: -16 - 44),
-            ])
-
-            let toolbarBottomConstraint = toolbar.bottomAnchor.constraint(equalTo: viewController.view.bottomAnchor)
-            self.toolbarBottomConstraint = toolbarBottomConstraint
-
-            viewController.view.addSubview(toolbar)
-            NSLayoutConstraint.activate([
-                // Image view: available space
-                imageView.topAnchor.constraint(equalTo: viewController.view.ncSafeAreaLayoutGuide.topAnchor),
-                imageView.bottomAnchor.constraint(equalTo: toolbar.topAnchor),
-                imageView.leadingAnchor.constraint(equalTo: viewController.view.ncSafeAreaLayoutGuide.leadingAnchor),
-                imageView.trailingAnchor.constraint(equalTo: viewController.view.ncSafeAreaLayoutGuide.trailingAnchor),
-                // Toolbar
-                toolbar.topAnchor.constraint(equalTo: imageView.bottomAnchor),
-                toolbarBottomConstraint,
-                toolbar.leadingAnchor.constraint(equalTo: viewController.view.leadingAnchor),
-                toolbar.trailingAnchor.constraint(equalTo: viewController.view.trailingAnchor),
-            ])
         } else {
             NSLayoutConstraint.activate([
                 // Image view: square
                 imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor),
-                imageView.topAnchor.constraint(equalTo: viewController.view.ncSafeAreaLayoutGuide.topAnchor),
-                imageView.bottomAnchor.constraint(lessThanOrEqualTo: viewController.view.ncSafeAreaLayoutGuide.bottomAnchor),
-                imageView.leadingAnchor.constraint(equalTo: viewController.view.ncSafeAreaLayoutGuide.leadingAnchor),
-                imageView.trailingAnchor.constraint(equalTo: viewController.view.ncSafeAreaLayoutGuide.trailingAnchor),
+                imageView.topAnchor.constraint(equalTo: viewController.view.safeAreaLayoutGuide.topAnchor),
+                imageView.bottomAnchor.constraint(lessThanOrEqualTo: viewController.view.safeAreaLayoutGuide.bottomAnchor),
+                imageView.leadingAnchor.constraint(equalTo: viewController.view.safeAreaLayoutGuide.leadingAnchor),
+                imageView.trailingAnchor.constraint(equalTo: viewController.view.safeAreaLayoutGuide.trailingAnchor),
             ])
 
-            viewController.navigationItem.rightBarButtonItem = sendButton
+            let sendBarButton = UIBarButtonItem(customView: self.sendButton)
+
+            if #available(iOS 19.0, *) {
+                self.sendButton.tintColor = .white
+                sendBarButton.style = .prominent
+            }
+
+            viewController.navigationItem.rightBarButtonItem = sendBarButton
         }
 
         sourceViewController.presentOrPush(navigationController)
@@ -437,7 +536,11 @@ public class NotificareCallbackActionHandler: NotificareBaseActionHandler {
             return
         }
 
-        toolbarBottomConstraint?.constant = -(keyboardRect.height - viewController.view.safeAreaInsets.bottom)
+        if #available(iOS 19.0, *){
+            stackViewBottomContraint?.constant = -(keyboardRect.height - viewController.view.safeAreaInsets.bottom + 8)
+        } else {
+            toolbarBottomConstraint?.constant = -(keyboardRect.height - viewController.view.safeAreaInsets.bottom)
+        }
     }
 
     @objc private func keyboardWillDisappear(_ notification: Notification) {
