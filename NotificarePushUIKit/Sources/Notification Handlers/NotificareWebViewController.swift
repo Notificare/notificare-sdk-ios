@@ -70,7 +70,12 @@ public class NotificareWebViewController: NotificareBaseNotificationViewControll
         }
 
         let html = content.data as! String
-        webView.loadHTMLString(html, baseURL: URL(string: ""))
+
+        if let bundleId = Bundle.main.bundleIdentifier, let referrerUrl = URL(string: "https://\(bundleId)".lowercased()) {
+            webView.loadHTMLString(html, baseURL: referrerUrl)
+        } else {
+            webView.loadHTMLString(html, baseURL: nil)
+        }
 
         DispatchQueue.main.async {
             Notificare.shared.pushUI().delegate?.notificare(Notificare.shared.pushUI(), didPresentNotification: self.notification)
