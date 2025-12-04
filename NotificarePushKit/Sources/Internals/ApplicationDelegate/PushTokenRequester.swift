@@ -6,69 +6,57 @@ import Foundation
 import UIKit
 import NotificareKit
 
-internal class PushTokenRequester {
+@MainActor
+internal final class PushTokenRequester {
+    private var waiters: [CheckedContinuation<String, Error>] = []
+    private var isWaitingForOSResponse = false
 
-    private var task: Task<String, Error>?
-    private var continuation: CheckedContinuation<String, Error>?
-    private let semaphore = DispatchSemaphore(value: 1)
+    internal nonisolated init() {}
 
     internal func requestToken() async throws -> String {
-        let task = upsertTokenTask()
-        let token = try await task.value
+        try await withCheckedThrowingContinuation { continuation in
+            waiters.append(continuation)
 
-        self.task = nil
-        self.continuation = nil
+            if !isWaitingForOSResponse {
+                isWaitingForOSResponse = true
 
-        return token
+                logger.debug("Registering for remote notifications with the operative system.")
+                UIApplication.shared.registerForRemoteNotifications()
+
+//                // Simulate OS response after a small random delay.
+//                Task { @MainActor in
+//                    try? await Task.sleep(nanoseconds: UInt64.random(in: 0...5) * 1_000_000)
+//                    signalTokenReceived(Data([0xde, 0xad, 0xbe, 0xef]))
+//                }
+            }
+        }
     }
 
     internal func signalTokenReceived(_ token: Data) {
-        guard let continuation else {
-            logger.warning("Received an APNS token without a continuation available.")
-            return
-        }
-
         logger.debug("Received an APNS token to continue.")
-        continuation.resume(returning: token.toHexString())
+        resume(with: .success(token.toHexString()))
     }
 
     internal func signalTokenRequestError(_ error: Error) {
-        guard let continuation else {
-            logger.warning("Received an APNS token error without a continuation available.")
+        logger.debug("Received an APNS error to continue.")
+        resume(with: .failure(error))
+    }
+
+    private func resume(with result: Result<String, Error>) {
+        guard isWaitingForOSResponse else {
+            logger.warning("APNS result received but no request is in flight.")
             return
         }
 
-        logger.debug("Received an APNS error to continue.")
-        continuation.resume(throwing: error)
-    }
+        isWaitingForOSResponse = false
 
-    private func upsertTokenTask() -> Task<String, Error> {
-        semaphore.wait()
+        let continuations = waiters
+        waiters.removeAll()
 
-        defer {
-            semaphore.signal()
+        logger.debug("Resuming \(continuations.count) APNS token requests.")
+
+        for continuation in continuations {
+            continuation.resume(with: result)
         }
-
-        if let task {
-            logger.debug("Reusing pending APNS token task.")
-            return task
-        }
-
-        logger.debug("Creating a new APNS token task.")
-
-        let task = Task {
-            try await withCheckedThrowingContinuation { continuation in
-                self.continuation = continuation
-
-                DispatchQueue.main.async {
-                    logger.debug("Registering for remote notifications with the operative system.")
-                    UIApplication.shared.registerForRemoteNotifications()
-                }
-            }
-        }
-
-        self.task = task
-
-        return task
     }
 }
