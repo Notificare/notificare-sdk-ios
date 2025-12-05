@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## Upcoming release
+## 4.2.4
 
 - Fix APNS token registration race condition
 
