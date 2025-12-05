@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 4.2.4
+
+- Fix APNS token registration race condition
+
 ## 4.2.3
 
 - Add required referrer for embedded YouTube videos

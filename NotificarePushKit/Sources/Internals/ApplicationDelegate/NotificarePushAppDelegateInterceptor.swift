@@ -7,10 +7,12 @@ import NotificareKit
 import UIKit
 
 internal class NotificarePushAppDelegateInterceptor: NSObject, NotificareAppDelegateInterceptor {
+    @MainActor
     internal func application(_: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         Notificare.shared.pushImplementation().pushTokenRequester.signalTokenReceived(deviceToken)
     }
 
+    @MainActor
     internal func application(_: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         logger.error("Failed to register for remote notifications.", error: error)
 
@@ -21,6 +23,7 @@ internal class NotificarePushAppDelegateInterceptor: NSObject, NotificareAppDele
         }
     }
 
+    @MainActor
     internal func application(_: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         guard Notificare.shared.push().isNotificareNotification(userInfo) else {
             logger.info("Received an unknown notification from APNS.")
@@ -60,6 +63,7 @@ internal class NotificarePushAppDelegateInterceptor: NSObject, NotificareAppDele
         }
     }
 
+    @MainActor
     private func handleSystemNotification(_ userInfo: [AnyHashable: Any]) async {
         if let type = userInfo["systemType"] as? String, type.hasPrefix("re.notifica.") {
             logger.info("Processing system notification: \(type)")
@@ -99,6 +103,7 @@ internal class NotificarePushAppDelegateInterceptor: NSObject, NotificareAppDele
         }
     }
 
+    @MainActor
     private func handleNotification(_ userInfo: [AnyHashable: Any]) async {
         guard let id = userInfo["id"] as? String else {
             logger.warning("Missing 'id' property in notification payload.")

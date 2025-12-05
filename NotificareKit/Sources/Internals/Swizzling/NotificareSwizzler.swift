@@ -375,7 +375,9 @@ extension NotificareSwizzler {
 
     @objc private func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         NotificareSwizzler.interceptors.forEach { _, interceptor in
-            interceptor.application?(application, didRegisterForRemoteNotificationsWithDeviceToken: deviceToken)
+            DispatchQueue.main.async {
+                interceptor.application?(application, didRegisterForRemoteNotificationsWithDeviceToken: deviceToken)
+            }
         }
 
         let selector = #selector(application(_:didRegisterForRemoteNotificationsWithDeviceToken:))
@@ -387,7 +389,9 @@ extension NotificareSwizzler {
 
     @objc private func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         NotificareSwizzler.interceptors.forEach { _, interceptor in
-            interceptor.application?(application, didFailToRegisterForRemoteNotificationsWithError: error)
+            DispatchQueue.main.async {
+                interceptor.application?(application, didFailToRegisterForRemoteNotificationsWithError: error)
+            }
         }
 
         let selector = #selector(application(_:didFailToRegisterForRemoteNotificationsWithError:))
@@ -399,7 +403,9 @@ extension NotificareSwizzler {
 
     @objc private func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         NotificareSwizzler.interceptors.forEach { _, interceptor in
-            interceptor.application?(application, didReceiveRemoteNotification: userInfo, fetchCompletionHandler: completionHandler)
+            DispatchQueue.main.async {
+                interceptor.application?(application, didReceiveRemoteNotification: userInfo, fetchCompletionHandler: completionHandler)
+            }
         }
 
         let selector = #selector(application(_:didReceiveRemoteNotification:fetchCompletionHandler:))
