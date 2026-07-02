@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## Upcoming release
+## 4.2.5
 
 - Fix preferred language update when only region or language value is changed
 
