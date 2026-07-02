@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## Upcoming release
+
+- Fix preferred language update when only region or language value is changed
+
 ## 4.2.4
 
 - Fix APNS token registration race condition
